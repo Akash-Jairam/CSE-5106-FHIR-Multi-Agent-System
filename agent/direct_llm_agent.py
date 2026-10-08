@@ -2,7 +2,7 @@ import re
 
 from .base_agent import BaseAgent
 from .output_schema import ANSWER_FORMAT_INSTRUCTIONS, parse_final_message
-from tools.starting_packet import get_starting_packet
+from tools.starting_packet import get_starting_packet, parse_current_time
 from utils import safe_llm_call
 
 QUESTION_RE = re.compile(r"^Question:\s*(.*?)\s*\nContext:", re.S)
@@ -28,9 +28,10 @@ You are given an excerpt of the record (the "starting packet"): the patient, the
         question_match, patient_match = QUESTION_RE.search(question), PATIENT_RE.search(question)
         if not patient_match:
             raise ValueError("The direct LLM agent needs the patient FHIR ID in the question context")
-        # Rank the packet on the bare question so it matches manifests/starting_packets.jsonl
+        # Rank the packet on the bare question (with the assumed current time as the cutoff)
+        # so it matches manifests/starting_packets.jsonl
         packet = get_starting_packet(question_match.group(1) if question_match else question,
-                                     patient_match.group(1))
+                                     patient_match.group(1), current_time=parse_current_time(question))
         retrieved = {}
         for rtype, ids in packet["resource_ids"].items():
             retrieved[rtype] = [{"id": i} for i in ids]
