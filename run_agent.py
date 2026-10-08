@@ -43,7 +43,7 @@ parser.add_argument("--date",
                     )
 parser.add_argument("--agent_strategy",
                     required=True,
-                    choices=["single_turn_request", "single_turn_resource", "single_turn_code_resource", "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2"],
+                    choices=["single_turn_request", "single_turn_resource", "single_turn_code_resource", "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2", "direct_llm"],
                     type=str,
                     help="Which agent strategy to use"
                     )

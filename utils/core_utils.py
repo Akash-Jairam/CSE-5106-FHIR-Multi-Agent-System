@@ -291,7 +291,8 @@ def create_agent(agent_strategy, model, verbose=False, base_url=None):
         "single_turn_code_resource": ("agent.single_turn_code_resource_agent", "SingleTurnCodeResourceAgent"),
         "multi_turn_resource": ("agent.multi_turn_resource_agent", "MultiTurnResourceAgent"),
         "multi_turn_code_resource": ("agent.multi_turn_code_resource_agent", "MultiTurnCodeResourceAgent"),
-        "multi_turn_code_resource_v2": ("agent.multi_turn_code_resource_v2_agent", "MultiTurnCodeResourceV2Agent")
+        "multi_turn_code_resource_v2": ("agent.multi_turn_code_resource_v2_agent", "MultiTurnCodeResourceV2Agent"),
+        "direct_llm": ("agent.direct_llm_agent", "DirectLLMAgent")
     }
     
     if agent_strategy not in agents:

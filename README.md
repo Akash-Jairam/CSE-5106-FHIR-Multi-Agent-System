@@ -233,6 +233,9 @@ bash scripts/run_single_turn_code_resource_agent.sh # Single-turn FHIR resource 
 # Multi-turn agents
 bash scripts/run_multi_turn_resource_agent.sh       # Multi-turn/iterative resource retrieval → Natural language reasoning
 bash scripts/run_multi_turn_code_resource_agent.sh  # Multi-turn/iterative resource retrieval → Code-based reasoning
+
+# Baseline without tools
+bash scripts/run_direct_llm_agent.sh                # One LLM call on the question + starting packet (tools/starting_packet.py)
 ```
 
 Extra arguments are passed through to `run_agent.py`, e.g. `MODEL=gemini/gemini-2.5-flash bash scripts/run_single_turn_resource_agent.sh --limit 5`.
