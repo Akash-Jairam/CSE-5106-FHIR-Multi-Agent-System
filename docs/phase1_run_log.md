@@ -257,7 +257,7 @@ Raw outputs are in `output/` and `output_eval/`. Both are git-ignored or untrack
 
 ## 8. Direct LLM baseline: smoke test (#11)
 
-Run on 2026-10-08 with `gpt-5-nano`, on the same first 5 questions as §2. The agent makes one LLM call on the question plus the 8,000-token starting packet (#7), with no tools. Answers were scored with the typed scorer (#8), the LLM judge (`o4-mini`, secondary), and the evidence scorer (#9, resolved against the local NDJSON).
+First run on 2026-10-08 with `gpt-5-nano`, on the same first 5 questions as §2. See §8.1 for the re-run after the starting packet started excluding resources dated after the assumed current time. The agent makes one LLM call on the question plus the 8,000-token starting packet (#7), with no tools. Answers were scored with the typed scorer (#8), the LLM judge (`o4-mini`, secondary), and the evidence scorer (#9, resolved against the local NDJSON).
 
 | # | Question | True answer | Answer | Typed | Evidence valid |
 |---|---|---|---|---|---|
@@ -281,6 +281,32 @@ Failure notes:
 - **Q4:** the model summed outputs over the wrong date range, although all 16 cited values were correct.
 - **Q5:** the model read "how frequently" as the dosing frequency rather than a count, and abstained.
 - **Judge bug (fixed in #37):** the first judge run scored 0/5 because the judge crashed on non-string answers such as `true` and counted them wrong. Structured answers are now passed to the judge as JSON.
+
+### 8.1 Re-run after the current-time cutoff
+
+The Q1 failure led to a retriever change (#7): resources and encounters dated after the question's assumed current time are left out of the packet. The same 5 questions were re-run with `gpt-5-nano`.
+
+| # | True answer | Answer | Typed | Judge | Evidence valid |
+|---|---|---|---|---|---|
+| 1 | `[['2133-12-31 02:00:00']]` | `"2133-12-31 02:00:00"` | ✅ | ✅ | 2/2 |
+| 2 | `[[1]]` | `true` | ✅ | ✅ | 4/4 |
+| 3 | `[[1]]` | `true` | ✅ | ✅ | 0/3 (cited resources that don't exist) |
+| 4 | `[[3075]]` | `3075` | ✅ | ✅ | 7/7 |
+| 5 | `[[1]]` | `null` | ❌ abstained | ❌ | 0/2 (bad paths) |
+
+| Metric | Before cutoff (§8) | After cutoff |
+|---|---|---|
+| Typed / judge accuracy | 2/5 / 2/5 | **4/5 / 4/5** |
+| Packet retrieval recall / precision | 0.80 / 0.14 | 1.00 / 0.30 |
+| Valid citations | 23/28 | 13/18 |
+| Evidence precision / recall | 0.86 / 0.60 | 1.00 / 0.80 |
+| Tokens / cost | 52,794 / $0.0081 | 44,607 / $0.0069 |
+| Latency per question | 45–107 s | 15–42 s (patient records now cached) |
+
+- **Q1** now has the "today" readings in its packet and is answered correctly.
+- **Q4**'s packet shrank from 7.9k to 2.1k tokens once later output readings were excluded, and the model summed the right range.
+- **Q5** still reads "how frequently" as a dosing schedule and abstains.
+- Five questions is a smoke test; model sampling alone can move single answers.
 
 Reproduce:
 
