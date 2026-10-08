@@ -21,6 +21,7 @@ from utils.metrics_utils import (
     retrieval_recall,
     retrieval_precision
 )
+from utils.answer_scorer import score_answer
 from config import (
     QUESTION_SQL_FHIR_OUTPUT_CSV
 )
@@ -48,6 +49,9 @@ parser.add_argument("--num_processes",
 parser.add_argument("--force",
                     action="store_true",
                     help="Force re-evaluation even if results already exist.")
+parser.add_argument("--skip_llm_judge",
+                    action="store_true",
+                    help="Only run the deterministic typed scorer (no LLM calls or API key needed).")
 args = parser.parse_args()
 
 
@@ -56,16 +60,16 @@ from utils.core_utils import setup_api_keys
 
 def setup_environment():
     """Setup environment and configuration"""
+    if args.num_processes == -1:
+        args.num_processes = os.cpu_count()
+    if args.skip_llm_judge:
+        return
     if not setup_api_keys():
         raise ValueError("OpenAI API key not found. Please set OPENAI_API_KEY environment variable or add it to config.yml")
     
     # Configure LiteLLM
     litellm.suppress_debug_info = True
     litellm.set_verbose = False
-    
-    # Set number of processes
-    if args.num_processes == -1:
-        args.num_processes = os.cpu_count()
 
 # ============================================================================
 # LLM and Processing Functions
@@ -469,8 +473,35 @@ def calculate_retrieval_metrics(eval_df):
     return eval_df
 
 
+def has_agent_error(row):
+    error = row.get("error")
+    if pd.notnull(error) and str(error).strip() not in ("", "nan"):
+        return True
+    answer = row.get("agent_answer")
+    return isinstance(answer, str) and "Input tokens exceeded" in answer
+
+
+def calculate_typed_metrics(eval_df):
+    """Primary metric: deterministic typed answer scoring (utils/answer_scorer.py)"""
+    print("=" * 60)
+    print("CALCULATING TYPED ANSWER METRICS...")
+    print("=" * 60)
+
+    def score_row(row):
+        result = score_answer(row["agent_answer"], row["true_answer"], row["question"], row.get("template", ""))
+        if has_agent_error(row):
+            result.update(typed_correct=0, typed_reason="agent error")
+        return pd.Series(result)
+
+    typed = eval_df.apply(score_row, axis=1)
+    for col in ["typed_correct", "answer_type", "typed_reason"]:
+        eval_df[col] = typed[col]
+    print(f"Typed accuracy: {eval_df['typed_correct'].mean():.4f}")
+    return eval_df
+
+
 def calculate_answer_metrics(eval_df, num_processes=1):
-    """Calculate answer correctness metrics using LLM evaluation"""
+    """Secondary metric: answer correctness judged by an LLM"""
     print("=" * 60)
     print("CALCULATING ANSWER METRICS...")
     print("=" * 60)
@@ -508,10 +539,12 @@ def save_results(eval_df):
     
     save_cols = [
         "question_id", "question", "assumption", "question_with_context", 
-        "true_answer", "agent_answer", "answer_correctness",
+        "true_answer", "agent_answer", "typed_correct", "answer_type", "typed_reason",
+        "answer_correctness",
         "trace", "true_answer_extracted", "agent_answer_normalized", "usage",
         "precision", "recall", "true_fhir_resource_types", "template"
     ]
+    save_cols = [col for col in save_cols if col in eval_df.columns]
 
     os.makedirs(args.output_dir, exist_ok=True)
     
@@ -525,123 +558,89 @@ def save_results(eval_df):
 
 
 
+def summarize_metrics(df):
+    """Answer accuracy (typed = primary, LLM judge = secondary) and retrieval metrics for a group of rows"""
+    prec, rec = df['precision'].mean(), df['recall'].mean()
+    return {
+        "questions": len(df),
+        "typed_accuracy": df['typed_correct'].mean() if 'typed_correct' in df else float('nan'),
+        "accuracy": df['answer_correctness'].mean() if 'answer_correctness' in df else float('nan'),
+        "precision": prec,
+        "recall": rec,
+        "f1_score": 2 * (prec * rec) / (prec + rec) if (prec + rec) > 0 else 0,
+    }
+
+
 def save_performance_summary_to_csv(eval_df, input_file, output_eval_file, output_dir="output_eval"):
-    """Save performance summary to a CSV file, one row per resource type (including Overall)"""
+    """Save performance summary to a CSV file, one row per resource type (including Overall).
+    `accuracy` is the LLM judge; `typed_accuracy` is the deterministic typed scorer."""
     summary_csv = os.path.join(output_dir, "performance_summary.csv")
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    meta = {"date": now, "input_file": input_file, "output_eval_file": output_eval_file}
 
-    rows = []
-
-    # Overall metrics
-    total_questions = len(eval_df)
-    correct_answers = eval_df['answer_correctness'].sum()
-    accuracy = correct_answers / total_questions if total_questions > 0 else 0
-    avg_precision = eval_df['precision'].mean()
-    avg_recall = eval_df['recall'].mean()
-    f1_score = 2 * (avg_precision * avg_recall) / (avg_precision + avg_recall) if (avg_precision + avg_recall) > 0 else 0
-
-    rows.append({
-        "date": now,
-        "input_file": input_file,
-        "output_eval_file": output_eval_file,
-        "fhir_resource_type": "Overall",
-        "questions": total_questions,
-        "precision": avg_precision,
-        "recall": avg_recall,
-        "f1_score": f1_score,
-        "accuracy": accuracy
-    })
-
-    # Resource type breakdown
+    rows = [{**meta, "fhir_resource_type": "Overall", **summarize_metrics(eval_df)}]
     if 'true_fhir_resource_types' in eval_df.columns:
-        resource_performance = eval_df.groupby('true_fhir_resource_types').agg({
-            'answer_correctness': ['count', 'sum', 'mean'],
-            'precision': 'mean',
-            'recall': 'mean'
-        }).round(4)
-        for resource_type in resource_performance.index:
-            count = resource_performance.loc[resource_type, ('answer_correctness', 'count')]
-            correct = resource_performance.loc[resource_type, ('answer_correctness', 'sum')]
-            acc = resource_performance.loc[resource_type, ('answer_correctness', 'mean')]
-            prec = resource_performance.loc[resource_type, ('precision', 'mean')]
-            rec = resource_performance.loc[resource_type, ('recall', 'mean')]
-            f1 = 2 * (prec * rec) / (prec + rec) if (prec + rec) > 0 else 0
-            rows.append({
-                "date": now,
-                "input_file": input_file,
-                "output_eval_file": output_eval_file,
-                "fhir_resource_type": resource_type,
-                "questions": count,
-                "precision": prec,
-                "recall": rec,
-                "f1_score": f1,
-                "accuracy": acc
-            })
+        for resource_type, group in eval_df.groupby('true_fhir_resource_types'):
+            rows.append({**meta, "fhir_resource_type": resource_type, **summarize_metrics(group)})
 
-    # Write or append to CSV
-    os.makedirs(output_dir, exist_ok=True)
-    write_header = not os.path.exists(summary_csv)
     fieldnames = [
         "date", "input_file", "output_eval_file", "fhir_resource_type",
-        "questions", "precision", "recall", "f1_score", "accuracy"
+        "questions", "precision", "recall", "f1_score", "accuracy", "typed_accuracy"
     ]
-    with open(summary_csv, "a", newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        if write_header:
-            writer.writeheader()
-        for row in rows:
-            writer.writerow(row)
+    os.makedirs(output_dir, exist_ok=True)
+    new_rows = pd.DataFrame(rows, columns=fieldnames)
+    if os.path.exists(summary_csv):
+        existing = pd.read_csv(summary_csv)
+        # Files written before typed scoring existed lack the typed_accuracy column
+        new_rows = pd.concat([existing.reindex(columns=fieldnames), new_rows], ignore_index=True)
+    new_rows.to_csv(summary_csv, index=False)
+
 
 def print_performance_summary(eval_df):
-    """Print comprehensive performance summary and save to CSV"""
+    """Print comprehensive performance summary"""
     print("=" * 60)
     print("PERFORMANCE SUMMARY")
     print("=" * 60)
-    
-    total_questions = len(eval_df)
-    
-    # Answer correctness metrics
-    correct_answers = eval_df['answer_correctness'].sum()
-    accuracy = correct_answers / total_questions if total_questions > 0 else 0
-    
-    # Retrieval metrics
-    avg_precision = eval_df['precision'].mean()
-    avg_recall = eval_df['recall'].mean()
-    f1_score = 2 * (avg_precision * avg_recall) / (avg_precision + avg_recall) if (avg_precision + avg_recall) > 0 else 0
-    
+
+    overall = summarize_metrics(eval_df)
+    total_questions = overall["questions"]
     print(f"Total Questions Evaluated: {total_questions}")
     print()
     print("ANSWER CORRECTNESS:")
-    print(f"  Correct Answers: {correct_answers}/{total_questions}")
-    print(f"  Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
+    if 'typed_correct' in eval_df.columns:
+        print(f"  Typed scorer (primary): {eval_df['typed_correct'].sum()}/{total_questions} "
+              f"= {overall['typed_accuracy']:.4f}")
+    if 'answer_correctness' in eval_df.columns:
+        print(f"  LLM judge (secondary):  {eval_df['answer_correctness'].sum()}/{total_questions} "
+              f"= {overall['accuracy']:.4f}")
+    if {'typed_correct', 'answer_correctness'} <= set(eval_df.columns):
+        agreement = (eval_df['typed_correct'] == eval_df['answer_correctness']).mean()
+        print(f"  Typed vs LLM agreement: {agreement:.4f}")
     print()
     print("RETRIEVAL PERFORMANCE:")
-    print(f"  Average Precision: {avg_precision:.4f}")
-    print(f"  Average Recall: {avg_recall:.4f}")
-    print(f"  F1 Score: {f1_score:.4f}")
+    print(f"  Average Precision: {overall['precision']:.4f}")
+    print(f"  Average Recall: {overall['recall']:.4f}")
+    print(f"  F1 Score: {overall['f1_score']:.4f}")
     print()
-    
-    # Performance by resource type
+
+    if 'answer_type' in eval_df.columns:
+        print("TYPED ACCURACY BY ANSWER TYPE:")
+        for answer_type, group in eval_df.groupby('answer_type'):
+            unparsed = (group['typed_reason'] == 'unparsed').sum()
+            print(f"  {answer_type}: {group['typed_correct'].sum()}/{len(group)} = {group['typed_correct'].mean():.4f}"
+                  + (f" ({unparsed} unparsed)" if unparsed else ""))
+        print()
+
     if 'true_fhir_resource_types' in eval_df.columns:
         print("PERFORMANCE BY RESOURCE TYPE:")
-        resource_performance = eval_df.groupby('true_fhir_resource_types').agg({
-            'answer_correctness': ['count', 'sum', 'mean'],
-            'precision': 'mean',
-            'recall': 'mean'
-        }).round(4)
-        
-        for resource_type in resource_performance.index:
-            count = resource_performance.loc[resource_type, ('answer_correctness', 'count')]
-            correct = resource_performance.loc[resource_type, ('answer_correctness', 'sum')]
-            acc = resource_performance.loc[resource_type, ('answer_correctness', 'mean')]
-            prec = resource_performance.loc[resource_type, ('precision', 'mean')]
-            rec = resource_performance.loc[resource_type, ('recall', 'mean')]
-            
+        for resource_type, group in eval_df.groupby('true_fhir_resource_types'):
+            m = summarize_metrics(group)
             print(f"  {resource_type}:")
-            print(f"    Questions: {count}, Correct: {correct}, Accuracy: {acc:.4f}")
-            print(f"    Precision: {prec:.4f}, Recall: {rec:.4f}")
+            print(f"    Questions: {m['questions']}, Typed accuracy: {m['typed_accuracy']:.4f}, "
+                  f"LLM accuracy: {m['accuracy']:.4f}")
+            print(f"    Precision: {m['precision']:.4f}, Recall: {m['recall']:.4f}")
         print()
-    
+
     print("=" * 60)
 
 
@@ -684,7 +683,9 @@ def main():
     eval_df = load_and_merge_data()
     eval_df = filter_evaluation_data(eval_df)
     eval_df = calculate_retrieval_metrics(eval_df)
-    eval_df = calculate_answer_metrics(eval_df, args.num_processes)
+    eval_df = calculate_typed_metrics(eval_df)
+    if not args.skip_llm_judge:
+        eval_df = calculate_answer_metrics(eval_df, args.num_processes)
     output_path = save_results(eval_df)
     
     # Print performance summary and save to CSV

@@ -200,7 +200,12 @@ Run the following command to normalize, evaluate answers, and visualize performa
 
 ```bash
 python evaluation_metrics.py --input <agent_output_json_file_path>
+python evaluation_metrics.py --input <agent_output_json_file_path> --skip_llm_judge   # typed scorer only, no API calls
 ```
+
+Answer correctness has two metrics:
+- **Typed scorer (primary)**, `utils/answer_scorer.py`: deterministic. The reference answer fixes the type: numbers (counts exact, other values within 1%; stated units are converted, incompatible units are wrong), timestamps (at the precision the question asks for), yes/no, categories, and sets. Abstaining is wrong whenever the reference is non-empty; for an empty or null reference only "none"/abstention (or 0 for numeric questions) is correct. Results are in `typed_correct`, `answer_type`, and `typed_reason`.
+- **LLM judge (secondary)**: the original `answer_correctness`, reported as `accuracy` in `output_eval/performance_summary.csv` next to `typed_accuracy`.
 
 
 ## Authorship
