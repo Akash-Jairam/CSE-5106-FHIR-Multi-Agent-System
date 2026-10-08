@@ -20,12 +20,14 @@ def _patient_query(resource_type: str, patient_fhir_id: str) -> str:
     return f"{resource_type}?patient={patient_fhir_id}"
 
 
-@cached_tool
+@cached_tool(version=2)  # v1 cached every resource of the type (see the _id fix below)
 def get_resources_by_resource_id(resource_type: str, resource_id: str) -> dict:
     """Get FHIR resources by resource ID."""
     try:
         client = get_fhir_client()
-        query = f"{resource_type}?id={resource_id}" if resource_id else resource_type
+        # "id" is not a FHIR search parameter; the Cloud Healthcare API ignores it and returns every
+        # resource of the type, so search by _id
+        query = f"{resource_type}?_id={resource_id}" if resource_id else resource_type
         resources = client.search_with_pagination(query)
         
         resources_by_type = {}

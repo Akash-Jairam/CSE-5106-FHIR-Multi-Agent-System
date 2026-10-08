@@ -103,7 +103,7 @@ def save_to_cache(tool_name, args, kwargs, result):
         print(f"[CACHE ERROR] Failed to save cache: {e}")
 
 
-def cached_tool(func):
+def cached_tool(func=None, *, version=None):
     """
     Decorator that adds caching functionality to tool functions.
     
@@ -112,7 +112,12 @@ def cached_tool(func):
         def my_tool(arg1, arg2):
             # tool implementation
             return result
+
+        @cached_tool(version=2)   # bump when a fix changes results, so old cache entries are not reused
+        def my_fixed_tool(arg1): ...
     """
+    if func is None:
+        return functools.partial(cached_tool, version=version)
     
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -120,7 +125,7 @@ def cached_tool(func):
         if not CACHE_ENABLED:
             return func(*args, **kwargs)
             
-        tool_name = func.__name__
+        tool_name = func.__name__ if version is None else f"{func.__name__}@v{version}"
         
         # 1. Try to find result in cache
         cached_result = load_from_cache(tool_name, args, kwargs)
