@@ -13,6 +13,11 @@ with no LLM calls and no access to gold answers:
    overlap with the question, plus a bonus when the question names the
    label's kind ("lab", "prescribed", "procedure", ...). Labels with score 0
    are left out; ties go to the label with the most recent resource.
+If the question assumes a current time ("Assume the current time is
+2133-12-31 23:59:00."), resources and encounters dated after it are left out
+first: the record continues past that time, and keeping the latest readings
+would otherwise keep future ones.
+
 3. Truncation: labels are added best-first. Within a label (and among
    Encounters) resources are taken latest, earliest, second latest, ..., so
    both ends of the timeline survive; MedicationRequests bring their
@@ -33,7 +38,7 @@ import tiktoken
 
 from .resource_tools import get_all_resources_by_patient_fhir_id
 
-# Chosen on the dev split: mean gold recall 73% at 4k, 90% at 8k, 97% at 16k
+# Chosen on the dev split: mean gold recall 74% at 4k, 90% at 8k, 97% at 16k
 PACKET_MAX_TOKENS = 8000
 CONTEXT_SHARE = 0.5
 KIND_BONUS = 1.0
@@ -193,6 +198,26 @@ def render_resource(resource, grouped=False):
     return json.dumps(pruned, separators=(",", ":"), ensure_ascii=False, sort_keys=True)
 
 
+CURRENT_TIME_RE = re.compile(r"current time is (\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?)")
+
+
+def parse_current_time(text):
+    """The assumed current time in a question's assumption/context, as "YYYY-MM-DD HH:MM:SS"."""
+    match = CURRENT_TIME_RE.search(text or "")
+    if not match:
+        return None
+    value = match.group(1)
+    return value if len(value) == 19 else value + ":00"
+
+
+def _wall_clock(resource, by_id):
+    """Local wall-clock time of a resource ("YYYY-MM-DD HH:MM:SS"); Conditions use their encounter's start."""
+    time = _resource_time(resource)
+    if not time and resource.get("encounter"):
+        time = _resource_time(by_id.get(_ref_id(resource["encounter"]), {}))
+    return time[:19].replace("T", " ")
+
+
 def _is_ed_encounter(encounter):
     # ED stays come from the ED module, not the admissions/icustays tables questions are built on
     return any(i.get("system", "").endswith("encounter-ed") for i in encounter.get("identifier", []))
@@ -265,16 +290,21 @@ def _linked(resource, by_id):
     return [by_id[i] for i in ids if i in by_id]
 
 
-def build_starting_packet(question, record, patient_fhir_id, max_tokens=PACKET_MAX_TOKENS):
+def build_starting_packet(question, record, patient_fhir_id, max_tokens=PACKET_MAX_TOKENS, current_time=None):
     """Build the starting packet for `question` from one patient's `record`.
 
     `record` maps resource type -> list of resources, as returned by
     `get_all_resources_by_patient_fhir_id`. Returns a dict with the packet
     `text`, the included `resource_ids` (by type, in packet order),
-    `n_tokens`, whether any matching resource was `truncated`, and the
-    number of `omitted_encounters`.
+    `n_tokens`, whether any matching resource was `truncated`, the number
+    of `omitted_encounters`, and how many resources were `after_current_time`.
+    `current_time` ("YYYY-MM-DD HH:MM:SS", see parse_current_time) excludes
+    everything dated after it.
     """
     patient, own, by_id = _patient_resources(record, patient_fhir_id)
+    n_own = len(own)
+    if current_time:
+        own = [r for r in own if not _wall_clock(r, by_id) > current_time]
     encounters = [r for r in own if r["resourceType"] == "Encounter" and not _is_ed_encounter(r)]
 
     groups = defaultdict(list)
@@ -288,7 +318,8 @@ def build_starting_packet(question, record, patient_fhir_id, max_tokens=PACKET_M
                     key=lambda k: (scores[k], latest[k], k), reverse=True)
 
     lines = [f"Starting packet for patient {patient_fhir_id}. Resources are pruned JSON; "
-             "field paths match the full resources in the FHIR store."]
+             "field paths match the full resources in the FHIR store."
+             + (f" Resources dated after the current time ({current_time}) are not included." if current_time else "")]
     resource_ids = defaultdict(list)
     used = count_tokens(lines[0])
 
@@ -343,12 +374,13 @@ def build_starting_packet(question, record, patient_fhir_id, max_tokens=PACKET_M
         "n_tokens": count_tokens(text),
         "truncated": truncated,
         "omitted_encounters": len(encounters) - shown_encounters,
+        "after_current_time": n_own - len(own),
     }
 
 
-def get_starting_packet(question, patient_fhir_id, max_tokens=PACKET_MAX_TOKENS):
+def get_starting_packet(question, patient_fhir_id, max_tokens=PACKET_MAX_TOKENS, current_time=None):
     """Fetch the patient's record from the FHIR store and build the starting packet."""
     record = get_all_resources_by_patient_fhir_id(patient_fhir_id=patient_fhir_id)
     if "error" in record:
         raise RuntimeError(f"Could not fetch record for {patient_fhir_id}: {record['error']}")
-    return build_starting_packet(question, record, patient_fhir_id, max_tokens)
+    return build_starting_packet(question, record, patient_fhir_id, max_tokens, current_time)

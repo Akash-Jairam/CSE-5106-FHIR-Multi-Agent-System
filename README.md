@@ -213,7 +213,7 @@ Writes `manifests/split.json` with pilot (20), dev (50), and held-out (300) ques
    ```
 
 #### 6. Build the starting packets
-`tools/starting_packet.py` builds a deterministic, token-bounded excerpt of a patient's record for a question (keyword-ranked resource labels plus the patient's encounters; 8,000 tokens by default, chosen on the dev split). Agents call `get_starting_packet(question, patient_fhir_id)`, which reads the record from the FHIR store. The script below builds packets for every split question from the local NDJSON files and writes the included resource IDs to `manifests/starting_packets.jsonl`; it reports gold-ID recall for pilot and dev only.
+`tools/starting_packet.py` builds a deterministic, token-bounded excerpt of a patient's record for a question (keyword-ranked resource labels plus the patient's encounters; 8,000 tokens by default, chosen on the dev split). Resources dated after the question's assumed current time are left out. Agents call `get_starting_packet(question, patient_fhir_id, current_time=parse_current_time(assumption))`, which reads the record from the FHIR store. The script below builds packets for every split question from the local NDJSON files and writes the included resource IDs to `manifests/starting_packets.jsonl`; it reports gold-ID recall for pilot and dev only.
 
    ```bash
    python scripts/build_starting_packets.py

@@ -26,7 +26,7 @@ import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
-from tools.starting_packet import PACKET_MAX_TOKENS, build_starting_packet  # noqa: E402
+from tools.starting_packet import PACKET_MAX_TOKENS, build_starting_packet, parse_current_time  # noqa: E402
 
 DEFAULT_FHIR_DIR = os.path.join(ROOT, "physionet.org", "files", "mimic-iv-fhir-demo", "2.1.0", "fhir")
 DEFAULT_INPUT = os.path.join(ROOT, "final_dataset", "questions_answers_sql_fhir.csv")
@@ -136,7 +136,8 @@ def main():
         for q in questions.itertuples():
             gold = ast.literal_eval(q.true_fhir_ids)
             for budget in budgets:
-                packet = build_starting_packet(q.question, record, patient, budget)
+                current_time = parse_current_time(q.assumption if isinstance(q.assumption, str) else "")
+                packet = build_starting_packet(q.question, record, patient, budget, current_time)
                 if packet["n_tokens"] > budget:
                     sys.exit(f"Packet for {q.question_id} exceeds budget ({packet['n_tokens']} > {budget})")
                 recall, complete = gold_recall(packet["resource_ids"], gold)
@@ -146,9 +147,10 @@ def main():
                                      "recall": recall, "complete": complete})
                 if not args.sweep:
                     manifest.append({"question_id": q.question_id, "split": split_of[q.question_id],
-                                     "patient_fhir_id": patient, "max_tokens": budget,
+                                     "patient_fhir_id": patient, "max_tokens": budget, "current_time": current_time,
                                      "n_tokens": packet["n_tokens"], "truncated": packet["truncated"],
                                      "omitted_encounters": packet["omitted_encounters"],
+                                     "after_current_time": packet["after_current_time"],
                                      "resource_ids": packet["resource_ids"]})
 
     for budget in budgets:
