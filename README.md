@@ -187,6 +187,14 @@ Writes `manifests/split.json` with pilot (20), dev (50), and held-out (300) ques
    python scripts/build_split.py   # seed 5106 by default
    ```
 
+#### 6. Build the starting packets
+`tools/starting_packet.py` builds a deterministic, token-bounded excerpt of a patient's record for a question (keyword-ranked resource labels plus the patient's encounters; 8,000 tokens by default, chosen on the dev split). Agents call `get_starting_packet(question, patient_fhir_id)`, which reads the record from the FHIR store. The script below builds packets for every split question from the local NDJSON files and writes the included resource IDs to `manifests/starting_packets.jsonl`; it reports gold-ID recall for pilot and dev only.
+
+   ```bash
+   python scripts/build_starting_packets.py
+   python scripts/build_starting_packets.py --sweep 4000 8000 16000   # compare budgets on dev
+   ```
+
 ## 🤖 Agent Execution
 
 The project includes several agent implementations:
