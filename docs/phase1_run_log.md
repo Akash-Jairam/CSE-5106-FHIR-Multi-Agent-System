@@ -257,7 +257,7 @@ Raw outputs are in `output/` and `output_eval/`. Both are git-ignored or untrack
 
 ## 8. Direct LLM baseline: smoke test (#11)
 
-Run on 2026-10-08 with `gpt-5-nano`, on the same first 5 questions as §2. The agent makes one LLM call on the question plus the 8,000-token starting packet (#7), with no tools. Answers were scored with the typed scorer (#8) and the evidence scorer (#9, resolved against the local NDJSON). The LLM judge was not run.
+Run on 2026-10-08 with `gpt-5-nano`, on the same first 5 questions as §2. The agent makes one LLM call on the question plus the 8,000-token starting packet (#7), with no tools. Answers were scored with the typed scorer (#8), the LLM judge (`o4-mini`, secondary), and the evidence scorer (#9, resolved against the local NDJSON).
 
 | # | Question | True answer | Answer | Typed | Evidence valid |
 |---|---|---|---|---|---|
@@ -270,6 +270,7 @@ Run on 2026-10-08 with `gpt-5-nano`, on the same first 5 questions as §2. The a
 | Metric | Value |
 |---|---|
 | Typed accuracy | **2/5** (§2: multi-turn code agent 1/5, v2 2/5 on the same questions) |
+| LLM judge accuracy | 2/5 (agrees with the typed scorer on all 5) |
 | Packet retrieval recall / precision | 0.80 / 0.14 |
 | Valid citations | 23/28; evidence precision 0.86, recall 0.60 |
 | Tokens / cost | 52,794 tokens, $0.0081 total |
@@ -279,10 +280,11 @@ Failure notes:
 - **Q1:** the record has respiratory-rate readings dated after the question's assumed current time (2133-12-31). The packet keeps the earliest and latest readings of a label, so the 2134 readings were kept and the "today" readings in between were cut. The starting-packet retriever should drop resources after the assumed current time before selecting.
 - **Q4:** the model summed outputs over the wrong date range, although all 16 cited values were correct.
 - **Q5:** the model read "how frequently" as the dosing frequency rather than a count, and abstained.
+- **Judge bug (fixed in #37):** the first judge run scored 0/5 because the judge crashed on non-string answers such as `true` and counted them wrong. Structured answers are now passed to the judge as JSON.
 
 Reproduce:
 
 ```bash
 python run_agent.py --agent_strategy direct_llm --model gpt-5-nano --limit 5 --num_processes 1 --output output/smoke_direct_llm_gpt-5-nano.json
-python evaluation_metrics.py --input output/smoke_direct_llm_gpt-5-nano.json --skip_llm_judge --evidence_source ndjson --force   # needs the #8/#9 evaluation code
+python evaluation_metrics.py --input output/smoke_direct_llm_gpt-5-nano.json --model o4-mini --evidence_source ndjson --force   # needs the #8/#9 evaluation code
 ```
