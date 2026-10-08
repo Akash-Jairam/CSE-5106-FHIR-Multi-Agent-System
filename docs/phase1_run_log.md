@@ -254,3 +254,35 @@ python evaluation_metrics.py --input output/compare/held20_baseline.json --model
 ```
 
 Raw outputs are in `output/` and `output_eval/`. Both are git-ignored or untracked, so they are kept locally and not committed.
+
+## 8. Direct LLM baseline: smoke test (#11)
+
+Run on 2026-10-08 with `gpt-5-nano`, on the same first 5 questions as §2. The agent makes one LLM call on the question plus the 8,000-token starting packet (#7), with no tools. Answers were scored with the typed scorer (#8) and the evidence scorer (#9, resolved against the local NDJSON). The LLM judge was not run.
+
+| # | Question | True answer | Answer | Typed | Evidence valid |
+|---|---|---|---|---|---|
+| 1 | When was the first time the respiratory rate of patient 10018081 was measured to be less than 23.0 today? | `[['2133-12-31 02:00:00']]` | `null` | ❌ abstained | 0/0 |
+| 2 | Did patient 10029291 undergo a ultrasonography of superior vena cava, guidance treatment in the first hospital visit? | `[[1]]` | `true` | ✅ | 4/4 |
+| 3 | Has docusate sodium (liquid), glucose gel, or heparin been prescribed since 2157 to patient 10036156? | `[[1]]` | `true` | ✅ | 0/3 (cited resources that don't exist) |
+| 4 | Show me patient 10014354's total void output amount since 08/11/2146. | `[[3075]]` | `7225` | ❌ | 16/16 |
+| 5 | How frequently was milk of magnesia prescribed to patient 10005348 in 09/this year? | `[[1]]` | `null` | ❌ abstained | 3/5 (2 bad paths) |
+
+| Metric | Value |
+|---|---|
+| Typed accuracy | **2/5** (§2: multi-turn code agent 1/5, v2 2/5 on the same questions) |
+| Packet retrieval recall / precision | 0.80 / 0.14 |
+| Valid citations | 23/28; evidence precision 0.86, recall 0.60 |
+| Tokens / cost | 52,794 tokens, $0.0081 total |
+| Latency | 45–107 s per question, mostly the first fetch of each patient's full record (later questions hit the tool cache) |
+
+Failure notes:
+- **Q1:** the record has respiratory-rate readings dated after the question's assumed current time (2133-12-31). The packet keeps the earliest and latest readings of a label, so the 2134 readings were kept and the "today" readings in between were cut. The starting-packet retriever should drop resources after the assumed current time before selecting.
+- **Q4:** the model summed outputs over the wrong date range, although all 16 cited values were correct.
+- **Q5:** the model read "how frequently" as the dosing frequency rather than a count, and abstained.
+
+Reproduce:
+
+```bash
+python run_agent.py --agent_strategy direct_llm --model gpt-5-nano --limit 5 --num_processes 1 --output output/smoke_direct_llm_gpt-5-nano.json
+python evaluation_metrics.py --input output/smoke_direct_llm_gpt-5-nano.json --skip_llm_judge --evidence_source ndjson --force   # needs the #8/#9 evaluation code
+```
