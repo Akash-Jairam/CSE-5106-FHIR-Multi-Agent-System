@@ -500,6 +500,13 @@ def calculate_typed_metrics(eval_df):
     return eval_df
 
 
+def answer_for_judge(answer):
+    """The LLM judge reads text, so structured answers (bool, number, list) are passed as JSON."""
+    if answer is None or isinstance(answer, str) or (isinstance(answer, float) and pd.isna(answer)):
+        return answer
+    return json.dumps(answer)
+
+
 def calculate_answer_metrics(eval_df, num_processes=1):
     """Secondary metric: answer correctness judged by an LLM"""
     print("=" * 60)
@@ -512,7 +519,7 @@ def calculate_answer_metrics(eval_df, num_processes=1):
 
     # Normalize answers
     print("Normalizing answers...")
-    normalize_data = [(idx, row["agent_answer"], row["question"], args.model) 
+    normalize_data = [(idx, answer_for_judge(row["agent_answer"]), row["question"], args.model) 
                      for idx, row in eval_df.iterrows()]
     normalize_results = process_in_parallel(normalize_data, worker_normalize_answer, 
                                           "Normalizing answers", num_processes)
@@ -521,7 +528,7 @@ def calculate_answer_metrics(eval_df, num_processes=1):
 
     # Check correctness
     print("Checking correctness...")
-    correctness_data = [(idx, row["agent_answer"], row["true_answer_extracted"], row["question"], args.model, row["agent_answer_normalized"], row["error"]) 
+    correctness_data = [(idx, answer_for_judge(row["agent_answer"]), row["true_answer_extracted"], row["question"], args.model, row["agent_answer_normalized"], row["error"]) 
                        for idx, row in eval_df.iterrows()]
     correctness_results = process_in_parallel(correctness_data, worker_check_correctness, 
                                             "Checking correctness", num_processes)
