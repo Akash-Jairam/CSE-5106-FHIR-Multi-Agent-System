@@ -180,6 +180,13 @@ Tags every question as `lookup_counting`, `temporal_selection`, or `numerical_ag
    python scripts/build_question_families.py
    ```
 
+#### 5. Build the patient-disjoint split
+Writes `manifests/split.json` with pilot (20), dev (50), and held-out (300) question sets drawn from disjoint patients, stratified by question family. Dev uses only the reserved patients 10001217, 10004235, and 10015860. Tune on pilot/dev only; the held-out patients' questions are for final evaluation.
+
+   ```bash
+   python scripts/build_split.py   # seed 5106 by default
+   ```
+
 ## 🤖 Agent Execution
 
 The project includes several agent implementations:
