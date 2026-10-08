@@ -14,7 +14,8 @@ temporal. Rules are checked in order and the first match wins:
                          attribute lookups (gender, marital status, ...)
 
 All rows are kept, including questions whose true answer is empty ("[]") or
-null ("[[None]]"); `answer_kind` records which.
+null ("[[None]]"); `answer_kind` records which
+(value / empty / null_value; "null" is avoided because pandas reads it as NaN).
 
 Usage:
     python scripts/build_question_families.py
@@ -49,7 +50,7 @@ def answer_kind(true_answer):
     if answer in ("[]", "nan", ""):
         return "empty"
     if answer == "[[None]]":
-        return "null"
+        return "null_value"
     return "value"
 
 
