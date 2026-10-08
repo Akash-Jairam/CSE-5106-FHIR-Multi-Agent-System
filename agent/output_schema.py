@@ -6,9 +6,11 @@
       "answer": true | 42 | "2133-12-31 02:00:00" | "Heparin" | [...] | null,
       "evidence": [{"resource_id": "Observation/<id>", "field_path": "valueQuantity.value", "value": 98.7}],
       "limitation": null | "No weight was recorded on the first ICU visit",
-      "tokens": {"prompt": 1200, "completion": 85, "total": 1285, "cost": 0.0004, "llm_calls": 2},
+      "tokens": {"prompt": 1200, "completion": 85, "total": 1285, "cost": 0.0004, "llm_calls": 2,
+                 "cached_prompt": 0, "repeated_prompt": 600, "per_call": [...]},
       "tool_calls": [{"name": "get_resources_by_patient_fhir_id", "arguments": {...}}],
       "latency": 3.42,
+      "budget": {"max_total_tokens": 50000, "max_tool_calls": 10, "tool_calls_run": 1, "stopped": null},
       ...diagnostics: "trace", "retrieved_fhir_resources", "error", "revision"
     }
 
@@ -34,6 +36,16 @@ class Tokens(TypedDict):
     total: int
     cost: float
     llm_calls: int
+    cached_prompt: int     # prompt tokens the provider served from its prompt cache
+    repeated_prompt: int   # prompt tokens re-sent from earlier turns (estimated)
+    per_call: list         # [{"prompt", "completion", "cached"}, ...] per model call
+
+
+class Budget(TypedDict):
+    max_total_tokens: Optional[int]
+    max_tool_calls: Optional[int]
+    tool_calls_run: int
+    stopped: Optional[str]  # which ceiling stopped the run, if any
 
 
 class ToolCall(TypedDict):
@@ -51,6 +63,7 @@ class AgentOutput(TypedDict):
     trace: list                # message history (diagnostic)
     retrieved_fhir_resources: dict
     error: Optional[str]
+    budget: Budget
     revision: Optional[dict]   # agents with a revision step: draft answer, check issues, whether it changed
 
 
@@ -119,14 +132,23 @@ def extract_tool_calls(trace):
     return calls
 
 
-def to_tokens(usage):
+def to_tokens(usage, per_call=()):
+    """Token usage for one question. In a multi-turn run every call re-sends the conversation
+    so far; `repeated_prompt` estimates that share as, for each call after the first, the
+    previous call's prompt plus completion (capped at the call's prompt)."""
     usage = usage or {}
+    per_call = list(per_call)
+    repeated = sum(min(cur["prompt"], prev["prompt"] + prev["completion"])
+                   for prev, cur in zip(per_call, per_call[1:]))
     return {
         "prompt": usage.get("prompt_tokens", 0),
         "completion": usage.get("completion_tokens", 0),
         "total": usage.get("total_tokens", 0),
         "cost": usage.get("cost", 0.0),
         "llm_calls": usage.get("llm_calls", 0),
+        "cached_prompt": sum(c.get("cached", 0) for c in per_call),
+        "repeated_prompt": repeated,
+        "per_call": per_call,
     }
 
 

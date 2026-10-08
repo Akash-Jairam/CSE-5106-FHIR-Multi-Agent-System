@@ -6,7 +6,7 @@ from tools import get_tool_definitions
 from tools.field_check import check_fields
 from tools.resource_tools import get_all_resources_by_patient_fhir_id
 from tools.starting_packet import get_starting_packet
-from utils import parse_question_context, safe_llm_call
+from utils import parse_question_context
 
 OUTPUT_GUIDANCE = f"""
 
@@ -72,10 +72,10 @@ class SingleAgent(MultiTurnCodeResourceAgent):
         self.messages.append({"role": "user", "content": f"{question}\n\n{packet['text']}"})
         draft, final, check_issues = None, None, None
         for _ in range(self.max_iterations):
-            response_message, error, usage_info = safe_llm_call(
-                model=self.model, messages=self.messages, tools=self.tools, base_url=self.base_url)
-            self._update_usage(usage_info)
+            response_message, error, usage_info = self._llm_call(self.messages, tools=self.tools)
             if error:
+                if draft is not None and self.budget_stop:
+                    break  # stopped by the token ceiling during the revision: keep the checked draft
                 return {"answer": None, "error": error, "trace": self.messages,
                         "retrieved_fhir_resources": retrieved_resources,
                         "revision": self._revision(draft, check_issues, final)}
@@ -83,6 +83,9 @@ class SingleAgent(MultiTurnCodeResourceAgent):
 
             if response_message.tool_calls:
                 for tool_call in response_message.tool_calls:
+                    if not self._take_tool_call():
+                        self.messages.append(self._tool_budget_message(tool_call))
+                        continue
                     tool_message = self._handle_tool_call(tool_call, retrieved_resources)
                     if tool_message is None:
                         tool_message = {"tool_call_id": tool_call.id, "role": "tool", "name": tool_call.function.name,
@@ -112,6 +115,8 @@ class SingleAgent(MultiTurnCodeResourceAgent):
         if final is None:
             final = draft if draft is not None else (None, [], "No final answer within the iteration limit")
         answer, evidence, limitation = final
+        if self.budget_stop and final is draft and check_issues:
+            limitation = limitation or f"Not revised: stopped by the {self.budget_stop}"
         return {
             "answer": answer,
             "evidence": evidence,

@@ -1,7 +1,7 @@
 from .base_agent import BaseAgent
 from .output_schema import ANSWER_FORMAT_INSTRUCTIONS, parse_final_message
 from tools.starting_packet import get_starting_packet
-from utils import parse_question_context, safe_llm_call
+from utils import parse_question_context
 
 
 class DirectLLMAgent(BaseAgent):
@@ -32,12 +32,7 @@ You are given an excerpt of the record (the "starting packet"): the patient, the
 
         self.messages = [self.system_msg,
                          {"role": "user", "content": f"{question}\n\n{packet['text']}"}]
-        response_message, error, usage_info = safe_llm_call(
-            model=self.model,
-            messages=self.messages,
-            base_url=self.base_url
-        )
-        self._update_usage(usage_info)
+        response_message, error, usage_info = self._llm_call(self.messages)
         if error:
             return {"answer": None, "limitation": None, "error": error,
                     "trace": self.messages, "retrieved_fhir_resources": retrieved, "tool_calls": []}

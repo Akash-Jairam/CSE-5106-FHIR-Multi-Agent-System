@@ -72,6 +72,16 @@ parser.add_argument("--limit",
                     default=None,
                     help="Only run the first N questions of the input file (e.g. 5 for a smoke test)"
                     )
+parser.add_argument("--max_total_tokens",
+                    type=int,
+                    default=None,
+                    help="Per-question ceiling on prompt + completion tokens across all model calls (default: no limit)"
+                    )
+parser.add_argument("--max_tool_calls",
+                    type=int,
+                    default=None,
+                    help="Per-question ceiling on tool calls (default: no limit)"
+                    )
 parser.add_argument("--enable_cache",
                     type=bool,
                     default=True,
@@ -88,14 +98,32 @@ if not validate_config(args.model, args.base_url):
     sys.exit(1)
 
 # Prepare input tuples for multiprocessing
-def prepare_multiprocessing_inputs(remaining_inputs, agent_strategy, model, verbose, base_url, enable_cache):
-    return [(input_data, agent_strategy, model, verbose, base_url, enable_cache) for input_data in remaining_inputs]
+def prepare_multiprocessing_inputs(remaining_inputs, agent_strategy, model, verbose, base_url, enable_cache, budget):
+    return [(input_data, agent_strategy, model, verbose, base_url, enable_cache, budget) for input_data in remaining_inputs]
 
 
 def load_inputs(input_file):
     """Read the input CSV, keeping only the first --limit rows if set."""
     df = read_input_data(input_file)
     return df.head(args.limit) if args.limit is not None else df
+
+
+def print_usage_summary(df):
+    """Actual usage over the run, including the conversation history re-sent on every model call."""
+    tokens = [t for t in df["tokens"] if isinstance(t, dict)]
+    budgets = [b for b in df["budget"] if isinstance(b, dict)]
+    if not tokens:
+        return
+    total = lambda key: sum(t.get(key, 0) for t in tokens)
+    prompt = total("prompt")
+    print(f"Usage over {len(tokens)} questions: {total('total'):,} tokens ({prompt:,} prompt, {total('completion'):,} completion), "
+          f"{total('llm_calls')} model calls, ${total('cost'):.4f}")
+    if prompt:
+        print(f"  Prompt tokens re-sent from earlier turns: {total('repeated_prompt'):,} ({total('repeated_prompt') / prompt:.0%}); "
+              f"served from the provider's prompt cache: {total('cached_prompt'):,} ({total('cached_prompt') / prompt:.0%})")
+    tool_calls = sum(len(c) for c in df["tool_calls"] if isinstance(c, list))
+    stopped = [b["stopped"] for b in budgets if b.get("stopped")]
+    print(f"  Tool calls: {tool_calls}; questions stopped by a budget ceiling: {len(stopped)}")
 
 
 def is_done(row):
@@ -212,10 +240,13 @@ if __name__ == "__main__":
     # Checking tool credentials
     check_tool_credentials()
 
+    budget = {"max_total_tokens": args.max_total_tokens, "max_tool_calls": args.max_tool_calls}
+    print(f"Per-question budget: {budget}")
+
     num_processes = min(args.num_processes, len(remaining_inputs))
     if num_processes == 1:
         for i, input_data in enumerate(tqdm(remaining_inputs, total=len(remaining_inputs))):
-            processed_output = run_agent_with_input((input_data, args.agent_strategy, args.model, args.verbose, args.base_url, args.enable_cache))
+            processed_output = run_agent_with_input((input_data, args.agent_strategy, args.model, args.verbose, args.base_url, args.enable_cache, budget))
             
             # Update the corresponding row in the DataFrame
             for key, value in processed_output.items():
@@ -226,7 +257,7 @@ if __name__ == "__main__":
                 save_results_json(results_df, output_json_file)
     else:
         # Prepare inputs for multiprocessing
-        input_tuples = prepare_multiprocessing_inputs(remaining_inputs, args.agent_strategy, args.model, args.verbose, args.base_url, args.enable_cache)
+        input_tuples = prepare_multiprocessing_inputs(remaining_inputs, args.agent_strategy, args.model, args.verbose, args.base_url, args.enable_cache, budget)
         
         with mp.Pool(processes=num_processes) as pool:
             for i, processed_output in enumerate(
@@ -246,5 +277,6 @@ if __name__ == "__main__":
     # Save final results
     print(f"Saving final results to JSON: {output_json_file}")
     save_results_json(results_df, output_json_file)
+    print_usage_summary(results_df)
     
     print("Results saved successfully in JSON formats!")

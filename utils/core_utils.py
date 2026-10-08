@@ -224,7 +224,7 @@ def process_trace(trace, max_items=10):
 
 # Columns run_agent.py saves per question (see agent/output_schema.py for the contract)
 RESULT_COLUMNS = ["agent_answer", "evidence", "limitation", "tokens", "tool_calls", "latency",
-                  "agent_fhir_resources", "trace", "error", "usage", "revision"]
+                  "agent_fhir_resources", "trace", "error", "usage", "revision", "budget"]
 
 
 def parse_outputs(agent_output, max_items=10):
@@ -251,6 +251,7 @@ def parse_outputs(agent_output, max_items=10):
         "trace": trace,
         "error": agent_output["error"],
         "revision": agent_output.get("revision"),
+        "budget": agent_output.get("budget"),
         # Legacy name and keys, kept for existing evaluation scripts
         "usage": {"prompt_tokens": tokens["prompt"], "completion_tokens": tokens["completion"],
                   "total_tokens": tokens["total"], "cost": tokens["cost"], "llm_calls": tokens["llm_calls"]},
@@ -352,13 +353,15 @@ def check_tool_credentials():
 
 def run_agent_with_input(args_tuple):
     """Global function for multiprocessing agent execution."""
-    input_data, agent_strategy, model, verbose, base_url, enable_cache = args_tuple
+    input_data, agent_strategy, model, verbose, base_url, enable_cache, *rest = args_tuple
+    budget = rest[0] if rest else {}
     
     # Set global cache setting before creating agent
     import tools.cache as cache_module
     cache_module.CACHE_ENABLED = enable_cache
     
     agent = create_agent(agent_strategy, model, verbose, base_url)
+    agent.set_budget(**(budget or {}))
     return run_agent_safe(agent, input_data)
 
 
@@ -408,6 +411,8 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                 'prompt_tokens': getattr(output.usage, 'prompt_tokens', 0) if output.usage else 0,
                 'completion_tokens': getattr(output.usage, 'completion_tokens', 0) if output.usage else 0,
                 'total_tokens': getattr(output.usage, 'total_tokens', 0) if output.usage else 0,
+                'cached_prompt_tokens': (getattr(getattr(output.usage, 'prompt_tokens_details', None), 'cached_tokens', 0) or 0)
+                                        if output.usage else 0,
                 'cost': cost
             }
 

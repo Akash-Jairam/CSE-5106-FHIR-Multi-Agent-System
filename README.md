@@ -243,6 +243,12 @@ bash scripts/run_single_agent.sh                    # Multi-turn code agent star
 
 Extra arguments are passed through to `run_agent.py`, e.g. `MODEL=gemini/gemini-2.5-flash bash scripts/run_single_turn_resource_agent.sh --limit 5`.
 
+Per-question budgets (both off by default):
+- `--max_total_tokens N`: a model call is not made if its prompt would push the question's prompt + completion total past N; the question then ends with `answer: null` and the reason in `limitation`. The check happens before each call, so the last call's completion can go over.
+- `--max_tool_calls N`: tool calls beyond N are not run, and the model is asked to answer without tools.
+
+Each result records `tokens` (including `per_call` usage, `repeated_prompt`, the estimated prompt tokens re-sent from earlier turns, and `cached_prompt`, those served from the provider's prompt cache) and `budget` (the ceilings, tool calls run, and which ceiling stopped the run, if any). `run_agent.py` prints a usage summary at the end.
+
 To use open-source models locally with vLLM, start the vLLM server and set base_url to `http://localhost:<port>/v1`.
 
 ```bash
@@ -258,9 +264,10 @@ Every agent's `run()` returns the same JSON object (`agent/output_schema.py`), a
 | `answer` | `agent_answer` | `true`/`false`, a number, a `"YYYY-MM-DD HH:MM:SS"` time, a string, a list, or `null` when the agent abstains |
 | `evidence` | `evidence` | `[{"resource_id": "Observation/<id>", "field_path": "valueQuantity.value", "value": 98.7}, ...]` |
 | `limitation` | `limitation` | `null`, or what is missing or uncertain |
-| `tokens` | `tokens` | `{"prompt", "completion", "total", "cost", "llm_calls"}` (also saved in the legacy `usage` format) |
+| `tokens` | `tokens` | `{"prompt", "completion", "total", "cost", "llm_calls", "cached_prompt", "repeated_prompt", "per_call"}` (also saved in the legacy `usage` format) |
 | `tool_calls` | `tool_calls` | `[{"name", "arguments"}, ...]` |
 | `latency` | `latency` | wall-clock seconds |
+| `budget` | `budget` | `{"max_total_tokens", "max_tool_calls", "tool_calls_run", "stopped"}` |
 
 New agents implement `_run()` and either return these fields directly or end with the JSON object described in `ANSWER_FORMAT_INSTRUCTIONS`. The original agents answer in free text, which is kept as the `answer` with empty `evidence`.
 

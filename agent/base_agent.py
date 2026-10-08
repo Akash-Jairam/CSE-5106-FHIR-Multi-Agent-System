@@ -5,8 +5,11 @@ import litellm
 
 # Add parent directory to path to import utils
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from utils import setup_api_keys, validate_model_api_key, get_model_provider
+from utils import setup_api_keys, validate_model_api_key, get_model_provider, safe_llm_call
+from utils.core_utils import count_tokens_in_messages
 from .output_schema import AgentOutput, extract_tool_calls, parse_final_message, to_tokens
+
+BUDGET_EXCEEDED = "Budget exceeded"
 
 
 class BaseAgent:
@@ -18,6 +21,7 @@ class BaseAgent:
     - Model configuration
     - Basic message management
     - run(): the common output contract (agent/output_schema.py)
+    - per-question token and tool-call ceilings (set_budget, _llm_call, _take_tool_call)
 
     Subclasses implement _run(question) and return either the contract's
     keys ("answer", "evidence", "limitation", plus "trace" and
@@ -38,8 +42,23 @@ class BaseAgent:
         self.verbose = verbose
         self.messages = []
         self.base_url = base_url
+
+        # Per-question ceilings (None = unlimited); see set_budget()
+        self.max_total_tokens = None
+        self.max_tool_calls = None
+        self._reset_usage()
         
-        # Initialize usage tracking
+        # Setup API keys from config.yml
+        setup_api_keys()
+
+    def set_budget(self, max_total_tokens=None, max_tool_calls=None):
+        """Per-question ceilings. A model call is not made if its prompt would push the question's
+        total tokens past max_total_tokens (the last call's completion can still go over); tool
+        calls beyond max_tool_calls are not run and the model is told to answer."""
+        self.max_total_tokens = max_total_tokens
+        self.max_tool_calls = max_tool_calls
+
+    def _reset_usage(self):
         self.total_usage = {
             'prompt_tokens': 0,
             'completion_tokens': 0,
@@ -47,9 +66,9 @@ class BaseAgent:
             'cost': 0.0,
             'llm_calls': 0
         }
-        
-        # Setup API keys from config.yml
-        setup_api_keys()
+        self.call_usage = []        # per model call: prompt, completion, cached prompt tokens
+        self.tool_calls_made = 0
+        self.budget_stop = None     # why a ceiling stopped the run, if one did
         
     def _update_usage(self, usage_info):
         """Update total usage statistics."""
@@ -57,11 +76,47 @@ class BaseAgent:
             self.total_usage['prompt_tokens'] += usage_info.get('prompt_tokens', 0)
             self.total_usage['completion_tokens'] += usage_info.get('completion_tokens', 0)
             self.total_usage['total_tokens'] += usage_info.get('total_tokens', 0)
-            self.total_usage['cost'] += round(usage_info.get('cost', 0.0), 4)
+            # Not rounded per call: cheap calls (< $0.00005) would otherwise count as $0
+            self.total_usage['cost'] += usage_info.get('cost', 0.0)
             self.total_usage['llm_calls'] += 1
+            self.call_usage.append({
+                'prompt': usage_info.get('prompt_tokens', 0),
+                'completion': usage_info.get('completion_tokens', 0),
+                'cached': usage_info.get('cached_prompt_tokens', 0),
+            })
+
+    def _llm_call(self, messages, tools=None):
+        """safe_llm_call() under the token ceiling; records usage. Returns (message, error, usage)."""
+        if self.max_total_tokens is not None:
+            prompt = count_tokens_in_messages(messages)
+            if self.total_usage['total_tokens'] + prompt > self.max_total_tokens:
+                self.budget_stop = (f"token budget: {self.total_usage['total_tokens']} tokens used, the next prompt "
+                                    f"needs ~{prompt}, ceiling {self.max_total_tokens}")
+                return None, f"{BUDGET_EXCEEDED}: {self.budget_stop}", None
+        if self.max_tool_calls is not None and self.tool_calls_made >= self.max_tool_calls:
+            tools = None  # tool budget used up: the model has to answer
+        response, error, usage_info = safe_llm_call(model=self.model, messages=messages, tools=tools,
+                                                    base_url=self.base_url)
+        self._update_usage(usage_info)
+        return response, error, usage_info
+
+    def _take_tool_call(self):
+        """Count one tool call; False once max_tool_calls is used up (the caller must not run it)."""
+        if self.max_tool_calls is not None and self.tool_calls_made >= self.max_tool_calls:
+            self.budget_stop = self.budget_stop or f"tool-call budget: all {self.max_tool_calls} calls used"
+            return False
+        self.tool_calls_made += 1
+        return True
+
+    def _tool_budget_message(self, tool_call):
+        """Tool reply when the tool-call budget is used up."""
+        return {"tool_call_id": tool_call.id, "role": "tool", "name": tool_call.function.name,
+                "content": f"Not run: the tool-call budget ({self.max_tool_calls} calls) is used up. "
+                           "Give your final answer now with the data you already have."}
 
     def run(self, question: str) -> AgentOutput:
         """Answer `question`; returns the common output contract."""
+        self._reset_usage()
         start = time.perf_counter()
         result = self._run(question)
         latency = time.perf_counter() - start
@@ -70,18 +125,31 @@ class BaseAgent:
             answer, evidence, limitation = result["answer"], result.get("evidence") or [], result.get("limitation")
         else:
             answer, evidence, limitation = parse_final_message(result.get("final_answer"))
+        error = result.get("error")
+        # A refused call under the token ceiling is an abstention with a reason, not an error
+        if any(isinstance(v, str) and BUDGET_EXCEEDED in v for v in (answer, error)):
+            if isinstance(answer, str) and BUDGET_EXCEEDED in answer:
+                answer, evidence = None, []
+            error = None
+            limitation = limitation or f"Stopped by the {self.budget_stop}"
         trace = result.get("trace", self.messages)
         return {
             "answer": answer,
             "evidence": evidence,
             "limitation": limitation,
-            "tokens": to_tokens(result.get("usage", self.total_usage)),
+            "tokens": to_tokens(self.total_usage, self.call_usage),
             "tool_calls": result.get("tool_calls", extract_tool_calls(trace)),
             "latency": round(latency, 3),
             "trace": trace,
             "retrieved_fhir_resources": result.get("retrieved_fhir_resources", {}),
-            "error": result.get("error"),
+            "error": error,
             "revision": result.get("revision"),
+            "budget": {
+                "max_total_tokens": self.max_total_tokens,
+                "max_tool_calls": self.max_tool_calls,
+                "tool_calls_run": self.tool_calls_made,
+                "stopped": self.budget_stop,
+            },
         }
 
     def _run(self, question: str) -> dict:
