@@ -54,7 +54,7 @@ Result: During the patient's first hospital encounter, that procedure occurred 1
 Follow these examples to structure your approach: retrieve relevant FHIR resources first, then analyze the data systematically using natural language reasoning."""}]
 
 
-    def run(self, question: str) -> dict:
+    def _run(self, question: str) -> dict:
         
         self.messages = self.system_msg.copy()
         self.messages.append({"role": "user", "content": question})

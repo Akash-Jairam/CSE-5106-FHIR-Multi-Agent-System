@@ -45,7 +45,7 @@ Result: Found 1 occurrence of the target procedure.
 Follow these examples to structure your approach: make appropriate FHIR requests, then analyze systematically."""}]
 
 
-    def run(self, question: str) -> dict:
+    def _run(self, question: str) -> dict:
         
         self.messages = self.system_msg.copy()
         self.messages.append({"role": "user", "content": question})

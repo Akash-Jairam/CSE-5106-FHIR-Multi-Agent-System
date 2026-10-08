@@ -221,6 +221,21 @@ To use open-source models locally with vLLM, start the vLLM server and set base_
 CUDA_VISIBLE_DEVICES=<gpu_ids> python -m vllm.entrypoints.openai.api_server --model <model> --load-format safetensors --max-model-len 32768 --tensor-parallel-size <num_gpus> --port <port> --enable-auto-tool-choice --tool-call-parser llama3_json
 ```
 
+### Output contract
+
+Every agent's `run()` returns the same JSON object (`agent/output_schema.py`), and `run_agent.py` saves its fields per question:
+
+| Field | Saved as | Meaning |
+|---|---|---|
+| `answer` | `agent_answer` | `true`/`false`, a number, a `"YYYY-MM-DD HH:MM:SS"` time, a string, a list, or `null` when the agent abstains |
+| `evidence` | `evidence` | `[{"resource_id": "Observation/<id>", "field_path": "valueQuantity.value", "value": 98.7}, ...]` |
+| `limitation` | `limitation` | `null`, or what is missing or uncertain |
+| `tokens` | `tokens` | `{"prompt", "completion", "total", "cost", "llm_calls"}` (also saved in the legacy `usage` format) |
+| `tool_calls` | `tool_calls` | `[{"name", "arguments"}, ...]` |
+| `latency` | `latency` | wall-clock seconds |
+
+New agents implement `_run()` and either return these fields directly or end with the JSON object described in `ANSWER_FORMAT_INSTRUCTIONS`. The original agents answer in free text, which is kept as the `answer` with empty `evidence`.
+
 ## 📊 Evaluation
 
 Run the following command to normalize, evaluate answers, and visualize performance (FHIR resource retrieval recall/precision, answer correctness):

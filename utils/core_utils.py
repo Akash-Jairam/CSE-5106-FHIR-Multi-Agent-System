@@ -222,32 +222,38 @@ def process_trace(trace, max_items=10):
     return processed_trace
 
 
-def parse_outputs(agent_output, max_items=10):
-    if "error" in agent_output:
-        return {
-            "agent_answer": None,
-            "agent_fhir_resources": None,
-            "trace": [],
-            "usage": None,
-            "error": agent_output["error"]
-        }
-    else:
-        try:
-            fhir_resources = return_resource_ids(agent_output["retrieved_fhir_resources"])
-        except Exception as e:
-            fhir_resources = str(e)
-        try:
-            trace = process_trace(agent_output['trace'], max_items=max_items)
-        except Exception as e:
-            trace = str(e)
+# Columns run_agent.py saves per question (see agent/output_schema.py for the contract)
+RESULT_COLUMNS = ["agent_answer", "evidence", "limitation", "tokens", "tool_calls", "latency",
+                  "agent_fhir_resources", "trace", "error", "usage"]
 
-        return {
-            "agent_answer": agent_output['final_answer'],
-            "agent_fhir_resources": fhir_resources,
-            "trace": trace,
-            "usage": agent_output['usage'],
-            "error": None
-        }
+
+def parse_outputs(agent_output, max_items=10):
+    """Flatten an AgentOutput (or an {"error": ...} from a crashed run) into result columns."""
+    if set(agent_output) == {"error"}:
+        return {**{col: None for col in RESULT_COLUMNS}, "trace": [], "error": agent_output["error"]}
+    try:
+        fhir_resources = return_resource_ids(agent_output["retrieved_fhir_resources"])
+    except Exception as e:
+        fhir_resources = str(e)
+    try:
+        trace = process_trace(agent_output['trace'], max_items=max_items)
+    except Exception as e:
+        trace = str(e)
+    tokens = agent_output["tokens"]
+    return {
+        "agent_answer": agent_output["answer"],
+        "evidence": agent_output["evidence"],
+        "limitation": agent_output["limitation"],
+        "tokens": tokens,
+        "tool_calls": agent_output["tool_calls"],
+        "latency": agent_output["latency"],
+        "agent_fhir_resources": fhir_resources,
+        "trace": trace,
+        "error": agent_output["error"],
+        # Legacy name and keys, kept for existing evaluation scripts
+        "usage": {"prompt_tokens": tokens["prompt"], "completion_tokens": tokens["completion"],
+                  "total_tokens": tokens["total"], "cost": tokens["cost"], "llm_calls": tokens["llm_calls"]},
+    }
 
 
 def read_input_data(fname):

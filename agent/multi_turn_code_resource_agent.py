@@ -174,7 +174,7 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
             return False
         return "the final answer is:" in content.lower().strip()
 
-    def run(self, question: str) -> dict:
+    def _run(self, question: str) -> dict:
 
         self.messages = self.system_msg.copy()
         self.messages.append({"role": "user", "content": question})

@@ -11,7 +11,8 @@ from utils import (
     read_intermediate_results, 
     curate_input_dataset,
     run_agent_with_input,
-    check_tool_credentials
+    check_tool_credentials,
+    RESULT_COLUMNS
 )
 
 parser = argparse.ArgumentParser(description="Evaluate FHIR agent answers and save results.")
@@ -97,6 +98,13 @@ def load_inputs(input_file):
     return df.head(args.limit) if args.limit is not None else df
 
 
+def is_done(row):
+    """A question is done once the agent returned (an abstention leaves agent_answer null but sets latency)."""
+    def present(value):
+        return value is not None and not (isinstance(value, float) and pd.isna(value))
+    return present(row.get("agent_answer")) or present(row.get("latency"))
+
+
 def save_results_json(df, output_file):
     """Save DataFrame to JSON with basic error handling."""
     try:        
@@ -110,7 +118,7 @@ def save_results_json(df, output_file):
         try:
             with open(temp_file, 'r', encoding='utf-8') as f:
                 loaded_data = json.load(f)
-                print(f"✅ JSON validation passed: {sum([l['agent_answer'] is not None for l in loaded_data])} records saved")
+                print(f"✅ JSON validation passed: {sum(is_done(l) for l in loaded_data)} records saved")
         except Exception as validation_error:
             print(f"❌ JSON validation failed: {validation_error}")
             print("Critical error: Cannot verify saved data integrity")
@@ -163,23 +171,29 @@ if __name__ == "__main__":
     results_df = read_intermediate_results(output_json_file)
     if results_df.empty:
         results_df = load_inputs(input_file)
-        for col in ["agent_answer", "agent_fhir_resources", "trace", "error", "usage"]:
+        for col in RESULT_COLUMNS:
             results_df[col] = None
-    elif len(results_df) != len(load_inputs(input_file)):
-        results_df = load_inputs(input_file).merge(
-            results_df[["question_id", "agent_answer", "agent_fhir_resources", "trace", "error", "usage"]], 
-            on="question_id", 
-            how="left"
-        )
+    else:
+        # Results written before the output contract lack its newer columns
+        results_df = results_df.reindex(columns=list(dict.fromkeys(list(results_df.columns) + RESULT_COLUMNS)))
+        if len(results_df) != len(load_inputs(input_file)):
+            results_df = load_inputs(input_file).merge(
+                results_df[["question_id"] + RESULT_COLUMNS],
+                on="question_id",
+                how="left"
+            )
+    # Cells hold lists/dicts, so the columns must be object-typed
+    results_df[RESULT_COLUMNS] = results_df[RESULT_COLUMNS].astype(object)
 
     # Add question_with_context for all rows (if not already present)
     all_inputs = curate_input_dataset(results_df, args.add_patient_fhir_id)
     results_df["question_with_context"] = all_inputs
 
     # Only subset to data we don't have existing results for to run
-    results_df = results_df[['question_id', 'question', 'true_answer', 'assumption', 'question_with_context', 'patient_fhir_id', 'agent_answer', 'agent_fhir_resources', 'trace', 'error', 'usage']]
-    remaining_data = results_df.loc[results_df["agent_answer"].isnull()].copy()
-    processed_count = results_df["agent_answer"].notnull().sum()
+    results_df = results_df[['question_id', 'question', 'true_answer', 'assumption', 'question_with_context', 'patient_fhir_id'] + RESULT_COLUMNS]
+    done = results_df.apply(is_done, axis=1)
+    remaining_data = results_df.loc[~done].copy()
+    processed_count = done.sum()
     print(
         "Number of rows already processed prior:",
         processed_count
