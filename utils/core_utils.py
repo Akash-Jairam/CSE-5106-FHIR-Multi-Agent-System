@@ -40,6 +40,14 @@ def load_config() -> Dict[str, Any]:
         return {}
 
 
+def _is_placeholder(value: Optional[str]) -> bool:
+    """Return True if a config value is empty or still a config.example.yml placeholder."""
+    if not value:
+        return True
+    value = str(value).strip()
+    return not value or value.startswith("your-") or value.startswith("fhir-store-id")
+
+
 def get_openai_api_key() -> Optional[str]:
     """Get OpenAI API key from environment or config file."""
     return os.getenv("OPENAI_API_KEY") or load_config().get("OPENAI_API_KEY")
@@ -95,9 +103,9 @@ def validate_model_api_key(model: str) -> bool:
     provider = get_model_provider(model)
     
     if provider == 'openai':
-        return get_openai_api_key() is not None
+        return not _is_placeholder(get_openai_api_key())
     elif provider == 'gemini':
-        return get_gemini_api_key() is not None
+        return not _is_placeholder(get_gemini_api_key())
     elif provider == 'anthropic':
         # Add anthropic key check if needed in the future
         return os.getenv("ANTHROPIC_API_KEY") is not None
@@ -135,13 +143,13 @@ def validate_config(model: str, base_url: str=None) -> bool:
     
     # Check FHIR configuration
     fhir_config = get_fhir_config()
-    fhir_ok = all(fhir_config.values())
-    
+    missing = [k for k, v in fhir_config.items() if _is_placeholder(v)]
+    fhir_ok = not missing
+
     if fhir_ok:
         print("✅ FHIR configuration complete")
     else:
-        missing = [k for k, v in fhir_config.items() if not v]
-        print(f"❌ FHIR configuration incomplete. Missing: {', '.join(missing)}")
+        print(f"❌ FHIR configuration incomplete. Missing or placeholder values: {', '.join(missing)}")
     
     return model_ok and fhir_ok
 
@@ -276,7 +284,8 @@ def create_agent(agent_strategy, model, verbose=False, base_url=None):
         "single_turn_resource": ("agent.single_turn_resource_agent", "SingleTurnResourceAgent"),
         "single_turn_code_resource": ("agent.single_turn_code_resource_agent", "SingleTurnCodeResourceAgent"),
         "multi_turn_resource": ("agent.multi_turn_resource_agent", "MultiTurnResourceAgent"),
-        "multi_turn_code_resource": ("agent.multi_turn_code_resource_agent", "MultiTurnCodeResourceAgent")
+        "multi_turn_code_resource": ("agent.multi_turn_code_resource_agent", "MultiTurnCodeResourceAgent"),
+        "multi_turn_code_resource_v2": ("agent.multi_turn_code_resource_v2_agent", "MultiTurnCodeResourceV2Agent")
     }
     
     if agent_strategy not in agents:

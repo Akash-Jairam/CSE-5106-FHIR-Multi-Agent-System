@@ -42,6 +42,15 @@ FHIR-AgentBench/
 ### Data Preparation
 
 #### 1. Upload the MIMIC-IV FHIR data to a GCP FHIR store
+
+**Scripted option:** with the [gcloud CLI](https://cloud.google.com/sdk/docs/install-sdk) installed and authenticated (see step 2), this downloads the demo, uploads it to a bucket, creates the dataset/store, and runs the import:
+
+```bash
+PROJECT_ID=<your-project> LOCATION=us-central1 DATASET_ID=mimic-fhir STORE_ID=mimic-fhir \
+BUCKET=<your-bucket> bash scripts/setup_fhir_store.sh
+```
+
+**Manual option (Cloud Console):**
 - Download [MIMIC-IV Clinical Database Demo on FHIR](https://physionet.org/content/mimic-iv-fhir-demo/2.1.0/) from PhysioNet and extract the .gz files.
 - Create a GCP account, then in the [Google Cloud Console](https://console.cloud.google.com) search for FHIR Viewer.
 - Click Browser on the left, then Create dataset.
@@ -152,7 +161,11 @@ You can enable the required APIs and verify access using the [gcloud CLI](https:
 
 5) Project configuration
 
-   Create a file named config.yml in the project root:
+   Copy the template and fill in your values (`config.yml` is git-ignored so keys stay local):
+
+   ```bash
+   cp config.example.yml config.yml
+   ```
 
    ```yaml
    OPENAI_API_KEY: "your-api-key"
@@ -162,6 +175,18 @@ You can enable the required APIs and verify access using the [gcloud CLI](https:
       LOCATION: "your-fhir-dataset-location"
       DATASET_ID: "your-dataset-id"
       STORE_ID: "fhir-store-id (usually the same as dataset_id)"
+   ```
+
+   Environment variables (`OPENAI_API_KEY`, `GEMINI_API_KEY`, `FHIR_PROJECT_ID`, `FHIR_LOCATION`, `FHIR_DATASET_ID`, `FHIR_STORE_ID`) take precedence over `config.yml`.
+
+6) Quick setup check
+
+   ```bash
+   # Validates config.yml, credentials, and FHIR store contents
+   python scripts/check_setup.py
+
+   # Runs the single-turn resource agent on 5 questions and evaluates them
+   bash scripts/run_smoke_test.sh            # MODEL=... NUM_QUESTIONS=... to override
    ```
 
 #### 3. (Optional) Run the script to download and prepare the dataset:
@@ -187,6 +212,8 @@ bash scripts/run_single_turn_code_resource_agent.sh # Single-turn FHIR resource 
 bash scripts/run_multi_turn_resource_agent.sh       # Multi-turn/iterative resource retrieval → Natural language reasoning
 bash scripts/run_multi_turn_code_resource_agent.sh  # Multi-turn/iterative resource retrieval → Code-based reasoning
 ```
+
+Extra arguments are passed through to `run_agent.py`, e.g. `MODEL=gemini/gemini-2.5-flash bash scripts/run_single_turn_resource_agent.sh --limit 5`.
 
 To use open-source models locally with vLLM, start the vLLM server and set base_url to `http://localhost:<port>/v1`.
 

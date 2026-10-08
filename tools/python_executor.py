@@ -55,6 +55,9 @@ def execute_python_code(code: str, timeout: int = 60, global_vars: dict = None) 
         else:
             return {"error": "Code executed successfully (no answer variable set)"}
             
+    except SystemExit:
+        # Model code calling exit()/sys.exit()/raise SystemExit would otherwise kill the whole agent run
+        return {"error": "Code called exit()/SystemExit, which is not allowed. Set the 'answer' variable instead."}
     except Exception as e:
         error_info = traceback.format_exc()
         return {"error": f"Error executing code: {e}\n\nFull traceback:\n{error_info}"}

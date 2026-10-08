@@ -9,6 +9,17 @@ supported_types = [
     "Location", "Specimen", "Medication"
 ]
 
+def _patient_query(resource_type: str, patient_fhir_id: str) -> str:
+    """Build a search for one patient's resources of a given type."""
+    if not patient_fhir_id:
+        return resource_type
+    # Patient has no "patient" search parameter; the Cloud Healthcare API silently
+    # ignores it and returns every patient, so filter by _id instead.
+    if resource_type == "Patient":
+        return f"Patient?_id={patient_fhir_id}"
+    return f"{resource_type}?patient={patient_fhir_id}"
+
+
 @cached_tool
 def get_resources_by_resource_id(resource_type: str, resource_id: str) -> dict:
     """Get FHIR resources by resource ID."""
@@ -33,7 +44,7 @@ def get_resources_by_patient_fhir_id(resource_type: str, patient_fhir_id: str) -
     """Get FHIR resources by patient FHIR ID."""
     try:
         client = get_fhir_client()
-        query = f"{resource_type}?patient={patient_fhir_id}" if patient_fhir_id else resource_type
+        query = _patient_query(resource_type, patient_fhir_id)
         resources = client.search_with_pagination(query)
         
         resources_by_type = {}
@@ -54,7 +65,7 @@ def get_all_resources_by_patient_fhir_id(patient_fhir_id: str) -> dict:
         client = get_fhir_client()
         all_resources = []        
         for resource_type in supported_types:
-            query = f"{resource_type}?patient={patient_fhir_id}" if patient_fhir_id else resource_type
+            query = _patient_query(resource_type, patient_fhir_id)
             resources = client.search_with_pagination(query)
             all_resources.extend(resources)
         

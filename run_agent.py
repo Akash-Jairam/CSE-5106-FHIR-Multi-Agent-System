@@ -1,4 +1,5 @@
 import os
+import sys
 import multiprocessing as mp
 from tqdm import tqdm
 import argparse
@@ -41,7 +42,7 @@ parser.add_argument("--date",
                     )
 parser.add_argument("--agent_strategy",
                     required=True,
-                    choices=["single_turn_request", "single_turn_resource", "single_turn_code_resource", "multi_turn_resource", "multi_turn_code_resource"],
+                    choices=["single_turn_request", "single_turn_resource", "single_turn_code_resource", "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2"],
                     type=str,
                     help="Which agent strategy to use"
                     )
@@ -65,6 +66,11 @@ parser.add_argument("--verbose",
                     default=True,
                     help="Enable verbose output for debugging"
                     )
+parser.add_argument("--limit",
+                    type=int,
+                    default=None,
+                    help="Only run the first N questions of the input file (e.g. 5 for a smoke test)"
+                    )
 parser.add_argument("--enable_cache",
                     type=bool,
                     default=True,
@@ -77,11 +83,18 @@ if args.num_processes == -1:
     args.num_processes = os.cpu_count()
 
 # Validate config
-validate_config(args.model, args.base_url)
+if not validate_config(args.model, args.base_url):
+    sys.exit(1)
 
 # Prepare input tuples for multiprocessing
 def prepare_multiprocessing_inputs(remaining_inputs, agent_strategy, model, verbose, base_url, enable_cache):
     return [(input_data, agent_strategy, model, verbose, base_url, enable_cache) for input_data in remaining_inputs]
+
+
+def load_inputs(input_file):
+    """Read the input CSV, keeping only the first --limit rows if set."""
+    df = read_input_data(input_file)
+    return df.head(args.limit) if args.limit is not None else df
 
 
 def save_results_json(df, output_file):
@@ -122,8 +135,7 @@ if __name__ == "__main__":
     
     # Set JSON output file path
     if args.output is None:
-        base_name = os.path.splitext(output_file)[0]
-        output_json_file = f"{base_name}.json"
+        output_json_file = f"output/{args.agent_strategy}_{args.model}_results.json"
     else:
         output_json_file = args.output
     if 'gemini/' in args.model: # For Gemini models, remove 'gemini/' from the output file path
@@ -150,11 +162,11 @@ if __name__ == "__main__":
     # Try to read results from JSON
     results_df = read_intermediate_results(output_json_file)
     if results_df.empty:
-        results_df = read_input_data(input_file)
+        results_df = load_inputs(input_file)
         for col in ["agent_answer", "agent_fhir_resources", "trace", "error", "usage"]:
             results_df[col] = None
-    elif len(results_df) != len(read_input_data(input_file)):
-        results_df = read_input_data(input_file).merge(
+    elif len(results_df) != len(load_inputs(input_file)):
+        results_df = load_inputs(input_file).merge(
             results_df[["question_id", "agent_answer", "agent_fhir_resources", "trace", "error", "usage"]], 
             on="question_id", 
             how="left"

@@ -1,0 +1,16 @@
+# Local secrets / config
+config.yml
+
+# Agent outputs and downloaded data
+output/
+output_eval/
+data/
+ehrsql-2024/
+.tool_cache/
+mimic-iv-*
+physionet.org/
+
+# Python / OS
+__pycache__/
+*.pyc
+.DS_Store
