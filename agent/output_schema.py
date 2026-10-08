@@ -9,7 +9,7 @@
       "tokens": {"prompt": 1200, "completion": 85, "total": 1285, "cost": 0.0004, "llm_calls": 2},
       "tool_calls": [{"name": "get_resources_by_patient_fhir_id", "arguments": {...}}],
       "latency": 3.42,
-      ...diagnostics: "trace", "retrieved_fhir_resources", "error"
+      ...diagnostics: "trace", "retrieved_fhir_resources", "error", "revision"
     }
 
 `answer` is null when the system abstains; `limitation` says why, or what is
@@ -51,6 +51,7 @@ class AgentOutput(TypedDict):
     trace: list                # message history (diagnostic)
     retrieved_fhir_resources: dict
     error: Optional[str]
+    revision: Optional[dict]   # agents with a revision step: draft answer, check issues, whether it changed
 
 
 ANSWER_FORMAT_INSTRUCTIONS = """When you have the final answer, reply with only a JSON object:
@@ -71,6 +72,11 @@ def _json_objects(text):
         if isinstance(obj, dict):
             objects.append(obj)
     return objects[::-1]
+
+
+def has_json_answer(text):
+    """Whether `text` contains a JSON object with an "answer" key."""
+    return isinstance(text, str) and any("answer" in obj for obj in _json_objects(text))
 
 
 def parse_final_message(text):

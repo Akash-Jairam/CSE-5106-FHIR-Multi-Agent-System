@@ -314,3 +314,42 @@ Reproduce:
 python run_agent.py --agent_strategy direct_llm --model gpt-5-nano --limit 5 --num_processes 1 --output output/smoke_direct_llm_gpt-5-nano.json
 python evaluation_metrics.py --input output/smoke_direct_llm_gpt-5-nano.json --model o4-mini --evidence_source ndjson --force   # needs the #8/#9 evaluation code
 ```
+
+## 9. Tool-equipped single agent: smoke test (#12)
+
+`single_agent` is the multi-turn code agent started from the same starting packet as the direct baseline (its resources preloaded for code), with the deterministic `check_fields` tool (`tools/field_check.py`) and one revision: its first JSON answer is checked automatically, and if the check finds problems the agent is told what they are and may revise once. Run on 2026-10-08 with `gpt-5-nano` (5 processes) on the same 5 questions; scored with the typed scorer, the `o4-mini` judge, and the evidence scorer (resolved against the FHIR store).
+
+| # | True answer | Answer | Typed | Judge | Evidence valid | Tool calls | Check issues on draft | Revised |
+|---|---|---|---|---|---|---|---|---|
+| 1 | `[['2133-12-31 02:00:00']]` | `"2133-12-31 02:00:00"` | ✅ | ✅ | 2/2 | 0 | 0 | no |
+| 2 | `[[1]]` | `true` | ✅ | ✅ | 3/3 | 0 | 0 | no |
+| 3 | `[[1]]` | `true` | ✅ | ✅ | 3/6 (3 bad paths) | 3 | 6 | yes, answer unchanged |
+| 4 | `[[3075]]` | `3075` | ✅ | ✅ | 14/14 | 3 | 0 | no |
+| 5 | `[[1]]` | `1` | ✅ | ✅ | 2/2 | 0 | 1 | yes, answer unchanged |
+
+| Metric | Direct LLM (§8.1) | Single agent |
+|---|---|---|
+| Typed / judge accuracy | 4/5 / 4/5 | **5/5 / 5/5** |
+| Retrieval recall / precision | 1.00 / 0.30 | 1.00 / 0.05 (fetches whole resource types) |
+| Valid citations | 13/18 | 24/27 |
+| Evidence precision / recall | 1.00 / 0.80 | 0.90 / 0.90 |
+| LLM calls per question | 1 | 1–4 |
+| Tokens / cost | 44,607 / $0.0069 | 154,261 / $0.0226 |
+| Latency per question | 15–42 s | 23–151 s |
+
+Notes:
+- Three questions were answered from the packet alone, without tool calls; the other two fetched more data.
+- The automatic check fired on two drafts and the agent revised both; the answers stayed the same, but on Q3 three citations still had bad paths after the revision.
+- The agent never called `check_fields` on its own before answering.
+- Five questions is a smoke test, not a comparison.
+
+Code changes made with this agent:
+- `get_resources_by_resource_id` searched with `?id=`, which the Cloud Healthcare API ignores, so it returned every resource of the type (e.g. all 637 Encounters). It now uses `_id`, and its cache entries are versioned so old results are not reused. This changes what the original agents get when they look up a resource by id.
+- The multi-turn code agent's tool handling moved into `_handle_tool_call()` so the single agent can extend it; a 1-question run of `multi_turn_code_resource` after the refactor behaved as before (`2133-12-31T02:00:00`, 3 tool calls).
+
+Reproduce:
+
+```bash
+python run_agent.py --agent_strategy single_agent --model gpt-5-nano --limit 5 --num_processes 5 --output output/smoke_single_agent_gpt-5-nano.json
+python evaluation_metrics.py --input output/smoke_single_agent_gpt-5-nano.json --model o4-mini --force
+```

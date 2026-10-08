@@ -236,6 +236,9 @@ bash scripts/run_multi_turn_code_resource_agent.sh  # Multi-turn/iterative resou
 
 # Baseline without tools
 bash scripts/run_direct_llm_agent.sh                # One LLM call on the question + starting packet (tools/starting_packet.py)
+
+# Tool-equipped single agent
+bash scripts/run_single_agent.sh                    # Multi-turn code agent started from the packet, with check_fields (tools/field_check.py) and one revision
 ```
 
 Extra arguments are passed through to `run_agent.py`, e.g. `MODEL=gemini/gemini-2.5-flash bash scripts/run_single_turn_resource_agent.sh --limit 5`.

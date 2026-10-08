@@ -81,6 +81,7 @@ class BaseAgent:
             "trace": trace,
             "retrieved_fhir_resources": result.get("retrieved_fhir_resources", {}),
             "error": result.get("error"),
+            "revision": result.get("revision"),
         }
 
     def _run(self, question: str) -> dict:
