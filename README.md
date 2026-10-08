@@ -173,6 +173,13 @@ If `final_dataset/questions_answers_sql_fhir.csv` already exists, you can skip t
    python create_question_fhir_dataset.py
    ```
 
+#### 4. Build the question-family manifest
+Tags every question as `lookup_counting`, `temporal_selection`, or `numerical_aggregation` (classification rules are in the script's docstring) and writes `manifests/question_families.csv`. Questions with empty or null answers are kept and marked in `answer_kind`.
+
+   ```bash
+   python scripts/build_question_families.py
+   ```
+
 ## 🤖 Agent Execution
 
 The project includes several agent implementations:
