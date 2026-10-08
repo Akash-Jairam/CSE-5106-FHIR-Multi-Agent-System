@@ -198,6 +198,28 @@ If `final_dataset/questions_answers_sql_fhir.csv` already exists, you can skip t
    python create_question_fhir_dataset.py
    ```
 
+#### 4. Build the question-family manifest
+Tags every question as `lookup_counting`, `temporal_selection`, or `numerical_aggregation` (classification rules are in the script's docstring) and writes `manifests/question_families.csv`. Questions with empty or null answers are kept and marked in `answer_kind` (`empty` / `null_value`).
+
+   ```bash
+   python scripts/build_question_families.py
+   ```
+
+#### 5. Build the patient-disjoint split
+Writes `manifests/split.json` with pilot (20), dev (50), and held-out (300) question sets drawn from disjoint patients, stratified by question family. Dev uses only the reserved patients 10001217, 10004235, and 10015860. Tune on pilot/dev only; the held-out patients' questions are for final evaluation.
+
+   ```bash
+   python scripts/build_split.py   # seed 5106 by default
+   ```
+
+#### 6. Build the starting packets
+`tools/starting_packet.py` builds a deterministic, token-bounded excerpt of a patient's record for a question (keyword-ranked resource labels plus the patient's encounters; 8,000 tokens by default, chosen on the dev split). Agents call `get_starting_packet(question, patient_fhir_id)`, which reads the record from the FHIR store. The script below builds packets for every split question from the local NDJSON files and writes the included resource IDs to `manifests/starting_packets.jsonl`; it reports gold-ID recall for pilot and dev only.
+
+   ```bash
+   python scripts/build_starting_packets.py
+   python scripts/build_starting_packets.py --sweep 4000 8000 16000   # compare budgets on dev
+   ```
+
 ## 🤖 Agent Execution
 
 The project includes several agent implementations:
