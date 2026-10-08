@@ -9,6 +9,7 @@ import yaml
 import argparse
 import datetime
 import csv
+from collections import Counter
 from utils import is_reasoning_llm
 
 import pandas as pd
@@ -22,6 +23,7 @@ from utils.metrics_utils import (
     retrieval_precision
 )
 from utils.answer_scorer import score_answer
+from utils.evidence_scorer import cited_refs, fetch_from_ndjson, fetch_from_store, parse_evidence, score_evidence
 from config import (
     QUESTION_SQL_FHIR_OUTPUT_CSV
 )
@@ -49,6 +51,13 @@ parser.add_argument("--num_processes",
 parser.add_argument("--force",
                     action="store_true",
                     help="Force re-evaluation even if results already exist.")
+parser.add_argument("--evidence_source",
+                    choices=["store", "ndjson"],
+                    default="store",
+                    help="Where to resolve cited evidence: the FHIR store (config.yml) or the local NDJSON files.")
+parser.add_argument("--fhir_dir",
+                    default="physionet.org/files/mimic-iv-fhir-demo/2.1.0/fhir",
+                    help="MIMIC-IV FHIR NDJSON directory, used with --evidence_source ndjson.")
 parser.add_argument("--skip_llm_judge",
                     action="store_true",
                     help="Only run the deterministic typed scorer (no LLM calls or API key needed).")
@@ -470,6 +479,32 @@ def calculate_retrieval_metrics(eval_df):
     
     print(f"Retrieval Precision: {eval_df['precision'].mean():.4f}")
     print(f"Retrieval Recall:    {eval_df['recall'].mean():.4f}")
+
+    if "evidence" in eval_df.columns:
+        eval_df = calculate_evidence_metrics(eval_df)
+    return eval_df
+
+
+def calculate_evidence_metrics(eval_df):
+    """Resolve each answer's cited {resource_id, field_path, value} and compare cited ids to the gold ids"""
+    evidence = eval_df["evidence"].apply(parse_evidence)
+    refs = cited_refs(evidence)
+    print(f"Resolving {len(refs)} cited resources from the {args.evidence_source}...")
+    if args.evidence_source == "ndjson":
+        resources = fetch_from_ndjson(refs, args.fhir_dir)
+    else:
+        resources = fetch_from_store(refs)
+
+    scores = pd.DataFrame([score_evidence(ev, resources, gold) for ev, gold in
+                           zip(evidence, eval_df["true_fhir_ids_list"])], index=eval_df.index)
+    for col in scores.columns:
+        eval_df[col] = scores[col]
+
+    total_cited = eval_df["evidence_cited"].sum()
+    print(f"Valid evidence:      {eval_df['evidence_valid'].sum()}/{total_cited} citations; "
+          f"mean per answer {eval_df['valid_evidence_fraction'].mean():.4f}")
+    print(f"Evidence Precision:  {eval_df['evidence_precision'].mean():.4f}")
+    print(f"Evidence Recall:     {eval_df['evidence_recall'].mean():.4f}")
     return eval_df
 
 
@@ -542,7 +577,9 @@ def save_results(eval_df):
         "true_answer", "agent_answer", "typed_correct", "answer_type", "typed_reason",
         "answer_correctness",
         "trace", "true_answer_extracted", "agent_answer_normalized", "usage",
-        "precision", "recall", "true_fhir_resource_types", "template"
+        "precision", "recall", "true_fhir_resource_types", "template",
+        "evidence", "evidence_cited", "evidence_valid", "valid_evidence_fraction", "evidence_issues",
+        "evidence_precision", "evidence_recall"
     ]
     save_cols = [col for col in save_cols if col in eval_df.columns]
 
@@ -561,13 +598,17 @@ def save_results(eval_df):
 def summarize_metrics(df):
     """Answer accuracy (typed = primary, LLM judge = secondary) and retrieval metrics for a group of rows"""
     prec, rec = df['precision'].mean(), df['recall'].mean()
+    mean = lambda col: df[col].mean() if col in df else float('nan')
     return {
         "questions": len(df),
-        "typed_accuracy": df['typed_correct'].mean() if 'typed_correct' in df else float('nan'),
-        "accuracy": df['answer_correctness'].mean() if 'answer_correctness' in df else float('nan'),
+        "typed_accuracy": mean('typed_correct'),
+        "accuracy": mean('answer_correctness'),
         "precision": prec,
         "recall": rec,
         "f1_score": 2 * (prec * rec) / (prec + rec) if (prec + rec) > 0 else 0,
+        "valid_evidence_fraction": mean('valid_evidence_fraction'),
+        "evidence_precision": mean('evidence_precision'),
+        "evidence_recall": mean('evidence_recall'),
     }
 
 
@@ -585,13 +626,14 @@ def save_performance_summary_to_csv(eval_df, input_file, output_eval_file, outpu
 
     fieldnames = [
         "date", "input_file", "output_eval_file", "fhir_resource_type",
-        "questions", "precision", "recall", "f1_score", "accuracy", "typed_accuracy"
+        "questions", "precision", "recall", "f1_score", "accuracy", "typed_accuracy",
+        "valid_evidence_fraction", "evidence_precision", "evidence_recall"
     ]
     os.makedirs(output_dir, exist_ok=True)
     new_rows = pd.DataFrame(rows, columns=fieldnames)
     if os.path.exists(summary_csv):
         existing = pd.read_csv(summary_csv)
-        # Files written before typed scoring existed lack the typed_accuracy column
+        # Files written before typed/evidence scoring existed lack those columns
         new_rows = pd.concat([existing.reindex(columns=fieldnames), new_rows], ignore_index=True)
     new_rows.to_csv(summary_csv, index=False)
 
@@ -622,6 +664,16 @@ def print_performance_summary(eval_df):
     print(f"  Average Recall: {overall['recall']:.4f}")
     print(f"  F1 Score: {overall['f1_score']:.4f}")
     print()
+    if 'evidence_cited' in eval_df.columns:
+        print("EVIDENCE:")
+        print(f"  Valid citations: {eval_df['evidence_valid'].sum()}/{eval_df['evidence_cited'].sum()}; "
+              f"mean valid fraction per answer: {overall['valid_evidence_fraction']:.4f}")
+        issues = sum((Counter(i) for i in eval_df['evidence_issues'] if isinstance(i, dict)), Counter())
+        if issues:
+            print(f"  Invalid citations by reason: {dict(issues)}")
+        print(f"  Evidence Precision: {overall['evidence_precision']:.4f}")
+        print(f"  Evidence Recall: {overall['evidence_recall']:.4f}")
+        print()
 
     if 'answer_type' in eval_df.columns:
         print("TYPED ACCURACY BY ANSWER TYPE:")
