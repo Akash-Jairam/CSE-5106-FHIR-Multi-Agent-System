@@ -1,12 +1,7 @@
-import re
-
 from .base_agent import BaseAgent
 from .output_schema import ANSWER_FORMAT_INSTRUCTIONS, parse_final_message
-from tools.starting_packet import get_starting_packet, parse_current_time
-from utils import safe_llm_call
-
-QUESTION_RE = re.compile(r"^Question:\s*(.*?)\s*\nContext:", re.S)
-PATIENT_RE = re.compile(r"Patient FHIR ID is ([0-9a-fA-F-]+)\.")
+from tools.starting_packet import get_starting_packet
+from utils import parse_question_context, safe_llm_call
 
 
 class DirectLLMAgent(BaseAgent):
@@ -25,13 +20,12 @@ You are given an excerpt of the record (the "starting packet"): the patient, the
 {ANSWER_FORMAT_INSTRUCTIONS}"""}
 
     def _run(self, question: str) -> dict:
-        question_match, patient_match = QUESTION_RE.search(question), PATIENT_RE.search(question)
-        if not patient_match:
+        bare_question, patient_fhir_id, current_time = parse_question_context(question)
+        if not patient_fhir_id:
             raise ValueError("The direct LLM agent needs the patient FHIR ID in the question context")
         # Rank the packet on the bare question (with the assumed current time as the cutoff)
         # so it matches manifests/starting_packets.jsonl
-        packet = get_starting_packet(question_match.group(1) if question_match else question,
-                                     patient_match.group(1), current_time=parse_current_time(question))
+        packet = get_starting_packet(bare_question, patient_fhir_id, current_time=current_time)
         retrieved = {}
         for rtype, ids in packet["resource_ids"].items():
             retrieved[rtype] = [{"id": i} for i in ids]

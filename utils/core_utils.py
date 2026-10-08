@@ -224,7 +224,7 @@ def process_trace(trace, max_items=10):
 
 # Columns run_agent.py saves per question (see agent/output_schema.py for the contract)
 RESULT_COLUMNS = ["agent_answer", "evidence", "limitation", "tokens", "tool_calls", "latency",
-                  "agent_fhir_resources", "trace", "error", "usage"]
+                  "agent_fhir_resources", "trace", "error", "usage", "revision"]
 
 
 def parse_outputs(agent_output, max_items=10):
@@ -250,6 +250,7 @@ def parse_outputs(agent_output, max_items=10):
         "agent_fhir_resources": fhir_resources,
         "trace": trace,
         "error": agent_output["error"],
+        "revision": agent_output.get("revision"),
         # Legacy name and keys, kept for existing evaluation scripts
         "usage": {"prompt_tokens": tokens["prompt"], "completion_tokens": tokens["completion"],
                   "total_tokens": tokens["total"], "cost": tokens["cost"], "llm_calls": tokens["llm_calls"]},
@@ -279,6 +280,25 @@ def curate_input_dataset(df, add_patient_fhir_id):
     return df.apply(_create_input_str, axis=1, add_patient_fhir_id=add_patient_fhir_id).to_list()
 
 
+QUESTION_RE = re.compile(r"^Question:\s*(.*?)\s*\nContext:", re.S)
+PATIENT_FHIR_ID_RE = re.compile(r"Patient FHIR ID is ([0-9a-fA-F-]+)\.")
+CURRENT_TIME_RE = re.compile(r"current time is (\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?)")
+
+
+def parse_question_context(input_str):
+    """Inverse of curate_input_dataset: (bare question, patient FHIR id, assumed current time).
+    The id and time are None when the context does not state them."""
+    question = QUESTION_RE.search(input_str)
+    patient = PATIENT_FHIR_ID_RE.search(input_str)
+    current = CURRENT_TIME_RE.search(input_str)
+    current_time = current.group(1) if current else None
+    if current_time and len(current_time) == 16:
+        current_time += ":00"
+    return (question.group(1) if question else input_str,
+            patient.group(1) if patient else None,
+            current_time)
+
+
 # =============================================================================
 # Agent Management
 # =============================================================================
@@ -292,7 +312,8 @@ def create_agent(agent_strategy, model, verbose=False, base_url=None):
         "multi_turn_resource": ("agent.multi_turn_resource_agent", "MultiTurnResourceAgent"),
         "multi_turn_code_resource": ("agent.multi_turn_code_resource_agent", "MultiTurnCodeResourceAgent"),
         "multi_turn_code_resource_v2": ("agent.multi_turn_code_resource_v2_agent", "MultiTurnCodeResourceV2Agent"),
-        "direct_llm": ("agent.direct_llm_agent", "DirectLLMAgent")
+        "direct_llm": ("agent.direct_llm_agent", "DirectLLMAgent"),
+        "single_agent": ("agent.single_agent", "SingleAgent")
     }
     
     if agent_strategy not in agents:

@@ -20,6 +20,7 @@ from .core_utils import (
     read_input_data,
     read_intermediate_results,
     curate_input_dataset,
+    parse_question_context,
     
     # Agent management
     create_agent,
@@ -69,6 +70,7 @@ __all__ = [
     'read_input_data',
     'read_intermediate_results',
     'curate_input_dataset',
+    'parse_question_context',
     
     # Agent management
     'create_agent',
