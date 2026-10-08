@@ -267,7 +267,14 @@ Run the following command to normalize, evaluate answers, and visualize performa
 
 ```bash
 python evaluation_metrics.py --input <agent_output_json_file_path>
+python evaluation_metrics.py --input <agent_output_json_file_path> --skip_llm_judge   # typed scorer only, no API calls
 ```
+
+Answer correctness has two metrics:
+- **Typed scorer (primary)**, `utils/answer_scorer.py`: deterministic. The reference answer fixes the type: numbers (counts exact, other values within 1%; stated units are converted, incompatible units are wrong), timestamps (at the precision the question asks for), yes/no, categories, and sets. Abstaining is wrong whenever the reference is non-empty; for an empty or null reference only "none"/abstention (or 0 for numeric questions) is correct. Results are in `typed_correct`, `answer_type`, and `typed_reason`.
+- **LLM judge (secondary)**: the original `answer_correctness`, reported as `accuracy` in `output_eval/performance_summary.csv` next to `typed_accuracy`.
+
+If the agent output has an `evidence` field, each citation `{"resource_id": "Observation/<id>", "field_path": "valueQuantity.value", "value": 98.7}` is resolved against the FHIR store (`utils/evidence_scorer.py`). A citation is valid when the resource exists, the path resolves, and the value matches. The evaluation reports the valid-evidence fraction, the reasons citations were invalid (`malformed`, `missing_resource`, `bad_path`, `value_mismatch`), and the precision/recall of the cited resource ids against `true_fhir_ids`. Use `--evidence_source ndjson` to resolve against the local NDJSON files instead of the store.
 
 
 ## Authorship
