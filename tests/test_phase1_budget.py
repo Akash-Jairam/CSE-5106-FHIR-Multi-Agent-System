@@ -122,6 +122,25 @@ class BudgetTests(unittest.TestCase):
         self.agent._run = fail
         self.assertEqual(self.agent.run("new patient")["trace"], [])
 
+    def test_runtime_rejects_malformed_answer_and_evidence(self):
+        for result in ({"answer": {"value": 7}}, {"answer": 7, "evidence": 42}):
+            with self.subTest(result=result):
+                self.agent._run = lambda _: result
+                output = self.agent.run("q")
+                self.assertIsNone(output["answer"])
+                self.assertEqual(output["evidence"], [])
+                self.assertIn("Invalid output", output["error"])
+
+    def test_non_object_agent_result_keeps_usage(self):
+        def invalid(_):
+            self.agent._update_usage({"total_tokens": 13})
+            return ["invalid"]
+        self.agent._run = invalid
+        output = self.agent.run("q")
+        self.assertIsNone(output["answer"])
+        self.assertEqual(output["tokens"]["total"], 13)
+        self.assertIn("must be an object", output["error"])
+
     def test_unknown_cost_remains_unknown(self):
         self.agent._update_usage({"cost": None})
         self.agent._update_usage({"cost": 0.25})

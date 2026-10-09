@@ -35,7 +35,7 @@ class Tokens(TypedDict):
     prompt: int
     completion: int
     total: int
-    cost: float
+    cost: Optional[float]
     llm_calls: int
     cached_prompt: int     # prompt tokens the provider served from its prompt cache
     repeated_prompt: int   # prompt tokens re-sent from earlier turns (estimated)

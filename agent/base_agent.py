@@ -8,7 +8,7 @@ import litellm
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from utils import setup_api_keys, validate_model_api_key, get_model_provider, safe_llm_call
 from utils.core_utils import count_tokens_in_messages
-from .output_schema import AgentOutput, extract_tool_calls, parse_final_message, to_tokens
+from .output_schema import AgentOutput, extract_tool_calls, parse_final_message, to_tokens, validate_output
 
 BUDGET_EXCEEDED = "Budget exceeded"
 
@@ -144,6 +144,8 @@ class BaseAgent:
         start = time.perf_counter()
         try:
             result = self._run(question)
+            if not isinstance(result, dict):
+                raise ValueError("Agent result must be an object")
         except Exception as e:
             result = {"answer": None, "error": str(e), "trace": self.messages}
         latency = time.perf_counter() - start
@@ -167,7 +169,7 @@ class BaseAgent:
         elif error:
             answer, evidence = None, []
         trace = result.get("trace", self.messages)
-        return {
+        output = {
             "answer": answer,
             "evidence": evidence,
             "limitation": limitation,
@@ -185,6 +187,15 @@ class BaseAgent:
                 "stopped": self.budget_stop,
             },
         }
+        problems = validate_output(output)
+        if problems:
+            output["answer"], output["evidence"] = None, []
+            output["limitation"] = "The agent returned an invalid output contract"
+            output["error"] = "Invalid output: " + "; ".join(problems)
+            output["invalid_output"] = problems
+            if not isinstance(output["tool_calls"], list):
+                output["tool_calls"] = []
+        return output
 
     def _run(self, question: str) -> dict:
         raise NotImplementedError
