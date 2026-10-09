@@ -10,8 +10,10 @@ temporal. Rules are checked in order and the first match wins:
   temporal_selection     pick an event by time order or report a time:
                          [time_filter_exact*] (first/last/Nth), [sort],
                          "When was ...", "... have passed since ..."
-  lookup_counting        everything else: existence checks, counts, and
+  lookup_counting        existence checks, counts, and
                          attribute lookups (gender, marital status, ...)
+  out_of_scope           paired differences/comparisons and durations; these
+                         are not one of the proposal's three operations
 
 All rows are kept, including questions whose true answer is empty ("[]") or
 null ("[[None]]"); `answer_kind` records which
@@ -36,9 +38,21 @@ FAMILY_RULES = [
     ("temporal_selection", re.compile(r"\[time_filter_exact\d\]|\[sort\]|^When was|passed since")),
 ]
 DEFAULT_FAMILY = "lookup_counting"
+IN_SCOPE_FAMILIES = ("lookup_counting", "numerical_aggregation", "temporal_selection")
+EXCLUDED_RULES = [
+    ("paired_difference", re.compile(r"\bchange in\b|\bdifference\b", re.I)),
+    ("paired_comparison", re.compile(r"^Is the .*\[time_filter_exact2\]", re.I)),
+    ("duration", re.compile(r"\bpassed since\b|\blength of (?:ICU|hospital) stay\b", re.I)),
+]
+
+
+def excluded_reason(template):
+    return next((reason for reason, pattern in EXCLUDED_RULES if pattern.search(template)), "")
 
 
 def classify_template(template):
+    if excluded_reason(template):
+        return "out_of_scope"
     for family, pattern in FAMILY_RULES:
         if pattern.search(template):
             return family
@@ -61,6 +75,7 @@ def build_manifest(df):
         "question_id": df["question_id"],
         "split": df["split"],
         "family": df["template"].map(classify_template),
+        "excluded_reason": df["template"].map(excluded_reason),
         "template_id": df["template"].map(template_ids),
         "template": df["template"],
         "main_table_name": df["main_table_name"],

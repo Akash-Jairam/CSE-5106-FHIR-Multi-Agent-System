@@ -3,12 +3,13 @@
 Each patient belongs to exactly one split, so no patient's record is seen
 during both tuning and evaluation:
 
-  dev       the reserved patients (DEV_PATIENTS); ~50 questions for tuning
+  dev       proposal examples plus documented prior exposures; ~50 questions
   pilot     at least PILOT_MIN_PATIENTS randomly drawn patients; 20 questions
             for quick sanity runs
   held_out  every remaining patient; 300 questions for final evaluation
 
-Questions are sampled from each split's patient pool stratified by question
+Only the proposal's three in-scope operations are sampled. Questions are
+sampled from each split's patient pool stratified by question
 family (manifests/question_families.csv, see build_question_families.py), so
 each split keeps the dataset's family mix. Questions in a pool that are not
 sampled are left unused; do not tune on held-out patients' questions.
@@ -20,6 +21,8 @@ Usage:
     python scripts/build_split.py [--seed 5106]
 """
 import argparse
+import ast
+import hashlib
 import json
 import os
 import sys
@@ -31,6 +34,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_INPUT = os.path.join(ROOT, "final_dataset", "questions_answers_sql_fhir.csv")
 DEFAULT_FAMILIES = os.path.join(ROOT, "manifests", "question_families.csv")
 DEFAULT_OUTPUT = os.path.join(ROOT, "manifests", "split.json")
+DEFAULT_EXPOSURES = os.path.join(ROOT, "manifests", "development_exposure.json")
 
 DEFAULT_SEED = 5106
 SPLIT_SIZES = {"pilot": 20, "dev": 50, "held_out": 300}
@@ -71,15 +75,21 @@ def choose_pilot_patients(df, candidates, quotas, rng):
     sys.exit("Could not build a pilot pool that covers every family")
 
 
-def build_split(df, seed):
+def build_split(df, seed, exposed_subjects=()):
+    # Preserve every manifest row, but evaluate only the proposed operations.
+    df = df[df["family"].isin(("lookup_counting", "numerical_aggregation", "temporal_selection"))].copy()
+    if df.empty:
+        raise ValueError("No in-scope questions are available")
+    df = df.sort_values("question_id").reset_index(drop=True)
     rng = np.random.RandomState(seed)
     family_mix = df["family"].value_counts().sort_index()
     subject_to_fhir = df.drop_duplicates("subject_id").set_index("subject_id")["patient_fhir_id"]
 
-    missing = [p for p in DEV_PATIENTS if p not in subject_to_fhir.index]
+    reserved = sorted(set(DEV_PATIENTS) | set(exposed_subjects))
+    missing = [p for p in reserved if p not in subject_to_fhir.index]
     if missing:
         sys.exit(f"Reserved dev patients not in dataset: {missing}")
-    dev_patients = [subject_to_fhir[p] for p in DEV_PATIENTS]
+    dev_patients = [subject_to_fhir[p] for p in reserved]
 
     others = sorted(set(df["patient_fhir_id"]) - set(dev_patients))
     pilot_quotas = allocate(family_mix, SPLIT_SIZES["pilot"])
@@ -104,6 +114,16 @@ def build_split(df, seed):
     return splits
 
 
+def subject_id(value):
+    """Read the released structured template values without formatting assumptions."""
+    return int(ast.literal_eval(value)["val_placeholder"]["patient_id"])
+
+
+def file_sha256(path):
+    with open(path, "rb") as handle:
+        return hashlib.file_digest(handle, "sha256").hexdigest()
+
+
 def check_disjoint(splits):
     names = list(splits)
     for i, a in enumerate(names):
@@ -120,22 +140,31 @@ def main():
     parser.add_argument("--families", default=DEFAULT_FAMILIES)
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    parser.add_argument("--exposures", default=DEFAULT_EXPOSURES)
     args = parser.parse_args()
 
     df = pd.read_csv(args.input, usecols=["question_id", "patient_fhir_id", "val_dict"])
-    df["subject_id"] = df["val_dict"].str.extract(r"'patient_id': (\d+)")[0].astype(int)
+    df["subject_id"] = df["val_dict"].map(subject_id)
     families = pd.read_csv(args.families, usecols=["question_id", "family", "answer_kind"])
     df = df.merge(families, on="question_id", how="left", validate="one_to_one")
     if df["family"].isna().any():
         sys.exit("Some questions are missing from the family manifest; rerun build_question_families.py")
 
-    splits = build_split(df, args.seed)
+    with open(args.exposures) as handle:
+        exposures = json.load(handle)
+    exposed_subjects = {int(p) for item in exposures["exposures"] for p in item["subject_ids"]}
+    splits = build_split(df, args.seed, exposed_subjects)
     check_disjoint(splits)
 
     manifest = {
         "seed": args.seed,
         "source": os.path.relpath(args.input, ROOT),
         "family_manifest": os.path.relpath(args.families, ROOT),
+        "source_sha256": file_sha256(args.input),
+        "family_manifest_sha256": file_sha256(args.families),
+        "development_exposure": os.path.relpath(args.exposures, ROOT),
+        "development_exposure_sha256": file_sha256(args.exposures),
+        "in_scope_families": ["lookup_counting", "numerical_aggregation", "temporal_selection"],
         "splits": splits,
     }
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
