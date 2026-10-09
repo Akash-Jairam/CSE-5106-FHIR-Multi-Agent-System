@@ -64,7 +64,7 @@ class AgentOutput(TypedDict):
     retrieved_fhir_resources: dict
     error: Optional[str]
     budget: Budget
-    revision: Optional[dict]   # agents with a revision step: draft answer, check issues, whether it changed
+    revision: Optional[dict]   # draft/final candidates, both checks, whether revised, and any revision failure
 
 
 ANSWER_FORMAT_INSTRUCTIONS = """When you have the final answer, reply with only a JSON object:
@@ -77,9 +77,12 @@ def _json_objects(text):
     """JSON objects embedded in `text` (bare or in ``` fences), last one first."""
     decoder = json.JSONDecoder()
     objects = []
+    end = 0
     for match in re.finditer(r"\{", text):
+        if match.start() < end:
+            continue
         try:
-            obj, _ = decoder.raw_decode(text, match.start())
+            obj, end = decoder.raw_decode(text, match.start())
         except json.JSONDecodeError:
             continue
         if isinstance(obj, dict):

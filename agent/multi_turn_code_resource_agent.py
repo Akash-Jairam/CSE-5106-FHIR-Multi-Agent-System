@@ -176,7 +176,12 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
     def _handle_tool_call(self, tool_call, retrieved_resources):
         """Run one tool call and return the tool message, or None if the tool is not supported."""
         tool_name = tool_call.function.name
-        tool_args = json.loads(tool_call.function.arguments)
+        try:
+            tool_args = json.loads(tool_call.function.arguments)
+            if not isinstance(tool_args, dict):
+                raise ValueError("Arguments must be a JSON object")
+        except (ValueError, TypeError) as exc:
+            return self._tool_error(tool_call, str(exc))
 
         if tool_name == "get_resources_by_patient_fhir_id" or tool_name == "get_resources_by_resource_id":
 
@@ -184,14 +189,27 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
                 print(f"Agent detected tool call: '{tool_name}' with arguments: {tool_args}")
 
             tool_function = get_tool(tool_name)
-            tool_output = tool_function(**tool_args)
-            retrieved_resources.update(tool_output)
+            try:
+                tool_output = tool_function(**tool_args)
+            except Exception as exc:
+                return self._tool_error(tool_call, str(exc))
+            if not isinstance(tool_output, dict) or "error" in tool_output:
+                return self._tool_error(tool_call, tool_output.get("error") if isinstance(tool_output, dict)
+                                        else "The retrieval tool returned an invalid result")
             resource_type = tool_args["resource_type"]
-            if len(tool_output) == 0:
-                resource_len = 0
+            resources = tool_output.get(resource_type, [])
+            if not isinstance(resources, list):
+                return self._tool_error(tool_call, "The retrieval tool returned an invalid resource list")
+            if tool_name == "get_resources_by_resource_id":
+                # A point fetch adds evidence; a patient-wide fetch replaces a partial packet.
+                merged = {r["id"]: r for r in retrieved_resources.get(resource_type, [])}
+                merged.update({r["id"]: r for r in resources})
+                retrieved_resources[resource_type] = list(merged.values())
             else:
-                resource_len = len(tool_output[resource_type])
-            saved_as_variable = f"""retrieved_fhir_resources['{resource_type}'] ({resource_len} items)"""
+                retrieved_resources[resource_type] = resources
+            resource_len = len(resources)
+            saved_as_variable = (f"retrieved_resources['{resource_type}'] "
+                                 f"({len(retrieved_resources[resource_type])} items; {resource_len} fetched)")
 
             if self.verbose:
                 print(f"Tool execution successful. Output snippet: {str(tool_output)[:500]}...")
@@ -210,7 +228,10 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
 
             tool_function = get_tool(tool_name)
             tool_args['global_vars'] = {'retrieved_resources': retrieved_resources}
-            tool_output = tool_function(**tool_args)
+            try:
+                tool_output = tool_function(**tool_args)
+            except Exception as exc:
+                return self._tool_error(tool_call, str(exc))
 
             if self.verbose:
                 print(f"Tool execution successful. Output snippet: {str(tool_output)[:500]}...")
@@ -223,6 +244,11 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
             }
 
         return None
+
+    @staticmethod
+    def _tool_error(tool_call, message):
+        return {"tool_call_id": tool_call.id, "role": "tool", "name": tool_call.function.name,
+                "content": json.dumps({"error": message}, default=str)}
 
     def _run(self, question: str) -> dict:
 

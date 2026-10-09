@@ -129,14 +129,16 @@ def cached_tool(func=None, *, version=None):
         
         # 1. Try to find result in cache
         cached_result = load_from_cache(tool_name, args, kwargs)
-        if cached_result is not None:
+        if cached_result is not None and not (isinstance(cached_result, dict) and "error" in cached_result):
             return cached_result
         
         # 2. Execute actual function if not in cache
         result = func(*args, **kwargs)
         
         # 3. Save result to cache
-        save_to_cache(tool_name, args, kwargs, result)
+        # Transient retrieval failures must not become permanent patient records.
+        if not (isinstance(result, dict) and "error" in result):
+            save_to_cache(tool_name, args, kwargs, result)
         
         return result
     
