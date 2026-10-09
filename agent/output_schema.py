@@ -20,6 +20,7 @@ end with a JSON object as described in ANSWER_FORMAT_INSTRUCTIONS; older
 agents that answer in free text are wrapped with the text as `answer`.
 """
 import json
+import math
 import re
 from typing import Any, Optional, TypedDict
 
@@ -157,21 +158,38 @@ def to_tokens(usage, per_call=()):
 
 def validate_output(output):
     """Problems with an AgentOutput (empty list if it follows the contract)."""
+    if not isinstance(output, dict):
+        return ["output must be an object"]
     problems = []
     for key in AgentOutput.__annotations__:
         if key not in output:
             problems.append(f"missing key: {key}")
-    if not isinstance(output.get("evidence", []), list):
+    def valid_answer(value):
+        if value is None or isinstance(value, (str, bool)):
+            return True
+        if isinstance(value, (int, float)):
+            return not isinstance(value, float) or math.isfinite(value)
+        return isinstance(value, list) and all(valid_answer(item) for item in value)
+
+    if not valid_answer(output.get("answer")):
+        problems.append("answer must be a scalar, a list of answer values, or null; numbers must be finite")
+    evidence = output.get("evidence", [])
+    if not isinstance(evidence, list):
         problems.append("evidence must be a list")
-    for i, citation in enumerate(output.get("evidence") or []):
+        evidence = []
+    for i, citation in enumerate(evidence):
         if not isinstance(citation, dict) or not {"resource_id", "field_path", "value"} <= set(citation):
             problems.append(f"evidence[{i}] must have resource_id, field_path, and value")
+        elif any(not isinstance(citation[key], str) or not citation[key].strip()
+                 for key in ("resource_id", "field_path")):
+            problems.append(f"evidence[{i}] resource_id and field_path must be non-empty strings")
     if output.get("limitation") is not None and not isinstance(output["limitation"], str):
         problems.append("limitation must be a string or null")
     if not isinstance(output.get("tool_calls", []), list):
         problems.append("tool_calls must be a list")
     if not isinstance(output.get("latency", 0), (int, float)):
         problems.append("latency must be a number of seconds")
-    if set(output.get("tokens") or {}) != set(Tokens.__annotations__):
+    tokens = output.get("tokens")
+    if not isinstance(tokens, dict) or set(tokens) != set(Tokens.__annotations__):
         problems.append(f"tokens must have keys {sorted(Tokens.__annotations__)}")
     return problems

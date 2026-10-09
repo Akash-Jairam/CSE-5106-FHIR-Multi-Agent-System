@@ -48,11 +48,11 @@ def main():
     except Exception as e:
         print(f"❌ Could not query {client.fhir_store_url}: {e}")
         sys.exit(1)
-    if n_patients == 0:
-        print("❌ FHIR store has no Patient resources. Did the import finish?")
+    if n_patients != EXPECTED_PATIENT_COUNT:
+        print(f"FHIR store has {n_patients} Patient resources; expected {EXPECTED_PATIENT_COUNT}. "
+              "Check that the demo import completed into the intended store.")
         sys.exit(1)
-    status = "✅" if n_patients == EXPECTED_PATIENT_COUNT else "⚠️ "
-    print(f"{status} {n_patients} Patient resources (expected {EXPECTED_PATIENT_COUNT})")
+    print(f"✅ {n_patients} Patient resources (expected {EXPECTED_PATIENT_COUNT})")
 
     print("4. Smoke patient")
     try:
