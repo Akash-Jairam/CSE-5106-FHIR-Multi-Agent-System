@@ -11,7 +11,8 @@ An agent's `evidence` is a list of citations:
 A citation is valid when the resource exists, the path resolves, and the
 cited value matches the resource's value: numbers numerically, timestamps by
 wall-clock time (an omitted UTC offset is fine), strings case-insensitively,
-and objects when every cited key matches.
+and objects when every cited key matches. Resource identities include the
+resource type: Encounter/1 and Observation/1 are different resources.
 
 Per answer this reports the valid-evidence fraction and the precision/recall
 of the cited resource ids against the gold `true_fhir_ids`.
@@ -29,7 +30,7 @@ from .metrics_utils import retrieval_precision, retrieval_recall
 SUPPORTED_TYPES = ["Patient", "Encounter", "Condition", "MedicationRequest", "Procedure", "Observation",
                    "MedicationAdministration", "Location", "Specimen", "Medication"]
 PATH_SEGMENT_RE = re.compile(r"^([A-Za-z_][\w-]*)((?:\[\d+\])*)$")
-ID_RE = re.compile(rb'"id": ?"([^"]+)"')
+ID_RE = re.compile(rb'"id"\s*:\s*"([^"]+)"')
 
 
 # ---------------------------------------------------------------------------
@@ -56,11 +57,21 @@ def parse_citation(citation):
     if not isinstance(citation, dict):
         return None
     ref, path = citation.get("resource_id"), citation.get("field_path")
-    if not isinstance(ref, str) or not ref.strip() or not isinstance(path, str) or "value" not in citation:
+    if (not isinstance(ref, str) or not ref.strip() or not isinstance(path, str) or
+            not path.strip() or "value" not in citation):
         return None
     rtype = citation.get("resource_type")
+    if rtype is not None and not isinstance(rtype, str):
+        return None
+    rtype = rtype.strip() if rtype else None
+    ref = ref.strip()
     if "/" in ref:
-        rtype, ref = ref.rsplit("/", 1)
+        prefix, ref = ref.rsplit("/", 1)
+        if rtype and rtype != prefix:
+            return None
+        rtype = prefix
+    if not re.fullmatch(r"[A-Za-z0-9.-]{1,64}", ref) or (rtype and rtype not in SUPPORTED_TYPES):
+        return None
     return rtype or None, ref.strip(), path.strip(), citation["value"]
 
 
@@ -83,8 +94,10 @@ def resolve_path(resource, path):
                 if isinstance(item, dict) and key in item:
                     value = item[key]
                     for index in indices:
-                        value = value[index] if isinstance(value, list) and index < len(value) else None
-                    if value is not None:
+                        if not isinstance(value, list) or index >= len(value):
+                            break
+                        value = value[index]
+                    else:
                         nxt.append(value)
         if not nxt:
             return None
@@ -107,21 +120,32 @@ def _as_datetime(value):
 def _as_number(value):
     if isinstance(value, bool):
         return None
-    if isinstance(value, (int, float)):
-        return float(value)
     try:
-        return float(str(value).strip())
-    except ValueError:
+        number = float(value) if isinstance(value, (int, float)) else float(str(value).strip())
+        return number if math.isfinite(number) else None
+    except (TypeError, ValueError, OverflowError):
         return None
 
 
 def values_match(cited, actual):
+    if cited is None or actual is None:
+        return cited is actual
     if isinstance(cited, dict):
-        return isinstance(actual, dict) and all(k in actual and values_match(v, actual[k]) for k, v in cited.items())
+        return isinstance(actual, dict) and (bool(cited) or not actual) and all(
+            k in actual and values_match(v, actual[k]) for k, v in cited.items())
+    if isinstance(cited, list) or isinstance(actual, list):
+        return isinstance(cited, list) and isinstance(actual, list) and len(cited) == len(actual) and all(
+            values_match(c, a) for c, a in zip(cited, actual))
     if isinstance(cited, bool) or isinstance(actual, bool):
-        return cited == actual or str(cited).strip().lower() == str(actual).strip().lower()
+        if isinstance(cited, bool) and isinstance(actual, bool):
+            return cited == actual
+        other = actual if isinstance(cited, bool) else cited
+        boolean = cited if isinstance(cited, bool) else actual
+        return isinstance(other, str) and other.strip().lower() == str(boolean).lower()
     cited_dt, actual_dt = _as_datetime(cited), _as_datetime(actual)
     if cited_dt and actual_dt:
+        if ("T" in cited or " " in cited.strip()) != ("T" in actual or " " in actual.strip()):
+            return False
         if (cited_dt.tzinfo is None) != (actual_dt.tzinfo is None):
             cited_dt, actual_dt = cited_dt.replace(tzinfo=None), actual_dt.replace(tzinfo=None)
         return cited_dt == actual_dt
@@ -131,14 +155,42 @@ def values_match(cited, actual):
     return str(cited).strip().casefold() == str(actual).strip().casefold()
 
 
+def get_cited_resource(resources, resource_type, resource_id):
+    """Resolve a type-qualified identity, or an unambiguous legacy bare id."""
+    if resource_type:
+        resource = resources.get(f"{resource_type}/{resource_id}") or resources.get((resource_type, resource_id))
+        if resource is None:
+            resource = resources.get(resource_id)
+        if resource is not None and resource.get("resourceType") == resource_type:
+            return resource
+        return None
+    resource = resources.get(resource_id)
+    if resource is not None:
+        return resource
+    candidates = {r.get("resourceType"): r for r in resources.values()
+                  if isinstance(r, dict) and r.get("id") == resource_id}
+    return next(iter(candidates.values())) if len(candidates) == 1 else None
+
+
+def _index_resource(resources, resource):
+    rid, rtype = resource["id"], resource["resourceType"]
+    resources[f"{rtype}/{rid}"] = resource
+    types = {r.get("resourceType") for r in resources.values()
+             if isinstance(r, dict) and r.get("id") == rid}
+    if len(types) == 1:
+        resources[rid] = resource
+    else:
+        resources.pop(rid, None)
+
+
 def check_citation(citation, resources):
     """'valid' or the reason the citation is invalid."""
     parsed = parse_citation(citation)
     if parsed is None:
         return "malformed"
     rtype, rid, path, value = parsed
-    resource = resources.get(rid)
-    if resource is None or (rtype and resource.get("resourceType") != rtype):
+    resource = get_cited_resource(resources, rtype, rid)
+    if resource is None:
         return "missing_resource"
     actual = resolve_path(resource, path)
     if actual is None:
@@ -166,7 +218,9 @@ def cited_refs(evidence_lists):
 
 
 def fetch_from_store(refs, batch_size=100):
-    """{id: resource} from the FHIR store; ids without a type are looked up in every supported type."""
+    """Type-qualified resources from the store, with unambiguous bare-id aliases."""
+    if not refs:
+        return {}
     from fhir_client import get_fhir_client
     client = get_fhir_client()
     by_type = defaultdict(set)
@@ -178,12 +232,14 @@ def fetch_from_store(refs, batch_size=100):
         ids = sorted(ids)
         for start in range(0, len(ids), batch_size):
             for resource in client.get_resources_by_resource_ids(rtype, ids[start:start + batch_size]):
-                resources[resource["id"]] = resource
+                _index_resource(resources, resource)
     return resources
 
 
 def fetch_from_ndjson(refs, fhir_dir):
-    """{id: resource} from the MIMIC-IV FHIR NDJSON files (same data as the store)."""
+    """Type-qualified resources from local NDJSON, with unambiguous bare-id aliases."""
+    if not refs:
+        return {}
     wanted = {rid.encode() for _, rid in refs}
     resources = {}
     for path in sorted(glob.glob(os.path.join(fhir_dir, "*.ndjson"))):
@@ -192,7 +248,8 @@ def fetch_from_ndjson(refs, fhir_dir):
                 match = ID_RE.search(line)
                 if match and match.group(1) in wanted:
                     resource = json.loads(line)
-                    resources[resource["id"]] = resource
+                    if (resource.get("resourceType"), resource.get("id")) in refs or (None, resource.get("id")) in refs:
+                        _index_resource(resources, resource)
     return resources
 
 
@@ -201,10 +258,19 @@ def fetch_from_ndjson(refs, fhir_dir):
 # ---------------------------------------------------------------------------
 
 def score_evidence(evidence, resources, gold_ids):
-    """Evidence metrics for one answer. `gold_ids` is the flat list of gold resource ids."""
+    """Evidence metrics; gold ids may be a type -> ids mapping or a legacy flat list."""
     statuses = Counter(check_citation(c, resources) for c in evidence)
     n_cited = len(evidence)
-    cited_ids = sorted({p[1] for p in map(parse_citation, evidence) if p})
+    typed_gold = isinstance(gold_ids, dict) or any("/" in rid for rid in gold_ids)
+    if isinstance(gold_ids, dict):
+        gold_ids = [f"{rtype}/{rid}" if "/" not in rid else rid for rtype, ids in gold_ids.items() for rid in ids]
+    cited_ids = set()
+    for parsed in map(parse_citation, evidence):
+        if parsed:
+            rtype, rid, _, _ = parsed
+            resource = get_cited_resource(resources, rtype, rid)
+            rtype = rtype or (resource or {}).get("resourceType")
+            cited_ids.add(f"{rtype}/{rid}" if typed_gold and rtype else rid)
     return {
         "evidence_cited": n_cited,
         "evidence_valid": statuses["valid"],
