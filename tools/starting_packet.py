@@ -25,8 +25,9 @@ would otherwise keep future ones.
    `max_tokens`, and what was taken is shown in time order.
 
 Resources are rendered as pruned JSON: keys that carry no answer (meta,
-subject, code-system URLs, ...) and keys repeated in the group header (code,
-category, ...) are dropped, but list items never are, so a field path in the
+subject, code-system URLs, ...) and repeated group metadata (category,
+status, ...) are dropped. Codes remain because organism names can be answer
+fields. List items never are dropped, so a field path in the
 packet (e.g. "valueQuantity.value") is valid on the full resource in the store.
 """
 import json
@@ -36,10 +37,9 @@ from collections import defaultdict
 
 import tiktoken
 
-from .resource_tools import get_all_resources_by_patient_fhir_id
-
-# Chosen on the dev split: mean gold recall 74% at 4k, 90% at 8k, 97% at 16k
+# Fixed input cap for the reviewed protocol; do not optimize it using gold IDs.
 PACKET_MAX_TOKENS = 8000
+PACKET_VERSION = 2
 CONTEXT_SHARE = 0.5
 KIND_BONUS = 1.0
 
@@ -73,10 +73,10 @@ length out take go went done observed found name type received receive
 DROP_KEYS = {"meta", "text", "subject", "managingOrganization", "assigner",
              "referenceRange", "extension", "communication"}
 # Already stated by the group header, so dropped from each grouped resource
-GROUPED_DROP_KEYS = ("resourceType", "code", "category", "status", "intent")
+GROUPED_DROP_KEYS = ("resourceType", "category", "status", "intent")
 # Encounters are always in the packet, so keep only the fields questions use
 ENCOUNTER_KEYS = ("resourceType", "id", "identifier", "class", "period", "partOf",
-                  "hospitalization", "location")
+                  "priority", "hospitalization", "location")
 
 
 def _is_hint(word):
@@ -105,6 +105,16 @@ def _code_system(resource):
 
 def _ref_id(reference):
     return (reference or {}).get("reference", "").split("/")[-1]
+
+
+def _reference_key(resource):
+    return f"{resource['resourceType']}/{resource['id']}"
+
+
+def _resolve(reference, by_id):
+    # IDs are unique within a FHIR type, not across the entire store.
+    reference = (reference or {}).get("reference", "")
+    return by_id.get("/".join(reference.split("/")[-2:]), {})
 
 
 def _resource_kind(resource):
@@ -155,7 +165,7 @@ def _label(resource, by_id):
     """Human-readable label used for keyword matching and grouping."""
     rtype = resource["resourceType"]
     if rtype == "MedicationRequest":
-        medication = by_id.get(_ref_id(resource.get("medicationReference")), {})
+        medication = _resolve(resource.get("medicationReference"), by_id)
         name = _medication_name(medication) or _display(resource.get("medicationCodeableConcept"))
         routes = {_display(d.get("route")) for d in resource.get("dosageInstruction", [])} - {""}
         return " / ".join([name] + sorted(routes))
@@ -165,8 +175,8 @@ def _label(resource, by_id):
         # reach their specimen through the test they were derived from
         source = resource
         if "specimen" not in source and source.get("derivedFrom"):
-            source = by_id.get(_ref_id(source["derivedFrom"][0]), {})
-        specimen = by_id.get(_ref_id(source.get("specimen")), {})
+            source = _resolve(source["derivedFrom"][0], by_id)
+        specimen = _resolve(source.get("specimen"), by_id)
         label = f"{label} / {_display(specimen.get('type'))}".rstrip(" /")
     return label
 
@@ -214,7 +224,7 @@ def _wall_clock(resource, by_id):
     """Local wall-clock time of a resource ("YYYY-MM-DD HH:MM:SS"); Conditions use their encounter's start."""
     time = _resource_time(resource)
     if not time and resource.get("encounter"):
-        time = _resource_time(by_id.get(_ref_id(resource["encounter"]), {}))
+        time = _resource_time(_resolve(resource["encounter"], by_id))
     return time[:19].replace("T", " ")
 
 
@@ -231,7 +241,7 @@ def _patient_resources(record, patient_fhir_id):
     and Location resources (those types have no `patient` search parameter).
     """
     resources = [r for rtype, items in record.items() if isinstance(items, list) for r in items]
-    by_id = {r["id"]: r for r in resources}
+    by_id = {_reference_key(r): r for r in resources}
     own = [r for r in resources
            if r["resourceType"] not in ("Patient", "Medication", "Location")
            and _ref_id(r.get("subject")) == patient_fhir_id]
@@ -254,7 +264,7 @@ def score_labels(question, labels):
     n = len(labels)
     scores = {}
     for key, terms in label_terms.items():
-        score = sum(math.log(1 + n / df[t]) for t in q_terms & terms)
+        score = sum(math.log(1 + n / df[t]) for t in sorted(q_terms & terms))
         if key[0] in hinted:
             score += KIND_BONUS
         scores[key] = score
@@ -277,17 +287,33 @@ def _ends_first(items):
 
 
 def _linked(resource, by_id):
-    """Resources needed to read `resource`: an Encounter's Locations, or a
-    MedicationRequest's Medication (plus its ingredients if it is a mix)."""
-    if resource["resourceType"] == "Encounter":
-        refs = [loc.get("location") for loc in resource.get("location", [])]
-    else:
-        medication = by_id.get(_ref_id(resource.get("medicationReference")))
-        if not medication:
-            return []
-        refs = [resource["medicationReference"]] + [i.get("itemReference") for i in medication.get("ingredient", [])]
-    ids = dict.fromkeys(_ref_id(r) for r in refs)
-    return [by_id[i] for i in ids if i in by_id]
+    """Encounter/location, specimen, and medication dependencies of evidence."""
+    # Retain parent visits and microbiology tests/specimens even when their
+    # up-front context was truncated. Guard against cyclic record references.
+    linked, pending = {}, [resource]
+    visited = {_reference_key(resource)}
+    patient_id = _ref_id(resource.get("subject"))
+    while pending:
+        source = pending.pop()
+        refs = [source.get("encounter"), source.get("specimen"), source.get("partOf"),
+                source.get("medicationReference")]
+        refs.extend(source.get("derivedFrom", []))
+        if source["resourceType"] == "Encounter":
+            refs.extend(loc.get("location") for loc in source.get("location", []))
+        if source["resourceType"] == "Medication":
+            refs.extend(i.get("itemReference") for i in source.get("ingredient", []))
+        for ref in refs:
+            resolved = _resolve(ref, by_id)
+            if not resolved or _reference_key(resolved) in visited:
+                continue
+            subject = _ref_id(resolved.get("subject"))
+            if patient_id and subject and subject != patient_id:
+                continue
+            key = _reference_key(resolved)
+            visited.add(key)
+            linked[key] = resolved
+            pending.append(resolved)
+    return [linked[key] for key in sorted(linked)]
 
 
 def build_starting_packet(question, record, patient_fhir_id, max_tokens=PACKET_MAX_TOKENS, current_time=None):
@@ -295,7 +321,8 @@ def build_starting_packet(question, record, patient_fhir_id, max_tokens=PACKET_M
 
     `record` maps resource type -> list of resources, as returned by
     `get_all_resources_by_patient_fhir_id`. Returns a dict with the packet
-    `text`, the included `resource_ids` (by type, in packet order),
+    `text`, the included `resource_ids` and exactly rendered `resources`
+    (by type, in packet order),
     `n_tokens`, whether any matching resource was `truncated`, the number
     of `omitted_encounters`, and how many resources were `after_current_time`.
     `current_time` ("YYYY-MM-DD HH:MM:SS", see parse_current_time) excludes
@@ -321,38 +348,48 @@ def build_starting_packet(question, record, patient_fhir_id, max_tokens=PACKET_M
              "field paths match the full resources in the FHIR store."
              + (f" Resources dated after the current time ({current_time}) are not included." if current_time else "")]
     resource_ids = defaultdict(list)
+    rendered_resources = defaultdict(list)
     used = count_tokens(lines[0])
+    if max_tokens < used:
+        raise ValueError(f"Packet budget must fit its header ({used} tokens)")
+
+    def render_lines(chosen, linked, header, grouped):
+        return [header(len(chosen))] + [render_resource(r) for r in linked] + [
+            render_resource(r, grouped) for r in sorted(chosen, key=_time_order)]
 
     def add_section(header, candidates, limit, grouped):
         """Take `candidates` in order, with the resources they link to, until the
         next one would push the packet past `limit` tokens; render the taken ones
         in time order. Returns how many candidates were taken."""
         nonlocal used
-        spent = count_tokens(header(len(candidates))) + 1
-        included = {i for ids in resource_ids.values() for i in ids}
-        chosen, linked = [], []
+        included = {f"{rtype}/{i}" for rtype, ids in resource_ids.items() for i in ids}
+        chosen, linked, already_shown = [], [], 0
         for r in candidates:
-            new = [x for x in _linked(r, by_id) if x["id"] not in included]
-            cost = count_tokens(render_resource(r, grouped)) + 1 + sum(count_tokens(render_resource(x)) + 1 for x in new)
-            if used + spent + cost > limit:
+            if _reference_key(r) in included:
+                already_shown += 1
+                continue
+            new = [x for x in _linked(r, by_id) if _reference_key(x) not in included]
+            tentative = render_lines(chosen + [r], linked + new, header, grouped)
+            if count_tokens("\n".join(lines + tentative)) > limit:
                 break
             chosen.append(r)
             linked.extend(new)
-            included.update(x["id"] for x in new)
-            spent += cost
+            included.update(_reference_key(x) for x in [r] + new)
         if chosen:
             lines.append(header(len(chosen)))
             for x in linked:
                 lines.append(render_resource(x))
                 resource_ids[x["resourceType"]].append(x["id"])
+                rendered_resources[x["resourceType"]].append(json.loads(lines[-1]))
             for r in sorted(chosen, key=_time_order):
                 lines.append(render_resource(r, grouped))
                 resource_ids[r["resourceType"]].append(r["id"])
-            used += spent
-        return len(chosen)
+                rendered_resources[r["resourceType"]].append(json.loads(lines[-1]))
+            used = count_tokens("\n".join(lines))
+        return len(chosen) + already_shown
 
     add_section(lambda n: "## Patient", patient, max_tokens, grouped=False)
-    shown_encounters = add_section(
+    add_section(
         lambda n: f"## Hospital and ICU encounters ({n} of {len(encounters)}) and their Locations",
         _ends_first(encounters), min(max_tokens, used + int(max_tokens * CONTEXT_SHARE)), grouped=False)
 
@@ -360,7 +397,7 @@ def build_starting_packet(question, record, patient_fhir_id, max_tokens=PACKET_M
     for kind, label in ranked:
         items = groups[(kind, label)]
         def header(n, items=items, kind=kind, label=label):
-            kept = "" if n == len(items) else "; earliest and latest kept"
+            kept = "" if n == len(items) else "; truncated"
             return f"## {items[0]['resourceType']} [{kind}] {label} ({n} of {len(items)}{kept})"
 
         if add_section(header, _ends_first(items), max_tokens, grouped=True) < len(items):
@@ -369,17 +406,22 @@ def build_starting_packet(question, record, patient_fhir_id, max_tokens=PACKET_M
 
     text = "\n".join(lines)
     return {
+        "packet_version": PACKET_VERSION,
+        "max_tokens": max_tokens,
         "text": text,
         "resource_ids": dict(resource_ids),
+        "resources": dict(rendered_resources),
         "n_tokens": count_tokens(text),
         "truncated": truncated,
-        "omitted_encounters": len(encounters) - shown_encounters,
+        "omitted_encounters": len({r["id"] for r in encounters} - set(resource_ids.get("Encounter", []))),
         "after_current_time": n_own - len(own),
     }
 
 
 def get_starting_packet(question, patient_fhir_id, max_tokens=PACKET_MAX_TOKENS, current_time=None):
     """Fetch the patient's record from the FHIR store and build the starting packet."""
+    from .resource_tools import get_all_resources_by_patient_fhir_id
+
     record = get_all_resources_by_patient_fhir_id(patient_fhir_id=patient_fhir_id)
     if "error" in record:
         raise RuntimeError(f"Could not fetch record for {patient_fhir_id}: {record['error']}")
