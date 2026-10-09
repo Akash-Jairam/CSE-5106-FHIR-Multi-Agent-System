@@ -15,6 +15,7 @@ litellm.drop_params=True
 litellm.suppress_debug_info = True
 from litellm.exceptions import BadRequestError
 import logging
+from copy import deepcopy
 logging.getLogger("LiteLLM").disabled = True
 import tiktoken
 
@@ -83,7 +84,7 @@ def get_model_provider(model: str) -> str:
     model_lower = model.lower()
     
     # OpenAI models (including o1, o4 series, gpt series, etc.)
-    if any(name in model_lower for name in ['gpt-5', 'gpt-4', 'o4']):
+    if re.search(r"(?:^|/)(?:gpt-\d|o\d(?:-|$))", model_lower):
         return 'openai'
     # Gemini models  
     elif any(name in model_lower for name in ['gemini']):
@@ -193,7 +194,7 @@ def return_resource_ids(parsed_resource):
             resource_ids[resource_type] += [res['id'] for res in resources if isinstance(res, dict) and 'id' in res]
         elif isinstance(resources, dict):
             if 'id' in resources:
-                resource_ids[resource_type] += resources['id']
+                resource_ids[resource_type].append(resources['id'])
 
     return resource_ids
 
@@ -204,22 +205,9 @@ def fix_json_quotes(json_str):
 
 
 def process_trace(trace, max_items=10):
-    
-    processed_trace = [l if type(l) == dict else l.to_dict() for l in trace if l is not None]
-
-    for turn in processed_trace:
-        if turn['role'] == 'tool':
-            try:
-                turn['content'] = json.loads(fix_json_quotes(turn['content']))
-                for resource_type, resources in turn['content'].items():
-                    if len(resources) > max_items:
-                        turn['content'][resource_type] = str(resources[:max_items]) + f" ... ({len(resources) - max_items} more items)"
-                    else:
-                        turn['content'][resource_type] = str(resources)
-            except Exception as e:
-                pass
-
-    return processed_trace
+    """Serialize the complete trace without mutating or truncating evidence."""
+    return [deepcopy(l) if isinstance(l, dict) else l.to_dict()
+            for l in trace or [] if l is not None]
 
 
 # Columns run_agent.py saves per question (see agent/output_schema.py for the contract)
@@ -328,18 +316,12 @@ def create_agent(agent_strategy, model, verbose=False, base_url=None):
 
 
 def run_agent_safe(agent, input_data):
-    """Run agent safely with error handling and retries."""
-    max_retries = 3
-    for attempt in range(max_retries):
-        try:
-            outputs = agent.run(input_data)
-        except Exception as e:
-            error_msg = str(e)
-            outputs = {"error": error_msg}
-            continue
-        break
-    parsed_outputs = parse_outputs(outputs)
-    return parsed_outputs
+    """Keep one experimental attempt; retries belong to its budgeted model calls."""
+    try:
+        outputs = agent.run(input_data)
+    except Exception as e:
+        outputs = {"error": str(e)}
+    return parse_outputs(outputs)
 
 
 def check_tool_credentials():
@@ -365,8 +347,8 @@ def run_agent_with_input(args_tuple):
     return run_agent_safe(agent, input_data)
 
 
-def count_tokens_in_messages(messages) -> int:
-    """Estimate the number of tokens in the messages."""
+def count_tokens_in_messages(messages, tools=None) -> int:
+    """Estimate content, tool schemas and tool-call history with framing overhead."""
     tokens = 0
     for msg in messages:
         tokens += 4
@@ -379,20 +361,31 @@ def count_tokens_in_messages(messages) -> int:
                 tokens += len(count_token_encoding.encode("\n".join(texts)))
         else:
             tokens += len(count_token_encoding.encode(str(content)))
+        metadata = {k: v for k, v in msg.items() if k not in {"content", "role"} and v is not None}
+        if metadata:
+            tokens += len(count_token_encoding.encode(json.dumps(metadata, default=str)))
+    if tools:
+        tokens += len(count_token_encoding.encode(json.dumps(tools, default=str)))
     return tokens + 2
 
 
-def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_calls=True, max_retries=5, max_tokens=32000, base_url=None):
+def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_calls=True, max_retries=5, max_tokens=32000, base_url=None, max_completion_tokens=None):
     """Safe LLM API call with context length validation and retry logic."""
     
-    input_tokens = count_tokens_in_messages(messages)
+    input_tokens = count_tokens_in_messages(messages, tools)
     if input_tokens > max_tokens:
         return None, f"Input tokens exceeded: {input_tokens} > {max_tokens}", None
 
     # Retry logic for API calls
-    num_turns = len(messages)
+    usage_info = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0,
+                  "cached_prompt_tokens": 0, "cost": 0.0, "llm_calls": 0, "per_call": []}
     for attempt in range(max_retries):
         try:
+            limits = {}
+            if max_completion_tokens is not None:
+                key = "max_completion_tokens" if is_reasoning_llm(model) else "max_tokens"
+                limits[key] = max_completion_tokens
+            usage_info["llm_calls"] += 1
             output = litellm.completion(
                 model=model, 
                 messages=messages, 
@@ -400,14 +393,15 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                 temperature=None if is_reasoning_llm(model) else temperature,
                 parallel_tool_calls=parallel_tool_calls if tools else None,
                 base_url=base_url,
-                custom_llm_provider="openai" if base_url else None
+                custom_llm_provider="openai" if base_url else None,
+                **limits
             )
 
             cost = 0.0
             if hasattr(output, '_hidden_params') and 'response_cost' in output._hidden_params and output._hidden_params["response_cost"]:
                 cost += output._hidden_params["response_cost"]
 
-            usage_info = {
+            call_usage = {
                 'prompt_tokens': getattr(output.usage, 'prompt_tokens', 0) if output.usage else 0,
                 'completion_tokens': getattr(output.usage, 'completion_tokens', 0) if output.usage else 0,
                 'total_tokens': getattr(output.usage, 'total_tokens', 0) if output.usage else 0,
@@ -415,6 +409,12 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                                         if output.usage else 0,
                 'cost': cost
             }
+            for key, value in call_usage.items():
+                usage_info[key] += value
+            usage_info["per_call"].append({"prompt": call_usage["prompt_tokens"],
+                                          "completion": call_usage["completion_tokens"],
+                                          "cached": call_usage["cached_prompt_tokens"],
+                                          "usage_available": output.usage is not None})
 
             if 'qwen' in model.lower():
                 response = litellm.Message(**qwen_parse_tool_calls(output.choices[0].message.content))
@@ -423,17 +423,16 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                     messages = messages + [{"role": "user", "content": "I got an empty response. Please try again to generate a valid response."}]
                     raise Exception("EXCEPTION: Empty or None output.")
                 response = output.choices[0].message
-            messages = messages[:num_turns]
             return response, None, usage_info
         
         except BadRequestError as e:
-            return None, f"BadRequestError: {e}", None
+            return None, f"BadRequestError: {e}", usage_info
         except Exception as e:
             if attempt < max_retries - 1:
                 print(f"[LLM] Retrying ({attempt + 1}/{max_retries}): {e}")
                 time.sleep(5)
             else:
-                return None, f"Max retries exceeded: {e}", None
+                return None, f"Max retries exceeded: {e}", usage_info
 
 
 def is_reasoning_llm(model: str) -> bool:

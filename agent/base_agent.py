@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+import math
 import litellm
 
 # Add parent directory to path to import utils
@@ -52,9 +53,10 @@ class BaseAgent:
         setup_api_keys()
 
     def set_budget(self, max_total_tokens=None, max_tool_calls=None):
-        """Per-question ceilings. A model call is not made if its prompt would push the question's
-        total tokens past max_total_tokens (the last call's completion can still go over); tool
-        calls beyond max_tool_calls are not run and the model is told to answer."""
+        """Aggregate per-question ceilings, including each request's completion limit."""
+        for name, value in (("max_total_tokens", max_total_tokens), ("max_tool_calls", max_tool_calls)):
+            if value is not None and (isinstance(value, bool) or not isinstance(value, int) or value < 0):
+                raise ValueError(f"{name} must be a nonnegative integer or None")
         self.max_total_tokens = max_total_tokens
         self.max_tool_calls = max_tool_calls
 
@@ -77,27 +79,39 @@ class BaseAgent:
             self.total_usage['completion_tokens'] += usage_info.get('completion_tokens', 0)
             self.total_usage['total_tokens'] += usage_info.get('total_tokens', 0)
             # Not rounded per call: cheap calls (< $0.00005) would otherwise count as $0
-            self.total_usage['cost'] += usage_info.get('cost', 0.0)
-            self.total_usage['llm_calls'] += 1
-            self.call_usage.append({
+            cost = usage_info.get('cost', 0.0)
+            if cost is None or self.total_usage['cost'] is None:
+                self.total_usage['cost'] = None
+            else:
+                self.total_usage['cost'] += cost
+            self.total_usage['llm_calls'] += usage_info.get('llm_calls', 1)
+            self.call_usage.extend(usage_info.get('per_call') or [{
                 'prompt': usage_info.get('prompt_tokens', 0),
                 'completion': usage_info.get('completion_tokens', 0),
                 'cached': usage_info.get('cached_prompt_tokens', 0),
-            })
+            }])
 
     def _llm_call(self, messages, tools=None):
         """safe_llm_call() under the token ceiling; records usage. Returns (message, error, usage)."""
+        if self.max_tool_calls is not None and self.tool_calls_made >= self.max_tool_calls:
+            tools = None
+        limits = {}
         if self.max_total_tokens is not None:
-            prompt = count_tokens_in_messages(messages)
-            if self.total_usage['total_tokens'] + prompt > self.max_total_tokens:
+            prompt = count_tokens_in_messages(messages, tools)
+            # Tokenizers and provider framing differ; reserve a margin before capping output.
+            prompt_reserve = prompt + max(64, math.ceil(prompt * 0.05))
+            remaining = self.max_total_tokens - self.total_usage['total_tokens'] - prompt_reserve
+            if remaining < 1:
                 self.budget_stop = (f"token budget: {self.total_usage['total_tokens']} tokens used, the next prompt "
                                     f"needs ~{prompt}, ceiling {self.max_total_tokens}")
                 return None, f"{BUDGET_EXCEEDED}: {self.budget_stop}", None
-        if self.max_tool_calls is not None and self.tool_calls_made >= self.max_tool_calls:
-            tools = None  # tool budget used up: the model has to answer
+            limits = {"max_completion_tokens": remaining, "max_retries": 1}
         response, error, usage_info = safe_llm_call(model=self.model, messages=messages, tools=tools,
-                                                    base_url=self.base_url)
+                                                    base_url=self.base_url, **limits)
         self._update_usage(usage_info)
+        if self.max_total_tokens is not None and self.total_usage['total_tokens'] > self.max_total_tokens:
+            self.budget_stop = "provider usage exceeded the reserved token ceiling"
+            return None, f"{BUDGET_EXCEEDED}: {self.budget_stop}", usage_info
         return response, error, usage_info
 
     def _take_tool_call(self):
@@ -118,7 +132,10 @@ class BaseAgent:
         """Answer `question`; returns the common output contract."""
         self._reset_usage()
         start = time.perf_counter()
-        result = self._run(question)
+        try:
+            result = self._run(question)
+        except Exception as e:
+            result = {"answer": None, "error": str(e), "trace": self.messages}
         latency = time.perf_counter() - start
 
         if "answer" in result:
