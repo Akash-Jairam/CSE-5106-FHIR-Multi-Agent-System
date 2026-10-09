@@ -135,6 +135,7 @@ class BaseAgent:
     def run(self, question: str) -> AgentOutput:
         """Answer `question`; returns the common output contract."""
         self._reset_usage()
+        self.messages = []
         start = time.perf_counter()
         try:
             result = self._run(question)

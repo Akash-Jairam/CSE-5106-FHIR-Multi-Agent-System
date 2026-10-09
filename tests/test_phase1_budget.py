@@ -87,6 +87,13 @@ class BudgetTests(unittest.TestCase):
         self.assertIsNone(result["answer"])
         self.assertIn("iteration limit", result["error"])
 
+    def test_startup_failure_does_not_retain_previous_patient_trace(self):
+        self.agent.messages = [{"role": "user", "content": "previous patient"}]
+        def fail(_):
+            raise ValueError("packet unavailable")
+        self.agent._run = fail
+        self.assertEqual(self.agent.run("new patient")["trace"], [])
+
     def test_unknown_cost_remains_unknown(self):
         self.agent._update_usage({"cost": None})
         self.agent._update_usage({"cost": 0.25})
