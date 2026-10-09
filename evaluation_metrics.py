@@ -22,7 +22,7 @@ from utils.metrics_utils import (
     retrieval_recall,
     retrieval_precision
 )
-from utils.answer_scorer import score_answer
+from utils.answer_scorer import parse_reference, score_answer
 from utils.evidence_scorer import cited_refs, fetch_from_ndjson, fetch_from_store, parse_evidence, score_evidence
 from config import (
     QUESTION_SQL_FHIR_OUTPUT_CSV
@@ -360,34 +360,33 @@ Return: no answer
 # Data Processing Functions
 # ============================================================================
 
-def extract_relevant_resources_only(row):
-    """Extract only resources that match the true FHIR resource types"""
-    relevant_resources = []
-    if not isinstance(row["true_fhir_ids"], dict):
-        return relevant_resources
-        
-    for resource_type in row["true_fhir_ids"]:
+def qualified_resource_ids(resources):
+    """Flatten type -> ids without dropping false-positive resource types."""
+    if not isinstance(resources, dict):
+        return []
+    qualified = []
+    for rtype, ids in resources.items():
+        ids = [ids] if isinstance(ids, str) else ids
+        if not isinstance(ids, (list, tuple, set)):
+            continue
+        qualified.extend(rid if rid.startswith(f"{rtype}/") else f"{rtype}/{rid}"
+                         for rid in ids if isinstance(rid, str))
+    return qualified
+
+
+def extract_agent_resources(row):
+    resources = row.get("agent_fhir_resources")
+    if isinstance(resources, str):
+        if resources.strip() in ("", "nan"):
+            return []
         try:
-            agent_resources = row["agent_fhir_resources"]
-            if pd.isna(agent_resources) or agent_resources == "" or agent_resources == "nan":
-                continue
-                
-            # Parse agent resources
-            if isinstance(agent_resources, str):
-                try:
-                    rsc_obj = json.loads(agent_resources)
-                except json.JSONDecodeError:
-                    rsc_obj = ast.literal_eval(agent_resources)
-            else:
-                rsc_obj = agent_resources
-                
-            if isinstance(rsc_obj, dict) and resource_type in rsc_obj:
-                relevant_resources += rsc_obj[resource_type]
-                
-        except Exception as e:
-            print(f"Error processing resources for {resource_type}: {e}")
-            
-    return relevant_resources
+            resources = json.loads(resources)
+        except json.JSONDecodeError:
+            try:
+                resources = ast.literal_eval(resources)
+            except (ValueError, SyntaxError):
+                return []
+    return qualified_resource_ids(resources)
 
 
 # ============================================================================
@@ -416,9 +415,14 @@ def load_and_merge_data():
         print(f"Read CSV file with {len(input_df)} records")
     
     # Merge data
-    cols = [col for col in ground_truth_df.columns 
-            if (col not in input_df.columns) or (col == "question_id")]
-    eval_df = input_df.merge(ground_truth_df[cols], on="question_id", how="inner")
+    # Always score against the dataset labels; predictions cannot replace them.
+    overlaps = [col for col in ground_truth_df.columns if col != "question_id" and col in input_df.columns]
+    eval_df = input_df.drop(columns=overlaps).merge(
+        ground_truth_df, on="question_id", how="left", validate="many_to_one", indicator=True)
+    unknown = eval_df["_merge"] != "both"
+    if unknown.any():
+        raise ValueError(f"{unknown.sum()} prediction rows have question IDs absent from the ground-truth dataset")
+    eval_df = eval_df.drop(columns="_merge")
     
     print(f"Unique questions: {input_df['question_id'].nunique()}")
     print(f"After merge: {eval_df.shape}")
@@ -460,10 +464,10 @@ def calculate_retrieval_metrics(eval_df):
     print("CALCULATING RETRIEVAL METRICS...")
     print("=" * 60)
     
-    # Extract relevant resources and calculate metrics
-    eval_df["metric_relevant_resources"] = eval_df.apply(extract_relevant_resources_only, axis=1)
+    # Precision includes all retrieved identities, including unrelated types.
+    eval_df["metric_relevant_resources"] = eval_df.apply(extract_agent_resources, axis=1)
     eval_df["true_fhir_ids_list"] = eval_df["true_fhir_ids"].apply(
-        lambda d: sum(d.values(), []) if isinstance(d, dict) else []
+        qualified_resource_ids
     )
     
     # Add resource types column
@@ -496,7 +500,7 @@ def calculate_evidence_metrics(eval_df):
         resources = fetch_from_store(refs)
 
     scores = pd.DataFrame([score_evidence(ev, resources, gold) for ev, gold in
-                           zip(evidence, eval_df["true_fhir_ids_list"])], index=eval_df.index)
+                           zip(evidence, eval_df["true_fhir_ids"])], index=eval_df.index)
     for col in scores.columns:
         eval_df[col] = scores[col]
 
@@ -550,7 +554,9 @@ def calculate_answer_metrics(eval_df, num_processes=1):
     
     # Set up true answers
     eval_df['true_answer_extracted'] = eval_df["true_answer"]
-    eval_df.loc[eval_df["true_fhir_resource_types"] == "{}", "true_answer_extracted"] = "no answer"
+    empty_reference = eval_df["true_answer"].apply(
+        lambda answer: not any(value is not None for value in parse_reference(answer)))
+    eval_df.loc[empty_reference, "true_answer_extracted"] = "no answer"
 
     # Normalize answers
     print("Normalizing answers...")
@@ -563,7 +569,7 @@ def calculate_answer_metrics(eval_df, num_processes=1):
 
     # Check correctness
     print("Checking correctness...")
-    correctness_data = [(idx, answer_for_judge(row["agent_answer"]), row["true_answer_extracted"], row["question"], args.model, row["agent_answer_normalized"], row["error"]) 
+    correctness_data = [(idx, answer_for_judge(row["agent_answer"]), row["true_answer_extracted"], row["question"], args.model, row["agent_answer_normalized"], row.get("error"))
                        for idx, row in eval_df.iterrows()]
     correctness_results = process_in_parallel(correctness_data, worker_check_correctness, 
                                             "Checking correctness", num_processes)
@@ -581,9 +587,10 @@ def save_results(eval_df):
     
     save_cols = [
         "question_id", "question", "assumption", "question_with_context", 
-        "true_answer", "agent_answer", "typed_correct", "answer_type", "typed_reason",
+        "true_answer", "agent_answer", "typed_correct", "answer_type", "typed_reason", "typed_parsed",
         "answer_correctness",
         "trace", "true_answer_extracted", "agent_answer_normalized", "usage",
+        "limitation", "error", "tokens", "tool_calls", "latency", "budget", "revision",
         "precision", "recall", "true_fhir_resource_types", "template",
         "evidence", "evidence_cited", "evidence_valid", "valid_evidence_fraction", "evidence_issues",
         "evidence_precision", "evidence_recall"
