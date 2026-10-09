@@ -68,7 +68,9 @@ UNITS = {
     "inch": ("length", 2.54), "inches": ("length", 2.54),
 }
 GENDER = {"m": "male", "f": "female"}
-MEASUREMENT_UNITS = set(UNITS) | {"%", "mg/dl", "mmol/l", "meq/l", "g/dl", "iu", "bpm", "c", "f"}
+COUNT_LABELS = {"time", "times", "record", "records", "admission", "admissions", "visit", "visits",
+                "encounter", "encounters", "drug", "drugs", "medication", "medications", "procedure", "procedures",
+                "measurement", "measurements", "test", "tests", "prescription", "prescriptions", "hospital", "icu"}
 CONTEXT_WORDS = {"and", "or", "at", "on", "for", "from", "to", "with", "because", "which", "as",
                  "was", "were", "is", "are", "based", "recorded", "measured"}
 CATEGORY_PREFIX_RE = re.compile(
@@ -76,6 +78,12 @@ CATEGORY_PREFIX_RE = re.compile(
     r"(?:the )?patient (?:is|was)|"
     r"(?:the )?(?:patient(?: s)? )?(?:sex|gender|marital status|admission type|care ?unit|"
     r"drug|medication|specimen|organism(?: name)?) (?:is|was))\s+")
+EMPTY_STATEMENT_RE = re.compile(
+    r"(?:no|none|nothing|never|no answer)|"
+    r"no (?:(?:matching|qualifying|relevant|available|recorded|documented|such|hospital|icu|lab) )*"
+    r"(?:records?|data|results?|measurements?|values?|visits?|admissions?|encounters?|medications?|drugs?|"
+    r"procedures?|diagnoses|observations?|organisms?)"
+    r"(?: (?:was|were|is|are|has been|have been))?(?: (?:found|available|recorded|documented|observed|prescribed))?")
 
 
 # ---------------------------------------------------------------------------
@@ -241,6 +249,8 @@ def _category_value(value):
 def is_abstention(answer):
     if answer is None:
         return True
+    if isinstance(answer, float) and math.isnan(answer):
+        return True
     if isinstance(answer, (list, tuple)) and not answer:
         return True
     text = _clean(answer) if isinstance(answer, str) else ""
@@ -326,13 +336,14 @@ def _score_number(answer, reference, text, question, template):
         return _result(numbers_match(agent, ref, exact), "number", "match" if numbers_match(agent, ref, exact) else "mismatch", agent)
     numbers = extract_numbers(text, question)
     if not numbers:
-        if ref == 0 and is_negative(text) and not ABSTAIN_RE.search(text):
+        if (ref == 0 and _is_count(question, template) and
+                (EMPTY_STATEMENT_RE.fullmatch(_normalize(text)) or _normalize(text) == "zero")):
             return _result(1, "number", "negative statement for 0", 0)
         return _result(0, "number", "abstained" if ABSTAIN_RE.search(text) else "unparsed")
     if len(numbers) != 1:
         return _result(0, "number", "unparsed (multiple numeric values)")
     value, unit = numbers[0]
-    if _is_count(question, template) and unit in MEASUREMENT_UNITS:
+    if _is_count(question, template) and unit and unit not in COUNT_LABELS:
         return _result(0, "number", f"unit mismatch ({unit} on a count)", value)
     target = expected_unit(question, template)
     if unit and not target and not _is_count(question, template):
@@ -393,8 +404,8 @@ def _score_set(answer, values, text, question, template):
         return _result(ok, "set", "match" if ok else "mismatch")
 
     if kind == "number":
-        if _is_count(question, template) and any(unit in MEASUREMENT_UNITS for _, unit in agent):
-            return _result(0, "set", "unit mismatch (measurement unit on a count)")
+        if _is_count(question, template) and any(unit and unit not in COUNT_LABELS for _, unit in agent):
+            return _result(0, "set", "unit mismatch (unsupported unit on a count)")
         target = expected_unit(question, template)
         if not target and not _is_count(question, template) and any(unit for _, unit in agent):
             return _result(0, "set", "unparsed (reference unit unknown)")
@@ -417,9 +428,9 @@ def _score_set(answer, values, text, question, template):
 
 def _score_empty(answer, values, text, question, template):
     """Reference has no value: correct only if the agent gives none."""
-    if is_abstention(answer):
-        return _result(1, "empty", "abstained")
     if not isinstance(answer, str):
+        if is_abstention(answer):
+            return _result(1, "empty", "abstained")
         ok = _expects_number(question, template) and _as_number(answer) == 0
         return _result(ok, "empty", "zero" if ok else "gave a value", answer)
     if template.startswith(("Has_verb", "Is the")):
@@ -431,7 +442,13 @@ def _score_empty(answer, values, text, question, template):
     numbers = [v for v, _ in extract_numbers(text, question)]
     if numbers and any(n != 0 for n in numbers):
         return _result(0, "empty", "gave a value", numbers[0])
-    if is_negative(text) or (_expects_number(question, template) and numbers and all(n == 0 for n in numbers)):
+    if is_abstention(answer):
+        if re.search(r";|[.!?]\s+\S|\b(?:but|however)\b", text, re.I):
+            return _result(0, "empty", "unparsed (mixed abstention and claims)")
+        return _result(1, "empty", "abstained")
+    if (EMPTY_STATEMENT_RE.fullmatch(_normalize(text)) or
+            (_expects_number(question, template) and
+             (_normalize(text) == "zero" or (numbers and all(n == 0 for n in numbers))))):
         return _result(1, "empty", "said none / zero")
     return _result(0, "empty", "gave a value")
 

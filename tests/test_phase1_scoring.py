@@ -43,6 +43,8 @@ class AnswerScoringTests(unittest.TestCase):
         self.assert_correct(201.5, "[[201]]", question="What was the platelet count?",
                             template="What was the measured {lab_name} value?")
         self.assert_correct("2 kg", "[[2]]", 0, template="Count the number of visits")
+        self.assert_correct("2 bananas", "[[2]]", 0, template="Count the number of visits")
+        self.assert_correct("2 visits", "[[2]]", template="Count the number of visits")
 
     def test_scalar_numeric_answer_does_not_choose_a_matching_component(self):
         self.assert_correct("The component was 80 but the total was 100.", "[[80]]", 0)
@@ -67,11 +69,19 @@ class AnswerScoringTests(unittest.TestCase):
         self.assert_correct(False, "[[None]]", template="Is the weight greater?", expected=0)
         self.assert_correct(0, "[]", template="Count the number of visits")
         self.assert_correct(None, "[]")
+        self.assert_correct(float("nan"), "[]")
         self.assert_correct("No records were found", "[]")
 
     def test_negative_statement_cannot_hide_a_conflicting_empty_value(self):
         self.assert_correct("No, the dose was 5 mg.", "[]", 0, question="What was the dose?")
         self.assert_correct("No, it happened on 2186-09-15 18:00.", "[]", 0, question="When?")
+        self.assert_correct("The drug was not Aspirin; it was Heparin.", "[]", 0, question="What drug?")
+        self.assert_correct("Unknown, but the dose was 5 mg.", "[]", 0, question="What was the dose?")
+        self.assert_correct("Unknown. It was Heparin.", "[]", 0, question="What drug?")
+
+    def test_no_records_is_zero_only_for_counts(self):
+        self.assert_correct("No records were found", "[[0]]", template="Count the number of visits")
+        self.assert_correct("No records were found", "[[0]]", 0, question="What was the measured weight?")
 
     def test_numeric_sets_require_all_rows_without_extra_values(self):
         self.assert_correct("1, 2, 3", "[[1], [2]]", 0)
@@ -266,6 +276,14 @@ class EvaluationPipelineTests(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()):
             scored = self.evaluation.calculate_typed_metrics(frame)
         self.assertEqual(scored["typed_correct"].tolist(), [0, 1])
+
+    def test_pandas_null_numeric_answers_remain_abstentions(self):
+        frame = pd.DataFrame([{"agent_answer": None, "true_answer": "[]", "question": "What dose?"},
+                               {"agent_answer": 2, "true_answer": "[[2]]", "question": "What dose?"}])
+        self.assertTrue(pd.isna(frame.iloc[0]["agent_answer"]))
+        with contextlib.redirect_stdout(io.StringIO()):
+            scored = self.evaluation.calculate_typed_metrics(frame)
+        self.assertEqual(scored["typed_correct"].tolist(), [1, 1])
 
     def test_judge_reference_uses_answer_nullness_not_missing_resource_annotations(self):
         frame = pd.DataFrame([{"agent_answer": False, "true_answer": "[[0]]", "question": "Has it happened?",
