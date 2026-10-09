@@ -1,5 +1,5 @@
 from .base_agent import BaseAgent
-from .output_schema import ANSWER_FORMAT_INSTRUCTIONS, parse_final_message
+from .output_schema import ANSWER_FORMAT_INSTRUCTIONS, has_json_answer, parse_final_message
 from tools.starting_packet import get_starting_packet
 from utils import parse_question_context
 
@@ -38,6 +38,11 @@ You are given an excerpt of the record (the "starting packet"): the patient, the
                     "trace": self.messages, "retrieved_fhir_resources": retrieved, "tool_calls": []}
 
         self.messages.append(response_message)
+        if not has_json_answer(response_message.content):
+            return {"answer": None, "evidence": [],
+                    "limitation": "The model did not return a complete JSON answer",
+                    "error": "Invalid final output: expected a JSON answer object",
+                    "trace": self.messages, "retrieved_fhir_resources": retrieved, "tool_calls": []}
         answer, evidence, limitation = parse_final_message(response_message.content)
         if self.verbose:
             print(f"Packet: {packet['n_tokens']} tokens (truncated={packet['truncated']}); answer: {answer!r}")

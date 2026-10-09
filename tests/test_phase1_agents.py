@@ -137,6 +137,17 @@ class SingleAgentTests(unittest.TestCase):
         self.assertFalse(output["revision"]["revised"])
         self.assertEqual(output["evidence"][0]["value"], 7)
 
+    def test_direct_agent_truncated_json_is_an_explicit_failed_output(self):
+        response = SimpleNamespace(role="assistant", tool_calls=None, content='{"answer": 7')
+        with patch("agent.base_agent.setup_api_keys"), patch("agent.direct_llm_agent.get_starting_packet", return_value=packet()):
+            agent = DirectLLMAgent("test-model")
+            agent._llm_call = Mock(return_value=(response, None, None))
+            output = agent.run(CONTEXT)
+        self.assertIsNone(output["answer"])
+        self.assertIn("complete JSON", output["limitation"])
+        self.assertIn("Invalid final output", output["error"])
+        agent._llm_call.assert_called_once()
+
 
 class FieldCheckTests(unittest.TestCase):
     def test_correct_value_from_wrong_patient_is_flagged(self):
