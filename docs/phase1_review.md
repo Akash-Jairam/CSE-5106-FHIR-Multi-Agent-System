@@ -59,12 +59,10 @@ frozen text hashes, including simulated store ordering and metadata removal.
 The live readiness check passed against the configured store: 100 Patients,
 637 Encounters, 17,552 MedicationRequests, and nonzero Observations.
 The Observation search total is an estimate, not an import checksum.
-Seven additional mocked local Azure adapter tests passed; that adapter and
-all credentials remain local and are not part of this contribution.
-
-No paid model calls were made. The optional GPT-6 Luna development smoke
-test awaits explicit approval to send the public demo questions and packets
-to the configured model endpoint. This review makes no model-accuracy claim.
+No paid model calls or held-out model experiments were made. This review
+makes no model-accuracy claim. Collaborators configure their own models;
+personal provider adapters, launchers, and credentials stay local and are
+not dependencies of the shared code.
 
 ## Remaining Limits
 

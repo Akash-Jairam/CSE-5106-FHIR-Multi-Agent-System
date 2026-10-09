@@ -1,5 +1,13 @@
 # Local secrets / config
 config.yml
+.env
+.env.*
+!.env.example
+
+# Per-user model launchers, adapters, environments, and caches
+.local-setup/
+.venv/
+.cache/
 
 # Agent outputs and downloaded data
 output/

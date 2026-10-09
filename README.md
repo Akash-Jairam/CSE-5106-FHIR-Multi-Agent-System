@@ -179,6 +179,8 @@ You can enable the required APIs and verify access using the [gcloud CLI](https:
 
    Environment variables (`OPENAI_API_KEY`, `GEMINI_API_KEY`, `FHIR_PROJECT_ID`, `FHIR_LOCATION`, `FHIR_DATASET_ID`, `FHIR_STORE_ID`) take precedence over `config.yml`.
 
+   Each collaborator chooses their own model and provider configuration. Keep personal launchers, provider adapters, deployment settings, and credential files local (for example, under the ignored `.local-setup/` directory); shared agents must not depend on them. Commit reusable code, tests, placeholder-only configuration templates, and project-wide reproducibility manifests. Virtual environments, caches, downloaded data, and run outputs remain local.
+
 6) Quick setup check
 
    ```bash
