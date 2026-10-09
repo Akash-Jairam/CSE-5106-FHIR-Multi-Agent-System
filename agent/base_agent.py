@@ -112,6 +112,11 @@ class BaseAgent:
                                                     base_url=self.base_url, **limits)
         self._update_usage(usage_info)
         self.last_llm_error = error
+        if self.max_total_tokens is not None and not error and usage_info and any(
+                c.get("usage_available") is False for c in usage_info.get("per_call", [])):
+            self.budget_stop = "provider did not report token usage; aggregate ceiling cannot be verified"
+            self.last_llm_error = f"{BUDGET_EXCEEDED}: {self.budget_stop}"
+            return None, self.last_llm_error, usage_info
         if self.max_total_tokens is not None and self.total_usage['total_tokens'] > self.max_total_tokens:
             self.budget_stop = "provider usage exceeded the reserved token ceiling"
             self.last_llm_error = f"{BUDGET_EXCEEDED}: {self.budget_stop}"

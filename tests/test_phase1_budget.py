@@ -49,7 +49,35 @@ class BudgetTests(unittest.TestCase):
             _, error, usage = core.safe_llm_call("test", [], max_completion_tokens=37)
         self.assertIsNone(error)
         self.assertEqual(call.call_args.kwargs["max_tokens"], 37)
+        self.assertEqual(call.call_args.kwargs["num_retries"], 0)
         self.assertEqual(usage["total_tokens"], 30)
+
+    def test_missing_provider_pricing_is_unknown_not_free(self):
+        result = response()
+        result._hidden_params = {}
+        with patch.object(core.litellm, "completion", return_value=result):
+            _, error, usage = core.safe_llm_call("test", [], max_retries=1)
+        self.assertIsNone(error)
+        self.assertIsNone(usage["cost"])
+
+    def test_missing_usage_refuses_answer_under_aggregate_ceiling(self):
+        result = response()
+        result.usage = None
+        self.agent.set_budget(max_total_tokens=200)
+        with patch.object(core.litellm, "completion", return_value=result), patch(
+                "agent.base_agent.count_tokens_in_messages", return_value=1):
+            message, error, usage = self.agent._llm_call([])
+        self.assertIsNone(message)
+        self.assertIn("cannot be verified", error)
+        self.assertFalse(usage["per_call"][0]["usage_available"])
+
+    def test_failed_request_keeps_attempt_and_unknown_usage(self):
+        with patch.object(core.litellm, "completion", side_effect=RuntimeError("unavailable")):
+            _, error, usage = core.safe_llm_call("test", [], max_retries=1)
+        self.assertIn("unavailable", error)
+        self.assertEqual(usage["llm_calls"], 1)
+        self.assertIsNone(usage["cost"])
+        self.assertFalse(usage["per_call"][0]["usage_available"])
 
     def test_empty_response_retry_keeps_both_calls_and_cost(self):
         with patch.object(core.litellm, "completion", side_effect=[response(None), response()]), patch.object(core.time, "sleep"):

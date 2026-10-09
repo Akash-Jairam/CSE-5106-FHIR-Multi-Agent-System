@@ -380,11 +380,13 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
     usage_info = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0,
                   "cached_prompt_tokens": 0, "cost": 0.0, "llm_calls": 0, "per_call": []}
     for attempt in range(max_retries):
+        captured_usage = False
         try:
             limits = {}
             if max_completion_tokens is not None:
                 key = "max_completion_tokens" if is_reasoning_llm(model) else "max_tokens"
                 limits[key] = max_completion_tokens
+                limits["num_retries"] = 0
             usage_info["llm_calls"] += 1
             output = litellm.completion(
                 model=model, 
@@ -397,9 +399,7 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                 **limits
             )
 
-            cost = 0.0
-            if hasattr(output, '_hidden_params') and 'response_cost' in output._hidden_params and output._hidden_params["response_cost"]:
-                cost += output._hidden_params["response_cost"]
+            cost = (getattr(output, '_hidden_params', None) or {}).get('response_cost')
 
             call_usage = {
                 'prompt_tokens': getattr(output.usage, 'prompt_tokens', 0) if output.usage else 0,
@@ -410,11 +410,15 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                 'cost': cost
             }
             for key, value in call_usage.items():
-                usage_info[key] += value
+                if key == "cost" and (value is None or usage_info[key] is None):
+                    usage_info[key] = None
+                else:
+                    usage_info[key] += value
             usage_info["per_call"].append({"prompt": call_usage["prompt_tokens"],
                                           "completion": call_usage["completion_tokens"],
                                           "cached": call_usage["cached_prompt_tokens"],
                                           "usage_available": output.usage is not None})
+            captured_usage = True
 
             if 'qwen' in model.lower():
                 response = litellm.Message(**qwen_parse_tool_calls(output.choices[0].message.content))
@@ -426,8 +430,16 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
             return response, None, usage_info
         
         except BadRequestError as e:
+            if not captured_usage:
+                usage_info["cost"] = None
+                usage_info["per_call"].append({"prompt": 0, "completion": 0, "cached": 0,
+                                              "usage_available": False})
             return None, f"BadRequestError: {e}", usage_info
         except Exception as e:
+            if not captured_usage:
+                usage_info["cost"] = None
+                usage_info["per_call"].append({"prompt": 0, "completion": 0, "cached": 0,
+                                              "usage_available": False})
             if attempt < max_retries - 1:
                 print(f"[LLM] Retrying ({attempt + 1}/{max_retries}): {e}")
                 time.sleep(5)
