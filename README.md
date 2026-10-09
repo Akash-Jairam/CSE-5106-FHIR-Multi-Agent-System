@@ -199,26 +199,28 @@ If `final_dataset/questions_answers_sql_fhir.csv` already exists, you can skip t
    ```
 
 #### 4. Build the question-family manifest
-Tags every question as `lookup_counting`, `temporal_selection`, or `numerical_aggregation` (classification rules are in the script's docstring) and writes `manifests/question_families.csv`. Questions with empty or null answers are kept and marked in `answer_kind` (`empty` / `null_value`).
+Audits every question in `manifests/question_families.csv`. Eligible questions are tagged `lookup_counting`, `temporal_selection`, or `numerical_aggregation`; paired differences, comparisons, elapsed times, and stay durations are `out_of_scope` with a reason. Empty and null answers remain eligible and are marked in `answer_kind` (`empty` / `null_value`).
 
    ```bash
    python scripts/build_question_families.py
    ```
 
 #### 5. Build the patient-disjoint split
-Writes `manifests/split.json` with pilot (20), dev (50), and held-out (300) question sets drawn from disjoint patients, stratified by question family. Dev uses only the reserved patients 10001217, 10004235, and 10015860. Tune on pilot/dev only; the held-out patients' questions are for final evaluation.
+Writes `manifests/split.json` with pilot (20), dev (50), and held-out (300) question sets drawn from disjoint patients, stratified by in-scope family. `manifests/development_exposure.json` reserves proposal examples, inherited few-shot examples, and documented prior runs for development: 32 dev patients, 3 fresh pilot patients, and 59 held-out patients. Tune on pilot/dev only; every question from a held-out patient is reserved for final evaluation.
 
    ```bash
    python scripts/build_split.py   # seed 5106 by default
    ```
 
 #### 6. Build the starting packets
-`tools/starting_packet.py` builds a deterministic, token-bounded excerpt of a patient's record for a question (keyword-ranked resource labels plus the patient's encounters; 8,000 tokens by default, chosen on the dev split). Resources dated after the question's assumed current time are left out. Agents call `get_starting_packet(question, patient_fhir_id, current_time=parse_current_time(assumption))`, which reads the record from the FHIR store. The script below builds packets for every split question from the local NDJSON files and writes the included resource IDs to `manifests/starting_packets.jsonl`; it reports gold-ID recall for pilot and dev only.
+`tools/starting_packet.py` builds a deterministic, token-bounded excerpt (keyword-ranked resource labels plus encounters; a fixed common 8,000-token cap). Resources dated after the assumed current time are left out. Both baselines start with exactly the rendered fields, not hidden full records. `get_starting_packet(question, patient_fhir_id, current_time=parse_current_time(assumption))` reads the FHIR store. The offline builder accepts plain or gzip NDJSON and freezes the packet IDs, text hashes, and source hashes in `manifests/starting_packets.jsonl` and its metadata companion. It does not read gold IDs by default.
 
    ```bash
    python scripts/build_starting_packets.py
-   python scripts/build_starting_packets.py --sweep 4000 8000 16000   # compare budgets on dev
+   python scripts/build_starting_packets.py --sweep 4000 8000 16000   # dev token/truncation statistics only
    ```
+
+The original cap was selected using development gold recall. That historical deviation cannot be undone; it is disclosed in [the data review](docs/phase1_data_review.md). Do not use `--gold-diagnostics` to tune retrieval: it is only an optional post-freeze pilot/dev diagnostic, never a held-out analysis.
 
 ## 🤖 Agent Execution
 
@@ -244,10 +246,14 @@ bash scripts/run_single_agent.sh                    # Multi-turn code agent star
 Extra arguments are passed through to `run_agent.py`, e.g. `MODEL=gemini/gemini-2.5-flash bash scripts/run_single_turn_resource_agent.sh --limit 5`.
 
 Per-question budgets (both off by default):
-- `--max_total_tokens N`: a model call is not made if its prompt would push the question's prompt + completion total past N; the question then ends with `answer: null` and the reason in `limitation`. The check happens before each call, so the last call's completion can go over.
-- `--max_tool_calls N`: tool calls beyond N are not run, and the model is asked to answer without tools.
+- `--max_total_tokens N`: reserve the next prompt (including tool schemas/arguments and a framing margin), cap its completion to the remaining aggregate allowance, and stop if no allowance remains. Provider-reported overruns are recorded and the answer refused. Tokenizers differ, so the prompt reserve is an estimate rather than a promise of exact provider framing.
+- `--max_tool_calls N`: tool calls beyond N are not run. Automatic first/final evidence checks count too; an unchecked answer is not released.
 
 Each result records `tokens` (including `per_call` usage, `repeated_prompt`, the estimated prompt tokens re-sent from earlier turns, and `cached_prompt`, those served from the provider's prompt cache) and `budget` (the ceilings, tool calls run, and which ceiling stopped the run, if any). `run_agent.py` prints a usage summary at the end.
+
+Select a frozen set with `--split_manifest manifests/split.json --split pilot` (or `dev` / `held_out`); `--limit` applies after split selection. An output's `.run.json` binds resumption to inputs, code, model, split, and budgets. Legacy or incompatible outputs need a new path. Failed attempts remain in `attempt_history`; unknown pricing is `cost: null`, not zero.
+
+Generated Python runs with copied retrieved resources, no repository credentials or network, and a real deadline. It requires `sandbox-exec` on macOS or `bubblewrap` (`bwrap`) on Linux and fails closed without a supported sandbox. See [the review and verification notes](docs/phase1_review.md).
 
 To use open-source models locally with vLLM, start the vLLM server and set base_url to `http://localhost:<port>/v1`.
 
@@ -281,7 +287,7 @@ python evaluation_metrics.py --input <agent_output_json_file_path> --skip_llm_ju
 ```
 
 Answer correctness has two metrics:
-- **Typed scorer (primary)**, `utils/answer_scorer.py`: deterministic. The reference answer fixes the type: numbers (counts exact, other values within 1%; stated units are converted, incompatible units are wrong), timestamps (at the precision the question asks for), yes/no, categories, and sets. Abstaining is wrong whenever the reference is non-empty; for an empty or null reference only "none"/abstention (or 0 for numeric questions) is correct. Results are in `typed_correct`, `answer_type`, and `typed_reason`.
+- **Typed scorer (primary)**, `utils/answer_scorer.py`: deterministic. The reference fixes the type: exact counts, measurements within 1% (minimum absolute tolerance 0.01), requested timestamp precision, yes/no, normalized categories, and complete sets without extras. Known implied units convert; incompatible claims are wrong and claims whose target unit is unknown are unparsed. Abstaining is wrong for a non-empty reference; empty/null references accept explicit absence (or zero for numeric questions). Ambiguous prose is unparsed, not credited for containing a matching fragment. Results are in `typed_correct`, `answer_type`, and `typed_reason`.
 - **LLM judge (secondary)**: the original `answer_correctness`, reported as `accuracy` in `output_eval/performance_summary.csv` next to `typed_accuracy`.
 
 If the agent output has an `evidence` field, each citation `{"resource_id": "Observation/<id>", "field_path": "valueQuantity.value", "value": 98.7}` is resolved against the FHIR store (`utils/evidence_scorer.py`). A citation is valid when the resource exists, the path resolves, and the value matches. The evaluation reports the valid-evidence fraction, the reasons citations were invalid (`malformed`, `missing_resource`, `bad_path`, `value_mismatch`), and the precision/recall of the cited resource ids against `true_fhir_ids`. Use `--evidence_source ndjson` to resolve against the local NDJSON files instead of the store.
