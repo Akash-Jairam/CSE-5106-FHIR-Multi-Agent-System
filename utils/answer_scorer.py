@@ -11,8 +11,8 @@ The reference answer (an EHRSQL result such as "[[1]]", "[['M']]",
              max(ABS_TOL, REL_TOL * |reference|); stated units are converted
              to the unit the question implies and incompatible units are wrong
   category   normalized string match (e.g. "M" matches "male")
-  set        several reference rows: every reference value must be present;
-             a structured (list) answer must also have no extra values
+  set        several reference rows: values are matched without regard to
+             order; numeric/timestamp lists must have no missing or extra values
   empty      reference "[]" or "[[None]]": correct only if the agent gives no
              value (abstains, says none/no, or answers 0 to a numeric question)
 
@@ -21,6 +21,7 @@ text (the current agents) or structured values (bool, number, str, list, or
 None), which skip text extraction.
 """
 import ast
+import json
 import math
 import re
 from datetime import datetime
@@ -51,12 +52,14 @@ FINAL_ANSWER_RE = re.compile(r"^\s*the final answer is\s*:?\s*", re.I)
 
 # unit -> (dimension, factor to the dimension's base unit)
 UNITS = {
+    "s": ("time", 1 / 3600), "sec": ("time", 1 / 3600), "second": ("time", 1 / 3600), "seconds": ("time", 1 / 3600),
     "min": ("time", 1 / 60), "mins": ("time", 1 / 60), "minute": ("time", 1 / 60), "minutes": ("time", 1 / 60),
     "h": ("time", 1), "hr": ("time", 1), "hrs": ("time", 1), "hour": ("time", 1), "hours": ("time", 1),
     "d": ("time", 24), "day": ("time", 24), "days": ("time", 24),
     "week": ("time", 168), "weeks": ("time", 168),
     "kg": ("mass", 1), "kgs": ("mass", 1), "kilogram": ("mass", 1), "kilograms": ("mass", 1),
     "g": ("mass", 1e-3), "gram": ("mass", 1e-3), "grams": ("mass", 1e-3),
+    "mg": ("mass", 1e-6), "mcg": ("mass", 1e-9), "ug": ("mass", 1e-9),
     "lb": ("mass", 0.45359237), "lbs": ("mass", 0.45359237), "pound": ("mass", 0.45359237),
     "pounds": ("mass", 0.45359237),
     "ml": ("volume", 1), "cc": ("volume", 1), "l": ("volume", 1000), "liter": ("volume", 1000),
@@ -65,6 +68,14 @@ UNITS = {
     "inch": ("length", 2.54), "inches": ("length", 2.54),
 }
 GENDER = {"m": "male", "f": "female"}
+MEASUREMENT_UNITS = set(UNITS) | {"%", "mg/dl", "mmol/l", "meq/l", "g/dl", "iu", "bpm", "c", "f"}
+CONTEXT_WORDS = {"and", "or", "at", "on", "for", "from", "to", "with", "because", "which", "as",
+                 "was", "were", "is", "are", "based", "recorded", "measured"}
+CATEGORY_PREFIX_RE = re.compile(
+    r"^(?:(?:the )?(?:final )?answer (?:is|was)|"
+    r"(?:the )?patient (?:is|was)|"
+    r"(?:the )?(?:patient(?: s)? )?(?:sex|gender|marital status|admission type|care ?unit|"
+    r"drug|medication|specimen|organism(?: name)?) (?:is|was))\s+")
 
 
 # ---------------------------------------------------------------------------
@@ -92,11 +103,10 @@ def _is_timestamp(value):
 def _as_number(value):
     if isinstance(value, bool):
         return None
-    if isinstance(value, (int, float)):
-        return float(value)
     try:
-        return float(str(value).replace(",", ""))
-    except ValueError:
+        number = float(value) if isinstance(value, (int, float)) else float(str(value).replace(",", ""))
+        return number if math.isfinite(number) else None
+    except (TypeError, ValueError, OverflowError):
         return None
 
 
@@ -123,7 +133,15 @@ def _is_count(question, template):
     text = f"{template} {question}".lower()
     if "have passed" in text or "[unit_count]" in template:
         return False
-    return template.startswith("Count") or bool(re.search(r"\b(how many times|number of|count)\b", text))
+    return template.lower().startswith("count") or bool(re.search(r"\b(how many|number of|count (?:the|of))\b", text))
+
+
+def _expects_number(question, template):
+    if template.startswith(("Has_verb", "Is the")):
+        return False
+    text = f"{template} {question}".lower()
+    return _is_count(question, template) or bool(re.search(
+        r"\b(value|weight|height|dose|volume|amount|length of|how many|change in)\b", text))
 
 
 def expected_unit(question, template):
@@ -145,7 +163,9 @@ def expected_unit(question, template):
 
 def timestamp_precision(question):
     text = question.lower()
-    if re.search(r"\b(date|day)\b", text) and not re.search(r"\b(time|hour|when)\b", text):
+    if re.search(r"\bseconds?\b", text):
+        return "second"
+    if re.search(r"\b(dates?|days?)\b", text) and not re.search(r"\b(times?|hours?|when)\b", text):
         return "day"
     return "minute"
 
@@ -170,6 +190,9 @@ def _parse_datetime(text):
 
 def extract_timestamps(text, question=""):
     """(datetime, has_time) pairs in order of appearance, skipping ones quoted from the question."""
+    if DATETIME_RE.fullmatch(text.strip()):
+        dt, has_time = _parse_datetime(text)
+        return [(dt, has_time)] if dt else []
     echoed = {_parse_datetime(m.group(0))[0] for m in DATETIME_RE.finditer(question)}
     found = [_parse_datetime(m.group(0)) for m in DATETIME_RE.finditer(text)]
     return [(dt, has_time) for dt, has_time in found if dt and dt not in echoed]
@@ -191,13 +214,15 @@ def extract_numbers(text, question=""):
     stripped = UUID_RE.sub(" ", text)
     stripped = DATETIME_RE.sub(" ", stripped)
     stripped = SLASH_DATE_RE.sub(" ", stripped)
-    echoed = _echoed_numbers(question)
+    echoed = set() if NUMBER_RE.fullmatch(text.strip()) else _echoed_numbers(question)
     numbers = []
     for match in NUMBER_RE.finditer(stripped):
         value = float(match.group(1).replace(",", ""))
         if value in echoed:
             continue
         unit = (match.group(2) or "").lower().rstrip(".")
+        if unit in CONTEXT_WORDS:
+            unit = ""
         numbers.append((value, unit))
     return numbers
 
@@ -208,13 +233,9 @@ def _normalize(text):
     return re.sub(r"\s+", " ", text).strip(" .")
 
 
-def _contains(text, value):
-    norm_value = _normalize(value)
-    if not norm_value:
-        return False
-    candidates = {norm_value, GENDER.get(norm_value, norm_value)}
-    norm_text = f" {_normalize(text)} "
-    return any(f" {c} " in norm_text for c in candidates)
+def _category_value(value):
+    normalized = CATEGORY_PREFIX_RE.sub("", _normalize(value))
+    return GENDER.get(normalized, normalized)
 
 
 def is_abstention(answer):
@@ -236,14 +257,16 @@ def is_negative(text):
 
 def numbers_match(agent, reference, exact=False):
     if exact:
-        return math.isclose(agent, reference, abs_tol=1e-9)
+        return agent == reference
     return abs(agent - reference) <= max(ABS_TOL, REL_TOL * abs(reference))
 
 
 def _convert(value, unit, target):
     """Convert `value` in `unit` to `target`; None if the units are incompatible."""
-    if not unit or not target or unit not in UNITS:
+    if not unit or not target:
         return value
+    if unit not in UNITS or target not in UNITS:
+        return None
     dim, factor = UNITS[unit]
     target_dim, target_factor = UNITS[target]
     if dim != target_dim:
@@ -254,8 +277,12 @@ def _convert(value, unit, target):
 def timestamps_match(agent, reference, precision):
     agent_dt, has_time = agent
     ref_dt, _ = _parse_datetime(reference)
+    if agent_dt is None or ref_dt is None:
+        return False
     if precision == "day":
         return agent_dt.date() == ref_dt.date()
+    if precision == "second":
+        return has_time and agent_dt.replace(microsecond=0) == ref_dt.replace(microsecond=0)
     return has_time and agent_dt.replace(second=0, microsecond=0) == ref_dt.replace(second=0, microsecond=0)
 
 
@@ -270,7 +297,10 @@ def _result(correct, kind, reason, parsed=None):
 def _score_boolean(answer, reference, text):
     ref = bool(_as_number(reference))
     if isinstance(answer, bool) or (not isinstance(answer, str) and _as_number(answer) is not None):
-        agent = bool(answer if isinstance(answer, bool) else _as_number(answer))
+        value = answer if isinstance(answer, bool) else _as_number(answer)
+        if value not in (0, 1):
+            return _result(0, "boolean", "unparsed")
+        agent = bool(value)
     else:
         lead = YES_NO_RE.match(text)
         if lead:
@@ -299,8 +329,14 @@ def _score_number(answer, reference, text, question, template):
         if ref == 0 and is_negative(text) and not ABSTAIN_RE.search(text):
             return _result(1, "number", "negative statement for 0", 0)
         return _result(0, "number", "abstained" if ABSTAIN_RE.search(text) else "unparsed")
+    if len(numbers) != 1:
+        return _result(0, "number", "unparsed (multiple numeric values)")
     value, unit = numbers[0]
+    if _is_count(question, template) and unit in MEASUREMENT_UNITS:
+        return _result(0, "number", f"unit mismatch ({unit} on a count)", value)
     target = expected_unit(question, template)
+    if unit and not target and not _is_count(question, template):
+        return _result(0, "number", f"unparsed (reference unit unknown for {unit})", value)
     converted = _convert(value, unit, target)
     if converted is None:
         return _result(0, "number", f"unit mismatch ({unit} vs {target})", value)
@@ -317,16 +353,15 @@ def _score_timestamp(answer, reference, text, question):
     found = extract_timestamps(text if isinstance(answer, str) else str(answer), question)
     if not found:
         return _result(0, "timestamp", "abstained" if ABSTAIN_RE.search(text) or is_negative(text) else "unparsed")
+    if len(found) != 1:
+        return _result(0, "timestamp", "unparsed (multiple timestamps)")
     ok = timestamps_match(found[0], reference, precision)
     reason = "match" if ok else ("missing time" if precision == "minute" and not found[0][1] else "mismatch")
     return _result(ok, "timestamp", f"{reason} ({precision} precision)", found[0][0].isoformat())
 
 
 def _score_category(answer, reference, text):
-    if not isinstance(answer, str):
-        ok = _normalize(answer) in {_normalize(reference), GENDER.get(_normalize(reference))}
-    else:
-        ok = _contains(text, reference)
+    ok = _category_value(answer) == _category_value(reference)
     if not ok and ABSTAIN_RE.search(text):
         return _result(0, "category", "abstained")
     return _result(ok, "category", "match" if ok else "mismatch")
@@ -336,45 +371,67 @@ def _score_set(answer, values, text, question, template):
     kind = value_type(values, template)
     if isinstance(answer, (list, tuple)):
         if kind == "number":
-            agent = sorted(_as_number(a) for a in answer)
-            ref = sorted(_as_number(v) for v in values)
-            ok = len(agent) == len(ref) and all(a is not None and numbers_match(a, r) for a, r in zip(agent, ref))
+            agent = [_as_number(a) for a in answer]
+            if any(a is None for a in agent):
+                return _result(0, "set", "unparsed")
+            agent = [(a, "") for a in agent]
+        elif kind == "timestamp":
+            agent = [_parse_datetime(str(a)) for a in answer]
         else:
-            ok = {_normalize(a) for a in answer} == {_normalize(v) for v in values}
-        return _result(ok, "set", "match" if ok else "mismatch", list(answer))
-    if kind == "number":
-        found = [v for v, _ in extract_numbers(text, question)]
-        missing = [v for v in values if not any(numbers_match(f, _as_number(v)) for f in found)]
+            ok = {_category_value(a) for a in answer} == {_category_value(v) for v in values}
+            return _result(ok, "set", "match" if ok else "mismatch", list(answer))
+    elif kind == "number":
+        agent = extract_numbers(text, question)
     elif kind == "timestamp":
-        found = extract_timestamps(text, question)
-        precision = timestamp_precision(question)
-        missing = [v for v in values if not any(timestamps_match(f, v, precision) for f in found)]
+        agent = extract_timestamps(text, question)
     else:
-        missing = [v for v in values if not _contains(text, v)]
-    if missing and ABSTAIN_RE.search(text):
-        return _result(0, "set", "abstained")
-    reason = "all reference values present" if not missing else f"missing {len(missing)} of {len(values)}"
-    return _result(not missing, "set", reason)
+        # A delimited list is unambiguous; prose membership is not an exact set.
+        items = [item.strip() for item in re.split(r"[,;\n]|\s+and\s+", text, flags=re.I)]
+        if len(items) < 2 or any(not item for item in items):
+            return _result(0, "set", "unparsed")
+        ok = {_category_value(item) for item in items} == {_category_value(v) for v in values}
+        return _result(ok, "set", "match" if ok else "mismatch")
+
+    if kind == "number":
+        if _is_count(question, template) and any(unit in MEASUREMENT_UNITS for _, unit in agent):
+            return _result(0, "set", "unit mismatch (measurement unit on a count)")
+        target = expected_unit(question, template)
+        if not target and not _is_count(question, template) and any(unit for _, unit in agent):
+            return _result(0, "set", "unparsed (reference unit unknown)")
+        converted = [_convert(v, unit, target) for v, unit in agent]
+        if any(v is None for v in converted):
+            return _result(0, "set", "unit mismatch")
+        reference = sorted(_as_number(v) for v in values)
+        exact = _is_count(question, template)
+        ok = len(converted) == len(reference) and all(
+            numbers_match(a, r, exact) for a, r in zip(sorted(converted), reference))
+    else:
+        precision = timestamp_precision(question)
+        reference = sorted(values, key=lambda v: _parse_datetime(v)[0])
+        if any(dt is None for dt, _ in agent):
+            return _result(0, "set", "unparsed")
+        ok = len(agent) == len(reference) and all(
+            timestamps_match(a, r, precision) for a, r in zip(sorted(agent), reference))
+    return _result(ok, "set", "match" if ok else "mismatch")
 
 
 def _score_empty(answer, values, text, question, template):
     """Reference has no value: correct only if the agent gives none."""
-    kind = value_type([v for v in values if v is not None], template) if any(v is not None for v in values) else None
     if is_abstention(answer):
         return _result(1, "empty", "abstained")
     if not isinstance(answer, str):
-        ok = _as_number(answer) == 0
+        ok = _expects_number(question, template) and _as_number(answer) == 0
         return _result(ok, "empty", "zero" if ok else "gave a value", answer)
     if template.startswith(("Has_verb", "Is the")):
         # A yes/no answer to a question whose reference is NULL is still an answer
         if YES_NO_RE.match(text):
             return _result(0, "empty", "gave yes/no")
-    if extract_timestamps(text, question) and not is_negative(text):
+    if extract_timestamps(text, question):
         return _result(0, "empty", "gave a timestamp")
     numbers = [v for v, _ in extract_numbers(text, question)]
-    if numbers and any(n != 0 for n in numbers) and not is_negative(text):
+    if numbers and any(n != 0 for n in numbers):
         return _result(0, "empty", "gave a value", numbers[0])
-    if is_negative(text) or (numbers and all(n == 0 for n in numbers)):
+    if is_negative(text) or (_expects_number(question, template) and numbers and all(n == 0 for n in numbers)):
         return _result(1, "empty", "said none / zero")
     return _result(0, "empty", "gave a value")
 
@@ -382,6 +439,19 @@ def _score_empty(answer, values, text, question, template):
 def score_answer(answer, true_answer, question="", template=""):
     """Score one answer against its reference. Returns a dict with
     `typed_correct` (0/1), `answer_type`, `typed_reason`, and `typed_parsed`."""
+    question = question if isinstance(question, str) else ""
+    template = template if isinstance(template, str) else ""
+    # CSV output serializes structured lists; restore them before comparing sets.
+    if isinstance(answer, str) and answer.strip().startswith("["):
+        try:
+            parsed = json.loads(answer)
+        except json.JSONDecodeError:
+            try:
+                parsed = ast.literal_eval(answer)
+            except (ValueError, SyntaxError):
+                parsed = answer
+        if isinstance(parsed, (list, tuple)):
+            answer = parsed
     values = parse_reference(true_answer)
     text = _clean(answer) if isinstance(answer, str) else ""
     if not values or all(v is None for v in values):
@@ -411,4 +481,4 @@ def _has_value(answer, values, text, question, template):
         return bool(extract_numbers(text, question))
     if kind == "timestamp":
         return bool(extract_timestamps(text, question))
-    return any(_contains(text, v) for v in values)
+    return any(_category_value(text) == _category_value(v) for v in values)
