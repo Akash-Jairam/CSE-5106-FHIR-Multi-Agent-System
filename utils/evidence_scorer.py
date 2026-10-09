@@ -18,6 +18,7 @@ Per answer this reports the valid-evidence fraction and the precision/recall
 of the cited resource ids against the gold `true_fhir_ids`.
 """
 import glob
+import gzip
 import json
 import math
 import os
@@ -30,7 +31,6 @@ from .metrics_utils import retrieval_precision, retrieval_recall
 SUPPORTED_TYPES = ["Patient", "Encounter", "Condition", "MedicationRequest", "Procedure", "Observation",
                    "MedicationAdministration", "Location", "Specimen", "Medication"]
 PATH_SEGMENT_RE = re.compile(r"^([A-Za-z_][\w-]*)((?:\[\d+\])*)$")
-ID_RE = re.compile(rb'"id"\s*:\s*"([^"]+)"')
 
 
 # ---------------------------------------------------------------------------
@@ -240,14 +240,19 @@ def fetch_from_ndjson(refs, fhir_dir):
     """Type-qualified resources from local NDJSON, with unambiguous bare-id aliases."""
     if not refs:
         return {}
-    wanted = {rid.encode() for _, rid in refs}
+    paths = sorted(glob.glob(os.path.join(fhir_dir, "*.ndjson")) + glob.glob(os.path.join(fhir_dir, "*.ndjson.gz")))
+    if not paths:
+        raise FileNotFoundError(f"No FHIR NDJSON files found in {fhir_dir}")
+    wanted = {rid for _, rid in refs}
     resources = {}
-    for path in sorted(glob.glob(os.path.join(fhir_dir, "*.ndjson"))):
-        with open(path, "rb") as f:
+    for path in paths:
+        opener = gzip.open if path.endswith(".gz") else open
+        with opener(path, "rt", encoding="utf-8") as f:
             for line in f:
-                match = ID_RE.search(line)
-                if match and match.group(1) in wanted:
-                    resource = json.loads(line)
+                if not line.strip():
+                    continue
+                resource = json.loads(line)
+                if resource.get("id") in wanted:
                     if (resource.get("resourceType"), resource.get("id")) in refs or (None, resource.get("id")) in refs:
                         _index_resource(resources, resource)
     return resources
