@@ -71,6 +71,7 @@ class BaseAgent:
         self.call_usage = []        # per model call: prompt, completion, cached prompt tokens
         self.tool_calls_made = 0
         self.budget_stop = None     # why a ceiling stopped the run, if one did
+        self.last_llm_error = None
         
     def _update_usage(self, usage_info):
         """Update total usage statistics."""
@@ -104,14 +105,17 @@ class BaseAgent:
             if remaining < 1:
                 self.budget_stop = (f"token budget: {self.total_usage['total_tokens']} tokens used, the next prompt "
                                     f"needs ~{prompt}, ceiling {self.max_total_tokens}")
-                return None, f"{BUDGET_EXCEEDED}: {self.budget_stop}", None
+                self.last_llm_error = f"{BUDGET_EXCEEDED}: {self.budget_stop}"
+                return None, self.last_llm_error, None
             limits = {"max_completion_tokens": remaining, "max_retries": 1}
         response, error, usage_info = safe_llm_call(model=self.model, messages=messages, tools=tools,
                                                     base_url=self.base_url, **limits)
         self._update_usage(usage_info)
+        self.last_llm_error = error
         if self.max_total_tokens is not None and self.total_usage['total_tokens'] > self.max_total_tokens:
             self.budget_stop = "provider usage exceeded the reserved token ceiling"
-            return None, f"{BUDGET_EXCEEDED}: {self.budget_stop}", usage_info
+            self.last_llm_error = f"{BUDGET_EXCEEDED}: {self.budget_stop}"
+            return None, self.last_llm_error, usage_info
         return response, error, usage_info
 
     def _take_tool_call(self):
@@ -142,13 +146,15 @@ class BaseAgent:
             answer, evidence, limitation = result["answer"], result.get("evidence") or [], result.get("limitation")
         else:
             answer, evidence, limitation = parse_final_message(result.get("final_answer"))
-        error = result.get("error")
+        error = result.get("error") or self.last_llm_error
         # A refused call under the token ceiling is an abstention with a reason, not an error
         if any(isinstance(v, str) and BUDGET_EXCEEDED in v for v in (answer, error)):
             if isinstance(answer, str) and BUDGET_EXCEEDED in answer:
                 answer, evidence = None, []
             error = None
             limitation = limitation or f"Stopped by the {self.budget_stop}"
+        elif error:
+            answer, evidence = None, []
         trace = result.get("trace", self.messages)
         return {
             "answer": answer,

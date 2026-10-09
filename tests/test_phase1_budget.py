@@ -71,6 +71,16 @@ class BudgetTests(unittest.TestCase):
         self.assertIn("invalid tool", result["error"])
         self.assertEqual(result["tokens"]["total"], 13)
 
+    def test_legacy_agent_api_error_is_a_failed_run(self):
+        def legacy(_):
+            _, error, _ = self.agent._llm_call([])
+            return {"final_answer": f"Error: {error}"}
+        self.agent._run = legacy
+        with patch("agent.base_agent.safe_llm_call", return_value=(None, "API unavailable", None)):
+            result = self.agent.run("q")
+        self.assertIsNone(result["answer"])
+        self.assertEqual(result["error"], "API unavailable")
+
     def test_unknown_cost_remains_unknown(self):
         self.agent._update_usage({"cost": None})
         self.agent._update_usage({"cost": 0.25})
