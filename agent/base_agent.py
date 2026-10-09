@@ -147,6 +147,11 @@ class BaseAgent:
         else:
             answer, evidence, limitation = parse_final_message(result.get("final_answer"))
         error = result.get("error") or self.last_llm_error
+        legacy_answer = result.get("final_answer")
+        if isinstance(legacy_answer, str) and legacy_answer in {
+                "No final answer reached within iteration limit.",
+                "No tool calls found in the response"}:
+            error = result["final_answer"]
         # A refused call under the token ceiling is an abstention with a reason, not an error
         if any(isinstance(v, str) and BUDGET_EXCEEDED in v for v in (answer, error)):
             if isinstance(answer, str) and BUDGET_EXCEEDED in answer:

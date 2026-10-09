@@ -81,6 +81,12 @@ class BudgetTests(unittest.TestCase):
         self.assertIsNone(result["answer"])
         self.assertEqual(result["error"], "API unavailable")
 
+    def test_iteration_failure_is_not_an_empty_answer(self):
+        self.agent._run = lambda _: {"final_answer": "No final answer reached within iteration limit."}
+        result = self.agent.run("q")
+        self.assertIsNone(result["answer"])
+        self.assertIn("iteration limit", result["error"])
+
     def test_unknown_cost_remains_unknown(self):
         self.agent._update_usage({"cost": None})
         self.agent._update_usage({"cost": 0.25})
