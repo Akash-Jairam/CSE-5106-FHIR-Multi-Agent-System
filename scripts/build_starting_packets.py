@@ -207,6 +207,7 @@ def main():
                     manifest.append({"question_id": q.question_id, "split": split_of[q.question_id],
                                      "patient_fhir_id": patient, "max_tokens": budget, "current_time": current_time,
                                      "packet_version": PACKET_VERSION,
+                                     "packet_text_sha256": hashlib.sha256(packet["text"].encode("utf-8")).hexdigest(),
                                      **fingerprints,
                                      "n_tokens": packet["n_tokens"], "truncated": packet["truncated"],
                                      "omitted_encounters": packet["omitted_encounters"],

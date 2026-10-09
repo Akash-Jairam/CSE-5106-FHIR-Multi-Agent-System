@@ -213,6 +213,9 @@ class StartingPacketTests(unittest.TestCase):
             frozen = output.read_bytes()
             packets = [json.loads(line) for line in output.read_text().splitlines()]
             self.assertEqual({packet["split"] for packet in packets}, {"pilot", "dev", "held_out"})
+            expected = build_starting_packet("patient gender", {"Patient": [patient()]}, "p")
+            expected_hash = hashlib.sha256(expected["text"].encode("utf-8")).hexdigest()
+            self.assertTrue(all(packet["packet_text_sha256"] == expected_hash for packet in packets))
             sweep = subprocess.run(command + ["--sweep", "400", "800"], capture_output=True, text=True, check=True)
             self.assertNotIn("gold recall", sweep.stdout)
             self.assertNotIn("[held_out", sweep.stdout)
@@ -245,6 +248,7 @@ class StartingPacketTests(unittest.TestCase):
             self.assertIn(packet["patient_fhir_id"], patients[packet["split"]])
             self.assertEqual(packet["packet_version"], 2)
             self.assertEqual(packet["max_tokens"], 8000)
+            self.assertRegex(packet["packet_text_sha256"], r"^[0-9a-f]{64}$")
             self.assertLessEqual(packet["n_tokens"], 8000)
             self.assertEqual(packet["source_sha256"], source_hash)
             self.assertEqual(packet["split_sha256"], split_hash)

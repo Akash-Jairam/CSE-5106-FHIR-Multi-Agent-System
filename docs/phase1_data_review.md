@@ -53,7 +53,10 @@ python scripts/build_starting_packets.py --fhir-dir /path/to/fhir \
 Commit and freeze the resulting `manifests/starting_packets.jsonl` and
 `manifests/starting_packets.source.json` before any
 diagnostics or held-out experiments. All systems must use the same generated
-packet version and settings. Offline regression fixtures cover compressed
+packet version and settings. Each packet row includes `packet_text_sha256`,
+the SHA256 of its exact UTF-8 text, so a runtime packet can be compared with
+the frozen common input even if FHIR search order or store contents change.
+Offline regression fixtures cover compressed
 and compact NDJSON parity, linked metadata, exact token ceilings, source
 field/list paths, operation scope, deterministic sampling, and exposure
 reservations. No held-out gold-answer analysis or live model calls were used
