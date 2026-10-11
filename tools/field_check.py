@@ -15,9 +15,17 @@ mistakes:
   must belong to it (or to an ICU stay that is part of it)
 - current time: the cited resource is dated after the question's assumed
   current time
+- time window: the cited resource is dated outside the window the question
+  restricts events to ("since 05/2137", "in 11/2136", "09/this year",
+  "last month/21", "since 2 months ago", "yesterday", ...). The windows
+  follow the dataset's SQL: relative windows count back from midnight of
+  the current date with SQLite month arithmetic, and "since" windows end at
+  the current time, which the current-time check enforces.
 - patient: patient-owned evidence must link to the question's patient
 """
+import calendar
 import re
+from datetime import datetime, timedelta
 
 from utils.answer_scorer import UNITS
 from utils.evidence_scorer import check_citation, fetch_from_store, get_cited_resource, parse_citation, resolve_path
@@ -25,7 +33,15 @@ from .registry import tool_registry
 
 QUESTION_UNIT_RE = re.compile(r"\bin\s+(" + "|".join(sorted(map(re.escape, UNITS), key=len, reverse=True)) + r")\b", re.I)
 ENCOUNTER_SCOPE_RE = re.compile(r"\b(first|last|latest)\s+(hospital|icu)\s+(?:visit|encounter|stay)\b", re.I)
-
+# MIMIC-IV dates are shifted into 2100-2299; anything else is not a date window
+YEAR = r"2[12]\d{2}"
+SINCE_AGO_RE = re.compile(r"\bsince (\d+) (day|month|year)s? ago\b", re.I)
+SINCE_DATE_RE = re.compile(rf"\bsince ((?:\d{{2}}/){{0,2}}{YEAR})\b", re.I)
+ON_DATE_RE = re.compile(rf"\b(?:in|on) ((?:\d{{2}}/){{0,2}}{YEAR})\b", re.I)
+RELATIVE_YEAR_RE = re.compile(r"((?:\d{2}/){0,2})\b(this|last) year\b", re.I)
+RELATIVE_MONTH_RE = re.compile(r"\b(this|last) month(?:/(\d{2}))?", re.I)
+RELATIVE_DAY_RE = re.compile(r"\b(today|yesterday)\b", re.I)
+WALL_CLOCK = "%Y-%m-%d %H:%M:%S"
 
 def _ref_id(reference):
     if isinstance(reference, str):
@@ -35,6 +51,70 @@ def _ref_id(reference):
 
 def _wall_clock(value):
     return value[:19].replace("T", " ") if isinstance(value, str) else ""
+
+
+def _months_before(day, months):
+    """`day` minus `months` as SQLite computes it: keep the day of month and
+    roll an overflow into the next month (12-31 minus 1 month is 12-01)."""
+    year, month = divmod(day.year * 12 + day.month - 1 - months, 12)
+    month += 1
+    last = calendar.monthrange(year, month)[1]
+    return datetime(year, month, min(day.day, last)) + timedelta(days=max(0, day.day - last))
+
+
+def _period(year, month=None, day=None):
+    """[start, end) of a calendar year, month, or day."""
+    if day is not None:
+        start = datetime(year, month, day)
+        return start, start + timedelta(days=1)
+    if month is not None:
+        start = datetime(year, month, 1)
+        return start, _months_before(start, -1)
+    return datetime(year, 1, 1), datetime(year + 1, 1, 1)
+
+
+def _date_parts(text):
+    """(year, month, day) from "MM/DD/YYYY", "MM/YYYY", or "YYYY"."""
+    parts = [int(p) for p in text.split("/")]
+    year = parts.pop()
+    return (year, *(parts + [None, None])[:2])
+
+
+def question_time_window(question, current_time=None):
+    """The window a question restricts events to, as (start, end, phrase).
+
+    start and end are wall-clock strings; end is None for "since" windows,
+    which run to the current time. Returns None if the question has no
+    recognized window, or has a relative one and no current time.
+    """
+    question = question or ""
+    try:
+        now = datetime.strptime(current_time, WALL_CLOCK) if current_time else None
+        today = datetime(now.year, now.month, now.day) if now else None
+        if (match := SINCE_AGO_RE.search(question)) and today:
+            n, unit = int(match.group(1)), match.group(2).lower()
+            start = today - timedelta(days=n) if unit == "day" else _months_before(today, n * (12 if unit == "year" else 1))
+            window = start, None
+        elif match := SINCE_DATE_RE.search(question):
+            window = _period(*_date_parts(match.group(1)))[0], None
+        elif match := ON_DATE_RE.search(question):
+            window = _period(*_date_parts(match.group(1)))
+        elif (match := RELATIVE_YEAR_RE.search(question)) and today:
+            year = today.year - (match.group(2).lower() == "last")
+            prefix = [int(p) for p in match.group(1).split("/") if p]
+            window = _period(year, *(prefix + [None, None])[:2])
+        elif (match := RELATIVE_MONTH_RE.search(question)) and today:
+            first = _months_before(datetime(today.year, today.month, 1), match.group(1).lower() == "last")
+            window = _period(first.year, first.month, int(match.group(2)) if match.group(2) else None)
+        elif (match := RELATIVE_DAY_RE.search(question)) and today:
+            day = today - timedelta(days=match.group(1).lower() == "yesterday")
+            window = _period(day.year, day.month, day.day)
+        else:
+            return None
+    except ValueError:  # an impossible date such as 02/30, or an unparsable current time
+        return None
+    start, end = window
+    return start.strftime(WALL_CLOCK), end.strftime(WALL_CLOCK) if end else None, match.group(0)
 
 
 def _resource_time(resource):
@@ -73,7 +153,7 @@ def _question_encounter(question, patient_fhir_id, resources, from_store, curren
     return encounters[0 if order.lower() == "first" else -1]["id"], []
 
 
-def _check_one(citation, resources, question, current_time, encounter_id, patient_fhir_id):
+def _check_one(citation, resources, question, current_time, encounter_id, patient_fhir_id, window=None):
     status = check_citation(citation, resources)
     result = {"citation": citation, "status": status, "warnings": []}
     parsed = parse_citation(citation)
@@ -133,6 +213,13 @@ def _check_one(citation, resources, question, current_time, encounter_id, patien
         time = _resource_time(get_cited_resource(resources, "Encounter", linked) or {})
     if current_time and time and time > current_time:
         result["warnings"].append(f"current_time: the resource is dated {time}, after the assumed current time {current_time}")
+    # Windows filter prescriptions by their start; an order time alone does not date one.
+    if window and time and not (rtype == "MedicationRequest" and not start):
+        window_start, window_end, phrase = window
+        moment = (time + " 00:00:00")[:19]  # a bare date is midnight
+        if moment < window_start or (window_end and moment >= window_end):
+            result["warnings"].append(f"time_window: the resource is dated {time}, outside the question's window "
+                                      f"\"{phrase}\" ({window_start} to {window_end or 'the current time'})")
     return result
 
 
@@ -159,15 +246,16 @@ def check_fields(citations, question="", current_time=None, encounter_id=None, r
         if encounter_id and encounter_id != scoped:
             scope_issues.append(f"encounter_scope: the question selects Encounter/{scoped}, not Encounter/{encounter_id}")
         encounter_id = scoped
+    window = question_time_window(question, current_time)
     # Encounters also establish a date for resources such as Conditions.
-    if encounter_id or current_time:
+    if encounter_id or current_time or window:
         cited = [r for p in parsed if (r := get_cited_resource(resources, p[0], p[1])) is not None]
         linked = {_ref_id(r.get("encounter") or r.get("context")) for r in cited}
         missing = {("Encounter", i) for i in linked if i and get_cited_resource(resources, "Encounter", i) is None}
         if missing:
             resources.update(fetch_from_store(missing))
 
-    results = [_check_one(c, resources, question, current_time, encounter_id, patient_fhir_id)
+    results = [_check_one(c, resources, question, current_time, encounter_id, patient_fhir_id, window)
                for c in citations]
     issues = scope_issues
     for i, r in enumerate(results):
@@ -184,7 +272,8 @@ tool_registry.register_tool("check_fields", check_fields, {
         "description": ("Deterministically check cited FHIR evidence: whether each resource exists, the field path "
                         "resolves, and the value matches; also flags the wrong time field (issued vs "
                         "effectiveDateTime, authoredOn vs dispenseRequest.validityPeriod.start), unit "
-                        "mismatches, resources outside a scoped encounter, and resources after the current time."),
+                        "mismatches, resources outside a scoped encounter, resources outside the question's time "
+                        "window (e.g. 'since 05/2137', 'last month'), and resources after the current time."),
         "parameters": {
             "type": "object",
             "properties": {

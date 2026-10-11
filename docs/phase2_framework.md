@@ -166,6 +166,40 @@ Every issue is `{type, record, field, responsible_role, action}`.
 repair it). A reply without a JSON verdict, or with malformed issues, is an
 error, so a draft is never released unchecked.
 
+## Shared Field Check (P2-16)
+
+`tools/field_check.py` is the deterministic check shared by the single agent
+(its `check_fields` tool and automatic final check) and the verifier. Phase
+1 already checked the time field (`issued` vs `effectiveDateTime`,
+`authoredOn` vs the prescription start), units, the encounter link, the
+patient, and the current time.
+
+Phase 2 adds a **time-window** check. Of the 370 frozen questions, the
+encounter-scope check already recognizes 88 of the 89 that name a visit,
+and none ask for a unit with "in <unit>". About 170, though, restrict
+events to a time window, and nothing checked it. `question_time_window()`
+parses every window phrasing in the dataset and follows its SQL semantics:
+
+| Phrasing | Window |
+|---|---|
+| `since 05/2137`, `since 08/11/2146`, `since 2157` | from that month, day, or year, to the current time |
+| `since N days/months/years ago` | from midnight of the current date minus N, with SQLite month arithmetic (12-31 minus 1 month is 12-01) |
+| `in 11/2136`, `in 2142`, `on 12/06/2183` | that month, year, or day |
+| `[MM/[DD/]]this year`, `… last year` | that calendar year, month, or day |
+| `this month[/DD]`, `last month[/DD]` | that calendar month or day |
+| `today`, `yesterday` | that day |
+
+A cited resource dated outside the window gets a `time_window` warning,
+which the verifier turns into an analysis issue. The check uses
+wall-clock time, and Conditions are dated by their encounter. A
+prescription without a start time isn't checked, because its order time
+(`authoredOn`) is not what the window filters.
+
+**Validation.** No held-out patient was used. On the 618 eligible
+questions from non-held-out patients that have a window, all 14,123 gold
+evidence citations pass the check. Before the prescription rule above was
+added, the only one flagged was a prescription with only an order time.
+
 ## Spike Results
 
 `tests/test_phase2_framework.py` runs a two-role retrieval → analysis
