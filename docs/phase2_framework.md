@@ -111,6 +111,34 @@ LLM roles, and P2-17 refines `route()`. The controller is not yet a
   verifier's issues and what it already holds, and doesn't reload the
   packet.
 
+## Analysis Agent (P2-14)
+
+[`agent/analysis_agent.py`](../agent/analysis_agent.py) defines
+`AnalysisAgent`, the controller's analysis handler:
+
+- **Compute in Python only.** Its one tool is `execute_python_code`, which
+  runs over the workspace shared with retrieval. It cannot fetch records; if
+  evidence is missing, it abstains and says what is missing, so repair
+  routing can send the issue to retrieval.
+- **What the model sees.** The question and assumptions, the retrieval
+  report (relevant types, scope, limitation), and for each resource type a
+  record count and one pruned sample record. The full records stay in the
+  sandbox, not the prompt.
+- **Draft.** It extends the common answer object as follows:
+
+  ```json
+  {"answer": ..., "evidence": [{"resource_id", "field_path", "value"}],
+   "operation": "how the answer was computed",
+   "contributing_ids": ["Observation/o1", ...], "limitation": null}
+  ```
+
+  `contributing_ids` lists every record the computation used. It defaults to
+  the cited records. A reply without a well-formed draft is an error, as for
+  the direct baseline.
+- **Repair.** A repair task shows the previous draft, the verifier's issues,
+  and the current record counts, which include any records retrieval
+  re-fetched.
+
 ## Spike Results
 
 `tests/test_phase2_framework.py` runs a two-role retrieval → analysis
