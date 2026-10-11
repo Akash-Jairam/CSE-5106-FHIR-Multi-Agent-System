@@ -64,10 +64,10 @@ a `BaseAgent` whose `_run()` decides the order of work without a model:
 2. It runs retrieval → analysis → verification. Each role's result goes to
    the next role over the `Bus`.
 3. If verification reports issues, it runs **at most one repair**. The
-   repair starts from the earliest responsible role: `retrieval` reruns
-   retrieval and then analysis, and `analysis` reruns analysis only. The
-   repair task includes the issues and the previous output. The controller
-   then verifies again.
+   repair starts from the role chosen by repair routing (below):
+   `retrieval` reruns retrieval and then analysis, and `analysis` reruns
+   analysis only. The repair task includes the issues and the previous
+   output. The controller then verifies again.
 4. An answer is released only after a clean verification. Otherwise the
    system abstains, and the limitation lists the remaining issues.
 
@@ -85,8 +85,32 @@ contract, the run stops with that error. A budget stop becomes an
 abstention, as it does for the single agent. The `revision` field records
 the draft, both checks, the repair role, the final candidate, and the full
 message log; the runner already saves this field. P2-13 to P2-15 provide the
-LLM roles, and P2-17 refines `route()`. The controller is not yet a
-`run_agent.py` strategy because those roles don't exist yet.
+LLM roles. The controller is not yet a `run_agent.py` strategy.
+
+### Repair Routing (P2-17)
+
+`classify()` assigns each issue a repair role by its **type**, so the
+verifier model's `responsible_role` only matters for types outside the
+fixed vocabulary:
+
+| Issue | Role | Why |
+|---|---|---|
+| `missing_evidence` | retrieval | the records the answer needs were never retrieved |
+| `recompute_mismatch` on a draft that abstained | retrieval | the verifier found an answer that analysis couldn't, so records are likely missing |
+| field-check types (`value_mismatch`, `bad_path`, `missing_resource`, `malformed`, `time_field`, `unit`, `encounter_link`, `encounter_scope`, `current_time`, `time_window`, `patient_scope`), `no_evidence`, `recompute_mismatch`, `wrong_field`, `wrong_filter`, `wrong_calculation` | analysis | the records were there but were cited, filtered, or computed wrongly |
+| `source_check` | none | the evidence could not be checked at all |
+| any other type citing a record that was never retrieved | retrieval | missing evidence |
+| any other type | the verifier's `responsible_role`, else none | |
+
+`route()` picks the earliest role among the issues. A retrieval repair
+reruns analysis too, so mixed or ambiguous cases start from retrieval. If
+no issue is repairable, the system abstains without a repair. Each
+decision (type, record, role, reason) goes to the `revision.routing` field
+and to a `routing` bus message. After the repair the controller verifies
+again and releases the answer only if that check is clean; otherwise it
+releases a limitation. The verifier's prompt asks it to use
+`missing_evidence`, `wrong_filter`, `wrong_calculation`, and `wrong_field`
+so that its own issues route deterministically.
 
 ## Retrieval Agent (P2-13)
 

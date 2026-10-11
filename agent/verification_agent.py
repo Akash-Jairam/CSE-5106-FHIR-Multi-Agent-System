@@ -43,14 +43,16 @@ dated after the assumed current time are left out.
 3. Compare with the draft. The automatic field check of the draft's citations is given to you; do not repeat its
    issues.
 
-Report each problem as an issue:
-- responsible_role "retrieval" when records the answer needs were not used because they were never retrieved,
-  or the wrong visit or time window was searched;
-- responsible_role "analysis" when the records were there but were filtered, sorted, computed, or cited wrongly.
+Report each problem as an issue, using one of these types where it fits (they decide which agent repairs it):
+- "missing_evidence": records the answer needs were never retrieved, or the wrong visit or time window was
+  searched (repaired by retrieval). Name a needed record in "record" when you can.
+- "wrong_filter", "wrong_calculation", "wrong_field": the records were there but were filtered, computed, or
+  cited wrongly (repaired by analysis).
 Reply with only a JSON object:
 {{"recomputed_answer": <your answer, in the same answer format; null if you could not recompute it>,
- "issues": [{{"type": "<short_snake_case>", "record": "<ResourceType/id or null>", "field": "<field path or null>",
-             "responsible_role": "retrieval" | "analysis", "action": "<what the responsible agent should do>"}}]}}
+ "issues": [{{"type": "<one of the types above, or short_snake_case>", "record": "<ResourceType/id or null>",
+             "field": "<field path or null>", "responsible_role": "retrieval" | "analysis",
+             "action": "<what the responsible agent should do>"}}]}}
 Reply with "issues": [] if the draft is correct."""
 
 
