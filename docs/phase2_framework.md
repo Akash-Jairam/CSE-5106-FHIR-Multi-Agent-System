@@ -139,6 +139,33 @@ LLM roles, and P2-17 refines `route()`. The controller is not yet a
   and the current record counts, which include any records retrieval
   re-fetched.
 
+## Verification Agent (P2-15)
+
+[`agent/verification_agent.py`](../agent/verification_agent.py) defines
+`VerificationAgent`, the controller's verification handler. It never sees
+the other roles' conversations or workspace, and its own workspace is
+cleared before every check.
+
+1. **Re-fetch cited fields.** `check_fields` re-reads every citation from
+   the store. It checks the value, the time field, the unit, the patient,
+   the encounter scope, and the current time. As for the single agent, this
+   counts as one tool call. If the tool-call budget is used up, the result
+   is an unrepairable `source_check` issue, so the system abstains.
+2. **Recompute.** The model re-searches the patient's records (read-only,
+   within scope) and recomputes the answer in the sandbox. It reports
+   issues the field check can't see, such as records the draft missed
+   (retrieval) or a wrong filter or calculation (analysis).
+3. **Merge.** The field-check issues, the model's issues, and a
+   `recompute_mismatch` issue are combined. The mismatch is added when the
+   recomputed answer differs from the draft after normalization: numbers
+   are rounded, text is case-folded, timestamps accept either `T` or a
+   space, lists are unordered, and booleans never equal numbers.
+
+Every issue is `{type, record, field, responsible_role, action}`.
+`responsible_role` is `retrieval`, `analysis`, or `null` (no role can
+repair it). A reply without a JSON verdict, or with malformed issues, is an
+error, so a draft is never released unchecked.
+
 ## Spike Results
 
 `tests/test_phase2_framework.py` runs a two-role retrieval → analysis
