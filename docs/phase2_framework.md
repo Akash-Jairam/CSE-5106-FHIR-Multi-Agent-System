@@ -40,6 +40,8 @@ The deciding constraints come from Phase 1:
   Model arguments are limited to each tool's declared parameters (so a model
   cannot pass `global_vars` or `resources`). Question context is bound by
   the system. Patient-wide retrieval is limited to the question's patient.
+  Fetched records that belong to another patient, or are dated after the
+  assumed current time, are left out, and the tool reply counts them.
   Retrieval updates the role's working records, which `execute_python_code`
   receives as `retrieved_resources`. Roles that should see the same records
   share the dict; the verifier gets its own.
@@ -85,6 +87,29 @@ the draft, both checks, the repair role, the final candidate, and the full
 message log; the runner already saves this field. P2-13 to P2-15 provide the
 LLM roles, and P2-17 refines `route()`. The controller is not yet a
 `run_agent.py` strategy because those roles don't exist yet.
+
+## Retrieval Agent (P2-13)
+
+[`agent/retrieval_agent.py`](../agent/retrieval_agent.py) defines
+`RetrievalAgent`, the controller's retrieval handler:
+
+- **Same starting point as the single agent.** It loads the deterministic
+  starting packet into the workspace it shares with the analysis role and
+  shows the packet text to the model.
+- **Resource-type selection.** The model chooses what to fetch, using only
+  the two read-only searches (`get_resources_by_patient_fhir_id`,
+  `get_resources_by_resource_id`). It cannot run Python or send raw FHIR
+  queries.
+- **Scope resolution.** The `Toolbox` limits records to the question's
+  patient and current time. The model reports which encounters the
+  question is about. IDs that aren't among the retrieved encounters are
+  dropped and noted in the limitation.
+- **Result.** Record IDs by type, the relevant resource types, the scope
+  (patient, current time, encounter IDs), and a limitation. The records
+  themselves stay in the shared workspace, so the bus log stays small.
+- **Repair.** On a repair task the agent keeps the workspace, sees the
+  verifier's issues and what it already holds, and doesn't reload the
+  packet.
 
 ## Spike Results
 

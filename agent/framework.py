@@ -21,6 +21,7 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass
 
 from tools import get_tool, get_tool_definitions
+from tools.starting_packet import _ref_id, _wall_clock
 
 RETRIEVAL_TOOLS = ("get_resources_by_patient_fhir_id", "get_resources_by_resource_id")
 PYTHON_TOOL = "execute_python_code"
@@ -65,10 +66,11 @@ class Toolbox:
     `resources` is the role's working copy of retrieved records, by resource
     type; roles that should see the same records share the dict. `bound`
     maps a tool name to keyword arguments the system supplies (they replace
-    any the model sends).
+    any the model sends). Fetched records owned by another patient, or dated
+    after `current_time` ("YYYY-MM-DD HH:MM:SS"), are left out.
     """
 
-    def __init__(self, names, resources=None, patient_fhir_id=None, bound=None):
+    def __init__(self, names, resources=None, patient_fhir_id=None, bound=None, current_time=None):
         definitions = {d["function"]["name"]: d for d in get_tool_definitions()}
         missing = [name for name in names if name not in definitions]
         if missing:
@@ -77,6 +79,7 @@ class Toolbox:
         self.definitions = [definitions[name] for name in self.names]
         self.resources = {} if resources is None else resources
         self.patient_fhir_id = patient_fhir_id
+        self.current_time = current_time
         self.bound = bound or {}
 
     def _parameters(self, name):
@@ -122,6 +125,7 @@ class Toolbox:
         records = output.get(resource_type, [])
         if not isinstance(records, list):
             raise ValueError("The retrieval tool returned an invalid resource list")
+        records, excluded = self._in_scope(records)
         if name == "get_resources_by_resource_id":
             # A point fetch adds evidence; a patient-wide fetch replaces a partial packet.
             merged = {r["id"]: r for r in self.resources.get(resource_type, [])}
@@ -129,9 +133,29 @@ class Toolbox:
             self.resources[resource_type] = list(merged.values())
         else:
             self.resources[resource_type] = records
-        return json.dumps({"stored_as": f"retrieved_resources['{resource_type}']",
-                           "ids": [f"{resource_type}/{r.get('id')}" for r in records],
-                           "items": len(self.resources[resource_type])})
+        reply = {"stored_as": f"retrieved_resources['{resource_type}']",
+                 "ids": [f"{resource_type}/{r.get('id')}" for r in records],
+                 "items": len(self.resources[resource_type])}
+        return json.dumps({**reply, "excluded": excluded} if excluded else reply)
+
+    def _in_scope(self, records):
+        """Records within the question's patient and current time, and counts of those left out."""
+        by_id = {f"{r.get('resourceType')}/{r.get('id')}": r
+                 for items in self.resources.values() for r in items}
+        by_id.update({f"{r.get('resourceType')}/{r.get('id')}": r for r in records})
+        kept, excluded = [], {}
+        for record in records:
+            if record.get("resourceType") == "Patient":
+                owner = record.get("id")
+            else:
+                owner = _ref_id(record.get("subject") or record.get("patient"))
+            if self.patient_fhir_id and owner and owner != self.patient_fhir_id:
+                excluded["other_patient"] = excluded.get("other_patient", 0) + 1
+            elif self.current_time and _wall_clock(record, by_id) > self.current_time:
+                excluded["after_current_time"] = excluded.get("after_current_time", 0) + 1
+            else:
+                kept.append(record)
+        return kept, excluded
 
     @staticmethod
     def _error(tool_call, message):
