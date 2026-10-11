@@ -224,6 +224,48 @@ questions from non-held-out patients that have a window, all 14,123 gold
 evidence citations pass the check. Before the prescription rule above was
 added, the only one flagged was a prescription with only an order time.
 
+## Missing-Evidence Perturbations (P2-18)
+
+`scripts/build_perturbations.py` writes `manifests/perturbations.json`: 50
+held-out questions, each with one answer-changing resource left out of its
+starting packet. The packet is rebuilt from the source records as if that
+resource did not exist, so headers read "(n of n)" and the gap isn't
+advertised. **The FHIR store is unchanged**, so a system can recover the
+evidence by fetching it. At run time,
+`tools.perturbation.get_perturbed_starting_packet()` builds the same packet
+from the store, and `load_perturbations()` reads the manifest. Wiring both
+into `run_agent.py` is part of run orchestration (P3-19).
+`tools/starting_packet.py` is untouched, because its hash is part of the
+Phase 1 packet freeze.
+
+**Eligibility.** A question is eligible when it has a non-empty reference
+answer and all of its gold event resources are in its frozen packet.
+Shared Patient, Medication, and Location resources don't count as event
+resources. One rule then applies by question type:
+
+| Rule | Removed resource | Why the answer changes / redundancy excluded |
+|---|---|---|
+| existence (yes/no) | the only gold record | "yes" becomes "no"; questions with several supporting records are redundant |
+| count | the latest gold record | the answer equals the number of gold records, so the count drops by one |
+| aggregate | the unique min/max, or the latest record that moves the sum or average | the operation is the one that reproduces the answer from the gold values; ties and no-change cases are excluded |
+| selection (a value, time, or name) | the only gold record | excluded if any remaining record of the same type in the perturbed packet carries the answer value, including names resolved through references (another senna order with the same dose, another admission of the same type) |
+
+Multi-value answers are excluded. The 50 questions are sampled with the
+split seed, in proportion to each family's eligible count. The rules were
+dry-run on dev and pilot. On held-out, the script prints only aggregate
+counts:
+
+| | lookup/counting | aggregation | temporal selection | total |
+|---|---|---|---|---|
+| eligible (of 300) | 28 | 10 | 45 | 83 |
+| selected | 17 | 6 | 27 | 50 |
+
+Selected rules: 29 selection, 10 existence, 5 count, 6 aggregate. The
+biggest exclusion reasons were gold not all in the packet (48), redundant
+evidence (67), and empty answers (42). The manifest records hashes of the
+dataset, split, family manifest, packet manifest, and builder, and is
+byte-identical when rebuilt.
+
 ## Spike Results
 
 `tests/test_phase2_framework.py` runs a two-role retrieval → analysis
