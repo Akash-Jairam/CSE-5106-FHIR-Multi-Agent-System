@@ -2,7 +2,6 @@ import json
 import re
 from .base_agent import BaseAgent
 from tools import get_tool_definitions, get_tool
-from utils import safe_llm_call
 from tools.resource_tools import supported_types
 
 
@@ -174,7 +173,84 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
             return False
         return "the final answer is:" in content.lower().strip()
 
-    def run(self, question: str) -> dict:
+    def _handle_tool_call(self, tool_call, retrieved_resources):
+        """Run one tool call and return the tool message, or None if the tool is not supported."""
+        tool_name = tool_call.function.name
+        try:
+            tool_args = json.loads(tool_call.function.arguments)
+            if not isinstance(tool_args, dict):
+                raise ValueError("Arguments must be a JSON object")
+        except (ValueError, TypeError) as exc:
+            return self._tool_error(tool_call, str(exc))
+
+        if tool_name == "get_resources_by_patient_fhir_id" or tool_name == "get_resources_by_resource_id":
+
+            if self.verbose:
+                print(f"Agent detected tool call: '{tool_name}' with arguments: {tool_args}")
+
+            tool_function = get_tool(tool_name)
+            try:
+                tool_output = tool_function(**tool_args)
+            except Exception as exc:
+                return self._tool_error(tool_call, str(exc))
+            if not isinstance(tool_output, dict) or "error" in tool_output:
+                return self._tool_error(tool_call, tool_output.get("error") if isinstance(tool_output, dict)
+                                        else "The retrieval tool returned an invalid result")
+            resource_type = tool_args["resource_type"]
+            resources = tool_output.get(resource_type, [])
+            if not isinstance(resources, list):
+                return self._tool_error(tool_call, "The retrieval tool returned an invalid resource list")
+            if tool_name == "get_resources_by_resource_id":
+                # A point fetch adds evidence; a patient-wide fetch replaces a partial packet.
+                merged = {r["id"]: r for r in retrieved_resources.get(resource_type, [])}
+                merged.update({r["id"]: r for r in resources})
+                retrieved_resources[resource_type] = list(merged.values())
+            else:
+                retrieved_resources[resource_type] = resources
+            resource_len = len(resources)
+            saved_as_variable = (f"retrieved_resources['{resource_type}'] "
+                                 f"({len(retrieved_resources[resource_type])} items; {resource_len} fetched)")
+
+            if self.verbose:
+                print(f"Tool execution successful. Output snippet: {str(tool_output)[:500]}...")
+
+            return {
+                "tool_call_id": tool_call.id,
+                "role": "tool",
+                "name": tool_name,
+                "content": saved_as_variable
+            }
+
+        if tool_name == "execute_python_code":
+
+            if self.verbose:
+                print(f"Agent detected tool call: '{tool_name}' with arguments: {tool_args}")
+
+            tool_function = get_tool(tool_name)
+            tool_args['global_vars'] = {'retrieved_resources': retrieved_resources}
+            try:
+                tool_output = tool_function(**tool_args)
+            except Exception as exc:
+                return self._tool_error(tool_call, str(exc))
+
+            if self.verbose:
+                print(f"Tool execution successful. Output snippet: {str(tool_output)[:500]}...")
+
+            return {
+                "tool_call_id": tool_call.id,
+                "role": "tool",
+                "name": tool_name,
+                "content": str(tool_output)
+            }
+
+        return None
+
+    @staticmethod
+    def _tool_error(tool_call, message):
+        return {"tool_call_id": tool_call.id, "role": "tool", "name": tool_call.function.name,
+                "content": json.dumps({"error": message}, default=str)}
+
+    def _run(self, question: str) -> dict:
 
         self.messages = self.system_msg.copy()
         self.messages.append({"role": "user", "content": question})
@@ -184,15 +260,9 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
         while final_answer is None and iteration < self.max_iterations:
 
             # 1. Retrieve patient data
-            response_message, error, usage_info = safe_llm_call(
-                model=self.model,
-                messages=self.messages,
-                tools=self.tools,
-                base_url=self.base_url
-            )
+            response_message, error, usage_info = self._llm_call(self.messages, tools=self.tools)
 
             self.messages.append(response_message)
-            self._update_usage(usage_info)
 
             if error:
                 return {
@@ -205,63 +275,18 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
             if response_message.tool_calls:
 
                 for tool_call in response_message.tool_calls:
-
-                    tool_name = tool_call.function.name
-                    tool_args = json.loads(tool_call.function.arguments)
-
-                    if tool_name == "get_resources_by_patient_fhir_id" or tool_name == "get_resources_by_resource_id":
-
-                        if self.verbose:
-                            print(f"Agent detected tool call: '{tool_name}' with arguments: {tool_args}")
-
-                        tool_function = get_tool(tool_name)
-                        tool_output = tool_function(**tool_args)
-                        retrieved_resources.update(tool_output)
-                        resource_type = tool_args["resource_type"]
-                        if len(tool_output) == 0:
-                            resource_len = 0
-                        else:
-                            resource_len = len(tool_output[resource_type])
-                        saved_as_variable = f"""retrieved_fhir_resources['{resource_type}'] ({resource_len} items)"""
-
-                        if self.verbose:
-                            print(f"Tool execution successful. Output snippet: {str(tool_output)[:500]}...")
-
-                        self.messages.append({
-                            "tool_call_id": tool_call.id,
-                            "role": "tool",
-                            "name": tool_name,
-                            "content": saved_as_variable
-                        })
-
-                    elif tool_name == "execute_python_code":
-
-                        if self.verbose:
-                            print(f"Agent detected tool call: '{tool_name}' with arguments: {tool_args}")
-
-                        tool_function = get_tool(tool_name)
-                        tool_args['global_vars'] = {'retrieved_resources': retrieved_resources}
-                        tool_output = tool_function(**tool_args)
-
-                        if self.verbose:
-                            print(f"Tool execution successful. Output snippet: {str(tool_output)[:500]}...")
-
-                        self.messages.append(
-                            {
-                                "tool_call_id": tool_call.id,
-                                "role": "tool",
-                                "name": tool_name,
-                                "content": str(tool_output)
-                            }
-                        )
-
-                    else:
+                    if not self._take_tool_call():
+                        self.messages.append(self._tool_budget_message(tool_call))
+                        continue
+                    tool_message = self._handle_tool_call(tool_call, retrieved_resources)
+                    if tool_message is None:
                         return {
                             "retrieved_fhir_resources": retrieved_resources,
-                            "final_answer": f"Expected 'execute_python_code' or 'get_resources_by_patient_fhir_id' or 'get_resources_by_resource_id' tool call, but got '{tool_name}'",
+                            "final_answer": f"Expected 'execute_python_code' or 'get_resources_by_patient_fhir_id' or 'get_resources_by_resource_id' tool call, but got '{tool_call.function.name}'",
                             "trace": self.messages,
                             "usage": self.total_usage
                         }
+                    self.messages.append(tool_message)
 
             else:
                 if self._is_final_answer(response_message.content):

@@ -1,8 +1,7 @@
 import json
 import re
-from .base_agent import BaseAgent
+from .base_agent import BUDGET_EXCEEDED, BaseAgent
 from tools import get_tool_definitions, get_tool
-from utils import safe_llm_call
 from tools.resource_tools import supported_types
 
 
@@ -100,22 +99,16 @@ Result: During the patient's first hospital encounter, that procedure occurred 1
 Follow these examples to structure your approach: retrieve relevant FHIR resources first, then use Python code to analyze and process the data systematically."""}]
 
 
-    def run(self, question: str) -> dict:
+    def _run(self, question: str) -> dict:
         
         self.messages = self.system_msg.copy()
         self.messages.append({"role": "user", "content": question})
         retrieved_resources = {}
         
         # 1. Retrieve patient data
-        response_message, error, usage_info = safe_llm_call(
-            model=self.model,
-            messages=self.messages,
-            tools=self.retrieval_tool,
-            base_url=self.base_url
-        )
+        response_message, error, usage_info = self._llm_call(self.messages, tools=self.retrieval_tool)
             
         self.messages.append(response_message)
-        self._update_usage(usage_info)
         
         if error:
             return {
@@ -128,6 +121,9 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
         if response_message.tool_calls:
 
             for tool_call in response_message.tool_calls:
+                if not self._take_tool_call():
+                    self.messages.append(self._tool_budget_message(tool_call))
+                    continue
 
                 tool_name = tool_call.function.name
                 tool_args = json.loads(tool_call.function.arguments)
@@ -176,15 +172,9 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
             }
 
         # 2. Reason about the retrieved data using execute_python_code
-        response_message, error, usage_info = safe_llm_call(
-            model=self.model,
-            messages=self.messages,
-            tools=self.reasoning_tool,
-            base_url=self.base_url
-        )
+        response_message, error, usage_info = self._llm_call(self.messages, tools=self.reasoning_tool)
 
         self.messages.append(response_message)
-        self._update_usage(usage_info)
         
         if error:
             return {
@@ -197,6 +187,13 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
         if response_message.tool_calls:
 
             tool_call = response_message.tool_calls[0]
+            if not self._take_tool_call():
+                return {
+                    "retrieved_fhir_resources": retrieved_resources,
+                    "final_answer": f"Error: {BUDGET_EXCEEDED}: {self.budget_stop}",
+                    "trace": self.messages,
+                    "usage": self.total_usage
+                }
             tool_name = tool_call.function.name
             tool_args = json.loads(tool_call.function.arguments)
 
@@ -241,13 +238,8 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
             }                
 
         # 3. Combine the retrieved data and the reasoning about the retrieved data
-        final_message, final_error, final_usage_info = safe_llm_call(
-            model=self.model,
-            messages=self.messages,
-            base_url=self.base_url
-        )
+        final_message, final_error, final_usage_info = self._llm_call(self.messages)
         
-        self._update_usage(final_usage_info)
         self.messages.append(final_message)
         
         if final_error:

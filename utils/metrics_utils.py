@@ -1,9 +1,10 @@
 import numpy as np
-from collections import Counter
 
 
 def retrieval_recall(pred, true, method="binary", zero_denom=1):
     pred_resources = set(pred)
+    true = set(true)
+    pred = pred_resources
     
     # No true resources, no predicted resources: Perfect recall
     if len(true) == 0 and len(pred) == 0:
@@ -22,9 +23,11 @@ def retrieval_recall(pred, true, method="binary", zero_denom=1):
         return np.mean([true_rsc in pred_resources for true_rsc in true])
     elif method == "binary":
         return int(all([true_rsc in pred_resources for true_rsc in true]))
+    raise ValueError(f"Unknown retrieval metric method: {method}")
 
 
 def retrieval_precision(pred, true, method="continuous", zero_denom=0):
+    pred, true = set(pred), set(true)
     # No true resources, no predicted resources: Perfect precision
     if len(true) == 0 and len(pred) == 0:
         return 1.0
@@ -42,3 +45,4 @@ def retrieval_precision(pred, true, method="continuous", zero_denom=0):
         return np.mean([pred_rsc in true for pred_rsc in pred])
     elif method == "binary":
         return all([pred_rsc in true for pred_rsc in pred])
+    raise ValueError(f"Unknown retrieval metric method: {method}")

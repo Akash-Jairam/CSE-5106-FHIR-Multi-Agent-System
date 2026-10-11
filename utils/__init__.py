@@ -16,9 +16,11 @@ from .core_utils import (
     # Data processing
     return_resource_ids,
     parse_outputs,
+    RESULT_COLUMNS,
     read_input_data,
     read_intermediate_results,
     curate_input_dataset,
+    parse_question_context,
     
     # Agent management
     create_agent,
@@ -64,10 +66,11 @@ __all__ = [
     
     # Data processing
     'return_resource_ids',
-    'parse_outputs', 
+    'parse_outputs', 'RESULT_COLUMNS', 
     'read_input_data',
     'read_intermediate_results',
     'curate_input_dataset',
+    'parse_question_context',
     
     # Agent management
     'create_agent',

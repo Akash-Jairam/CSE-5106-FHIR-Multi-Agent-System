@@ -2,7 +2,6 @@ import json
 import re
 from .base_agent import BaseAgent
 from tools import get_tool_definitions, get_tool
-from utils import safe_llm_call
 from tools.resource_tools import supported_types
 
 
@@ -83,7 +82,7 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
             return False
         return "the final answer is:" in content.lower().strip()
 
-    def run(self, question: str) -> dict:
+    def _run(self, question: str) -> dict:
 
         self.messages = self.system_msg.copy()
         self.messages.append({"role": "user", "content": question})
@@ -93,15 +92,9 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
         while final_answer is None and iteration < self.max_iterations:
 
             # 1. Retrieve patient data
-            response_message, error, usage_info = safe_llm_call(
-                model=self.model,
-                messages=self.messages,
-                tools=self.tools,
-                base_url=self.base_url
-            )
+            response_message, error, usage_info = self._llm_call(self.messages, tools=self.tools)
             
             self.messages.append(response_message)
-            self._update_usage(usage_info)
             
             if error:
                 return {
@@ -114,6 +107,9 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
             if response_message.tool_calls:
                 
                 for tool_call in response_message.tool_calls:
+                    if not self._take_tool_call():
+                        self.messages.append(self._tool_budget_message(tool_call))
+                        continue
 
                     tool_name = tool_call.function.name
                     tool_args = json.loads(tool_call.function.arguments)

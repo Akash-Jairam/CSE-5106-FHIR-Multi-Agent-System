@@ -1,4 +1,5 @@
 import json
+import re
 from .registry import tool_registry
 from .cache import cached_tool
 from fhir_client import get_fhir_client
@@ -8,13 +9,35 @@ supported_types = [
     "Procedure", "Observation", "MedicationAdministration",
     "Location", "Specimen", "Medication"
 ]
+FHIR_ID_RE = re.compile(r"^[A-Za-z0-9.-]{1,64}$")
 
-@cached_tool
+
+def _validate_search(resource_type, identifier):
+    if resource_type not in supported_types:
+        raise ValueError("Unsupported FHIR resource type")
+    if not isinstance(identifier, str) or not FHIR_ID_RE.fullmatch(identifier):
+        raise ValueError("A non-empty FHIR resource ID is required")
+
+def _patient_query(resource_type: str, patient_fhir_id: str) -> str:
+    """Build a search for one patient's resources of a given type."""
+    if not patient_fhir_id:
+        return resource_type
+    # Patient has no "patient" search parameter; the Cloud Healthcare API silently
+    # ignores it and returns every patient, so filter by _id instead.
+    if resource_type == "Patient":
+        return f"Patient?_id={patient_fhir_id}"
+    return f"{resource_type}?patient={patient_fhir_id}"
+
+
+@cached_tool(version=3)  # Invalidate old broad searches and unvalidated IDs.
 def get_resources_by_resource_id(resource_type: str, resource_id: str) -> dict:
     """Get FHIR resources by resource ID."""
     try:
+        _validate_search(resource_type, resource_id)
         client = get_fhir_client()
-        query = f"{resource_type}?id={resource_id}" if resource_id else resource_type
+        # "id" is not a FHIR search parameter; the Cloud Healthcare API ignores it and returns every
+        # resource of the type, so search by _id
+        query = f"{resource_type}?_id={resource_id}"
         resources = client.search_with_pagination(query)
         
         resources_by_type = {}
@@ -28,12 +51,13 @@ def get_resources_by_resource_id(resource_type: str, resource_id: str) -> dict:
     except Exception as e:
         return {"error": str(e)}
 
-@cached_tool
+@cached_tool(version=2)
 def get_resources_by_patient_fhir_id(resource_type: str, patient_fhir_id: str) -> dict:
     """Get FHIR resources by patient FHIR ID."""
     try:
+        _validate_search(resource_type, patient_fhir_id)
         client = get_fhir_client()
-        query = f"{resource_type}?patient={patient_fhir_id}" if patient_fhir_id else resource_type
+        query = _patient_query(resource_type, patient_fhir_id)
         resources = client.search_with_pagination(query)
         
         resources_by_type = {}
@@ -47,14 +71,15 @@ def get_resources_by_patient_fhir_id(resource_type: str, patient_fhir_id: str) -
     except Exception as e:
         return {"error": str(e)}
 
-@cached_tool
+@cached_tool(version=2)
 def get_all_resources_by_patient_fhir_id(patient_fhir_id: str) -> dict:
     """Get all FHIR resources by patient FHIR ID."""
     try:
+        _validate_search("Patient", patient_fhir_id)
         client = get_fhir_client()
         all_resources = []        
         for resource_type in supported_types:
-            query = f"{resource_type}?patient={patient_fhir_id}" if patient_fhir_id else resource_type
+            query = _patient_query(resource_type, patient_fhir_id)
             resources = client.search_with_pagination(query)
             all_resources.extend(resources)
         

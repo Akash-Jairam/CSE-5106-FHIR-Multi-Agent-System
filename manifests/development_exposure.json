@@ -1,0 +1,30 @@
+{
+  "policy": "Reserve exposed patients for development, irrespective of observed answer correctness. Add new exposures before final evaluation; never silently return exposed patients to held_out.",
+  "exposures": [
+    {
+      "source": "project/proposal.tex: Data and Question Types",
+      "reason": "Illustrated proposal examples with reference answers",
+      "subject_ids": [10001217, 10004235, 10015860]
+    },
+    {
+      "source": "agent/multi_turn_code_resource_agent.py: EXAMPLE 1-3 (also inherited by single-agent baseline)",
+      "reason": "Patient-specific few-shot questions, record details, and answers in prompts",
+      "subject_ids": [10009628, 10018423, 10022041]
+    },
+    {
+      "source": "docs/phase1_run_log.md: sections 2, 8, and 9",
+      "reason": "Repeated five-question smoke runs, scored answers, and subsequent prompt/retriever changes",
+      "subject_ids": [10018081, 10029291, 10036156, 10014354, 10005348]
+    },
+    {
+      "source": "docs/phase1_run_log.md: section 3, preliminary 20-question runs",
+      "reason": "Prior patient-level evaluation outputs inspected during development",
+      "subject_ids": [10018845, 10026406, 10021487, 10038933, 10038992, 10029291, 10004733, 10007058, 10022880, 10007795, 10004422, 10026354, 10023239, 10005817, 10001725, 10037928, 10020740, 10004457, 10021666]
+    },
+    {
+      "source": "manifests/split.json at origin/p1-03-patient-split: pilot patients; scripts/build_starting_packets.py at origin/p1-04-starting-packet",
+      "reason": "Previous pilot pool used for gold-ID packet diagnostics; preserve development exposure after resampling",
+      "subject_ids": [10019385, 10020187, 10038999]
+    }
+  ]
+}

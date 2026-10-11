@@ -15,6 +15,7 @@ litellm.drop_params=True
 litellm.suppress_debug_info = True
 from litellm.exceptions import BadRequestError
 import logging
+from copy import deepcopy
 logging.getLogger("LiteLLM").disabled = True
 import tiktoken
 
@@ -38,6 +39,14 @@ def load_config() -> Dict[str, Any]:
     except Exception as e:
         print(f"Warning: Failed to load config.yml: {e}")
         return {}
+
+
+def _is_placeholder(value: Optional[str]) -> bool:
+    """Return True if a config value is empty or still a config.example.yml placeholder."""
+    if not value:
+        return True
+    value = str(value).strip()
+    return not value or value.startswith("your-") or value.startswith("fhir-store-id")
 
 
 def get_openai_api_key() -> Optional[str]:
@@ -75,7 +84,7 @@ def get_model_provider(model: str) -> str:
     model_lower = model.lower()
     
     # OpenAI models (including o1, o4 series, gpt series, etc.)
-    if any(name in model_lower for name in ['gpt-5', 'gpt-4', 'o4']):
+    if re.search(r"(?:^|/)(?:gpt-\d|o\d(?:-|$))", model_lower):
         return 'openai'
     # Gemini models  
     elif any(name in model_lower for name in ['gemini']):
@@ -95,9 +104,9 @@ def validate_model_api_key(model: str) -> bool:
     provider = get_model_provider(model)
     
     if provider == 'openai':
-        return get_openai_api_key() is not None
+        return not _is_placeholder(get_openai_api_key())
     elif provider == 'gemini':
-        return get_gemini_api_key() is not None
+        return not _is_placeholder(get_gemini_api_key())
     elif provider == 'anthropic':
         # Add anthropic key check if needed in the future
         return os.getenv("ANTHROPIC_API_KEY") is not None
@@ -135,13 +144,13 @@ def validate_config(model: str, base_url: str=None) -> bool:
     
     # Check FHIR configuration
     fhir_config = get_fhir_config()
-    fhir_ok = all(fhir_config.values())
-    
+    missing = [k for k, v in fhir_config.items() if _is_placeholder(v)]
+    fhir_ok = not missing
+
     if fhir_ok:
         print("✅ FHIR configuration complete")
     else:
-        missing = [k for k, v in fhir_config.items() if not v]
-        print(f"❌ FHIR configuration incomplete. Missing: {', '.join(missing)}")
+        print(f"❌ FHIR configuration incomplete. Missing or placeholder values: {', '.join(missing)}")
     
     return model_ok and fhir_ok
 
@@ -185,7 +194,7 @@ def return_resource_ids(parsed_resource):
             resource_ids[resource_type] += [res['id'] for res in resources if isinstance(res, dict) and 'id' in res]
         elif isinstance(resources, dict):
             if 'id' in resources:
-                resource_ids[resource_type] += resources['id']
+                resource_ids[resource_type].append(resources['id'])
 
     return resource_ids
 
@@ -196,50 +205,45 @@ def fix_json_quotes(json_str):
 
 
 def process_trace(trace, max_items=10):
-    
-    processed_trace = [l if type(l) == dict else l.to_dict() for l in trace if l is not None]
+    """Serialize the complete trace without mutating or truncating evidence."""
+    return [deepcopy(l) if isinstance(l, dict) else l.to_dict()
+            for l in trace or [] if l is not None]
 
-    for turn in processed_trace:
-        if turn['role'] == 'tool':
-            try:
-                turn['content'] = json.loads(fix_json_quotes(turn['content']))
-                for resource_type, resources in turn['content'].items():
-                    if len(resources) > max_items:
-                        turn['content'][resource_type] = str(resources[:max_items]) + f" ... ({len(resources) - max_items} more items)"
-                    else:
-                        turn['content'][resource_type] = str(resources)
-            except Exception as e:
-                pass
 
-    return processed_trace
+# Columns run_agent.py saves per question (see agent/output_schema.py for the contract)
+RESULT_COLUMNS = ["agent_answer", "evidence", "limitation", "tokens", "tool_calls", "latency",
+                  "agent_fhir_resources", "trace", "error", "usage", "revision", "budget"]
 
 
 def parse_outputs(agent_output, max_items=10):
-    if "error" in agent_output:
-        return {
-            "agent_answer": None,
-            "agent_fhir_resources": None,
-            "trace": [],
-            "usage": None,
-            "error": agent_output["error"]
-        }
-    else:
-        try:
-            fhir_resources = return_resource_ids(agent_output["retrieved_fhir_resources"])
-        except Exception as e:
-            fhir_resources = str(e)
-        try:
-            trace = process_trace(agent_output['trace'], max_items=max_items)
-        except Exception as e:
-            trace = str(e)
-
-        return {
-            "agent_answer": agent_output['final_answer'],
-            "agent_fhir_resources": fhir_resources,
-            "trace": trace,
-            "usage": agent_output['usage'],
-            "error": None
-        }
+    """Flatten an AgentOutput (or an {"error": ...} from a crashed run) into result columns."""
+    if set(agent_output) == {"error"}:
+        return {**{col: None for col in RESULT_COLUMNS}, "trace": [], "error": agent_output["error"]}
+    try:
+        fhir_resources = return_resource_ids(agent_output["retrieved_fhir_resources"])
+    except Exception as e:
+        fhir_resources = str(e)
+    try:
+        trace = process_trace(agent_output['trace'], max_items=max_items)
+    except Exception as e:
+        trace = str(e)
+    tokens = agent_output["tokens"]
+    return {
+        "agent_answer": agent_output["answer"],
+        "evidence": agent_output["evidence"],
+        "limitation": agent_output["limitation"],
+        "tokens": tokens,
+        "tool_calls": agent_output["tool_calls"],
+        "latency": agent_output["latency"],
+        "agent_fhir_resources": fhir_resources,
+        "trace": trace,
+        "error": agent_output["error"],
+        "revision": agent_output.get("revision"),
+        "budget": agent_output.get("budget"),
+        # Legacy name and keys, kept for existing evaluation scripts
+        "usage": {"prompt_tokens": tokens["prompt"], "completion_tokens": tokens["completion"],
+                  "total_tokens": tokens["total"], "cost": tokens["cost"], "llm_calls": tokens["llm_calls"]},
+    }
 
 
 def read_input_data(fname):
@@ -265,6 +269,25 @@ def curate_input_dataset(df, add_patient_fhir_id):
     return df.apply(_create_input_str, axis=1, add_patient_fhir_id=add_patient_fhir_id).to_list()
 
 
+QUESTION_RE = re.compile(r"^Question:\s*(.*?)\s*\nContext:", re.S)
+PATIENT_FHIR_ID_RE = re.compile(r"Patient FHIR ID is ([0-9a-fA-F-]+)\.")
+CURRENT_TIME_RE = re.compile(r"current time is (\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?)")
+
+
+def parse_question_context(input_str):
+    """Inverse of curate_input_dataset: (bare question, patient FHIR id, assumed current time).
+    The id and time are None when the context does not state them."""
+    question = QUESTION_RE.search(input_str)
+    patient = PATIENT_FHIR_ID_RE.search(input_str)
+    current = CURRENT_TIME_RE.search(input_str)
+    current_time = current.group(1) if current else None
+    if current_time and len(current_time) == 16:
+        current_time += ":00"
+    return (question.group(1) if question else input_str,
+            patient.group(1) if patient else None,
+            current_time)
+
+
 # =============================================================================
 # Agent Management
 # =============================================================================
@@ -276,7 +299,10 @@ def create_agent(agent_strategy, model, verbose=False, base_url=None):
         "single_turn_resource": ("agent.single_turn_resource_agent", "SingleTurnResourceAgent"),
         "single_turn_code_resource": ("agent.single_turn_code_resource_agent", "SingleTurnCodeResourceAgent"),
         "multi_turn_resource": ("agent.multi_turn_resource_agent", "MultiTurnResourceAgent"),
-        "multi_turn_code_resource": ("agent.multi_turn_code_resource_agent", "MultiTurnCodeResourceAgent")
+        "multi_turn_code_resource": ("agent.multi_turn_code_resource_agent", "MultiTurnCodeResourceAgent"),
+        "multi_turn_code_resource_v2": ("agent.multi_turn_code_resource_v2_agent", "MultiTurnCodeResourceV2Agent"),
+        "direct_llm": ("agent.direct_llm_agent", "DirectLLMAgent"),
+        "single_agent": ("agent.single_agent", "SingleAgent")
     }
     
     if agent_strategy not in agents:
@@ -290,18 +316,12 @@ def create_agent(agent_strategy, model, verbose=False, base_url=None):
 
 
 def run_agent_safe(agent, input_data):
-    """Run agent safely with error handling and retries."""
-    max_retries = 3
-    for attempt in range(max_retries):
-        try:
-            outputs = agent.run(input_data)
-        except Exception as e:
-            error_msg = str(e)
-            outputs = {"error": error_msg}
-            continue
-        break
-    parsed_outputs = parse_outputs(outputs)
-    return parsed_outputs
+    """Keep one experimental attempt; retries belong to its budgeted model calls."""
+    try:
+        outputs = agent.run(input_data)
+    except Exception as e:
+        outputs = {"error": str(e)}
+    return parse_outputs(outputs)
 
 
 def check_tool_credentials():
@@ -315,18 +335,20 @@ def check_tool_credentials():
 
 def run_agent_with_input(args_tuple):
     """Global function for multiprocessing agent execution."""
-    input_data, agent_strategy, model, verbose, base_url, enable_cache = args_tuple
+    input_data, agent_strategy, model, verbose, base_url, enable_cache, *rest = args_tuple
+    budget = rest[0] if rest else {}
     
     # Set global cache setting before creating agent
     import tools.cache as cache_module
     cache_module.CACHE_ENABLED = enable_cache
     
     agent = create_agent(agent_strategy, model, verbose, base_url)
+    agent.set_budget(**(budget or {}))
     return run_agent_safe(agent, input_data)
 
 
-def count_tokens_in_messages(messages) -> int:
-    """Estimate the number of tokens in the messages."""
+def count_tokens_in_messages(messages, tools=None) -> int:
+    """Estimate content, tool schemas and tool-call history with framing overhead."""
     tokens = 0
     for msg in messages:
         tokens += 4
@@ -339,20 +361,33 @@ def count_tokens_in_messages(messages) -> int:
                 tokens += len(count_token_encoding.encode("\n".join(texts)))
         else:
             tokens += len(count_token_encoding.encode(str(content)))
+        metadata = {k: v for k, v in msg.items() if k not in {"content", "role"} and v is not None}
+        if metadata:
+            tokens += len(count_token_encoding.encode(json.dumps(metadata, default=str)))
+    if tools:
+        tokens += len(count_token_encoding.encode(json.dumps(tools, default=str)))
     return tokens + 2
 
 
-def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_calls=True, max_retries=5, max_tokens=32000, base_url=None):
+def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_calls=True, max_retries=5, max_tokens=32000, base_url=None, max_completion_tokens=None):
     """Safe LLM API call with context length validation and retry logic."""
     
-    input_tokens = count_tokens_in_messages(messages)
+    input_tokens = count_tokens_in_messages(messages, tools)
     if input_tokens > max_tokens:
         return None, f"Input tokens exceeded: {input_tokens} > {max_tokens}", None
 
     # Retry logic for API calls
-    num_turns = len(messages)
+    usage_info = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0,
+                  "cached_prompt_tokens": 0, "cost": 0.0, "llm_calls": 0, "per_call": []}
     for attempt in range(max_retries):
+        captured_usage = False
         try:
+            limits = {}
+            if max_completion_tokens is not None:
+                key = "max_completion_tokens" if is_reasoning_llm(model) else "max_tokens"
+                limits[key] = max_completion_tokens
+                limits["num_retries"] = 0
+            usage_info["llm_calls"] += 1
             output = litellm.completion(
                 model=model, 
                 messages=messages, 
@@ -360,19 +395,30 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                 temperature=None if is_reasoning_llm(model) else temperature,
                 parallel_tool_calls=parallel_tool_calls if tools else None,
                 base_url=base_url,
-                custom_llm_provider="openai" if base_url else None
+                custom_llm_provider="openai" if base_url else None,
+                **limits
             )
 
-            cost = 0.0
-            if hasattr(output, '_hidden_params') and 'response_cost' in output._hidden_params and output._hidden_params["response_cost"]:
-                cost += output._hidden_params["response_cost"]
+            cost = (getattr(output, '_hidden_params', None) or {}).get('response_cost')
 
-            usage_info = {
+            call_usage = {
                 'prompt_tokens': getattr(output.usage, 'prompt_tokens', 0) if output.usage else 0,
                 'completion_tokens': getattr(output.usage, 'completion_tokens', 0) if output.usage else 0,
                 'total_tokens': getattr(output.usage, 'total_tokens', 0) if output.usage else 0,
+                'cached_prompt_tokens': (getattr(getattr(output.usage, 'prompt_tokens_details', None), 'cached_tokens', 0) or 0)
+                                        if output.usage else 0,
                 'cost': cost
             }
+            for key, value in call_usage.items():
+                if key == "cost" and (value is None or usage_info[key] is None):
+                    usage_info[key] = None
+                else:
+                    usage_info[key] += value
+            usage_info["per_call"].append({"prompt": call_usage["prompt_tokens"],
+                                          "completion": call_usage["completion_tokens"],
+                                          "cached": call_usage["cached_prompt_tokens"],
+                                          "usage_available": output.usage is not None})
+            captured_usage = True
 
             if 'qwen' in model.lower():
                 response = litellm.Message(**qwen_parse_tool_calls(output.choices[0].message.content))
@@ -381,17 +427,24 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                     messages = messages + [{"role": "user", "content": "I got an empty response. Please try again to generate a valid response."}]
                     raise Exception("EXCEPTION: Empty or None output.")
                 response = output.choices[0].message
-            messages = messages[:num_turns]
             return response, None, usage_info
         
         except BadRequestError as e:
-            return None, f"BadRequestError: {e}", None
+            if not captured_usage:
+                usage_info["cost"] = None
+                usage_info["per_call"].append({"prompt": 0, "completion": 0, "cached": 0,
+                                              "usage_available": False})
+            return None, f"BadRequestError: {e}", usage_info
         except Exception as e:
+            if not captured_usage:
+                usage_info["cost"] = None
+                usage_info["per_call"].append({"prompt": 0, "completion": 0, "cached": 0,
+                                              "usage_available": False})
             if attempt < max_retries - 1:
                 print(f"[LLM] Retrying ({attempt + 1}/{max_retries}): {e}")
                 time.sleep(5)
             else:
-                return None, f"Max retries exceeded: {e}", None
+                return None, f"Max retries exceeded: {e}", usage_info
 
 
 def is_reasoning_llm(model: str) -> bool:
