@@ -52,6 +52,40 @@ The multi-agent system will be a `BaseAgent` subclass whose `_run()` is the
 fixed controller (P2-12). It creates roles (P2-13 to P2-15) and routes
 `Bus` messages, including repairs (P2-17).
 
+## Fixed Controller (P2-12)
+
+[`agent/controller.py`](../agent/controller.py) defines `FixedController`,
+a `BaseAgent` whose `_run()` decides the order of work without a model:
+
+1. It parses the shared context (question, patient FHIR ID, assumed current
+   time, and the dataset's assumption text) and sends it with every task.
+2. It runs retrieval → analysis → verification. Each role's result goes to
+   the next role over the `Bus`.
+3. If verification reports issues, it runs **at most one repair**. The
+   repair starts from the earliest responsible role: `retrieval` reruns
+   retrieval and then analysis, and `analysis` reruns analysis only. The
+   repair task includes the issues and the previous output. The controller
+   then verifies again.
+4. An answer is released only after a clean verification. Otherwise the
+   system abstains, and the limitation lists the remaining issues.
+
+Roles are handlers (`task -> result`, both JSON objects) supplied by
+`build_roles()`. They are expected to follow these message contracts:
+
+| Role | Result |
+|---|---|
+| retrieval | any object, such as record IDs (records stay in the workspace) |
+| analysis | `{"answer", "evidence": [...], "limitation"}` |
+| verification | `{"issues": [{"type", "record", "field", "responsible_role", "action"}]}` |
+
+If a handler returns `{"error": ...}`, raises an exception, or breaks its
+contract, the run stops with that error. A budget stop becomes an
+abstention, as it does for the single agent. The `revision` field records
+the draft, both checks, the repair role, the final candidate, and the full
+message log; the runner already saves this field. P2-13 to P2-15 provide the
+LLM roles, and P2-17 refines `route()`. The controller is not yet a
+`run_agent.py` strategy because those roles don't exist yet.
+
 ## Spike Results
 
 `tests/test_phase2_framework.py` runs a two-role retrieval → analysis
