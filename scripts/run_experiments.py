@@ -142,7 +142,7 @@ def arm_results(arm, args, question_sets):
     settings = run_agent.build_parser().parse_args(runner_argv(arm, args))
     inputs = arm_inputs(arm, settings, question_sets)
     status = {"arm": arm.name, "group": arm.group, "questions": len(inputs), "output": settings.output,
-              "completed": 0, "failed": 0, "state": "not started"}
+              "completed": 0, "failed": 0, "attempted": 0, "analyzable": False, "state": "not started"}
     if not os.path.exists(settings.output):
         return status, {}
     identity_file = settings.output + ".run.json"
@@ -153,11 +153,12 @@ def arm_results(arm, args, question_sets):
     if saved != run_agent.run_identity(settings, inputs):
         status["state"] = "stale: different inputs, settings or code; use a new --output_dir"
         return status, {}
-    with open(settings.output, encoding="utf-8") as stream:
-        saved_rows = {row.get("question_id"): row for row in json.load(stream)}
+    saved_rows = run_agent.load_saved_results(settings.output, inputs)
     rows = {qid: saved_rows.get(qid, {}) for qid in inputs["question_id"]}
     status["completed"] = sum(run_agent.is_done(row) for row in rows.values())
     status["failed"] = sum(not run_agent.is_done(row) and bool(row.get("error")) for row in rows.values())
+    status["attempted"] = sum(run_agent.is_attempted(row) for row in rows.values())
+    status["analyzable"] = bool(len(inputs)) and status["attempted"] == len(inputs)
     status["state"] = "complete" if status["completed"] == len(inputs) else "in progress"
     return status, rows
 
@@ -198,7 +199,7 @@ def load_references(args, question_ids):
 
 
 def variability_report(arms, args, question_sets):
-    """Per-system spread over the complete repeats of the variability arms."""
+    """Per-system spread over all-attempted, current repeats, including errors."""
     from scripts.variability import summarize
 
     references = load_references(args, question_sets["variability"])
@@ -207,7 +208,7 @@ def variability_report(arms, args, question_sets):
         complete, skipped = [], []
         for arm in (a for a in arms if a.group == "variability" and a.strategy == strategy):
             status, rows = arm_results(arm, args, question_sets)
-            (complete if status["state"] == "complete" else skipped).append((arm, rows))
+            (complete if status.get("analyzable", status["state"] == "complete") else skipped).append((arm, rows))
         if complete:
             asked = {qid: references[qid] for qid in complete[0][1]}  # the subset, after any --limit
             report["systems"][strategy] = {**summarize([rows for _, rows in complete], asked),
@@ -229,8 +230,12 @@ def print_variability(report):
         print(f"\n{strategy}: {s['repeats']}/{report['planned_repeats']} repeats x {s['questions']} questions")
         print(f"  accuracy          {fmt(s['accuracy'])}")
         print(f"  abstention rate   {fmt(s['abstention_rate'])}")
+        print(f"  error rate        {fmt(s['error_rate'])}")
         print(f"  mean tokens       {fmt(s['mean_tokens'], digits=0)}")
         print(f"  median latency s  {fmt(s['median_latency'], digits=2)}")
+        print(f"  retries per repeat {fmt(s['retry_count'], digits=0)}")
+        print(f"  retry-inclusive total tokens {fmt(s['retry_inclusive_tokens_total'], digits=0)}")
+        print(f"  measured token/latency repeats {s['mean_tokens']['n']}/{s['median_latency']['n']}")
         print(f"  questions always/never/sometimes correct: "
               f"{s['always_correct']}/{s['never_correct']}/{s['unstable']}")
         if s["correctness_agreement"] is not None:
@@ -242,14 +247,16 @@ def print_variability(report):
 
 def print_status(statuses):
     width = max(len(s["arm"]) for s in statuses)
-    print(f"{'arm':<{width}}  {'done':>5} {'failed':>6} {'total':>5}  state")
+    print(f"{'arm':<{width}}  {'done':>5} {'failed':>6} {'tried':>5} {'total':>5}  state")
     for s in statuses:
-        print(f"{s['arm']:<{width}}  {s['completed']:>5} {s['failed']:>6} {s['questions']:>5}  {s['state']}")
+        print(f"{s['arm']:<{width}}  {s['completed']:>5} {s['failed']:>6} "
+              f"{s['attempted']:>5} {s['questions']:>5}  {s['state']}")
     for group in EXPECTED:
         members = [s for s in statuses if s["group"] == group]
         if members:
             done, total = sum(s["completed"] for s in members), sum(s["questions"] for s in members)
             print(f"{group}: {done}/{total} runs complete")
+            print(f"  {sum(s['attempted'] for s in members)}/{total} runs attempted (errors retained for analysis)")
 
 
 def check_sizes(statuses, arms, args):
@@ -271,6 +278,10 @@ def main(argv=None):
             parser.error(f"--{key} must be non-negative")
     if args.bootstrap < 1:
         parser.error("--bootstrap must be positive")
+    if args.command == "run" and args.split == HELD_OUT:
+        if any(getattr(args, key) is None or getattr(args, key) <= 0
+               for key in ("max_total_tokens", "max_tool_calls")):
+            parser.error("Held-out runs require explicit positive --max_total_tokens and --max_tool_calls ceilings")
     default_arms = {"variability": ["variability"], "analyze": ["ordinary", "recovery"]}
     names = args.arms or default_arms.get(args.command, list(EXPECTED))
     try:
