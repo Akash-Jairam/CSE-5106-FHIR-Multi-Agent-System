@@ -229,3 +229,36 @@ No real results have been analyzed yet. The tests use synthetic result
 files. Family-level and perturbed-set intervals are wide: the smallest
 family has 49 held-out questions, and the perturbed set has 50 questions
 from 27 patients. The p-values are not adjusted for multiple comparisons.
+
+## Revision Tracking (P3-22)
+
+```sh
+python scripts/run_experiments.py revisions --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30 \
+  [--evidence_source store | --evidence_source ndjson --fhir_dir "$FHIR_NDJSON_DIR"]
+```
+
+`revisions` reads the complete, current ordinary and recovery arms. It
+writes `revisions.json` (a summary per arm) and `revision_log.csv` (one row
+of flags per question and arm) to `<output_dir>/revisions/`. Answers are
+scored with the typed scorer but never written or printed. The log holds
+question IDs and true/false flags, so it can be used to sample questions
+for the human audit (P4-24).
+
+| Measure | Definition |
+|---|---|
+| draft → released | The single agent and the multi-agent system save their first draft in `revision`. Scoring the draft and the released answer gives right→right, right→wrong, wrong→right, or wrong→wrong. The released answer is the one evaluated, so a correct draft withheld as unverified counts as right→wrong. Counts are given over all runs with a draft and over repaired runs only, each with a net (wrong→right − right→wrong). The log also records the repair role. |
+| unsupported claims | A released, non-abstaining answer with no evidence. With `--evidence_source`, it also counts an answer with any citation that doesn't match its source record (`utils/evidence_scorer.py`). Without an evidence source, only the no-evidence count is a real count; it is a lower bound on unsupported claims. |
+| empty-answer correctness | On questions whose reference is empty (`[]` or `[[None]]`), the share answered correctly by abstaining or saying none/zero. **False abstentions** are abstentions on questions that do have a reference answer. |
+| omitted-resource recovery | On the omitted packet: whether the removed record is among the run's retrieved resources, whether it is cited, and whether the answer is right. It also reports accuracy when the record was fetched back, and accuracy on questions the same system got right from the intact packet. |
+
+The direct baseline has no revisions, so it reports no transitions. The
+multi-agent system's retrieved resources are the workspace shared by
+retrieval and analysis. Records only the verifier fetched don't count as
+recovered, because they never reached the answer.
+
+### Limits
+
+No real runs have been tracked yet; the tests use synthetic result files.
+On the 50 perturbed questions, a recovery rate of 1 question is 2
+percentage points. Use the `analyze` intervals (P3-21) before comparing
+systems.

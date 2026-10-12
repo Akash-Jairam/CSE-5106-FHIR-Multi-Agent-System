@@ -70,7 +70,7 @@ ARMS = ([Arm("ordinary", strategy) for strategy in SYSTEMS]
 
 def build_parser():
     parser = argparse.ArgumentParser(description="Run, resume, or check the Phase 3 experiment.")
-    parser.add_argument("command", choices=["plan", "run", "status", "variability", "analyze"])
+    parser.add_argument("command", choices=["plan", "run", "status", "variability", "analyze", "revisions"])
     parser.add_argument("--model", required=True, help="One base model shared by every system")
     parser.add_argument("--base_url", default=None)
     parser.add_argument("--max_total_tokens", type=int, default=None, help="Per-question ceiling for every system")
@@ -92,6 +92,9 @@ def build_parser():
     parser.add_argument("--families", default=DEFAULT_FAMILIES, help="Templates for the typed scorer")
     parser.add_argument("--verbose", action="store_true", help="Print each agent's progress")
     parser.add_argument("--bootstrap", type=int, default=10_000, help="Patient-clustered bootstrap resamples")
+    parser.add_argument("--evidence_source", choices=["none", "store", "ndjson"], default="none",
+                        help="revisions: check released citations against the FHIR store or local NDJSON")
+    parser.add_argument("--fhir_dir", default=None, help="Local FHIR NDJSON directory for --evidence_source ndjson")
     return parser
 
 
@@ -197,6 +200,45 @@ def load_references(args, question_ids):
             for row in frame.itertuples()}
 
 
+def revision_tracking(arms, args, question_sets):
+    """(report, per-question records) for the complete arms; see scripts/revisions.py."""
+    from scripts.revisions import question_record, summarize_arm, summarize_recovery
+    from utils.evidence_scorer import cited_refs, fetch_from_ndjson, fetch_from_store
+
+    results = {arm: arm_results(arm, args, question_sets) for arm in arms}
+    complete = {arm: rows for arm, (status, rows) in results.items() if status["state"] == "complete"}
+    references = load_references(args, {qid for rows in complete.values() for qid in rows})
+    specifications = {}
+    if any(arm.condition == "omitted" for arm in complete):
+        from tools.perturbation import load_perturbations
+        specifications = load_perturbations(args.perturbations)
+    resources = None
+    if args.evidence_source != "none":
+        refs = cited_refs(row["evidence"] for rows in complete.values() for row in rows.values()
+                          if isinstance(row.get("evidence"), list))
+        resources = (fetch_from_ndjson(refs, args.fhir_dir) if args.evidence_source == "ndjson"
+                     else fetch_from_store(refs))
+
+    records = {arm: [question_record(arm.name, rows[qid], {**references[qid], "question_id": qid},
+                                     specifications.get(qid) if arm.condition == "omitted" else None, resources)
+                     for qid in sorted(rows)]
+               for arm, rows in complete.items()}
+    by_name = {arm.name: recs for arm, recs in records.items()}
+    recovery = {}
+    for strategy in RECOVERY_SYSTEMS:
+        omitted = by_name.get(f"recovery_{strategy}_omitted")
+        if omitted is not None:
+            recovery[strategy] = summarize_recovery(omitted, by_name.get(f"recovery_{strategy}_intact"))
+    report = {
+        "settings": {"model": args.model, "split": args.split, "limit": args.limit,
+                     "evidence_source": args.evidence_source},
+        "arms": {arm.name: summarize_arm(recs, resources is not None) for arm, recs in records.items()},
+        "recovery": recovery,
+        "skipped": {arm.name: status["state"] for arm, (status, _) in results.items() if arm not in complete},
+    }
+    return report, [record for recs in records.values() for record in recs]
+
+
 def variability_report(arms, args, question_sets):
     """Per-system spread over the complete repeats of the variability arms."""
     from scripts.variability import summarize
@@ -271,7 +313,10 @@ def main(argv=None):
             parser.error(f"--{key} must be non-negative")
     if args.bootstrap < 1:
         parser.error("--bootstrap must be positive")
-    default_arms = {"variability": ["variability"], "analyze": ["ordinary", "recovery"]}
+    if (args.evidence_source == "ndjson") != bool(args.fhir_dir):
+        parser.error("--fhir_dir is needed with, and only with, --evidence_source ndjson")
+    default_arms = {"variability": ["variability"], "analyze": ["ordinary", "recovery"],
+                    "revisions": ["ordinary", "recovery"]}
     names = args.arms or default_arms.get(args.command, list(EXPECTED))
     try:
         arms = select_arms(names, args.split)
@@ -294,6 +339,14 @@ def main(argv=None):
         return 0
     if args.command == "status":
         print_status(statuses)
+        return 0
+    if args.command == "revisions":
+        from scripts.revisions import print_revisions, write_revisions
+        report, records = revision_tracking(arms, args, question_sets)
+        directory = os.path.join(output_dir(args), "revisions")
+        write_revisions(report, records, directory)
+        print_revisions(report)
+        print(f"\nWrote {directory}")
         return 0
     if args.command == "analyze":
         from scripts.analysis import analyze, print_analysis, write_analysis
