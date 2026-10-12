@@ -220,20 +220,33 @@ cleared before every check.
    the encounter scope, and the current time. As for the single agent, this
    counts as one tool call. If the tool-call budget is used up, the result
    is an unrepairable `source_check` issue, so the system abstains.
-2. **Recompute.** The model re-searches the patient's records (read-only,
-   within scope) and recomputes the answer in the sandbox. It reports
-   issues the field check can't see, such as records the draft missed
-   (retrieval) or a wrong filter or calculation (analysis).
+2. **Recompute.** Acceptance requires a successful independent source fetch
+   followed by a successful sandbox calculation, not just the model's
+   assertion. A new retrieval or calculation attempt invalidates the
+   previous calculation even if the later attempt fails. The reported
+   answer must match the actual Python result, including an explicitly
+   assigned null result. The model reports issues the field check can't
+   see, such as missing records (retrieval) or a wrong calculation (analysis).
 3. **Merge.** The field-check issues, the model's issues, and a
    `recompute_mismatch` issue are combined. The mismatch is added when the
    recomputed answer differs from the draft after normalization: numbers
-   are rounded, text is case-folded, timestamps accept either `T` or a
-   space, lists are unordered, and booleans never equal numbers.
+   are rounded, text is case-folded, lists are unordered, and booleans never
+   equal numbers. Timestamps use the primary scorer's wall-clock parsing
+   and the question's requested day, minute, or second precision.
 
 Every issue is `{type, record, field, responsible_role, action}`.
 `responsible_role` is `retrieval`, `analysis`, or `null` (no role can
-repair it). A reply without a JSON verdict, or with malformed issues, is an
-error, so a draft is never released unchecked.
+repair it). Failed source checks, malformed verdicts, failed independent
+calculations, unresolved source scope, and budget-refused checks produce
+unrepairable issues while preserving earlier deterministic findings. A model
+duplicate cannot reroute a deterministic issue to another role.
+
+Zero, false, null, or an empty set may legitimately have no citations only
+when successful independent retrieval and computation establish that result.
+Unknown patient/time exclusions or a refused later tool do not establish an
+empty search. Per-check computation and source-audit state are reset before
+each verification, so a prior successful calculation cannot certify a later
+failed check. Completing all requested checks exactly at the ceiling is valid.
 
 ## Shared Field Check (P2-16)
 
