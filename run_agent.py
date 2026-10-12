@@ -16,7 +16,6 @@ from utils import (
     check_tool_credentials,
     curate_input_dataset,
     read_input_data,
-    read_intermediate_results,
     run_agent_with_input,
     validate_config,
 )
@@ -184,6 +183,40 @@ def is_done(row):
     return _present(row.get("agent_answer")) or _present(row.get("latency"))
 
 
+def is_attempted(row):
+    """A terminal execution includes errors; an unscheduled placeholder does not."""
+    return is_done(row) or (_present(row.get("error")) and row.get("error") != "")
+
+
+def load_saved_results(output_file, inputs):
+    """Validate scheduled identities before indexing, resuming, or pairing results."""
+    if not os.path.exists(output_file):
+        return {}
+    with open(output_file, encoding="utf-8") as stream:
+        records = json.load(stream)
+    if not isinstance(records, list):
+        raise ValueError("Saved results must be a list of question records")
+    patients = dict(zip(inputs["question_id"], inputs["patient_fhir_id"]))
+    rows = {}
+    for row in records:
+        if not isinstance(row, dict):
+            raise ValueError("Saved results must contain question records")
+        qid = row.get("question_id")
+        if not isinstance(qid, str) or not qid or qid in rows:
+            raise ValueError("Saved results must contain unique, non-null question_id values")
+        if qid not in patients:
+            raise ValueError("Saved results contain a question outside the scheduled inputs")
+        if row.get("patient_fhir_id") != patients[qid]:
+            raise ValueError("Saved results contain a question assigned to the wrong patient")
+        history = row.get(HISTORY_COLUMN)
+        if history is not None and (not isinstance(history, list)
+                                    or any(not isinstance(attempt, dict) or not is_attempted(attempt)
+                                           for attempt in history)):
+            raise ValueError("Attempt history must be a list of recorded result objects")
+        rows[qid] = row
+    return rows
+
+
 def run_identity(args, inputs):
     """Bind a result file to the experiment and inputs that produced it."""
     input_json = inputs[INPUT_COLUMNS].to_json(orient="records", date_format="iso")
@@ -244,17 +277,16 @@ def save_results_json(df, output_file):
 def prepare_results(inputs, output_file, identity):
     if inputs["question_id"].isna().any() or inputs["question_id"].duplicated().any():
         raise ValueError("Each input question must have a unique, non-null question_id")
-    previous = read_intermediate_results(output_file)
     metadata_file = output_file + ".run.json"
-    if not previous.empty:
+    if os.path.exists(output_file):
         if not os.path.exists(metadata_file):
             raise ValueError("Existing results have no run identity; use a new output path to avoid mixing experiments")
         with open(metadata_file, encoding="utf-8") as stream:
             saved_identity = json.load(stream)
         if saved_identity != identity:
             raise ValueError("Existing results belong to different inputs or run settings; use a new output path")
-        if "question_id" not in previous or previous["question_id"].duplicated().any():
-            raise ValueError("Saved results must contain unique question_id values")
+    previous = pd.DataFrame(load_saved_results(output_file, inputs).values())
+    if not previous.empty:
         columns = ["question_id"] + RESULT_COLUMNS + [HISTORY_COLUMN]
         previous = previous.reindex(columns=columns)
         results = inputs.merge(previous, on="question_id", how="left", validate="one_to_one")
@@ -270,6 +302,10 @@ def store_attempt(results, index, output):
     previous = results.loc[index]
     if _present(previous.get("latency")) or _present(previous.get("error")):
         history = previous.get(HISTORY_COLUMN)
+        if _present(history) and (not isinstance(history, list)
+                                  or any(not isinstance(attempt, dict) or not is_attempted(attempt)
+                                         for attempt in history)):
+            raise ValueError("Attempt history must be a list of recorded result objects")
         history = list(history) if isinstance(history, list) else []
         history.append({column: previous.get(column) for column in RESULT_COLUMNS})
         results.at[index, HISTORY_COLUMN] = history
