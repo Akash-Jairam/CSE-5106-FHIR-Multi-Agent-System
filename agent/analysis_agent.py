@@ -20,7 +20,9 @@ import math
 
 from .framework import PYTHON_TOOL, Role, Toolbox
 from .output_schema import ANSWER_FORMAT_INSTRUCTIONS, _json_objects
+from tools.resource_tools import FHIR_ID_RE, supported_types
 from tools.starting_packet import render_resource
+from utils.evidence_scorer import PATH_SEGMENT_RE
 
 PREVIEW_CHARS = 1500
 
@@ -51,9 +53,18 @@ def _valid_answer(value):
     return isinstance(value, list) and all(_valid_answer(item) for item in value)
 
 
+def _is_resource_id(value):
+    if not isinstance(value, str) or value.count("/") != 1:
+        return False
+    rtype, rid = value.split("/")
+    return rtype in supported_types and bool(FHIR_ID_RE.fullmatch(rid))
+
+
 def _is_citation(value):
     return (isinstance(value, dict) and "value" in value
-            and all(isinstance(value.get(k), str) and value[k].strip() for k in ("resource_id", "field_path")))
+            and _is_resource_id(value.get("resource_id"))
+            and isinstance(value.get("field_path"), str)
+            and all(PATH_SEGMENT_RE.fullmatch(segment) for segment in value["field_path"].split(".")))
 
 
 class AnalysisAgent:
@@ -68,7 +79,7 @@ class AnalysisAgent:
         result = self.role.run(self._prompt(task))
         if result.error:
             return {"error": result.error}
-        return self._draft(result.content)
+        return self._draft(result.content, self.workspace)
 
     def _prompt(self, task):
         records = task.get("records") or {}
@@ -88,25 +99,40 @@ class AnalysisAgent:
         return "\n".join(parts)
 
     @staticmethod
-    def _draft(content):
+    def _draft(content, resources=None):
         draft = next((obj for obj in _json_objects(content or "") if "answer" in obj), None)
         if draft is None:
             return {"error": "the reply had no JSON draft with an answer"}
-        evidence = draft.get("evidence") or []
+        evidence = draft.get("evidence")
         if not _valid_answer(draft["answer"]):
             return {"error": "the draft answer must be a scalar, a list of answer values, or null"}
         if not isinstance(evidence, list) or not all(_is_citation(c) for c in evidence):
             return {"error": "draft evidence must be a list of {resource_id, field_path, value} citations"}
+        try:
+            json.dumps(draft, allow_nan=False)
+        except (TypeError, ValueError):
+            return {"error": "draft evidence and metadata must contain only finite JSON values"}
         contributing = draft.get("contributing_ids")
-        if contributing is None:
-            contributing = list(dict.fromkeys(c["resource_id"] for c in evidence))
-        if not isinstance(contributing, list) or not all(isinstance(i, str) and "/" in i for i in contributing):
+        if not isinstance(contributing, list) or not all(_is_resource_id(i) for i in contributing):
             return {"error": "contributing_ids must be a list of \"ResourceType/id\" strings"}
+        contributing = list(dict.fromkeys(contributing))
+        if any(c["resource_id"] not in contributing for c in evidence):
+            return {"error": "every cited resource must be included in contributing_ids"}
+        if resources is not None:
+            held = {f"{rtype}/{r['id']}" for rtype, items in resources.items() for r in items}
+            unknown = [rid for rid in contributing if rid not in held]
+            if unknown:
+                return {"error": "contributing_ids are not among the retrieved records: " + ", ".join(unknown)}
         operation, limitation = draft.get("operation"), draft.get("limitation")
+        if (operation is not None and not isinstance(operation, str)) or (
+                draft["answer"] is not None and (not isinstance(operation, str) or not operation.strip())):
+            return {"error": "a non-abstaining draft must report a non-empty operation string"}
+        if limitation is not None and not isinstance(limitation, str):
+            return {"error": "draft limitation must be a string or null"}
         return {
             "answer": draft["answer"],
             "evidence": evidence,
-            "operation": operation if operation is None or isinstance(operation, str) else json.dumps(operation),
+            "operation": operation,
             "contributing_ids": contributing,
-            "limitation": limitation if limitation is None or isinstance(limitation, str) else json.dumps(limitation),
+            "limitation": limitation,
         }

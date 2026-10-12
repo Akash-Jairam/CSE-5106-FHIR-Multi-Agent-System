@@ -116,6 +116,20 @@ class ControllerTests(unittest.TestCase):
         self.assertIn("No role could repair", output["limitation"])
         self.assertEqual(len(system.tasks["analysis"]), 1)
 
+    def test_any_unrepairable_issue_blocks_a_mixed_repair_request(self):
+        for responsible in (None, "verification", "unknown"):
+            with self.subTest(responsible=responsible):
+                issues = [issue("analysis"), issue(responsible, "source_check")]
+                system = StubController([records()], [draft(), draft(8)],
+                                        [{"issues": issues}, {"issues": []}])
+                output = system.run(QUESTION)
+                self.assertIsNone(output["answer"])
+                self.assertIsNone(output["error"])
+                self.assertIsNone(output["revision"]["repair_role"])
+                self.assertIn("No role could repair", output["limitation"])
+                self.assertEqual(len(system.tasks["analysis"]), 1)
+                self.assertEqual(len(system.tasks["verification"]), 1)
+
     def test_role_failure_before_a_draft_is_a_retryable_error(self):
         system = StubController([RuntimeError("store unavailable")])
         output = system.run(QUESTION)
@@ -171,6 +185,40 @@ class ControllerTests(unittest.TestCase):
 
         output = Incomplete().run(QUESTION)
         self.assertIn("needs handlers for: analysis, verification", output["error"])
+
+    def test_every_role_and_repair_execute_as_nodes_in_the_real_graph(self):
+        system = StubController([records(), records()], [draft(), draft(8)],
+                                [{"issues": [issue("retrieval", "missing_evidence")]}, {"issues": []}])
+        output = system.run(QUESTION)
+        self.assertEqual(output["answer"], 8)
+        self.assertEqual(set(system._workflow.graph.nodes),
+                         {"__start__", "retrieval", "analysis", "verification", "repair"})
+        self.assertIsNone(system._workflow.graph.checkpointer)
+        self.assertEqual(system._workflow.graph.retry_policy, ())
+        self.assertTrue(output["revision"]["revised"])
+
+    def test_failed_repair_does_not_mark_the_unchanged_draft_as_revised(self):
+        system = StubController([records(), RuntimeError("store unavailable")], [draft()],
+                                [{"issues": [issue("retrieval", "missing_evidence")]}])
+        output = system.run(QUESTION)
+        self.assertIsNone(output["answer"])
+        self.assertFalse(output["revision"]["revised"])
+        self.assertEqual(output["revision"]["final"]["answer"], 7)
+        self.assertEqual(len(system.tasks["retrieval"]), 2)
+        self.assertEqual(len(system.tasks["analysis"]), 1)
+
+    def test_graph_preserves_the_controller_repair_route_hook(self):
+        class RecordedRoute(StubController):
+            def route(self, issues, *args):
+                self.routed_issues = issues
+                return super().route(issues, *args)
+
+        system = RecordedRoute([records()], [draft(), draft(8)],
+                             [{"issues": [issue("analysis")]}, {"issues": []}])
+        output = system.run(QUESTION)
+        self.assertEqual(output["answer"], 8)
+        self.assertEqual(system.routed_issues, [issue("analysis")])
+        self.assertEqual(output["revision"]["repair_role"], "analysis")
 
 
 if __name__ == "__main__":
