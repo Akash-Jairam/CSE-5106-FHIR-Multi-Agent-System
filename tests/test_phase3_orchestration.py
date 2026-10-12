@@ -255,7 +255,9 @@ class ResultAccountingTests(unittest.TestCase):
         valid = {"question_id": "q1", "patient_fhir_id": "patient", "latency": 1.0}
         invalid = ([valid, valid], [{**valid, "question_id": None}],
                    [{**valid, "question_id": "foreign"}],
-                   [{**valid, "patient_fhir_id": "another-patient"}], {"q1": valid}, [None])
+                   [{**valid, "patient_fhir_id": "another-patient"}], {"q1": valid}, [None],
+                   [{**valid, "attempt_history": "malformed"}], [{**valid, "attempt_history": [None]}],
+                   [{**valid, "attempt_history": [{}]}])
         with tempfile.TemporaryDirectory() as directory:
             output = os.path.join(directory, "results.json")
             for records in invalid:
@@ -285,8 +287,9 @@ class ResultAccountingTests(unittest.TestCase):
 
     def test_full_run_requires_explicit_shared_ceilings_before_execution(self):
         with patch.object(runner, "main") as execute, contextlib.redirect_stderr(io.StringIO()):
-            with self.assertRaises(SystemExit):
-                experiments.main(["run", "--model", "test", "--arms", "ordinary"])
+            for extra in ([], ["--limit", "300"]):
+                with self.subTest(extra=extra), self.assertRaises(SystemExit):
+                    experiments.main(["run", "--model", "test", "--arms", "ordinary", *extra])
         execute.assert_not_called()
 
 

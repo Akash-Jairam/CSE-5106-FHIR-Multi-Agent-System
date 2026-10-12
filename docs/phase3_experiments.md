@@ -106,7 +106,7 @@ python scripts/run_experiments.py status --model gpt-5-nano --max_total_tokens 2
   (ordinary arms only). Results go to
   `output/experiments/<model>/<split>[_limit<N>]/` unless `--output_dir` is
   given, so smoke runs never mix with the real experiment.
-- A full, unlimited held-out `run` requires explicit positive token and
+- Every held-out `run` requires explicit positive token and
   tool ceilings. `plan` and `status` remain available without those settings.
 
 ### Limits

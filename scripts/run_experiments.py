@@ -182,10 +182,10 @@ def main(argv=None):
     for key in ("max_total_tokens", "max_tool_calls", "limit"):
         if getattr(args, key) is not None and getattr(args, key) < 0:
             parser.error(f"--{key} must be non-negative")
-    if args.command == "run" and args.split == HELD_OUT and args.limit is None:
+    if args.command == "run" and args.split == HELD_OUT:
         if any(getattr(args, key) is None or getattr(args, key) <= 0
                for key in ("max_total_tokens", "max_tool_calls")):
-            parser.error("A full run requires explicit positive --max_total_tokens and --max_tool_calls ceilings")
+            parser.error("Held-out runs require explicit positive --max_total_tokens and --max_tool_calls ceilings")
     try:
         arms = select_arms(args.arms, args.split)
     except ValueError as exc:

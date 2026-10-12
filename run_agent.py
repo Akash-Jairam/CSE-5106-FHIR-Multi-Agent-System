@@ -190,6 +190,11 @@ def load_saved_results(output_file, inputs):
             raise ValueError("Saved results contain a question outside the scheduled inputs")
         if row.get("patient_fhir_id") != patients[qid]:
             raise ValueError("Saved results contain a question assigned to the wrong patient")
+        history = row.get(HISTORY_COLUMN)
+        if history is not None and (not isinstance(history, list)
+                                    or any(not isinstance(attempt, dict) or not is_attempted(attempt)
+                                           for attempt in history)):
+            raise ValueError("Attempt history must be a list of recorded result objects")
         rows[qid] = row
     return rows
 
@@ -276,6 +281,10 @@ def store_attempt(results, index, output):
     previous = results.loc[index]
     if _present(previous.get("latency")) or _present(previous.get("error")):
         history = previous.get(HISTORY_COLUMN)
+        if _present(history) and (not isinstance(history, list)
+                                  or any(not isinstance(attempt, dict) or not is_attempted(attempt)
+                                         for attempt in history)):
+            raise ValueError("Attempt history must be a list of recorded result objects")
         history = list(history) if isinstance(history, list) else []
         history.append({column: previous.get(column) for column in RESULT_COLUMNS})
         results.at[index, HISTORY_COLUMN] = history
