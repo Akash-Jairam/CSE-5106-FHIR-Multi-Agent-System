@@ -100,9 +100,9 @@ repair, then terminate after its verification. Framework retries and
 checkpoint resume are disabled, so no hidden second attempt can bypass
 the common token/tool ceiling. Revision tracking uses an explicit flag
 after a successful repaired analysis, not object identity in graph state.
-The original `route(issues) -> role or None` interface is retained here;
-P2-17's later error classification and routing diagnostics are not part of
-this controller correction.
+The repair node calls P2-17's type-based `route(issues, draft)` (below),
+sends its decisions as a `routing` bus message, and saves them in
+`revision.routing`.
 
 Roles are handlers (`task -> result`, both JSON objects) supplied by
 `build_roles()`. They are expected to follow these message contracts:
