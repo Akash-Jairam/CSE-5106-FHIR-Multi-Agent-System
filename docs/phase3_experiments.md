@@ -264,24 +264,35 @@ python scripts/run_experiments.py revisions --model gpt-5-nano --max_total_token
   [--evidence_source store | --evidence_source ndjson --fhir_dir "$FHIR_NDJSON_DIR"]
 ```
 
-`revisions` reads the complete, current ordinary and recovery arms. It
+`revisions` reads the validated, current ordinary and recovery arms in
+which every question has an execution attempt. It
 writes `revisions.json` (a summary per arm) and `revision_log.csv` (one row
 of flags per question and arm) to `<output_dir>/revisions/`. Answers are
 scored with the typed scorer but never written or printed. The log holds
-question IDs and true/false flags, so it can be used to sample questions
+question IDs, counts, diagnostic resource IDs, and flags, so it can be used to sample questions
 for the human audit (P4-24).
 
 | Measure | Definition |
 |---|---|
-| draft → released | The single agent and the multi-agent system save their first draft in `revision`. Scoring the draft and the released answer gives right→right, right→wrong, wrong→right, or wrong→wrong. The released answer is the one evaluated, so a correct draft withheld as unverified counts as right→wrong. Counts are given over all runs with a draft and over repaired runs only, each with a net (wrong→right − right→wrong). The log also records the repair role. |
-| unsupported claims | A released, non-abstaining answer with no evidence. With `--evidence_source`, it also counts an answer with any citation that doesn't match its source record (`utils/evidence_scorer.py`). Without an evidence source, only the no-evidence count is a real count; it is a lower bound on unsupported claims. |
-| empty-answer correctness | On questions whose reference is empty (`[]` or `[[None]]`), the share answered correctly by abstaining or saying none/zero. **False abstentions** are abstentions on questions that do have a reference answer. |
-| omitted-resource recovery | On the omitted packet: whether the removed record is among the run's retrieved resources, whether it is cited, and whether the answer is right. It also reports accuracy when the record was fetched back, and accuracy on questions the same system got right from the intact packet. |
+| draft → released | The single agent and the multi-agent system save their first draft in `revision`. Scoring the draft and the released answer gives right→right, right→wrong, wrong→right, or wrong→wrong. A correct draft withheld as unverified counts as right→wrong. Transitions use the first execution attempt; a provider or runtime error has no released answer and is excluded from transitions. Accuracy still counts it as wrong. Counts include the scored denominator, excluded failures, repaired runs, and net (wrong→right − right→wrong). The log also records the repair role and number of execution attempts. |
+| unsupported claims | A released answer with no evidence or a structurally malformed citation. With `--evidence_source`, it also counts a citation that doesn't match its source record (`utils/evidence_scorer.py`). Independently established empty results (`0`, `False`, `[]`, or null) need no nonexistent citation: this exemption requires a clean final verifier verdict and a matching successful fetch followed by Python recomputation in the final verification context. Missing proof metadata is reported as unknown. Even source-valid citations do not establish complete answer support, so this measure remains a lower bound and explicitly reports that completeness was not checked. |
+| empty-answer correctness | On questions whose reference is empty (`[]` or `[[None]]`), the share answered correctly by the frozen typed scorer. A separate count shows correct empties established by independent verification. **False abstentions** count explicit limitations on questions that do have a reference answer; failed attempts and independently established empty answers are separate states. Failures remain wrong in the accuracy denominator. |
+| omitted-resource recovery | On the omitted packet: whether the removed record was fetched, reached the answer workspace, was cited, or was reported in the final analyst's `contributing_ids`. Successful recovery requires that it reached the answer workspace, was used, and the answer was correct. Verifier-only fetches are reported separately. It also reports accuracy when the record reached the answer workspace and accuracy among questions the same system got right from the intact packet. Missing use or fetch metadata stays unknown, with known denominators and unknown counts. |
 
 The direct baseline has no revisions, so it reports no transitions. The
 multi-agent system's retrieved resources are the workspace shared by
 retrieval and analysis. Records only the verifier fetched don't count as
-recovered, because they never reached the answer.
+recovered, because they never reached the answer. The final analyst's
+contributing IDs come from the saved role messages; a citation alone is
+not treated as proof that a record was used. Older single-agent outputs
+do not record contributing IDs, so their use-based recovery is unknown.
+
+All correctness and transition measures score the first execution attempt
+saved in `attempt_history`, or the current row when there was no retry.
+Retries cannot silently improve reported outcomes. Reference answers are
+used only by the offline scorer. The diagnostics do not send gold answers,
+gold resource IDs, or omitted IDs to an agent, and do not infer evidence
+completeness from gold overlap.
 
 ### Limits
 
