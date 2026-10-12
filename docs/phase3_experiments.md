@@ -176,10 +176,13 @@ python scripts/run_experiments.py analyze --model gpt-5-nano --max_total_tokens 
 ```
 
 `analyze` uses the same settings as `run` to find and check the ordinary
-and recovery result files. It analyzes only arms whose files are complete
-and current, and lists the rest as skipped. Answers are scored with the
-typed scorer (an errored attempt counts as wrong), and no answer is
-written or printed.
+and recovery result files. It analyzes only current arms with every
+planned question attempted, and lists the rest as skipped. An errored
+attempt remains in the accuracy denominator and counts as wrong. Primary
+accuracy, latency, and token metrics use the first attempt at each question;
+resume retries cannot improve the benchmark score. Retry-inclusive token
+and latency totals and retry counts are reported separately. Answers are
+scored with the typed scorer, and no answer is written or printed.
 
 ### Intervals
 
@@ -191,10 +194,19 @@ questions from 58 patients; the perturbed set has 50 from 27. Resampling
 uses 10,000 draws (`--bootstrap`) seeded with the split seed, so rerunning
 the analysis gives identical intervals.
 
+The estimand is mean correctness per question: patients with more questions
+contribute more observations, and each bootstrap draw preserves that
+patient's question count. A subgroup with fewer than two patients has an
+estimate but unavailable CI bounds because between-patient uncertainty
+cannot be estimated from one patient.
+
 **Paired differences** compare two arms on the same questions. Each
-resample takes the same patients for both arms, so the difference doesn't
-include between-question variation. Each difference also has a two-sided
-bootstrap p-value: twice the share of resamples on the far side of zero.
+resample takes the same patients for both arms. Both arms must contain
+exactly the same unique question IDs, with matching patient and family
+assignments; silently restricting to their intersection could change the
+comparison population. Only confidence intervals are reported. The tail
+of the ordinary bootstrap distribution across zero is not a calibrated
+hypothesis-test p-value.
 
 | Comparison | Arms (a − b) |
 |---|---|
@@ -211,12 +223,14 @@ The command writes these files to `<output_dir>/analysis/`:
 | File | Contents |
 |---|---|
 | `accuracy.csv` | accuracy per arm, overall and by family, with n, patients, and the 95% CI |
-| `comparisons.csv` | every paired difference, overall and by family, with its CI and p-value |
-| `latency.csv` | median and p95 latency, and mean tokens per question with a clustered CI, per arm |
+| `comparisons.csv` | every paired difference, overall and by family, with its CI |
+| `latency.csv` | first-attempt median and p95 latency and mean tokens with a clustered CI; measurement counts, missing counts, retries, and retry-inclusive totals |
 | `accuracy_vs_tokens.svg` | the three ordinary arms: accuracy against mean tokens per question |
 | `summary.json` | all of the above, plus the settings and the skipped arms |
 
-The chart has a log token axis and 95% CI whiskers on both axes. Each
+The chart has a log token axis when all estimates and CI bounds are
+positive; it uses a linear axis when a cost reaches zero so those systems
+remain visible. It shows 95% CI whiskers on both axes where estimable. Each
 system has a fixed color from a palette checked for color-vision
 deficiency in light and dark mode, plus a direct label and a hover tooltip.
 It is a self-contained SVG with no plotting dependency, and the CSVs carry
@@ -225,7 +239,18 @@ the fingerprinted code, so changing it doesn't make result files stale.
 
 ### Limits
 
-No real results have been analyzed yet. The tests use synthetic result
-files. Family-level and perturbed-set intervals are wide: the smallest
+Tests use synthetic result files; they are not experimental findings.
+Family-level and perturbed-set intervals may be imprecise: the smallest
 family has 49 held-out questions, and the perturbed set has 50 questions
-from 27 patients. The p-values are not adjusted for multiple comparisons.
+from 27 patients. The patient bootstrap describes sampling uncertainty
+conditional on the recorded attempts; it does not measure provider run
+variability or establish clinical effectiveness. The many family and arm
+comparisons are exploratory, and their intervals are not adjusted for
+multiple comparisons. Constant outcomes can give zero-width percentile
+intervals even with several patients; this is not proof of certainty.
+
+Latency medians and p95 values summarize observed first-attempt timings;
+the tables disclose the number missing. Mean tokens and retry-inclusive
+cost totals are unavailable if any contributing usage is unknown, rather
+than treating unknown usage as zero. The statistics code depends on the
+first-attempt and attempt-history helpers from P3-20.
