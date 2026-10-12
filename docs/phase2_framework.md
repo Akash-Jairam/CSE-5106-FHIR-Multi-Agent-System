@@ -85,7 +85,7 @@ contract, the run stops with that error. A budget stop becomes an
 abstention, as it does for the single agent. The `revision` field records
 the draft, both checks, the repair role, the final candidate, and the full
 message log; the runner already saves this field. P2-13 to P2-15 provide the
-LLM roles. The controller is not yet a `run_agent.py` strategy.
+LLM roles. `agent/multi_agent.py` wires them in as the `multi_agent` strategy (P3-19).
 
 ### Repair Routing (P2-17)
 
@@ -237,8 +237,8 @@ evidence by fetching it. At run time,
 live packet and returns its frozen omission. `load_perturbations()` validates
 the manifests, code hashes, packet version, patient/time scope and exact
 one-record resource-ID difference, retaining each entry's packet hashes.
-Wiring both
-into `run_agent.py` is part of run orchestration (P3-19).
+`run_agent.py
+--perturbations ... --condition omitted` wires both in (P3-19).
 **Eligibility.** A question is eligible when it has a non-empty reference
 answer, and the released SQL query reproduces it from the **exact rendered
 packet fields**. `scripts/packet_query.py` projects those fields into a
