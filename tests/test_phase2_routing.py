@@ -132,7 +132,8 @@ class PipelineTests(unittest.TestCase):
         scope = {"resource_types": ["Encounter"], "encounter_ids": [], "limitation": None}
         responses = [
             reply(scope),                                                            # retrieval misses weights
-            reply(draft(answer=None, evidence=(), limitation="No weight records")),  # analysis abstains
+            reply({**draft(answer=None, evidence=(), limitation="No weight records"),
+                   "contributing_ids": []}),                                        # analysis abstains
             call("get_resources_by_patient_fhir_id", "v1", **fetch),                 # verifier re-searches
             call("execute_python_code", "v2", code=min_code),
             reply({"recomputed_answer": 68, "issues": []}),                          # only a recompute mismatch
@@ -140,6 +141,8 @@ class PipelineTests(unittest.TestCase):
             reply({**scope, "resource_types": ["Observation"]}),
             call("execute_python_code", "a1", code=min_code),                        # analysis reruns
             reply({**draft(), "operation": "min weight", "contributing_ids": ["Observation/o1", "Observation/o2"]}),
+            call("get_resources_by_patient_fhir_id", "v3", **fetch),                 # independent final re-search
+            call("execute_python_code", "v4", code=min_code),
             reply({"recomputed_answer": 68, "issues": []}),                          # clean re-check
         ]
 
@@ -168,6 +171,8 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual([i["type"] for i in revision["check_issues"]], ["recompute_mismatch"])
         self.assertEqual(revision["repair_role"], "retrieval")
         self.assertEqual(revision["final_check_issues"], [])
+        self.assertEqual(output["budget"]["tool_calls_run"], 8)
+        self.assertEqual(system._llm_call.call_count, len(responses))
         self.assertEqual(sorted(r["id"] for r in output["retrieved_fhir_resources"]["Observation"]), ["o1", "o2"])
 
 
