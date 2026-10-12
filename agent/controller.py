@@ -88,14 +88,16 @@ class FixedController(BaseAgent):
         return None, "no role can repair it"
 
     def route(self, issues, draft):
-        """(role, decisions): the role a repair starts from, or None if no
-        issue can be repaired, and each issue's classification. The earliest
+        """(role, decisions): the role a repair starts from, or None if any
+        issue is unrepairable, and each issue's classification. The earliest
         role wins, since a retrieval repair also reruns analysis."""
         decisions = []
         for issue in issues:
             role, reason = self.classify(issue, draft)
             decisions.append({"type": issue["type"], "record": issue.get("record"), "role": role, "reason": reason})
         roles = {d["role"] for d in decisions}
+        if None in roles:
+            return None, decisions
         return next((role for role in REPAIRABLE if role in roles), None), decisions
 
     def _retrieved(self, record):
