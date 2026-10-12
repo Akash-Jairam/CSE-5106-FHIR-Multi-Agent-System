@@ -70,7 +70,7 @@ ARMS = ([Arm("ordinary", strategy) for strategy in SYSTEMS]
 
 def build_parser():
     parser = argparse.ArgumentParser(description="Run, resume, or check the Phase 3 experiment.")
-    parser.add_argument("command", choices=["plan", "run", "status", "variability"])
+    parser.add_argument("command", choices=["plan", "run", "status", "variability", "analyze"])
     parser.add_argument("--model", required=True, help="One base model shared by every system")
     parser.add_argument("--base_url", default=None)
     parser.add_argument("--max_total_tokens", type=int, default=None, help="Per-question ceiling for every system")
@@ -91,6 +91,7 @@ def build_parser():
     parser.add_argument("--subset", default=DEFAULT_SUBSET)
     parser.add_argument("--families", default=DEFAULT_FAMILIES, help="Templates for the typed scorer")
     parser.add_argument("--verbose", action="store_true", help="Print each agent's progress")
+    parser.add_argument("--bootstrap", type=int, default=10_000, help="Patient-clustered bootstrap resamples")
     return parser
 
 
@@ -182,18 +183,25 @@ def load_question_sets(arms, args):
     return question_sets
 
 
-def variability_report(arms, args, question_sets):
-    """Per-system spread over the complete repeats of the variability arms."""
+def load_references(args, question_ids):
+    """{question_id: question, reference answer, template, family, patient} for scoring; never printed."""
     import pandas as pd
-    from scripts.variability import summarize
 
-    question_ids = question_sets["variability"]
     frame = run_agent.read_input_data(args.input)
     frame = frame[frame["question_id"].isin(question_ids)]
-    templates = pd.read_csv(args.families, usecols=["question_id", "template"]).set_index("question_id")["template"]
-    references = {row.question_id: {"question": row.question, "true_answer": row.true_answer,
-                                    "template": templates.get(row.question_id, "")}
-                  for row in frame.itertuples()}
+    families = pd.read_csv(args.families, usecols=["question_id", "family", "template"]).set_index("question_id")
+    return {row.question_id: {"question": row.question, "true_answer": row.true_answer,
+                              "template": families["template"].get(row.question_id, ""),
+                              "family": families["family"].get(row.question_id),
+                              "patient": row.patient_fhir_id}
+            for row in frame.itertuples()}
+
+
+def variability_report(arms, args, question_sets):
+    """Per-system spread over the complete repeats of the variability arms."""
+    from scripts.variability import summarize
+
+    references = load_references(args, question_sets["variability"])
     report = {"subset": os.path.relpath(args.subset, ROOT), "planned_repeats": REPEATS, "systems": {}}
     for strategy in SYSTEMS:
         complete, skipped = [], []
@@ -261,7 +269,10 @@ def main(argv=None):
     for key in ("max_total_tokens", "max_tool_calls", "limit"):
         if getattr(args, key) is not None and getattr(args, key) < 0:
             parser.error(f"--{key} must be non-negative")
-    names = args.arms or (["variability"] if args.command == "variability" else list(EXPECTED))
+    if args.bootstrap < 1:
+        parser.error("--bootstrap must be positive")
+    default_arms = {"variability": ["variability"], "analyze": ["ordinary", "recovery"]}
+    names = args.arms or default_arms.get(args.command, list(EXPECTED))
     try:
         arms = select_arms(names, args.split)
     except ValueError as exc:
@@ -283,6 +294,14 @@ def main(argv=None):
         return 0
     if args.command == "status":
         print_status(statuses)
+        return 0
+    if args.command == "analyze":
+        from scripts.analysis import analyze, print_analysis, write_analysis
+        report = analyze(arms, args, question_sets)
+        directory = os.path.join(output_dir(args), "analysis")
+        write_analysis(report, directory)
+        print_analysis(report)
+        print(f"\nWrote {directory}")
         return 0
     if args.command == "variability":
         report = variability_report(arms, args, question_sets)

@@ -168,3 +168,64 @@ accuracy points, so the SD over five repeats is a coarse estimate. It
 bounds run-to-run noise but doesn't replace the patient-clustered
 confidence intervals (P3-21). Models called at temperature 0 may still
 vary through provider nondeterminism; reasoning models ignore the setting.
+
+## Statistics and Plots (P3-21)
+
+```sh
+python scripts/run_experiments.py analyze --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+```
+
+`analyze` uses the same settings as `run` to find and check the ordinary
+and recovery result files. It analyzes only arms whose files are complete
+and current, and lists the rest as skipped. Answers are scored with the
+typed scorer (an errored attempt counts as wrong), and no answer is
+written or printed.
+
+### Intervals
+
+Questions from the same patient share one record, so they aren't
+independent. Every interval is a 95% percentile bootstrap that resamples
+**patients** with replacement and keeps all of a resampled patient's
+questions (`scripts/experiment_stats.py`). The held-out set has 300
+questions from 58 patients; the perturbed set has 50 from 27. Resampling
+uses 10,000 draws (`--bootstrap`) seeded with the split seed, so rerunning
+the analysis gives identical intervals.
+
+**Paired differences** compare two arms on the same questions. Each
+resample takes the same patients for both arms, so the difference doesn't
+include between-question variation. Each difference also has a two-sided
+bootstrap p-value: twice the share of resamples on the far side of zero.
+
+| Comparison | Arms (a − b) |
+|---|---|
+| systems | multi − single, multi − direct, single − direct (ordinary arms, 300 questions) |
+| intact vs omitted | omitted − intact for the single agent and for the multi-agent system (50 questions) |
+| recovery between systems | multi − single, under omitted and under intact |
+
+Each comparison is reported overall and for each question family.
+
+### Outputs
+
+The command writes these files to `<output_dir>/analysis/`:
+
+| File | Contents |
+|---|---|
+| `accuracy.csv` | accuracy per arm, overall and by family, with n, patients, and the 95% CI |
+| `comparisons.csv` | every paired difference, overall and by family, with its CI and p-value |
+| `latency.csv` | median and p95 latency, and mean tokens per question with a clustered CI, per arm |
+| `accuracy_vs_tokens.svg` | the three ordinary arms: accuracy against mean tokens per question |
+| `summary.json` | all of the above, plus the settings and the skipped arms |
+
+The chart has a log token axis and 95% CI whiskers on both axes. Each
+system has a fixed color from a palette checked for color-vision
+deficiency in light and dark mode, plus a direct label and a hover tooltip.
+It is a self-contained SVG with no plotting dependency, and the CSVs carry
+the same numbers as a table. The analysis code lives in `scripts/`, outside
+the fingerprinted code, so changing it doesn't make result files stale.
+
+### Limits
+
+No real results have been analyzed yet. The tests use synthetic result
+files. Family-level and perturbed-set intervals are wide: the smallest
+family has 49 held-out questions, and the perturbed set has 50 questions
+from 27 patients. The p-values are not adjusted for multiple comparisons.
