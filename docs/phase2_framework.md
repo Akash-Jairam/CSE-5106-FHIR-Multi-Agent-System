@@ -102,9 +102,9 @@ fixed vocabulary:
 | any other type citing a record that was never retrieved | retrieval | missing evidence |
 | any other type | the verifier's `responsible_role`, else none | |
 
-`route()` picks the earliest role among the issues. A retrieval repair
-reruns analysis too, so mixed or ambiguous cases start from retrieval. If
-no issue is repairable, the system abstains without a repair. Each
+`route()` picks the earliest role only when every issue is repairable. A
+retrieval repair reruns analysis too, so repairable mixed cases start from
+retrieval. If any issue is unrepairable, the system abstains without a repair. Each
 decision (type, record, role, reason) goes to the `revision.routing` field
 and to a `routing` bus message. After the repair the controller verifies
 again and releases the answer only if that check is clean; otherwise it
