@@ -149,6 +149,30 @@ class VerificationTests(unittest.TestCase):
         for a, b in [("Tylenol", " ylenol"), (True, 1), (68, 68.5), (["a", "b"], ["a"])]:
             self.assertNotEqual(_canonical(a), _canonical(b), (a, b))
 
+    def test_timestamp_comparison_uses_requested_wall_clock_precision(self):
+        same_time = ["2150-01-02T08:00:00-05:00", "2150-01-02 08:00", "2150-01-02T08:00:59Z"]
+        for timestamp in same_time:
+            self.assertEqual(_canonical(timestamp, "When was the first weight measured?"),
+                             _canonical(same_time[0], "When was the first weight measured?"))
+        self.assertNotEqual(_canonical(same_time[0], "When was the first weight measured?"),
+                            _canonical("2150-01-02T08:01:00-05:00", "When was the first weight measured?"))
+        self.assertNotEqual(_canonical(same_time[0], "At what second was the first weight measured?"),
+                            _canonical("2150-01-02T08:00:01-05:00", "At what second was the first weight measured?"))
+        self.assertEqual(_canonical("2150-01-02", "On what date was the first weight measured?"),
+                         _canonical("2150-01-02T23:59:59-05:00", "On what date was the first weight measured?"))
+        self.assertNotEqual(_canonical("2150-01-02", "When was the first weight measured?"),
+                            _canonical("2150-01-02T00:00:00-05:00", "When was the first weight measured?"))
+        self.assertNotEqual(_canonical(True), _canonical(1))
+
+    def test_equivalent_timestamp_formats_do_not_trigger_a_repair(self):
+        self.agent.context = {**CONTEXT, "question": "When was the first weight measured?"}
+        checked = draft(answer="2150-01-02 08:00", evidence=[
+            cite(path="effectiveDateTime", value="2150-01-02T08:00:00")])
+        code = "answer = retrieved_resources['Observation'][0]['effectiveDateTime']"
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=code),
+                             verdict(recomputed="2150-01-02T08:00:00-05:00"), checked=checked)
+        self.assertEqual(result["issues"], [])
+
     def test_malformed_verdicts_and_model_errors_are_errors(self):
         self.assertIn("no JSON verdict", self.verify(reply("Looks right to me."))["issues"][-1]["action"])
         self.assertIn("list of objects with a type", self.verify(verdict(issues=["wrong unit"]))["issues"][-1]["action"])

@@ -20,15 +20,14 @@ repair the issue.
 """
 import json
 import math
-import re
 
 from .framework import PYTHON_TOOL, RETRIEVAL_TOOLS, Role, Toolbox
 from .output_schema import _json_objects
 from tools.field_check import check_fields
 from tools.resource_tools import supported_types
+from utils.answer_scorer import DATETIME_RE, _parse_datetime, timestamp_precision
 
 REPAIR_ROLES = ("retrieval", "analysis")
-TIMESTAMP_RE = re.compile(r"\d{4}-\d{2}-\d{2}T")
 
 SYSTEM_PROMPT = f"""You are the verification agent in a team answering questions about one patient's FHIR record.
 You check another agent's draft answer independently. You do not see how it was produced.
@@ -57,20 +56,28 @@ Do not claim a recomputation if a tool failed. Zero, false, or an empty list can
 independent search and calculation establish that empty result; missing evidence is not itself an empty result."""
 
 
-def _canonical(value):
-    """Comparable form of an answer: numbers rounded, text case-folded, lists unordered."""
+def _canonical(value, question=""):
+    """Comparable answers using the primary scorer's requested wall-clock precision."""
     if isinstance(value, list):
         if len(value) == 1:
-            return _canonical(value[0])
-        return tuple(sorted(repr(_canonical(v)) for v in value))
+            return _canonical(value[0], question)
+        return tuple(sorted(repr(_canonical(v, question)) for v in value))
     if isinstance(value, bool):
         return ("bool", value)  # True == 1.0 in Python; a yes/no answer is not a count
     if value is None:
         return value
     if isinstance(value, str):
         text = value.strip()
-        if TIMESTAMP_RE.match(text):
-            text = text.replace("T", " ", 1)
+        if DATETIME_RE.fullmatch(text):
+            moment, has_time = _parse_datetime(text)
+            if moment:
+                precision = timestamp_precision(question)
+                if precision == "day":
+                    return ("timestamp", precision, moment.date().isoformat())
+                if not has_time:
+                    return ("timestamp", "date_only", moment.date().isoformat())
+                moment = moment.replace(microsecond=0, **({"second": 0} if precision == "minute" else {}))
+                return ("timestamp", precision, moment.isoformat())
         text = text.casefold()
         try:
             value = float(text)
@@ -201,15 +208,17 @@ class VerificationAgent:
                                  role if role in REPAIR_ROLES else None, str(item.get("action") or "")))
         recomputed = verdict.get("recomputed_answer")
         computation = self.toolbox.computation
+        question = self.context["question"]
         if computation is None:
             issues.append(_issue("independent_check", responsible_role=None,
                                  action="Verification needs a successful independent fetch and Python recomputation"))
-        elif _canonical(computation["answer"]) != _canonical(recomputed):
+        elif _canonical(computation["answer"], question) != _canonical(recomputed, question):
             issues.append(_issue("independent_check", responsible_role=None,
                                  action="The reported recomputation differs from the successful Python result"))
-        elif not unresolved and not refused_budget and _canonical(recomputed) == _canonical(draft.get("answer")) and _empty_answer(recomputed):
+        elif (not unresolved and not refused_budget and _empty_answer(recomputed)
+              and _canonical(recomputed, question) == _canonical(draft.get("answer"), question)):
             issues = [i for i in issues if i["type"] != "no_evidence"]
-        if computation is not None and _canonical(computation["answer"]) != _canonical(draft.get("answer")):
+        if computation is not None and _canonical(computation["answer"], question) != _canonical(draft.get("answer"), question):
             issues.append(_issue("recompute_mismatch", action=(
                 f"The verifier recomputed {json.dumps(computation['answer'])}; the draft answered "
                 f"{json.dumps(draft.get('answer'))}. Recheck the filters and calculation.")))
