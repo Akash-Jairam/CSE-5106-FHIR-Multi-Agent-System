@@ -70,12 +70,16 @@ class SubsetReviewTests(unittest.TestCase):
 class VariabilityReviewTests(unittest.TestCase):
     def test_report_keeps_fully_attempted_repeats_with_errors(self):
         arms = [arm for arm in experiments.ARMS if arm.group == "variability" and arm.strategy == "single_agent"][:1]
-        references = {"a": {"question": "Synthetic count", "true_answer": "[[1]]"}}
+        frame = pd.DataFrame([{"question_id": "a", "question": "Synthetic count", "true_answer": "[[1]]",
+                               "patient_fhir_id": "synthetic-patient"}])
+        families = pd.DataFrame([{"question_id": "a", "template": "count", "family": "lookup_counting"}])
         results = {"a": row(None, error="provider failure")}
-        with patch.object(experiments, "load_references", return_value=references), \
+        with patch.object(experiments.run_agent, "read_input_data", return_value=frame), \
+                patch("pandas.read_csv", return_value=families), \
                 patch.object(experiments, "arm_results",
                              return_value=({"state": "in progress", "analyzable": True}, results)):
-            report = experiments.variability_report(arms, type("Args", (), {"subset": "synthetic.json"})(),
+            report = experiments.variability_report(arms, type("Args", (), {
+                "subset": "synthetic.json", "input": "synthetic.csv", "families": "synthetic-families.csv"})(),
                                                    {"variability": ["a"]})
         self.assertEqual(report["systems"]["single_agent"]["repeats"], 1)
         self.assertEqual(report["systems"]["single_agent"]["accuracy"]["mean"], 0)
