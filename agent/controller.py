@@ -55,6 +55,8 @@ class FixedController(BaseAgent):
         that can repair it. The earliest responsible role wins, since the
         stages after it depend on its output."""
         roles = {issue.get("responsible_role") for issue in issues}
+        if not roles.issubset(REPAIRABLE):
+            return None
         return next((role for role in REPAIRABLE if role in roles), None)
 
     @staticmethod

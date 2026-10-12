@@ -116,6 +116,20 @@ class ControllerTests(unittest.TestCase):
         self.assertIn("No role could repair", output["limitation"])
         self.assertEqual(len(system.tasks["analysis"]), 1)
 
+    def test_any_unrepairable_issue_blocks_a_mixed_repair_request(self):
+        for responsible in (None, "verification", "unknown"):
+            with self.subTest(responsible=responsible):
+                issues = [issue("analysis"), issue(responsible, "source_check")]
+                system = StubController([records()], [draft(), draft(8)],
+                                        [{"issues": issues}, {"issues": []}])
+                output = system.run(QUESTION)
+                self.assertIsNone(output["answer"])
+                self.assertIsNone(output["error"])
+                self.assertIsNone(output["revision"]["repair_role"])
+                self.assertIn("No role could repair", output["limitation"])
+                self.assertEqual(len(system.tasks["analysis"]), 1)
+                self.assertEqual(len(system.tasks["verification"]), 1)
+
     def test_role_failure_before_a_draft_is_a_retryable_error(self):
         system = StubController([RuntimeError("store unavailable")])
         output = system.run(QUESTION)
