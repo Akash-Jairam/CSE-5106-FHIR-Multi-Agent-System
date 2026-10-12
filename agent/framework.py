@@ -21,7 +21,9 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass
 
 from tools import get_tool, get_tool_definitions
-from tools.starting_packet import _ref_id, _wall_clock
+from tools.field_check import _resource_time
+from tools.resource_tools import FHIR_ID_RE
+from tools.starting_packet import render_resource
 
 RETRIEVAL_TOOLS = ("get_resources_by_patient_fhir_id", "get_resources_by_resource_id")
 PYTHON_TOOL = "execute_python_code"
@@ -81,6 +83,7 @@ class Toolbox:
         self.patient_fhir_id = patient_fhir_id
         self.current_time = current_time
         self.bound = bound or {}
+        self.scope_failures = {}
 
     def _parameters(self, name):
         definition = next(d for d in self.definitions if d["function"]["name"] == name)
@@ -123,38 +126,109 @@ class Toolbox:
                              else "The retrieval tool returned an invalid result")
         resource_type = args["resource_type"]
         records = output.get(resource_type, [])
-        if not isinstance(records, list):
+        if not isinstance(records, list) or not all(
+                isinstance(r, dict) and r.get("resourceType") == resource_type
+                and isinstance(r.get("id"), str) and FHIR_ID_RE.fullmatch(r["id"]) for r in records):
             raise ValueError("The retrieval tool returned an invalid resource list")
+        if name == "get_resources_by_resource_id" and any(r["id"] != args["resource_id"] for r in records):
+            raise ValueError("The retrieval tool returned a resource other than the requested ID")
+        fetched = {r["id"] for r in records}
         records, excluded = self._in_scope(records)
-        if name == "get_resources_by_resource_id":
-            # A point fetch adds evidence; a patient-wide fetch replaces a partial packet.
-            merged = {r["id"]: r for r in self.resources.get(resource_type, [])}
-            merged.update({r["id"]: r for r in records})
-            self.resources[resource_type] = list(merged.values())
-        else:
-            self.resources[resource_type] = records
+        # Preserve earlier evidence across searches, but replace a fetched ID with
+        # its original record (or remove it if the new source fails scope checks).
+        merged = {r["id"]: r for r in self.resources.get(resource_type, []) if r["id"] not in fetched}
+        merged.update({r["id"]: deepcopy(r) for r in records})
+        self.resources[resource_type] = list(merged.values())
         reply = {"stored_as": f"retrieved_resources['{resource_type}']",
                  "ids": [f"{resource_type}/{r.get('id')}" for r in records],
                  "items": len(self.resources[resource_type])}
+        if resource_type == "Encounter":
+            # IDs alone cannot establish first/last visit scope if the packet
+            # omitted the encounter's period or hospital/ICU identifier.
+            reply["records"] = [json.loads(render_resource(r)) for r in records]
         return json.dumps({**reply, "excluded": excluded} if excluded else reply)
+
+    @staticmethod
+    def _references(value):
+        if isinstance(value, dict):
+            reference = value.get("reference")
+            if isinstance(reference, str):
+                parts = reference.rstrip("/").split("/")
+                if len(parts) >= 2:
+                    yield "/".join(parts[-2:])
+            for item in value.values():
+                yield from Toolbox._references(item)
+        elif isinstance(value, list):
+            for item in value:
+                yield from Toolbox._references(item)
+
+    @staticmethod
+    def _source_time(record, by_id, seen=None):
+        key = f"{record.get('resourceType')}/{record.get('id')}"
+        seen = set() if seen is None else seen
+        if key in seen:
+            return ""
+        seen.add(key)
+        time = _resource_time(record)
+        if time:
+            return time
+        # Specimens and period-valued events use additional standard FHIR paths.
+        for value in ((record.get("collection") or {}).get("collectedDateTime"),
+                      ((record.get("collection") or {}).get("collectedPeriod") or {}).get("start"),
+                      (record.get("effectivePeriod") or {}).get("start")):
+            if isinstance(value, str) and value:
+                return value[:19].replace("T", " ")
+        references = [record.get("encounter"), record.get("context")]
+        references.extend(record.get("derivedFrom") or [])
+        for reference in references:
+            for target in Toolbox._references(reference):
+                if target in by_id:
+                    time = Toolbox._source_time(by_id[target], by_id, seen)
+                    if time:
+                        return time
+        return ""
 
     def _in_scope(self, records):
         """Records within the question's patient and current time, and counts of those left out."""
         by_id = {f"{r.get('resourceType')}/{r.get('id')}": r
                  for items in self.resources.values() for r in items}
         by_id.update({f"{r.get('resourceType')}/{r.get('id')}": r for r in records})
+        linked_metadata = {reference for items in self.resources.values() for r in items
+                           for reference in self._references(r)}
         kept, excluded = [], {}
         for record in records:
-            if record.get("resourceType") == "Patient":
+            rtype = record["resourceType"]
+            if rtype == "Patient":
                 owner = record.get("id")
             else:
-                owner = _ref_id(record.get("subject") or record.get("patient"))
-            if self.patient_fhir_id and owner and owner != self.patient_fhir_id:
-                excluded["other_patient"] = excluded.get("other_patient", 0) + 1
-            elif self.current_time and _wall_clock(record, by_id) > self.current_time:
-                excluded["after_current_time"] = excluded.get("after_current_time", 0) + 1
+                reference = record.get("subject") or record.get("patient") or {}
+                patient_ref = reference.get("reference", "") if isinstance(reference, dict) else ""
+                parts = patient_ref.rstrip("/").split("/") if isinstance(patient_ref, str) else []
+                owner = parts[-1] if len(parts) >= 2 and parts[-2] == "Patient" else None
+            reason = None
+            if self.patient_fhir_id:
+                if rtype in ("Medication", "Location"):
+                    if f"{rtype}/{record['id']}" not in linked_metadata:
+                        reason = "unlinked_metadata"
+                elif not owner:
+                    reason = "unknown_patient"
+                elif owner != self.patient_fhir_id:
+                    reason = "other_patient"
+            if not reason and self.current_time and rtype not in ("Patient", "Medication", "Location"):
+                time = self._source_time(record, by_id)
+                if not time:
+                    reason = "unknown_time"
+                elif time > self.current_time:
+                    reason = "after_current_time"
+            if reason:
+                excluded[reason] = excluded.get(reason, 0) + 1
             else:
                 kept.append(record)
+            key = f"{rtype}/{record['id']}"
+            if reason in ("unknown_patient", "unknown_time"):
+                self.scope_failures[key] = reason
+            else:
+                self.scope_failures.pop(key, None)
         return kept, excluded
 
     @staticmethod
