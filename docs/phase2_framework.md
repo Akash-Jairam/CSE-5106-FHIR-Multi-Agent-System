@@ -268,10 +268,16 @@ actual query operations, date/encounter filters, strict omissions and
 runtime drift. SQL, templates and labels are confined to this offline
 construction harness; agents see only the perturbed starting packet.
 On held-out, the script prints aggregate counts, never answer values.
-The old 83-eligible/50-selected counts used annotation-based rules and are
-superseded; regenerate the manifest after the corrected packet freeze.
+The old annotation-based manifest is superseded by the version 2 manifest
+over packet version 3. Fixed rules were validated on all 70 pilot/dev
+questions (15 eligible) before the held-out build, with no subsequent rule
+changes. Of 300 held-out questions, 55 were eligible; 50 were sampled across
+27 patients: 15 lookup/counting, 15 numerical aggregation, and 20 temporal
+selection questions. The selected operations are max (2), min (5), sum (8),
+count (4), existence (11), and selection (20).
 Version 2 records hashes of dataset, split, families, packets, builder,
-oracle and omitter, plus before/after query-result hashes for every entry.
+oracle, omitter and scorer, plus before/after query-result hashes for every
+entry. Independent regeneration produced a byte-identical manifest.
 
 All 50 selected cases can be rebuilt from local public source data without
 model/FHIR-store calls:
@@ -288,6 +294,9 @@ the actual visible SQL results, typed incorrectness after omission, exact
 one-resource removal, and unchanged remaining clinical fields. Only counts
 are reported. Rule validation uses pilot/dev before the held-out build;
 held-out labels are not used to revise the fixed eligibility rules.
+All 50 source rebuilds passed, and all 32 perturbation tests passed with
+`FHIR_NDJSON_DIR` set, including the all-case source/runtime verification;
+none were skipped.
 
 ## Spike Results
 
