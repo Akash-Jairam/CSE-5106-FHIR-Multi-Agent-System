@@ -28,6 +28,8 @@ from tools.starting_packet import render_resource
 
 RETRIEVAL_TOOLS = ("get_resources_by_patient_fhir_id", "get_resources_by_resource_id")
 PYTHON_TOOL = "execute_python_code"
+MODEL_RETRIEVAL_ITEMS = 32
+MODEL_RETRIEVAL_CHARS = 8_000
 
 
 class FixedWorkflow:
@@ -282,6 +284,36 @@ class RoleResult:
     error: str = None
 
 
+def _model_tool_reply(reply):
+    """Bound retrieval previews without changing stored records or the audit reply."""
+    model_reply = deepcopy(reply)
+    if reply.get("name") not in RETRIEVAL_TOOLS:
+        return model_reply
+    try:
+        content = json.loads(reply["content"])
+    except (KeyError, TypeError, ValueError):
+        return model_reply
+    if not isinstance(content, dict) or "error" in content or not isinstance(content.get("ids"), list):
+        return model_reply
+    ids, records = content["ids"], content.get("records")
+    if (len(ids) <= MODEL_RETRIEVAL_ITEMS and len(reply["content"]) <= MODEL_RETRIEVAL_CHARS
+            and (not isinstance(records, list) or len(records) <= MODEL_RETRIEVAL_ITEMS)):
+        return model_reply
+    preview = {**content, "ids": ids[:MODEL_RETRIEVAL_ITEMS], "ids_count": len(ids),
+               "ids_truncated": len(ids) > MODEL_RETRIEVAL_ITEMS,
+               "preview_note": "IDs and records are a bounded preview; all retrieved records remain in the workspace."}
+    if isinstance(records, list):
+        preview.update(records=[], records_count=len(records), records_truncated=bool(records))
+        for record in records[:MODEL_RETRIEVAL_ITEMS]:
+            candidate = {**preview, "records": [*preview["records"], record],
+                         "records_truncated": len(preview["records"]) + 1 < len(records)}
+            if len(json.dumps(candidate)) > MODEL_RETRIEVAL_CHARS:
+                break
+            preview = candidate
+    model_reply["content"] = json.dumps(preview)
+    return model_reply
+
+
 class Role:
     """One LLM role. Each run() starts a fresh context; usage, budget, and
     trace go to the host agent so the whole system answers to one ceiling."""
@@ -311,6 +343,9 @@ class Role:
                     reply = self.toolbox.call(tool_call)
                 else:
                     reply = self.host._tool_budget_message(tool_call)
-                messages.append(reply)
-                self.host.messages.append(reply)
+                model_reply, audit_reply = _model_tool_reply(reply), deepcopy(reply)
+                if model_reply.get("content") != audit_reply.get("content"):
+                    audit_reply["model_content"] = model_reply["content"]
+                messages.append(model_reply)
+                self.host.messages.append(audit_reply)
         return RoleResult(error=f"{self.name}: no final reply within {self.max_turns} turns")
