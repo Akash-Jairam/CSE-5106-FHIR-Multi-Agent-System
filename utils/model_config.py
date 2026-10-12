@@ -33,8 +33,9 @@ def get_default_model():
     if CONFIG_PATH.exists():
         try:
             config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8")) or {}
-        except (OSError, yaml.YAMLError) as exc:
-            raise ValueError(f"Could not read the model from {CONFIG_PATH}: {exc}") from None
+        except (OSError, yaml.YAMLError):
+            # YAML diagnostics can contain credential-bearing source lines.
+            raise ValueError(f"Could not read the model configuration at {CONFIG_PATH}") from None
         if isinstance(config, dict) and _configured(config.get("MODEL")):
             return _configured(config["MODEL"])
     return DEFAULT_MODEL

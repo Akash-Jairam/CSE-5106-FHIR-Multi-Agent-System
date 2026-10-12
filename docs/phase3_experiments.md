@@ -33,6 +33,14 @@ held-out run.
   result file's run identity records the model, so an arm run with a
   different model shows as stale and is left out of the analysis.
 
+  Luna uses Chat Completions with `reasoning_effort: none` for every arm,
+  including the direct baseline and judge. This is the model's supported
+  Chat Completions tool mode. Routing and completion ceilings remain valid
+  even when the pinned LiteLLM model registry has no Luna metadata; the
+  mode is preserved through `extra_body`. Unknown monetary costs remain
+  unavailable rather than being reported as zero. Credential-bearing
+  configuration errors are sanitized and never include YAML source lines.
+
 ### The multi-agent strategy
 
 `agent/multi_agent.py` defines `MultiAgentSystem`, the fixed controller
