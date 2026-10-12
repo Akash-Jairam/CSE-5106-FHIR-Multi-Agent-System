@@ -197,9 +197,13 @@ so that its own issues route deterministically.
    "contributing_ids": ["Observation/o1", ...], "limitation": null}
   ```
 
-  `contributing_ids` lists every record the computation used. It defaults to
-  the cited records. A reply without a well-formed draft is an error, as for
-  the direct baseline.
+  `contributing_ids` explicitly lists every record the computation used,
+  including all cited records. Typed IDs must belong to the analysis
+  workspace; citation IDs alone cannot substitute for aggregate inputs.
+  Non-abstaining answers require a non-empty operation, and every draft
+  value must be finite JSON. Zero/empty results can have an explicit empty
+  contributor list. A reply without a well-formed draft is an error, as for
+  the direct baseline. Source lookups do not require an extra Python call.
 - **Repair.** A repair task shows the previous draft, the verifier's issues,
   and the current record counts, which include any records retrieval
   re-fetched.
