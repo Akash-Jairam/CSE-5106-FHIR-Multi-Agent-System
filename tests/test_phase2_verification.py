@@ -211,6 +211,28 @@ class VerificationTests(unittest.TestCase):
         result = self.verify(verdict(recomputed=0), checked=draft(answer=0, evidence=[]))
         self.assertEqual({i["type"] for i in result["issues"]}, {"no_evidence", "independent_check"})
 
+    def test_unresolved_source_scope_cannot_certify_an_empty_result(self):
+        self.agent.toolbox.scope_failures = {}
+
+        def incomplete_search(_):
+            self.agent.toolbox.fetched = True
+            self.agent.toolbox.computation = {"answer": 0}
+            self.agent.toolbox.scope_failures["Observation/undated"] = "unknown_time"
+            return SimpleNamespace(content='{"recomputed_answer": 0, "issues": []}', error=None)
+
+        with patch.object(self.agent.role, "run", side_effect=incomplete_search):
+            result = self.agent({"draft": draft(answer=0, evidence=[])})
+        self.assertEqual({i["type"] for i in result["issues"]}, {"no_evidence", "source_check"})
+        source = next(i for i in result["issues"] if i["type"] == "source_check")
+        self.assertEqual(source["record"], "Observation/undated")
+        self.assertIsNone(source["responsible_role"])
+
+    def test_fresh_verification_clears_previous_scope_failure_audit(self):
+        self.agent.toolbox.scope_failures = {"Observation/old": "unknown_patient"}
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict())
+        self.assertEqual(result["issues"], [])
+        self.assertEqual(self.agent.toolbox.scope_failures, {})
+
     def test_a_model_duplicate_cannot_reroute_a_deterministic_issue(self):
         duplicate = {"type": "value_mismatch", "record": "Observation/o2", "field": "valueQuantity.value",
                      "responsible_role": "retrieval", "action": "wrong suggestion"}
