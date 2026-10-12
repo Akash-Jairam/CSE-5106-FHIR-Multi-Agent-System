@@ -1,5 +1,6 @@
 """Regression tests for aggregate ceilings and accounting, without API calls."""
 import unittest
+import litellm
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -43,6 +44,29 @@ class BudgetTests(unittest.TestCase):
         self.assertGreater(core.count_tokens_in_messages(messages), core.count_tokens_in_messages([]))
         self.assertGreater(core.count_tokens_in_messages([], [{"description": "query " * 100}]),
                            core.count_tokens_in_messages([]))
+
+    def test_real_sdk_messages_include_serialized_tool_arguments(self):
+        message = litellm.Message(role="assistant", content=None, tool_calls=[{
+            "id": "search1", "type": "function", "function": {
+                "name": "search", "arguments": '{"query": "' + "patient " * 100 + '"}'}}])
+        self.assertEqual(core.count_tokens_in_messages([message]),
+                         core.count_tokens_in_messages([message.model_dump(exclude_none=True)]))
+        self.assertGreater(core.count_tokens_in_messages([message]),
+                           core.count_tokens_in_messages([{"role": "assistant", "content": None}]))
+
+    def test_second_budgeted_model_turn_accepts_real_sdk_message(self):
+        self.agent.set_budget(max_total_tokens=2000)
+        messages = [{"role": "user", "content": "Question"}]
+        usage = {"prompt_tokens": 20, "completion_tokens": 10, "total_tokens": 30}
+        reply = litellm.Message(role="assistant", content="Inspect the evidence")
+        with patch("agent.base_agent.safe_llm_call", return_value=(reply, None, usage)) as call:
+            message, error, _ = self.agent._llm_call(messages)
+            self.assertIsNone(error)
+            messages.append(message)
+            _, error, _ = self.agent._llm_call(messages)
+        self.assertIsNone(error)
+        self.assertEqual(call.call_count, 2)
+        self.assertEqual(self.agent.total_usage["total_tokens"], 60)
 
     def test_api_receives_output_limit(self):
         with patch.object(core.litellm, "completion", return_value=response()) as call:
