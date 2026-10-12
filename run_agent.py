@@ -61,6 +61,10 @@ def build_parser():
                         help="Frozen missing-evidence manifest; restricts the run to its questions")
     parser.add_argument("--condition", choices=CONDITIONS, default=None,
                         help="With --perturbations: start from the full (intact) or the omitted packet")
+    parser.add_argument("--subset", default=None,
+                        help="Frozen question subset (manifests/variability_subset.json); restricts the run to it")
+    parser.add_argument("--repeat", type=int, default=None,
+                        help="Repeat number of a repeated subset run; recorded in the run identity only")
     return parser
 
 
@@ -69,6 +73,20 @@ def prepare_multiprocessing_inputs(remaining_inputs, agent_strategy, model, verb
     perturbations = perturbations or [None] * len(remaining_inputs)
     return [(input_data, agent_strategy, model, verbose, base_url, enable_cache, budget, perturbation)
             for input_data, perturbation in zip(remaining_inputs, perturbations)]
+
+
+def load_subset(path, split_manifest, split):
+    """Question IDs of a frozen subset, after checking it was drawn from this split manifest."""
+    with open(path, encoding="utf-8") as stream:
+        subset = json.load(stream)
+    question_ids = subset.get("question_ids")
+    if subset.get("version") != 1 or not isinstance(question_ids, list) or len(question_ids) != subset.get("size"):
+        raise ValueError("The subset manifest is malformed; rebuild it")
+    if subset.get("split") != split:
+        raise ValueError(f"The subset was drawn from the {subset.get('split')} split, not {split}")
+    if hashlib.sha256(Path(split_manifest).read_bytes()).hexdigest() != subset.get("split_sha256"):
+        raise ValueError("The subset was drawn from a different split manifest; rebuild it")
+    return question_ids
 
 
 def load_inputs(input_file, limit=None, split_manifest=None, split=None, question_ids=None):
@@ -84,7 +102,7 @@ def load_inputs(input_file, limit=None, split_manifest=None, split=None, questio
     if question_ids is not None:
         missing = set(question_ids) - set(df["question_id"])
         if missing:
-            raise ValueError(f"{len(missing)} perturbed questions are not in the selected inputs")
+            raise ValueError(f"{len(missing)} selected questions are not in the selected inputs")
         df = df[df["question_id"].isin(question_ids)].reset_index(drop=True)
     return df.head(limit) if limit is not None else df
 
@@ -146,6 +164,7 @@ def run_identity(args, inputs):
     """Bind a result file to the experiment and inputs that produced it."""
     input_json = inputs[INPUT_COLUMNS].to_json(orient="records", date_format="iso")
     perturbations = getattr(args, "perturbations", None)
+    subset = getattr(args, "subset", None)
     return {
         "version": 2,
         "agent_strategy": args.agent_strategy,
@@ -162,6 +181,8 @@ def run_identity(args, inputs):
                                 if getattr(args, "split_manifest", None) else None),
         "condition": getattr(args, "condition", None),
         "perturbations_hash": hashlib.sha256(Path(perturbations).read_bytes()).hexdigest() if perturbations else None,
+        "subset_hash": hashlib.sha256(Path(subset).read_bytes()).hexdigest() if subset else None,
+        "repeat": getattr(args, "repeat", None),
     }
 
 
@@ -268,14 +289,20 @@ def main(argv=None):
         parser.error("--perturbations and --condition must be supplied together")
     if args.perturbations and args.split != "held_out":
         parser.error("Perturbations are frozen on held-out questions; use --split held_out")
+    if args.subset and (args.perturbations or not args.split):
+        parser.error("--subset needs --split_manifest and --split, and cannot be combined with --perturbations")
+    if args.repeat is not None and (not args.subset or args.repeat < 1):
+        parser.error("--repeat must be a positive repeat number of a --subset run")
+    question_ids = load_subset(args.subset, args.split_manifest, args.split) if args.subset else None
     perturbations = None
     if args.perturbations:
         from tools.perturbation import load_perturbations
         perturbations = load_perturbations(args.perturbations)
     output_file = args.output or f"output/{args.agent_strategy}_{args.model.replace('/', '_')}_results.json"
     os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
-    inputs = load_inputs(args.input, args.limit, args.split_manifest, args.split,
-                         question_ids=list(perturbations) if perturbations is not None else None)
+    if perturbations is not None:
+        question_ids = list(perturbations)
+    inputs = load_inputs(args.input, args.limit, args.split_manifest, args.split, question_ids=question_ids)
     identity = run_identity(args, inputs)
     results = prepare_results(inputs, output_file, identity)
     results["question_with_context"] = curate_input_dataset(results, args.add_patient_fhir_id)
