@@ -243,6 +243,9 @@ bash scripts/run_direct_llm_agent.sh                # One LLM call on the questi
 
 # Tool-equipped single agent
 bash scripts/run_single_agent.sh                    # Multi-turn code agent started from the packet, with check_fields (tools/field_check.py) and one revision
+
+# Multi-agent system
+bash scripts/run_multi_agent.sh                     # Fixed controller: retrieval → analysis → verification, at most one repair
 ```
 
 Extra arguments are passed through to `run_agent.py`, e.g. `MODEL=gemini/gemini-2.5-flash bash scripts/run_single_turn_resource_agent.sh --limit 5`.
@@ -254,6 +257,22 @@ Per-question budgets (both off by default):
 Each result records `tokens` (including `per_call` usage, `repeated_prompt`, the estimated prompt tokens re-sent from earlier turns, and `cached_prompt`, those served from the provider's prompt cache) and `budget` (the ceilings, tool calls run, and which ceiling stopped the run, if any). `run_agent.py` prints a usage summary at the end.
 
 Select a frozen set with `--split_manifest manifests/split.json --split pilot` (or `dev` / `held_out`); `--limit` applies after split selection. An output's `.run.json` binds resumption to inputs, code, model, split, and budgets. Legacy or incompatible outputs need a new path. Failed attempts remain in `attempt_history`; unknown pricing is `cost: null`, not zero.
+
+With `--split held_out --perturbations manifests/perturbations.json --condition omitted`, the run covers only the 50 perturbed questions and each system starts from the frozen packet with one answer-changing record left out (`--condition intact` runs the same questions from the full packet).
+
+### Phase 3 experiment
+
+`scripts/run_experiments.py` runs the full experiment: 900 ordinary runs (each system on the 300 held-out questions), 200 recovery runs (the single and multi-agent systems on the 50 perturbed questions, intact and omitted), and 300 variability runs (each system on a fixed 20-question subset, 5 times). All systems share one model and budget, and the tool cache is on.
+
+```bash
+python scripts/run_experiments.py plan   --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # arms, counts, commands
+python scripts/run_experiments.py run    --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # run or resume
+python scripts/run_experiments.py status --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # counts only
+python scripts/run_experiments.py variability --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # spread across repeats
+python scripts/run_experiments.py analyze --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # CIs, comparisons, latency, plot
+```
+
+Rerunning `run` resumes from the saved results and retries failed questions. Use `--split pilot --limit 2 --arms ordinary` for a smoke run, and `--arms` to run a subset. See [the Phase 3 notes](docs/phase3_experiments.md).
 
 Generated Python runs with copied retrieved resources, no repository credentials or network, and a real deadline. It requires `sandbox-exec` on macOS or `bubblewrap` (`bwrap`) on Linux and fails closed without a supported sandbox. See [the review and verification notes](docs/phase1_review.md).
 

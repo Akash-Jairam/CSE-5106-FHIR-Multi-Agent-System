@@ -1,5 +1,6 @@
 from .base_agent import BaseAgent
 from .output_schema import ANSWER_FORMAT_INSTRUCTIONS, has_json_answer, parse_final_message
+from tools.perturbation import get_perturbed_starting_packet
 from tools.starting_packet import get_starting_packet
 from utils import parse_question_context
 
@@ -25,7 +26,11 @@ You are given an excerpt of the record (the "starting packet"): the patient, the
             raise ValueError("The direct LLM agent needs the patient FHIR ID in the question context")
         # Rank the packet on the bare question (with the assumed current time as the cutoff)
         # so it matches manifests/starting_packets.jsonl
-        packet = get_starting_packet(bare_question, patient_fhir_id, current_time=current_time)
+        if self.perturbation is not None:
+            packet = get_perturbed_starting_packet(bare_question, patient_fhir_id, self.perturbation,
+                                                   current_time=current_time)
+        else:
+            packet = get_starting_packet(bare_question, patient_fhir_id, current_time=current_time)
         retrieved = {}
         for rtype, ids in packet["resource_ids"].items():
             retrieved[rtype] = [{"id": i} for i in ids]

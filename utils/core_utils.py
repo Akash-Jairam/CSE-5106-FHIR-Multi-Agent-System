@@ -302,7 +302,8 @@ def create_agent(agent_strategy, model, verbose=False, base_url=None):
         "multi_turn_code_resource": ("agent.multi_turn_code_resource_agent", "MultiTurnCodeResourceAgent"),
         "multi_turn_code_resource_v2": ("agent.multi_turn_code_resource_v2_agent", "MultiTurnCodeResourceV2Agent"),
         "direct_llm": ("agent.direct_llm_agent", "DirectLLMAgent"),
-        "single_agent": ("agent.single_agent", "SingleAgent")
+        "single_agent": ("agent.single_agent", "SingleAgent"),
+        "multi_agent": ("agent.multi_agent", "MultiAgentSystem"),
     }
     
     if agent_strategy not in agents:
@@ -337,6 +338,7 @@ def run_agent_with_input(args_tuple):
     """Global function for multiprocessing agent execution."""
     input_data, agent_strategy, model, verbose, base_url, enable_cache, *rest = args_tuple
     budget = rest[0] if rest else {}
+    perturbation = rest[1] if len(rest) > 1 else None
     
     # Set global cache setting before creating agent
     import tools.cache as cache_module
@@ -344,6 +346,7 @@ def run_agent_with_input(args_tuple):
     
     agent = create_agent(agent_strategy, model, verbose, base_url)
     agent.set_budget(**(budget or {}))
+    agent.set_perturbation(perturbation)
     return run_agent_safe(agent, input_data)
 
 

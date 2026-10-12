@@ -48,7 +48,10 @@ class BaseAgent:
         self.max_total_tokens = None
         self.max_tool_calls = None
         self._reset_usage()
-        
+
+        # Frozen missing-evidence specification for this question (see set_perturbation)
+        self.perturbation = None
+
         # Setup API keys from config.yml
         setup_api_keys()
 
@@ -59,6 +62,15 @@ class BaseAgent:
                 raise ValueError(f"{name} must be a nonnegative integer or None")
         self.max_total_tokens = max_total_tokens
         self.max_tool_calls = max_tool_calls
+
+    def set_perturbation(self, specification=None):
+        """Start from the frozen omitted packet in `specification` (P2-18) instead of the full one.
+
+        The FHIR store is unchanged, so a tool-equipped system can still fetch the omitted record.
+        """
+        if specification is not None and not isinstance(specification, dict):
+            raise ValueError("A perturbation must be a frozen specification from load_perturbations()")
+        self.perturbation = specification
 
     def _reset_usage(self):
         self.total_usage = {

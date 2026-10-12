@@ -16,13 +16,13 @@ from utils import (
     check_tool_credentials,
     curate_input_dataset,
     read_input_data,
-    read_intermediate_results,
     run_agent_with_input,
     validate_config,
 )
 
 INPUT_COLUMNS = ["question_id", "question", "true_answer", "assumption", "patient_fhir_id"]
 HISTORY_COLUMN = "attempt_history"
+CONDITIONS = ("intact", "omitted")
 
 
 def _boolean(value):
@@ -45,7 +45,7 @@ def build_parser():
     parser.add_argument("--agent_strategy", required=True, choices=[
         "single_turn_request", "single_turn_resource", "single_turn_code_resource",
         "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2",
-        "direct_llm", "single_agent",
+        "direct_llm", "single_agent", "multi_agent",
     ])
     parser.add_argument("--add_patient_fhir_id", type=_boolean, nargs="?", const=True, default=True)
     parser.add_argument("--num_processes", type=int, default=-1)
@@ -58,15 +58,40 @@ def build_parser():
     parser.add_argument("--max_total_tokens", type=int, default=None)
     parser.add_argument("--max_tool_calls", type=int, default=None)
     parser.add_argument("--enable_cache", type=_boolean, nargs="?", const=True, default=True)
+    parser.add_argument("--perturbations", default=None,
+                        help="Frozen missing-evidence manifest; restricts the run to its questions")
+    parser.add_argument("--condition", choices=CONDITIONS, default=None,
+                        help="With --perturbations: start from the full (intact) or the omitted packet")
+    parser.add_argument("--subset", default=None,
+                        help="Frozen question subset (manifests/variability_subset.json); restricts the run to it")
+    parser.add_argument("--repeat", type=int, default=None,
+                        help="Repeat number of a repeated subset run; recorded in the run identity only")
     return parser
 
 
-def prepare_multiprocessing_inputs(remaining_inputs, agent_strategy, model, verbose, base_url, enable_cache, budget):
-    return [(input_data, agent_strategy, model, verbose, base_url, enable_cache, budget)
-            for input_data in remaining_inputs]
+def prepare_multiprocessing_inputs(remaining_inputs, agent_strategy, model, verbose, base_url, enable_cache, budget,
+                                   perturbations=None):
+    perturbations = perturbations or [None] * len(remaining_inputs)
+    return [(input_data, agent_strategy, model, verbose, base_url, enable_cache, budget, perturbation)
+            for input_data, perturbation in zip(remaining_inputs, perturbations)]
 
 
-def load_inputs(input_file, limit=None, split_manifest=None, split=None):
+def load_subset(path, split_manifest, split):
+    """Question IDs of a frozen subset, after checking it was drawn from this split manifest."""
+    with open(path, encoding="utf-8") as stream:
+        subset = json.load(stream)
+    question_ids = subset.get("question_ids")
+    if subset.get("version") != 1 or not isinstance(question_ids, list) or len(question_ids) != subset.get("size"):
+        raise ValueError("The subset manifest is malformed; rebuild it")
+    if subset.get("split") != split:
+        raise ValueError(f"The subset was drawn from the {subset.get('split')} split, not {split}")
+    if hashlib.sha256(Path(split_manifest).read_bytes()).hexdigest() != subset.get("split_sha256"):
+        raise ValueError("The subset was drawn from a different split manifest; rebuild it")
+    return question_ids
+
+
+def load_inputs(input_file, limit=None, split_manifest=None, split=None, question_ids=None):
+    """The selected split, then only `question_ids` (in split order), then the first `limit`."""
     df = read_input_data(input_file)
     if split_manifest:
         with open(split_manifest, encoding="utf-8") as stream:
@@ -75,6 +100,11 @@ def load_inputs(input_file, limit=None, split_manifest=None, split=None):
         if source_hash and hashlib.sha256(Path(input_file).read_bytes()).hexdigest() != source_hash:
             raise ValueError("The split manifest was built from a different input dataset")
         df = select_split(df, manifest, split)
+    if question_ids is not None:
+        missing = set(question_ids) - set(df["question_id"])
+        if missing:
+            raise ValueError(f"{len(missing)} selected questions are not in the selected inputs")
+        df = df[df["question_id"].isin(question_ids)].reset_index(drop=True)
     return df.head(limit) if limit is not None else df
 
 
@@ -153,11 +183,47 @@ def is_done(row):
     return _present(row.get("agent_answer")) or _present(row.get("latency"))
 
 
+def is_attempted(row):
+    """A terminal execution includes errors; an unscheduled placeholder does not."""
+    return is_done(row) or (_present(row.get("error")) and row.get("error") != "")
+
+
+def load_saved_results(output_file, inputs):
+    """Validate scheduled identities before indexing, resuming, or pairing results."""
+    if not os.path.exists(output_file):
+        return {}
+    with open(output_file, encoding="utf-8") as stream:
+        records = json.load(stream)
+    if not isinstance(records, list):
+        raise ValueError("Saved results must be a list of question records")
+    patients = dict(zip(inputs["question_id"], inputs["patient_fhir_id"]))
+    rows = {}
+    for row in records:
+        if not isinstance(row, dict):
+            raise ValueError("Saved results must contain question records")
+        qid = row.get("question_id")
+        if not isinstance(qid, str) or not qid or qid in rows:
+            raise ValueError("Saved results must contain unique, non-null question_id values")
+        if qid not in patients:
+            raise ValueError("Saved results contain a question outside the scheduled inputs")
+        if row.get("patient_fhir_id") != patients[qid]:
+            raise ValueError("Saved results contain a question assigned to the wrong patient")
+        history = row.get(HISTORY_COLUMN)
+        if history is not None and (not isinstance(history, list)
+                                    or any(not isinstance(attempt, dict) or not is_attempted(attempt)
+                                           for attempt in history)):
+            raise ValueError("Attempt history must be a list of recorded result objects")
+        rows[qid] = row
+    return rows
+
+
 def run_identity(args, inputs):
     """Bind a result file to the experiment and inputs that produced it."""
     input_json = inputs[INPUT_COLUMNS].to_json(orient="records", date_format="iso")
+    perturbations = getattr(args, "perturbations", None)
+    subset = getattr(args, "subset", None)
     return {
-        "version": 1,
+        "version": 2,
         "agent_strategy": args.agent_strategy,
         "model": args.model,
         "base_url_hash": hashlib.sha256((args.base_url or "").encode()).hexdigest(),
@@ -170,6 +236,10 @@ def run_identity(args, inputs):
         "split": getattr(args, "split", None),
         "split_manifest_hash": (hashlib.sha256(Path(args.split_manifest).read_bytes()).hexdigest()
                                 if getattr(args, "split_manifest", None) else None),
+        "condition": getattr(args, "condition", None),
+        "perturbations_hash": hashlib.sha256(Path(perturbations).read_bytes()).hexdigest() if perturbations else None,
+        "subset_hash": hashlib.sha256(Path(subset).read_bytes()).hexdigest() if subset else None,
+        "repeat": getattr(args, "repeat", None),
     }
 
 
@@ -207,17 +277,16 @@ def save_results_json(df, output_file):
 def prepare_results(inputs, output_file, identity):
     if inputs["question_id"].isna().any() or inputs["question_id"].duplicated().any():
         raise ValueError("Each input question must have a unique, non-null question_id")
-    previous = read_intermediate_results(output_file)
     metadata_file = output_file + ".run.json"
-    if not previous.empty:
+    if os.path.exists(output_file):
         if not os.path.exists(metadata_file):
             raise ValueError("Existing results have no run identity; use a new output path to avoid mixing experiments")
         with open(metadata_file, encoding="utf-8") as stream:
             saved_identity = json.load(stream)
         if saved_identity != identity:
             raise ValueError("Existing results belong to different inputs or run settings; use a new output path")
-        if "question_id" not in previous or previous["question_id"].duplicated().any():
-            raise ValueError("Saved results must contain unique question_id values")
+    previous = pd.DataFrame(load_saved_results(output_file, inputs).values())
+    if not previous.empty:
         columns = ["question_id"] + RESULT_COLUMNS + [HISTORY_COLUMN]
         previous = previous.reindex(columns=columns)
         results = inputs.merge(previous, on="question_id", how="left", validate="one_to_one")
@@ -233,6 +302,10 @@ def store_attempt(results, index, output):
     previous = results.loc[index]
     if _present(previous.get("latency")) or _present(previous.get("error")):
         history = previous.get(HISTORY_COLUMN)
+        if _present(history) and (not isinstance(history, list)
+                                  or any(not isinstance(attempt, dict) or not is_attempted(attempt)
+                                         for attempt in history)):
+            raise ValueError("Attempt history must be a list of recorded result objects")
         history = list(history) if isinstance(history, list) else []
         history.append({column: previous.get(column) for column in RESULT_COLUMNS})
         results.at[index, HISTORY_COLUMN] = history
@@ -272,9 +345,24 @@ def main(argv=None):
         parser.error("--save_interval must be positive; --num_processes must be positive or -1")
     if bool(args.split_manifest) != bool(args.split):
         parser.error("--split_manifest and --split must be supplied together")
+    if bool(args.perturbations) != bool(args.condition):
+        parser.error("--perturbations and --condition must be supplied together")
+    if args.perturbations and args.split != "held_out":
+        parser.error("Perturbations are frozen on held-out questions; use --split held_out")
+    if args.subset and (args.perturbations or not args.split):
+        parser.error("--subset needs --split_manifest and --split, and cannot be combined with --perturbations")
+    if args.repeat is not None and (not args.subset or args.repeat < 1):
+        parser.error("--repeat must be a positive repeat number of a --subset run")
+    question_ids = load_subset(args.subset, args.split_manifest, args.split) if args.subset else None
+    perturbations = None
+    if args.perturbations:
+        from tools.perturbation import load_perturbations
+        perturbations = load_perturbations(args.perturbations)
     output_file = args.output or f"output/{args.agent_strategy}_{args.model.replace('/', '_')}_results.json"
     os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
-    inputs = load_inputs(args.input, args.limit, args.split_manifest, args.split)
+    if perturbations is not None:
+        question_ids = list(perturbations)
+    inputs = load_inputs(args.input, args.limit, args.split_manifest, args.split, question_ids=question_ids)
     identity = run_identity(args, inputs)
     results = prepare_results(inputs, output_file, identity)
     results["question_with_context"] = curate_input_dataset(results, args.add_patient_fhir_id)
@@ -291,8 +379,12 @@ def main(argv=None):
     check_tool_credentials()
     _write_json(identity, output_file + ".run.json")
     budget = {"max_total_tokens": args.max_total_tokens, "max_tool_calls": args.max_tool_calls}
+    # Intact runs get no specification, so they start from the same full packet as ordinary runs.
+    specifications = ([perturbations[qid] for qid in remaining["question_id"]]
+                      if args.condition == "omitted" else None)
     jobs = prepare_multiprocessing_inputs(remaining["question_with_context"].tolist(), args.agent_strategy,
-                                         args.model, args.verbose, args.base_url, args.enable_cache, budget)
+                                         args.model, args.verbose, args.base_url, args.enable_cache, budget,
+                                         specifications)
     processes = min(args.num_processes if args.num_processes > 0 else (os.cpu_count() or 1), len(jobs))
     indexes = remaining.index.tolist()
 
