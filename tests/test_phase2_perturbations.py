@@ -6,10 +6,12 @@ from collections import Counter
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.build_perturbations import (DEFAULT_FHIR_DIR, carries, choose_target, event_gold, leaves, redundant,
+from scripts.build_perturbations import (DEFAULT_FHIR_DIR, carries, event_gold, leaves, redundant,
                                          sample)
+from scripts.packet_query import PacketQuery
 from scripts.build_split import file_sha256
-from tools.perturbation import get_perturbed_starting_packet, load_perturbations, without_resources
+from tools.perturbation import load_perturbations, omit_from_packet, without_resources
+from tools.starting_packet import build_starting_packet
 
 ROOT = Path(__file__).resolve().parent.parent
 PATIENT = "11111111-1111-1111-1111-111111111111"
@@ -31,42 +33,19 @@ class RuleTests(unittest.TestCase):
         self.records = by_id(observation("a", 90, "2150-01-01T08:00:00"), observation("b", 120, "2150-01-02T08:00:00"),
                              observation("c", 150, "2150-01-03T08:00:00"), observation("z", 0, "2150-01-04T08:00:00"))
 
-    def target(self, kind, values, events, template="What was ...", family="temporal_selection"):
-        return choose_target(kind, values, template, family, [("Observation", e) for e in events], self.records)
-
     def test_event_gold_ignores_shared_resources(self):
         gold = {"Observation": ["b", "a"], "Medication": ["m"], "Patient": ["p"], "Location": ["l"]}
         self.assertEqual(event_gold(gold), [("Observation", "a"), ("Observation", "b")])
 
-    def test_existence_needs_exactly_one_supporting_record(self):
-        self.assertEqual(self.target("boolean", [1], ["a"])[:2], ("existence", ("Observation", "a")))
-        self.assertEqual(self.target("boolean", [1], ["a", "b"])[2], "redundant: several records support the answer")
-        self.assertEqual(self.target("boolean", [0], ["a"])[2], "negative answer")
-
-    def test_count_removes_the_latest_record_when_each_record_is_counted(self):
-        template = "Count the number of times that patient {patient_id} received a {lab_name} lab test."
-        self.assertEqual(self.target("number", [3], ["a", "b", "c"], template)[:2], ("count", ("Observation", "c")))
-        self.assertEqual(self.target("number", [2], ["a", "b", "c"], template)[2], "count is not one per gold record")
-
-    def test_aggregates_identify_the_operation_and_change_the_result(self):
-        agg = lambda answer, events: self.target("number", [answer], events, family="numerical_aggregation")
-        self.assertEqual(agg(90, ["a", "b", "c"])[:2], ("aggregate:min", ("Observation", "a")))
-        self.assertEqual(agg(150, ["a", "b", "c"])[:2], ("aggregate:max", ("Observation", "c")))
-        self.assertEqual(agg(360, ["a", "b", "c"])[:2], ("aggregate:sum", ("Observation", "c")))
-        self.assertEqual(agg(270, ["b", "c", "z"])[:2], ("aggregate:sum", ("Observation", "c")))  # z is 0: skipped
-        self.assertEqual(agg(120, ["a", "b", "c"])[:2], ("aggregate:avg", ("Observation", "c")))
-        self.assertEqual(agg(90, ["a"])[2], "aggregate operation ambiguous")
-        self.assertEqual(agg(91, ["a", "b"])[2], "aggregate not reproduced from gold values")
-
-    def test_tied_extremes_are_redundant(self):
-        self.records["Observation/d"] = observation("d", 90, "2150-01-05T08:00:00")
-        result = self.target("number", [90], ["a", "b", "d"], family="numerical_aggregation")
-        self.assertEqual(result[2], "redundant: tied extreme values")
-
-    def test_selection_needs_one_record_and_multi_value_answers_are_out(self):
-        self.assertEqual(self.target("number", [120], ["b"])[:2], ("selection", ("Observation", "b")))
-        self.assertEqual(self.target("number", [120], ["a", "b"])[2], "several gold records for a single value")
-        self.assertEqual(self.target("set", [1, 2], ["a", "b"])[2], "multi-value answer")
+    def test_operations_come_from_the_actual_sql_query(self):
+        source = {"Observation": [self.records[f"Observation/{rid}"] for rid in ("a", "b", "c")]}
+        packet = build_starting_packet("Glucose lab value", source, PATIENT)
+        q = {"val_dict": {"val_placeholder": {"patient_id": 1}}, "main_table_name": "labevents"}
+        for operation, result in (("MIN", 90), ("MAX", 150), ("SUM", 360), ("AVG", 120), ("COUNT", 3)):
+            with self.subTest(operation=operation):
+                column = "*" if operation == "COUNT" else "valuenum"
+                oracle = PacketQuery({**q, "sql_query": f"SELECT {operation}({column}) FROM labevents"}, self.records)
+                self.assertEqual(oracle.run(packet), [result])
 
 
 class RedundancyTests(unittest.TestCase):
@@ -115,8 +94,8 @@ class RuntimeTests(unittest.TestCase):
                   "Patient": [{"resourceType": "Patient", "id": PATIENT}]}
         self.assertEqual([r["id"] for r in without_resources(record, [("Observation", "b")])["Observation"]], ["a"])
         self.assertEqual(len(record["Observation"]), 2)
-        with patch("tools.resource_tools.get_all_resources_by_patient_fhir_id", return_value=record):
-            packet = get_perturbed_starting_packet("What was the last glucose value?", PATIENT, [("Observation", "b")])
+        original = build_starting_packet("What was the last glucose value?", record, PATIENT)
+        packet = omit_from_packet(original, [("Observation", "b")])
         self.assertEqual(packet["resource_ids"]["Observation"], ["a"])
         self.assertIn("(1 of 1)", packet["text"])  # looks complete: the record is absent, not truncated
 
@@ -151,8 +130,7 @@ class FrozenManifestTests(unittest.TestCase):
             self.assertEqual(e["original_packet_sha256"], original["packet_text_sha256"])
             self.assertNotEqual(e["perturbed_packet_sha256"], e["original_packet_sha256"])
             self.assertLessEqual(e["perturbed_n_tokens"], 8000)
-        self.assertEqual(load_perturbations(ROOT / "manifests/perturbations.json")[entries[0]["question_id"]],
-                         [(entries[0]["removed"]["resource_type"], entries[0]["removed"]["id"])])
+        self.assertEqual(load_perturbations(ROOT / "manifests/perturbations.json")[entries[0]["question_id"]], entries[0])
 
     @unittest.skipUnless(Path(DEFAULT_FHIR_DIR).is_dir(), "local MIMIC-IV FHIR demo NDJSON not downloaded")
     def test_perturbed_packets_rebuild_from_the_source_records(self):
@@ -170,8 +148,8 @@ class FrozenManifestTests(unittest.TestCase):
         record = load_record(shared, offsets[patient])
         for e in mine:
             removed = [(e["removed"]["resource_type"], e["removed"]["id"])]
-            packet = build_starting_packet(questions[e["question_id"]], without_resources(record, removed), patient,
-                                           8000, e["current_time"])
+            original = build_starting_packet(questions[e["question_id"]], record, patient, 8000, e["current_time"])
+            packet = omit_from_packet(original, removed)
             self.assertEqual(hashlib.sha256(packet["text"].encode()).hexdigest(), e["perturbed_packet_sha256"])
 
 

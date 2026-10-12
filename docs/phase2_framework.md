@@ -228,43 +228,44 @@ added, the only one flagged was a prescription with only an order time.
 
 `scripts/build_perturbations.py` writes `manifests/perturbations.json`: 50
 held-out questions, each with one answer-changing resource left out of its
-starting packet. The packet is rebuilt from the source records as if that
-resource did not exist, so headers read "(n of n)" and the gap isn't
-advertised. **The FHIR store is unchanged**, so a system can recover the
+starting packet. The chosen packet is strictly reduced by one resource;
+ranking/truncation are not rerun and no replacement evidence fills the gap.
+Headers are adjusted without identifying the omitted record.
+**The FHIR store is unchanged**, so a system can recover the
 evidence by fetching it. At run time,
-`tools.perturbation.get_perturbed_starting_packet()` builds the same packet
-from the store, and `load_perturbations()` reads the manifest. Wiring both
+`tools.perturbation.get_perturbed_starting_packet()` verifies the original
+live packet and returns its frozen omission. `load_perturbations()` validates
+the manifests, code hashes, packet version, patient/time scope and exact
+one-record resource-ID difference, retaining each entry's packet hashes.
+Wiring both
 into `run_agent.py` is part of run orchestration (P3-19).
-`tools/starting_packet.py` is untouched, because its hash is part of the
-Phase 1 packet freeze.
-
 **Eligibility.** A question is eligible when it has a non-empty reference
-answer and all of its gold event resources are in its frozen packet.
-Shared Patient, Medication, and Location resources don't count as event
-resources. One rule then applies by question type:
+answer, and the released SQL query reproduces it from the **exact rendered
+packet fields**. `scripts/packet_query.py` projects those fields into a
+read-only in-memory SQLite database. The same query over the one-resource
+omission must return a different result. SQL supplies the operation and
+label/time/encounter filters; an aggregate is never inferred by matching
+gold values. Unrepresented fields and unsupported relations fail closed.
 
-| Rule | Removed resource | Why the answer changes / redundancy excluded |
-|---|---|---|
-| existence (yes/no) | the only gold record | "yes" becomes "no"; questions with several supporting records are redundant |
-| count | the latest gold record | the answer equals the number of gold records, so the count drops by one |
-| aggregate | the unique min/max, or the latest record that moves the sum or average | the operation is the one that reproduces the answer from the gold values; ties and no-change cases are excluded |
-| selection (a value, time, or name) | the only gold record | excluded if any remaining record of the same type in the perturbed packet carries the answer value, including names resolved through references (another senna order with the same dose, another admission of the same type) |
+Candidates are from the query's primary relation. Gold IDs prioritize
+candidates but are not completeness or answer-change proofs. A candidate
+with incoming clinical references is excluded if hiding its ID would also
+erase another record's linking or ordering information. Other clinical
+records and metadata remain unchanged; retained records/metadata must not
+literally supply a removed selection value. Shared Patient, Medication and
+Location resources are not omission targets.
 
 Multi-value answers are excluded. The 50 questions are sampled with the
-split seed, in proportion to each family's eligible count. The rules were
-dry-run on dev and pilot. On held-out, the script prints only aggregate
-counts:
-
-| | lookup/counting | aggregation | temporal selection | total |
-|---|---|---|---|---|
-| eligible (of 300) | 28 | 10 | 45 | 83 |
-| selected | 17 | 6 | 27 | 50 |
-
-Selected rules: 29 selection, 10 existence, 5 count, 6 aggregate. The
-biggest exclusion reasons were gold not all in the packet (48), redundant
-evidence (67), and empty answers (42). The manifest records hashes of the
-dataset, split, family manifest, packet manifest, and builder, and is
-byte-identical when rebuilt.
+split seed, in proportion to each family's eligible count. Synthetic
+development regressions cover redundant non-gold events, tied extrema,
+actual query operations, date/encounter filters, strict omissions and
+runtime drift. SQL, templates and labels are confined to this offline
+construction harness; agents see only the perturbed starting packet.
+On held-out, the script prints aggregate counts, never answer values.
+The old 83-eligible/50-selected counts used annotation-based rules and are
+superseded; regenerate the manifest after the corrected packet freeze.
+Version 2 records hashes of dataset, split, families, packets, builder,
+oracle and omitter, plus before/after query-result hashes for every entry.
 
 ## Spike Results
 

@@ -1,27 +1,17 @@
 """Build manifests/perturbations.json: missing-evidence perturbations of held-out questions.
 
-For each eligible held-out question, one answer-changing resource is left out
-of the starting packet. The packet is rebuilt from the local MIMIC-IV FHIR
-demo NDJSON as if that resource were not in the patient's record, so headers
-and truncation stay consistent. The FHIR store is not changed.
+For each eligible held-out question, exactly one answer-changing resource is
+left out of the frozen starting packet, without reranking or filling its gap.
+The FHIR store is unchanged. Eligibility uses a read-only offline SQL oracle
+over the exact visible packet fields: the original query must reproduce the
+reference, and the same query over the omitted packet must yield a different
+result. Operation and scope come from SQL, never from matching gold values.
+SQL/templates/labels remain confined to this diagnostic construction code.
 
-A question is eligible when it has a non-empty reference answer and all of
-its gold event resources (not the shared Patient, Medication, and Location
-resources) are in its frozen starting packet. One rule then applies,
-depending on the question type:
-
-- existence (yes/no): exactly one gold record, so removing it turns "yes"
-  into "no". With several records the evidence is redundant.
-- count: the answer equals the number of gold records, so removing one (the
-  latest) lowers the count.
-- aggregate: the operation (min, max, sum, avg) is the one that reproduces
-  the answer from the gold values. The removed record is the unique extreme
-  value for min/max, or the latest record that moves the sum or average,
-  and the result without it must differ.
-- selection (a value, time, or name from one record): exactly one gold
-  record, and no remaining record of the same type in the perturbed packet
-  carries the answer value, including names resolved through references.
-  Otherwise the evidence is redundant.
+Candidates must not have incoming clinical references whose removal would
+hide other records' scope/time information. Retained metadata and records
+must not state the removed selection value. Gold IDs prioritize candidates
+but do not stand in for query completeness or answer-change proofs.
 
 Multi-value answers are not eligible. 50 questions are sampled with the
 split seed, allocated to families in proportion to their eligible counts.
@@ -47,21 +37,16 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from scripts.build_starting_packets import (DEFAULT_FHIR_DIR, DEFAULT_FAMILIES, DEFAULT_INPUT, DEFAULT_SPLIT,  # noqa: E402
                                             file_sha256, index_patient_lines, load_record)
-from tools.perturbation import without_resources  # noqa: E402
-from tools.starting_packet import _label, _reference_key, _resource_time, build_starting_packet, parse_current_time  # noqa: E402
-from utils.answer_scorer import answer_type, parse_reference  # noqa: E402
+from scripts.packet_query import PacketQuery, UnsupportedQuery, visible_resources  # noqa: E402
+from tools.perturbation import omit_from_packet, text_sha256  # noqa: E402
+from tools.starting_packet import PACKET_VERSION, _label, _reference_key, _resource_time, build_starting_packet  # noqa: E402
+from utils.answer_scorer import answer_type, parse_reference, score_answer  # noqa: E402
 
 DEFAULT_PACKETS = os.path.join(ROOT, "manifests", "starting_packets.jsonl")
 DEFAULT_OUTPUT = os.path.join(ROOT, "manifests", "perturbations.json")
 SAMPLE_SIZE = 50
 SHARED_TYPES = ("Patient", "Medication", "Location")
 TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}")
-AGGREGATES = {
-    "min": min,
-    "max": max,
-    "sum": sum,
-    "avg": lambda values: sum(values) / len(values),
-}
 
 
 def event_gold(gold):
@@ -81,20 +66,6 @@ def _number(value):
 
 def _close(a, b):
     return math.isclose(a, b, rel_tol=1e-6, abs_tol=1e-6)
-
-
-def amount(resource):
-    """The numeric amount a record contributes to an aggregate (measured value or prescribed dose)."""
-    value = (resource.get("valueQuantity") or {}).get("value")
-    if value is None:
-        for dosage in resource.get("dosageInstruction") or []:
-            for rate in dosage.get("doseAndRate") or []:
-                value = (rate.get("doseQuantity") or {}).get("value")
-                if value is not None:
-                    break
-            if value is not None:
-                break
-    return _number(value)
 
 
 def _scalars(value):
@@ -122,66 +93,14 @@ def leaves(resource, by_id):
 def carries(value, leaf):
     """Whether a record leaf states the reference answer value."""
     if isinstance(value, str) and TIMESTAMP_RE.match(value.strip()):
+        precision = 19 if len(value.strip()) >= 19 else 16
         return isinstance(leaf, str) and bool(TIMESTAMP_RE.match(leaf)) and \
-            leaf[:16].replace("T", " ") == value.strip()[:16].replace("T", " ")
+            leaf[:precision].replace("T", " ") == value.strip()[:precision].replace("T", " ")
     number = _number(value)
     if number is not None:
         other = _number(leaf)
         return other is not None and _close(number, other)
     return isinstance(leaf, str) and leaf.strip().casefold() == str(value).strip().casefold()
-
-
-def latest(pairs, by_id):
-    """The most recent record (ties by type and id)."""
-    return max(pairs, key=lambda pair: (_resource_time(by_id[f"{pair[0]}/{pair[1]}"]), pair))
-
-
-def choose_target(kind, values, template, family, events, by_id):
-    """(rule, target, None) or (None, None, exclusion reason) before the packet is rebuilt."""
-    if kind == "set":
-        return None, None, "multi-value answer"
-    if kind == "boolean":
-        if _number(values[0]) == 0 or str(values[0]).strip().lower() == "false":
-            return None, None, "negative answer"
-        if len(events) != 1:
-            return None, None, "redundant: several records support the answer"
-        return "existence", events[0], None
-    if template.startswith("Count the number of"):
-        if _number(values[0]) != len(events):
-            return None, None, "count is not one per gold record"
-        return "count", latest(events, by_id), None
-    if family == "numerical_aggregation":
-        return _aggregate_target(values[0], events, by_id)
-    if len(events) != 1:
-        return None, None, "several gold records for a single value"
-    return "selection", events[0], None
-
-
-def _aggregate_target(answer, events, by_id):
-    answer = _number(answer)
-    amounts = {pair: amount(by_id[f"{pair[0]}/{pair[1]}"]) for pair in events}
-    if answer is None or any(v is None for v in amounts.values()):
-        return None, None, "aggregate values not readable"
-    values = list(amounts.values())
-    ops = [name for name, op in AGGREGATES.items() if _close(op(values), answer)]
-    if len(ops) != 1:
-        return None, None, "aggregate operation ambiguous" if ops else "aggregate not reproduced from gold values"
-    op = ops[0]
-    if op in ("min", "max"):
-        extremes = [pair for pair, v in amounts.items() if _close(v, answer)]
-        if len(extremes) != 1:
-            return None, None, "redundant: tied extreme values"
-        target = extremes[0]
-    else:
-        movers = [pair for pair, v in amounts.items()
-                  if (op == "sum" and not _close(v, 0)) or (op == "avg" and not _close(v, answer))]
-        if not movers:
-            return None, None, "no record changes the aggregate"
-        target = latest(movers, by_id)
-    rest = [v for pair, v in amounts.items() if pair != target]
-    if rest and _close(AGGREGATES[op](rest), answer):
-        return None, None, "removal does not change the aggregate"
-    return f"aggregate:{op}", target, None
 
 
 def redundant(values, target, perturbed_ids, by_id):
@@ -201,40 +120,97 @@ def evaluate(question, packet_row, record, family, template):
     kind = answer_type(question["true_answer"], template)
     if kind == "empty":
         return None, "empty answer"
-    events = event_gold(gold)
-    if not events:
-        return None, "no gold event records"
-    packet_ids = {(t, i) for t, ids in packet_row["resource_ids"].items() for i in ids}
-    if not set(events) <= packet_ids:
-        return None, "gold not all in the starting packet"
+    if kind == "set":
+        return None, "multi-value answer"
     by_id = {_reference_key(r): r for items in record.values() for r in items}
-    rule, target, reason = choose_target(kind, values, template, family, events, by_id)
-    if rule is None:
-        return None, reason
-
     patient, now = question["patient_fhir_id"], packet_row["current_time"]
     original = build_starting_packet(question["question"], record, patient, packet_row["max_tokens"], now)
     if _sha256(original["text"]) != packet_row["packet_text_sha256"]:
         raise ValueError(f"Rebuilt packet for {question['question_id']} does not match the frozen manifest")
-    perturbed = build_starting_packet(question["question"], without_resources(record, [target]), patient,
-                                      packet_row["max_tokens"], now)
-    if target[1] in perturbed["resource_ids"].get(target[0], []):
-        raise ValueError(f"Removed resource is still in the perturbed packet for {question['question_id']}")
-    if rule == "selection" and redundant(values, target, perturbed["resource_ids"], by_id):
-        return None, "redundant: another packet record carries the answer"
+    try:
+        oracle = PacketQuery(question, by_id)
+        before = oracle.run(original)
+    except UnsupportedQuery as exc:
+        return None, str(exc)
+    if not same_result(values, before):
+        return None, "visible query does not reproduce reference"
+    resources = visible_resources(original)
+    annotated = set(event_gold(gold))
+    candidates = [r for r in resources if r["resourceType"] not in SHARED_TYPES and oracle.candidate(r)]
+    candidates.sort(key=lambda r: ((r["resourceType"], r["id"]) in annotated,
+                                   _resource_time(by_id[_reference_key(r)]), _reference_key(r)), reverse=True)
+    perturbed = target = after = None
+    for candidate in candidates:
+        pair = (candidate["resourceType"], candidate["id"])
+        key = _reference_key(candidate)
+        # A one-record omission must not erase other clinical records' linking,
+        # ordering or answer fields to manufacture an answer change.
+        if any(key in references(other) for other in resources
+               if other is not candidate and other["resourceType"] not in SHARED_TYPES):
+            continue
+        trial = omit_from_packet(original, [pair])
+        try:
+            result = oracle.run(trial)
+        except UnsupportedQuery:
+            continue
+        if same_result(before, result):
+            continue
+        answer = result[0] if len(result) == 1 else result or None
+        if score_answer(answer, question["true_answer"], question["question"], template)["typed_correct"]:
+            continue
+        # Retained metadata or an unrelated record must not literally supply a
+        # supposedly removed selection value (e.g. a drug name in Medication).
+        if oracle.rule == "selection" and any(carries(v, leaf) for v in values
+                                               for r in visible_resources(trial) for leaf in _scalars(r)):
+            continue
+        perturbed, target, after = trial, pair, result
+        break
+    if perturbed is None:
+        return None, "no one-resource omission changes the visible query without redundant support"
     return {
         "question_id": question["question_id"],
         "family": family,
         "template_id": question["template_id"],
         "patient_fhir_id": patient,
         "current_time": now,
-        "rule": rule,
+        "rule": oracle.rule,
+        "packet_version": PACKET_VERSION,
+        "max_tokens": packet_row["max_tokens"],
+        "question_sha256": text_sha256(question["question"]),
+        "fhir_source_sha256": packet_row.get("fhir_source_sha256"),
         "removed": {"resource_type": target[0], "id": target[1]},
         "original_packet_sha256": packet_row["packet_text_sha256"],
         "perturbed_packet_sha256": _sha256(perturbed["text"]),
         "perturbed_resource_ids": perturbed["resource_ids"],
         "perturbed_n_tokens": perturbed["n_tokens"],
+        "proof": {"query_sha256": text_sha256(oracle.sql),
+                  "original_result_sha256": text_sha256(json.dumps(before)),
+                  "perturbed_result_sha256": text_sha256(json.dumps(after)),
+                  "perturbed_typed_correct": 0,
+                  "oracle": "visible-packet-sql-v1"},
     }, None
+
+
+def references(value):
+    if isinstance(value, dict):
+        reference = value.get("reference")
+        if isinstance(reference, str):
+            yield "/".join(reference.rstrip("/").split("/")[-2:])
+        for item in value.values():
+            yield from references(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from references(item)
+
+
+def same_result(left, right):
+    """Typed one-column SQL results, including normalized empty aggregate results."""
+    left = [v for v in left if v is not None]
+    right = [v for v in right if v is not None]
+    if len(left) != len(right):
+        return False
+    left, right = sorted(left, key=str), sorted(right, key=str)
+    return all(carries(a, b) for a, b in zip(left, right))
 
 
 def _sha256(text):
@@ -269,11 +245,13 @@ def main():
     parser.add_argument("--packets", default=DEFAULT_PACKETS)
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument("--size", type=int, default=SAMPLE_SIZE)
+    parser.add_argument("--split-name", choices=("pilot", "dev", "held_out"), default="held_out",
+                        help="Use pilot/dev only for offline rule validation; held_out is the final experiment")
     args = parser.parse_args()
 
     with open(args.split, encoding="utf-8") as stream:
         split = json.load(stream)
-    held_out = set(split["splits"]["held_out"]["question_ids"])
+    held_out = set(split["splits"][args.split_name]["question_ids"])
     packets = {}
     with open(args.packets, encoding="utf-8") as stream:
         for line in stream:
@@ -287,7 +265,7 @@ def main():
         raise ValueError("The starting packets were built from a different dataset")
 
     df = pd.read_csv(args.input, usecols=["question_id", "question", "true_answer", "patient_fhir_id",
-                                          "true_fhir_ids"])
+                                          "true_fhir_ids", "sql_query", "val_dict", "main_table_name"])
     df = df[df.question_id.isin(held_out)]
     families = pd.read_csv(args.families, usecols=["question_id", "family", "template_id", "template"])
     df = df.merge(families, on="question_id", validate="one_to_one")
@@ -306,8 +284,9 @@ def main():
 
     chosen = sample(eligible, args.size, split["seed"])
     manifest = {
-        "version": 1,
-        "split": "held_out",
+        "version": 2,
+        "packet_version": PACKET_VERSION,
+        "split": args.split_name,
         "seed": split["seed"],
         "size": args.size,
         "source_sha256": source_hash,
@@ -315,6 +294,9 @@ def main():
         "families_sha256": file_sha256(args.families),
         "packets_sha256": file_sha256(args.packets),
         "builder_sha256": file_sha256(os.path.abspath(__file__)),
+        "oracle_sha256": file_sha256(os.path.join(ROOT, "scripts", "packet_query.py")),
+        "omitter_sha256": file_sha256(os.path.join(ROOT, "tools", "perturbation.py")),
+        "scorer_sha256": file_sha256(os.path.join(ROOT, "utils", "answer_scorer.py")),
         "fhir_source_sha256": next(iter(packets.values()))["fhir_source_sha256"],
         "eligibility": {
             "held_out_questions": len(held_out),
