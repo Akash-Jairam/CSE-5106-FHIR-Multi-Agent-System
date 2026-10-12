@@ -265,7 +265,7 @@ def main():
         raise ValueError("The starting packets were built from a different dataset")
 
     df = pd.read_csv(args.input, usecols=["question_id", "question", "true_answer", "patient_fhir_id",
-                                          "true_fhir_ids", "sql_query", "val_dict", "main_table_name"])
+                                          "true_fhir_ids", "sql_query", "val_dict", "main_table_name", "assumption"])
     df = df[df.question_id.isin(held_out)]
     families = pd.read_csv(args.families, usecols=["question_id", "family", "template_id", "template"])
     df = df.merge(families, on="question_id", validate="one_to_one")
