@@ -74,7 +74,9 @@ class VariabilityReviewTests(unittest.TestCase):
                                "patient_fhir_id": "synthetic-patient"}])
         families = pd.DataFrame([{"question_id": "a", "template": "count", "family": "lookup_counting"}])
         results = {"a": row(None, error="provider failure")}
-        with patch.object(experiments.run_agent, "read_input_data", return_value=frame), \
+        references = {"a": {"question": "Synthetic count", "true_answer": "[[1]]", "template": "count"}}
+        with patch.object(experiments, "load_references", return_value=references, create=True), \
+                patch.object(experiments.run_agent, "read_input_data", return_value=frame), \
                 patch("pandas.read_csv", return_value=families), \
                 patch.object(experiments, "arm_results",
                              return_value=({"state": "in progress", "analyzable": True}, results)):
