@@ -15,14 +15,14 @@ def main():
     payload = json.load(sys.stdin)
     records = payload["resources"]
     namespace = {"json": json, "datetime": datetime, "math": math, "re": re,
-                 "statistics": statistics, "answer": None,
+                 "statistics": statistics,
                  "retrieved_resources": records, "retrieved_fhir_resources": records}
     try:
         # stdout is diagnostic; only the explicit result becomes the tool response.
         with open("/dev/null", "w") as sink, contextlib.redirect_stdout(sink):
             exec(payload["code"], namespace)
-        answer = namespace.get("answer")
-        result = {"answer": answer} if answer is not None else {"error": "Code executed successfully (no answer variable set)"}
+        result = {"answer": namespace["answer"]} if "answer" in namespace else {
+            "error": "Code executed successfully (no answer variable set)"}
     except SystemExit:
         result = {"error": "Code called exit()/SystemExit. Set the 'answer' variable instead."}
     except Exception as error:

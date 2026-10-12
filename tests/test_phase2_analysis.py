@@ -76,8 +76,8 @@ class AnalysisTests(unittest.TestCase):
         self.assertIn("- Observation: 2 records, e.g. {", prompt)
         self.assertNotIn("subject", prompt)
 
-    def test_contributing_ids_default_to_the_cited_records(self):
-        result = self.analyze(draft(contributing_ids=None, evidence=[
+    def test_contributing_ids_are_explicit_and_deduplicated(self):
+        result = self.analyze(draft(contributing_ids=["Observation/o2", "Observation/o2"], evidence=[
             {"resource_id": "Observation/o2", "field_path": "valueQuantity.value", "value": 68},
             {"resource_id": "Observation/o2", "field_path": "valueQuantity.unit", "value": "kg"}]))
         self.assertEqual(result["contributing_ids"], ["Observation/o2"])
