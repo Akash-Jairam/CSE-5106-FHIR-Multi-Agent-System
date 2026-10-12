@@ -2,39 +2,53 @@
 
 ## Decision
 
-The multi-agent system uses a thin in-house message-passing layer,
-[`agent/framework.py`](../agent/framework.py), built on `BaseAgent`, LiteLLM,
-and the existing tool registry. It adds no dependency.
+The multi-agent system reuses **LangGraph 1.2.14** for execution and state
+message passing, as promised in the proposal. `FixedWorkflow` in
+[`agent/framework.py`](../agent/framework.py) builds a `StateGraph` whose
+nodes are ordinary Python role handlers and whose edges are fixed or
+deterministically conditional. The project still implements the team
+protocol, JSON message contracts, and repair classification itself.
 
-| Option | Why not |
-|---|---|
-| LangGraph | Its graph and checkpointing are more than a fixed controller with at most one repair needs. Its LLM calls go through LangChain chat models, which bypass `BaseAgent._llm_call`, so the per-question token ceiling and usage records would have to be rebuilt through callbacks. |
-| AutoGen / AG2 | Its conversation and LLM loop would replace ours. An LLM group chat or selector conflicts with the proposal's non-LLM controller. Its code executors run outside `tools/python_executor.py`'s sandbox. |
-| CrewAI | It uses LLM delegation and its own prompts and tool wrappers. That makes routing nondeterministic and adds a second set of prompts to control. |
-| OpenAI Agents SDK | It is built around one provider's Responses API and its own tool loop. The project runs several providers through LiteLLM. |
+LangGraph does not require LangChain chat models: its
+[overview](https://docs.langchain.com/oss/python/langgraph/overview) and
+[Graph API](https://docs.langchain.com/oss/python/langgraph/graph-api)
+describe Python function nodes and deterministic edges. The earlier
+in-house-only decision incorrectly treated optional framework features as
+mandatory. The selected [pinned release](https://pypi.org/project/langgraph/1.2.14/)
+supports Python 3.10 and newer and is installed through `requirements.txt`.
+There is no framework-specific model credential or cloud service requirement.
 
-The deciding constraints come from Phase 1:
+The adapters preserve Phase 1's constraints:
 
 - **One budget per question.** Phase 1 budget controls (#13) cap
   completions, count automatic checks, and refuse unaccounted usage. They
   only work if every model call goes through `BaseAgent._llm_call`. A
-  framework that owns the LLM loop would need these rules reimplemented
-  and checked again.
+  framework only invokes Python nodes; it never owns the LLM loop.
 - **Sandboxed code only.** Generated Python must run in
   `tools/python_executor.py` (OS sandbox, copied data, real deadline).
-  None of the frameworks' built-in executors meet that bar.
+  The graph uses our existing registry adapter, not a built-in code executor.
 - **A deterministic controller.** P2-12 requires a non-LLM controller, so
-  a framework's main feature, LLM-driven routing, is unused.
+  ordinary conditional edges execute the controller's own routing policy.
 - **The common contract and resume identity.** The system must still
   return `AgentOutput` through `BaseAgent.run()`, and `run_agent.py`
-  fingerprints `agent/`, `tools/`, and `utils/` for resume. Pinned
-  in-repo code keeps that fingerprint meaningful.
+  fingerprints `agent/`, `tools/`, and `utils/` for resume. The adapter and
+  protocol remain in those directories; the framework version is pinned.
+- **Local-only graph execution.** Checkpointing, graph retries, caching,
+  remote runtime calls, and external tracing are disabled. A
+  `tracing_context(enabled=False)` overrides a developer's tracing environment
+  without modifying it, so question and record data are not sent to LangSmith.
 
-## The Layer
+## The Adapters
+
+- **`FixedWorkflow`** executes role nodes through a compiled LangGraph
+  `StateGraph`. It has no checkpointer, retry policy, or cache. A small
+  graph-step ceiling guards accidental controller cycles independently of
+  the per-question token/tool ceilings.
 
 - **`Bus`** logs structured `Message(sender, recipient, kind, payload)`
   values. Payloads must be finite JSON objects and are copied when sent, so
-  roles never share mutable objects. The log becomes the coordination
+  returning a message or exporting the log also gives a copy, so callers
+  cannot rewrite prior messages. The log becomes the coordination
   record for revision tracking (P3-22).
 - **`Toolbox`** is one role's allow-listed view of `tools/registry.py`.
   Model arguments are limited to each tool's declared parameters (so a model
@@ -55,7 +69,7 @@ fixed controller (P2-12). It creates roles (P2-13 to P2-15) and routes
 ## Spike Results
 
 `tests/test_phase2_framework.py` runs a two-role retrieval → analysis
-pipeline through `BaseAgent.run()` with a mocked model and FHIR client. It
+LangGraph pipeline through `BaseAgent.run()` with a mocked model and FHIR client. It
 uses the real registry tools and the real Python sandbox. It verifies that:
 
 - records fetched by the retrieval role reach the analysis role's sandboxed
@@ -67,7 +81,9 @@ uses the real registry tools and the real Python sandbox. It verifies that:
 - system-bound arguments override the model's;
 - each role run starts from a fresh context, and role errors and turn limits
   are reported;
-- bus payloads are copied and must be JSON.
+- bus payloads are copied on input and output and must be JSON;
+- the actual graph has no checkpointer or retry policy, a failed node is
+  invoked once, and tracing stays disabled even with tracing environment flags.
 
 Run with:
 
