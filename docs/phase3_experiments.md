@@ -287,6 +287,9 @@ toolbar.
   dataset's hash against the split. Reference answers are never passed to
   the interface. Changing the system, patient, question, or assumed time
   clears the previous result; an unsuccessful new request clears it too.
+  Custom input is parsed back through the runner's context parser; conflicting
+  embedded patient IDs, timestamps, or `Context:` sections are rejected so
+  the selected patient and assumed time remain authoritative.
 - **Answer, cited fields, verification status.** The result shows:
   - the released answer (or "No answer") and any limitation;
   - a table of cited fields (resource, field, value), marked `ok` only with
@@ -297,6 +300,7 @@ toolbar.
     | Status | Meaning |
     |---|---|
     | ✓ Verified | a completed check was recorded, clean, and the answer was released |
+    | ✓ Verified empty result | the multi-agent final explicitly returned null and the independent check accepted it; the answer displays "No matching value" |
     | ⚠ Not verified | check issues remained; the badge states whether an answer was released or withheld |
     | ○ Not checked | the direct baseline, or a released answer with no recorded completed check |
     | – No answer | the system abstained or hit its budget |
@@ -311,11 +315,15 @@ toolbar.
   the current code fingerprint, model, base URL, and budget with the
   `.run.json` of the evaluated ordinary arm for that system (from
   `--output_dir`, default as in `run_experiments.py`). A matching badge also
-  requires a current split/source binding and a result file with every
+  requires the runner's exact full identity, including the input hash,
+  a current split/source binding, and a result file with every
   planned held-out question attempted exactly once per result row, with
   matching question, patient, and time context. Metadata alone or a partial
   smoke run cannot claim an evaluated batch. The header reports incomplete
-  batches or settings differences.
+  batches or identity differences. Offline identity validation reads hidden
+  reference labels through `run_agent.load_inputs()` and `run_identity()`;
+  these labels are used only for the hash and are never passed to the model
+  or interface. The patient picker continues to read context columns only.
 
 The tests check the backend functions and run the app headless with
 Streamlit's `AppTest`, with the model and store mocked. During

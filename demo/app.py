@@ -48,9 +48,9 @@ def patients(input_file, split_manifest, splits, input_hash, split_hash):
     return backend.load_patients(input_file, split_manifest, splits)
 
 
-def show_answer(value):
+def show_answer(value, empty_result=False):
     if value is None:
-        return "No answer"
+        return "No matching value" if empty_result else "No answer"
     return value if isinstance(value, str) else json.dumps(value)
 
 
@@ -128,7 +128,7 @@ if result:
 
     left, right = st.columns([2, 3])
     with left:
-        st.metric("Answer", show_answer(output.get("agent_answer")))
+        st.metric("Answer", show_answer(output.get("agent_answer"), status.get("empty_result", False)))
         if output.get("limitation"):
             st.caption(f"Limitation: {output['limitation']}")
     with right:

@@ -3,9 +3,10 @@
 The demo runs the same code path as the experiment: run_agent_with_input()
 with the same strategy, model, base URL, per-question budget, and tool
 cache. It checks the current code and settings against the evaluated run
-identity and complete result batch of the matching ordinary arm. Example
-questions come from the non-held-out splits by default. The picker parses
-only context columns; reference answers are never sent to the page.
+full identity and complete result batch of the matching ordinary arm.
+Identity validation reads reference labels offline through the runner;
+they are never sent to the page or model. Example questions come from the
+non-held-out splits by default, and the picker parses only context columns.
 """
 import hashlib
 from datetime import datetime
@@ -21,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 import run_agent  # noqa: E402
-from utils import curate_input_dataset, run_agent_with_input  # noqa: E402
+from utils import curate_input_dataset, parse_question_context, run_agent_with_input  # noqa: E402
 
 SYSTEMS = {"multi_agent": "Multi-agent system", "single_agent": "Single agent", "direct_llm": "Direct LLM"}
 DEFAULT_SPLITS = ("pilot", "dev")
@@ -77,18 +78,24 @@ def build_input(patient_fhir_id, question, current_time=None):
         raise ValueError("Current time must look like 2150-12-31 23:59:00")
     if current_time:
         try:
-            datetime.fromisoformat(current_time.strip())
+            parsed_time = datetime.fromisoformat(current_time.strip())
         except ValueError as exc:
             raise ValueError("Current time must be a valid calendar date and time") from exc
     assumption = f"Assume the current time is {current_time.strip()}." if current_time else None
     row = pd.DataFrame([{"question": question, "assumption": assumption, "patient_fhir_id": patient_fhir_id}])
-    return curate_input_dataset(row, True)[0]
+    input_str = curate_input_dataset(row, True)[0]
+    expected = (question, patient_fhir_id, parsed_time.strftime("%Y-%m-%d %H:%M:%S") if current_time else None)
+    if parse_question_context(input_str) != expected:
+        raise ValueError("Question context conflicts with the selected patient or time; "
+                         "remove embedded patient IDs, current-time statements, or Context sections")
+    return input_str
 
 
 def evaluated_run(system, settings, output_dir, input_file=None, split_manifest=None):
-    """Whether this demo uses the evaluated ordinary arm's code, model, budget, and cache.
+    """Match the runner's full identity and a complete ordinary result batch.
 
     `settings`: model, base_url, max_total_tokens, max_tool_calls.
+    Reference labels are read only for the offline input-identity hash.
     """
     if system not in SYSTEMS:
         raise ValueError(f"Unknown system: {system}")
@@ -106,19 +113,24 @@ def evaluated_run(system, settings, output_dir, input_file=None, split_manifest=
             raise ValueError("Run metadata must be an object")
     except (OSError, ValueError) as exc:
         return {**status, "reason": f"Invalid evaluated run metadata: {exc}"}
-    current = {"code_hash": run_agent.code_fingerprint(), "model": settings["model"],
-               "base_url_hash": hashlib.sha256((settings.get("base_url") or "").encode()).hexdigest(),
-               "max_total_tokens": settings.get("max_total_tokens"), "max_tool_calls": settings.get("max_tool_calls"),
-               "enable_cache": True, "agent_strategy": system, "version": 2, "add_patient_fhir_id": True,
-               "split": "held_out", "split_manifest_hash": _file_hash(split_manifest),
-               "condition": None, "perturbations_hash": None, "subset_hash": None, "repeat": None}
-    matches = {key: saved.get(key) == value for key, value in current.items()}
-    status["matches"] = matches
     try:
         with open(split_manifest, encoding="utf-8") as stream:
             manifest = json.load(stream)
-        frame = run_agent.select_split(_input_context(input_file, manifest), manifest, "held_out")
-        expected = frame.set_index("question_id").to_dict("index")
+        if manifest.get("source_sha256") != _file_hash(input_file):
+            raise ValueError("The split was built from a different input dataset")
+        argv = ["--agent_strategy", system, "--model", settings["model"], "--input", input_file,
+                "--split_manifest", split_manifest, "--split", "held_out", "--enable_cache", "true"]
+        for key in ("base_url", "max_total_tokens", "max_tool_calls"):
+            if settings.get(key) is not None:
+                argv.extend([f"--{key}", str(settings[key])])
+        run_settings = run_agent.build_parser().parse_args(argv)
+        frame = run_agent.load_inputs(input_file, split_manifest=split_manifest, split="held_out")
+        current = run_agent.run_identity(run_settings, frame)
+        matches = {key: key in saved and saved[key] == value for key, value in current.items()}
+        if set(saved) != set(current):
+            matches["identity_fields"] = False
+        status["matches"] = matches
+        expected = frame.set_index("question_id")[CONTEXT_COLUMNS[1:]].to_dict("index")
         if not expected:
             raise ValueError("No held-out questions are planned")
         with open(result_path, encoding="utf-8") as stream:
@@ -143,7 +155,7 @@ def evaluated_run(system, settings, output_dir, input_file=None, split_manifest=
                 raise ValueError("Some held-out questions have not been attempted")
     except (OSError, ValueError, KeyError, TypeError) as exc:
         return {**status, "reason": f"No complete evaluated result batch: {exc}"}
-    return {**status, "valid": True, "all_match": all(matches.values())}
+    return {**status, "valid": True, "all_match": saved == current}
 
 
 def ask(system, input_str, settings):
@@ -179,6 +191,16 @@ def _check_recorded(output):
         not revision.get("revised") and isinstance(revision.get("check_issues"), list))
 
 
+def accepted_empty_result(system, output):
+    """A null final independently accepted by the multi-agent verifier."""
+    revision = output.get("revision")
+    final = revision.get("final") if isinstance(revision, dict) else None
+    return (system == "multi_agent" and output.get("agent_answer") is None
+            and isinstance(final, dict) and "answer" in final and final["answer"] is None
+            and revision.get("final_check_issues") == [] and not output.get("error")
+            and not revision.get("revision_error") and not (output.get("budget") or {}).get("stopped"))
+
+
 def verification_status(system, output):
     """State, label, explanation, and remaining issues of one run, for display."""
     revision = output.get("revision") if isinstance(output.get("revision"), dict) else None
@@ -205,6 +227,9 @@ def verification_status(system, output):
     repaired = bool(revision.get("revised"))
     repair = (f" after one repair (from {revision['repair_role']})" if repaired and revision.get("repair_role")
               else " after one revision" if repaired else "")
+    if accepted_empty_result(system, output):
+        return {"state": "verified", "label": "Verified empty result", "empty_result": True,
+                "detail": f"The independent check confirmed that no matching value was found{repair}.", "issues": []}
     if released and not issues:
         return {"state": "verified", "label": "Verified",
                 "detail": f"Every cited field matched its source record{repair}.", "issues": []}

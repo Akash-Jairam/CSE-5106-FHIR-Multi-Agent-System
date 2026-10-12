@@ -53,7 +53,7 @@ class PatientTests(unittest.TestCase):
         expected = curate_input_dataset(pd.DataFrame([row]), True)[0]
         built = backend.build_input(row["patient_fhir_id"], row["question"], backend.current_time_of(row["assumption"]))
         self.assertEqual(built, expected)
-        self.assertNotIn("current time", backend.build_input("p", "Q?"))
+        self.assertNotIn("current time", backend.build_input("00000000-0000-0000-0000-000000000001", "Q?"))
         for question, now in (("", None), ("Q?", "next tuesday")):
             with self.assertRaises(ValueError):
                 backend.build_input("p", question, now)
@@ -111,7 +111,8 @@ class EvaluatedRunTests(unittest.TestCase):
                                run_settings.output + ".run.json")
             self.assertFalse(backend.evaluated_run("multi_agent", settings, directory)["all_match"])
             other = backend.evaluated_run("multi_agent", {**settings, "max_tool_calls": 5}, directory)
-            self.assertEqual([k for k, ok in other["matches"].items() if not ok], ["max_tool_calls"])
+            self.assertFalse(other["matches"]["max_tool_calls"])
+            self.assertFalse(other["matches"]["input_hash"])  # metadata belongs to the one-question smoke subset
 
 
 class AppTests(unittest.TestCase):
