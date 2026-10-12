@@ -1,8 +1,8 @@
 """Accuracy-vs-tokens chart (P3-21) as a self-contained SVG; no plotting dependency.
 
 One dot per system at (mean tokens per question, accuracy). Whiskers are
-the patient-clustered 95% CIs on both axes. Tokens use a log axis because
-the direct baseline makes one call while the agents make many. Every dot
+the patient-clustered 95% CIs on both axes where estimable. Tokens use a log
+axis unless a token estimate or CI reaches zero, which needs a linear axis. Every dot
 is labeled directly and has a hover tooltip. The palette is the first
 three categorical slots, checked for color-vision deficiency in light and
 dark mode. Colors follow the system, not its rank. The CSV tables written
@@ -50,10 +50,39 @@ def _log_ticks(low, high):
     return [value for value in _nice(low, high) if low <= value <= high]
 
 
+def _bounds(summary):
+    values = [summary[k] for k in ("estimate", "ci_low", "ci_high") if summary[k] is not None]
+    return min(values), max(values)
+
+
+def _has_ci(summary):
+    return summary["ci_low"] is not None and summary["ci_high"] is not None
+
+
+def _validate_point(point):
+    for key in ("accuracy", "tokens"):
+        summary = point[key]
+        if summary["estimate"] is None:
+            return False
+        values = [summary[k] for k in ("estimate", "ci_low", "ci_high") if summary[k] is not None]
+        if any(not math.isfinite(v) or v < 0 or (key == "accuracy" and v > 1) for v in values):
+            raise ValueError("Plot estimates and intervals must be finite and within the metric's range")
+        if (summary["ci_low"] is None) != (summary["ci_high"] is None):
+            raise ValueError("Plot confidence intervals need both bounds")
+        if _has_ci(summary) and summary["ci_low"] > summary["ci_high"]:
+            raise ValueError("Plot confidence interval bounds are reversed")
+    return True
+
+
+def _ci_tip(summary, fmt):
+    if not _has_ci(summary):
+        return "95% CI unavailable: fewer than 2 patients"
+    return f"95% CI {fmt.format(summary['ci_low'])} to {fmt.format(summary['ci_high'])}"
+
+
 def accuracy_vs_tokens_svg(points, subtitle=""):
     """`points`: {system: {"accuracy": clustered_mean(...), "tokens": clustered_mean(...)}}."""
-    points = {k: v for k, v in points.items() if v["accuracy"]["estimate"] is not None
-              and v["tokens"]["estimate"] and v["tokens"]["ci_low"] > 0}
+    points = {k: v for k, v in points.items() if _validate_point(v)}
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" class="viz-root" viewBox="0 0 {WIDTH} {HEIGHT}" '
              f'width="{WIDTH}" height="{HEIGHT}" role="img" aria-labelledby="t d">', _style(),
              f'<rect width="{WIDTH}" height="{HEIGHT}" fill="var(--surface)"/>',
@@ -63,18 +92,28 @@ def accuracy_vs_tokens_svg(points, subtitle=""):
         parts.append('<text class="sub" x="16" y="80">No complete arms to plot yet.</text></svg>')
         return "\n".join(parts)
 
-    t_low = min(p["tokens"]["ci_low"] for p in points.values())
-    t_high = max(p["tokens"]["ci_high"] for p in points.values())
+    t_low = min(_bounds(p["tokens"])[0] for p in points.values())
+    t_high = max(_bounds(p["tokens"])[1] for p in points.values())
+    log_axis = t_low > 0
     # Padded so no dot or whisker sits on the plot edge
-    x_min = max(v for v in _nice(t_low, t_high) if v <= t_low / 1.15)
-    x_max = min(v for v in _nice(t_low, t_high * 1.15) if v >= t_high * 1.15)
-    a_low = min(p["accuracy"]["ci_low"] for p in points.values())
-    a_high = max(p["accuracy"]["ci_high"] for p in points.values())
+    if log_axis:
+        x_min = max(v for v in _nice(t_low, t_high) if v <= t_low / 1.15)
+        x_max = min(v for v in _nice(t_low, t_high * 1.15) if v >= t_high * 1.15)
+        token_ticks = _log_ticks(x_min, x_max)
+    else:
+        x_min = 0.0
+        x_max = max(1.0, t_high * 1.15)
+        token_ticks = [x_max * i / 5 for i in range(6)]
+    a_low = min(_bounds(p["accuracy"])[0] for p in points.values())
+    a_high = max(_bounds(p["accuracy"])[1] for p in points.values())
     y_min, y_max = max(0.0, math.floor(a_low * 10) / 10), min(1.0, math.ceil(a_high * 10) / 10)
     if y_max - y_min < 0.2:
         y_min, y_max = max(0.0, y_min - 0.1), min(1.0, y_max + 0.1)
     plot_w, plot_h = WIDTH - LEFT - RIGHT, HEIGHT - TOP - BOTTOM
-    x = lambda v: LEFT + (math.log10(v) - math.log10(x_min)) / (math.log10(x_max) - math.log10(x_min)) * plot_w
+    if log_axis:
+        x = lambda v: LEFT + (math.log10(v) - math.log10(x_min)) / (math.log10(x_max) - math.log10(x_min)) * plot_w
+    else:
+        x = lambda v: LEFT + (v - x_min) / (x_max - x_min) * plot_w
     y = lambda v: TOP + (y_max - v) / (y_max - y_min) * plot_h
 
     # Legend row above the plot: a dot keys each system; text stays in ink
@@ -89,13 +128,13 @@ def accuracy_vs_tokens_svg(points, subtitle=""):
         value = y_min + i * 0.1
         parts.append(f'<line class="grid" x1="{LEFT}" x2="{LEFT + plot_w}" y1="{y(value):.1f}" y2="{y(value):.1f}"/>'
                      f'<text class="tick" x="{LEFT - 8}" y="{y(value) + 4:.1f}" text-anchor="end">{value:.0%}</text>')
-    for value in _log_ticks(x_min, x_max):
+    for value in token_ticks:
         parts.append(f'<line class="grid" x1="{x(value):.1f}" x2="{x(value):.1f}" y1="{TOP}" y2="{TOP + plot_h}"/>'
                      f'<text class="tick" x="{x(value):.1f}" y="{TOP + plot_h + 18}" text-anchor="middle">'
                      f'{_tokens_label(value)}</text>')
     parts += [f'<line class="axis" x1="{LEFT}" x2="{LEFT + plot_w}" y1="{TOP + plot_h}" y2="{TOP + plot_h}"/>',
               f'<text class="tick" x="{LEFT + plot_w / 2}" y="{HEIGHT - 12}" text-anchor="middle">'
-              'Mean tokens per question (log scale)</text>',
+              f'Mean tokens per question ({"log" if log_axis else "linear"} scale)</text>',
               f'<text class="tick" transform="translate(16 {TOP + plot_h / 2}) rotate(-90)" text-anchor="middle">'
               'Accuracy</text>']
 
@@ -103,16 +142,21 @@ def accuracy_vs_tokens_svg(points, subtitle=""):
         acc, tok = p["accuracy"], p["tokens"]
         cx, cy = x(tok["estimate"]), y(acc["estimate"])
         tip = (f"{LABELS.get(system, system)}: accuracy {acc['estimate']:.1%} "
-               f"(95% CI {acc['ci_low']:.1%} to {acc['ci_high']:.1%}); "
-               f"{tok['estimate']:,.0f} tokens per question (95% CI {tok['ci_low']:,.0f} to {tok['ci_high']:,.0f}); "
+               f"({_ci_tip(acc, '{:.1%}')}); "
+               f"{tok['estimate']:,.0f} tokens per question ({_ci_tip(tok, '{:,.0f}')}); "
                f"{acc['n']} questions, {acc['patients']} patients")
         parts.append(
             f'<g class="point"><title>{escape(tip)}</title>'
-            f'<circle class="hit" cx="{cx:.1f}" cy="{cy:.1f}" r="14" fill="transparent"/>'
-            f'<line x1="{cx:.1f}" x2="{cx:.1f}" y1="{y(acc["ci_low"]):.1f}" y2="{y(acc["ci_high"]):.1f}" '
-            f'stroke="var(--{system})" stroke-width="2" stroke-linecap="round"/>'
-            f'<line x1="{x(tok["ci_low"]):.1f}" x2="{x(tok["ci_high"]):.1f}" y1="{cy:.1f}" y2="{cy:.1f}" '
-            f'stroke="var(--{system})" stroke-width="2" stroke-linecap="round"/>'
+            f'<circle class="hit" cx="{cx:.1f}" cy="{cy:.1f}" r="14" fill="transparent"/>')
+        if _has_ci(acc):
+            parts.append(f'<line x1="{cx:.1f}" x2="{cx:.1f}" y1="{y(acc["ci_low"]):.1f}" '
+                         f'y2="{y(acc["ci_high"]):.1f}" stroke="var(--{system})" '
+                         'stroke-width="2" stroke-linecap="round"/>')
+        if _has_ci(tok):
+            parts.append(f'<line x1="{x(tok["ci_low"]):.1f}" x2="{x(tok["ci_high"]):.1f}" '
+                         f'y1="{cy:.1f}" y2="{cy:.1f}" stroke="var(--{system})" '
+                         'stroke-width="2" stroke-linecap="round"/>')
+        parts.append(
             f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="5" fill="var(--{system})" stroke="var(--surface)" stroke-width="2"/>'
             f'<text class="label" x="{cx + 10:.1f}" y="{cy - 8:.1f}">{LABELS.get(system, system)} '
             f'{acc["estimate"]:.0%}</text></g>')
