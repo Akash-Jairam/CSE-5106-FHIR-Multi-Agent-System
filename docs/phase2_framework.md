@@ -189,16 +189,22 @@ parses every window phrasing in the dataset and follows its SQL semantics:
 | `this month[/DD]`, `last month[/DD]` | that calendar month or day |
 | `today`, `yesterday` | that day |
 
-A cited resource dated outside the window gets a `time_window` warning,
-which the verifier turns into an analysis issue. The check uses
-wall-clock time, and Conditions are dated by their encounter. A
-prescription without a start time isn't checked, because its order time
-(`authoredOn`) is not what the window filters.
+A primary event field outside the window gets a `time_window` warning,
+which the verifier turns into an analysis issue. Supporting encounter
+metadata is not rejected simply because admission precedes an in-window
+event. The check normalizes wall-clock timestamps, and Conditions are dated
+by their encounter. A prescription with no start gets an unknown-event-time
+warning: `authoredOn` does not establish when treatment began.
 
-**Validation.** No held-out patient was used. On the 618 eligible
-questions from non-held-out patients that have a window, all 14,123 gold
-evidence citations pass the check. Before the prescription rule above was
-added, the only one flagged was a prescription with only an order time.
+Encounter scope independently distinguishes the earliest begun visit, the
+latest completed visit by the reference time, and an ongoing current visit.
+Future cited timestamps are checked even when the event began earlier.
+
+**Validation.** The original PR reported a non-held-out gold-citation audit
+(618 questions and 14,123 citations) under its earlier prescription exemption.
+That historical result is not validation of this correction. The corrected
+194-test suite uses synthetic scope, window, missing-date, and timestamp
+regressions with mocked sources; no held-out model run was performed.
 
 ## Spike Results
 
