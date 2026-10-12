@@ -14,7 +14,7 @@ import pandas as pd
 from scripts.build_question_families import build_manifest, classify_template
 from scripts.build_split import build_split, check_disjoint, file_sha256, subject_id
 from scripts.build_starting_packets import index_patient_lines, load_record
-from tools.starting_packet import build_starting_packet, count_tokens
+from tools.starting_packet import PACKET_VERSION, build_starting_packet, count_tokens
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -246,7 +246,7 @@ class StartingPacketTests(unittest.TestCase):
         for packet in packets:
             self.assertEqual(packet["split"], assignments[packet["question_id"]])
             self.assertIn(packet["patient_fhir_id"], patients[packet["split"]])
-            self.assertEqual(packet["packet_version"], 2)
+            self.assertEqual(packet["packet_version"], PACKET_VERSION)
             self.assertEqual(packet["max_tokens"], 8000)
             self.assertRegex(packet["packet_text_sha256"], r"^[0-9a-f]{64}$")
             self.assertLessEqual(packet["n_tokens"], 8000)

@@ -17,8 +17,8 @@ STARTING PACKET AND OUTPUT FORMAT (these override the 'The final answer is:' for
 - Resources dated after the assumed current time are not in the packet; ignore them when you fetch more.
 - Before answering, you can verify your evidence with check_fields. It flags citations that do not match the
   record, the wrong time field (Observation `issued` instead of `effectiveDateTime`; MedicationRequest `authoredOn`
-  instead of `dispenseRequest.validityPeriod.start`), unit mismatches, resources outside a scoped encounter, and
-  resources after the current time.
+  instead of `dispenseRequest.validityPeriod.start`), unit mismatches, resources outside a scoped encounter,
+  resources outside the question's time window, and resources after the current time.
 - Your first final answer is checked automatically. If problems are found you get one chance to revise.
 
 {ANSWER_FORMAT_INSTRUCTIONS}"""

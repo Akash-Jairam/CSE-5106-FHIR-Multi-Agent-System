@@ -39,7 +39,7 @@ import tiktoken
 
 # Fixed input cap for the reviewed protocol; do not optimize it using gold IDs.
 PACKET_MAX_TOKENS = 8000
-PACKET_VERSION = 2
+PACKET_VERSION = 3
 CONTEXT_SHARE = 0.5
 KIND_BONUS = 1.0
 
@@ -146,6 +146,10 @@ def _medication_name(medication):
 
 
 def _resource_time(resource):
+    if resource.get("resourceType") == "MedicationRequest":
+        start = (resource.get("dispenseRequest") or {}).get("validityPeriod", {}).get("start")
+        if start:
+            return start
     for path in (("effectiveDateTime",), ("authoredOn",), ("performedDateTime",),
                  ("performedPeriod", "start"), ("issued",), ("period", "start")):
         value = resource

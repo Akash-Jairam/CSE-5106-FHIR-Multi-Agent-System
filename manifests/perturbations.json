@@ -1,0 +1,3467 @@
+{
+ "version": 2,
+ "packet_version": 3,
+ "split": "held_out",
+ "seed": 5106,
+ "size": 50,
+ "source_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+ "split_sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+ "families_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+ "packets_sha256": "25bdd33ad8c4572ca59788a177ec905fc06920b71f57e4372b5c146591949184",
+ "builder_sha256": "b3e464e285398d5f0dd9ee4374aba6037117bba57275c14b87584b4d42464668",
+ "oracle_sha256": "6b4416066a03ef146a4887aca22e1dfb56952cc4320dcdb290bd23b2aae16b84",
+ "omitter_sha256": "4b676901a511247f3b14851ab867b0949e32fb0de17b280a49cb7d24dd54c0b3",
+ "scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+ "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+ "eligibility": {
+  "held_out_questions": 300,
+  "eligible": 55,
+  "eligible_by_family": {
+   "lookup_counting": 17,
+   "numerical_aggregation": 16,
+   "temporal_selection": 22
+  },
+  "eligible_by_rule": {
+   "aggregate:max": 2,
+   "aggregate:min": 6,
+   "aggregate:sum": 8,
+   "count": 4,
+   "existence": 13,
+   "selection": 22
+  },
+  "excluded_by_reason": {
+   "admission_type is not recoverable from normalized FHIR priority": 4,
+   "empty answer": 42,
+   "microbiology hospital membership is absent from the visible FHIR fields": 10,
+   "mixed prescription doses are not attributable to individual drugs": 14,
+   "multi-value answer": 17,
+   "no one-resource omission changes the visible query without redundant support": 123,
+   "query could not be evaluated from visible packet fields": 3,
+   "query uses a relation without a visible FHIR projection": 6,
+   "visible query does not reproduce reference": 26
+  }
+ },
+ "selected_by_family": {
+  "lookup_counting": 15,
+  "numerical_aggregation": 15,
+  "temporal_selection": 20
+ },
+ "selected_by_rule": {
+  "aggregate:max": 2,
+  "aggregate:min": 5,
+  "aggregate:sum": 8,
+  "count": 4,
+  "existence": 11,
+  "selection": 20
+ },
+ "perturbations": [
+  {
+   "question_id": "0186746594c1cf90e38d4ffd",
+   "family": "lookup_counting",
+   "template_id": "T016",
+   "patient_fhir_id": "a7bbf9a2-f7fe-5815-a637-fa59bd70b374",
+   "current_time": "2111-12-31 23:59:00",
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "233ac2d0bde57c6ca4aad7f0747843560606233094c2f42df56e46145d87513c",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "ea39d54d-946d-5d78-a07f-d9daddae513b"
+   },
+   "original_packet_sha256": "4f4d823aa1ecf6ce2b80b0d6c2d71c0d4511f007f1250505fd3401904f5d2857",
+   "perturbed_packet_sha256": "f13c510b0c32899b3c0e7dd969c7a9923d424822b94565ff4f52270d723338c5",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "a7bbf9a2-f7fe-5815-a637-fa59bd70b374"
+    ],
+    "Encounter": [
+     "c15395c4-96ce-5511-914b-f443d1aebe68",
+     "92d3de1d-c030-54f0-8023-f73c91a8e2b7",
+     "a0b73891-6a47-533f-80d7-11361373e284"
+    ],
+    "Location": [
+     "77b3f959-fa2c-5599-8713-a86815b29a4a",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Specimen": [
+     "3baf44c7-6f55-54d9-bf46-3cbb509b302e",
+     "ce8d5fa4-4340-5053-957b-0312f8166610",
+     "5aa16f37-f301-57a2-b9c4-f718215b7631",
+     "213c2237-6871-5498-aa03-600daefbbbe0",
+     "3cfcd03b-68db-5518-9f09-504578879fec",
+     "df7b46f7-b6b1-506a-8363-fe0f11c50415",
+     "43dfa277-1297-5b69-b857-44a1ebaceb82",
+     "60a16717-f4a8-567d-b02d-d8745955697c",
+     "0f81d0cb-93ca-52f5-adb2-3fc63405d799",
+     "f9a39bd2-dc7b-5994-94b1-a44d8bfc1e0a",
+     "f831e511-4620-505c-9e15-aad32a9cf6a4",
+     "20f7dbfb-aafb-56ce-a08f-10ba9c1d23d7",
+     "ec8b360b-8dba-5695-8dc4-d302b8b1e9ac",
+     "57111976-bdc6-5b3a-9bc9-adf97b3935df"
+    ],
+    "Observation": [
+     "01cae943-e02b-5790-aa39-c91edc4acc05",
+     "00b2303c-a06e-5af5-826d-3783d00fdb2a",
+     "00b49c28-0e04-508c-8e60-8be966115d43",
+     "8eceb8df-2375-5f41-a489-4d845ab0489f",
+     "72c91cce-67b6-5cbc-aab3-8c872ce16463",
+     "aee71039-6812-5379-8341-d1d306c5e8b2",
+     "9cc87408-7aa6-55fd-86e4-c6af218f586c",
+     "4c003c38-386c-5606-a39f-ef61fc2d5a76",
+     "820dc3bc-a6e3-5cad-94fc-9ddfbe4bd769",
+     "de90866c-c0de-5bc8-8f7c-6c4e93b612ec",
+     "fe577a1e-8687-5cef-8444-b7ecdcb39b16",
+     "3507bdce-6dad-5bc0-b312-28f268449624",
+     "b236c1f8-85a3-55e8-b97a-07e1dfc12c68",
+     "b976f9b5-3883-5e61-ba99-cf9aebd85836",
+     "b6be92f7-79b1-5ef8-969b-a519925a793f",
+     "82714309-54d6-579e-8764-d7f505a9e6d3",
+     "ab29ac8c-aba3-5a5f-838c-bcd5a333f97d",
+     "1ed3f2f5-f634-5691-a5ac-28848362cc93",
+     "3c3bb83a-495c-57c0-8f47-bf4af258a596",
+     "1b64cda9-d071-5f9f-bfdb-b07ba7ebf7fb",
+     "0923067c-bdbe-5a4c-8157-8d3cf6b379bb",
+     "887d5545-012e-592f-a617-35dd15663d0b",
+     "ac01a291-8cf8-5f1b-ad52-8e779ca8232a",
+     "d4dc467e-9006-537b-8acd-2467ccb905c4",
+     "20933896-35ea-5353-8a13-90b000e15336",
+     "3632e16a-764d-5ed3-b7a1-f34c43d80ec0",
+     "cde0f50a-79d0-5f30-8a2a-0667f16d6513",
+     "57e486a9-a79a-59f0-a84e-3445ac380d07",
+     "6f6ce754-37ca-591e-be4a-64721b332c56",
+     "b23f102c-3fa3-5d1c-a480-f16e9048ea63",
+     "0e50c9a0-b584-5604-b958-ac364725aa8f",
+     "deb9430a-8f10-5e98-a4ce-42b3a22e5a39",
+     "52e04b74-d24e-58b9-b9a2-29f27467e555",
+     "a3d6288b-4999-5c9c-a8d7-a909980f6d52",
+     "53c80c98-6cf7-592d-b386-92dc3b4f7a06",
+     "89b9c544-950d-52bc-a911-3f17bec2e57f"
+    ]
+   },
+   "perturbed_n_tokens": 7789,
+   "proof": {
+    "query_sha256": "51f5e440fa13b2eeb3d0fa556be7bb00b617d1260466fd31d3578bd6a2fcb759",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "0b01e88a1ff2627ccad33628",
+   "family": "lookup_counting",
+   "template_id": "T002",
+   "patient_fhir_id": "f3fc719c-f6e0-5c27-a18f-b4e5afaf279b",
+   "current_time": "2125-12-31 23:59:00",
+   "rule": "count",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "6e14314e633aa179e9e717ab8f81baf2904c1b4236663e8c55253d8e9eea729e",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Encounter",
+    "id": "47419e53-561a-584d-b5c3-31ce9d60857d"
+   },
+   "original_packet_sha256": "7533e85792de221a6f8d3aa435ad2554aedac6088f1c921b792c61b5779b051f",
+   "perturbed_packet_sha256": "8293992cd813044a161e18e87fa2e8f964ed8acd0a2b7772fdb66ce39198e33a",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "f3fc719c-f6e0-5c27-a18f-b4e5afaf279b"
+    ],
+    "Location": [
+     "0c8de059-7250-5b94-b98d-0a079b28f06c",
+     "35f60a03-d022-5ad4-9952-6494d475fc09",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Encounter": [
+     "e825d759-05cb-57ba-92d8-7049392e3c67",
+     "99ef446d-7e71-54b3-b8f8-3c4e7d2771ff"
+    ]
+   },
+   "perturbed_n_tokens": 1113,
+   "proof": {
+    "query_sha256": "09269b33ff5aed35ab7bb3a67e0f72aaa1d9c7fa23cf26aac8d931b8e3e13750",
+    "original_result_sha256": "038966de9f6b9a901b20b4c6ca8b2a46009feebe031babc842d43690c0bc222b",
+    "perturbed_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "0e9be6448c82613884bebdf5",
+   "family": "numerical_aggregation",
+   "template_id": "T040",
+   "patient_fhir_id": "42f0ed8f-d744-5edb-a05d-8e011c1fbd64",
+   "current_time": "2160-12-31 23:59:00",
+   "rule": "aggregate:max",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "46d92054bba657612bd123827f21d737b0982a04a01f7c097ea321067fc6f3c9",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "7e08e5c2-1712-5aed-8562-350a3f6fb31f"
+   },
+   "original_packet_sha256": "6c3d591faea9d62068e53504542656686fe25e4ae360be468b79dc4441d204af",
+   "perturbed_packet_sha256": "38850f3e29efa7516773c18ac1c131ecb44789f1abeae93ae5f4c9eb6d6d6ded",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "42f0ed8f-d744-5edb-a05d-8e011c1fbd64"
+    ],
+    "Encounter": [
+     "c18618e7-9ed9-53c3-bde3-c4c11867052e",
+     "f6274942-5630-5765-845c-a950f8c63f20"
+    ],
+    "Location": [
+     "0fc2d23b-0e5b-5f91-8369-6d37301fea51",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "77b3f959-fa2c-5599-8713-a86815b29a4a"
+    ],
+    "Specimen": [
+     "0fbb9246-ccf7-5c02-af17-aa09a952ef76"
+    ]
+   },
+   "perturbed_n_tokens": 1000,
+   "proof": {
+    "query_sha256": "59a2a278afdf12bfeba9ff1e1120d2b028261fbba981db941a182fed1174811b",
+    "original_result_sha256": "84afa8ba67fbbff898dd6ae5e248b3f5d0418ab9b24ff5213120f5cba084a110",
+    "perturbed_result_sha256": "1d8fc6ceb1f94c6326d6d5483d258fcb2e179e9869325b245d105c2219bf69fd",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "133e29afd664c35e8accca09",
+   "family": "numerical_aggregation",
+   "template_id": "T040",
+   "patient_fhir_id": "71a27b6b-5e41-509f-83a8-8f47e8fb8d78",
+   "current_time": null,
+   "rule": "aggregate:min",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "ef7e0aa35fbe0cf3886f690c6eb1e89e14a4d1d74de530114d6b93b891e97858",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "0ed3807f-5510-5471-8b9a-a135b328a4fb"
+   },
+   "original_packet_sha256": "272c18966e7cab1b5054934142d62c76bfbeffb1fe8b472424bc91987f17de6f",
+   "perturbed_packet_sha256": "0ab2abdddd90f4c1d1bba0e5d0172d40f927da9c60de12670c81ca605c934602",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "71a27b6b-5e41-509f-83a8-8f47e8fb8d78"
+    ],
+    "Encounter": [
+     "894cc90b-329e-56ea-b26e-61ba1059ae96",
+     "13418f64-5c33-565c-9263-4e9584b4e052",
+     "aa9dc967-aece-541b-89d6-b0cedcd43d64"
+    ],
+    "Location": [
+     "00e4b7f2-1d93-5521-9dd9-cba8fa9461af",
+     "0e7530e9-f728-5f0f-a959-bfd148882219",
+     "4dfa8a5c-f049-5266-b341-756d86fc0748",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f",
+     "0483cba3-574b-58e3-a6a1-2eec0f3b707a",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f"
+    ],
+    "Specimen": [
+     "9d6d6bd5-9cb9-54f3-97ea-618b013798a7",
+     "ef9e8eee-b2ac-5fe6-ab93-374b74855e33",
+     "f5a3906d-cb09-5751-b967-44abb1669533",
+     "19b375e5-35b4-5f1d-a3f5-a0782db391b9",
+     "f67a0152-d26e-5330-9e8c-6e104a83392c",
+     "a2ed3091-6293-5ce1-b3ad-ac0293a9a276",
+     "75253015-ae06-55ea-9f87-8baf084a7819",
+     "50752fe8-bcf4-5d89-a904-b545c14cfc70",
+     "32657abf-43ee-5e22-87c0-b998122cf944",
+     "dcdade8f-4238-5d3b-95cc-a783a3280b6d",
+     "30dce4b5-81af-5e83-b81a-b9acfe2895ac",
+     "ac4b8067-53b8-5757-bc98-d7006f0b6c25",
+     "6701c577-d477-5825-934e-af4532872b51",
+     "d00a866b-9460-564d-b516-1b0b43a77c8c",
+     "41087994-8ae6-5929-9053-87328d2e438c",
+     "5c6f0c54-0311-5391-9986-6a6c08f8e34a",
+     "43fe583d-be13-5b10-b342-a9e0759487bb",
+     "50099a61-322f-5618-85b9-eb7df637d6c8",
+     "d836627a-4b7e-5f65-8885-cb07f2e46814",
+     "0bad9f3e-0b93-5665-9b25-9da2160b9e69",
+     "b98330b5-994b-5230-96f1-db54083e4433",
+     "5b7a659b-f402-57b6-95a7-a8614d288eab",
+     "2312b295-c30c-5eee-94c7-2df49cf7b57c"
+    ],
+    "Observation": [
+     "ce762df0-e045-5b4e-91e4-a04d89454bed",
+     "d14c5507-4e13-5f67-a6e8-bf9ed66612f5",
+     "64aec300-8d82-52a1-a489-fecb90697624",
+     "34944632-ab7e-5f25-8722-4a7dfa5b44d5",
+     "d47f7de7-5ccc-54be-a10d-19f83d1c2d9b",
+     "ea77c953-7560-5464-96a7-ca7d42cd6d6a",
+     "8a365829-f2c1-54d4-b96f-42e0a18d13a6",
+     "a3ccad60-da32-581d-a407-74c4e70a4e91",
+     "af8cb5cb-3a7f-555d-8795-b4ff8df0e6a6",
+     "ca7963f5-dfe2-5b12-9b78-bfa521933aa2",
+     "4932a5f4-a3d3-5831-9913-acdd192635d9",
+     "52a55613-bb34-5577-a60f-91a0d10655c9",
+     "28c49dc3-4e36-5230-938f-028920c9f632",
+     "627825ed-300a-56cc-8e98-7b520008d89c",
+     "cfc607b5-982a-56a0-bb1e-1a4a77630505",
+     "04224bfd-f6a7-5b3a-8822-643878b258a1",
+     "c1bdc6d1-1246-57ad-b3b2-95ce47ea5d45",
+     "6fe48a80-ab86-5e64-9c5a-85bb94620437",
+     "c5ff4f5b-649c-58f8-b326-ff89b00ff0cf",
+     "fa1fd90b-2926-5d7c-a225-2f756913b4a0",
+     "0d5b109e-b5d4-5a77-a880-d773559ba727",
+     "86cc14e5-7b4b-5916-b86e-2c624a7b29e0",
+     "2ee42113-158a-5bae-accf-7ffbeaf5d331",
+     "b11218a0-3608-52e6-aa8e-e36af0c5828d",
+     "abf30151-85dc-5d46-a214-1dd965851207",
+     "5f2545fe-c3af-58f3-baec-bb47355a0cb3",
+     "a4837d54-4d36-5c5e-bbab-3b0183ff06ed",
+     "07741e21-6285-532b-848c-6cd9f1fd9c01",
+     "6e0cc5b0-24e6-50ef-83e1-2e9c706ebf8d",
+     "258f2b0e-ee06-577f-87d6-752ec82b52ff"
+    ]
+   },
+   "perturbed_n_tokens": 7766,
+   "proof": {
+    "query_sha256": "228cfad3c94e49a074e65007abbf5b2a9ac7c5404c0759fd054088a3b756643f",
+    "original_result_sha256": "0b74357b059d62cb4f5882831c179c66b9b1816fa76e3316c0683f927720fa68",
+    "perturbed_result_sha256": "1d8fc6ceb1f94c6326d6d5483d258fcb2e179e9869325b245d105c2219bf69fd",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "137db7f9de6adce5df221be5",
+   "family": "lookup_counting",
+   "template_id": "T000",
+   "patient_fhir_id": "b9a9ae7b-2455-59fe-938d-ce19ef360dd1",
+   "current_time": null,
+   "rule": "count",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "76ce51066e7b6a4370db3822d3d24b4cfcd9864530a5bdbbb85a7318ca938cbe",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Encounter",
+    "id": "699682b5-3261-5122-ad2b-9356d5d1229f"
+   },
+   "original_packet_sha256": "0ddd980e0cd3a6c00d96243a5012af7e07428a3ee6002a86f7755393f2246540",
+   "perturbed_packet_sha256": "4f2fb5d3273759bb97d7801460a8d83e98a0dc4b46c0483bc0b5d3b35805df4a",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "b9a9ae7b-2455-59fe-938d-ce19ef360dd1"
+    ],
+    "Location": [
+     "25fdf8f3-5c5e-517b-b732-8f4501f25c33",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "0e7530e9-f728-5f0f-a959-bfd148882219",
+     "dbba2bef-57a7-582f-8d86-a7a6d7fea258",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f",
+     "c69e109f-5540-5e58-98a8-32154d4c539d"
+    ],
+    "Encounter": [
+     "a0c10d89-96cb-51d5-82b4-2cf043e408e3",
+     "a313b906-ef8a-5d53-ba04-882c9d57f570",
+     "7d6f5045-cc75-5b7f-a56b-1add703ba07b"
+    ]
+   },
+   "perturbed_n_tokens": 1548,
+   "proof": {
+    "query_sha256": "fba800263ce9616c14d8985827464df79cab7b6b70bcaf61d181376080ea9039",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "1c5f16182f446c154f204081",
+   "family": "temporal_selection",
+   "template_id": "T073",
+   "patient_fhir_id": "740b7686-fa6d-5574-9779-f17ed7661cbe",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "19da2846ed2a72387dbe62e993e5e86a674707b2beac0fc737b0ab6a481c0512",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "MedicationRequest",
+    "id": "953db84f-e1a2-5bee-93b9-dc0ced6a1440"
+   },
+   "original_packet_sha256": "a9f75325ca16bf9f95b793a914cb674f520c9982a3b9a9a268eded5983236f86",
+   "perturbed_packet_sha256": "723e011029ca048cf2b450c9f9f64b22a2e617e194a7bae25b28610e348dfab7",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "740b7686-fa6d-5574-9779-f17ed7661cbe"
+    ],
+    "Encounter": [
+     "c1f965dc-0dc2-5286-8635-a2667dcb5c6d",
+     "ff0e1c01-caf6-5501-8b1a-a605f53f1a97"
+    ],
+    "Location": [
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7",
+     "35f60a03-d022-5ad4-9952-6494d475fc09"
+    ],
+    "Medication": [
+     "79f3fb3a-d495-5d33-b090-c57ae61c84d8",
+     "d47a6867-82e7-5273-a74b-63955208ec8e",
+     "027615e5-e498-57cf-b4e3-bed14b908a08",
+     "92c85cf5-9096-5196-b351-9b636e200f99",
+     "b5cc262c-d774-5d6f-8b32-5eb208887056",
+     "fe0cd958-6d11-5344-9502-6d8450c7be19",
+     "2a01db78-fedc-50e0-b545-d44fa4aa8c71",
+     "b6d8cc43-28a5-5fab-973b-9db4707811d7",
+     "df628c63-cbfb-59fa-931b-50abac044290",
+     "ba3ff703-0672-502e-acb7-f3a7b4208922",
+     "b111e720-0284-5dbe-851a-be4c0baa6371",
+     "3820d8b1-f695-5f61-86c8-9e4b1d4c7118",
+     "f564b7b4-7306-56b3-8347-72ee9ca93f42",
+     "f3cdf389-c654-52c9-bb5f-4548733ad6a4"
+    ],
+    "MedicationRequest": [
+     "60e3c90d-728a-5560-aad7-c4a730b420a2",
+     "81e7d266-5f6b-5f8c-bda2-91fd11b0a83e",
+     "e011b9db-bbe7-521d-8e23-a2212009194d",
+     "2eb904d5-3174-5f78-bd74-11cb119afff5",
+     "71ec37f6-7010-5e79-a352-0f1276a2d5f1",
+     "84f4f895-c6ba-5e43-801d-7d7d2b697c97",
+     "d135269e-c2be-506c-8fb4-d4089596bb38",
+     "cbfb4e08-1737-534c-971c-836da5b13da0",
+     "58f41fd4-771c-5898-bbb3-134a22301c84",
+     "aee7cdf0-af5b-58b6-86f3-eeec86f8d5d9",
+     "c94bd871-db0e-559a-a41e-1b0b85e9f199",
+     "875dcb18-a45f-5067-8741-3e46a17f75b1",
+     "e9c14463-d3ac-506e-9f42-511b9c822ad2",
+     "08937b72-a550-5604-87ca-286a9d9b3900",
+     "52229db9-ab96-541f-be27-612a8e5c302b",
+     "943de920-82e6-57b8-a0ed-c22b3e26dfaa",
+     "af8577a8-0c53-5071-b730-e63222b37369",
+     "2ff4bb4b-d66d-5e08-9a15-ff450b4386b4",
+     "a2e17b2d-4955-5a7e-9c8e-0fa40609e60f",
+     "54c3cdb2-ebad-5807-b19b-2001419dfa59",
+     "52dc4b7f-d16d-5dd1-a34f-27f9beb69949"
+    ],
+    "Observation": [
+     "1881fecd-472e-5eed-ab54-961ab7e1bc99",
+     "2bb0ee37-7d8e-5126-ac50-08ff57fc33d3",
+     "2f1cb22a-97e5-56fe-8d21-397ca5793e2d",
+     "dc272f70-aeab-51f7-8d36-ea17c8b0dd0a",
+     "ff1c1b82-06b7-596f-af03-f8ffd8dc6495"
+    ]
+   },
+   "perturbed_n_tokens": 7643,
+   "proof": {
+    "query_sha256": "7e53f8aae20acc6253b2829fb260e4ac93940bfeb3aa3e62b26ef8f0bcdf4258",
+    "original_result_sha256": "dfcd173bafbb0d46d8a4319e2b72c78ade304272c20ae0270044284d0f8c5e77",
+    "perturbed_result_sha256": "6a756fdd05faa14f3e0a6ceb97c9e30badf7905b2309adfe428be43f475309ba",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "2021b8d65fd7fd080d685ca4",
+   "family": "lookup_counting",
+   "template_id": "T016",
+   "patient_fhir_id": "42f0ed8f-d744-5edb-a05d-8e011c1fbd64",
+   "current_time": "2160-12-31 23:59:00",
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "7f3dec9baebca6d33de9c08345d76270edff0003cf7e8cbe1c89a353d1300434",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "7e08e5c2-1712-5aed-8562-350a3f6fb31f"
+   },
+   "original_packet_sha256": "31a3659317c1fb968958a9b2f6428a2373bcdc39d772cea1e8c5ae637c749b4f",
+   "perturbed_packet_sha256": "316a0cd4740aa6ce71761c876c04f7d9dab4000914777611193fe2d21abb2a03",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "42f0ed8f-d744-5edb-a05d-8e011c1fbd64"
+    ],
+    "Encounter": [
+     "c18618e7-9ed9-53c3-bde3-c4c11867052e",
+     "f6274942-5630-5765-845c-a950f8c63f20"
+    ],
+    "Location": [
+     "0fc2d23b-0e5b-5f91-8369-6d37301fea51",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "77b3f959-fa2c-5599-8713-a86815b29a4a"
+    ],
+    "Specimen": [
+     "0fbb9246-ccf7-5c02-af17-aa09a952ef76",
+     "c963f690-c595-55c6-bd8a-3ea8f5d7f27b",
+     "d117a9ce-8005-5354-b50f-e695e445eb1d",
+     "494f1f69-2ef0-55e7-b486-af076128a832",
+     "4e3e6b63-b5ab-5a5d-b149-e90ca5ea8c5a",
+     "0fc22fd7-762c-5274-ac48-820a40c31c2a",
+     "f89a84fe-bdf1-5a13-af89-80c8dc924a07",
+     "8211553f-63bd-5a03-88b3-8fd277de0ff6",
+     "670402ec-4d04-57cf-89fc-3373cd95a32a",
+     "dfc183ba-4e35-595a-a837-be7d6ce579de",
+     "ea2639b5-7cda-5dd5-9bec-d2e44d0b2a31"
+    ],
+    "Observation": [
+     "78777bb3-c9cb-597c-8665-ea5901c7eab3",
+     "8c1751da-ddd1-557b-9d86-8fd88af9df70",
+     "e1571152-f92d-5b44-88d5-232dce2bf808",
+     "577b433e-2338-55ab-89ae-a0c0b748d310",
+     "4485b122-35c9-5487-9d57-dbae01a7b975",
+     "7258b826-f2e8-5771-89b2-7c7d1309c33a",
+     "dd24b6b0-2703-55cf-b17b-c5417cd5d5dd",
+     "fae951ff-fa68-5123-99e5-4482e9a5062d",
+     "252520a7-69df-58ca-adab-e67d5071e810",
+     "9a636a4d-dd76-5c40-88f3-2eb781512ae0",
+     "36f0ea7a-6d73-5c59-83bc-2bcebf7015e5",
+     "e93315b8-b106-5e0f-a386-397b9aefe791",
+     "9c4b66b9-8c97-5f1c-81a9-6683c9d69507",
+     "65324257-5a20-586a-bb54-bb8b97dcf0bb",
+     "025a468c-5405-5d00-8ed5-309d86cc1a3b",
+     "dbf84e4a-7e35-575c-968d-29e9c3fe4125",
+     "193a1103-ad33-5316-94dc-6a6cb5fda0ad",
+     "f5c7e342-66ee-59d2-b1e2-9d44687b8b3c",
+     "32e7c7f6-d8f1-5362-aecf-953cca39bab3",
+     "1d49cf6b-28c0-53a9-b17f-b2cfcaa6085f",
+     "13e6d322-06cb-58f3-814e-28f879c5b6a1",
+     "d928a533-352f-5085-a50b-f0a7d71ea13f",
+     "c18c7d71-35eb-5213-87c1-d5c99363aa14",
+     "d3497f23-13d9-5bb3-a152-e29e33025901",
+     "35395eaf-a593-5ae4-9a07-0a1d781aedab",
+     "6efab940-935c-58ca-8175-2e473d2806bc",
+     "6211d667-eaf1-56ac-98e2-a4287c256271",
+     "00614e57-f428-51a3-97e1-a0415f8ec3f5",
+     "848efd6b-c79c-5c0a-a55f-cdf35a9c4f54",
+     "14c5addc-32a4-5418-a1dc-490f69d6d286",
+     "a6c89b8e-171c-5b29-bfa0-cecdb9ac47d4",
+     "2d7c99e0-38fa-5946-8cc3-41d9c471a9c5",
+     "3e2186af-bb54-5b2b-bc38-157dcdc23196",
+     "cb57913e-10f0-5486-97ad-d51f396b45ac",
+     "fcfc0757-a796-5872-8da6-c95752e598fd",
+     "9167c708-1539-54e6-9094-97bd1fefb2ec",
+     "d4a31f75-7446-5e32-9a02-a0d7fbdfbc86"
+    ]
+   },
+   "perturbed_n_tokens": 7666,
+   "proof": {
+    "query_sha256": "1e218e55b9406168f29c175b99f9276ceee26e7d6e9a122a99dd59c4184a612c",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "264556fad0e8f61d4b7fe7e9",
+   "family": "temporal_selection",
+   "template_id": "T047",
+   "patient_fhir_id": "76202c51-1b9d-5cc2-a7bc-3dfb2ac3ab32",
+   "current_time": "2118-12-31 23:59:00",
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "da9e9283a293bb6ce7aaa74b773a3b878eedfe0f4fe8120babc8359b843cb451",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "0336cdcc-4f82-5e1e-bd81-349c3757d266"
+   },
+   "original_packet_sha256": "546d018042b1627d24f69c348353847f87264ed1be278edd858c0288dbbdd3b3",
+   "perturbed_packet_sha256": "9292a0ece9d5f0c01094e4fc4bd1eb95dd5212cf8d9a75dc6406ab753fdf9450",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "76202c51-1b9d-5cc2-a7bc-3dfb2ac3ab32"
+    ],
+    "Encounter": [
+     "b0b7dcba-4148-5f45-8895-b202eebafe18",
+     "4238a38e-3f01-58b1-b3f7-306b958412a2",
+     "128841b3-93a7-5dd6-ab97-bc994df7a8c6"
+    ],
+    "Location": [
+     "0c8de059-7250-5b94-b98d-0a079b28f06c",
+     "25fdf8f3-5c5e-517b-b732-8f4501f25c33",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9"
+    ],
+    "Specimen": [
+     "2aad2c6a-ec5a-5f54-a41f-e7b2be30ffe5",
+     "221aabcb-7f71-5036-8661-e03f3228388d",
+     "b865caa8-aa2d-5108-a4ba-357daceb3219",
+     "bcef4061-4003-512c-bc0b-bd971729d331",
+     "0687f9ef-9c8f-52dd-91e6-ded72097c78d",
+     "514a46b4-de5d-5084-bd36-da3897832bc9",
+     "fb3c57a2-6f0f-596f-a59f-58f92318a4c0",
+     "69fc1a69-1d0a-5f9f-a547-7b81e00d1d49",
+     "4b11888e-1ef8-5925-8bf9-28b6cefb1cc3",
+     "cf14bbb5-822f-5631-bad7-afa6e3286901",
+     "4486d9aa-4367-54b9-a0e6-76edbd8d6221"
+    ],
+    "Observation": [
+     "aa861abc-f6c4-536a-9e20-2981517bc39d",
+     "c8307bd9-178b-5dc7-a431-beacee8d7589",
+     "4d62131f-238a-5fb8-a318-c02beceda08a",
+     "0570dce2-0516-586e-ae39-c94cb706d819",
+     "f561653d-4bfd-5bb3-9219-11fcade9fd69",
+     "2b255ad4-aaf9-5932-8aff-bf58d5ec5c02",
+     "698e5bb0-9926-532b-a400-c66ac1b5280c",
+     "8b136aaa-ed66-5056-88b5-233868e38611",
+     "e0cc938e-16ee-527a-970d-d62a49e1b589",
+     "7de9af0f-58cf-528d-bb90-70cc66362b4b",
+     "111ae343-734e-5191-b404-cecac16b424e",
+     "36056219-fc16-53a6-b5b5-6d1dd05d076d",
+     "62467d4f-8d72-5a84-bfce-476a2ca3d284",
+     "2af12687-1bfa-5039-961f-4abba91380ec",
+     "eb0c724e-d60f-5d85-adbd-139d44a46057",
+     "dcd33dc6-1ea0-57b0-a6f2-efc897e038f0",
+     "c964abd6-6bd0-5a77-80dd-00fe78e2595b",
+     "abfa68d0-42f5-5211-a955-c7c4bfe931b6",
+     "49895385-fdbf-595e-9ff0-8b6857c6d0c8",
+     "e5672f8c-5c8d-56d9-87b7-a3a956535fd6",
+     "6de8c936-2fc0-5afe-bb3d-c1f60953b05d",
+     "d19b60fb-a216-59bb-b7a7-be2232de3fa6",
+     "8ba82bcb-c44c-5dd7-8c93-fd5048a0eb5c",
+     "c3c3381a-f2ef-56bf-88e3-cd539dea9d94",
+     "991d621f-3b3d-5435-9b3b-a05974bfb576",
+     "c98ccca8-44dd-5b57-8ced-5031b0147ffa",
+     "91d1f517-dc01-5965-b862-844da7c80d6c",
+     "7d94b4b5-a22b-5931-9d4d-e17763187154",
+     "0855aa3d-fdf5-5eb1-bd19-ae4af01d0505",
+     "a245d42c-6a02-5e1a-984f-122249db7c71",
+     "51dd2ba4-1aac-5789-ae0f-dd9ea5bd855a",
+     "aaa7a85e-2bff-5dec-94c9-a0ae76f49787",
+     "11f95c8d-351f-5510-a3bc-849242dd0b53"
+    ]
+   },
+   "perturbed_n_tokens": 7797,
+   "proof": {
+    "query_sha256": "0db123d9dc5f1626838313af6cb04a99f699519e0338f52d8c425a7f22201aca",
+    "original_result_sha256": "2504519014c736ca14c23549287a67d7a01eb761bb37661bdd5c806785c78f88",
+    "perturbed_result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "292e05db320f21dac9efa68e",
+   "family": "temporal_selection",
+   "template_id": "T075",
+   "patient_fhir_id": "91e0e410-0782-5478-90e0-1bedc3aa1525",
+   "current_time": "2115-12-31 23:59:00",
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "4dd13e7cc9855dcf1e0dfdd8c7c24778c945ec07e271146f6051dbb5000a4f70",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "aa16372e-003c-5826-a6e4-43c1746bef5f"
+   },
+   "original_packet_sha256": "836455383bd018d464d49d9e1e7d22b75cac648d78100189426a8f74e864b524",
+   "perturbed_packet_sha256": "e1fd180343ab1ffdd5fcec4dea12916be6aaaebb8342352d55df7bd1129e57f2",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "91e0e410-0782-5478-90e0-1bedc3aa1525"
+    ],
+    "Encounter": [
+     "4c6a16c0-9bc3-5f7a-8783-0d7693efbcfc",
+     "f994bc54-577f-5257-81ba-3ce5afa9ea42"
+    ],
+    "Location": [
+     "77b3f959-fa2c-5599-8713-a86815b29a4a",
+     "9152585d-31b9-50ca-9476-a4db49030917"
+    ],
+    "Observation": [
+     "5487b80e-164b-554d-b263-5406ac57bf39",
+     "7039e9a9-44ed-5551-adeb-be697a6fb594",
+     "8054071e-d316-5315-8b38-d8b279328c25",
+     "a8e690c6-f26a-502d-acb6-225ee406eaf0",
+     "3d7e100c-e5a7-5c74-b59d-dddd9004ae5a",
+     "d8ceb01a-df63-5b29-b8a7-b6978c8cb9be",
+     "25de8e8b-5929-5ea2-bedf-9ed3968958fd",
+     "12c075ed-2789-5d7d-95f0-8e6f4bab8eee",
+     "4492c74f-6075-52ae-964f-2e3dc59540fc",
+     "970e5fd3-70e6-5b04-af79-dde4381ab580",
+     "fa6e6973-7d99-564f-acd2-95cdebdb0d3a",
+     "237cb401-6dd5-5bbc-a06d-780036938d61",
+     "d976b94b-b92f-5c44-94ba-10c518188613",
+     "1909365c-839a-5730-ae38-a52a26cf07b5",
+     "27a44a2c-4519-5205-b644-616a04e9b2fc",
+     "19406ba7-2a9f-535a-b88d-a5e05f667f3a",
+     "0f1bc55d-0ad8-5458-94e0-b6aed9666724",
+     "e661b844-8fc2-56f8-b3d3-9fcbf8338b83",
+     "155fcf52-7816-5d74-b90d-f67042a136ff",
+     "8ccf818c-bff7-531b-82bc-b507db7fb6a0",
+     "19e090f6-948c-5e61-869b-d15863ebf013",
+     "2f86076a-42bd-5fdd-b99a-601d7d810103",
+     "6b68af41-b2a3-5568-9b33-1f567936bc79",
+     "ebf9d899-7f7b-5451-9be8-35070e8d6707",
+     "046783e5-2e98-53a7-9d36-16b99b0bbd29",
+     "74874730-1321-5cbf-b367-5aa0ec370168",
+     "603d0c79-42eb-561c-bb15-95a53fba1347",
+     "7367e4e4-18ec-5ff8-96cf-999febb8ad67",
+     "25400fed-b7f9-5c47-9981-51899f1c88b4",
+     "dca694c4-bd3f-5eaf-9675-482bcd87d01d",
+     "2bff9a82-4315-5ca6-acfa-7df698eb04fc",
+     "b7c6657b-24ef-545d-962a-b55b10402f29",
+     "0be9eb7c-b6b4-5e80-b64a-10d1f3589437",
+     "28ade580-4f2b-5b1c-9690-c0e4e54fc2b4",
+     "0710c2cc-2ba4-5cb8-a9bd-8f63039f3e33",
+     "cbb0237a-1eb6-5e23-8532-2acac1e395e6",
+     "a22b5486-54f9-5031-ae7b-f4e0cdff457d",
+     "0c130bf8-6c82-59e9-b46f-ca4f9578c2c2",
+     "0166c0e1-cc3f-5e6a-a2cf-7df9b5f36214",
+     "39afde49-85ae-56fd-9f63-4f6ba42dfa4b",
+     "d8412484-c06a-521c-87b3-6ac849291cf3",
+     "59a4fd72-7271-5615-8d3a-4c1f2604ab9a",
+     "ea533dcd-70a1-5cf8-ac11-9014625c3d0a",
+     "18779622-381a-559d-b751-03fd7393add0",
+     "007b8592-67e3-5205-96ee-928980946b6e",
+     "d0898260-fde5-5b6b-b483-16b5778eeff4",
+     "37c02053-500d-5a1c-96a1-181109ab5f94",
+     "d868a396-cefa-5c69-885d-9f8b55c55adc",
+     "a2a31cb1-e56a-5b8f-aaff-33658abf388e",
+     "41f218da-d554-505f-9f9f-e3a2f28944a3",
+     "26f98ce4-9cb2-5774-87c4-53f5e01e5b88"
+    ]
+   },
+   "perturbed_n_tokens": 7828,
+   "proof": {
+    "query_sha256": "3cbf560d4a265d07826e43da67798f9cf228009c981f5f3a93b0e047b8e9b264",
+    "original_result_sha256": "33752eb41bfbade5491042ef905b46265cce4b0d17e159291df37e25e0f0ff57",
+    "perturbed_result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "2ecf6ed7b588701c5b61916c",
+   "family": "numerical_aggregation",
+   "template_id": "T058",
+   "patient_fhir_id": "dc332fb6-61f8-552e-8743-765d626f0a4e",
+   "current_time": null,
+   "rule": "aggregate:sum",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "771e589467563e74fea51c18d2c68155ea4300efa72ff0861b4faafcfb380a27",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "b6ab97a2-ebe2-5e2f-a238-059943640bfd"
+   },
+   "original_packet_sha256": "0018d87b9a8a7b097f5ab801cadf248a1df1a7c8eadc59e136092e75431e3658",
+   "perturbed_packet_sha256": "b6d0003bc2ddffbd8a3158a319bcf17463f082c768787ed15122300c0db09fbe",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "dc332fb6-61f8-552e-8743-765d626f0a4e"
+    ],
+    "Encounter": [
+     "fe10589b-6b76-56f4-b8c9-4c393e92c153",
+     "758c4cf5-8373-5c85-935b-e01f0d2aedbd"
+    ],
+    "Location": [
+     "0c8de059-7250-5b94-b98d-0a079b28f06c",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9"
+    ],
+    "Observation": [
+     "c7d005d3-3833-5193-8abe-f9ca3162e9a1",
+     "4bdb3d3e-5e70-5003-8da4-1c1eaae19b09",
+     "ffe64414-4825-599c-a849-4442419df2f7",
+     "3d9454fd-bd17-5f24-9bf1-010b83aa5bad",
+     "7dbbd7a5-38c5-5459-b2b1-54825c90d1cf",
+     "6bfb3dda-6d3e-5743-a8f6-54b3c3756f69",
+     "63281726-30c2-538f-8b55-f88e6089e612",
+     "81e039b9-4e98-5894-b3a7-45835768c450",
+     "85986715-aeef-57a2-83dd-b985e359ba00",
+     "bc8cfcbf-05d0-51bb-978e-1a29050c8ba8",
+     "4d702829-6224-58d0-90b1-d442093dd2c8",
+     "ba344481-5335-59d5-a546-796fc1ca3774",
+     "c74ea056-5961-5f5e-8a9d-32061f420b1b",
+     "a96fa177-81bb-5f19-8c18-a45a1deaf4fe",
+     "0f89e943-915e-5e94-a97e-dfb79cd84f8a",
+     "600b3348-2199-55f8-9eff-3bf049f63983",
+     "4b1bfac4-99db-5672-a32c-1c9f10eddecb",
+     "46560024-09b9-5d22-be0a-1d2872f87329",
+     "4c3d8932-b900-5693-b88f-25c429644fd3",
+     "0d725533-cac3-592e-9efd-cb7c4b1062b3",
+     "6e30cb13-380b-54a5-b812-4bd90e3bb05e",
+     "ea1ec855-1b04-598c-b93e-b3e5d99e15f8",
+     "d75c5b25-1e85-53fc-b047-706ba64c0661",
+     "f9fe2885-5b6d-534c-b171-9b16ff3602d2",
+     "26c172a0-92c9-5045-bdb9-f89ecb213ac2",
+     "9380be39-a8de-5ce5-927c-14dc26d1bbe0",
+     "4e80b9a3-87d0-5fd6-b397-bad29e1795b5",
+     "3f3d1174-0408-50bb-9494-267698714d40",
+     "23dd0be4-bd68-5e13-befb-e9b470d5301f"
+    ],
+    "Specimen": [
+     "9b70f382-54cd-5176-87e6-ba5c5b07c986",
+     "1aec1dd5-3bc3-5a96-839c-b11e2fb51391"
+    ]
+   },
+   "perturbed_n_tokens": 5127,
+   "proof": {
+    "query_sha256": "ec01f85594d1e7fe286edb45a4adb2825e69263e21797e635f96fa5ac7a2774e",
+    "original_result_sha256": "5d82b48a1cd00a32a6bc93e63c901a8b7086db66995641b1f16d80d519e3209e",
+    "perturbed_result_sha256": "1d8fc6ceb1f94c6326d6d5483d258fcb2e179e9869325b245d105c2219bf69fd",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "3b3ec25a9c5acf7aca6a592b",
+   "family": "lookup_counting",
+   "template_id": "T020",
+   "patient_fhir_id": "5ddeb201-5de6-5177-a116-fa82ce8ad2f2",
+   "current_time": "2145-12-31 23:59:00",
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "cf703cb37f0208ff442a56f29cec4c96d36b45d69582a9e9c186ff0e94c75ea5",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Procedure",
+    "id": "8185a75d-77d6-5313-beaf-402ffc51b850"
+   },
+   "original_packet_sha256": "73341e48beed4af82fce9c0e5964524b62fbe4a340299d085578f2afcaf1254f",
+   "perturbed_packet_sha256": "e0c5aada1435b5c80987f1145e6796885597d62a1a59975abe654d23ca75934f",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "5ddeb201-5de6-5177-a116-fa82ce8ad2f2"
+    ],
+    "Encounter": [
+     "109b43e0-d522-556e-8824-4d9287df0c9e",
+     "198c0724-ddb2-5306-8c3f-703bb7cc5aaf"
+    ],
+    "Location": [
+     "0e7530e9-f728-5f0f-a959-bfd148882219",
+     "dbba2bef-57a7-582f-8d86-a7a6d7fea258",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ]
+   },
+   "perturbed_n_tokens": 999,
+   "proof": {
+    "query_sha256": "29297000c344dc489e45b154f9128955126942de5b6f713c2cbca228e02ba885",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "3e3f93fb3a2e4577befd898b",
+   "family": "numerical_aggregation",
+   "template_id": "T057",
+   "patient_fhir_id": "a7bbf9a2-f7fe-5815-a637-fa59bd70b374",
+   "current_time": "2111-12-31 23:59:00",
+   "rule": "aggregate:sum",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "e3a8efd2f7aac179507782a7aa6f834a955a05969d02ed0b475edca2f9b40708",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "58ac0c39-377b-5bb0-b123-966c44ef4e4d"
+   },
+   "original_packet_sha256": "35335bd9873931b0f87df79094bea7a59ff085139c04a3ed830b249ef9b57cc6",
+   "perturbed_packet_sha256": "51cbf6a173a5b5d7006751026ea313d390fc5dabf72f28500d7589c317ce1bed",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "a7bbf9a2-f7fe-5815-a637-fa59bd70b374"
+    ],
+    "Encounter": [
+     "c15395c4-96ce-5511-914b-f443d1aebe68",
+     "92d3de1d-c030-54f0-8023-f73c91a8e2b7",
+     "a0b73891-6a47-533f-80d7-11361373e284"
+    ],
+    "Location": [
+     "77b3f959-fa2c-5599-8713-a86815b29a4a",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Observation": [
+     "64069ce7-5f7d-59da-8c31-288e7f78c096",
+     "97de2cb8-48d6-51df-95e2-842482847072",
+     "6dbc613a-5499-55bb-8e62-7581d7ebb19c",
+     "810cb957-4a8f-5a6d-b5a6-01eff14562a7",
+     "1f7a8604-aa65-51e9-8fbc-c04751f27d7c",
+     "1cd00b4d-6264-5ce9-a010-0d3a9ac79b5d",
+     "8ad969e5-af11-5ff3-aacb-4bb1065ad216",
+     "a73e94b0-c9e5-5bdd-a2cd-5569d9d62021",
+     "9d7f995d-984e-5ab4-8839-24bc4ee4cd8b",
+     "e1406b6c-467c-5dba-84a4-edf31710e233",
+     "732769af-11c2-50b9-b9e7-e5302da51284",
+     "c76f1de7-9830-59f6-bcd6-89914ff54106",
+     "981bd621-070f-5fac-ad08-4adb4df9bbe2",
+     "15658d06-bdb5-5e53-8f23-5bfa4f86d49b",
+     "ccca80a0-10b4-5b47-9ca1-d57885b657d5",
+     "9a756177-c439-5b01-8fa3-a50aaa7dd2bf",
+     "aef3a3a7-0a8d-5812-961d-66895ad6c635",
+     "fe64a830-0e7d-5b9c-bb09-da80167a084c",
+     "d8bed63b-39c9-5eb2-9e0a-f67c84d2f9b6",
+     "3a83619f-1531-543e-87f9-231d427fff55",
+     "2610f599-f1c3-578e-bd73-102a95f11b44",
+     "49c22f5c-699d-592c-98c4-09b643d8bab5",
+     "4876df63-a13b-5af2-b107-9efe9e2dfd56",
+     "e53d0e5e-6205-57fc-a359-571a2540b821",
+     "ae84f303-623a-59d2-ba9f-bf211bdf38fd"
+    ]
+   },
+   "perturbed_n_tokens": 4304,
+   "proof": {
+    "query_sha256": "0763a3d667cbef172269fee451efb90418ae3c451e2b3671233cc02e7931e3da",
+    "original_result_sha256": "c4579b4cc0905ebec99db14a824cf7ad7a85834f922b7125bb12e7b0878b9c34",
+    "perturbed_result_sha256": "eb520350152ad726af8c9a58e14220aa2b4c93eddd739d43bf74f0e1472b3ee1",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "42d490e9dcc8cd200649d0ff",
+   "family": "numerical_aggregation",
+   "template_id": "T031",
+   "patient_fhir_id": "f3fc719c-f6e0-5c27-a18f-b4e5afaf279b",
+   "current_time": "2125-12-31 23:59:00",
+   "rule": "aggregate:min",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "75946422850e665f257a5c97afe8b23cbc3630bca1047e018d90c17deb5ddb2c",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "c7b165ab-6388-5479-ad13-d0fad004cc15"
+   },
+   "original_packet_sha256": "4af6b7296c0e4770d808e1cfc87ef545a05165e24b3d4323fedba287cf94ad66",
+   "perturbed_packet_sha256": "a79b8c346fb1c6ecd95751877625e0d6cca240ec892ad64c6bee614dcc777f28",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "f3fc719c-f6e0-5c27-a18f-b4e5afaf279b"
+    ],
+    "Location": [
+     "0c8de059-7250-5b94-b98d-0a079b28f06c",
+     "35f60a03-d022-5ad4-9952-6494d475fc09",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Encounter": [
+     "e825d759-05cb-57ba-92d8-7049392e3c67",
+     "99ef446d-7e71-54b3-b8f8-3c4e7d2771ff",
+     "47419e53-561a-584d-b5c3-31ce9d60857d"
+    ],
+    "Observation": [
+     "e7b7134c-9225-512e-b696-523dcc057920",
+     "7b30bc37-17e0-5de2-862f-b5093ff5e03b",
+     "6f7df115-1dd9-5896-9f43-4cc04208bf4c"
+    ]
+   },
+   "perturbed_n_tokens": 2420,
+   "proof": {
+    "query_sha256": "5b99579f311eeff161207eed6aee1cca0951f97a0f977f11073474e980d25be8",
+    "original_result_sha256": "5ced6885bdfb065ee5f8b54b7eafa8a12feaa7e3e2f91e2922d34a4d92b572c5",
+    "perturbed_result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "447267ea557ee396e8eade57",
+   "family": "numerical_aggregation",
+   "template_id": "T056",
+   "patient_fhir_id": "dc332fb6-61f8-552e-8743-765d626f0a4e",
+   "current_time": "2120-12-31 23:59:00",
+   "rule": "aggregate:sum",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "8ff6cbd146c400698ccb2422c63b699925346a7a39c43bf92b378a96d66f4ba3",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "MedicationRequest",
+    "id": "1a0f6da9-9f90-5ed6-b17d-40a9fbcd3b0e"
+   },
+   "original_packet_sha256": "9f9655f152b4e130b4861d31dacbfbcbf5da84bae02661a610d7493546a37ccc",
+   "perturbed_packet_sha256": "67f558aedbb25b576b42736ee6bf214c89a364eaeceef3d004a718d212be3679",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "dc332fb6-61f8-552e-8743-765d626f0a4e"
+    ],
+    "Encounter": [
+     "fe10589b-6b76-56f4-b8c9-4c393e92c153",
+     "758c4cf5-8373-5c85-935b-e01f0d2aedbd"
+    ],
+    "Location": [
+     "0c8de059-7250-5b94-b98d-0a079b28f06c",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9"
+    ],
+    "Medication": [
+     "4bd7ff4d-d038-5799-b81c-a18c6897d040",
+     "7253d185-debd-5f87-8510-03a0ad3e2a61",
+     "fe7efaa2-ca16-574a-81a0-f01dd687f740",
+     "1c2ab3e2-7eea-5108-a056-cab3e559de55",
+     "df68e620-411f-5c8c-a888-f1359d62f1e8",
+     "f779793f-7401-5022-ad49-8d0b06eb2a25",
+     "fad0b212-cb52-589a-bd73-46c8cab64545",
+     "b111e720-0284-5dbe-851a-be4c0baa6371",
+     "93a659e2-9527-599d-bfe9-52a3f9f7cdb4",
+     "0b146275-8348-5a9f-b139-a68e1d319373",
+     "d69867b0-f382-54cb-b312-8bf7baf6eba3"
+    ],
+    "MedicationRequest": [
+     "e62017e0-7b69-5297-9de5-8a0eb0f92afa",
+     "fe0634a9-8dd9-5381-81f0-b4f724d0f864",
+     "d43351fb-70b8-5785-9425-d75f6a9beb11",
+     "811d214a-61b5-5041-9f6c-a723c288acee",
+     "a18efcef-baf6-5ea9-806b-ec5965636b25",
+     "7899ac4e-b9c4-52f6-8fb1-ecdcad0ea709",
+     "9e02f63b-855a-5964-a9c4-cc609ddfb5b6",
+     "c94d0f31-283f-5613-9a59-30b71f560031",
+     "699c2ace-1a32-58d1-8c99-b1063bef7dc7",
+     "74f4bba9-87ef-5c86-bf66-c77a509cf7fc",
+     "512f7e6d-cf4a-5c0f-9e31-000fb2e6ecf0",
+     "a6852eb5-012a-57ef-960e-874db6b91b59",
+     "4953034c-b416-554c-83cd-bb27e27c9f3e",
+     "3a33e344-6860-57f2-819a-e049d437abed",
+     "e51571a2-f200-58ae-bb45-75baea8dd643",
+     "ca347573-0cc2-508c-9ca8-89f52cab637a",
+     "56520e2a-a8ff-52e8-9d0d-83278e385ba6",
+     "595fb064-e010-58f6-b608-9e2bf1198794",
+     "3746367c-f933-5274-8ee1-e3d7937026e9",
+     "5192dde0-905a-5629-859b-c35b887dc90d",
+     "5ec394fb-c7b4-57cc-900e-1eec32ce6ed6",
+     "1d0642ab-0139-53db-8dfd-b678370a75d3",
+     "c1345058-3eb8-5c3a-a720-bb5773944749",
+     "7cf9d6d9-3451-5699-9cf8-7f738afb0f37",
+     "360b66c8-1284-5125-ac7e-890ac17e75a3",
+     "9f1b37a6-ddcb-5910-95c1-4e3ea113e4a5"
+    ]
+   },
+   "perturbed_n_tokens": 7756,
+   "proof": {
+    "query_sha256": "7f6337190b81d2946205a949f92745c9d2dc97ed7c61ac85b6bcd77792a80e2c",
+    "original_result_sha256": "6c192609a8158be5a074bb00d1f7c44f03976baaa7b44f83bd8418c620fc8d79",
+    "perturbed_result_sha256": "1d8fc6ceb1f94c6326d6d5483d258fcb2e179e9869325b245d105c2219bf69fd",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "4a73f78af6f830619516e24b",
+   "family": "temporal_selection",
+   "template_id": "T075",
+   "patient_fhir_id": "158f3a39-e3d7-5e7a-93aa-57af894aadd9",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "ac1291f2874617e77512488c5858ec100f45b58f1c94afdf0c975fa3d9086a7d",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "fb8ae63b-1fd2-5bb2-9cca-e1f34f19232f"
+   },
+   "original_packet_sha256": "59c5e79f17efaf4e12dc2b4efaa30a769295275de826db7116216f5ea0f21e77",
+   "perturbed_packet_sha256": "c54f677be7b100e35c6922324c5ef1878e9f9ef63579d80dc9a4238e31d2f3d8",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "158f3a39-e3d7-5e7a-93aa-57af894aadd9"
+    ],
+    "Encounter": [
+     "4bf70b2e-29af-5519-8752-052b2f833a81",
+     "497d61a0-1f48-5229-ac51-5ab4bded1cb3"
+    ],
+    "Location": [
+     "0483cba3-574b-58e3-a6a1-2eec0f3b707a",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9"
+    ],
+    "Observation": [
+     "10d60304-8faf-5427-b57e-f628c9c49ad7",
+     "1920763e-87e5-58bb-af19-a0b2fdb44e36",
+     "ba67298c-4af5-548d-a93c-248164e46441",
+     "c6193e0f-ad91-5410-9bbb-0f97d28391c2",
+     "b4d0e2d1-a0fd-5022-aa63-8bf9ed3fde10",
+     "26114b66-6155-5e0c-9293-7c085daa4e72",
+     "ff755c58-afea-5a1c-9a22-41a3ca72fbe7",
+     "3e8dfd38-c913-52c8-9583-c6c712f7eb64",
+     "5fc2f78e-1491-5603-af59-d508d50a7979",
+     "adc1efca-df3a-55cc-b3d1-6f8787decd8f",
+     "eb057db5-b1df-5070-b84d-2cf1c46417a6",
+     "ae0be5d1-1db6-5d05-9b39-c5393a9d6058",
+     "58dad729-129e-590b-985b-56db0a340d9d",
+     "9d116f61-20c2-5679-b479-48811a6ce354",
+     "f2531af7-123b-5562-b3f6-76fc8b72410d",
+     "cbaf69c0-88d3-5c5e-bd93-2d4639133b13",
+     "c9bbc695-334e-52bc-83b8-98b21694688f",
+     "bf338450-fb20-54f4-8d3c-56b4f274c7e3",
+     "a49eb57d-4a9b-5faa-b1f4-d5a72afa01aa",
+     "820d7158-bde1-5814-b3fa-2754c646febf",
+     "5766b5ec-9d20-5396-a1e3-236166c1ddb8",
+     "bb716332-d453-5909-a4b0-23dc80cf65ad",
+     "6a1ff034-d293-523c-b003-1acf0773ca12",
+     "c1153119-3fd7-5b87-9141-a28873a6bd06",
+     "20a2d7f1-9a47-5e35-a51e-338f848116dd",
+     "a2bd6168-3efb-505e-a9f0-8abf726ea76f",
+     "75600b66-c075-5edd-9acd-aa881d7e103b",
+     "8a7cb7d4-81c3-5195-b826-58808c6042f9",
+     "3fd56ba1-cd75-5ce2-8b25-565b83b28dd1",
+     "1b2e6d9b-63e3-5ffa-ba11-2099039109dd",
+     "10204cc2-dfe6-51e7-9190-94f634765d5c",
+     "497e6afd-abd4-5ee2-9c47-35610d8c69f4",
+     "b0d83e39-ea4a-5abf-aab0-896dcbb36b08",
+     "a71068bc-331b-5978-a967-dc8670181af7",
+     "e8400202-3da1-57fe-9511-95b9ad2ec87e",
+     "dc1f0838-f6b3-5adb-b637-e30b5648e188",
+     "25bc615d-5397-5a7e-9953-dc6bd60fb326",
+     "090d403f-a9aa-55c9-bbc2-9430c04da00e",
+     "5d6f97b7-2c8f-5aac-80c4-f47ec7f9762a",
+     "74ecb245-957f-5363-a92a-d71d6bca6707",
+     "a8b7d10a-2558-55d3-bf19-d9296b3e1553",
+     "0db19e0f-f21a-5714-99f9-6580ad4734d5",
+     "c93e9431-028f-5a5b-8e26-fa461ba959a7",
+     "66d93f81-2523-50ee-98f3-49ccd3fe950b",
+     "3530df01-41e3-5480-a9b7-9c86c40ace78",
+     "1ea653b4-52fa-5580-9aa1-21dcfeb4c68b",
+     "a07af04f-933c-566f-9195-be30ebf684f9",
+     "ec8d7a80-91ca-5186-8daf-c2480752a8a2",
+     "cfc0e694-388f-5b78-a7e8-b1c07d9bfb2f",
+     "e73b3b14-b03e-59ed-a0dd-590217d3794b"
+    ]
+   },
+   "perturbed_n_tokens": 7745,
+   "proof": {
+    "query_sha256": "c1050f82dabe526f79de45b8ae5d20733d1b4614d88fe9a14f4870b34e4aed47",
+    "original_result_sha256": "66a7bc14e56cf2e94f32cd635a764b16d1cc3e9f1443410fad703b32a04ff16b",
+    "perturbed_result_sha256": "1a889611342e6154e5e275ec6f3d34a709679ddc63537959e50ef78f3b12d38d",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "5075b95436488f53e5f7976e",
+   "family": "lookup_counting",
+   "template_id": "T016",
+   "patient_fhir_id": "73fb53d8-f1fa-53cd-a25c-2314caccbb99",
+   "current_time": null,
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "2a5ea0467dbb61d0813a1e828eee221362cafa6656ef790da37e6b709a675a09",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "158b361a-b706-58f7-bce3-5c7635b58a20"
+   },
+   "original_packet_sha256": "4f11038baa098b6605429391afd0e706398b9739800ec828c718b301c6fa62aa",
+   "perturbed_packet_sha256": "22a6f78122d95f02ed76c7bfa70db3445bba78ea870e94f6db8d52267d4446d7",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "73fb53d8-f1fa-53cd-a25c-2314caccbb99"
+    ],
+    "Encounter": [
+     "f5cd04ba-2d1a-5601-82a5-1fb9b784fd58",
+     "45205f70-733f-58c2-a43e-790d64a7095d"
+    ],
+    "Location": [
+     "77b3f959-fa2c-5599-8713-a86815b29a4a",
+     "9152585d-31b9-50ca-9476-a4db49030917"
+    ],
+    "Specimen": [
+     "d2b38e5d-f450-5bfd-be03-320b56dc4770",
+     "97676558-8048-525f-b4e7-4b6957e0da12",
+     "756884ef-a04a-5b2e-9cf1-ece6e6cb78a5"
+    ],
+    "Observation": [
+     "fe91e97d-ed82-59ce-a6c8-cd87f12f9b1d",
+     "8ea1b8a0-8a2c-5737-9766-b83c0dc3ecbd",
+     "5d4fd79d-6d0b-588f-9929-e31c73aed5c4",
+     "fb20bbf3-dd34-57ed-b528-7d23a2156659",
+     "b7866eb5-147c-5997-90c9-af263d0e8fd0",
+     "e52e8991-ce12-5ea9-9b67-622f551172b4",
+     "2a0e513d-471d-5d2b-a62f-4a01717533aa",
+     "07b01bc6-745e-5c76-9608-629cca080612",
+     "4c36ec0e-9eae-5610-96f1-6d87e11020fd",
+     "a8a6f187-0914-58e4-8972-a4738e722e35",
+     "e65f24d9-1f54-5303-ae20-ebb34c94688d",
+     "c3902b79-a6d0-5a92-a5d6-19151e051425",
+     "101c2392-fd16-5cc3-8d1b-fbc6c2e5269b",
+     "7a680178-809d-5c43-b649-e8f08bbe3c2d",
+     "872937c7-24c5-5712-b73f-b74e015d5e3c",
+     "259578eb-8e8e-54ee-ae20-a1be5f247b29",
+     "d20ec88d-1c84-5cdc-99eb-65d48f13497b",
+     "81b2b8b7-d4ba-529a-af0c-917a0240e018",
+     "010ad61a-2b7f-59a1-984b-170139489215",
+     "a0b6102a-bef6-50d1-a230-28dbef90c332",
+     "6f30f732-f32a-56fb-9671-06b4c6ec4e56",
+     "21cbe527-0048-5bf6-afef-a34754a878da",
+     "11a37cf9-d3f1-5def-87de-736c973d81d8",
+     "5db4a9e9-3d58-5e07-9b9b-9feb44e5ccab",
+     "271e909a-8466-5702-9e98-0c3dc880566a",
+     "9145c791-aaa9-591c-8d24-0460aed9caad",
+     "d5f9f651-18fd-52a3-bd5a-c31e38c443ca",
+     "648a2929-98df-5edd-bd8b-32290a60c546",
+     "557b331c-e162-5db5-a60a-5f21ac74ba96",
+     "bea1ba7a-3233-5393-a089-3adbaf146b8b",
+     "fa071139-5a99-52f9-a08c-52bd4902559f",
+     "eb9c99f2-0460-594a-abb1-bbf7f16cc806",
+     "3b65ef4d-46ec-5ac0-9084-26b58221e1d8",
+     "80c8ca02-c676-53a6-9555-330b451305ab",
+     "573a4891-fec9-5d40-b579-610a9595aca4",
+     "b891503d-901d-549a-9415-4604701095fc",
+     "ed973b2c-1cbd-556b-b0dd-7f656b765b8b",
+     "07ca6a0a-b19a-55a7-be3b-66f4de2669e6",
+     "721809ef-df1c-5483-bf35-3d52bd49f117",
+     "a2d0f84c-d833-5a49-a9bd-aa69322be459",
+     "2ad0d1b1-9b75-548a-bac4-bd5947e6efe7",
+     "4e186ed9-52d0-55a2-a991-6fed89d7c888",
+     "fedd3370-1da3-58d3-bf8e-4426a98f8756",
+     "36595725-4803-57b9-983b-7bcb4a79a405",
+     "6ca9b0e1-791c-5fe7-95fc-a2f6c38ef8c9",
+     "962c0bf5-dd20-5998-bb3f-5febed2eb79f",
+     "2b668efa-4d40-5489-a31e-c3dc96bd852f",
+     "f14d7b66-fa17-55a1-bdb9-4adadb88e452"
+    ]
+   },
+   "perturbed_n_tokens": 7670,
+   "proof": {
+    "query_sha256": "7b469af29025c29fc6d753b60740d4b08dd319c184fc7a1c9b711caf873ab5c7",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "546a49550415320fbb9316ad",
+   "family": "temporal_selection",
+   "template_id": "T073",
+   "patient_fhir_id": "71a27b6b-5e41-509f-83a8-8f47e8fb8d78",
+   "current_time": "2154-12-31 23:59:00",
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "1719b81b3beb7454d9020359118d16812e81d4794ff4f2fbd755c77ffbc9858f",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "MedicationRequest",
+    "id": "2aa565d3-a78e-5749-8c57-469231a623de"
+   },
+   "original_packet_sha256": "2027f1fef7bd66154394d2de1da8650d178ee3f11b02d98dfe135c49e472bcd8",
+   "perturbed_packet_sha256": "7635edeefc45e7cada8e1f995c916d3b92c3943e48b02f883b555add650d8dc3",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "71a27b6b-5e41-509f-83a8-8f47e8fb8d78"
+    ],
+    "Encounter": [
+     "894cc90b-329e-56ea-b26e-61ba1059ae96",
+     "13418f64-5c33-565c-9263-4e9584b4e052",
+     "aa9dc967-aece-541b-89d6-b0cedcd43d64"
+    ],
+    "Location": [
+     "00e4b7f2-1d93-5521-9dd9-cba8fa9461af",
+     "0e7530e9-f728-5f0f-a959-bfd148882219",
+     "4dfa8a5c-f049-5266-b341-756d86fc0748",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f",
+     "0483cba3-574b-58e3-a6a1-2eec0f3b707a",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f"
+    ],
+    "Medication": [
+     "d47a6867-82e7-5273-a74b-63955208ec8e",
+     "d1f0f50f-3bb6-5315-833a-2f69263e50fd",
+     "79f3fb3a-d495-5d33-b090-c57ae61c84d8",
+     "152b63e7-c813-5e9d-8534-d28eb5306bf6",
+     "3510b3fc-74ed-52f3-b7c4-5eb0562fdeff",
+     "bbe56838-3c3f-56a6-8b61-6e10127f7050",
+     "08627014-89c7-588d-ae2f-0038b1b074c2",
+     "2b2d3a39-ca72-5dfc-a66f-e13c931529c8",
+     "5e645383-996f-5d11-992a-795f95bd3787",
+     "7ad30fa9-0940-505b-b5f6-1f64cdc3cef1"
+    ],
+    "MedicationRequest": [
+     "c0fe704a-cee1-5e76-bee4-2220dc49f186",
+     "faf20f03-88c0-567e-bc90-728ab750d39f",
+     "938cf09a-1a13-5ece-a109-b3537cdc3fcb",
+     "105ccc44-7e8d-5d1a-a67e-d6241f8eddf1",
+     "b7a3257c-9608-583c-9913-dcd82d135afb",
+     "51fa6812-1a17-5417-9a8e-7b90ae4689ea",
+     "71497f80-0ba1-56f9-a8dc-0e8dff7b9a45",
+     "9d756a68-1d99-5317-91ab-524f610a0f58",
+     "a60513e4-68d4-56db-84ae-f5977141cb0d",
+     "d0b3ce64-072d-59a2-b513-141c27afe07d",
+     "5e3c0cc6-e42b-5d20-aed9-63a081610a12",
+     "e9384839-c719-5a0e-a98e-3c3860630958",
+     "70550bd8-f0e4-54f7-b92f-be9335066d35",
+     "810e74ff-42be-5db0-bb62-0873e1faf317",
+     "e1171b18-970c-509c-a7f3-e948dd829b2f",
+     "f7674d23-0af4-5e21-862d-56d0ca701893",
+     "05a5c44a-bc61-5b33-b3d0-b6319f3544f3",
+     "32ae023f-1b5e-5288-9c89-8b163175e79d",
+     "7175409a-407d-5a52-865d-107b4244a945",
+     "ac30a12d-4177-5064-998c-77e80330a663",
+     "c2b088d8-3a41-52c0-9ba4-334905257741",
+     "9c81ff2b-2c22-5f94-b515-33a6ed43527e",
+     "9d4d7418-b678-5813-82fe-26429cbc4027",
+     "b778c16b-20b2-5bd5-9754-05f1f2ab15d0"
+    ]
+   },
+   "perturbed_n_tokens": 7687,
+   "proof": {
+    "query_sha256": "0a74326b877e4da3cb4a2268c6491a8a353b7461563a1db140e4df82cb414ac2",
+    "original_result_sha256": "beda3c187dc37e5d00ca4fe099431099f698aeba6823d318ad2e341bf4150fb6",
+    "perturbed_result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "57e26730a40f2a68869265ef",
+   "family": "lookup_counting",
+   "template_id": "T020",
+   "patient_fhir_id": "740b7686-fa6d-5574-9779-f17ed7661cbe",
+   "current_time": "2113-12-31 23:59:00",
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "e3b2e6c7031737de1d095ed3dbfc6864d7b0c9547329cb0534403ffe61e76105",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Procedure",
+    "id": "78501297-db6a-59a3-9c3f-ab732ed9f916"
+   },
+   "original_packet_sha256": "95c09d7cdf1d4bcd90c4d23f0d119bb85008c69fc9cb3d759e34430941a28c7b",
+   "perturbed_packet_sha256": "d60c8098c782a8835c9ac194269dc6fd555b15bfe94baf94d43121a7cf35fe5c",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "740b7686-fa6d-5574-9779-f17ed7661cbe"
+    ],
+    "Encounter": [
+     "c1f965dc-0dc2-5286-8635-a2667dcb5c6d",
+     "ff0e1c01-caf6-5501-8b1a-a605f53f1a97"
+    ],
+    "Location": [
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7",
+     "35f60a03-d022-5ad4-9952-6494d475fc09"
+    ]
+   },
+   "perturbed_n_tokens": 799,
+   "proof": {
+    "query_sha256": "3b289f8ca4e60b2fdf1dd8ede7f408af740f131c930905c47caaf1a896dffd33",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "58dca5f1f34e6a0994b147eb",
+   "family": "temporal_selection",
+   "template_id": "T075",
+   "patient_fhir_id": "158f3a39-e3d7-5e7a-93aa-57af894aadd9",
+   "current_time": "2144-12-31 23:59:00",
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "8d6ae67416f2ee0b96080d7ddcb210bc35fe893a5d7dba476744c7fa3e8b7ad0",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "fb8ae63b-1fd2-5bb2-9cca-e1f34f19232f"
+   },
+   "original_packet_sha256": "1b0b52e37a5ed03d67bbc34f8c0431d9856e0370010b9ed8681ba3a17e4f146a",
+   "perturbed_packet_sha256": "9a9616de92722e3f283c08d4a7822df5cd11e2360a6e660a64b7107a8cd12d25",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "158f3a39-e3d7-5e7a-93aa-57af894aadd9"
+    ],
+    "Encounter": [
+     "4bf70b2e-29af-5519-8752-052b2f833a81",
+     "497d61a0-1f48-5229-ac51-5ab4bded1cb3"
+    ],
+    "Location": [
+     "0483cba3-574b-58e3-a6a1-2eec0f3b707a",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9"
+    ],
+    "Observation": [
+     "10d60304-8faf-5427-b57e-f628c9c49ad7",
+     "1920763e-87e5-58bb-af19-a0b2fdb44e36",
+     "ba67298c-4af5-548d-a93c-248164e46441",
+     "c6193e0f-ad91-5410-9bbb-0f97d28391c2",
+     "b4d0e2d1-a0fd-5022-aa63-8bf9ed3fde10",
+     "26114b66-6155-5e0c-9293-7c085daa4e72",
+     "ff755c58-afea-5a1c-9a22-41a3ca72fbe7",
+     "3e8dfd38-c913-52c8-9583-c6c712f7eb64",
+     "5fc2f78e-1491-5603-af59-d508d50a7979",
+     "adc1efca-df3a-55cc-b3d1-6f8787decd8f",
+     "eb057db5-b1df-5070-b84d-2cf1c46417a6",
+     "ae0be5d1-1db6-5d05-9b39-c5393a9d6058",
+     "58dad729-129e-590b-985b-56db0a340d9d",
+     "9d116f61-20c2-5679-b479-48811a6ce354",
+     "f2531af7-123b-5562-b3f6-76fc8b72410d",
+     "cbaf69c0-88d3-5c5e-bd93-2d4639133b13",
+     "c9bbc695-334e-52bc-83b8-98b21694688f",
+     "bf338450-fb20-54f4-8d3c-56b4f274c7e3",
+     "a49eb57d-4a9b-5faa-b1f4-d5a72afa01aa",
+     "820d7158-bde1-5814-b3fa-2754c646febf",
+     "5766b5ec-9d20-5396-a1e3-236166c1ddb8",
+     "bb716332-d453-5909-a4b0-23dc80cf65ad",
+     "6a1ff034-d293-523c-b003-1acf0773ca12",
+     "c1153119-3fd7-5b87-9141-a28873a6bd06",
+     "20a2d7f1-9a47-5e35-a51e-338f848116dd",
+     "a2bd6168-3efb-505e-a9f0-8abf726ea76f",
+     "75600b66-c075-5edd-9acd-aa881d7e103b",
+     "8a7cb7d4-81c3-5195-b826-58808c6042f9",
+     "3fd56ba1-cd75-5ce2-8b25-565b83b28dd1",
+     "1b2e6d9b-63e3-5ffa-ba11-2099039109dd",
+     "10204cc2-dfe6-51e7-9190-94f634765d5c",
+     "497e6afd-abd4-5ee2-9c47-35610d8c69f4",
+     "b0d83e39-ea4a-5abf-aab0-896dcbb36b08",
+     "a71068bc-331b-5978-a967-dc8670181af7",
+     "e8400202-3da1-57fe-9511-95b9ad2ec87e",
+     "dc1f0838-f6b3-5adb-b637-e30b5648e188",
+     "25bc615d-5397-5a7e-9953-dc6bd60fb326",
+     "090d403f-a9aa-55c9-bbc2-9430c04da00e",
+     "5d6f97b7-2c8f-5aac-80c4-f47ec7f9762a",
+     "74ecb245-957f-5363-a92a-d71d6bca6707",
+     "a8b7d10a-2558-55d3-bf19-d9296b3e1553",
+     "0db19e0f-f21a-5714-99f9-6580ad4734d5",
+     "c93e9431-028f-5a5b-8e26-fa461ba959a7",
+     "66d93f81-2523-50ee-98f3-49ccd3fe950b",
+     "3530df01-41e3-5480-a9b7-9c86c40ace78",
+     "1ea653b4-52fa-5580-9aa1-21dcfeb4c68b",
+     "a07af04f-933c-566f-9195-be30ebf684f9",
+     "ec8d7a80-91ca-5186-8daf-c2480752a8a2",
+     "cfc0e694-388f-5b78-a7e8-b1c07d9bfb2f",
+     "e73b3b14-b03e-59ed-a0dd-590217d3794b"
+    ]
+   },
+   "perturbed_n_tokens": 7769,
+   "proof": {
+    "query_sha256": "61b71d96ab46492794efbe18d6959335f35fe33feaed4adfc0553be04a8c1109",
+    "original_result_sha256": "66a7bc14e56cf2e94f32cd635a764b16d1cc3e9f1443410fad703b32a04ff16b",
+    "perturbed_result_sha256": "1a889611342e6154e5e275ec6f3d34a709679ddc63537959e50ef78f3b12d38d",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "5a9d2f417f6b862c0b7366e8",
+   "family": "temporal_selection",
+   "template_id": "T048",
+   "patient_fhir_id": "f5efdf3f-5b53-5c9f-95a6-047275107c46",
+   "current_time": "2141-12-31 23:59:00",
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "9c0f4dd94b1002286f5521c81e6695debcd83fcc84698b6bd12935515d5e1771",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "915663e7-a062-519c-a51c-c2b15a7b059c"
+   },
+   "original_packet_sha256": "d41a1f2c6e81fd082b41bcd16c5c95a5252441832b704caf22c4c7d7c21d72eb",
+   "perturbed_packet_sha256": "faad38e6098969ce4ffcb3e5c3a16fa0d41adfed9eee91ea24b0d58794879fa7",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "f5efdf3f-5b53-5c9f-95a6-047275107c46"
+    ],
+    "Encounter": [
+     "3e802913-a3f3-573f-90b3-a85dffdec47b",
+     "25e05468-7cbf-5a04-9209-79cb07703326"
+    ],
+    "Location": [
+     "25fdf8f3-5c5e-517b-b732-8f4501f25c33",
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7"
+    ],
+    "Observation": [
+     "a9dde0f0-fbff-5935-9c87-a6094672c5c0",
+     "0aab4910-3da3-5762-9d86-4fbdecc0ca11",
+     "fb2b8149-327b-5d0b-b715-661c67b38d0a",
+     "fa6543c5-00ba-570c-9674-665493180e91",
+     "e5b87483-a3f5-5d4c-8bca-e530b726364d",
+     "01896a0b-3987-5be0-acd4-fd3c9783d1c1",
+     "d200d0bf-aae7-5162-86f7-adc028057789",
+     "337bfe8f-fa74-5afc-8445-72a67e61c903"
+    ]
+   },
+   "perturbed_n_tokens": 1992,
+   "proof": {
+    "query_sha256": "5f241d89c0a7b9012c9d5dd20edd43fa08c35aab31fb3e5516e8c6b1bef7077d",
+    "original_result_sha256": "4d44155c8f2e6393ca5eab4bbff727f197a5963162b3df9dca457c3e6cb1327a",
+    "perturbed_result_sha256": "11f32d0fd76f5a855d0bb09221284e07e9bd8999503e55160b02d562d45c29fc",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "5d325bcbd050d7d6eabfcab9",
+   "family": "lookup_counting",
+   "template_id": "T020",
+   "patient_fhir_id": "88fcbf73-7d80-52ae-8f11-ee73c71df69b",
+   "current_time": "2120-12-31 23:59:00",
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "207a10a91c1b917771c06399aef8b90a0bb078208f1570ab6af185d6e9b3d668",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Procedure",
+    "id": "71610c7a-62b3-5203-8246-fb0b5d3054bd"
+   },
+   "original_packet_sha256": "674f9939149a33acf32ded983abbe7f55b2bdccbb18012e8c498544d6663bbac",
+   "perturbed_packet_sha256": "793507d28971884d1f649388de3b47491764413fea97ed1750c2d8801519c7e2",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "88fcbf73-7d80-52ae-8f11-ee73c71df69b"
+    ],
+    "Encounter": [
+     "30499189-b457-56b5-8330-42aca7f52282",
+     "141dd932-fff6-53a8-95d7-482e5aca222f"
+    ],
+    "Location": [
+     "00e4b7f2-1d93-5521-9dd9-cba8fa9461af",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "d82eeafd-5ac3-5765-8eb2-2b4153978abb"
+    ]
+   },
+   "perturbed_n_tokens": 933,
+   "proof": {
+    "query_sha256": "0b3176016dfec255525aba22e3936590460995ec690c9bdb246715c3d878e06e",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "63e4dddc1461b7b4506f3036",
+   "family": "temporal_selection",
+   "template_id": "T050",
+   "patient_fhir_id": "f5efdf3f-5b53-5c9f-95a6-047275107c46",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "15ba2fb7a351c2555a3418823b241c1db66254bae838be783d05253c804fb3d7",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "MedicationRequest",
+    "id": "77ee11f5-fcc6-502f-9cac-2e2aed827053"
+   },
+   "original_packet_sha256": "1a14a10821edd7f87c02513ca7085c16d302d403108223d1bf0e53d8618f3e1b",
+   "perturbed_packet_sha256": "ef61020a27ab08843b934ec8b16ae3823fd9b61a4de7434463de7abf3619ed31",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "f5efdf3f-5b53-5c9f-95a6-047275107c46"
+    ],
+    "Encounter": [
+     "3e802913-a3f3-573f-90b3-a85dffdec47b",
+     "25e05468-7cbf-5a04-9209-79cb07703326"
+    ],
+    "Location": [
+     "25fdf8f3-5c5e-517b-b732-8f4501f25c33",
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7"
+    ],
+    "Medication": [
+     "9f0b0e6a-1015-5e6c-b74f-eb083bcb1ae6",
+     "08df2a1b-2508-59b1-a82b-0707984b815d",
+     "6c757669-aee3-5e8d-9920-4750b55220d3",
+     "688108f1-36ee-599a-819c-fe20144d33e4",
+     "ba3ff703-0672-502e-acb7-f3a7b4208922",
+     "a256efd7-99d3-58b9-aa45-ef2e42ba8f37",
+     "b111e720-0284-5dbe-851a-be4c0baa6371",
+     "e63dbb82-3965-5c9c-83a7-d0e3ac8f594b",
+     "c4b674c4-76ff-5ed9-a3ad-779ac24c03a4",
+     "c7bad22b-117c-5dd9-b138-8082f577daa8",
+     "354b7772-10a0-53af-b264-738b797bc83e",
+     "d47a6867-82e7-5273-a74b-63955208ec8e"
+    ],
+    "MedicationRequest": [
+     "1849a2bf-d5ee-50b5-a59a-b428335c2567",
+     "df4a8682-5390-52d3-895e-a6bcf95e2502",
+     "a1e32f0c-548d-525b-b228-1f0ea39371ba",
+     "e7c87ded-5962-5e30-8ec7-5a07e4abb0e5",
+     "a59d0c54-6450-596b-85d9-9a86ab5f0966",
+     "a34405e9-7a8c-534c-af09-bfcb358b2b7c",
+     "3b65c21a-f7d4-5224-901b-7f253e9621c4",
+     "4a8242a3-a288-5586-8faf-1457f7b0ac73",
+     "edeb9bbb-03f4-5766-b795-ff381357e69a",
+     "773aede4-47cd-5d62-b8ce-9ceb575658ff",
+     "a3f8b400-0206-5a24-ad08-b35c3086238d",
+     "56a4b7b7-33fc-575c-b41f-6896d22d6ef3",
+     "93949221-ce0d-5622-a39e-911321e3e36e",
+     "16cbfda3-4d98-5e68-bd26-356c4ac37562",
+     "4907dba1-c44f-5e8d-a0e3-b6f09df18cee",
+     "81fccd33-619d-5e3a-bf0c-54c8f0a83dc1",
+     "da8c02d0-372d-59a1-9f12-241fb42f69dd",
+     "3ab7feec-15ae-5859-8c86-7e89a5dc291e",
+     "a187b53d-2cbf-5383-99e8-ea5aa4a8d8d9",
+     "e0ab9f2a-fcff-5c36-b8a9-5ff7b3a66000",
+     "392f2a37-218e-5deb-9c49-6883128a95ad",
+     "0884c2f3-251c-575e-9120-7d79611ae7ac",
+     "8582b189-0481-507b-8670-0b44bb3cf195",
+     "570961f3-30d6-564b-8844-b98ca221f2b3",
+     "06adf93b-c46a-5ea2-8968-96d321fc36a8"
+    ]
+   },
+   "perturbed_n_tokens": 7443,
+   "proof": {
+    "query_sha256": "5c580cb52607f66dcea18ca91030c15560fa068006173628b0d868193342f9ca",
+    "original_result_sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+    "perturbed_result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "726a0de52d59010c160bbe92",
+   "family": "numerical_aggregation",
+   "template_id": "T040",
+   "patient_fhir_id": "53b0f2d8-24dc-5c82-903c-1bf98e510e96",
+   "current_time": null,
+   "rule": "aggregate:min",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "e536fd988202001cc2433aa1c907b24e59605af6ed1f04f70a3f9a1c070ee6a0",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "e2ad4603-ad1e-57c3-ad5d-66c519ce27e9"
+   },
+   "original_packet_sha256": "52d442fcfed323a6a275fe50ad3257ff181fd2476478fb49dba2f15130bf4c0d",
+   "perturbed_packet_sha256": "b10477ca7612a8fd19b28ffe40c965783dec49751a808ed3e9c761fc7a40cf75",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "53b0f2d8-24dc-5c82-903c-1bf98e510e96"
+    ],
+    "Encounter": [
+     "9ccbb24c-d034-5d90-b50d-04d485cc8668",
+     "9af4ed26-5672-5ed3-a270-589a0f21cbc3"
+    ],
+    "Location": [
+     "35f60a03-d022-5ad4-9952-6494d475fc09",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Specimen": [
+     "e5a2c558-b586-51c5-ae78-124c3a98b0b2",
+     "5f0d6d2d-7a5d-5e8c-976e-697a49a95f8e",
+     "a5de5e2d-cee3-5bd9-bab7-33a915a03b7d",
+     "8dc033f8-1040-5f71-97d2-bb86c70b8a82"
+    ],
+    "Observation": [
+     "42b59d58-11e5-57e2-b7ef-42d631616300",
+     "320bf33f-97f5-572d-a023-172cbc4f81d3",
+     "f4890b01-73af-5351-adac-49f2e5a09990"
+    ]
+   },
+   "perturbed_n_tokens": 1871,
+   "proof": {
+    "query_sha256": "ac0375940092c960c9aee46ca8ea74793b38bb4835a7919e135e305be76c821e",
+    "original_result_sha256": "a5a5e5921bc4c54bd80dc070770bb82f128015d778060cb1faa941419a0a24fa",
+    "perturbed_result_sha256": "b45775372a2a0a34d8146bac7a5c627607fab3dcaf4aecefe37f4800eb0d2cb7",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "8575a4d0318c42ed703a89a1",
+   "family": "lookup_counting",
+   "template_id": "T010",
+   "patient_fhir_id": "f5a99b42-365c-5f7e-bcab-4fa33b3cc88e",
+   "current_time": "2176-12-31 23:59:00",
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "e0a4e38cad021fd68d372b844e7e4d48e052e7b7198281652447daa0b7493df8",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "MedicationRequest",
+    "id": "e49c39e9-e79f-55a6-933a-d4a344da570d"
+   },
+   "original_packet_sha256": "9a73a4dda8eeb6e00a57680996f02af4fc12771fd719816093098ae96d2f9e8c",
+   "perturbed_packet_sha256": "76790c14dd688e4db6a75b90632a7b8cd94dcf57346524267946830e12837c60",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "f5a99b42-365c-5f7e-bcab-4fa33b3cc88e"
+    ],
+    "Encounter": [
+     "202db44a-2332-54c4-af00-709ac5400e71",
+     "9a8d3981-0eaa-5f92-8c47-40ffa75340d8",
+     "dfaa84fc-1104-50a7-854d-d1f1dd9078ae",
+     "fe9b006e-e9db-562e-a2ae-860e4e636574"
+    ],
+    "Location": [
+     "25fdf8f3-5c5e-517b-b732-8f4501f25c33",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "77b3f959-fa2c-5599-8713-a86815b29a4a",
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7"
+    ],
+    "Medication": [
+     "93a659e2-9527-599d-bfe9-52a3f9f7cdb4",
+     "ea37323e-4852-541a-a351-4b3671b51085"
+    ],
+    "MedicationRequest": [
+     "7eb30ac4-5640-51fd-805e-11f73576c1ef",
+     "4e57c9be-65e4-5ba3-aec6-c838e287e949",
+     "f39a32ea-3fdc-5722-b811-39269610196d"
+    ],
+    "Specimen": [
+     "f2bac3fa-ce12-56f1-9882-ceb2a6f00575",
+     "b8223227-7dc3-5a5a-b3a0-7700116ce4b5",
+     "6f1fd9f9-5ee3-59b8-bc35-9377c41e54cf",
+     "7073082a-ffb4-50ab-bfe7-1c3a8a941038",
+     "e9aed777-47be-5c5f-be3d-e847cc30972b",
+     "eb8ae64f-86e6-50d0-8271-953d071d5a3a",
+     "d69cbb42-f56b-598b-a348-71527a6fec2e",
+     "1d1824b2-adf7-5200-afcf-7ea95e54cb10",
+     "1c8549cf-7b6f-54e5-a5f4-bd05c119a2da",
+     "db9f5d22-7310-5a89-83bf-f008362a145b",
+     "23bc50dc-c684-5a52-afad-797e8f31c205",
+     "eb4edb23-5574-56c8-88dd-bcce738522a1",
+     "da184ab9-4b92-529b-ba94-67daa7d5d007",
+     "b55e1779-0334-5240-8fdf-95f66c52ae7a",
+     "dfac5407-8271-5750-a487-a3496d04a32b",
+     "595637b9-9473-5623-97df-330a12ac6150",
+     "e52a926a-c4ad-5d06-939f-52035adedf29",
+     "801a5e86-801b-59b4-a711-46a89702dcb7",
+     "26e625cc-276d-5759-8fc4-9314b0a1d68f",
+     "decb2cac-fbad-5afc-8f24-b6509f136b96",
+     "caa55cd3-b3ad-5fed-ad60-3cb3763c0fff",
+     "2eb85053-6144-5ffb-9b92-0f87f0c48db1"
+    ],
+    "Observation": [
+     "e39704e5-d774-5b22-8385-339ca9ec7040",
+     "0fced438-52fe-5236-a67d-9fddcdbe4908",
+     "4ea1e492-900e-5673-b116-b0102750ca64",
+     "15c713d8-a174-518f-abb0-4a765df1e7e8",
+     "3af0f159-ae3d-5250-b96e-de22c70e7b46",
+     "c48a8b69-2b78-5e42-b67a-4bf7444a728c",
+     "ca1160b1-e5b2-5ef9-8167-7676ad206efb",
+     "5adff5a5-5c5f-5643-a938-90f37f80bffa",
+     "7939f055-275a-5b4a-b58c-98705d504085",
+     "4f6d7a86-2f58-5537-bdf2-3842d12b4f49",
+     "50b771e4-dcb3-5a3a-9263-c578ecde7c32",
+     "0345a93d-c12c-5fd6-a71c-aa02ca0ea9f0",
+     "0b9906ff-0bc7-5a93-8dea-aa938a04fc29",
+     "3b4c5cee-7c13-5fca-915a-44672a7bf8cd",
+     "674ae20e-9dd8-51e3-a946-0a42f3312d16",
+     "2fa22a52-0125-5fdf-8508-0d00437443cc",
+     "ffb4ceab-c18a-57e2-8803-08fb8368d970",
+     "2d119c28-7cb4-50ea-8852-efed5e300cf0",
+     "f55d5d28-7321-5e6f-aead-e134257e0d6d",
+     "0446d1cc-98bc-5124-99f6-88fa1ae51efd",
+     "19e9a1a6-4a1e-5606-bd79-4877c17b899c",
+     "6cbee48d-fb4a-53dc-aa16-1b7227831b36"
+    ]
+   },
+   "perturbed_n_tokens": 7755,
+   "proof": {
+    "query_sha256": "ad4a5bb440bf85b3d3408f7e3453e273df83d0fb1260c5598155b50d8230a839",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "88a650d28643d60da24b7b3f",
+   "family": "temporal_selection",
+   "template_id": "T046",
+   "patient_fhir_id": "53b0f2d8-24dc-5c82-903c-1bf98e510e96",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "d8e07679c12c3937346ee70a59418dd576a1e83efe26744763aa91654d76580c",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "c3cddc4c-9ad2-5d37-b6a8-d33b781a0d49"
+   },
+   "original_packet_sha256": "081a3ef3dce706823115496536f97f9c3f13ef5c74814b1a66c8c1af46ec1ded",
+   "perturbed_packet_sha256": "a80c5c5b26a1ba443f52f3443d35c6ec3b03b2cfc0f5c399d9679720f8c71540",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "53b0f2d8-24dc-5c82-903c-1bf98e510e96"
+    ],
+    "Encounter": [
+     "9ccbb24c-d034-5d90-b50d-04d485cc8668",
+     "9af4ed26-5672-5ed3-a270-589a0f21cbc3"
+    ],
+    "Location": [
+     "35f60a03-d022-5ad4-9952-6494d475fc09",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Observation": [
+     "58271866-401b-5b60-9302-2c43c4375afe"
+    ]
+   },
+   "perturbed_n_tokens": 1251,
+   "proof": {
+    "query_sha256": "e78ff17c4986d062064b81293f40e13c166c84ac0d3c94e4854c4c78f3b97f15",
+    "original_result_sha256": "b24edffaab8a696f261e752448bed864d36c73b8ca3806229b0c40f6efa5a17e",
+    "perturbed_result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "95bf452438092fdf90c9955f",
+   "family": "numerical_aggregation",
+   "template_id": "T040",
+   "patient_fhir_id": "f3fc719c-f6e0-5c27-a18f-b4e5afaf279b",
+   "current_time": "2125-12-31 23:59:00",
+   "rule": "aggregate:min",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "59cc42271043bf1824ed398bed3ca35c180c7ead3dcf5fab42e3c6532fa2ca35",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "f92fd586-fd5e-5143-8ca1-480b7a52caf4"
+   },
+   "original_packet_sha256": "b9ffcb43bc5267e10e98e9f6536e369896f9b0ba713c507ab274396d1429832b",
+   "perturbed_packet_sha256": "39d86564a81cae776ac197503f91c21684880c949d0dddb177a6defd8e262066",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "f3fc719c-f6e0-5c27-a18f-b4e5afaf279b"
+    ],
+    "Location": [
+     "0c8de059-7250-5b94-b98d-0a079b28f06c",
+     "35f60a03-d022-5ad4-9952-6494d475fc09",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Encounter": [
+     "e825d759-05cb-57ba-92d8-7049392e3c67",
+     "99ef446d-7e71-54b3-b8f8-3c4e7d2771ff",
+     "47419e53-561a-584d-b5c3-31ce9d60857d"
+    ],
+    "Specimen": [
+     "64a19c69-9d11-5809-a157-ca993fe3edcf",
+     "d4a30fb7-fa7e-5090-9bf3-aeea98a23317",
+     "4a4ffe9e-33ca-52ad-aa3e-28dc9d4fb459",
+     "9f721ebb-9648-5b2f-9beb-f03b51765923",
+     "03101b76-a5ad-5ca7-baa1-d0efdab96159",
+     "fe53244a-2646-5b2f-bf3e-d01e82a29bdc",
+     "9bf99545-09eb-58e9-a33a-7255d8d947c7"
+    ],
+    "Observation": [
+     "d33ac9fe-2111-54d5-9c9e-c748b67e71c2",
+     "a503bfc0-a643-5b99-904b-c5b7ea0dd4f9",
+     "a060abd4-586f-51fd-9e5c-6e6533bc25a1",
+     "f56ffa1b-1f2c-5420-97dc-0d04f148d521",
+     "8db1210b-f184-5185-8f44-f728ccd129a1",
+     "20d9d4c5-44bf-5895-a24d-870662240b83"
+    ]
+   },
+   "perturbed_n_tokens": 3345,
+   "proof": {
+    "query_sha256": "ed244137f8484a0473c8d1874a32ad2b9889cd84920cdf66fe16064a91bf539e",
+    "original_result_sha256": "a518db1c23744dd12684de13de339cfcd34244618adc496b10f8d64d139328f5",
+    "perturbed_result_sha256": "1d8fc6ceb1f94c6326d6d5483d258fcb2e179e9869325b245d105c2219bf69fd",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "99fccf1659e27afc7dd17ad2",
+   "family": "numerical_aggregation",
+   "template_id": "T058",
+   "patient_fhir_id": "df756e08-6ea8-5d69-b918-67911945f827",
+   "current_time": "2155-12-31 23:59:00",
+   "rule": "aggregate:sum",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "63079f6b7177471fb6ea29c5867b8de5071f103408aa6255438cfdf62a92a066",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "572a6f6a-1299-5ad0-98fb-d42a56a0f419"
+   },
+   "original_packet_sha256": "b61b41a3e3f7b292dfd8d06315ae4a7083728e8b450440dc78170cbaccc40b76",
+   "perturbed_packet_sha256": "1274d2d83c9c59bbdc7ee6bf41693aa53a5faf2a5a2242476f86d37ab507cf94",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "df756e08-6ea8-5d69-b918-67911945f827"
+    ],
+    "Encounter": [
+     "8f59e6cd-369c-5f0a-8714-c3488b0e8079",
+     "f39c82fc-bfd4-5c4d-af0d-77ff948cd4e7",
+     "2ef192db-2758-5b6b-8844-edbd454b70cf"
+    ],
+    "Location": [
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "0fc2d23b-0e5b-5f91-8369-6d37301fea51"
+    ],
+    "Observation": [
+     "58f86983-827c-549e-987e-31970161c737",
+     "037879e7-ea8a-5162-9cdd-8f3ab7badcf1",
+     "0fe224e1-274d-5b9e-bdaa-d4bfcc986623",
+     "4f14380b-41cf-520b-859d-727c0403486d",
+     "4458ee7d-2b6a-5d01-9f61-2bbde73dc4fd",
+     "5b64593c-515c-529e-b003-8c91fb976337",
+     "4c99b2a9-5cd6-5cc7-b8fb-013a21ec9cba",
+     "d6149c41-15c6-5d5f-ba5d-73cbf06925e3",
+     "fd397683-942b-534b-b90a-a2a7edef2a81",
+     "620322bd-930b-59fb-bd2e-a18742edb875",
+     "f2ec4d54-1486-5af5-818e-e16870579cb9",
+     "8e68cfb6-4721-5748-aa7e-801c4bc60ea1",
+     "c926bf9a-9ac7-5b4f-949e-10802da8c377",
+     "6e5a7420-c9d3-5be5-b087-be8d0ead8c31",
+     "cd3d0531-2033-5c2d-90a6-dc93b6ad5ba5",
+     "c29bcb4c-da50-5111-9f71-8e99505a267f",
+     "42663d4f-64d8-5f3a-825b-27a526977a62",
+     "9a2e9652-8feb-564c-bf5b-e96b9b913084"
+    ]
+   },
+   "perturbed_n_tokens": 3468,
+   "proof": {
+    "query_sha256": "8a6f943b5234dee44e7fab8ec75c188f055a6231669f994dd51203fce6dc5e1b",
+    "original_result_sha256": "a518db1c23744dd12684de13de339cfcd34244618adc496b10f8d64d139328f5",
+    "perturbed_result_sha256": "43ccc5d7010c17b7521897e52194dc373f0eb57ac5a827c96a26caaa47f2b92a",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "9c5f4de218634410a8efb1a9",
+   "family": "lookup_counting",
+   "template_id": "T000",
+   "patient_fhir_id": "df756e08-6ea8-5d69-b918-67911945f827",
+   "current_time": "2155-12-31 23:59:00",
+   "rule": "count",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "973117b9c157a2e9fcdaddb5a3ee72e9e1fdbeb50fa9546ba17cff632cad5282",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Encounter",
+    "id": "2ef192db-2758-5b6b-8844-edbd454b70cf"
+   },
+   "original_packet_sha256": "fff376a8775660b4ca235733e34e25cb2ed40887937a51a71d0b8b8eeeea037f",
+   "perturbed_packet_sha256": "5f9972a5152ead2320f3b7e95b76883bc3c807fa973579f7078d2ffa13ec4e0b",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "df756e08-6ea8-5d69-b918-67911945f827"
+    ],
+    "Encounter": [
+     "8f59e6cd-369c-5f0a-8714-c3488b0e8079",
+     "f39c82fc-bfd4-5c4d-af0d-77ff948cd4e7"
+    ],
+    "Location": [
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "0fc2d23b-0e5b-5f91-8369-6d37301fea51"
+    ]
+   },
+   "perturbed_n_tokens": 1040,
+   "proof": {
+    "query_sha256": "b5512c1d2dd4a013ae7fd1460a8022d9e9f0be6dbddae531430a85458588299e",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "9db8bd8eeca37c40ce0282d9",
+   "family": "temporal_selection",
+   "template_id": "T073",
+   "patient_fhir_id": "91e0e410-0782-5478-90e0-1bedc3aa1525",
+   "current_time": "2115-12-31 23:59:00",
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "af4492a9c14ce0c87b6d8632da4eb42bc5823ca2dc7c714b395db0852eb982cd",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "MedicationRequest",
+    "id": "fc1d1273-5425-5692-ad08-2f587a12580a"
+   },
+   "original_packet_sha256": "16a5334e5b21925c05ac7d19ec9e1698990739a0571e8f5d412d454091cd1b4f",
+   "perturbed_packet_sha256": "b1c1beee848cf5b05741e855e95416f9187b3c3ffaec45986fab035c7290cc2d",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "91e0e410-0782-5478-90e0-1bedc3aa1525"
+    ],
+    "Encounter": [
+     "4c6a16c0-9bc3-5f7a-8783-0d7693efbcfc",
+     "f994bc54-577f-5257-81ba-3ce5afa9ea42"
+    ],
+    "Location": [
+     "77b3f959-fa2c-5599-8713-a86815b29a4a",
+     "9152585d-31b9-50ca-9476-a4db49030917"
+    ],
+    "Medication": [
+     "0c709e19-555e-59c2-8709-160d92f3616a",
+     "08defd65-814c-5aa9-a787-9b0f9a938fbe",
+     "08627014-89c7-588d-ae2f-0038b1b074c2",
+     "81170494-4c3c-5777-96cc-0eb0b70c0ca4",
+     "0054450c-fd4b-5187-9933-bbc5a0d7c46d",
+     "2edcf1a7-acc4-5745-92f4-acd5411d2a26",
+     "7c46a14c-af29-58d1-9e4d-6a064c39d856",
+     "c512a85b-d03d-5a4d-bd46-4cf2a7cfeebd",
+     "7dcc7011-b2b4-5383-b371-c7b55f24bf8f",
+     "3f0ea91b-152c-5457-830e-6a92d3113f26",
+     "6a41579d-d1f3-54cc-8bb6-fb84f937d373",
+     "df29c7bf-6a2c-5421-8f3d-f86127a0ab73",
+     "1a25d74a-f077-56a3-a17c-fd2c96abe755",
+     "cea52f3a-1212-540b-93cf-d263e5e8750b",
+     "dfa3e629-cca3-5e3b-849e-81f5c920b991",
+     "1096ee5c-5014-5c37-9ae6-212533b95360",
+     "189becc8-5b7e-5e06-b0c2-c4979b60c457",
+     "d323a54d-4316-55d9-8acc-8776e241d481"
+    ],
+    "MedicationRequest": [
+     "3110eb99-42d5-584d-9292-55d032524438",
+     "cccfebe0-508d-51f2-a2bf-6576daf79629",
+     "afa2576a-14d4-5547-a57e-eb9505453e2e",
+     "62014603-14d2-5f9a-9de9-6034bb2a0c3b",
+     "afac1233-14d9-5485-b8d1-7652d053373f",
+     "24109195-93e6-5629-98a2-1bd48745faa8",
+     "3f588150-0eb3-5f8f-a0c6-62633e63770f",
+     "2b105de1-8528-57a3-a65c-ec723817bfd9",
+     "b3e164fd-37a5-54a6-908e-fdc30c4fcf01",
+     "91325561-960c-57e0-87b0-12cf05d8eb10",
+     "f415a08a-4977-57fe-96dd-25cf64f508ba",
+     "b3a23ba8-ce97-5069-b16e-08d480b6c334",
+     "1aecec34-06ca-548c-89b6-067e67c0f8e6",
+     "0c31b983-b32b-55c6-8322-179fe9bab2a6",
+     "7972f545-fcfe-55c1-a8b2-987628623343"
+    ]
+   },
+   "perturbed_n_tokens": 7290,
+   "proof": {
+    "query_sha256": "7e5c2b1e5fbe079f9e6a207dfad5e16c803e2d36e7f3a7c4cf940b59a9564a8a",
+    "original_result_sha256": "e7ce3a36b37a0f9eabc21e703e9d2a1f69e8c245f83fa7892a9ecc7b3ce65db8",
+    "perturbed_result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "9f0ee496296456e6f48a49a6",
+   "family": "numerical_aggregation",
+   "template_id": "T040",
+   "patient_fhir_id": "f5efdf3f-5b53-5c9f-95a6-047275107c46",
+   "current_time": null,
+   "rule": "aggregate:min",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "16c1d5d7a6ecd69b710988ad1c27f24c1f84145d23eeddf9acda33e60d6f1cf7",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "9d0f5ea8-6e10-58f2-bce2-aede12044fcf"
+   },
+   "original_packet_sha256": "50ab0638d95f1e540fa7061b43620c63b5ea28fc2bfe7fc0966cb0db5708581d",
+   "perturbed_packet_sha256": "c4309f6a7dfc823acf0cbcbc4b5fd920b262f3aa49ea0c69c5d2a12fd5fc9b21",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "f5efdf3f-5b53-5c9f-95a6-047275107c46"
+    ],
+    "Encounter": [
+     "3e802913-a3f3-573f-90b3-a85dffdec47b",
+     "25e05468-7cbf-5a04-9209-79cb07703326"
+    ],
+    "Location": [
+     "25fdf8f3-5c5e-517b-b732-8f4501f25c33",
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7"
+    ],
+    "Specimen": [
+     "123ad2ad-7f07-5d50-b6c4-8d2a963edaa6"
+    ]
+   },
+   "perturbed_n_tokens": 857,
+   "proof": {
+    "query_sha256": "83a72da8e5fc8e4c5e1987e63137ed8e0aedcfde197b27c791ec49587eb4fe57",
+    "original_result_sha256": "a518db1c23744dd12684de13de339cfcd34244618adc496b10f8d64d139328f5",
+    "perturbed_result_sha256": "1d8fc6ceb1f94c6326d6d5483d258fcb2e179e9869325b245d105c2219bf69fd",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "a36cdf4e546071a6ffd31158",
+   "family": "temporal_selection",
+   "template_id": "T062",
+   "patient_fhir_id": "27980ad8-77b7-5360-b211-bf4fac9c468c",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "81171b882b1b4d13af0f2f0a950470b47414f92fbe09a6202240baf5893c9640",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Encounter",
+    "id": "6697ebc3-3bf2-55e1-ba96-b623d17786b5"
+   },
+   "original_packet_sha256": "a76c248292f248a3ded81646e948f35043a2d1e658b989a62196f2d23538abe8",
+   "perturbed_packet_sha256": "d86f43689e9f69381df41b73470fc2be759b4b8454b05a3465adefb9e9583b58",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "27980ad8-77b7-5360-b211-bf4fac9c468c"
+    ],
+    "Encounter": [
+     "e2ccaeda-5de2-557d-b9b4-b87a9617046d",
+     "bbe8c79b-6808-5e6f-b4bc-14b08ac298d7",
+     "b8c3d428-f366-5445-8997-fd44528f2bd5"
+    ],
+    "Location": [
+     "00e4b7f2-1d93-5521-9dd9-cba8fa9461af",
+     "0fc2d23b-0e5b-5f91-8369-6d37301fea51",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "d80df646-f05d-5b0d-9838-6be5caed33db",
+     "3f108faf-a803-5c58-8c3b-9a79e2c02bc7",
+     "c69e109f-5540-5e58-98a8-32154d4c539d"
+    ]
+   },
+   "perturbed_n_tokens": 1472,
+   "proof": {
+    "query_sha256": "9a50b152a9827dcc6a6196b77db65701f863d6ab521cf3be65a7ff3e12b02500",
+    "original_result_sha256": "358f5b1bc0f2e8c3258031d16d95f5b8f093a56bcce5a146e2c442f07d9ee813",
+    "perturbed_result_sha256": "cd9afd0b6dd25eae59209d4ad69172c7edef49254a5cc0ee3d5441c1f3326ac3",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "bbd3ab3b5e2878e0c7d8dc79",
+   "family": "numerical_aggregation",
+   "template_id": "T040",
+   "patient_fhir_id": "2955c958-192a-50eb-b59d-23a29d7d374e",
+   "current_time": "2178-12-31 23:59:00",
+   "rule": "aggregate:max",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "8bdbfdc538d4f71d4b1a18d5ece887448fc66513f5acd7e1daa66121aeb410b0",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "7105a666-c6e2-5954-adb5-9cdf2dd57f5b"
+   },
+   "original_packet_sha256": "3b094fbacb6ed667e538cc70846748b679c5fe20373d194864f0e75e5e7e5423",
+   "perturbed_packet_sha256": "1edf91a94d02651a6a04b68ba7127fa03b7318279f52e44a462ace39b8ea591e",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "2955c958-192a-50eb-b59d-23a29d7d374e"
+    ],
+    "Encounter": [
+     "749bd7c1-5d37-5c7d-9683-111bdcb98790",
+     "ce80f82e-c22c-5ddb-b0a2-20d2db6f2570",
+     "ba57b9e1-4f1f-59fc-b9e2-e9e7b6bdac8a",
+     "2b6a3303-8c0e-5483-889e-e4f76461ac17",
+     "352d9d92-722a-56df-97e1-d51948a16008",
+     "84bdbd69-441b-5264-93de-cbbda8d11822"
+    ],
+    "Location": [
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "77b3f959-fa2c-5599-8713-a86815b29a4a",
+     "dbba2bef-57a7-582f-8d86-a7a6d7fea258"
+    ],
+    "Condition": [
+     "0cbcb309-7924-5c6a-99e1-792cb2a3f408"
+    ],
+    "Specimen": [
+     "9640f4a1-e549-535d-9d4d-673285cb4fc8",
+     "2053873d-0d74-58b0-956d-29124ab977d6",
+     "c38a1124-0468-5550-9c9d-8cda2207996c",
+     "d1333846-ca1d-542e-be67-0eae5fdf6020",
+     "44803180-caaf-560f-8ade-5b404939dec4",
+     "5b315348-6775-53e0-9872-a777a447481c",
+     "a31cba1d-985f-5f51-9ef1-a3b54f85fd30",
+     "480dfb7a-c347-5613-8fb3-3662bce06325"
+    ],
+    "Observation": [
+     "2f341caa-256f-5681-b060-5935c598697e",
+     "b3dc9dca-1932-5ed5-94da-5968a084c17d",
+     "6514a9bf-620f-54db-8d23-11ff6f5b2d98",
+     "b258ff95-d4cf-5aa6-a4de-229e86eff313",
+     "c5ea07e4-1553-5e8a-9e91-60356beff155",
+     "a0e046f5-5d34-5986-94e2-1117094d8edd",
+     "4059ce95-efae-500f-b0c8-4f7210d43b1f",
+     "66240b18-d904-5cee-abec-6ff1e5202892",
+     "9baa4e81-43f8-5a5f-aedf-df3734e43edc",
+     "f42c121e-c210-537b-b0b4-ebe8a8c3734c",
+     "9b2626b9-7605-582b-8a00-90d19a753440",
+     "7322ea2f-fa6e-5f3b-bbcd-ef76489f9556",
+     "3cff6bcd-3eb4-5754-a5c1-7806c4685844",
+     "319230b3-b21c-5b90-920b-853ae13dd3f5",
+     "7af524bf-f824-50ca-8719-a5cab1849afa"
+    ]
+   },
+   "perturbed_n_tokens": 4845,
+   "proof": {
+    "query_sha256": "75422fa11b514ba3508ad7dddd982a84260dd4bc6e1d37de1bd6cb6e320585f4",
+    "original_result_sha256": "b6e5b932b7d9189458c9341411aa7671f0808460379370eece5e4ada86a09f04",
+    "perturbed_result_sha256": "3c030cac3d35304827db1bc800fbb2340331ad41f76732c5d4a14f4e28f3aad1",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "bd8736e59f3b5eb724910a84",
+   "family": "lookup_counting",
+   "template_id": "T017",
+   "patient_fhir_id": "158f3a39-e3d7-5e7a-93aa-57af894aadd9",
+   "current_time": "2144-12-31 23:59:00",
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "a6d0e918dde81cae20d2ec7dd16047e9ee275ec38aec436fe1056db19eaeb339",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Procedure",
+    "id": "3a2552c2-1281-557a-80ad-1c4efdfbb477"
+   },
+   "original_packet_sha256": "c96b9b225c4946079fc32d86343fe64517676c9df9ae8030022ac1c9345aa0db",
+   "perturbed_packet_sha256": "941f7706a5edaaf5ab1d66e95fc54974edf7d7b8c631993036f94baa762afda9",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "158f3a39-e3d7-5e7a-93aa-57af894aadd9"
+    ],
+    "Encounter": [
+     "4bf70b2e-29af-5519-8752-052b2f833a81",
+     "497d61a0-1f48-5229-ac51-5ab4bded1cb3"
+    ],
+    "Location": [
+     "0483cba3-574b-58e3-a6a1-2eec0f3b707a",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9"
+    ],
+    "Procedure": [
+     "d616fb9c-16c9-5db5-9dd8-f561c0d24c79",
+     "f90cacf4-0171-550e-a548-767ac0234287",
+     "39aa8f8d-773f-5ad4-bb34-ad33a9d8b4ba",
+     "c88d9946-b472-5140-a709-045b94e0db86",
+     "a46e9abe-93c1-5c0b-b621-ea35bd3c5f09",
+     "b896ef48-91a5-506e-a47d-ef3559e7f0cf"
+    ],
+    "Condition": [
+     "7bec444f-8ebc-5eb0-b6ea-245af6c5f9e8",
+     "eab95c3e-3840-5f38-88a0-7193d79444b8"
+    ],
+    "Observation": [
+     "fc4f1083-8608-59b8-9207-633007403658",
+     "44f91ace-6226-5435-9328-18dc2b8a7dea",
+     "153472a3-7211-5838-9f04-97c2dbfb8642",
+     "2704edb0-1d39-578d-8c09-86487004a914",
+     "442585cc-210d-5d96-95db-031d8854a326",
+     "5787b8a6-20af-567b-8e2b-ce409da85610",
+     "a69e92b2-8678-5f90-a5ab-e0a3b587900a",
+     "b4787632-294a-59b3-805f-ae89e67d1fd8",
+     "84cb06d6-f28b-5b78-b328-d04457595dee",
+     "4084111d-b950-5f38-92c9-f4cb8b07b0bc",
+     "d99ec7b4-13a0-5750-b4a9-482567788b07",
+     "c41f6c39-5003-54b9-91de-82f36a007a58",
+     "6556b25a-b480-5af4-9bb1-a5e77aaa9bb6",
+     "bec7327d-c153-5631-951a-8379443517aa",
+     "0ca046c3-1dbf-53b4-aad5-6fbfa72e2e40",
+     "cfc2dae2-f86e-5a00-8040-0d697ea63731"
+    ]
+   },
+   "perturbed_n_tokens": 4237,
+   "proof": {
+    "query_sha256": "29b5e9f608595c4f727f280f5824b0313b7a06370a9fb43d2d7d5fdfa3410948",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "c07d03f18cb3b7eb6a97c463",
+   "family": "numerical_aggregation",
+   "template_id": "T058",
+   "patient_fhir_id": "752d15e2-bd27-52ed-b055-ed79edb86aba",
+   "current_time": "2115-12-31 23:59:00",
+   "rule": "aggregate:sum",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "e5c853d6e6b9428bb84127bc0c6b8a5b7c368d94bae599e07d4a05e876cb7f9c",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "3e50640a-99ef-5a16-8c56-31eede40b682"
+   },
+   "original_packet_sha256": "a66bd0601c30e5235db978726a1d23efe4e75378a32d46dcf212a6291b025364",
+   "perturbed_packet_sha256": "b1d7e17651e433b976c861254c099d98fad6d06a44da7dff1f743203d300d842",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "752d15e2-bd27-52ed-b055-ed79edb86aba"
+    ],
+    "Encounter": [
+     "2bf162c5-6162-5331-ad3c-f1c9c67f3e8b",
+     "820522ea-516a-5de3-b840-e75bd1e7c5f8"
+    ],
+    "Location": [
+     "9152585d-31b9-50ca-9476-a4db49030917",
+     "dbba2bef-57a7-582f-8d86-a7a6d7fea258",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Observation": [
+     "02570534-f249-53ce-8263-0bac611b7c61",
+     "f27f82b1-d0e9-5c9b-bdfa-f494a96de4cf",
+     "55a5b07f-d0cb-5552-964a-d4dbc0417032",
+     "4e3ebb43-27a9-5645-ae56-a62f807cbb91",
+     "321ef2f6-6ba2-55ac-9abe-f9c8e0166c1a",
+     "f20212fd-3862-57cb-baf8-da1740079a77",
+     "9ecdb5b7-6be3-5995-8ec2-1ffdc0f38a61",
+     "73744b4c-e370-5055-baf5-e897710d1024",
+     "074f0850-8650-55e8-a238-4765d4b8b9e1",
+     "9b694e14-f32f-5320-b74d-e5a152c9e0d6",
+     "6858e3b2-9d6d-5d01-952f-633057a6d24f",
+     "7af53cec-aadc-5e9c-b88a-4018f2e7f2ef",
+     "42385373-fea4-5473-84ed-1c92247883a4",
+     "7d330264-a860-597a-976a-befb556e7b82",
+     "1d652a92-5341-5d77-a46e-16fa165ac8eb",
+     "5d9e02df-8396-594b-95b3-8e78005f6253",
+     "793328ce-5aef-5531-aad5-dd0380ddfa47",
+     "595ecadd-e51a-5761-8be4-ecaf04e0d701",
+     "92c391d9-33e7-5bd2-907d-d1bdfeff02c7",
+     "a6860991-fb1a-51c0-82e1-ef4c623b4321",
+     "59235c29-2fe2-52b0-bb38-4ecf3048a9c8",
+     "c299a087-95f3-5f4d-93cc-e90fd9359cb1",
+     "4bdd24f7-bbbc-5668-b8f5-84fac06cbe34",
+     "9497f18f-3167-5cd0-960c-622c83e3db2a",
+     "0a7c1cb6-2f67-5b9a-9c5f-883bdcd2d1f4",
+     "6fa5abbe-06f3-5365-8eaf-e1c1eba154db",
+     "b1849fd3-274f-5ff7-b661-bfbfb876a2db",
+     "cf4098a7-8016-52ab-a6da-73f4b7b61561",
+     "4e39e185-1677-53df-96c8-e3253aefd341",
+     "46999f32-357e-5753-af67-674bf598b66d",
+     "a151fb43-ba43-512a-8ad4-482aa1a326ec",
+     "9b7063de-6afc-5dd3-9ba1-91d521e6b78c",
+     "07921d2e-6fea-553d-916a-70995870e26f",
+     "cd8fe9c7-5e01-5364-ba77-b995887056b6",
+     "86ebada7-eb77-5a2a-8c1d-a9596e2b235e"
+    ]
+   },
+   "perturbed_n_tokens": 5401,
+   "proof": {
+    "query_sha256": "89a9d99b908bf1411c3c83125c6205adbffd955f75c00709603a3016330cdb70",
+    "original_result_sha256": "b608d951a9be203dbe96b116f6009ef73b39fb02459d448c073f8de6b02edf92",
+    "perturbed_result_sha256": "24e5ceb1ed04c097344438a9d64284431b5a85bde5d936108f4fc85b98b1e456",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "c9fe1f1b8ec77f4a772615c7",
+   "family": "temporal_selection",
+   "template_id": "T075",
+   "patient_fhir_id": "f572075b-186b-5565-b2d4-1567fe4f925c",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "d192e0f881a708a7074d95f24363380ad1f4826b17780da331199ee8ca7dd1d6",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "805c15fc-8b17-55f2-b9a9-10dbd06dcaab"
+   },
+   "original_packet_sha256": "3270401d772a3cd380eadd3874b395108861294c422e97cfb32c6e3581c85b3c",
+   "perturbed_packet_sha256": "999ca11e8848624e0356f907e85aaf0aac037fc47e03f9daa24a03b248850181",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "f572075b-186b-5565-b2d4-1567fe4f925c"
+    ],
+    "Encounter": [
+     "ad991e2d-6d4b-5c04-8968-32a8b25a1c0c",
+     "88df0619-e6cd-5900-bbdc-ba5b241fbda8"
+    ],
+    "Location": [
+     "0483cba3-574b-58e3-a6a1-2eec0f3b707a",
+     "dbba2bef-57a7-582f-8d86-a7a6d7fea258",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Observation": [
+     "4d56da18-90ee-5290-be92-5e10c4c6627c",
+     "9df4297d-cb2f-519c-9bbe-8b767fab49b8",
+     "1f101df1-5e01-5b30-a13a-12ed4e9bcba0",
+     "92290dd3-b434-5f89-8868-0345f575e20b",
+     "1066b8b0-370f-5451-ba53-b5ebd893c3bc",
+     "4278c1bb-cbb9-5e71-9327-605208d5ec18",
+     "a7e17f44-9966-5c6a-9306-1c9fbcdc95da",
+     "50604bd1-7ae6-5acf-884d-25f705571b49",
+     "191fa2fe-a9a4-5756-a0b0-0dbb566a107e",
+     "ed786d32-94f3-56c4-893a-0390b4dda21c",
+     "53028fc0-48db-5644-99a8-489c3e088b8f",
+     "c18843ba-5015-59f7-898a-01c2abe15f59",
+     "43df52ae-448c-5aa6-bbc6-6564799584b8",
+     "33f3c789-19c6-5a3d-af79-565f1a71ffbc",
+     "f3d7a15d-0704-59b8-b9ca-a1a9afe24223",
+     "ff9cd807-f848-5e05-b839-4b1e3f80678c",
+     "5eef2351-eaaa-5652-9b2c-c963a9118cfc",
+     "1d396f0c-d1d9-5c7f-84f6-b458583f4859",
+     "f93726ff-1260-5b82-8b2f-405657e72033",
+     "bfd58584-b840-5bb4-9d24-6bbeea1b2098",
+     "0dfd568f-afd5-5c36-8bff-38869c416be8",
+     "be3fc14a-b905-5508-ab5e-5e2685b21f28",
+     "c9ea6e3c-deab-549d-b11e-853672bd5bea",
+     "3be1c9b9-52d6-5479-ba56-4df75f8a2762",
+     "4e3c268a-8668-578a-a703-346c5cbf37d5",
+     "7b7df191-913a-5acf-aecb-d7cd1a9b733a",
+     "f61db234-2c82-552f-ae7f-0acab3c4188b",
+     "6cf00a04-362f-5669-bb66-79ab5a29bc2d",
+     "89bd3093-2fb9-563e-814e-12019bd0deef",
+     "e5f84bdf-acc3-5cc2-81eb-160053717f78",
+     "422bef62-06cf-5088-bb1c-34ca9157f45c",
+     "cc37ce3d-041c-55ef-97a3-e4cb62e6c687",
+     "7dc80ce3-d465-5380-9691-dedb1366eba2",
+     "2a853e71-6a48-516d-b7e4-7fadf7636209",
+     "bef2866f-6cc5-5f49-94dc-e70e55ac7368",
+     "e73fac82-e6ce-588a-8dc8-88ede90e578b",
+     "2117ac0b-9704-533f-ba85-93ad07327f1f",
+     "cd809d8c-a272-5525-9fa7-a9ae998ebfd4",
+     "4c7722a9-2a01-5dec-b173-da4bb00a8c8b",
+     "08eec6c7-47a4-5bce-8211-8fd731fc00d7",
+     "925ec1e0-70ba-5b0e-9d7f-8a5cd547f852",
+     "ced84a7c-ccfb-5ed7-95d4-f723f6bc277c",
+     "d934c515-4b3e-55d0-a66a-1fe5edba5cf4",
+     "ce2bc2f0-6f80-5888-96f8-f1afba8886ef",
+     "422bf92a-3021-563c-97f0-88f3ad9d5b3b",
+     "c73d9aa4-5886-5687-8446-85cd3732a743",
+     "d6233c5b-8926-5a78-a51f-2ff38b2399de",
+     "63a78256-b55f-5a36-b6cf-b94b2b2c33a9",
+     "2180a3cd-76fb-5237-a018-e9825a86c487",
+     "b289d16d-a573-5993-bfa7-f2d3ba2fd115",
+     "45440b3a-657c-5c87-a274-45810c32d064",
+     "cbbfffb8-82c2-5338-9e9f-ebdbab8036bb",
+     "30cd2113-c3d9-5483-ad17-a9b17cc903d7"
+    ]
+   },
+   "perturbed_n_tokens": 7758,
+   "proof": {
+    "query_sha256": "1ce9cfed32534e36200c324e2f7b72e5f1f58304147476eeb28cf558f5dde57f",
+    "original_result_sha256": "96b12d5d1dcea17988523960a042c455ca1851e5b64f6c6a61c5fae88fa5aa4f",
+    "perturbed_result_sha256": "d6cedfda287c966575b2d4d209ed7e1ec5650b6cbacdda1ff23d785dfed5b365",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "d1fc20ee02b9ce89df2bb4e6",
+   "family": "numerical_aggregation",
+   "template_id": "T056",
+   "patient_fhir_id": "a87c1099-8c87-5548-8fc0-56972a82cebf",
+   "current_time": null,
+   "rule": "aggregate:sum",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "691b27d05fe31bd83b8f8f44812f36f98d3f124a893cdff0ae2b5a37a961fed6",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "MedicationRequest",
+    "id": "f89fc9c2-7419-5496-851f-75e1b5b053a0"
+   },
+   "original_packet_sha256": "b87fae1d9d5d0bc485ddd6c551eb3f1449c802ba61919454d585bbab8aa21b33",
+   "perturbed_packet_sha256": "57faba3468613e107b23b2dc6467c0460a3a8eae922af6d868cff1ddde8dc0de",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "a87c1099-8c87-5548-8fc0-56972a82cebf"
+    ],
+    "Encounter": [
+     "ac3f7b4a-3199-5277-907e-d2b1b411a818",
+     "2ca409ed-b805-5163-8ecb-3276b39858a1"
+    ],
+    "Location": [
+     "0fc2d23b-0e5b-5f91-8369-6d37301fea51",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "77b3f959-fa2c-5599-8713-a86815b29a4a"
+    ],
+    "Medication": [
+     "5b9a43a2-745f-52ef-875b-5b4a2e1f63dd",
+     "de88b545-c1de-5cc5-85ca-5fb5689f7c5b",
+     "4bd7ff4d-d038-5799-b81c-a18c6897d040",
+     "202b710b-656f-5ded-bc98-24f97edb4073",
+     "23da6708-140a-5326-9900-30a0b1cfe50d",
+     "6c59f5f7-dbc7-5309-894f-ee7259cf7042",
+     "b111e720-0284-5dbe-851a-be4c0baa6371",
+     "934ac76d-afb4-5afd-b4ca-27dae0b20680",
+     "79f3fb3a-d495-5d33-b090-c57ae61c84d8",
+     "ed1fd39d-5be5-54f4-a4a1-787bc4d73c90",
+     "e96296ef-af2a-5c09-bfa9-9a6edbd628c7",
+     "6258ef29-ff83-5910-9754-20171dfa2f11",
+     "18e1bc58-4c7c-50b0-aca5-137fa6895759"
+    ],
+    "MedicationRequest": [
+     "bbea58e9-384a-5a93-9b41-ec70c354a0b9",
+     "3328a9b0-38e3-5d45-96e1-fb18c29cd5dd",
+     "9323f7d8-8999-5f46-848f-127db2257724",
+     "eb866a68-d547-5397-81e5-fb745071b032",
+     "ee0fed07-be6a-5052-abe8-284ab754e00e",
+     "9b9764aa-bf9c-57f3-89e7-33fdbbba0c78",
+     "f11ab0b7-14b5-5f5f-8ade-57b54bc7148e",
+     "d1c04faf-00be-59bd-aded-2c7464a9c004",
+     "53ec5096-9b28-5bac-8ba1-677726b4e5c3",
+     "db3ccf1a-7724-55bd-a1dd-b832432088c5",
+     "622bc4d4-e7a7-5362-b7c8-e185e1777137",
+     "73331b5f-b733-5c5d-b46c-5eab107ad6c4",
+     "83e6a49b-d9ff-5b97-ae53-bb1576acadda",
+     "4ce286dc-1167-53ce-b4c9-52be3d34b350",
+     "aeaa0279-16d4-565c-a38d-673bea4b0619",
+     "2742f99a-2c34-5e66-b9f2-c3224782363e",
+     "faaa8a73-3258-5318-8213-0039c7b426ed",
+     "6127f816-c447-58f2-95fe-aefad437c128",
+     "86c0b582-7ade-5a1d-9c7d-b2010a9fd8da",
+     "1405cc08-f592-5cef-af9c-b41d94f09420",
+     "19f7760a-d8f1-5004-a392-f50102e6419b",
+     "9fd58773-6777-5cb0-939a-a2da8b86887a",
+     "ff208b54-d854-585e-b5e5-3a30e3de4897",
+     "9671c595-75b9-57e4-a653-ef37a652d936"
+    ]
+   },
+   "perturbed_n_tokens": 7756,
+   "proof": {
+    "query_sha256": "3af39315d1a5745411c091714c8101bd2802847bc28b8a4d2c605d7d428fc90d",
+    "original_result_sha256": "08b9aa26d129562b10eb75e92aa48a82c773efa268c6d1c0bde46bef980e4061",
+    "perturbed_result_sha256": "1d8fc6ceb1f94c6326d6d5483d258fcb2e179e9869325b245d105c2219bf69fd",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "d8f365a561e69cca2b2fea83",
+   "family": "temporal_selection",
+   "template_id": "T047",
+   "patient_fhir_id": "73fb53d8-f1fa-53cd-a25c-2314caccbb99",
+   "current_time": "2146-12-31 23:59:00",
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "5391e7ae7572136fd9562ab5daba32d6df6d57d307886e247be804b416e0af64",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "5737432f-1891-5f49-bc57-8b37ccebfeed"
+   },
+   "original_packet_sha256": "a3d729b56e7026a9ae218079d227cce39a19f25d115d1910b567726fd6146e8a",
+   "perturbed_packet_sha256": "0d1f4548ebb90fc882d022ca6bacd43b2cc888208a4597c87806441ea5b76d0e",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "73fb53d8-f1fa-53cd-a25c-2314caccbb99"
+    ],
+    "Encounter": [
+     "f5cd04ba-2d1a-5601-82a5-1fb9b784fd58",
+     "45205f70-733f-58c2-a43e-790d64a7095d"
+    ],
+    "Location": [
+     "77b3f959-fa2c-5599-8713-a86815b29a4a",
+     "9152585d-31b9-50ca-9476-a4db49030917"
+    ],
+    "Specimen": [
+     "745459bc-62dd-59d2-b20b-b4c18a2c887e",
+     "28f1564b-24b2-5dfb-8b7e-5a10743c2ebf",
+     "945798ef-d56f-5a3d-a03d-a89e4984f1d9",
+     "6e76a8e3-6646-5c73-ae88-8fbbc13fb542",
+     "708f0e26-729e-533b-a4eb-919dfec43fc3",
+     "e979b759-0776-59c4-855e-8dd6cfed706d",
+     "5b50760e-a538-50d1-b2b2-59ba4d72113b"
+    ],
+    "Observation": [
+     "55f2c275-293b-58a0-bce1-6c97503eceff",
+     "96092c56-1d3f-5b4a-b9ca-48856b7d4b20",
+     "ecb106be-2d30-5663-a6fa-4cfe77f5d5e2",
+     "0bc5174e-dc1e-5da8-9048-9d263c85a6bb",
+     "b194fd3f-f217-570b-99aa-5803ed2dc903",
+     "81168879-f773-5a07-bdec-4c23bd4f97fc"
+    ]
+   },
+   "perturbed_n_tokens": 2262,
+   "proof": {
+    "query_sha256": "f3942d605cfd6b11d4dea6bda5abe85b6a4f2fce9114e22e2130b80cb03f854f",
+    "original_result_sha256": "0ab68d8d90cafd43c23b8c452065235fc46ddba926ce9ae5d211724647314785",
+    "perturbed_result_sha256": "d3ce6760a0ec756df4629b7b965c8720ef967f361ac98aa6812a22c029f0d9a8",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "d91bb87c28806cef8d1448de",
+   "family": "temporal_selection",
+   "template_id": "T062",
+   "patient_fhir_id": "9c3ebb7e-d087-519e-bea4-31c3d4aac7ff",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "2a681311346d03ddb3565b0e8cbabe484a40f652cf4a584a6e94e97a9d5d9e6a",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Encounter",
+    "id": "06fc5c8f-ad30-516c-9a74-cdbb491d1407"
+   },
+   "original_packet_sha256": "fd879869464de948abb545dd18d2af069a24abfe24ed4c4f5744c7983c10e84d",
+   "perturbed_packet_sha256": "d71d52310a2a46e9f01cb17da85715554b95be8686efca548b4783b1546fb5cd",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "9c3ebb7e-d087-519e-bea4-31c3d4aac7ff"
+    ],
+    "Encounter": [
+     "d7e36fcc-185a-5e50-a2a9-a852b0dcc411",
+     "effa1294-d125-5a08-adbc-bca3e9c05477",
+     "c8372c34-350d-59d2-9cd5-3a963b62f1a4",
+     "2cffdff9-ed03-5a15-87d6-b5e0cd885a7d",
+     "38daef40-5c72-56a2-89c1-1c9e74a37869",
+     "64681977-e76f-52be-96cd-1b505d1f0ff1",
+     "1c97e6e3-9cb0-5961-93e5-8204365eeaec",
+     "62b7b806-a97d-5ee3-bd1d-69be36512ce7",
+     "3c5f0bfd-62ed-544d-b48e-2021db57a944"
+    ],
+    "Location": [
+     "25fdf8f3-5c5e-517b-b732-8f4501f25c33",
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "0483cba3-574b-58e3-a6a1-2eec0f3b707a",
+     "77b3f959-fa2c-5599-8713-a86815b29a4a"
+    ]
+   },
+   "perturbed_n_tokens": 3642,
+   "proof": {
+    "query_sha256": "59687999ca2837bbc8f8d182421b166a7576d5ef4f8ca997f2e28724643f7ae0",
+    "original_result_sha256": "fb288e106f2d1d0983a6aaa5000a83faffc6bf4ecf46210c8bd3630d509c7936",
+    "perturbed_result_sha256": "625dbd893af5b83a99addbdaa98afec2b4f9c3b8cf50ece955aed6ed75788407",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "e7fa38bcee63c4dff174564d",
+   "family": "temporal_selection",
+   "template_id": "T062",
+   "patient_fhir_id": "f77a5b72-65fd-5b20-8cef-6b6be4791265",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "bcb713e549aa2962a3f6115ca93e9ea3b5ff99f5205bea2fe64a1b2bce8e38b8",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Encounter",
+    "id": "2f7f8bb3-2871-5693-a634-7316579c115c"
+   },
+   "original_packet_sha256": "2829af57410469d713570ad74dcb1ae040cd23e29dce3f3550b4dc7dff36bf08",
+   "perturbed_packet_sha256": "97e5743c8a1adf6054b6125c23b1ac5ebdd9b18aaa3a8f721d7c2c06786eb791",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "f77a5b72-65fd-5b20-8cef-6b6be4791265"
+    ],
+    "Location": [
+     "0fc2d23b-0e5b-5f91-8369-6d37301fea51",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "7fc6d652-37b4-5812-9412-a1e397a11d7f",
+     "00e4b7f2-1d93-5521-9dd9-cba8fa9461af",
+     "35f60a03-d022-5ad4-9952-6494d475fc09",
+     "c69e109f-5540-5e58-98a8-32154d4c539d"
+    ],
+    "Encounter": [
+     "b6e8e69d-5724-587b-b929-34e2605d0641",
+     "f9b7f9cc-6b23-52dd-b0cd-fdc46793f9fc",
+     "874adb07-24c3-5845-ad88-1491845e7363",
+     "b34e83f0-863c-533f-a5c0-84fcb98c20bb",
+     "5754127d-83e5-5d67-b2a6-529ed781610e",
+     "7d134a3d-e69a-5154-9cf3-68c63523cde5"
+    ]
+   },
+   "perturbed_n_tokens": 2301,
+   "proof": {
+    "query_sha256": "f687392c18ea1cbdd94c4781b60bda16e479af12738cb3e4c67464ce2f83c715",
+    "original_result_sha256": "23ac1940bacd9b6cd4f8706f23a978d987018e39bc1848957997d6fefd6d23b3",
+    "perturbed_result_sha256": "9d2c3e776a4f15f28926353a25090af070bac77b93873c68dd47945d08c5540b",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "e86ed01755d7638dbad6517f",
+   "family": "lookup_counting",
+   "template_id": "T017",
+   "patient_fhir_id": "2955c958-192a-50eb-b59d-23a29d7d374e",
+   "current_time": null,
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "6c05e24825afc1ced6755bbae8acf8a38e18d1371918ad6cfc451c76495f1665",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Procedure",
+    "id": "ec2a51a0-6043-5431-9c9d-19972ff6de4b"
+   },
+   "original_packet_sha256": "dbea3670fe400ced75acf129ff469e36c8b320c5ac774b8bd3296c74fa83740b",
+   "perturbed_packet_sha256": "e43b7f1b208178955ef3e62dfe96c6a26c63026347dbacc3eeab4d019d600e6e",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "2955c958-192a-50eb-b59d-23a29d7d374e"
+    ],
+    "Encounter": [
+     "749bd7c1-5d37-5c7d-9683-111bdcb98790",
+     "ce80f82e-c22c-5ddb-b0a2-20d2db6f2570",
+     "ba57b9e1-4f1f-59fc-b9e2-e9e7b6bdac8a",
+     "2b6a3303-8c0e-5483-889e-e4f76461ac17",
+     "352d9d92-722a-56df-97e1-d51948a16008",
+     "84bdbd69-441b-5264-93de-cbbda8d11822"
+    ],
+    "Location": [
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "77b3f959-fa2c-5599-8713-a86815b29a4a",
+     "dbba2bef-57a7-582f-8d86-a7a6d7fea258"
+    ],
+    "Procedure": [
+     "e5ab4253-3dc1-576b-ae46-7f0cec34bd87",
+     "36d84d59-8dce-5937-8ffe-a6cda7725e0e"
+    ],
+    "Observation": [
+     "45311213-6b73-599d-a258-515931f3e75a",
+     "e3e49344-ffac-5f7e-b88c-ffd7ead6e8e0",
+     "6985c98b-7d9c-5ed0-8358-9d27b0ee7321",
+     "6855c024-983e-553b-b499-d1946c5ae2ae",
+     "01471b39-c21f-5ee8-ae38-70229b55ad9d",
+     "770d7f81-aec3-5a6d-b1fe-f904708cd439",
+     "c8142321-270e-56a7-a611-79c645f8b588",
+     "85fb78ba-d898-5032-a2fb-064ae781b590",
+     "482dc853-c2c2-5678-91dd-5b63bd86e551",
+     "e426bb4c-c984-567e-a320-1f48f80a3ca5",
+     "07dee5eb-4004-5513-a857-5c3ac2e455e8",
+     "c3ec4c87-18c1-5e3c-9b6e-d9820290a86b",
+     "ba6c4290-e694-5dcf-ae6c-61715828bae9",
+     "c4163c2e-c536-5673-ae05-7c10be61c833",
+     "803ce76a-a89f-53a9-aeaa-566febdc65ff",
+     "876a291c-295a-5ca1-9a0a-88b5afa710f8",
+     "f9b336e9-2f13-58ef-8c76-6da1c5dbbef2",
+     "6a1bad57-ab35-5645-82b8-fe50513536eb",
+     "63130137-9900-51d5-aa9d-eaf9376d579f",
+     "0432f2ef-25c9-5e49-958d-41e64c38c0c4",
+     "a7ab4a3d-1c8a-5960-b3d6-31fac7da2419",
+     "3c634b17-d193-5b30-89cd-9b8c5950acbb",
+     "0d64ecb6-6740-5e1a-8ffb-a4a4b7b5e93c",
+     "d307f105-d3d2-556b-bac0-f4c4ac62887c",
+     "90378c75-a682-5808-82d2-aaada2f37b8e",
+     "e6992041-6bd3-57ba-8132-bae778e144eb",
+     "2aac18c6-cf76-5e2c-bf96-260e8c2058ee",
+     "c0775309-0229-5779-bdda-f59df2690f04",
+     "6501eb44-843c-53ad-8f98-dcb66a3dab50",
+     "4b2311d7-68d0-5da2-8171-5ed6176683ab",
+     "db13a8fe-e0fc-556d-b6df-af6ff67f157c",
+     "e8fc0ab9-e8ce-53a7-95c1-cf97d59dd41d",
+     "eb407ffc-41bb-529b-b63c-f950269ceac1",
+     "6aa8ad0f-9bf9-58b5-a0e0-268546ea92e0",
+     "7e27287f-8b67-5f82-b38e-13193b99d89a",
+     "98109ebc-3885-5072-b10c-f9cbe942b786",
+     "5e59e7db-2ac7-56bd-bc7e-3d6ccb94116b",
+     "98a601e6-d7e0-5d7c-9664-796f21b2d0ce",
+     "81de0810-fcd9-5cfe-b556-db441a37b84d",
+     "c3418450-5289-530a-9206-dd93328332c7",
+     "780cecf9-0ecc-5e3d-8e2a-aed8138a227c"
+    ],
+    "Specimen": [
+     "9ded4add-56fe-51f7-9ffa-6c00869bbd53",
+     "32df7262-f298-5d83-9640-fcd75cb2d291"
+    ]
+   },
+   "perturbed_n_tokens": 7820,
+   "proof": {
+    "query_sha256": "c02283b727d26b328e3f16fb82adf0b3fe7f37a50c736c52436fddd923e2282a",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "ea6a1b775d7a1387dac35ee2",
+   "family": "temporal_selection",
+   "template_id": "T049",
+   "patient_fhir_id": "a3a12d01-dc21-565b-89e2-da60e7fc80dc",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "e01862dda621c3a2581277424a36df0507d14ead3326492cf777f8442b866868",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "44e0070e-9d04-51e8-a249-5f74cb1292d8"
+   },
+   "original_packet_sha256": "0d063d19bf19929d5c34f63039eca7d76567a7024ce6037f40faa3ad27d9deaf",
+   "perturbed_packet_sha256": "942160a252cfdfd53f67fcd6370e6f201f0fbb18f6fffa46bb31ec6df171a991",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "a3a12d01-dc21-565b-89e2-da60e7fc80dc"
+    ],
+    "Encounter": [
+     "2b24741b-d4f8-5a5b-9d60-04f38dd87286",
+     "0ef55c32-1aca-51ff-8d39-f557124ff4eb"
+    ],
+    "Location": [
+     "00e4b7f2-1d93-5521-9dd9-cba8fa9461af",
+     "0483cba3-574b-58e3-a6a1-2eec0f3b707a",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Observation": [
+     "9be797d2-4fa5-52ff-b50a-28b84f1e44c0",
+     "16e98777-c7ca-5f9f-8b2c-aa8d5e7e2480",
+     "a6726424-ae72-5697-b939-82892bd57739",
+     "12b5061b-c207-5147-ba89-6c9e31052d16",
+     "73aee4cb-a311-50c7-8654-41e9c52a6820",
+     "34554e71-8616-5267-a483-3e8f5cc52abb",
+     "a3243ee6-bf20-5a53-a602-42fee7f0cf2d",
+     "7bcf8e8d-3ba4-5a31-95d1-cb66b55a868b",
+     "248021fe-8791-5861-891b-482d93a1e13e",
+     "1c726043-90a7-52de-bf9f-1b1ab62043e9",
+     "0ad194fe-c333-5769-b059-7af9d2232ca1",
+     "f034af92-67cc-5400-ba86-e55c6e8e6c22",
+     "81c1ea5e-8e7d-5f9d-b476-7405ee4de526",
+     "deb23cce-f6d1-5c2b-9e1f-96b931319ad3",
+     "5736af86-3698-5d81-9f8a-b944655a9d54",
+     "76a5699f-eb5e-53b5-9d2a-e2c954fb25e7",
+     "ec91a08a-7ee9-5e91-b0eb-9ce3703e2c1e",
+     "ba1b01a5-a5ba-51e7-a1df-210a1e01cc53",
+     "d4bad39f-3833-5be5-8569-0afcd803a524",
+     "092df211-02e5-56e9-b6df-62247f4628be",
+     "eb12f8be-dd9e-53d9-aadc-afc2e4254118",
+     "b4d1ba72-abe1-5006-8634-2d2e83862dee",
+     "f4068231-ba32-5165-ae42-2fd97571200d",
+     "0db23551-a649-5ef4-8771-aa3bc1910afc",
+     "d9a4d149-0a2a-587b-baa3-9bdc9603aae8",
+     "0c236700-3faf-5cd9-8425-1a9270df4707",
+     "a88eabb3-d832-56dd-b644-da152052450f",
+     "df116a15-dd88-57f1-a0b9-e1f28e4767a6",
+     "813e74a0-706c-5e81-b731-78921a82267b",
+     "db786681-fa99-5b65-bf19-8414793ce297",
+     "699fcb20-249f-5e41-8be2-2e9446f974b3",
+     "31b5d4d3-5143-515b-9953-463e54e734b2",
+     "4e95dca7-a663-5f7f-902e-4e2307535ac0",
+     "88646be8-b801-5a8d-9301-2a2b8a284f94",
+     "44475068-6b07-5fb1-8792-aebbda74d048",
+     "b4f83506-41cc-5128-bf25-e39ac693d5e2",
+     "b63571f8-3c08-57f4-9906-e53074ed1511",
+     "8fa582cc-07c6-5a59-8f92-d86e37425a2d",
+     "bc8a71fd-20fc-5de7-bcf1-e6ffafaad5e0",
+     "e011fad8-8037-56d6-b4cc-028a45622dd2",
+     "e81592bb-c78b-528b-86ee-3b850f2111b2",
+     "556b9d64-ce30-5376-a2c3-e66a4e92d83e",
+     "f8d9b3f1-a5ac-5116-ba3d-00e513ad3ed5",
+     "0b55f952-f7f4-5a9d-8e01-71a7f4655d9e",
+     "8c3b7c36-c28d-5575-ade5-b8750f6cd293",
+     "2ac30ddc-c7c1-5119-a5ff-a32188727f72",
+     "0d8b79c1-403f-5b6f-a25b-53a243827482",
+     "757de61c-1785-5dd0-8cc7-e17f1d20b89b",
+     "3bacd612-1182-5b54-989a-162e03cc88fd",
+     "4215303a-dd3a-52da-b65b-fbcc3c95ba43"
+    ]
+   },
+   "perturbed_n_tokens": 7733,
+   "proof": {
+    "query_sha256": "17719a098bc908b513c27cf9cee819e6825d543924f7342a7648c6e54ce382df",
+    "original_result_sha256": "23ac8b916d8c7cec5f616d34d4619144c2581c4c31548b1ec4b0a8f1f45e3da0",
+    "perturbed_result_sha256": "71e2ab64e5594611c1d431adec28e5cdefa37ba7472fb7f54d7eca27484d219b",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "eb20ba71a6257201e3668689",
+   "family": "temporal_selection",
+   "template_id": "T048",
+   "patient_fhir_id": "53b0f2d8-24dc-5c82-903c-1bf98e510e96",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "07daaa0ab82326dd1bbc33fbb67bcf16dac2c618fed11cf23c97ba659cad4bce",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "a6ff1b88-874d-5365-a7ac-07b643dede9c"
+   },
+   "original_packet_sha256": "924a8116ff8fdf326be6573c8c7bbf90e7d3a3009f52069a3c643cf68c3fa840",
+   "perturbed_packet_sha256": "7e6ba6717a81de30dd7246db486b12096a4cd4143c8ea81e3f754890dc3def20",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "53b0f2d8-24dc-5c82-903c-1bf98e510e96"
+    ],
+    "Encounter": [
+     "9ccbb24c-d034-5d90-b50d-04d485cc8668",
+     "9af4ed26-5672-5ed3-a270-589a0f21cbc3"
+    ],
+    "Location": [
+     "35f60a03-d022-5ad4-9952-6494d475fc09",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Observation": [
+     "22c044d7-35b2-5391-b84e-46c3b4f76c97",
+     "e520d3c8-ee8b-5c64-9358-3a5c4bee524a"
+    ]
+   },
+   "perturbed_n_tokens": 1433,
+   "proof": {
+    "query_sha256": "b8af27c21dca15bc8222ee2eb0975870c4994b0217c520ec87d3d822538693f3",
+    "original_result_sha256": "ea2469dc916e2cbe7db17b9a54dd35ddb2bd9a0df13e3e8396a0b330c985ac46",
+    "perturbed_result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "eb2f419e7f09df1b43df8f92",
+   "family": "numerical_aggregation",
+   "template_id": "T058",
+   "patient_fhir_id": "752d15e2-bd27-52ed-b055-ed79edb86aba",
+   "current_time": "2115-12-31 23:59:00",
+   "rule": "aggregate:sum",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "61d3236a71834732e503c3c4983b7d89ac2b2a5b028e8cf890c26b421e8ff5a9",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "3e50640a-99ef-5a16-8c56-31eede40b682"
+   },
+   "original_packet_sha256": "443cd6db2a1712be36033e93db30cc6581b3d12888ac9ea59f0e4f8a9ee550f9",
+   "perturbed_packet_sha256": "329723f23fcf85df6b9a5d43b4d82ac1b7c4e8973f720d3b074f7a916e8a856f",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "752d15e2-bd27-52ed-b055-ed79edb86aba"
+    ],
+    "Encounter": [
+     "2bf162c5-6162-5331-ad3c-f1c9c67f3e8b",
+     "820522ea-516a-5de3-b840-e75bd1e7c5f8"
+    ],
+    "Location": [
+     "9152585d-31b9-50ca-9476-a4db49030917",
+     "dbba2bef-57a7-582f-8d86-a7a6d7fea258",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Observation": [
+     "02570534-f249-53ce-8263-0bac611b7c61",
+     "f27f82b1-d0e9-5c9b-bdfa-f494a96de4cf",
+     "55a5b07f-d0cb-5552-964a-d4dbc0417032",
+     "4e3ebb43-27a9-5645-ae56-a62f807cbb91",
+     "321ef2f6-6ba2-55ac-9abe-f9c8e0166c1a",
+     "f20212fd-3862-57cb-baf8-da1740079a77",
+     "9ecdb5b7-6be3-5995-8ec2-1ffdc0f38a61",
+     "73744b4c-e370-5055-baf5-e897710d1024",
+     "074f0850-8650-55e8-a238-4765d4b8b9e1",
+     "9b694e14-f32f-5320-b74d-e5a152c9e0d6",
+     "6858e3b2-9d6d-5d01-952f-633057a6d24f",
+     "7af53cec-aadc-5e9c-b88a-4018f2e7f2ef",
+     "42385373-fea4-5473-84ed-1c92247883a4",
+     "7d330264-a860-597a-976a-befb556e7b82",
+     "1d652a92-5341-5d77-a46e-16fa165ac8eb",
+     "5d9e02df-8396-594b-95b3-8e78005f6253",
+     "793328ce-5aef-5531-aad5-dd0380ddfa47",
+     "595ecadd-e51a-5761-8be4-ecaf04e0d701",
+     "92c391d9-33e7-5bd2-907d-d1bdfeff02c7",
+     "a6860991-fb1a-51c0-82e1-ef4c623b4321",
+     "59235c29-2fe2-52b0-bb38-4ecf3048a9c8",
+     "c299a087-95f3-5f4d-93cc-e90fd9359cb1",
+     "4bdd24f7-bbbc-5668-b8f5-84fac06cbe34",
+     "9497f18f-3167-5cd0-960c-622c83e3db2a",
+     "0a7c1cb6-2f67-5b9a-9c5f-883bdcd2d1f4",
+     "6fa5abbe-06f3-5365-8eaf-e1c1eba154db",
+     "b1849fd3-274f-5ff7-b661-bfbfb876a2db",
+     "cf4098a7-8016-52ab-a6da-73f4b7b61561",
+     "2ff13a48-222a-5e6c-97cd-350a7cdfc1de",
+     "0d969cb6-3f07-5b84-bdfb-d750ab9a13d6"
+    ]
+   },
+   "perturbed_n_tokens": 4803,
+   "proof": {
+    "query_sha256": "4f24a8856c0a077a1ce1322bc4cfc270c33cfa2db58770e0e3065ad029d56cd6",
+    "original_result_sha256": "b608d951a9be203dbe96b116f6009ef73b39fb02459d448c073f8de6b02edf92",
+    "perturbed_result_sha256": "24e5ceb1ed04c097344438a9d64284431b5a85bde5d936108f4fc85b98b1e456",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "edcb877560f680ecc90bffc6",
+   "family": "temporal_selection",
+   "template_id": "T048",
+   "patient_fhir_id": "74a2fd87-885b-5eca-9f8b-9141915dba51",
+   "current_time": "2129-12-31 23:59:00",
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "10bef9393a457c3bb851128a0cc3572081bbe04e1ea9cdf800be1e48a101de8e",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "9a90008f-54a9-5ddd-83db-f689c1d1865c"
+   },
+   "original_packet_sha256": "2a4f57c3e7dea3ac7785d988c90a10e8a67199410fedff5a188142585fe6b3db",
+   "perturbed_packet_sha256": "5759197c7d7a02311383ad9ff9a276778d5d8501de225914c9d6f7a4daa3c300",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "74a2fd87-885b-5eca-9f8b-9141915dba51"
+    ],
+    "Encounter": [
+     "6ffa821c-2cf3-58c5-aa96-7436930d6bf2",
+     "5cdb9d6c-a5d6-56aa-ab70-dfc4a74fba2f"
+    ],
+    "Location": [
+     "0483cba3-574b-58e3-a6a1-2eec0f3b707a",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "77b3f959-fa2c-5599-8713-a86815b29a4a"
+    ],
+    "Observation": [
+     "57ff3048-1bdc-58fc-baae-e32f825d92b7",
+     "63b058bf-c253-5c47-bdd4-713934866ed2",
+     "22b2860c-5eed-5940-bf22-8ed90a266cff",
+     "c96394e9-c98a-5c29-9a2d-947b023ce53b",
+     "a4e9dc90-a0f4-55da-85f7-96d3d5053ec5",
+     "3847c10d-01ab-5c79-a006-4ad413b138a1",
+     "6a440319-70c9-5271-a620-7f2da9dcb768",
+     "681697ec-adea-5572-bf4e-eff942eb9442"
+    ]
+   },
+   "perturbed_n_tokens": 2180,
+   "proof": {
+    "query_sha256": "bba3db5020b0d5cc926b5597cd7c50f905ec3c57c83622a4a38ca12eec4f5c5b",
+    "original_result_sha256": "6ea136a549c323305103220ee0f9021b2d291b5168126a2407b13ecda06856ac",
+    "perturbed_result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "f356b6267c56b07e1f3e3045",
+   "family": "temporal_selection",
+   "template_id": "T070",
+   "patient_fhir_id": "dc332fb6-61f8-552e-8743-765d626f0a4e",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "0a4737e401f02223668df64cb3a54032ace50a7cb03bc002c33c9b1f7e0af419",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "37e3a4da-d74b-5c2e-825f-b9b71ec58455"
+   },
+   "original_packet_sha256": "9a5aed071b4c7ccc348122f11cee153d20696d6f3d334bb54168d930358fe29f",
+   "perturbed_packet_sha256": "5f9908274a253cf133c69029e81fa0f0a87a72c5b78d978ad74e426d2cc778d3",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "dc332fb6-61f8-552e-8743-765d626f0a4e"
+    ],
+    "Encounter": [
+     "fe10589b-6b76-56f4-b8c9-4c393e92c153",
+     "758c4cf5-8373-5c85-935b-e01f0d2aedbd"
+    ],
+    "Location": [
+     "0c8de059-7250-5b94-b98d-0a079b28f06c",
+     "7fabe959-1cae-5f68-a720-27c2975f8ec8",
+     "d4b315bc-5e39-5162-9d5c-dada4294b1a9"
+    ],
+    "Observation": [
+     "e20d5d7f-f287-5aa2-a883-373bd9827b5c",
+     "b603ec98-c884-5640-b11a-8e8a70394a62",
+     "e99bab98-fc2a-5999-afb1-000f9dfd8215",
+     "7a622a65-5e5d-5b72-b9f6-403001cf33c1",
+     "9e63afb3-07ce-5c56-8845-c3e65a472a72",
+     "133181db-1cea-5724-8ef5-4ed38dd8f5c6",
+     "ff796ff8-dc65-5d63-835e-e54e114680c3",
+     "92088bde-0f03-541a-b561-7ac78e756f36",
+     "749431d0-1824-5a8e-8f47-669cb52c71a4",
+     "5598090a-2630-54f2-a618-e215066a132d",
+     "d66303bc-6fd1-5425-aef1-6ba0a0272401",
+     "6aeacf4b-2f7c-5818-bf5e-11cc4b79934c",
+     "dc5ff4c5-249e-5735-a2c7-39bfd7b88e29",
+     "2b4b1120-de02-5afd-9b36-38c1079fea58",
+     "7c1d1f89-21ee-5d90-b4e0-60ff03c960b7",
+     "3ddec960-44e6-5d2a-a6f7-7197da5737d0",
+     "71b152ec-c1ef-5271-a97f-a192b020cbbf",
+     "39ba76ab-8fde-52fa-a517-1af5c44f8d5a",
+     "9d8d0246-162f-5187-b081-37f59575a6f2",
+     "75b227a8-1a00-5a88-8348-ddc51ca2e966",
+     "2e5e660d-dd15-584d-b508-4a4bdfe00785",
+     "07e013de-803b-52af-a345-638d7e954103",
+     "e7bf6c3c-2b94-5440-bdb2-35976a0aab19",
+     "fc6b3ca8-c882-5e09-a396-cb992b692fa0",
+     "9a715277-42ce-5de6-99ac-4c7db823754f",
+     "53067bc8-1703-578a-92d6-e499191417af",
+     "3a63b55e-d9f3-558e-a11f-7de9f95a5ba5",
+     "3949aad4-9e75-5d18-b44a-8fe949153248",
+     "4f52d18e-1b1f-5851-ae0d-5d2c88567cbb",
+     "95b73daf-25a4-560b-88e0-44d74cc604ef",
+     "3b673f6f-d2d5-5e17-aa34-4790f213db07",
+     "596bed56-fcbb-5b4d-8663-cb3191d408a7",
+     "ae37ce28-7c16-502b-aee6-b8fd140bbdb7",
+     "8a0ce5b4-86a7-5208-8437-db75bfff0a7c",
+     "098c25ba-f330-53ef-8158-c4d2f649b5c9",
+     "e4f7196f-6489-5b33-81e5-f95f39d99202",
+     "a4df2375-dd59-5408-8fb4-f2f04d3ca254",
+     "2591ee36-7565-5898-b6b6-8a76c0df52b4",
+     "ccb2be03-e3a5-5d0f-94dd-5bfa9c38d0e6",
+     "8703a21c-e0d8-530f-8b30-7e2ff14a64e5",
+     "2378cead-cf4c-56b0-b205-e7da252fe48b",
+     "36d7e74d-9b5e-51f9-96b4-e1b48e81633e",
+     "5f06d898-2749-576c-84b2-b7a2029e8e9a",
+     "9a8cce77-d2c4-58a3-b135-548cc98a56d6",
+     "279fa0c3-8fee-5a78-a690-49d3fe5f12f6",
+     "4e00d94d-8216-5042-b34f-9915d1aca35a",
+     "a47e1967-bcc1-5d92-b341-9c900f93b221",
+     "09717cf5-0b8a-55f8-bcf8-61094cba513b"
+    ]
+   },
+   "perturbed_n_tokens": 7733,
+   "proof": {
+    "query_sha256": "59282c7ea492f563f79bce10c4b254bfeb38865c701c4c9404634f4af21b792d",
+    "original_result_sha256": "c0c36b5bf547480c27016e94d89e476b01e68618fd82f62bba75d4caa39ccb61",
+    "perturbed_result_sha256": "b4cd1b1f3391c97482e6e7cf8c71c1a1827e19e507b6a9df7c5c95df717487e3",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "f53166032d928995607d2fc9",
+   "family": "lookup_counting",
+   "template_id": "T016",
+   "patient_fhir_id": "2955c958-192a-50eb-b59d-23a29d7d374e",
+   "current_time": "2178-12-31 23:59:00",
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "38eff828f65cc375d8368b7a19532c9611cf59db093ec1f412cf0ac0e9a564ea",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "49eb60fe-e655-5319-a7c7-07e9567fb1b0"
+   },
+   "original_packet_sha256": "79ceba959c000455cea49a0fc5682e6b39d93eec18171c73f4c70c8cd0989f09",
+   "perturbed_packet_sha256": "973c83b6f467013e7117406f319155c5e3f2a016749126f08ebf6a94a1731fe7",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "2955c958-192a-50eb-b59d-23a29d7d374e"
+    ],
+    "Encounter": [
+     "749bd7c1-5d37-5c7d-9683-111bdcb98790",
+     "ce80f82e-c22c-5ddb-b0a2-20d2db6f2570",
+     "ba57b9e1-4f1f-59fc-b9e2-e9e7b6bdac8a",
+     "2b6a3303-8c0e-5483-889e-e4f76461ac17",
+     "352d9d92-722a-56df-97e1-d51948a16008",
+     "84bdbd69-441b-5264-93de-cbbda8d11822"
+    ],
+    "Location": [
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "77b3f959-fa2c-5599-8713-a86815b29a4a",
+     "dbba2bef-57a7-582f-8d86-a7a6d7fea258"
+    ],
+    "Specimen": [
+     "d51a3287-0727-5b88-a4d7-d42f8f9684c2",
+     "4d997ac4-adde-5ec5-bd6a-2cecc4f6f43c",
+     "09b6d33b-ff32-5030-8d44-39c537df1306",
+     "e5e3ada4-aa6b-58af-943a-571b1f5889cf",
+     "aea9c4d0-de68-5de8-a4ac-cff73919efcf",
+     "a1f6e4bd-b73e-514f-98ec-7b65b542d01e",
+     "890560f4-3a8f-53bb-9105-61df0dd0b4cf",
+     "c4a36638-2079-596c-b1f9-68beafd70fad",
+     "980944ce-58ee-5112-8ff7-b972bd620048",
+     "b0951690-9772-5aa9-b04e-164444426ec5",
+     "9f0d93cc-ae52-5af2-a4a9-f1703ebe7293",
+     "14da2454-079d-5723-96d7-5106329125f1",
+     "0afa1e32-9a56-56cc-adcc-9bc47c095827",
+     "087ee995-582a-5111-89f2-c510ac067fc3",
+     "c45941b3-52da-5b66-80aa-822d21f95083",
+     "2fbc3aea-484a-59fe-8814-62ef213b382f",
+     "845cb9ce-89e8-5ebd-aa75-7aae51e2ddaf"
+    ],
+    "Observation": [
+     "62f79655-b182-5de0-ab57-e54ca371e740",
+     "914647c0-eb33-50f1-a885-6dac26ee889f",
+     "b0c2df3c-9740-5fa2-b27e-f2c019109035",
+     "ec37c5f1-f906-5dcc-9f4b-69f8a3f52851",
+     "20b89c00-632e-5b07-a2c4-57c821964afb",
+     "fb1137e2-796e-546d-8751-345b0adf5bba",
+     "07494a3f-e6cd-58f9-a1a5-6e8da9946bee",
+     "a89864fb-895f-5b6c-9ca8-052470c8132f",
+     "211d362d-97f5-5679-bc1a-6b734a052665",
+     "ddc9d286-154c-5634-a65a-3b8043dc27a1",
+     "82314852-c790-5527-93c9-f347d9b329df",
+     "150431aa-7604-57c9-adae-1aa6c2b036b0",
+     "13402051-66c5-5fb5-abfc-1d184857454d",
+     "f84af19e-eb34-5585-9d89-8d19129133b3",
+     "5aade520-37bb-5294-b0f5-957ca8372084",
+     "532821f4-4372-5cb6-a20e-0a4d2415befd",
+     "e70b045c-72d5-584d-8add-ee8ca49010db",
+     "977fe94b-bbe5-55d4-be15-3afcd1b1de15",
+     "75e85008-17c8-557b-a87b-abb235806bd6",
+     "c8e134f1-cf08-5044-aa3f-6736aebf92d4",
+     "311bd503-0789-5523-8db7-aed31b9f6a70",
+     "8c774364-b580-50f3-af66-96b4ee2ff1e0",
+     "27f2e9c7-ba2d-5ff1-a4b6-501e12ab0b0e",
+     "959c6a22-f525-56e9-8621-a57b1483000b",
+     "cc599bf8-ed75-5687-9503-e7febaa04d14",
+     "c889cbb5-1faf-50a1-9fcd-d025b0bc1814",
+     "f3810575-2628-5169-b7dc-ea8f0d592804",
+     "78bde822-95c0-5aad-a1c0-d732eaff1e7d",
+     "36339f19-8e47-5c80-9fe5-9ee1b6d5beb7",
+     "5e25ce78-176e-5e73-9525-070632153296",
+     "87fd8368-e6ac-5ff5-9575-afe55924f32f"
+    ]
+   },
+   "perturbed_n_tokens": 7730,
+   "proof": {
+    "query_sha256": "c3b32ae82b1057a5d3fc3b7d4670fbda4ec8db812a17d50195543a85f0768c55",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "f5b7b1f39d3f36c2baf21b63",
+   "family": "temporal_selection",
+   "template_id": "T048",
+   "patient_fhir_id": "df756e08-6ea8-5d69-b918-67911945f827",
+   "current_time": "2155-12-31 23:59:00",
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "bc148e8e7749502121613826ed53ce2c8e990d14e23d5dc339667f523c3dce88",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "dd90e62d-4f92-5903-bd39-a141c3c183ba"
+   },
+   "original_packet_sha256": "fce1b992ed761fd719f19e41aceb2316324abd0ac759ed9520221d9c5421c0aa",
+   "perturbed_packet_sha256": "8c8c6097cf60711b015347e2937c30af09b80248b87a63b32c2fa06903077072",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "df756e08-6ea8-5d69-b918-67911945f827"
+    ],
+    "Encounter": [
+     "8f59e6cd-369c-5f0a-8714-c3488b0e8079",
+     "f39c82fc-bfd4-5c4d-af0d-77ff948cd4e7",
+     "2ef192db-2758-5b6b-8844-edbd454b70cf"
+    ],
+    "Location": [
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "0fc2d23b-0e5b-5f91-8369-6d37301fea51"
+    ],
+    "Observation": [
+     "e3f5d58e-0299-5e38-b599-14f63eaaf2ef",
+     "f50ffc10-7204-5ea6-a6bf-2a7ba54d688f",
+     "67ead617-6313-5358-aaa1-feb327edfa8d",
+     "b716bf3a-871b-5acc-984e-7582e8b4fedc",
+     "dc283942-52ec-5bd2-ac62-5bf5879fe614",
+     "87a578c3-8617-5c8b-afbc-9e023d5563f3",
+     "3050e405-bf84-50fd-96ee-10c55fcdd935",
+     "da099f10-ba71-5360-a0ca-ecf711091a91"
+    ]
+   },
+   "perturbed_n_tokens": 2477,
+   "proof": {
+    "query_sha256": "4230293a5ce6906b3832429104a4ba0bbe80d76fb3fe2176deb9ae4f0169962f",
+    "original_result_sha256": "538a3683badb7a3a4108a6a8c2af9180685cc4ac40914d5987b077c3a5619b34",
+    "perturbed_result_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "f6875e17c4dd27a3b3e56653",
+   "family": "lookup_counting",
+   "template_id": "T002",
+   "patient_fhir_id": "5d0fc1da-e9bb-5b52-8e17-5930295afd2c",
+   "current_time": "2114-12-31 23:59:00",
+   "rule": "count",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "b8e7ab7a224cfd83c26938c4cbb95f59526641a3933a4d6e41017ad462bf01b9",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Encounter",
+    "id": "a7a491e0-16a7-5bd1-b024-5f1cbeb8a53d"
+   },
+   "original_packet_sha256": "699bfb7c95d89c6bf25b650a8633b658f048cd5ac4d521390f2e48a693b79976",
+   "perturbed_packet_sha256": "5216ce451dcd8afaf2a58dec7ad62d409ee248a7a065da211b77515c84b38c3e",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "5d0fc1da-e9bb-5b52-8e17-5930295afd2c"
+    ],
+    "Location": [
+     "0e7530e9-f728-5f0f-a959-bfd148882219",
+     "501cd59a-cd8a-5f98-8298-2ca9c897d59f",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ]
+   },
+   "perturbed_n_tokens": 332,
+   "proof": {
+    "query_sha256": "21f398c6c6fa8d94c49694ca38af19542afca2415dffbdb3f3553a641080e831",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "fba8a54ba42e25b3a395f35b",
+   "family": "lookup_counting",
+   "template_id": "T017",
+   "patient_fhir_id": "f5efdf3f-5b53-5c9f-95a6-047275107c46",
+   "current_time": null,
+   "rule": "existence",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "d431fe8160b930733d5118d9a2cd5956d0f9dfee4857b319de663316e907e1d9",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Procedure",
+    "id": "79576cb8-d367-5208-b264-e85e84c7d683"
+   },
+   "original_packet_sha256": "f78f2f761270bff6e3d5d99fa9d72042519b71d8cb75ae71ff96f04d388cb0d9",
+   "perturbed_packet_sha256": "5db50f2dd9aa8d3a460c371dba1ef43272bcdefcd3cc4fe35be626917fbe255e",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "f5efdf3f-5b53-5c9f-95a6-047275107c46"
+    ],
+    "Encounter": [
+     "3e802913-a3f3-573f-90b3-a85dffdec47b",
+     "25e05468-7cbf-5a04-9209-79cb07703326"
+    ],
+    "Location": [
+     "25fdf8f3-5c5e-517b-b732-8f4501f25c33",
+     "30fa4243-10dc-5b14-8819-e4785f8dd4a7"
+    ],
+    "Procedure": [
+     "f3eeb1b9-fcf4-52e1-9625-d263eb58a88f",
+     "1957f068-69f7-507d-a0ef-dd835108cbb8",
+     "9083fae8-65c2-52d1-a709-dbc4a1b8d0a3",
+     "56aa0b27-128a-54d1-a3bb-e2bdb3b68d7a",
+     "3e6eb48e-6577-537d-950f-8a1677ee5f9b",
+     "aeffd396-3979-5060-a669-e875b58f9d1f"
+    ],
+    "Observation": [
+     "ec5e3e6b-8a9d-5163-a5af-c5b854a6d91c",
+     "287d5d45-3ad2-5db0-86b3-4b8870d539eb",
+     "11f8cd57-f03d-556c-89b5-77251c3f1cef",
+     "e266d245-92c7-5355-945d-495b53d9d123",
+     "eebaa4b8-4ac6-5ef0-8710-7a56e7fb9452",
+     "dc38da94-b3f5-5efc-893b-36b98ae0028f",
+     "f5113c07-e235-52a4-a584-fadd9496b1c8",
+     "4e93ef67-983b-5f2f-af0b-0e8532c533b5",
+     "40f0bfd5-0e92-5f30-8353-84f4d43aa18b",
+     "a6cce2a1-19b4-5827-9606-7685cf30053c",
+     "80ac13bd-f957-5d35-b0a3-1d2289005a62",
+     "ef1854c9-ff4b-5401-b6b1-078e14109a32",
+     "7dbc5657-0b7a-552b-bc51-f68e7cc187c1",
+     "14c9f2ad-3fa7-5f6a-9f34-355fe864251a",
+     "382e51c0-e3ae-54bc-9488-abc510a40092",
+     "29d28bf8-f821-5dce-b3fe-200545957b74",
+     "cc2dc4e2-2260-5d42-9049-7da47c7b673f",
+     "6d385b74-9a49-5271-b03c-a428d0c35300",
+     "eaa7da0c-605d-5ef4-a9e0-f6f6bd9b64e5",
+     "05713a75-ab48-5685-ba85-48260a6d26ec",
+     "b8c32959-d2fb-5899-887d-e0cfba67469b",
+     "1509edbe-d55f-5322-807b-233965db0645",
+     "705fab0f-f139-5851-9e79-c844e9d7ecb0",
+     "67d3f2b7-ff28-5b10-9712-dcf8e2d8e8ab",
+     "9c6c532d-92a6-5258-98f0-ab1285763005",
+     "cb1e1349-3bd6-521e-8020-84d229c2bfa1",
+     "6c0fad66-a418-5f41-924c-88b6b6bc4552",
+     "86cc6498-d5b0-5f3c-8432-a67a19983427",
+     "b0d84563-dd0d-515b-a58f-f2c08ba48cd0",
+     "b842ffea-3874-580b-93a1-27b13048aa5e",
+     "f2fb9128-f91a-56d7-858d-d76c00a3de98",
+     "1d6c3195-6991-5256-8547-9cb91349fe84",
+     "e445720a-d1a7-53df-96b0-db54ff40b559",
+     "73d52943-163f-5bcd-9df1-d6d6706910b4"
+    ]
+   },
+   "perturbed_n_tokens": 6290,
+   "proof": {
+    "query_sha256": "04a03d431a622d5e11d31d2645934e9c21f595a300f48d4a6319356719baac78",
+    "original_result_sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+    "perturbed_result_sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "ffbd9d197177ca7b317f66cb",
+   "family": "numerical_aggregation",
+   "template_id": "T057",
+   "patient_fhir_id": "b9a9ae7b-2455-59fe-938d-ce19ef360dd1",
+   "current_time": "2134-12-31 23:59:00",
+   "rule": "aggregate:sum",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "39b4aa7de6a188b81adc7630412cc0810b72120a5358118a46225234ab848141",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": {
+    "resource_type": "Observation",
+    "id": "ae6c9036-ad13-5812-b8ca-2e1f0b0a2948"
+   },
+   "original_packet_sha256": "597d8ef504d706e8c16a21149b329b11629bfdf14d1049f3c04c50c4fd75d3ae",
+   "perturbed_packet_sha256": "46d00736e304d0f5923400bc67aaa4ec1756fe5a812c66cf761d0d03e1ba54e3",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "b9a9ae7b-2455-59fe-938d-ce19ef360dd1"
+    ],
+    "Encounter": [
+     "a0c10d89-96cb-51d5-82b4-2cf043e408e3",
+     "699682b5-3261-5122-ad2b-9356d5d1229f"
+    ],
+    "Location": [
+     "0e7530e9-f728-5f0f-a959-bfd148882219",
+     "dbba2bef-57a7-582f-8d86-a7a6d7fea258",
+     "f4ed77ed-3be3-5700-bc6a-3622ca10f90f"
+    ],
+    "Observation": [
+     "8cad20d4-4e9e-54bb-9cf4-54116de442d7",
+     "2b5bae39-0496-509a-8a05-91ee9ff76998",
+     "51fa24b5-6d34-51ea-906b-738c966fe46c",
+     "f000553e-0913-57d5-9508-255f3cea594f",
+     "c2e08875-72a8-5b75-9fdc-2de5e0caf967",
+     "67f5dd58-e8d1-5b3a-a780-660bd6685385",
+     "8c168612-3438-5fbe-bb9f-5770806ea08d",
+     "c6e52e5a-300f-57f0-b33f-ae893462228b",
+     "d4cf428f-8bd2-5201-a01a-f8aa57118774",
+     "1502f7c3-bfdc-59c4-ae8c-31fa7af6c155",
+     "0b5336af-2bfb-5974-b97b-e76710d2952c",
+     "17dca437-0524-52db-9d77-4d45af370a06",
+     "7e7b0082-f7b8-56c9-bea8-0d24efeeaa36",
+     "44e59815-b468-53a5-9c5c-7033e44cf042",
+     "d4b84988-8d40-5739-ad8e-9a98dd054c33",
+     "f4463fcc-40a0-5ff6-8307-17634811d0a4"
+    ]
+   },
+   "perturbed_n_tokens": 3019,
+   "proof": {
+    "query_sha256": "a79447cb0e618cccb35c55f2361eb0d779ae062e8e6331e5159b030466b212dc",
+    "original_result_sha256": "966cd9701f898f0454aee8874fa239b9520bbac5d36ffbf33278def0cb00f209",
+    "perturbed_result_sha256": "db471dc0e15157163332fe666374ad9437fefc324b04a207a6f6197db9e0e24d",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  }
+ ]
+}
