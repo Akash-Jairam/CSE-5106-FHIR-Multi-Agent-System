@@ -351,6 +351,13 @@ def count_tokens_in_messages(messages, tools=None) -> int:
     """Estimate content, tool schemas and tool-call history with framing overhead."""
     tokens = 0
     for msg in messages:
+        if not isinstance(msg, dict):
+            if hasattr(msg, "model_dump"):
+                msg = msg.model_dump(exclude_none=True)
+            elif hasattr(msg, "to_dict"):
+                msg = msg.to_dict()
+            else:
+                raise TypeError("A prompt message must be a mapping or a serializable SDK message")
         tokens += 4
         content = msg.get("content", "")
         if isinstance(content, str):
