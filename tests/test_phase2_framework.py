@@ -1,19 +1,22 @@
-"""P2-11 spike: roles built on the in-house framework use the existing tool
+"""P2-11 spike: LangGraph executes roles using the existing tool
 registry and Python sandbox under one shared budget."""
 import json
+import os
 import unittest
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from agent.base_agent import BaseAgent
-from agent.framework import Bus, Role, Toolbox
+from agent.framework import Bus, FixedWorkflow, Role, Toolbox
 from agent.output_schema import parse_final_message
 from tools import cache
 
 PATIENT = "11111111-1111-1111-1111-111111111111"
 OBSERVATIONS = [
-    {"resourceType": "Observation", "id": "o1", "valueQuantity": {"value": 20}},
-    {"resourceType": "Observation", "id": "o2", "valueQuantity": {"value": 18}},
+    {"resourceType": "Observation", "id": "o1", "subject": {"reference": f"Patient/{PATIENT}"},
+     "valueQuantity": {"value": 20}},
+    {"resourceType": "Observation", "id": "o2", "subject": {"reference": f"Patient/{PATIENT}"},
+     "valueQuantity": {"value": 18}},
 ]
 
 
@@ -41,16 +44,25 @@ class PipelineAgent(BaseAgent):
         retrieval = Role("retrieval", "Fetch records.", Toolbox(
             ["get_resources_by_patient_fhir_id"], records, patient_fhir_id=PATIENT), self)
         analysis = Role("analysis", "Compute the answer.", Toolbox(["execute_python_code"], records), self)
-        bus.send("controller", "retrieval", "task", {"question": question})
-        fetched = retrieval.run(question)
-        if fetched.error:
-            return {"answer": None, "error": fetched.error, "trace": self.messages}
-        bus.send("retrieval", "analysis", "records",
-                 {"ids": [f"Observation/{r['id']}" for r in records.get("Observation", [])]})
-        draft = analysis.run(question)
-        if draft.error:
-            return {"answer": None, "error": draft.error, "trace": self.messages}
-        answer, evidence, limitation = parse_final_message(draft.content)
+        def retrieve(state):
+            bus.send("controller", "retrieval", "task", {"question": state["question"]})
+            fetched = retrieval.run(state["question"])
+            return {**state, "error": fetched.error}
+
+        def analyze(state):
+            if state["error"]:
+                return state
+            bus.send("retrieval", "analysis", "records",
+                     {"ids": [f"Observation/{r['id']}" for r in records.get("Observation", [])]})
+            draft = analysis.run(state["question"])
+            return {**state, "error": draft.error, "draft": draft.content}
+
+        self.workflow = FixedWorkflow({"retrieve": retrieve, "analyze": analyze}, "retrieve",
+                                      edges=[("retrieve", "analyze"), ("analyze", None)])
+        state = self.workflow.run({"question": question})
+        if state["error"]:
+            return {"answer": None, "error": state["error"], "trace": self.messages}
+        answer, evidence, limitation = parse_final_message(state["draft"])
         bus.send("analysis", "controller", "draft", {"answer": answer, "evidence": evidence})
         self.bus = bus
         return {"answer": answer, "evidence": evidence, "limitation": limitation,
@@ -121,6 +133,9 @@ class FrameworkTests(unittest.TestCase):
                          ["get_resources_by_patient_fhir_id", "execute_python_code"])
         self.assertEqual(output["budget"]["tool_calls_run"], 2)
         self.assertEqual([m["kind"] for m in agent.bus.to_list()], ["task", "records", "draft"])
+        self.assertEqual(set(agent.workflow.graph.nodes), {"__start__", "retrieve", "analyze"})
+        self.assertIsNone(agent.workflow.graph.checkpointer)
+        self.assertEqual(agent.workflow.graph.retry_policy, ())
 
     def test_tool_budget_is_shared_across_roles(self):
         agent, output = self.run_pipeline([
@@ -164,6 +179,34 @@ class FrameworkTests(unittest.TestCase):
         for bad in ({"value": float("nan")}, {"value": object()}, ["not", "an", "object"]):
             with self.assertRaises((TypeError, ValueError)):
                 bus.send("a", "b", "draft", bad)
+
+    def test_bus_return_values_cannot_rewrite_the_coordination_record(self):
+        bus = Bus()
+        message = bus.send("retrieval", "analysis", "records", {"ids": ["Observation/o1"]})
+        message.payload["ids"].append("Observation/forged")
+        bus.log[0].payload["ids"].clear()
+        exported = bus.to_list()
+        exported[0]["payload"]["ids"].clear()
+        self.assertEqual(bus.to_list()[0]["payload"], {"ids": ["Observation/o1"]})
+
+    def test_workflow_never_enables_external_tracing_from_environment(self):
+        from langsmith.run_helpers import get_tracing_context
+
+        tracing = []
+        workflow = FixedWorkflow({"inspect": lambda state: tracing.append(get_tracing_context()["enabled"]) or state},
+                                 "inspect", edges=[("inspect", None)])
+        with patch.dict(os.environ, {"LANGSMITH_TRACING": "true", "LANGCHAIN_TRACING_V2": "true"}):
+            with patch("langsmith.client.Client.create_run") as create_run:
+                self.assertEqual(workflow.run({"question": "local fixture"}), {"question": "local fixture"})
+        self.assertEqual(tracing, [False])
+        create_run.assert_not_called()
+
+    def test_failed_workflow_node_is_never_retried(self):
+        failing = Mock(side_effect=RuntimeError("stop"))
+        workflow = FixedWorkflow({"fail": failing}, "fail", edges=[("fail", None)])
+        with self.assertRaisesRegex(RuntimeError, "stop"):
+            workflow.run({})
+        failing.assert_called_once()
 
 
 if __name__ == "__main__":
