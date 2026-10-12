@@ -10,7 +10,7 @@ import argparse
 import datetime
 import csv
 from collections import Counter
-from utils import is_reasoning_llm
+from utils import get_default_model, safe_llm_call
 
 import pandas as pd
 from tqdm import tqdm
@@ -41,9 +41,9 @@ parser.add_argument("--output_dir",
                     help="Path to the output directory.")
 parser.add_argument("--model",
                     type=str,
-                    default="o4-mini",
+                    default=get_default_model(),
                     required=False,
-                    help="Model to use for evaluation.")
+                    help="Model for the secondary LLM judge; default: the configured base model.")
 parser.add_argument("--num_processes",
                     type=int,
                     default=-1,
@@ -87,19 +87,11 @@ def setup_environment():
 def call_model(model, prompt):
     """Call LLM with appropriate settings"""
     try:
-        model_mapping = {
-            "o4-mini": "o4-mini"
-        }
-        
-        litellm_model = model_mapping.get(model, model)
         messages = [{"role": "user", "content": prompt}]
-        
-        if is_reasoning_llm(model):
-            response = litellm.completion(model=litellm_model, messages=messages)
-        else:
-            response = litellm.completion(model=litellm_model, messages=messages, temperature=0.0)
-            
-        return response.choices[0].message.content.strip()
+        response, error, _ = safe_llm_call(model, messages, max_retries=1)
+        if error or response is None:
+            raise ValueError(error or "No model response")
+        return response.content.strip()
     except Exception as e:
         raise ValueError(f"Failed to call model {model}: {str(e)}")
 

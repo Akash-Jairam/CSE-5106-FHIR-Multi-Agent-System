@@ -1,6 +1,6 @@
 """Demo interface (P3-23): ask one patient's FHIR record a question through the evaluated pipeline.
 
-    streamlit run demo/app.py -- --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+    streamlit run demo/app.py -- --max_total_tokens 200000 --max_tool_calls 30
 
 Use the same settings as scripts/run_experiments.py. The header then shows
 whether the code, model, and budget match the evaluated run. Example
@@ -18,7 +18,7 @@ import streamlit as st
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from demo import backend  # noqa: E402
-from utils import validate_config  # noqa: E402
+from utils import get_default_model, validate_config  # noqa: E402
 
 BADGES = {"verified": (st.success, "✓"), "unverified": (st.warning, "⚠"), "unchecked": (st.info, "○"),
           "abstained": (st.info, "–"), "error": (st.error, "✕")}
@@ -26,7 +26,7 @@ BADGES = {"verified": (st.success, "✓"), "unverified": (st.warning, "⚠"), "u
 
 def settings_from_argv(argv):
     parser = argparse.ArgumentParser(allow_abbrev=False)
-    parser.add_argument("--model", default=os.environ.get("MODEL", "o4-mini"))
+    parser.add_argument("--model", default=get_default_model())
     parser.add_argument("--base_url", default=None)
     parser.add_argument("--max_total_tokens", type=int, default=None)
     parser.add_argument("--max_tool_calls", type=int, default=None)

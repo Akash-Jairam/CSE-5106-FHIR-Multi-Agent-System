@@ -168,6 +168,7 @@ You can enable the required APIs and verify access using the [gcloud CLI](https:
    ```
 
    ```yaml
+   MODEL: "gpt-6-luna"
    OPENAI_API_KEY: "your-api-key"
    GEMINI_API_KEY: "your-api-key"
    FHIR_CONFIG:
@@ -177,7 +178,9 @@ You can enable the required APIs and verify access using the [gcloud CLI](https:
       STORE_ID: "fhir-store-id (usually the same as dataset_id)"
    ```
 
-   Environment variables (`OPENAI_API_KEY`, `GEMINI_API_KEY`, `FHIR_PROJECT_ID`, `FHIR_LOCATION`, `FHIR_DATASET_ID`, `FHIR_STORE_ID`) take precedence over `config.yml`.
+   Environment variables (`MODEL`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `FHIR_PROJECT_ID`, `FHIR_LOCATION`, `FHIR_DATASET_ID`, `FHIR_STORE_ID`) take precedence over `config.yml`.
+
+   `MODEL` is the one base model for all three systems (direct LLM, single agent, multi-agent), so they always run on the same LLM. `run_agent.py`, `scripts/run_experiments.py`, the demo, `scripts/check_setup.py`, the LLM judge, and every `scripts/run_*.sh` launcher take their default from it (`utils/model_config.py`). The order is `$MODEL`, then `MODEL` in `config.yml`, then `gpt-6-luna`. `--model` overrides it for one command, and `scripts/run_experiments.py` passes its one model to every arm.
 
    Each collaborator chooses their own model and provider configuration. Keep personal launchers, provider adapters, deployment settings, and credential files local (for example, under the ignored `.local-setup/` directory); shared agents must not depend on them. Commit reusable code, tests, placeholder-only configuration templates, and project-wide reproducibility manifests. Virtual environments, caches, downloaded data, and run outputs remain local.
 
@@ -248,7 +251,7 @@ bash scripts/run_single_agent.sh                    # Multi-turn code agent star
 bash scripts/run_multi_agent.sh                     # Fixed controller: retrieval → analysis → verification, at most one repair
 ```
 
-Extra arguments are passed through to `run_agent.py`, e.g. `MODEL=gemini/gemini-2.5-flash bash scripts/run_single_turn_resource_agent.sh --limit 5`.
+Extra arguments are passed through to `run_agent.py`, e.g. `bash scripts/run_single_turn_resource_agent.sh --limit 5`. Every launcher uses the configured base model; `MODEL=gemini/gemini-2.5-flash bash scripts/...` overrides it for one run.
 
 Per-question budgets (both off by default):
 - `--max_total_tokens N`: reserve the next prompt (including tool schemas/arguments and a framing margin), cap its completion to the remaining aggregate allowance, and stop if no allowance remains. Provider-reported overruns are recorded and the answer refused. Tokenizers differ, so the prompt reserve is an estimate rather than a promise of exact provider framing.
@@ -265,15 +268,15 @@ With `--split held_out --perturbations manifests/perturbations.json --condition 
 `scripts/run_experiments.py` runs the full experiment: 900 ordinary runs (each system on the 300 held-out questions), 200 recovery runs (the single and multi-agent systems on the 50 perturbed questions, intact and omitted), and 300 variability runs (each system on a fixed 20-question subset, 5 times). All systems share one model and budget, and the tool cache is on.
 
 ```bash
-python scripts/run_experiments.py plan   --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # arms, counts, commands
-python scripts/run_experiments.py run    --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # run or resume
-python scripts/run_experiments.py status --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # counts only
-python scripts/run_experiments.py variability --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # spread across repeats
-python scripts/run_experiments.py analyze --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # CIs, comparisons, latency, plot
-python scripts/run_experiments.py revisions --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # revisions, unsupported claims, recovery
+python scripts/run_experiments.py plan   --max_total_tokens 200000 --max_tool_calls 30  # arms, counts, commands
+python scripts/run_experiments.py run    --max_total_tokens 200000 --max_tool_calls 30  # run or resume
+python scripts/run_experiments.py status --max_total_tokens 200000 --max_tool_calls 30  # counts only
+python scripts/run_experiments.py variability --max_total_tokens 200000 --max_tool_calls 30  # spread across repeats
+python scripts/run_experiments.py analyze --max_total_tokens 200000 --max_tool_calls 30  # CIs, comparisons, latency, plot
+python scripts/run_experiments.py revisions --max_total_tokens 200000 --max_tool_calls 30  # revisions, unsupported claims, recovery
 ```
 
-`bash scripts/run_demo.sh --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30` starts the demo: pick a patient and an example or custom question, and see the answer, its cited fields, and its verification status from the same pipeline.
+`bash scripts/run_demo.sh --max_total_tokens 200000 --max_tool_calls 30` starts the demo: pick a patient and an example or custom question, and see the answer, its cited fields, and its verification status from the same pipeline.
 
 Rerunning `run` resumes from the saved results and retries failed questions. Use `--split pilot --limit 2 --arms ordinary` for a smoke run, and `--arms` to run a subset. See [the Phase 3 notes](docs/phase3_experiments.md).
 

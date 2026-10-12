@@ -379,6 +379,10 @@ def count_tokens_in_messages(messages, tools=None) -> int:
     return tokens + 2
 
 
+def _is_luna_chat_model(model):
+    return model.removeprefix("openai/") == "gpt-6-luna"
+
+
 def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_calls=True, max_retries=5, max_tokens=32000, base_url=None, max_completion_tokens=None):
     """Safe LLM API call with context length validation and retry logic."""
     
@@ -392,7 +396,8 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
     for attempt in range(max_retries):
         captured_usage = False
         try:
-            limits = {}
+            # The pinned registry predates Luna; extra_body preserves its tool-compatible mode.
+            limits = {"extra_body": {"reasoning_effort": "none"}} if _is_luna_chat_model(model) else {}
             if max_completion_tokens is not None:
                 key = "max_completion_tokens" if is_reasoning_llm(model) else "max_tokens"
                 limits[key] = max_completion_tokens
@@ -405,7 +410,7 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                 temperature=None if is_reasoning_llm(model) else temperature,
                 parallel_tool_calls=parallel_tool_calls if tools else None,
                 base_url=base_url,
-                custom_llm_provider="openai" if base_url else None,
+                custom_llm_provider="openai" if base_url or _is_luna_chat_model(model) else None,
                 **limits
             )
 
@@ -458,11 +463,19 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
 
 
 def is_reasoning_llm(model: str) -> bool:
-    # These models do not support the temperature parameter
-    supported_models = [
-        'o4-mini'
-    ]
-    return model in supported_models
+    """OpenAI reasoning models (o-series, gpt-5 and later, e.g. gpt-6-luna) reject `temperature`
+    and cap output with `max_completion_tokens`. Other providers' reasoning models accept both."""
+    try:
+        if get_model_provider(model) != "openai":
+            return False
+    except NotImplementedError:
+        return False
+    if model.removeprefix("openai/") in ("o4-mini", "gpt-6-luna"):
+        return True
+    try:
+        return bool(litellm.supports_reasoning(model=model))
+    except Exception:
+        return False
 
 # =============================================================================
 # Evaluation Metrics

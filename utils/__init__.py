@@ -37,6 +37,9 @@ from .core_utils import (
     retrieval_precision,
 )
 
+# The one base model shared by every system (CC-28)
+from .model_config import DEFAULT_MODEL, get_default_model
+
 # FHIR utilities
 from . import fhir_utils
 
@@ -84,6 +87,10 @@ __all__ = [
     'retrieval_recall',
     'retrieval_precision',
     
+    # Model configuration
+    'DEFAULT_MODEL',
+    'get_default_model',
+
     # Modules
     'fhir_utils',
     'sql_to_fhir_utils', 
