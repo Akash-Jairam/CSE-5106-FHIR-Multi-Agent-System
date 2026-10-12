@@ -123,7 +123,7 @@ def arm_status(arm, args, perturbations):
     settings = run_agent.build_parser().parse_args(runner_argv(arm, args))
     inputs = arm_inputs(arm, settings, perturbations)
     status = {"arm": arm.name, "group": arm.group, "questions": len(inputs), "output": settings.output,
-              "completed": 0, "failed": 0, "state": "not started"}
+              "completed": 0, "failed": 0, "attempted": 0, "analyzable": False, "state": "not started"}
     if not os.path.exists(settings.output):
         return status
     identity_file = settings.output + ".run.json"
@@ -134,11 +134,12 @@ def arm_status(arm, args, perturbations):
     if saved != run_agent.run_identity(settings, inputs):
         status["state"] = "stale: different inputs, settings or code; use a new --output_dir"
         return status
-    with open(settings.output, encoding="utf-8") as stream:
-        rows = {row.get("question_id"): row for row in json.load(stream)}
+    rows = run_agent.load_saved_results(settings.output, inputs)
     rows = [rows.get(qid, {}) for qid in inputs["question_id"]]
     status["completed"] = sum(run_agent.is_done(row) for row in rows)
     status["failed"] = sum(not run_agent.is_done(row) and bool(row.get("error")) for row in rows)
+    status["attempted"] = sum(run_agent.is_attempted(row) for row in rows)
+    status["analyzable"] = bool(len(inputs)) and status["attempted"] == len(inputs)
     status["state"] = "complete" if status["completed"] == len(inputs) else "in progress"
     return status
 
@@ -152,14 +153,16 @@ def load_recovery_set(arms, args):
 
 def print_status(statuses):
     width = max(len(s["arm"]) for s in statuses)
-    print(f"{'arm':<{width}}  {'done':>5} {'failed':>6} {'total':>5}  state")
+    print(f"{'arm':<{width}}  {'done':>5} {'failed':>6} {'tried':>5} {'total':>5}  state")
     for s in statuses:
-        print(f"{s['arm']:<{width}}  {s['completed']:>5} {s['failed']:>6} {s['questions']:>5}  {s['state']}")
+        print(f"{s['arm']:<{width}}  {s['completed']:>5} {s['failed']:>6} "
+              f"{s['attempted']:>5} {s['questions']:>5}  {s['state']}")
     for group in EXPECTED:
         members = [s for s in statuses if s["group"] == group]
         if members:
             done, total = sum(s["completed"] for s in members), sum(s["questions"] for s in members)
             print(f"{group}: {done}/{total} runs complete")
+            print(f"  {sum(s['attempted'] for s in members)}/{total} runs attempted (errors retained for analysis)")
 
 
 def check_sizes(statuses, arms, args):
@@ -179,6 +182,10 @@ def main(argv=None):
     for key in ("max_total_tokens", "max_tool_calls", "limit"):
         if getattr(args, key) is not None and getattr(args, key) < 0:
             parser.error(f"--{key} must be non-negative")
+    if args.command == "run" and args.split == HELD_OUT and args.limit is None:
+        if any(getattr(args, key) is None or getattr(args, key) <= 0
+               for key in ("max_total_tokens", "max_tool_calls")):
+            parser.error("A full run requires explicit positive --max_total_tokens and --max_tool_calls ceilings")
     try:
         arms = select_arms(args.arms, args.split)
     except ValueError as exc:

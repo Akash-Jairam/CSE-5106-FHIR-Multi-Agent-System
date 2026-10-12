@@ -249,6 +249,47 @@ class ExperimentTests(unittest.TestCase):
         self.assertIn("Rerun the same command", out.getvalue())
 
 
+class ResultAccountingTests(unittest.TestCase):
+    def test_saved_rows_are_validated_before_resume_or_pairing(self):
+        frame = inputs(("q1", "q2"))
+        valid = {"question_id": "q1", "patient_fhir_id": "patient", "latency": 1.0}
+        invalid = ([valid, valid], [{**valid, "question_id": None}],
+                   [{**valid, "question_id": "foreign"}],
+                   [{**valid, "patient_fhir_id": "another-patient"}], {"q1": valid}, [None])
+        with tempfile.TemporaryDirectory() as directory:
+            output = os.path.join(directory, "results.json")
+            for records in invalid:
+                runner._write_json(records, output)
+                with self.subTest(records=records), self.assertRaises(ValueError):
+                    runner.load_saved_results(output, frame)
+            runner._write_json([valid], output)
+            self.assertEqual(runner.load_saved_results(output, frame), {"q1": valid})
+
+    def test_all_attempted_errors_are_analyzable_but_retryable(self):
+        frame = inputs(("q1", "q2"))
+        with tempfile.TemporaryDirectory() as directory:
+            args = experiments.build_parser().parse_args([
+                "status", "--model", "test", "--output_dir", directory, "--arms", "ordinary_direct_llm"])
+            arm = experiments.ARMS[0]
+            settings = runner.build_parser().parse_args(experiments.runner_argv(arm, args))
+            records = [{**row, "latency": 1.0, "agent_answer": None,
+                        "error": "provider down" if index else None}
+                       for index, row in enumerate(frame.to_dict("records"))]
+            runner._write_json(records, settings.output)
+            runner._write_json(runner.run_identity(settings, frame), settings.output + ".run.json")
+            with patch.object(experiments, "arm_inputs", return_value=frame):
+                status = experiments.arm_status(arm, args, {})
+            self.assertEqual((status["completed"], status["failed"], status["attempted"]), (1, 1, 2))
+            self.assertTrue(status["analyzable"])
+            self.assertNotEqual(status["state"], "complete")
+
+    def test_full_run_requires_explicit_shared_ceilings_before_execution(self):
+        with patch.object(runner, "main") as execute, contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):
+                experiments.main(["run", "--model", "test", "--arms", "ordinary"])
+        execute.assert_not_called()
+
+
 class CacheTests(unittest.TestCase):
     def test_cache_entries_are_written_atomically(self):
         with tempfile.TemporaryDirectory() as directory, patch.object(cache, "CACHE_DIR", directory), \

@@ -67,6 +67,15 @@ and failed ones are retried with their earlier attempts kept in
 `attempt_history`. To resume after an interruption, or to retry failures,
 rerun the same `run` command.
 
+Saved rows are checked for unique scheduled question IDs and their original
+patient assignments before resume or paired analysis. Foreign, duplicate,
+null-ID, or wrong-patient rows fail closed; missing rows remain unattempted.
+Status distinguishes successful completion from terminal attempts. An arm
+with every question attempted is analyzable even when some attempts failed:
+errors must remain in the accuracy denominator, not disappear with a skipped
+arm. Successful completion still controls resume, so failed rows can be
+retried without losing their history.
+
 If one arm stops (bad credentials, stale results), the remaining arms still
 run, and the command exits nonzero. Any change under `agent/`, `tools/`, or
 `utils/` changes the code fingerprint and makes existing files stale. In
@@ -97,6 +106,8 @@ python scripts/run_experiments.py status --model gpt-5-nano --max_total_tokens 2
   (ordinary arms only). Results go to
   `output/experiments/<model>/<split>[_limit<N>]/` unless `--output_dir` is
   given, so smoke runs never mix with the real experiment.
+- A full, unlimited held-out `run` requires explicit positive token and
+  tool ceilings. `plan` and `status` remain available without those settings.
 
 ### Limits
 
