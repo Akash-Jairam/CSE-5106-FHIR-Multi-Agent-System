@@ -174,7 +174,12 @@ class VerificationAgent:
                                       action="The tool-call budget did not allow the evidence check")]}
         if any(i["responsible_role"] is None for i in issues):
             return {"issues": issues, "recomputed_answer": None}
+        budget_stop_before = self.host.budget_stop
         result = self.role.run(self._prompt(draft, issues))
+        refused_budget = self.host.budget_stop and self.host.budget_stop != budget_stop_before
+        if refused_budget:
+            issues.append(_issue("source_check", responsible_role=None,
+                                 action=f"Verification did not complete all requested checks: {self.host.budget_stop}"))
         unresolved = getattr(self.toolbox, "scope_failures", {})
         for record, reason in sorted(unresolved.items()):
             issues.append(_issue("source_check", record=record, responsible_role=None,
@@ -202,7 +207,7 @@ class VerificationAgent:
         elif _canonical(computation["answer"]) != _canonical(recomputed):
             issues.append(_issue("independent_check", responsible_role=None,
                                  action="The reported recomputation differs from the successful Python result"))
-        elif not unresolved and _canonical(recomputed) == _canonical(draft.get("answer")) and _empty_answer(recomputed):
+        elif not unresolved and not refused_budget and _canonical(recomputed) == _canonical(draft.get("answer")) and _empty_answer(recomputed):
             issues = [i for i in issues if i["type"] != "no_evidence"]
         if computation is not None and _canonical(computation["answer"]) != _canonical(draft.get("answer")):
             issues.append(_issue("recompute_mismatch", action=(

@@ -267,6 +267,22 @@ class VerificationTests(unittest.TestCase):
         self.assertEqual([(i["type"], i["responsible_role"]) for i in result["issues"]], [("source_check", None)])
         self.host._llm_call.assert_not_called()
 
+    def test_budget_refused_later_tool_does_not_reuse_a_good_computation(self):
+        self.host.set_budget(max_tool_calls=3)
+        response = call(PYTHON_TOOL, code=MIN_CODE)
+        response.tool_calls.append(fetch("extra-fetch").tool_calls[0])
+        result = self.verify(fetch(), response, verdict())
+        self.assertEqual(result["issues"][-1]["type"], "source_check")
+        self.assertIsNone(result["issues"][-1]["responsible_role"])
+        self.assertEqual(self.host.tool_calls_made, 3)
+        self.assertIn("Not run", self.host.messages[-2]["content"])
+
+    def test_reaching_the_exact_ceiling_without_a_refused_check_can_pass(self):
+        self.host.set_budget(max_tool_calls=3)
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict())
+        self.assertEqual(result["issues"], [])
+        self.assertIsNone(self.host.budget_stop)
+
 
 class PipelineTests(unittest.TestCase):
     def test_verifier_catches_a_wrong_draft_and_the_repair_is_released(self):
