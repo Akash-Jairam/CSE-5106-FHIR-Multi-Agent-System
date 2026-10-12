@@ -172,6 +172,40 @@ class ControllerTests(unittest.TestCase):
         output = Incomplete().run(QUESTION)
         self.assertIn("needs handlers for: analysis, verification", output["error"])
 
+    def test_every_role_and_repair_execute_as_nodes_in_the_real_graph(self):
+        system = StubController([records(), records()], [draft(), draft(8)],
+                                [{"issues": [issue("retrieval", "missing_evidence")]}, {"issues": []}])
+        output = system.run(QUESTION)
+        self.assertEqual(output["answer"], 8)
+        self.assertEqual(set(system._workflow.graph.nodes),
+                         {"__start__", "retrieval", "analysis", "verification", "repair"})
+        self.assertIsNone(system._workflow.graph.checkpointer)
+        self.assertEqual(system._workflow.graph.retry_policy, ())
+        self.assertTrue(output["revision"]["revised"])
+
+    def test_failed_repair_does_not_mark_the_unchanged_draft_as_revised(self):
+        system = StubController([records(), RuntimeError("store unavailable")], [draft()],
+                                [{"issues": [issue("retrieval", "missing_evidence")]}])
+        output = system.run(QUESTION)
+        self.assertIsNone(output["answer"])
+        self.assertFalse(output["revision"]["revised"])
+        self.assertEqual(output["revision"]["final"]["answer"], 7)
+        self.assertEqual(len(system.tasks["retrieval"]), 2)
+        self.assertEqual(len(system.tasks["analysis"]), 1)
+
+    def test_graph_preserves_the_original_scalar_repair_route_api(self):
+        class ScalarRoute(StubController):
+            def route(self, issues):
+                self.routed_issues = issues
+                return "analysis"
+
+        system = ScalarRoute([records()], [draft(), draft(8)],
+                             [{"issues": [issue("analysis")]}, {"issues": []}])
+        output = system.run(QUESTION)
+        self.assertEqual(output["answer"], 8)
+        self.assertEqual(system.routed_issues, [issue("analysis")])
+        self.assertNotIn("routing", output["revision"])
+
 
 if __name__ == "__main__":
     unittest.main()

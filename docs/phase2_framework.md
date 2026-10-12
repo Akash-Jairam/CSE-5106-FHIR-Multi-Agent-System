@@ -77,7 +77,8 @@ adds clinical role handlers or later repair classification. The existing
 ## Fixed Controller (P2-12)
 
 [`agent/controller.py`](../agent/controller.py) defines `FixedController`,
-a `BaseAgent` whose `_run()` decides the order of work without a model:
+a `BaseAgent` whose `_run()` executes the fixed LangGraph pipeline without
+a controller model:
 
 1. It parses the shared context (question, patient FHIR ID, assumed current
    time, and the dataset's assumption text) and sends it with every task.
@@ -90,6 +91,16 @@ a `BaseAgent` whose `_run()` decides the order of work without a model:
    then verifies again.
 4. An answer is released only after a clean verification. Otherwise the
    system abstains, and the limitation lists the remaining issues.
+
+Retrieval, analysis, verification, and repair classification are graph
+nodes. Conditional edges stop on a role failure or route exactly one
+repair, then terminate after its verification. Framework retries and
+checkpoint resume are disabled, so no hidden second attempt can bypass
+the common token/tool ceiling. Revision tracking uses an explicit flag
+after a successful repaired analysis, not object identity in graph state.
+The original `route(issues) -> role or None` interface is retained here;
+P2-17's later error classification and routing diagnostics are not part of
+this controller correction.
 
 Roles are handlers (`task -> result`, both JSON objects) supplied by
 `build_roles()`. They are expected to follow these message contracts:
@@ -142,3 +153,7 @@ change cannot be resumed and must be rerun under a new output path.
 The scoped P2-11 correction passed all 134 available Phase 1 and framework
 tests with mocked model/store calls and real macOS sandbox execution. A
 Linux sandbox backend still requires its own platform verification.
+The separate P2-12 correction, including that prerequisite, passed all 148
+available tests. Its regressions cover actual graph nodes, early failures,
+one bounded repair, abstention after failed verification, and the original
+scalar repair-route API.

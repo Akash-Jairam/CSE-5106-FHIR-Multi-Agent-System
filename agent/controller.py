@@ -25,7 +25,7 @@ import re
 from copy import deepcopy
 
 from .base_agent import BaseAgent
-from .framework import Bus
+from .framework import Bus, FixedWorkflow
 from utils import parse_question_context
 
 MAX_REPAIRS = 1
@@ -104,6 +104,56 @@ class FixedController(BaseAgent):
     def _verify(self, draft):
         return self._ask("verification", {"draft": draft})["issues"]
 
+    def _pipeline(self):
+        """Fixed graph edges, with one deterministic repair branch and no fourth LLM."""
+        def retrieval(state):
+            payload = {} if state["repairs"] == 0 else {
+                "issues": state["final_check_issues"], "previous_records": state["records"]}
+            return {**state, "records": self._ask("retrieval", payload)}
+
+        def analysis(state):
+            payload = {"records": state["records"]}
+            if state["repairs"]:
+                payload.update(issues=state["final_check_issues"], previous_draft=state["final"])
+            candidate = self._ask("analysis", payload)
+            if state["repairs"]:
+                return {**state, "final": candidate, "revised": True}
+            return {**state, "draft": candidate}
+
+        def verification(state):
+            candidate = state["final"] if state["repairs"] else state["draft"]
+            issues = self._verify(candidate)
+            return {**state, "final": candidate, "final_check_issues": issues,
+                    "check_issues": state["check_issues"] if state["repairs"] else issues}
+
+        def repair(state):
+            state = {**state, "next_role": None}
+            if state["error"] or not state["final_check_issues"] or state["repairs"] >= MAX_REPAIRS:
+                return state
+            role = self.route(state["final_check_issues"])
+            return {**state, "repair_role": role, "next_role": role,
+                    "repairs": state["repairs"] + (role is not None)}
+
+        def guarded(handler):
+            def node(state):
+                try:
+                    return handler(state)
+                except RoleFailure as exc:
+                    return {**state, "error": str(exc)}
+            return node
+
+        return FixedWorkflow(
+            {"retrieval": guarded(retrieval), "analysis": guarded(analysis),
+             "verification": guarded(verification), "repair": repair}, "retrieval",
+            edges=[("verification", "repair")], branches=[
+                ("retrieval", lambda state: None if state["error"] else "analysis",
+                 {None: None, "analysis": "analysis"}),
+                ("analysis", lambda state: None if state["error"] else "verification",
+                 {None: None, "verification": "verification"}),
+                ("repair", lambda state: state["next_role"],
+                 {None: None, "retrieval": "retrieval", "analysis": "analysis"}),
+            ])
+
     def _run(self, question):
         self._context = self.question_context(question)
         self._bus = Bus()
@@ -113,25 +163,13 @@ class FixedController(BaseAgent):
         if missing:
             raise ValueError(f"The controller needs handlers for: {', '.join(missing)}")
 
-        draft = check_issues = final = final_check_issues = repair_role = error = None
-        try:
-            records = self._ask("retrieval", {})
-            draft = self._ask("analysis", {"records": records})
-            check_issues = self._verify(draft)
-            final, final_check_issues = draft, check_issues
-            repairs = 0
-            while final_check_issues and repairs < MAX_REPAIRS:
-                repair_role = self.route(final_check_issues)
-                if repair_role is None:
-                    break
-                repairs += 1
-                if repair_role == "retrieval":
-                    records = self._ask("retrieval", {"issues": final_check_issues, "previous_records": records})
-                final = self._ask("analysis", {"records": records, "issues": final_check_issues,
-                                               "previous_draft": final})
-                final_check_issues = self._verify(final)
-        except RoleFailure as exc:
-            error = str(exc)
+        self._workflow = self._pipeline()
+        state = self._workflow.run({
+            "records": None, "draft": None, "check_issues": None, "final": None, "final_check_issues": None,
+            "repair_role": None, "error": None, "repairs": 0, "revised": False})
+        draft, final = state["draft"], state["final"]
+        check_issues, final_check_issues = state["check_issues"], state["final_check_issues"]
+        repair_role, error = state["repair_role"], state["error"]
 
         released = final if final is not None and final_check_issues == [] else None
         if released is not None:
@@ -153,7 +191,7 @@ class FixedController(BaseAgent):
                 "draft": self._summary(draft),
                 "check_issues": check_issues,
                 "repair_role": repair_role,
-                "revised": final is not None and final is not draft,
+                "revised": state["revised"],
                 "answer_changed": final is not None and draft is not None and final["answer"] != draft["answer"],
                 "final": self._summary(final),
                 "final_check_issues": final_check_issues,
