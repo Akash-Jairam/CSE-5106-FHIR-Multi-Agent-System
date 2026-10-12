@@ -111,8 +111,8 @@ budget is chosen when it is run.
 
 How much of a system's accuracy is the model's run-to-run noise? Each
 system answers the same fixed subset five times, and the spread across
-repeats is reported. Differences between systems smaller than that spread
-should not be read as real.
+repeats is reported. This is descriptive variability on that fixed subset;
+system comparisons use the paired patient-clustered intervals (P3-21).
 
 ### The subset
 
@@ -121,8 +121,10 @@ should not be read as real.
 sampled with the split seed and stratified by family in proportion to the
 held-out mix: 6 lookup/counting, 3 numerical aggregation, and 11 temporal
 selection, from 17 patients. Only question IDs and families are read, never
-reference answers. The manifest records the split manifest's hash, and the
-runner refuses to use it with a different split. Two builds produced the
+reference answers. The builder checks that every held-out ID has exactly
+one in-scope family assignment and that the family file matches the hash
+frozen in the split. The manifest records the split manifest's hash, and
+the runner refuses to use it with a different split. Two builds produced the
 same file, and a test rebuilds it from the current split.
 
 ### The runs
@@ -143,21 +145,28 @@ python scripts/run_experiments.py variability --model gpt-5-nano --max_total_tok
 ```
 
 The report uses the same settings as `run` to find and check the result
-files. It scores each answer with the typed scorer (an errored attempt
-counts as wrong), and only uses repeats whose files are complete and
-current. Incomplete repeats are listed as skipped. For each system it
+files. It scores each question's first recorded attempt with the typed
+scorer (an errored attempt counts as wrong). A later successful retry
+cannot improve that repeat's accuracy or consistency. A current repeat
+is reportable once every question has been attempted, including failures;
+unattempted questions and stale files make it incomplete. Incomplete repeats
+are listed as skipped. Primary tokens and latency describe those same first
+attempts; retry counts and cumulative spend are reported separately. For each system it
 reports:
 
 | Measure | Meaning |
 |---|---|
 | accuracy, abstention rate | mean, sample SD, min and max over repeats |
-| mean tokens, median latency | the same, per repeat |
+| error rate | failed first attempts, separate from intentional abstentions |
+| mean tokens, median latency | first-attempt usage, per repeat; unavailable if any question is unmeasured |
+| retry count, retry-inclusive total tokens and latency | all recorded attempts; usage is unavailable if any attempt is unmeasured |
 | always / never / sometimes correct | questions by how often they were right across repeats |
 | pairwise correctness agreement | for each question, the share of repeat pairs that agree on right vs wrong, averaged |
-| identical answers | share of questions answered identically in every repeat |
+| identical answers | share of questions answered identically in every repeat with no failed first attempt |
 
 The report goes to `<output_dir>/variability_report.json` and the
-terminal, with aggregates only. The statistics live in
+terminal, with aggregates only. Every spread records how many repeats have
+that measure available, so partial usage coverage remains visible. The statistics live in
 `scripts/variability.py`, outside the fingerprinted code, so changing them
 doesn't make result files stale.
 
@@ -165,6 +174,6 @@ doesn't make result files stale.
 
 No repeats have been run yet. With 20 questions, one question is 5
 accuracy points, so the SD over five repeats is a coarse estimate. It
-bounds run-to-run noise but doesn't replace the patient-clustered
-confidence intervals (P3-21). Models called at temperature 0 may still
-vary through provider nondeterminism; reasoning models ignore the setting.
+doesn't bound the variability of future runs or replace the patient-clustered
+confidence intervals (P3-21). Shared cached records hold retrieved content
+fixed but do not make tools, scheduling, or provider calls deterministic.
