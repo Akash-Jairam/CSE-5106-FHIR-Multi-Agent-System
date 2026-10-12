@@ -281,3 +281,115 @@ the tables disclose the number missing. Mean tokens and retry-inclusive
 cost totals are unavailable if any contributing usage is unknown, rather
 than treating unknown usage as zero. The statistics code depends on the
 first-attempt and attempt-history helpers from P3-20.
+
+## Revision Tracking (P3-22)
+
+```sh
+python scripts/run_experiments.py revisions --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30 \
+  [--evidence_source store | --evidence_source ndjson --fhir_dir "$FHIR_NDJSON_DIR"]
+```
+
+`revisions` reads the validated, current ordinary and recovery arms in
+which every question has an execution attempt. It
+writes `revisions.json` (a summary per arm) and `revision_log.csv` (one row
+of flags per question and arm) to `<output_dir>/revisions/`. Answers are
+scored with the typed scorer but never written or printed. The log holds
+question IDs, counts, diagnostic resource IDs, and flags, so it can be used to sample questions
+for the human audit (P4-24).
+
+| Measure | Definition |
+|---|---|
+| draft → released | The single agent and the multi-agent system save their first draft in `revision`. Scoring the draft and the released answer gives right→right, right→wrong, wrong→right, or wrong→wrong. A correct draft withheld as unverified counts as right→wrong. Transitions use the first execution attempt; a provider or runtime error has no released answer and is excluded from transitions. Accuracy still counts it as wrong. Counts include the scored denominator, excluded failures, repaired runs, and net (wrong→right − right→wrong). The log also records the repair role and number of execution attempts. |
+| unsupported claims | A released answer with no evidence or a structurally malformed citation. With `--evidence_source`, it also counts a citation that doesn't match its source record (`utils/evidence_scorer.py`). Independently established empty results (`0`, `False`, `[]`, or null) need no nonexistent citation: this exemption requires a clean final verifier verdict and a matching successful fetch followed by Python recomputation in the final verification context. Missing proof metadata is reported as unknown. Even source-valid citations do not establish complete answer support, so this measure remains a lower bound and explicitly reports that completeness was not checked. |
+| empty-answer correctness | On questions whose reference is empty (`[]` or `[[None]]`), the share answered correctly by the frozen typed scorer. A separate count shows correct empties established by independent verification. **False abstentions** count explicit limitations on questions that do have a reference answer; failed attempts and independently established empty answers are separate states. Failures remain wrong in the accuracy denominator. |
+| omitted-resource recovery | On the omitted packet: whether the removed record was fetched, reached the answer workspace, was cited, or was reported in the final analyst's `contributing_ids`. Successful recovery requires that it reached the answer workspace, was used, and the answer was correct. Verifier-only fetches are reported separately. It also reports accuracy when the record reached the answer workspace and accuracy among questions the same system got right from the intact packet. Missing use or fetch metadata stays unknown, with known denominators and unknown counts. |
+
+The direct baseline has no revisions, so it reports no transitions. The
+multi-agent system's retrieved resources are the workspace shared by
+retrieval and analysis. Records only the verifier fetched don't count as
+recovered, because they never reached the answer. The final analyst's
+contributing IDs come from the saved role messages; a citation alone is
+not treated as proof that a record was used. Older single-agent outputs
+do not record contributing IDs, so their use-based recovery is unknown.
+
+All correctness and transition measures score the first execution attempt
+saved in `attempt_history`, or the current row when there was no retry.
+Retries cannot silently improve reported outcomes. Reference answers are
+used only by the offline scorer. The diagnostics do not send gold answers,
+gold resource IDs, or omitted IDs to an agent, and do not infer evidence
+completeness from gold overlap.
+
+### Limits
+
+No real runs have been tracked yet; the tests use synthetic result files.
+On the 50 perturbed questions, a recovery rate of 1 question is 2
+percentage points. Use the `analyze` intervals (P3-21) before comparing
+systems.
+
+## Demo Interface (P3-23)
+
+```sh
+bash scripts/run_demo.sh --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+```
+
+The launcher changes to the repository root and runs `streamlit run demo/app.py` (Streamlit is already in
+`requirements.txt`). It binds to `localhost` and hides Streamlit's deploy
+toolbar.
+
+- **Patient selection.** The sidebar picks the system (multi-agent by
+  default, single agent, or direct LLM) and a patient. Patients come from
+  the pilot and dev splits; `--splits` changes this. Held-out patients
+  aren't offered by default, so the demo doesn't add exposure to the
+  evaluation set.
+- **Example or custom question.** An example is one of the patient's
+  dataset questions, with its assumed current time. A custom question takes
+  free text and an optional current time (`YYYY-MM-DD HH:MM:SS`).
+  `demo/backend.build_input()` builds the same context string the runner
+  gives agents, which a test checks against a dataset row. The picker reads
+  only question, patient, and time-context columns, after validating the
+  dataset's hash against the split. Reference answers are never passed to
+  the interface. Changing the system, patient, question, or assumed time
+  clears the previous result; an unsuccessful new request clears it too.
+  Custom input is parsed back through the runner's context parser; conflicting
+  embedded patient IDs, timestamps, or `Context:` sections are rejected so
+  the selected patient and assumed time remain authoritative.
+- **Answer, cited fields, verification status.** The result shows:
+  - the released answer (or "No answer") and any limitation;
+  - a table of cited fields (resource, field, value), marked `ok` only with
+    a recorded clean check, `not confirmed` when check results are absent or
+    incomplete, or with the remaining issue on that field or record;
+  - a status badge with an icon and label:
+
+    | Status | Meaning |
+    |---|---|
+    | ✓ Verified | a completed check was recorded, clean, and the answer was released |
+    | ✓ Verified empty result | the multi-agent final explicitly returned null and the independent check accepted it; the answer displays "No matching value" |
+    | ⚠ Not verified | check issues remained; the badge states whether an answer was released or withheld |
+    | ○ Not checked | the direct baseline, or a released answer with no recorded completed check |
+    | – No answer | the system abstained or hit its budget |
+    | ✕ Error | the run failed |
+
+  The badge also notes whether a repair ran, and where it started. Expanders
+  show the draft and first-check issues, and the usage (tokens, model calls,
+  tool calls, latency, cost). Missing usage is shown as unavailable.
+- **Backed by the evaluated pipeline.** `backend.ask()` calls the runner's
+  `run_agent_with_input()` with the same strategy, model, base URL,
+  per-question budget, and tool cache as the experiment. The header compares
+  the current code fingerprint, model, base URL, and budget with the
+  `.run.json` of the evaluated ordinary arm for that system (from
+  `--output_dir`, default as in `run_experiments.py`). A matching badge also
+  requires the runner's exact full identity, including the input hash,
+  a current split/source binding, and a result file with every
+  planned held-out question attempted exactly once per result row, with
+  matching question, patient, and time context. Metadata alone or a partial
+  smoke run cannot claim an evaluated batch. The header reports incomplete
+  batches or identity differences. Offline identity validation reads hidden
+  reference labels through `run_agent.load_inputs()` and `run_identity()`;
+  these labels are used only for the hash and are never passed to the model
+  or interface. The patient picker continues to read context columns only.
+
+The tests check the backend functions and run the app headless with
+Streamlit's `AppTest`, with the model and store mocked. During
+development, I also rendered and inspected the verified and not-verified
+states in a browser. A live question needs the model API key and the FHIR
+store configured; otherwise the app says so and doesn't run.

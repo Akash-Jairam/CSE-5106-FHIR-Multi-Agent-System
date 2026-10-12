@@ -270,7 +270,10 @@ python scripts/run_experiments.py run    --model gpt-5-nano --max_total_tokens 2
 python scripts/run_experiments.py status --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # counts only
 python scripts/run_experiments.py variability --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # spread across repeats
 python scripts/run_experiments.py analyze --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # CIs, comparisons, latency, plot
+python scripts/run_experiments.py revisions --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # revisions, unsupported claims, recovery
 ```
+
+`bash scripts/run_demo.sh --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30` starts the demo: pick a patient and an example or custom question, and see the answer, its cited fields, and its verification status from the same pipeline.
 
 Rerunning `run` resumes from the saved results and retries failed questions. Use `--split pilot --limit 2 --arms ordinary` for a smoke run, and `--arms` to run a subset. See [the Phase 3 notes](docs/phase3_experiments.md).
 
