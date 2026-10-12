@@ -207,18 +207,18 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(len(system.tasks["retrieval"]), 2)
         self.assertEqual(len(system.tasks["analysis"]), 1)
 
-    def test_graph_preserves_the_original_scalar_repair_route_api(self):
-        class ScalarRoute(StubController):
-            def route(self, issues):
+    def test_graph_preserves_the_controller_repair_route_hook(self):
+        class RecordedRoute(StubController):
+            def route(self, issues, *args):
                 self.routed_issues = issues
-                return "analysis"
+                return super().route(issues, *args)
 
-        system = ScalarRoute([records()], [draft(), draft(8)],
+        system = RecordedRoute([records()], [draft(), draft(8)],
                              [{"issues": [issue("analysis")]}, {"issues": []}])
         output = system.run(QUESTION)
         self.assertEqual(output["answer"], 8)
         self.assertEqual(system.routed_issues, [issue("analysis")])
-        self.assertNotIn("routing", output["revision"])
+        self.assertEqual(output["revision"]["repair_role"], "analysis")
 
 
 if __name__ == "__main__":
