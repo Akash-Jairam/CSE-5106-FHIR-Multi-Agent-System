@@ -203,10 +203,12 @@ def load_references(args, question_ids):
 def revision_tracking(arms, args, question_sets):
     """(report, per-question records) for the complete arms; see scripts/revisions.py."""
     from scripts.revisions import question_record, summarize_arm, summarize_recovery
+    from scripts.variability import first_attempt
     from utils.evidence_scorer import cited_refs, fetch_from_ndjson, fetch_from_store
 
     results = {arm: arm_results(arm, args, question_sets) for arm in arms}
-    complete = {arm: rows for arm, (status, rows) in results.items() if status["state"] == "complete"}
+    complete = {arm: rows for arm, (status, rows) in results.items()
+                if status.get("analyzable", status["state"] == "complete")}
     references = load_references(args, {qid for rows in complete.values() for qid in rows})
     specifications = {}
     if any(arm.condition == "omitted" for arm in complete):
@@ -214,8 +216,8 @@ def revision_tracking(arms, args, question_sets):
         specifications = load_perturbations(args.perturbations)
     resources = None
     if args.evidence_source != "none":
-        refs = cited_refs(row["evidence"] for rows in complete.values() for row in rows.values()
-                          if isinstance(row.get("evidence"), list))
+        observations = [first_attempt(row) for rows in complete.values() for row in rows.values()]
+        refs = cited_refs(row["evidence"] for row in observations if isinstance(row.get("evidence"), list))
         resources = (fetch_from_ndjson(refs, args.fhir_dir) if args.evidence_source == "ndjson"
                      else fetch_from_store(refs))
 
