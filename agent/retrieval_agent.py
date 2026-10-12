@@ -20,6 +20,7 @@ from copy import deepcopy
 from .framework import RETRIEVAL_TOOLS, Role, Toolbox
 from .output_schema import _json_objects
 from tools.resource_tools import supported_types
+from tools.perturbation import get_perturbed_starting_packet
 from tools.starting_packet import get_starting_packet
 
 SYSTEM_PROMPT = f"""You are the retrieval agent in a team answering questions about one patient's FHIR record.
@@ -50,6 +51,7 @@ class RetrievalAgent:
         self.context = context
         self.workspace = workspace
         self.packet = None
+        self.perturbation = getattr(host, "perturbation", None)
         toolbox = Toolbox(RETRIEVAL_TOOLS, workspace, patient_fhir_id=context.get("patient_fhir_id"),
                           current_time=context.get("current_time"))
         self.role = Role("retrieval", SYSTEM_PROMPT, toolbox, host, max_turns=max_turns)
@@ -59,8 +61,13 @@ class RetrievalAgent:
         if not patient_fhir_id:
             return {"error": "The retrieval agent needs the patient FHIR ID in the question context"}
         if self.packet is None:
-            self.packet = get_starting_packet(self.context["question"], patient_fhir_id,
-                                              current_time=self.context.get("current_time"))
+            if self.perturbation is not None:
+                self.packet = get_perturbed_starting_packet(self.context["question"], patient_fhir_id,
+                                                            self.perturbation,
+                                                            current_time=self.context.get("current_time"))
+            else:
+                self.packet = get_starting_packet(self.context["question"], patient_fhir_id,
+                                                  current_time=self.context.get("current_time"))
             for rtype, items in self.packet["resources"].items():
                 self.workspace[rtype] = [{**deepcopy(r), "resourceType": rtype} for r in items]
         result = self.role.run(self._prompt(task))

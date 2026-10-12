@@ -5,6 +5,7 @@ from .multi_turn_code_resource_agent import MultiTurnCodeResourceAgent
 from .output_schema import ANSWER_FORMAT_INSTRUCTIONS, has_json_answer, parse_final_message
 from tools import get_tool_definitions
 from tools.field_check import check_fields
+from tools.perturbation import get_perturbed_starting_packet
 from tools.starting_packet import get_starting_packet
 from utils import parse_question_context
 
@@ -88,7 +89,11 @@ class SingleAgent(MultiTurnCodeResourceAgent):
         self._patient_fhir_id = patient_fhir_id
 
         # Code starts with the same fields the direct baseline can read in the packet.
-        packet = get_starting_packet(self._question, patient_fhir_id, current_time=self._current_time)
+        if self.perturbation is not None:
+            packet = get_perturbed_starting_packet(self._question, patient_fhir_id, self.perturbation,
+                                                   current_time=self._current_time)
+        else:
+            packet = get_starting_packet(self._question, patient_fhir_id, current_time=self._current_time)
         retrieved_resources = {rtype: [{**deepcopy(r), "resourceType": rtype} for r in items]
                                for rtype, items in packet["resources"].items()}
 
