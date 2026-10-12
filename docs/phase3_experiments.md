@@ -83,6 +83,13 @@ that case, start over under a new `--output_dir`.
 
 ### Tool cache
 
+Role retrieval replies use a bounded model-facing preview (up to 32 IDs or
+Encounter records, within 8,000 serialized characters). Counts and truncation
+flags distinguish that preview from the complete workspace, so large patient
+searches do not flood the next model context with thousands of IDs. The
+workspace and original audit reply retain all records and IDs; when a preview
+differs, the audit also records its exact `model_content`.
+
 FHIR searches are cached in `.tool_cache/` across arms and processes. The
 cache now writes each entry to a private file and renames it into place,
 so a parallel worker never reads a partial entry.
