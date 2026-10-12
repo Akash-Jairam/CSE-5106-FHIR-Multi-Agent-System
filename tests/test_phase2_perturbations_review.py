@@ -190,5 +190,70 @@ class StrictOmissionReviewTests(unittest.TestCase):
                 load_perturbations(path)
 
 
+class ProjectionAuditReviewTests(unittest.TestCase):
+    def micro_source(self, missing_test=False):
+        source = record()
+        test = {"resourceType": "Observation", "id": "test", "subject": {"reference": f"Patient/{PATIENT}"},
+                "code": {"coding": [{"system": "x/mimic-microbiology-test", "code": "1", "display": "Blood culture"}]},
+                "effectiveDateTime": "2150-01-01T08:00:00"}
+        organism = {**test, "id": "org", "derivedFrom": [{"reference": "Observation/test"}],
+                    "code": {"coding": [{"system": "x/mimic-microbiology-organism", "code": "2", "display": "STAPHYLOCOCCUS"}]}}
+        antibiotic = {**test, "id": "susc", "derivedFrom": [{"reference": "Observation/org"}],
+                      "code": {"coding": [{"system": "x/mimic-microbiology-antibiotic", "code": "3", "display": "TETRACYCLINE"}]},
+                      "valueCodeableConcept": {"coding": [{"code": "R", "display": "Resistant"}]}}
+        source["Observation"] = [organism, antibiotic] if missing_test else [test, organism, antibiotic]
+        return source
+
+    def micro_oracle(self, sql, source):
+        q = question(sql, "'STAPHYLOCOCCUS'", text="What organism was found in a microbiology blood culture?")
+        q["main_table_name"] = "microbiologyevents"
+        originals = {f"{r['resourceType']}/{r['id']}": r for items in source.values() for r in items}
+        return PacketQuery(q, originals), frozen(q, source)[0]
+
+    def test_unrepresented_admission_type_cannot_become_sql_null(self):
+        source = record()
+        source["Encounter"][0]["priority"] = {"coding": [{"code": "UR", "display": "urgent"}]}
+        q = question("SELECT COUNT(*) FROM admissions WHERE admission_type IS NULL", 1)
+        q["main_table_name"] = "admissions"
+        with self.assertRaisesRegex(UnsupportedQuery, "admission_type"):
+            PacketQuery(q, {})
+
+    def test_antibiotic_susceptibility_label_is_not_an_organism(self):
+        source = self.micro_source()
+        oracle, packet = self.micro_oracle(
+            "SELECT DISTINCT org_name FROM microbiologyevents WHERE org_name IS NOT NULL", source)
+        self.assertEqual(oracle.run(packet), ["STAPHYLOCOCCUS"])
+
+    def test_other_observation_kinds_are_not_microbiology_candidates(self):
+        source = self.micro_source()
+        lab = observation("lab", 90, 1)
+        source["Observation"].append(lab)
+        oracle, _ = self.micro_oracle("SELECT org_name FROM microbiologyevents", source)
+        self.assertFalse(oracle.candidate(lab))
+
+    def test_collapsed_microbiology_rows_do_not_prove_raw_sql_counts(self):
+        for selection in ("COUNT(*)", "COUNT(*) AS n"):
+            with self.subTest(selection=selection):
+                with self.assertRaisesRegex(UnsupportedQuery, "microbiology.*count"):
+                    self.micro_oracle(f"SELECT {selection} FROM microbiologyevents", self.micro_source())
+
+    def test_missing_microbiology_hospital_scope_rejects_all_column_spellings(self):
+        for reference, table in (("hadm_id", "microbiologyevents"),
+                                 ("microbiologyevents.hadm_id", "microbiologyevents"),
+                                 ("m.hadm_id", "microbiologyevents AS m")):
+            with self.subTest(reference=reference):
+                oracle, packet = self.micro_oracle(
+                    f"SELECT COUNT(*)>0 FROM {table} WHERE {reference} IS NULL AND org_name IS NOT NULL",
+                    self.micro_source())
+                with self.assertRaisesRegex(UnsupportedQuery, "microbiology hospital"):
+                    oracle.run(packet)
+
+    def test_missing_microbiology_parent_is_unknown_not_a_negative_result(self):
+        oracle, packet = self.micro_oracle(
+            "SELECT COUNT(*)>0 FROM microbiologyevents WHERE org_name IS NULL", self.micro_source(missing_test=True))
+        with self.assertRaisesRegex(UnsupportedQuery, "microbiology.*parent"):
+            oracle.run(packet)
+
+
 if __name__ == "__main__":
     unittest.main()

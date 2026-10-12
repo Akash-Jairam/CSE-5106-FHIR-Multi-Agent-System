@@ -10,12 +10,13 @@ import sqlite3
 
 import sqlglot
 from sqlglot import exp
+from sqlglot.optimizer.scope import traverse_scope
 
 from tools.starting_packet import _display, _medication_name, _resource_kind, parse_current_time
 
 SCHEMAS = {
     "patients": "subject_id INTEGER, gender TEXT",
-    "admissions": "subject_id INTEGER, hadm_id INTEGER, admittime TEXT, dischtime TEXT, admission_type TEXT, "
+    "admissions": "subject_id INTEGER, hadm_id INTEGER, admittime TEXT, dischtime TEXT, "
                   "admission_location TEXT, discharge_location TEXT",
     "icustays": "subject_id INTEGER, hadm_id INTEGER, stay_id INTEGER, intime TEXT, outtime TEXT, "
                 "first_careunit TEXT, last_careunit TEXT",
@@ -74,6 +75,14 @@ def _numeric(value):
         return None
 
 
+def _micro_type(original):
+    system = _coding(original).get("system", "").lower()
+    for subtype in ("test", "organism", "antibiotic"):
+        if system.endswith("microbiology-" + subtype):
+            return subtype
+    raise UnsupportedQuery("microbiology resource subtype is not represented")
+
+
 class PacketQuery:
     """An immutable query contract evaluated only against rendered packet values."""
 
@@ -88,8 +97,31 @@ class PacketQuery:
         if len(self.tree.expressions) != 1 or self.tree.args.get("with"):
             raise UnsupportedQuery("multi-column or recursive queries are not supported")
         self.tables = {t.name for t in self.tree.find_all(exp.Table)}
+        self.micro_hospital_used = False
+        for scope in traverse_scope(self.tree):
+            if any(not isinstance(source, exp.Table) for source in scope.sources.values()):
+                raise UnsupportedQuery("derived table projections are not supported")
+            for column in scope.columns:
+                if column.name != "hadm_id":
+                    continue
+                binding = scope
+                while binding:
+                    sources = {alias.lower(): source.name for alias, source in binding.sources.items()}
+                    if column.table:
+                        if column.table.lower() in sources:
+                            self.micro_hospital_used |= sources[column.table.lower()] == "microbiologyevents"
+                            break
+                    elif sources:
+                        if "microbiologyevents" in sources.values():
+                            self.micro_hospital_used = True
+                        break
+                    binding = binding.parent
         if not self.tables <= set(SCHEMAS):
             raise UnsupportedQuery("query uses a relation without a visible FHIR projection")
+        if any(column.name == "admission_type" for column in self.tree.find_all(exp.Column)):
+            # Standardized FHIR priority does not preserve all original MIMIC
+            # admission-type categories. It cannot stand in for a known SQL NULL.
+            raise UnsupportedQuery("admission_type is not recoverable from normalized FHIR priority")
         self.main_table = question.get("main_table_name")
         if self.main_table not in PRIMARY_TYPES:
             raise UnsupportedQuery("question has no supported primary relation")
@@ -103,6 +135,8 @@ class PacketQuery:
         self.source = source
         self.sql = self.tree.sql(dialect="sqlite")
         selected = self.tree.expressions[0]
+        if isinstance(selected, exp.Alias):
+            selected = selected.this
         counts = list(selected.find_all(exp.Count))
         aggregate = next((node for node in selected.walk() if isinstance(node, (exp.Min, exp.Max, exp.Sum, exp.Avg))), None)
         if counts:
@@ -111,6 +145,8 @@ class PacketQuery:
             self.rule = "aggregate:" + aggregate.key
         else:
             self.rule = "selection"
+        if self.main_table == "microbiologyevents" and self.rule == "count":
+            raise UnsupportedQuery("raw microbiology row counts are not represented by collapsed FHIR tests")
 
     def candidate(self, resource):
         if resource["resourceType"] != PRIMARY_TYPES[self.main_table]:
@@ -121,8 +157,13 @@ class PacketQuery:
             return _identifier(resource, "encounter-icu") is not None
         if resource["resourceType"] == "Observation":
             original = self.source.get(f"Observation/{resource['id']}", resource)
-            return _resource_kind(original) == {"labevents": "lab", "chartevents": "vital",
-                                                "outputevents": "output", "microbiologyevents": "micro"}[self.main_table]
+            expected = {"labevents": "lab", "chartevents": "vital", "outputevents": "output",
+                        "microbiologyevents": "micro"}[self.main_table]
+            if _resource_kind(original) != expected:
+                return False
+            if self.main_table == "microbiologyevents" and _micro_type(original) == "antibiotic":
+                return False
+            return True
         return True
 
     def _rows(self, packet):
@@ -196,17 +237,29 @@ class PacketQuery:
                     else:
                         insert("d_items", itemid=coding.get("code"), label=coding.get("display"), linksto=table)
                 elif kind == "micro":
+                    if "microbiologyevents" not in self.tables:
+                        continue
                     # Organism resources inherit the visible test/specimen; susceptibility
                     # resources are not extra independent test events.
-                    system = (original.get("code", {}).get("coding") or [{}])[0].get("system", "")
-                    if "susc" in system:
-                        continue
+                    subtype = _micro_type(original)
                     parent = by_id.get(_ref((r.get("derivedFrom") or [{}])[0]), {})
+                    if subtype != "test" and not parent:
+                        raise UnsupportedQuery("microbiology parent is absent from the visible packet")
+                    if subtype == "antibiotic":
+                        test = by_id.get(_ref((parent.get("derivedFrom") or [{}])[0]), {})
+                        if not test:
+                            raise UnsupportedQuery("microbiology test parent is absent from the visible packet")
+                        continue
                     test = parent or r
                     if not parent and any(_ref((other.get("derivedFrom") or [{}])[0]) == f"Observation/{rid}"
                                           for other in resources if other["resourceType"] == "Observation"):
                         continue
                     specimen = by_id.get(_ref(test.get("specimen")), {})
+                    if not test.get("encounter") and self.micro_hospital_used:
+                        raise UnsupportedQuery("microbiology hospital membership is absent from the visible FHIR fields")
+                    if test.get("specimen") and not specimen and any(column.name == "spec_type_desc"
+                                                                    for column in self.tree.find_all(exp.Column)):
+                        raise UnsupportedQuery("microbiology specimen parent is absent from the visible packet")
                     insert("microbiologyevents", subject_id=self.patient, hadm_id=admission(test),
                            charttime=_clock(test.get("effectiveDateTime")),
                            spec_type_desc=_display(specimen.get("type")).upper() or None,

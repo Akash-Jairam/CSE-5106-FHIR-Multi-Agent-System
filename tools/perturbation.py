@@ -144,11 +144,8 @@ def omit_from_packet(packet, removed):
     return result
 
 
-def get_perturbed_starting_packet(question, patient_fhir_id, specification, max_tokens=PACKET_MAX_TOKENS,
-                                  current_time=None):
-    """A verified frozen omission of this question's original starting packet."""
-    from .resource_tools import get_all_resources_by_patient_fhir_id
-
+def validate_context(question, patient_fhir_id, specification, max_tokens, current_time):
+    """Check the immutable inputs before any record retrieval."""
     if not isinstance(specification, dict):
         raise ValueError("A frozen perturbation specification is required; use omit_from_packet for tests")
     if (specification.get("patient_fhir_id") != patient_fhir_id
@@ -157,15 +154,29 @@ def get_perturbed_starting_packet(question, patient_fhir_id, specification, max_
             or specification.get("packet_version") != PACKET_VERSION
             or specification.get("question_sha256") != text_sha256(question)):
         raise ValueError("Question context does not match the frozen perturbation")
-    record = get_all_resources_by_patient_fhir_id(patient_fhir_id=patient_fhir_id)
-    if "error" in record:
-        raise RuntimeError(f"Could not fetch record for {patient_fhir_id}: {record['error']}")
-    original = build_starting_packet(question, record, patient_fhir_id, max_tokens, current_time)
+
+
+def verified_omission(original, specification):
+    """The same source-snapshot checks used by runtime and offline verification."""
     if text_sha256(original["text"]) != specification.get("original_packet_sha256"):
         raise ValueError("Live starting packet does not match the frozen original")
     removed = specification["removed"]
     result = omit_from_packet(original, [(removed["resource_type"], removed["id"])])
     if (text_sha256(result["text"]) != specification.get("perturbed_packet_sha256")
-            or result["resource_ids"] != specification.get("perturbed_resource_ids")):
+            or result["resource_ids"] != specification.get("perturbed_resource_ids")
+            or result["n_tokens"] != specification.get("perturbed_n_tokens")):
         raise ValueError("Live omitted packet does not match the frozen perturbation")
     return result
+
+
+def get_perturbed_starting_packet(question, patient_fhir_id, specification, max_tokens=PACKET_MAX_TOKENS,
+                                  current_time=None):
+    """A verified frozen omission of this question's original starting packet."""
+    from .resource_tools import get_all_resources_by_patient_fhir_id
+
+    validate_context(question, patient_fhir_id, specification, max_tokens, current_time)
+    record = get_all_resources_by_patient_fhir_id(patient_fhir_id=patient_fhir_id)
+    if "error" in record:
+        raise RuntimeError(f"Could not fetch record for {patient_fhir_id}: {record['error']}")
+    original = build_starting_packet(question, record, patient_fhir_id, max_tokens, current_time)
+    return verified_omission(original, specification)

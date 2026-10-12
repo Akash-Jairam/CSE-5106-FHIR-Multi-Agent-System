@@ -36,9 +36,10 @@ import pandas as pd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from scripts.build_starting_packets import (DEFAULT_FHIR_DIR, DEFAULT_FAMILIES, DEFAULT_INPUT, DEFAULT_SPLIT,  # noqa: E402
-                                            file_sha256, index_patient_lines, load_record)
+                                            file_sha256, index_patient_lines, load_record, ndjson_paths)
 from scripts.packet_query import PacketQuery, UnsupportedQuery, visible_resources  # noqa: E402
-from tools.perturbation import omit_from_packet, text_sha256  # noqa: E402
+from tools.perturbation import (load_perturbations, omit_from_packet, text_sha256, validate_context,
+                                verified_omission)  # noqa: E402
 from tools.starting_packet import PACKET_VERSION, _label, _reference_key, _resource_time, build_starting_packet  # noqa: E402
 from utils.answer_scorer import answer_type, parse_reference, score_answer  # noqa: E402
 
@@ -236,6 +237,51 @@ def sample(eligible, size, seed):
     return sorted(chosen, key=lambda e: e["question_id"])
 
 
+def verify_manifest(fhir_dir, path=DEFAULT_OUTPUT, input_path=DEFAULT_INPUT, families_path=DEFAULT_FAMILIES,
+                    packets_path=DEFAULT_PACKETS):
+    """Verify every frozen entry against source, visible SQL and the runtime path.
+
+    Returns counts only; never prints gold answers or exposes them to agents.
+    """
+    entries = load_perturbations(path)
+    source_files = [{"file": os.path.basename(p), "sha256": file_sha256(p)} for p in ndjson_paths(fhir_dir)]
+    source_hash = text_sha256(json.dumps(source_files, sort_keys=True))
+    if any(entry["fhir_source_sha256"] != source_hash for entry in entries.values()):
+        raise ValueError("Local FHIR sources do not match the frozen omission experiment")
+    with open(packets_path, encoding="utf-8") as stream:
+        packets = {p["question_id"]: p for p in map(json.loads, stream)}
+    questions = pd.read_csv(input_path)
+    questions = questions[questions.question_id.isin(entries)]
+    families = pd.read_csv(families_path, usecols=["question_id", "family", "template_id"])
+    questions = questions.merge(families, on="question_id", validate="one_to_one")
+    if set(questions.question_id) != set(entries):
+        raise ValueError("The dataset does not cover every frozen perturbation")
+    shared, offsets = index_patient_lines(fhir_dir, set(questions.patient_fhir_id))
+    verified = 0
+    for patient, group in questions.groupby("patient_fhir_id", sort=True):
+        record = load_record(shared, offsets[patient])
+        for q in group.to_dict("records"):
+            expected = entries[q["question_id"]]
+            entry, reason = evaluate(q, packets[q["question_id"]], record, q["family"], q["template"])
+            if entry != expected:
+                raise ValueError("Frozen omission does not reproduce its visible-query proof: " + (reason or "entry differs"))
+            validate_context(q["question"], patient, expected, expected["max_tokens"], expected["current_time"])
+            original = build_starting_packet(q["question"], record, patient, expected["max_tokens"], expected["current_time"])
+            omitted = verified_omission(original, expected)
+            removed = expected["removed"]
+            if removed["id"] in omitted["text"]:
+                raise ValueError("An omitted resource ID is still visible in the packet")
+            for rtype, resources in original["resources"].items():
+                if rtype in SHARED_TYPES:
+                    continue
+                kept = [r for r in resources if (rtype, r["id"]) != (removed["resource_type"], removed["id"])]
+                if omitted["resources"].get(rtype, []) != kept:
+                    raise ValueError("Omission changed another clinical record's fields")
+            verified += 1
+    return {"verified": verified, "patients": int(questions.patient_fhir_id.nunique()), "packet_version": PACKET_VERSION,
+            "by_family": dict(sorted(Counter(e["family"] for e in entries.values()).items()))}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--fhir-dir", default=DEFAULT_FHIR_DIR)
@@ -247,7 +293,13 @@ def main():
     parser.add_argument("--size", type=int, default=SAMPLE_SIZE)
     parser.add_argument("--split-name", choices=("pilot", "dev", "held_out"), default="held_out",
                         help="Use pilot/dev only for offline rule validation; held_out is the final experiment")
+    parser.add_argument("--verify-manifest", metavar="PATH",
+                        help="Verify every frozen omission from local source and its visible query; do not resample")
     args = parser.parse_args()
+
+    if args.verify_manifest:
+        print(json.dumps(verify_manifest(args.fhir_dir, args.verify_manifest, args.input, args.families, args.packets), indent=1))
+        return
 
     with open(args.split, encoding="utf-8") as stream:
         split = json.load(stream)

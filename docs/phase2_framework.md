@@ -245,7 +245,13 @@ packet fields**. `scripts/packet_query.py` projects those fields into a
 read-only in-memory SQLite database. The same query over the one-resource
 omission must return a different result. SQL supplies the operation and
 label/time/encounter filters; an aggregate is never inferred by matching
-gold values. Unrepresented fields and unsupported relations fail closed.
+gold values. The omitted result must also be incorrect under the existing
+typed scorer, so insignificant changes within its fixed tolerance are not
+counted as answer changes. Unrepresented fields and unsupported relations
+fail closed. Normalized FHIR priority cannot recover all MIMIC admission
+types, and collapsed microbiology resources cannot prove raw row counts.
+Antibiotic susceptibility labels are not organism names; missing parent
+tests or hospital membership are unknown, not SQL-null evidence.
 
 Candidates are from the query's primary relation. Gold IDs prioritize
 candidates but are not completeness or answer-change proofs. A candidate
@@ -266,6 +272,22 @@ The old 83-eligible/50-selected counts used annotation-based rules and are
 superseded; regenerate the manifest after the corrected packet freeze.
 Version 2 records hashes of dataset, split, families, packets, builder,
 oracle and omitter, plus before/after query-result hashes for every entry.
+
+All 50 selected cases can be rebuilt from local public source data without
+model/FHIR-store calls:
+
+```sh
+python scripts/build_perturbations.py --fhir-dir "$FHIR_NDJSON_DIR" \
+  --verify-manifest manifests/perturbations.json
+FHIR_NDJSON_DIR="$FHIR_NDJSON_DIR" python -m unittest discover -s tests \
+  -p 'test_phase2_perturbations*.py'
+```
+
+Verification covers the source freeze, original and omitted packet hashes,
+the actual visible SQL results, typed incorrectness after omission, exact
+one-resource removal, and unchanged remaining clinical fields. Only counts
+are reported. Rule validation uses pilot/dev before the held-out build;
+held-out labels are not used to revise the fixed eligibility rules.
 
 ## Spike Results
 

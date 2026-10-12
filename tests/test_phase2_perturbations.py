@@ -1,6 +1,7 @@
 """P2-18: missing-evidence perturbations remove one answer-changing resource
 from held-out starting packets and leave the store intact."""
 import json
+import os
 import unittest
 from collections import Counter
 from pathlib import Path
@@ -14,6 +15,7 @@ from tools.perturbation import load_perturbations, omit_from_packet, without_res
 from tools.starting_packet import build_starting_packet
 
 ROOT = Path(__file__).resolve().parent.parent
+FHIR_DIR = Path(os.getenv("FHIR_NDJSON_DIR", DEFAULT_FHIR_DIR))
 PATIENT = "11111111-1111-1111-1111-111111111111"
 
 
@@ -132,25 +134,13 @@ class FrozenManifestTests(unittest.TestCase):
             self.assertLessEqual(e["perturbed_n_tokens"], 8000)
         self.assertEqual(load_perturbations(ROOT / "manifests/perturbations.json")[entries[0]["question_id"]], entries[0])
 
-    @unittest.skipUnless(Path(DEFAULT_FHIR_DIR).is_dir(), "local MIMIC-IV FHIR demo NDJSON not downloaded")
+    @unittest.skipUnless(FHIR_DIR.is_dir(), "local MIMIC-IV FHIR demo NDJSON not downloaded; set FHIR_NDJSON_DIR")
     def test_perturbed_packets_rebuild_from_the_source_records(self):
-        import pandas as pd
-        from scripts.build_starting_packets import index_patient_lines, load_record
-        from tools.starting_packet import build_starting_packet
-        import hashlib
+        from scripts.build_perturbations import verify_manifest
 
-        entries = self.manifest["perturbations"]
-        patient = entries[0]["patient_fhir_id"]
-        mine = [e for e in entries if e["patient_fhir_id"] == patient]
-        questions = pd.read_csv(ROOT / "final_dataset/questions_answers_sql_fhir.csv",
-                                usecols=["question_id", "question"]).set_index("question_id").question
-        shared, offsets = index_patient_lines(DEFAULT_FHIR_DIR, {patient})
-        record = load_record(shared, offsets[patient])
-        for e in mine:
-            removed = [(e["removed"]["resource_type"], e["removed"]["id"])]
-            original = build_starting_packet(questions[e["question_id"]], record, patient, 8000, e["current_time"])
-            packet = omit_from_packet(original, removed)
-            self.assertEqual(hashlib.sha256(packet["text"].encode()).hexdigest(), e["perturbed_packet_sha256"])
+        proof = verify_manifest(FHIR_DIR)
+        self.assertEqual(proof["verified"], 50)
+        self.assertEqual(proof["patients"], len({e["patient_fhir_id"] for e in self.manifest["perturbations"]}))
 
 
 if __name__ == "__main__":
