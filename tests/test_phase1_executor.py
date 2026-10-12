@@ -18,6 +18,10 @@ class ExecutorTests(unittest.TestCase):
     def test_system_exit_does_not_kill_parent(self):
         self.assertIn("SystemExit", execute_python_code("raise SystemExit")["error"])
 
+    def test_explicit_null_is_a_result_but_unset_answer_is_an_error(self):
+        self.assertEqual(execute_python_code("answer = None"), {"answer": None})
+        self.assertIn("no answer variable set", execute_python_code("pass")["error"])
+
     def test_timeout_terminates_worker(self):
         self.assertIn("exceeded", execute_python_code("while True: pass", timeout=0.1)["error"])
 
