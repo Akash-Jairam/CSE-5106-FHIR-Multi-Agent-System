@@ -186,10 +186,20 @@ def load_question_sets(arms, args):
 def load_references(args, question_ids):
     """{question_id: question, reference answer, template, family, patient} for scoring; never printed."""
     import pandas as pd
+    from scripts.build_split import file_sha256
 
     frame = run_agent.read_input_data(args.input)
     frame = frame[frame["question_id"].isin(question_ids)]
-    families = pd.read_csv(args.families, usecols=["question_id", "family", "template"]).set_index("question_id")
+    with open(args.split_manifest, encoding="utf-8") as stream:
+        expected_hash = json.load(stream).get("family_manifest_sha256")
+    if expected_hash and file_sha256(args.families) != expected_hash:
+        raise ValueError("Analysis needs the family manifest frozen with the split")
+    families = pd.read_csv(args.families, usecols=["question_id", "family", "template"])
+    if families["question_id"].isna().any() or families["question_id"].duplicated().any():
+        raise ValueError("Analysis families must have unique, non-null question IDs")
+    if not set(question_ids) <= set(families["question_id"]):
+        raise ValueError("Analysis families are missing scheduled questions")
+    families = families.set_index("question_id")
     return {row.question_id: {"question": row.question, "true_answer": row.true_answer,
                               "template": families["template"].get(row.question_id, ""),
                               "family": families["family"].get(row.question_id),
