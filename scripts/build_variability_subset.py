@@ -29,7 +29,22 @@ SPLIT = "held_out"
 
 def build_subset(split, families, size=SUBSET_SIZE):
     """Sorted question IDs and family counts; deterministic for a given split manifest."""
-    pool = families[families["question_id"].isin(split["splits"][SPLIT]["question_ids"])]
+    if isinstance(size, bool) or not isinstance(size, int) or size < 1:
+        raise ValueError("Subset size must be a positive integer")
+    question_ids = split["splits"][SPLIT]["question_ids"]
+    if (not question_ids or any(not isinstance(qid, str) or not qid.strip() for qid in question_ids)
+            or len(set(question_ids)) != len(question_ids)):
+        raise ValueError("Held-out question IDs must be unique, non-empty strings")
+    pool = families[families["question_id"].isin(question_ids)].copy()
+    if pool["question_id"].duplicated().any():
+        raise ValueError("Each held-out question must have exactly one family row")
+    if set(pool["question_id"]) != set(question_ids):
+        raise ValueError("Some held-out questions are missing from the family manifest")
+    if pool["family"].isna().any() or not pool["family"].isin(
+            ("lookup_counting", "numerical_aggregation", "temporal_selection")).all():
+        raise ValueError("Every held-out question must have an in-scope family")
+    if size > len(pool):
+        raise ValueError("Subset size exceeds the held-out question count")
     pool = pool.sort_values("question_id").reset_index(drop=True)
     rng = np.random.RandomState(split["seed"])
     quotas = allocate(pool["family"].value_counts().sort_index(), size)
@@ -47,6 +62,8 @@ def main():
 
     with open(args.split, encoding="utf-8") as stream:
         split = json.load(stream)
+    if split.get("family_manifest_sha256") != file_sha256(args.families):
+        raise ValueError("The split was built from a different family manifest")
     families = pd.read_csv(args.families, usecols=["question_id", "family"])
     question_ids, family_counts = build_subset(split, families)
     manifest = {
