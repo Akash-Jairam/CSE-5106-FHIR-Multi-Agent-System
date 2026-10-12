@@ -16,8 +16,9 @@ result file:
 | `recovery_multi_agent_intact` | multi-agent | 50 perturbed | full | 50 |
 | `recovery_multi_agent_omitted` | multi-agent | 50 perturbed | one record left out | 50 |
 
-That is 900 ordinary and 200 recovery runs. The script checks these totals
-before a full held-out run.
+That is 900 ordinary and 200 recovery runs. The variability arms (P3-20,
+below) add 300 more. The script checks all three totals before a full
+held-out run.
 
 - **Recovery systems.** The direct baseline has no tools, so it cannot fetch
   an omitted record and has no recovery arms.
@@ -92,9 +93,9 @@ python scripts/run_experiments.py status --model gpt-5-nano --max_total_tokens 2
   `run_agent.py` commands.
 - `status` reports completed, failed, and total questions per arm. It makes
   no model or FHIR calls and never prints answers.
-- `--arms` selects groups (`ordinary`, `recovery`) or single arms.
+- `--arms` selects groups (`ordinary`, `recovery`, `variability`) or single arms.
 - `--split pilot --limit 2` runs a smoke test on non-held-out questions
-  (ordinary arms only). Results go to
+  (ordinary arms only; select them with `--arms ordinary`). Results go to
   `output/experiments/<model>/<split>[_limit<N>]/` unless `--output_dir` is
   given, so smoke runs never mix with the real experiment.
 
@@ -105,3 +106,65 @@ the model and the store. The omitted condition still needs the live
 store's packets to match the frozen hashes, and runtime checks fail closed
 if they don't. The budget values above are examples; the experiment's
 budget is chosen when it is run.
+
+## Run-Variability Subset (P3-20)
+
+How much of a system's accuracy is the model's run-to-run noise? Each
+system answers the same fixed subset five times, and the spread across
+repeats is reported. Differences between systems smaller than that spread
+should not be read as real.
+
+### The subset
+
+`scripts/build_variability_subset.py` writes
+`manifests/variability_subset.json`. It holds 20 held-out questions,
+sampled with the split seed and stratified by family in proportion to the
+held-out mix: 6 lookup/counting, 3 numerical aggregation, and 11 temporal
+selection, from 17 patients. Only question IDs and families are read, never
+reference answers. The manifest records the split manifest's hash, and the
+runner refuses to use it with a different split. Two builds produced the
+same file, and a test rebuilds it from the current split.
+
+### The runs
+
+The `variability` group has 15 arms (`variability_<system>_r1` to `_r5`),
+one per system and repeat, for 3 × 5 × 20 = 300 runs. Each arm is
+`run_agent.py --subset manifests/variability_subset.json --repeat K`.
+`--subset` restricts the run to the subset. `--repeat` only labels the run,
+but it is part of the run identity, so one repeat's file can't be resumed
+as another's. All repeats share the model, budget, and tool cache. Because
+FHIR results come from the same cache, the spread reflects the model and
+pipeline, not the store.
+
+### The report
+
+```sh
+python scripts/run_experiments.py variability --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+```
+
+The report uses the same settings as `run` to find and check the result
+files. It scores each answer with the typed scorer (an errored attempt
+counts as wrong), and only uses repeats whose files are complete and
+current. Incomplete repeats are listed as skipped. For each system it
+reports:
+
+| Measure | Meaning |
+|---|---|
+| accuracy, abstention rate | mean, sample SD, min and max over repeats |
+| mean tokens, median latency | the same, per repeat |
+| always / never / sometimes correct | questions by how often they were right across repeats |
+| pairwise correctness agreement | for each question, the share of repeat pairs that agree on right vs wrong, averaged |
+| identical answers | share of questions answered identically in every repeat |
+
+The report goes to `<output_dir>/variability_report.json` and the
+terminal, with aggregates only. The statistics live in
+`scripts/variability.py`, outside the fingerprinted code, so changing them
+doesn't make result files stale.
+
+### Limits
+
+No repeats have been run yet. With 20 questions, one question is 5
+accuracy points, so the SD over five repeats is a coarse estimate. It
+bounds run-to-run noise but doesn't replace the patient-clustered
+confidence intervals (P3-21). Models called at temperature 0 may still
+vary through provider nondeterminism; reasoning models ignore the setting.

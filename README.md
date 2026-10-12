@@ -262,15 +262,16 @@ With `--split held_out --perturbations manifests/perturbations.json --condition 
 
 ### Phase 3 experiment
 
-`scripts/run_experiments.py` runs the full experiment: 900 ordinary runs (each system on the 300 held-out questions) and 200 recovery runs (the single and multi-agent systems on the 50 perturbed questions, intact and omitted). All systems share one model and budget, and the tool cache is on.
+`scripts/run_experiments.py` runs the full experiment: 900 ordinary runs (each system on the 300 held-out questions), 200 recovery runs (the single and multi-agent systems on the 50 perturbed questions, intact and omitted), and 300 variability runs (each system on a fixed 20-question subset, 5 times). All systems share one model and budget, and the tool cache is on.
 
 ```bash
 python scripts/run_experiments.py plan   --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # arms, counts, commands
 python scripts/run_experiments.py run    --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # run or resume
 python scripts/run_experiments.py status --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # counts only
+python scripts/run_experiments.py variability --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30  # spread across repeats
 ```
 
-Rerunning `run` resumes from the saved results and retries failed questions. Use `--split pilot --limit 2` for a smoke run, and `--arms` to run a subset. See [the Phase 3 notes](docs/phase3_experiments.md).
+Rerunning `run` resumes from the saved results and retries failed questions. Use `--split pilot --limit 2 --arms ordinary` for a smoke run, and `--arms` to run a subset. See [the Phase 3 notes](docs/phase3_experiments.md).
 
 Generated Python runs with copied retrieved resources, no repository credentials or network, and a real deadline. It requires `sandbox-exec` on macOS or `bubblewrap` (`bwrap`) on Linux and fails closed without a supported sandbox. See [the review and verification notes](docs/phase1_review.md).
 

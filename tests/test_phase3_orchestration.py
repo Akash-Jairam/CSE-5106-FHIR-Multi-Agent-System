@@ -181,12 +181,13 @@ class ExperimentTests(unittest.TestCase):
     def cli(self, *extra):
         return ["--model", "test-model", "--output_dir", self.temp.name, "--max_tool_calls", "5", *extra]
 
-    def test_the_full_plan_is_900_ordinary_and_200_recovery_runs(self):
+    def test_the_full_plan_is_900_ordinary_200_recovery_and_300_variability_runs(self):
         with contextlib.redirect_stdout(io.StringIO()) as out:
             self.assertEqual(experiments.main(["plan", *self.cli()]), 0)
         self.assertIn("ordinary: 0/900 runs complete", out.getvalue())
         self.assertIn("recovery: 0/200 runs complete", out.getvalue())
-        self.assertEqual([arm.name for arm in experiments.ARMS], [
+        self.assertIn("variability: 0/300 runs complete", out.getvalue())
+        self.assertEqual([arm.name for arm in experiments.ARMS[:7]], [
             "ordinary_direct_llm", "ordinary_single_agent", "ordinary_multi_agent",
             "recovery_single_agent_intact", "recovery_single_agent_omitted",
             "recovery_multi_agent_intact", "recovery_multi_agent_omitted"])
@@ -199,6 +200,7 @@ class ExperimentTests(unittest.TestCase):
                               settings.enable_cache, settings.split, settings.condition),
                              (arm.strategy, "test-model", "http://llm", 5, True, "held_out", arm.condition))
             self.assertEqual(settings.perturbations is not None, arm.group == "recovery")
+            self.assertEqual((settings.subset is not None, settings.repeat), (arm.group == "variability", arm.repeat))
             self.assertEqual(settings.output, os.path.join(self.temp.name, arm.name + ".json"))
 
     def test_arm_selection(self):
@@ -208,7 +210,7 @@ class ExperimentTests(unittest.TestCase):
         self.assertEqual(len(names("recovery")), 4)
         with self.assertRaisesRegex(ValueError, "Unknown arms"):
             experiments.select_arms(["everything"], "held_out")
-        with self.assertRaisesRegex(ValueError, "held-out perturbations"):
+        with self.assertRaisesRegex(ValueError, "frozen held-out questions"):
             experiments.select_arms(["recovery"], "pilot")
 
     def status(self, *extra):
