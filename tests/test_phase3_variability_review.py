@@ -11,6 +11,7 @@ import pandas as pd
 
 from scripts import build_variability_subset as subset
 from scripts import variability
+from scripts import run_experiments as experiments
 
 
 def row(answer, error=None, tokens=10, latency=1):
@@ -67,6 +68,19 @@ class SubsetReviewTests(unittest.TestCase):
 
 
 class VariabilityReviewTests(unittest.TestCase):
+    def test_report_keeps_fully_attempted_repeats_with_errors(self):
+        arms = [arm for arm in experiments.ARMS if arm.group == "variability" and arm.strategy == "single_agent"][:1]
+        references = {"a": {"question": "Synthetic count", "true_answer": "[[1]]"}}
+        results = {"a": row(None, error="provider failure")}
+        with patch.object(experiments, "load_references", return_value=references), \
+                patch.object(experiments, "arm_results",
+                             return_value=({"state": "in progress", "analyzable": True}, results)):
+            report = experiments.variability_report(arms, type("Args", (), {"subset": "synthetic.json"})(),
+                                                   {"variability": ["a"]})
+        self.assertEqual(report["systems"]["single_agent"]["repeats"], 1)
+        self.assertEqual(report["systems"]["single_agent"]["accuracy"]["mean"], 0)
+        self.assertEqual(report["systems"]["single_agent"]["error_rate"]["mean"], 1)
+
     def test_errors_and_intentional_abstentions_have_separate_denominators(self):
         references = {qid: {"question": "How many synthetic visits?", "true_answer": "[]"}
                       for qid in ("error", "null", "text")}
