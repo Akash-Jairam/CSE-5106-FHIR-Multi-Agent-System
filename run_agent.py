@@ -4,9 +4,11 @@ import json
 import math
 import multiprocessing as mp
 import os
+from importlib import metadata
 from pathlib import Path
 
 import pandas as pd
+from packaging.requirements import Requirement
 from tqdm import tqdm
 
 from utils import (
@@ -106,7 +108,7 @@ def select_split(df, manifest, selected):
 
 def code_fingerprint():
     root = Path(__file__).resolve().parent
-    paths = [root / "run_agent.py", root / "fhir_client.py"]
+    paths = [root / "run_agent.py", root / "fhir_client.py", root / "requirements.txt"]
     for directory in ("agent", "tools", "utils"):
         paths.extend((root / directory).rglob("*.py"))
     digest = hashlib.sha256()
@@ -115,7 +117,29 @@ def code_fingerprint():
         digest.update(b"\0")
         digest.update(path.read_bytes())
         digest.update(b"\0")
+    digest.update(json.dumps(runtime_dependency_versions(root / "requirements.txt"), sort_keys=True).encode())
     return digest.hexdigest()
+
+
+def runtime_dependency_versions(requirements_path):
+    """Public package versions, never model settings or credential files."""
+    names = set()
+    for line in requirements_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if line and not line.startswith("#"):
+            requirement = Requirement(line)
+            if requirement.marker is None or requirement.marker.evaluate():
+                names.add(requirement.name)
+    if "langgraph" in names:
+        # These transitive packages implement graph execution and local tracing.
+        names.update(("langchain-core", "langgraph-checkpoint", "langgraph-prebuilt", "langgraph-sdk", "langsmith"))
+    versions = {}
+    for name in sorted(names):
+        try:
+            versions[name] = metadata.version(name)
+        except metadata.PackageNotFoundError:
+            versions[name] = None
+    return versions
 
 
 def _present(value):

@@ -2,39 +2,56 @@
 
 ## Decision
 
-The multi-agent system uses a thin in-house message-passing layer,
-[`agent/framework.py`](../agent/framework.py), built on `BaseAgent`, LiteLLM,
-and the existing tool registry. It adds no dependency.
+The multi-agent system reuses **LangGraph 1.2.14** for execution and state
+message passing, as promised in the proposal. `FixedWorkflow` in
+[`agent/framework.py`](../agent/framework.py) builds a `StateGraph` whose
+nodes are ordinary Python role handlers and whose edges are fixed or
+deterministically conditional. The project still implements the team
+protocol, JSON message contracts, and repair classification itself.
 
-| Option | Why not |
-|---|---|
-| LangGraph | Its graph and checkpointing are more than a fixed controller with at most one repair needs. Its LLM calls go through LangChain chat models, which bypass `BaseAgent._llm_call`, so the per-question token ceiling and usage records would have to be rebuilt through callbacks. |
-| AutoGen / AG2 | Its conversation and LLM loop would replace ours. An LLM group chat or selector conflicts with the proposal's non-LLM controller. Its code executors run outside `tools/python_executor.py`'s sandbox. |
-| CrewAI | It uses LLM delegation and its own prompts and tool wrappers. That makes routing nondeterministic and adds a second set of prompts to control. |
-| OpenAI Agents SDK | It is built around one provider's Responses API and its own tool loop. The project runs several providers through LiteLLM. |
+LangGraph does not require LangChain chat models: its
+[overview](https://docs.langchain.com/oss/python/langgraph/overview) and
+[Graph API](https://docs.langchain.com/oss/python/langgraph/graph-api)
+describe Python function nodes and deterministic edges. The earlier
+in-house-only decision incorrectly treated optional framework features as
+mandatory. The selected [pinned release](https://pypi.org/project/langgraph/1.2.14/)
+supports Python 3.10 and newer and is installed through `requirements.txt`.
+There is no framework-specific model credential or cloud service requirement.
 
-The deciding constraints come from Phase 1:
+The adapters preserve Phase 1's constraints:
 
 - **One budget per question.** Phase 1 budget controls (#13) cap
   completions, count automatic checks, and refuse unaccounted usage. They
   only work if every model call goes through `BaseAgent._llm_call`. A
-  framework that owns the LLM loop would need these rules reimplemented
-  and checked again.
+  framework only invokes Python nodes; it never owns the LLM loop.
 - **Sandboxed code only.** Generated Python must run in
   `tools/python_executor.py` (OS sandbox, copied data, real deadline).
-  None of the frameworks' built-in executors meet that bar.
+  The graph uses our existing registry adapter, not a built-in code executor.
 - **A deterministic controller.** P2-12 requires a non-LLM controller, so
-  a framework's main feature, LLM-driven routing, is unused.
+  ordinary conditional edges execute the controller's own routing policy.
 - **The common contract and resume identity.** The system must still
   return `AgentOutput` through `BaseAgent.run()`, and `run_agent.py`
-  fingerprints `agent/`, `tools/`, and `utils/` for resume. Pinned
-  in-repo code keeps that fingerprint meaningful.
+  fingerprints `agent/`, `tools/`, `utils/`, and `requirements.txt` for
+  resume, including installed versions of declared dependencies and the
+  graph runtime's transitive packages. The adapter and protocol remain
+  in those directories; changing an installed framework version invalidates
+  saved result identity even when the Python source is unchanged.
+- **Local-only graph execution.** Checkpointing, graph retries, caching,
+  remote runtime calls, and external tracing are disabled. A
+  `tracing_context(enabled=False)` overrides a developer's tracing environment
+  without modifying it, so question and record data are not sent to LangSmith.
 
-## The Layer
+## The Adapters
+
+- **`FixedWorkflow`** executes role nodes through a compiled LangGraph
+  `StateGraph`. It has no checkpointer, retry policy, or cache. A small
+  graph-step ceiling guards accidental controller cycles independently of
+  the per-question token/tool ceilings.
 
 - **`Bus`** logs structured `Message(sender, recipient, kind, payload)`
   values. Payloads must be finite JSON objects and are copied when sent, so
-  roles never share mutable objects. The log becomes the coordination
+  returning a message or exporting the log also gives a copy, so callers
+  cannot rewrite prior messages. The log becomes the coordination
   record for revision tracking (P3-22).
 - **`Toolbox`** is one role's allow-listed view of `tools/registry.py`.
   Model arguments are limited to each tool's declared parameters (so a model
@@ -54,10 +71,16 @@ The multi-agent system will be a `BaseAgent` subclass whose `_run()` is the
 fixed controller (P2-12). It creates roles (P2-13 to P2-15) and routes
 `Bus` messages, including repairs (P2-17).
 
+The P2-11 correction supplies the graph adapter and compatibility spike;
+the separate P2-12 correction adds the controller execution below. Neither
+adds clinical role handlers or later repair classification. The existing
+`Toolbox` API is unchanged for those dependent PRs.
+
 ## Fixed Controller (P2-12)
 
 [`agent/controller.py`](../agent/controller.py) defines `FixedController`,
-a `BaseAgent` whose `_run()` decides the order of work without a model:
+a `BaseAgent` whose `_run()` executes the fixed LangGraph pipeline without
+a controller model:
 
 1. It parses the shared context (question, patient FHIR ID, assumed current
    time, and the dataset's assumption text) and sends it with every task.
@@ -70,6 +93,16 @@ a `BaseAgent` whose `_run()` decides the order of work without a model:
    output. The controller then verifies again.
 4. An answer is released only after a clean verification. Otherwise the
    system abstains, and the limitation lists the remaining issues.
+
+Retrieval, analysis, verification, and repair classification are graph
+nodes. Conditional edges stop on a role failure or route exactly one
+repair, then terminate after its verification. Framework retries and
+checkpoint resume are disabled, so no hidden second attempt can bypass
+the common token/tool ceiling. Revision tracking uses an explicit flag
+after a successful repaired analysis, not object identity in graph state.
+The original `route(issues) -> role or None` interface is retained here;
+P2-17's later error classification and routing diagnostics are not part of
+this controller correction.
 
 Roles are handlers (`task -> result`, both JSON objects) supplied by
 `build_roles()`. They are expected to follow these message contracts:
@@ -301,7 +334,7 @@ none were skipped.
 ## Spike Results
 
 `tests/test_phase2_framework.py` runs a two-role retrieval → analysis
-pipeline through `BaseAgent.run()` with a mocked model and FHIR client. It
+LangGraph pipeline through `BaseAgent.run()` with a mocked model and FHIR client. It
 uses the real registry tools and the real Python sandbox. It verifies that:
 
 - records fetched by the retrieval role reach the analysis role's sandboxed
@@ -313,7 +346,9 @@ uses the real registry tools and the real Python sandbox. It verifies that:
 - system-bound arguments override the model's;
 - each role run starts from a fresh context, and role errors and turn limits
   are reported;
-- bus payloads are copied and must be JSON.
+- bus payloads are copied on input and output and must be JSON;
+- the actual graph has no checkpointer or retry policy, a failed node is
+  invoked once, and tracing stays disabled even with tracing environment flags.
 
 Run with:
 
@@ -326,3 +361,15 @@ unchanged. `MultiTurnCodeResourceAgent` still has its own tool dispatch, so
 the baselines keep their Phase 1 behavior. Adding a file under `agent/`
 changes `run_agent.py`'s code fingerprint, so result files from before this
 change cannot be resumed and must be rerun under a new output path.
+
+Shared token accounting also normalizes real SDK message objects through their
+structured serialization APIs before counting subsequent prompts. This fixes
+bounded multi-turn calls without introducing a personal model configuration.
+
+The scoped P2-11 correction passed all 136 available Phase 1 and framework
+tests with mocked model/store calls and real macOS sandbox execution. A
+Linux sandbox backend still requires its own platform verification.
+The separate P2-12 correction, including that prerequisite, passed all 148
+available tests. Its regressions cover actual graph nodes, early failures,
+one bounded repair, abstention after failed verification, and the original
+scalar repair-route API.

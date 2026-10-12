@@ -1,9 +1,10 @@
 """Message passing for the Phase 2 multi-agent system (see docs/phase2_framework.md).
 
-A thin layer over BaseAgent and tools/registry.py rather than an external
-agent framework, so every role shares one question's budget and usage
-accounting and generated code still runs only in tools/python_executor.py:
+LangGraph executes fixed Python workflows; the adapters below retain
+BaseAgent's budget/usage accounting and the existing tool sandbox:
 
+- FixedWorkflow: local StateGraph execution with deterministic edges,
+  no checkpoints, retries, cache, or external tracing.
 - Bus: structured messages between the controller and roles. Payloads must
   be JSON values and are copied, so no role can share or mutate another's
   objects.
@@ -27,6 +28,40 @@ RETRIEVAL_TOOLS = ("get_resources_by_patient_fhir_id", "get_resources_by_resourc
 PYTHON_TOOL = "execute_python_code"
 
 
+class FixedWorkflow:
+    """A LangGraph workflow over a JSON state object, with local-only execution.
+
+    Nodes return the complete next state. Edges use None for the end node;
+    branches are (source, router, destinations) with the same convention.
+    Models and tools remain ordinary node code, never framework executors.
+    """
+
+    def __init__(self, nodes, entry_point, edges=(), branches=(), max_steps=16):
+        from langgraph.graph import END, StateGraph
+
+        if isinstance(max_steps, bool) or not isinstance(max_steps, int) or max_steps < 1:
+            raise ValueError("max_steps must be a positive integer")
+        builder = StateGraph(dict)
+        for name, handler in nodes.items():
+            builder.add_node(name, handler, retry_policy=None)
+        builder.set_entry_point(entry_point)
+        for source, target in edges:
+            builder.add_edge(source, END if target is None else target)
+        for source, router, destinations in branches:
+            builder.add_conditional_edges(
+                source, router, {key: END if target is None else target for key, target in destinations.items()})
+        self.graph = builder.compile(checkpointer=None, cache=None)
+        self.max_steps = max_steps
+
+    def run(self, state):
+        from langsmith import tracing_context
+
+        # A developer's tracing environment must not export patient/question data.
+        with tracing_context(enabled=False):
+            return self.graph.invoke(deepcopy(state), config={
+                "recursion_limit": self.max_steps, "callbacks": []})
+
+
 @dataclass(frozen=True)
 class Message:
     sender: str
@@ -42,7 +77,11 @@ class Bus:
     """Ordered log of structured messages for one question."""
 
     def __init__(self):
-        self.log = []
+        self._log = []
+
+    @property
+    def log(self):
+        return deepcopy(self._log)
 
     def send(self, sender, recipient, kind, payload):
         if not isinstance(payload, dict):
@@ -53,11 +92,11 @@ class Bus:
         except (TypeError, ValueError) as exc:
             raise ValueError(f"A message payload must be a finite JSON value: {exc}") from None
         message = Message(sender, recipient, kind, payload)
-        self.log.append(message)
-        return message
+        self._log.append(message)
+        return deepcopy(message)
 
     def to_list(self):
-        return [m.to_dict() for m in self.log]
+        return [m.to_dict() for m in self._log]
 
 
 class Toolbox:
