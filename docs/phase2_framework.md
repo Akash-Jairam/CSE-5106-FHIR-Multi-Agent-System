@@ -31,8 +31,11 @@ The adapters preserve Phase 1's constraints:
   ordinary conditional edges execute the controller's own routing policy.
 - **The common contract and resume identity.** The system must still
   return `AgentOutput` through `BaseAgent.run()`, and `run_agent.py`
-  fingerprints `agent/`, `tools/`, and `utils/` for resume. The adapter and
-  protocol remain in those directories; the framework version is pinned.
+  fingerprints `agent/`, `tools/`, `utils/`, and `requirements.txt` for
+  resume, including installed versions of declared dependencies and the
+  graph runtime's transitive packages. The adapter and protocol remain
+  in those directories; changing an installed framework version invalidates
+  saved result identity even when the Python source is unchanged.
 - **Local-only graph execution.** Checkpointing, graph retries, caching,
   remote runtime calls, and external tracing are disabled. A
   `tracing_context(enabled=False)` overrides a developer's tracing environment
