@@ -300,3 +300,55 @@ No real runs have been tracked yet; the tests use synthetic result files.
 On the 50 perturbed questions, a recovery rate of 1 question is 2
 percentage points. Use the `analyze` intervals (P3-21) before comparing
 systems.
+
+## Demo Interface (P3-23)
+
+```sh
+bash scripts/run_demo.sh --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+```
+
+The launcher runs `streamlit run demo/app.py` (Streamlit is already in
+`requirements.txt`). It binds to `localhost` and hides Streamlit's deploy
+toolbar.
+
+- **Patient selection.** The sidebar picks the system (multi-agent by
+  default, single agent, or direct LLM) and a patient. Patients come from
+  the pilot and dev splits; `--splits` changes this. Held-out patients
+  aren't offered by default, so the demo doesn't add exposure to the
+  evaluation set.
+- **Example or custom question.** An example is one of the patient's
+  dataset questions, with its assumed current time. A custom question takes
+  free text and an optional current time (`YYYY-MM-DD HH:MM:SS`).
+  `demo/backend.build_input()` builds the same context string the runner
+  gives agents, which a test checks against a dataset row. Reference
+  answers are never loaded or shown.
+- **Answer, cited fields, verification status.** The result shows:
+  - the released answer (or "No answer") and any limitation;
+  - a table of cited fields (resource, field, value), each marked `ok` or
+    with the remaining issue on that field or record;
+  - a status badge with an icon and label:
+
+    | Status | Meaning |
+    |---|---|
+    | ✓ Verified | the last check was clean and the answer was released |
+    | ⚠ Not verified | issues remained and the answer was withheld |
+    | ○ Not checked | the direct baseline, which has no checks |
+    | – No answer | the system abstained or hit its budget |
+    | ✕ Error | the run failed |
+
+  The badge also notes whether a repair ran, and where it started. Expanders
+  show the draft and first-check issues, and the usage (tokens, model calls,
+  tool calls, latency, cost).
+- **Backed by the evaluated pipeline.** `backend.ask()` calls the runner's
+  `run_agent_with_input()` with the same strategy, model, base URL,
+  per-question budget, and tool cache as the experiment. The header compares
+  the current code fingerprint, model, base URL, and budget with the
+  `.run.json` of the evaluated ordinary arm for that system (from
+  `--output_dir`, default as in `run_experiments.py`). It reports whether
+  they match, or which settings differ.
+
+The tests check the backend functions and run the app headless with
+Streamlit's `AppTest`, with the model and store mocked. During
+development, I also rendered and inspected the verified and not-verified
+states in a browser. A live question needs the model API key and the FHIR
+store configured; otherwise the app says so and doesn't run.
