@@ -30,18 +30,21 @@ def settings_from_argv(argv):
     parser.add_argument("--base_url", default=None)
     parser.add_argument("--max_total_tokens", type=int, default=None)
     parser.add_argument("--max_tool_calls", type=int, default=None)
-    parser.add_argument("--splits", nargs="+", default=list(backend.DEFAULT_SPLITS))
+    parser.add_argument("--splits", nargs="+", choices=["pilot", "dev", "held_out"], default=list(backend.DEFAULT_SPLITS))
     parser.add_argument("--output_dir", default=None, help="Evaluated results; default as in run_experiments.py")
     parser.add_argument("--input", default=os.path.join(backend.ROOT, "final_dataset", "questions_answers_sql_fhir.csv"))
     parser.add_argument("--split_manifest", default=os.path.join(backend.ROOT, "manifests", "split.json"))
     args, _ = parser.parse_known_args(argv)
+    for key in ("max_total_tokens", "max_tool_calls"):
+        if getattr(args, key) is not None and getattr(args, key) < 0:
+            parser.error(f"--{key} must be non-negative")
     args.output_dir = args.output_dir or os.path.join(backend.ROOT, "output", "experiments",
                                                       args.model.replace("/", "_"), "held_out")
     return args
 
 
 @st.cache_data
-def patients(input_file, split_manifest, splits):
+def patients(input_file, split_manifest, splits, input_hash, split_hash):
     return backend.load_patients(input_file, split_manifest, splits)
 
 
@@ -58,17 +61,23 @@ st.title("Ask a patient's FHIR record")
 
 with st.sidebar:
     system = st.radio("System", list(backend.SYSTEMS), format_func=backend.SYSTEMS.get)
-    pool = {p["patient_fhir_id"]: p for p in patients(args.input, args.split_manifest, tuple(args.splits))}
+    pool = {p["patient_fhir_id"]: p for p in patients(args.input, args.split_manifest, tuple(args.splits),
+                                                    backend._file_hash(args.input), backend._file_hash(args.split_manifest))}
+    if not pool:
+        st.warning("No patients have example questions in these splits.")
+        st.stop()
     patient = pool[st.selectbox("Patient", list(pool), format_func=lambda i: f"{pool[i]['subject_id']} ({pool[i]['split']})")]
     st.caption(f"{len(patient['questions'])} example questions · FHIR ID {patient['patient_fhir_id']}")
 
 budget = ", ".join(f"{k.removeprefix('max_').replace('_', ' ')} ≤ {v:,}" for k, v in settings.items()
                    if k.startswith("max_") and v is not None) or "no budget ceilings"
-evaluated = backend.evaluated_run(system, settings, args.output_dir)
+evaluated = backend.evaluated_run(system, settings, args.output_dir, args.input, args.split_manifest)
 if not evaluated["found"]:
     match = "no evaluated run found for these settings"
 elif evaluated["all_match"]:
     match = "✓ same code, model, and budget as the evaluated run"
+elif not evaluated["valid"]:
+    match = evaluated.get("reason", "no complete evaluated result batch found")
 else:
     differing = [key.replace("_hash", "") for key, ok in evaluated["matches"].items() if not ok]
     match = "⚠ differs from the evaluated run: " + ", ".join(differing)
@@ -87,8 +96,12 @@ else:
     current_time = st.text_input("Assumed current time (optional)", value=times[-1] if times else "")
 asked = st.button("Ask", type="primary")
 st.divider()
+request_context = (system, patient["patient_fhir_id"], mode, question, current_time or None, tuple(settings.items()))
+if st.session_state.get("result", {}).get("context") != request_context:
+    st.session_state.pop("result", None)
 
 if asked:
+    st.session_state.pop("result", None)
     try:
         input_str = backend.build_input(patient["patient_fhir_id"], question, current_time or None)
     except ValueError as exc:
@@ -102,7 +115,7 @@ if asked:
             with st.spinner(f"Running the {backend.SYSTEMS[system].lower()}…"):
                 output = backend.ask(system, input_str, settings)
             st.session_state["result"] = {"system": system, "question": question, "patient": patient["subject_id"],
-                                          "current_time": current_time, "output": output}
+                                          "current_time": current_time, "output": output, "context": request_context}
 
 result = st.session_state.get("result")
 if result:
@@ -143,8 +156,11 @@ if result:
     with st.expander("Usage"):
         tokens, run_budget = output.get("tokens") or {}, output.get("budget") or {}
         cost = tokens.get("cost")
-        st.write(f"{tokens.get('total', 0):,} tokens over {tokens.get('llm_calls', 0)} model calls · "
-                 f"{run_budget.get('tool_calls_run', 0)} tool calls · {output.get('latency') or 0:.1f}s"
+        total = "unavailable" if tokens.get("total") is None else f"{tokens['total']:,}"
+        calls = "unavailable" if tokens.get("llm_calls") is None else str(tokens["llm_calls"])
+        tools = "unavailable" if run_budget.get("tool_calls_run") is None else str(run_budget["tool_calls_run"])
+        latency = "unavailable" if output.get("latency") is None else f"{output['latency']:.1f}s"
+        st.write(f"{total} tokens · {calls} model calls · {tools} tool calls · latency {latency}"
                  + (f" · ${cost:.4f}" if cost is not None else " · cost unavailable"))
         names = [c.get("name") for c in output.get("tool_calls") or [] if isinstance(c, dict)]
         if names:
