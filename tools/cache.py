@@ -57,8 +57,7 @@ def is_cache_fresh(file_path):
 def load_from_cache(tool_name, args, kwargs):
     """Loads result from cache. Returns None if not found."""
     # Create cache directory if it doesn't exist
-    if not os.path.exists(CACHE_DIR):
-        os.makedirs(CACHE_DIR)
+    os.makedirs(CACHE_DIR, exist_ok=True)
     
     # Create cache key and file path
     cache_key = make_cache_key(tool_name, args, kwargs)
@@ -87,18 +86,23 @@ def save_to_cache(tool_name, args, kwargs, result):
     """Saves result to cache."""
     try:
         # Create cache directory if it doesn't exist
-        if not os.path.exists(CACHE_DIR):
-            os.makedirs(CACHE_DIR)
+        os.makedirs(CACHE_DIR, exist_ok=True)
         
         # Create cache key and file path
         cache_key = make_cache_key(tool_name, args, kwargs)
         file_path = get_cache_file_path(cache_key)
         
-        # Save result to file
-        with open(file_path, 'wb') as f:
-            pickle.dump(result, f)
-            print(f"[CACHE SAVE] Saved result for {tool_name}({kwargs}) to cache")
-            
+        # Write a private file, then rename: parallel workers never read a partial entry
+        temporary = f"{file_path}.{os.getpid()}.tmp"
+        try:
+            with open(temporary, 'wb') as f:
+                pickle.dump(result, f)
+            os.replace(temporary, file_path)
+        finally:
+            if os.path.exists(temporary):
+                os.remove(temporary)
+        print(f"[CACHE SAVE] Saved result for {tool_name}({kwargs}) to cache")
+
     except Exception as e:
         print(f"[CACHE ERROR] Failed to save cache: {e}")
 

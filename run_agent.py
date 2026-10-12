@@ -21,6 +21,7 @@ from utils import (
 
 INPUT_COLUMNS = ["question_id", "question", "true_answer", "assumption", "patient_fhir_id"]
 HISTORY_COLUMN = "attempt_history"
+CONDITIONS = ("intact", "omitted")
 
 
 def _boolean(value):
@@ -43,7 +44,7 @@ def build_parser():
     parser.add_argument("--agent_strategy", required=True, choices=[
         "single_turn_request", "single_turn_resource", "single_turn_code_resource",
         "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2",
-        "direct_llm", "single_agent",
+        "direct_llm", "single_agent", "multi_agent",
     ])
     parser.add_argument("--add_patient_fhir_id", type=_boolean, nargs="?", const=True, default=True)
     parser.add_argument("--num_processes", type=int, default=-1)
@@ -56,15 +57,22 @@ def build_parser():
     parser.add_argument("--max_total_tokens", type=int, default=None)
     parser.add_argument("--max_tool_calls", type=int, default=None)
     parser.add_argument("--enable_cache", type=_boolean, nargs="?", const=True, default=True)
+    parser.add_argument("--perturbations", default=None,
+                        help="Frozen missing-evidence manifest; restricts the run to its questions")
+    parser.add_argument("--condition", choices=CONDITIONS, default=None,
+                        help="With --perturbations: start from the full (intact) or the omitted packet")
     return parser
 
 
-def prepare_multiprocessing_inputs(remaining_inputs, agent_strategy, model, verbose, base_url, enable_cache, budget):
-    return [(input_data, agent_strategy, model, verbose, base_url, enable_cache, budget)
-            for input_data in remaining_inputs]
+def prepare_multiprocessing_inputs(remaining_inputs, agent_strategy, model, verbose, base_url, enable_cache, budget,
+                                   perturbations=None):
+    perturbations = perturbations or [None] * len(remaining_inputs)
+    return [(input_data, agent_strategy, model, verbose, base_url, enable_cache, budget, perturbation)
+            for input_data, perturbation in zip(remaining_inputs, perturbations)]
 
 
-def load_inputs(input_file, limit=None, split_manifest=None, split=None):
+def load_inputs(input_file, limit=None, split_manifest=None, split=None, question_ids=None):
+    """The selected split, then only `question_ids` (in split order), then the first `limit`."""
     df = read_input_data(input_file)
     if split_manifest:
         with open(split_manifest, encoding="utf-8") as stream:
@@ -73,6 +81,11 @@ def load_inputs(input_file, limit=None, split_manifest=None, split=None):
         if source_hash and hashlib.sha256(Path(input_file).read_bytes()).hexdigest() != source_hash:
             raise ValueError("The split manifest was built from a different input dataset")
         df = select_split(df, manifest, split)
+    if question_ids is not None:
+        missing = set(question_ids) - set(df["question_id"])
+        if missing:
+            raise ValueError(f"{len(missing)} perturbed questions are not in the selected inputs")
+        df = df[df["question_id"].isin(question_ids)].reset_index(drop=True)
     return df.head(limit) if limit is not None else df
 
 
@@ -132,8 +145,9 @@ def is_done(row):
 def run_identity(args, inputs):
     """Bind a result file to the experiment and inputs that produced it."""
     input_json = inputs[INPUT_COLUMNS].to_json(orient="records", date_format="iso")
+    perturbations = getattr(args, "perturbations", None)
     return {
-        "version": 1,
+        "version": 2,
         "agent_strategy": args.agent_strategy,
         "model": args.model,
         "base_url_hash": hashlib.sha256((args.base_url or "").encode()).hexdigest(),
@@ -146,6 +160,8 @@ def run_identity(args, inputs):
         "split": getattr(args, "split", None),
         "split_manifest_hash": (hashlib.sha256(Path(args.split_manifest).read_bytes()).hexdigest()
                                 if getattr(args, "split_manifest", None) else None),
+        "condition": getattr(args, "condition", None),
+        "perturbations_hash": hashlib.sha256(Path(perturbations).read_bytes()).hexdigest() if perturbations else None,
     }
 
 
@@ -248,9 +264,18 @@ def main(argv=None):
         parser.error("--save_interval must be positive; --num_processes must be positive or -1")
     if bool(args.split_manifest) != bool(args.split):
         parser.error("--split_manifest and --split must be supplied together")
+    if bool(args.perturbations) != bool(args.condition):
+        parser.error("--perturbations and --condition must be supplied together")
+    if args.perturbations and args.split != "held_out":
+        parser.error("Perturbations are frozen on held-out questions; use --split held_out")
+    perturbations = None
+    if args.perturbations:
+        from tools.perturbation import load_perturbations
+        perturbations = load_perturbations(args.perturbations)
     output_file = args.output or f"output/{args.agent_strategy}_{args.model.replace('/', '_')}_results.json"
     os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
-    inputs = load_inputs(args.input, args.limit, args.split_manifest, args.split)
+    inputs = load_inputs(args.input, args.limit, args.split_manifest, args.split,
+                         question_ids=list(perturbations) if perturbations is not None else None)
     identity = run_identity(args, inputs)
     results = prepare_results(inputs, output_file, identity)
     results["question_with_context"] = curate_input_dataset(results, args.add_patient_fhir_id)
@@ -267,8 +292,12 @@ def main(argv=None):
     check_tool_credentials()
     _write_json(identity, output_file + ".run.json")
     budget = {"max_total_tokens": args.max_total_tokens, "max_tool_calls": args.max_tool_calls}
+    # Intact runs get no specification, so they start from the same full packet as ordinary runs.
+    specifications = ([perturbations[qid] for qid in remaining["question_id"]]
+                      if args.condition == "omitted" else None)
     jobs = prepare_multiprocessing_inputs(remaining["question_with_context"].tolist(), args.agent_strategy,
-                                         args.model, args.verbose, args.base_url, args.enable_cache, budget)
+                                         args.model, args.verbose, args.base_url, args.enable_cache, budget,
+                                         specifications)
     processes = min(args.num_processes if args.num_processes > 0 else (os.cpu_count() or 1), len(jobs))
     indexes = remaining.index.tolist()
 
