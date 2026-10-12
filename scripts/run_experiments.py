@@ -239,14 +239,16 @@ def print_variability(report):
 
 def print_status(statuses):
     width = max(len(s["arm"]) for s in statuses)
-    print(f"{'arm':<{width}}  {'done':>5} {'failed':>6} {'total':>5}  state")
+    print(f"{'arm':<{width}}  {'done':>5} {'failed':>6} {'tried':>5} {'total':>5}  state")
     for s in statuses:
-        print(f"{s['arm']:<{width}}  {s['completed']:>5} {s['failed']:>6} {s['questions']:>5}  {s['state']}")
+        print(f"{s['arm']:<{width}}  {s['completed']:>5} {s['failed']:>6} "
+              f"{s['attempted']:>5} {s['questions']:>5}  {s['state']}")
     for group in EXPECTED:
         members = [s for s in statuses if s["group"] == group]
         if members:
             done, total = sum(s["completed"] for s in members), sum(s["questions"] for s in members)
             print(f"{group}: {done}/{total} runs complete")
+            print(f"  {sum(s['attempted'] for s in members)}/{total} runs attempted (errors retained for analysis)")
 
 
 def check_sizes(statuses, arms, args):
@@ -266,6 +268,10 @@ def main(argv=None):
     for key in ("max_total_tokens", "max_tool_calls", "limit"):
         if getattr(args, key) is not None and getattr(args, key) < 0:
             parser.error(f"--{key} must be non-negative")
+    if args.command == "run" and args.split == HELD_OUT:
+        if any(getattr(args, key) is None or getattr(args, key) <= 0
+               for key in ("max_total_tokens", "max_tool_calls")):
+            parser.error("Held-out runs require explicit positive --max_total_tokens and --max_tool_calls ceilings")
     names = args.arms or (["variability"] if args.command == "variability" else list(EXPECTED))
     try:
         arms = select_arms(names, args.split)
