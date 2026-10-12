@@ -51,9 +51,11 @@ class FixedController(BaseAgent):
         raise NotImplementedError
 
     def route(self, issues):
-        """The role a repair starts from, or None if no issue names a role
-        that can repair it. The earliest responsible role wins, since the
-        stages after it depend on its output."""
+        """The earliest repair role, or None if any issue lacks a repair owner.
+
+        Later stages depend on earlier output, so retrieval takes precedence
+        over analysis only when every reported issue is repairable.
+        """
         roles = {issue.get("responsible_role") for issue in issues}
         if not roles.issubset(REPAIRABLE):
             return None
