@@ -32,7 +32,12 @@ from utils.evidence_scorer import check_citation, fetch_from_store, get_cited_re
 from .registry import tool_registry
 
 QUESTION_UNIT_RE = re.compile(r"\bin\s+(" + "|".join(sorted(map(re.escape, UNITS), key=len, reverse=True)) + r")\b", re.I)
-ENCOUNTER_SCOPE_RE = re.compile(r"\b(first|last|latest)\s+(hospital|icu)\s+(?:visit|encounter|stay)\b", re.I)
+ENCOUNTER_SCOPE_RE = re.compile(r"\b(first|last|latest|current|this)\s+(?:completed\s+)?(hospital|icu)\s+(?:visit|encounter|stay)\b", re.I)
+ENCOUNTER_EVENT_RE = re.compile(
+    r"\b(?:how many|number of|count(?: of)?|any|which)\s+(?:different\s+|total\s+|unique\s+)?"
+    r"(?:hospital|icu|er|emergency(?: department)?)\s+(?:visits?|encounters?|stays?|admissions?)\b"
+    r"|\b(?:been to|admitted to)\s+(?:the\s+)?(?:hospital|er|icu)\b|\b(?:hospital|icu)\s+admissions?\b", re.I)
+EVENT_TYPES = {"Observation", "MedicationRequest", "Procedure", "Condition"}
 # MIMIC-IV dates are shifted into 2100-2299; anything else is not a date window
 YEAR = r"2[12]\d{2}"
 SINCE_AGO_RE = re.compile(r"\bsince (\d+) (day|month|year)s? ago\b", re.I)
@@ -50,7 +55,13 @@ def _ref_id(reference):
 
 
 def _wall_clock(value):
-    return value[:19].replace("T", " ") if isinstance(value, str) else ""
+    if not isinstance(value, str):
+        return ""
+    try:
+        # The benchmark SQL compares deidentified local clock values, not UTC instants.
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).replace(tzinfo=None).strftime(WALL_CLOCK)
+    except ValueError:
+        return ""
 
 
 def _months_before(day, months):
@@ -89,7 +100,7 @@ def question_time_window(question, current_time=None):
     """
     question = question or ""
     try:
-        now = datetime.strptime(current_time, WALL_CLOCK) if current_time else None
+        now = datetime.strptime(_wall_clock(current_time), WALL_CLOCK) if current_time else None
         today = datetime(now.year, now.month, now.day) if now else None
         if (match := SINCE_AGO_RE.search(question)) and today:
             n, unit = int(match.group(1)), match.group(2).lower()
@@ -111,7 +122,7 @@ def question_time_window(question, current_time=None):
             window = _period(day.year, day.month, day.day)
         else:
             return None
-    except ValueError:  # an impossible date such as 02/30, or an unparsable current time
+    except (ValueError, OverflowError):  # impossible dates or out-of-range relative offsets
         return None
     start, end = window
     return start.strftime(WALL_CLOCK), end.strftime(WALL_CLOCK) if end else None, match.group(0)
@@ -126,34 +137,70 @@ def _resource_time(resource):
     return ""
 
 
+def resource_event_time(resource, resources=None):
+    """Dataset event time, excluding release/order timestamps and metadata dates."""
+    rtype = resource.get("resourceType")
+    paths = {"Observation": ("effectiveDateTime", "effectivePeriod.start"),
+             "MedicationRequest": ("dispenseRequest.validityPeriod.start",),
+             "Procedure": ("performedDateTime", "performedPeriod.start"),
+             "Encounter": ("period.start",)}.get(rtype, ())
+    for path in paths:
+        values = resolve_path(resource, path)
+        if values and (moment := _wall_clock(values[0])):
+            return moment
+    if rtype == "Condition":
+        linked = _ref_id(resource.get("encounter") or resource.get("context"))
+        encounter = get_cited_resource(resources or {}, "Encounter", linked) or {}
+        return resource_event_time(encounter)
+    return ""
+
+
 def _unit_key(unit):
     return (unit or "").strip().lower().rstrip(".")
 
 
-def _question_encounter(question, patient_fhir_id, resources, from_store, current_time):
+def question_encounter_scope(question, patient_fhir_id, resources, current_time=None):
+    """Pure first/completed-last/ongoing-current visit selection from original records."""
     match = ENCOUNTER_SCOPE_RE.search(question or "")
     if not match or not patient_fhir_id:
         return None, []
     order, kind = match.groups()
-    if from_store:
-        from fhir_client import get_fhir_client
-        encounters = get_fhir_client().search_with_pagination(f"Encounter?patient={patient_fhir_id}")
-        resources.update({f"Encounter/{r['id']}": r for r in encounters})
-    else:
-        encounters = [r for r in resources.values() if r.get("resourceType") == "Encounter"]
+    order, kind = order.lower(), kind.lower()
+    patient_fhir_id = _ref_id(patient_fhir_id)
+    current_time = _wall_clock(current_time) if current_time else None
+    if order in ("current", "this") and not current_time:
+        return None, [f"encounter_scope: the current {kind} encounter requires an assumed current time"]
+    encounters = [r for r in resources.values() if r.get("resourceType") == "Encounter"]
     suffix = "encounter-hosp" if kind.lower() == "hospital" else "encounter-icu"
     encounters = [r for r in encounters
                   if _ref_id(r.get("subject")) == patient_fhir_id
                   and any(i.get("system", "").endswith(suffix) for i in r.get("identifier", []))
-                  and _resource_time(r)
-                  and (not current_time or _resource_time(r) <= current_time)]
+                  and resource_event_time(r)
+                  and (not current_time or resource_event_time(r) <= current_time)]
+    if order in ("last", "latest"):
+        encounters = [r for r in encounters if (end := _wall_clock(r.get("period", {}).get("end")))
+                      and end >= resource_event_time(r) and (not current_time or end <= current_time)]
+    elif order in ("current", "this"):
+        encounters = [r for r in encounters if not r.get("period", {}).get("end")
+                      or _wall_clock(r["period"]["end"]) > current_time]
+        if len(encounters) > 1:
+            return None, [f"encounter_scope: multiple ongoing {kind} encounters make the requested scope ambiguous"]
     if not encounters:
         return None, [f"encounter_scope: no {kind.lower()} encounter establishes the requested scope"]
-    encounters.sort(key=lambda r: (_resource_time(r), r["id"]))
-    return encounters[0 if order.lower() == "first" else -1]["id"], []
+    encounters.sort(key=lambda r: (resource_event_time(r), r["id"]))
+    return encounters[0 if order == "first" else -1]["id"], []
 
 
-def _check_one(citation, resources, question, current_time, encounter_id, patient_fhir_id, window=None):
+def _question_encounter(question, patient_fhir_id, resources, from_store, current_time):
+    if from_store and ENCOUNTER_SCOPE_RE.search(question or "") and patient_fhir_id:
+        from fhir_client import get_fhir_client
+        encounters = get_fhir_client().search_with_pagination(f"Encounter?patient={patient_fhir_id}")
+        resources.update({f"Encounter/{r['id']}": r for r in encounters})
+    return question_encounter_scope(question, patient_fhir_id, resources, current_time)
+
+
+def _check_one(citation, resources, question, current_time, encounter_id, patient_fhir_id, window=None,
+               encounter_window=True):
     status = check_citation(citation, resources)
     result = {"citation": citation, "status": status, "warnings": []}
     parsed = parse_citation(citation)
@@ -207,17 +254,19 @@ def _check_one(citation, resources, question, current_time, encounter_id, patien
             result["warnings"].append(f"encounter_link: the resource belongs to Encounter/{linked or '?'}, "
                                       f"not the scoped Encounter/{encounter_id}")
 
-    time = _resource_time(resource)
-    if not time:
-        linked = _ref_id(resource.get("encounter") or resource.get("context"))
-        time = _resource_time(get_cited_resource(resources, "Encounter", linked) or {})
-    if current_time and time and time > current_time:
-        result["warnings"].append(f"current_time: the resource is dated {time}, after the assumed current time {current_time}")
-    # Windows filter prescriptions by their start; an order time alone does not date one.
-    if window and time and not (rtype == "MedicationRequest" and not start):
+    time = resource_event_time(resource, resources)
+    availability_time = time or _resource_time(resource)
+    cited_times = [_wall_clock(value) for value in resolve_path(resource, path) or []]
+    future = max([availability_time, *cited_times])
+    if current_time and future and future > current_time:
+        result["warnings"].append(f"current_time: the resource or cited field is dated {future}, after the assumed current time {current_time}")
+    # Encounters can be supporting context for an event inside a later window.
+    if window and (rtype in EVENT_TYPES or (rtype == "Encounter" and encounter_window)):
         window_start, window_end, phrase = window
-        moment = (time + " 00:00:00")[:19]  # a bare date is midnight
-        if moment < window_start or (window_end and moment >= window_end):
+        if not time:
+            result["warnings"].append(f"time_window: no event timestamp establishes whether the resource is inside "
+                                      f"the question's window \"{phrase}\"")
+        elif time < window_start or (window_end and time >= window_end):
             result["warnings"].append(f"time_window: the resource is dated {time}, outside the question's window "
                                       f"\"{phrase}\" ({window_start} to {window_end or 'the current time'})")
     return result
@@ -247,6 +296,8 @@ def check_fields(citations, question="", current_time=None, encounter_id=None, r
             scope_issues.append(f"encounter_scope: the question selects Encounter/{scoped}, not Encounter/{encounter_id}")
         encounter_id = scoped
     window = question_time_window(question, current_time)
+    event_citations = any(p[0] in EVENT_TYPES for p in parsed)
+    encounter_window = not event_citations or bool(ENCOUNTER_EVENT_RE.search(question or ""))
     # Encounters also establish a date for resources such as Conditions.
     if encounter_id or current_time or window:
         cited = [r for p in parsed if (r := get_cited_resource(resources, p[0], p[1])) is not None]
@@ -255,7 +306,8 @@ def check_fields(citations, question="", current_time=None, encounter_id=None, r
         if missing:
             resources.update(fetch_from_store(missing))
 
-    results = [_check_one(c, resources, question, current_time, encounter_id, patient_fhir_id, window)
+    results = [_check_one(c, resources, question, current_time, encounter_id, patient_fhir_id, window,
+                          encounter_window)
                for c in citations]
     issues = scope_issues
     for i, r in enumerate(results):
