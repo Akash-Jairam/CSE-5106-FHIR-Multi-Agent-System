@@ -10,7 +10,7 @@ import argparse
 import datetime
 import csv
 from collections import Counter
-from utils import is_reasoning_llm
+from utils import get_default_model, is_reasoning_llm
 
 import pandas as pd
 from tqdm import tqdm
@@ -41,9 +41,9 @@ parser.add_argument("--output_dir",
                     help="Path to the output directory.")
 parser.add_argument("--model",
                     type=str,
-                    default="o4-mini",
+                    default=get_default_model(),
                     required=False,
-                    help="Model to use for evaluation.")
+                    help="Model for the secondary LLM judge; default: the configured base model.")
 parser.add_argument("--num_processes",
                     type=int,
                     default=-1,

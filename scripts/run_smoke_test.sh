@@ -1,9 +1,9 @@
 # End-to-end smoke test: verify setup, run the single-turn resource agent on a
 # few questions, then score the output.
-# Usage: MODEL=o4-mini NUM_QUESTIONS=5 bash scripts/run_smoke_test.sh
+# Usage: MODEL=gpt-6-luna NUM_QUESTIONS=5 bash scripts/run_smoke_test.sh
 set -euo pipefail
 
-model="${MODEL:-o4-mini}"
+model="$(python utils/model_config.py)"  # $MODEL, then MODEL in config.yml, then gpt-6-luna
 num_questions="${NUM_QUESTIONS:-5}"
 agent_strategy="single_turn_resource"
 # run_agent.py strips provider prefixes (e.g. "gemini/") from output paths, so do the same here

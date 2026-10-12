@@ -458,11 +458,17 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
 
 
 def is_reasoning_llm(model: str) -> bool:
-    # These models do not support the temperature parameter
-    supported_models = [
-        'o4-mini'
-    ]
-    return model in supported_models
+    """OpenAI reasoning models (o-series, gpt-5 and later, e.g. gpt-6-luna) reject `temperature`
+    and cap output with `max_completion_tokens`. Other providers' reasoning models accept both."""
+    try:
+        if get_model_provider(model) != "openai":
+            return False
+    except NotImplementedError:
+        return False
+    try:
+        return bool(litellm.supports_reasoning(model=model))
+    except Exception:
+        return model in ("o4-mini",)  # LiteLLM has no metadata for the model
 
 # =============================================================================
 # Evaluation Metrics

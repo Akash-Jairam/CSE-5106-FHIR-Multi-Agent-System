@@ -1,6 +1,6 @@
 """Verify that config.yml, GCP credentials, and the MIMIC-IV FHIR store are ready.
 
-Usage: python scripts/check_setup.py [--model o4-mini]
+Usage: python scripts/check_setup.py [--model gpt-6-luna]
 """
 import argparse
 import sys
@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from utils import validate_config
+from utils import get_default_model, validate_config
 
 # Patient used by check_tool_credentials() and the first questions in the dataset
 SMOKE_PATIENT_FHIR_ID = "dd2bf984-33c3-5874-8f68-84113327877e"
@@ -24,7 +24,8 @@ def count_resources(client, resource_type):
 
 def main():
     parser = argparse.ArgumentParser(description="Check environment and FHIR store setup.")
-    parser.add_argument("--model", type=str, default="o4-mini", help="Model whose API key should be checked")
+    parser.add_argument("--model", type=str, default=get_default_model(),
+                        help="Model whose API key should be checked; default: the configured base model")
     args = parser.parse_args()
 
     print("1. Config")

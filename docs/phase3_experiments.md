@@ -28,7 +28,10 @@ held-out run.
   happened.
 - **Shared settings.** All arms use one `--model`, `--base_url`, and
   per-question budget (`--max_total_tokens`, `--max_tool_calls`). The tool
-  cache is always on.
+  cache is always on. The model defaults to the configured base model
+  (`$MODEL`, then `MODEL` in `config.yml`, then `gpt-6-luna`; CC-28). Each
+  result file's run identity records the model, so an arm run with a
+  different model shows as stale and is left out of the analysis.
 
 ### The multi-agent strategy
 
@@ -100,9 +103,9 @@ so a parallel worker never reads a partial entry.
 From the repository root:
 
 ```sh
-python scripts/run_experiments.py plan   --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
-python scripts/run_experiments.py run    --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
-python scripts/run_experiments.py status --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+python scripts/run_experiments.py plan   --max_total_tokens 200000 --max_tool_calls 30
+python scripts/run_experiments.py run    --max_total_tokens 200000 --max_tool_calls 30
+python scripts/run_experiments.py status --max_total_tokens 200000 --max_tool_calls 30
 ```
 
 - `plan` lists the arms, their question counts, and the exact
@@ -159,7 +162,7 @@ pipeline, not the store.
 ### The report
 
 ```sh
-python scripts/run_experiments.py variability --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+python scripts/run_experiments.py variability --max_total_tokens 200000 --max_tool_calls 30
 ```
 
 The report uses the same settings as `run` to find and check the result
@@ -199,7 +202,7 @@ fixed but do not make tools, scheduling, or provider calls deterministic.
 ## Statistics and Plots (P3-21)
 
 ```sh
-python scripts/run_experiments.py analyze --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+python scripts/run_experiments.py analyze --max_total_tokens 200000 --max_tool_calls 30
 ```
 
 `analyze` uses the same settings as `run` to find and check the ordinary
@@ -285,7 +288,7 @@ first-attempt and attempt-history helpers from P3-20.
 ## Revision Tracking (P3-22)
 
 ```sh
-python scripts/run_experiments.py revisions --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30 \
+python scripts/run_experiments.py revisions --max_total_tokens 200000 --max_tool_calls 30 \
   [--evidence_source store | --evidence_source ndjson --fhir_dir "$FHIR_NDJSON_DIR"]
 ```
 
@@ -329,7 +332,7 @@ systems.
 ## Demo Interface (P3-23)
 
 ```sh
-bash scripts/run_demo.sh --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+bash scripts/run_demo.sh --max_total_tokens 200000 --max_tool_calls 30
 ```
 
 The launcher changes to the repository root and runs `streamlit run demo/app.py` (Streamlit is already in

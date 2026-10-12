@@ -14,6 +14,7 @@ from tqdm import tqdm
 from utils import (
     RESULT_COLUMNS,
     check_tool_credentials,
+    get_default_model,
     curate_input_dataset,
     read_input_data,
     run_agent_with_input,
@@ -37,7 +38,8 @@ def _boolean(value):
 
 def build_parser():
     parser = argparse.ArgumentParser(description="Evaluate FHIR agent answers and save results.")
-    parser.add_argument("--model", default="o4-mini")
+    parser.add_argument("--model", default=get_default_model(),
+                        help="Base model; default: $MODEL, then MODEL in config.yml, then gpt-6-luna")
     parser.add_argument("--base_url", default=None)
     parser.add_argument("--input", default="final_dataset/questions_answers_sql_fhir.csv")
     parser.add_argument("--output", default=None)

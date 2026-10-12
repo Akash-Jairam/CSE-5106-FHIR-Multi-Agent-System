@@ -19,11 +19,11 @@ same command resumes an interrupted experiment and retries failed questions.
 Code changes make existing files stale; use a new --output_dir.
 
 Usage (from the repository root):
-    python scripts/run_experiments.py plan   --model gpt-5-nano
-    python scripts/run_experiments.py run    --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
-    python scripts/run_experiments.py status --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+    python scripts/run_experiments.py plan
+    python scripts/run_experiments.py run    --max_total_tokens 200000 --max_tool_calls 30
+    python scripts/run_experiments.py status --max_total_tokens 200000 --max_tool_calls 30
 
-    python scripts/run_experiments.py variability --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
+    python scripts/run_experiments.py variability --max_total_tokens 200000 --max_tool_calls 30
 
 `status` and `variability` make no model or FHIR calls and print aggregates only, never answers.
 """
@@ -36,6 +36,7 @@ from dataclasses import dataclass
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 import run_agent  # noqa: E402
+from utils.model_config import get_default_model  # noqa: E402
 
 SYSTEMS = ("direct_llm", "single_agent", "multi_agent")
 RECOVERY_SYSTEMS = ("single_agent", "multi_agent")
@@ -71,7 +72,9 @@ ARMS = ([Arm("ordinary", strategy) for strategy in SYSTEMS]
 def build_parser():
     parser = argparse.ArgumentParser(description="Run, resume, or check the Phase 3 experiment.")
     parser.add_argument("command", choices=["plan", "run", "status", "variability", "analyze", "revisions"])
-    parser.add_argument("--model", required=True, help="One base model shared by every system")
+    parser.add_argument("--model", default=get_default_model(),
+                        help="One base model shared by every system; default: $MODEL, then MODEL in config.yml, "
+                             "then gpt-6-luna")
     parser.add_argument("--base_url", default=None)
     parser.add_argument("--max_total_tokens", type=int, default=None, help="Per-question ceiling for every system")
     parser.add_argument("--max_tool_calls", type=int, default=None, help="Per-question ceiling for every system")

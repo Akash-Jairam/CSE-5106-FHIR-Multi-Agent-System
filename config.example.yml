@@ -1,3 +1,5 @@
+# One base model for all three systems (CC-28); $MODEL overrides it, and --model overrides both
+MODEL: "gpt-6-luna"
 OPENAI_API_KEY: "your-api-key"
 GEMINI_API_KEY: "your-api-key"
 FHIR_CONFIG:

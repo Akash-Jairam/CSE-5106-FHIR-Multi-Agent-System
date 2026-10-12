@@ -1,4 +1,4 @@
-model="o4-mini"
+model="$(python utils/model_config.py)"  # $MODEL, then MODEL in config.yml, then gpt-6-luna
 agent_strategy="multi_turn_resource"
 python run_agent.py \
   --agent_strategy $agent_strategy \
