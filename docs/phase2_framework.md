@@ -158,12 +158,20 @@ so that its own issues route deterministically.
   `get_resources_by_resource_id`). It cannot run Python or send raw FHIR
   queries.
 - **Scope resolution.** The `Toolbox` limits records to the question's
-  patient and current time. The model reports which encounters the
+  patient and current time. Missing patient/time provenance is excluded
+  with an explicit limitation, not treated as an established empty result.
+  Prescription start, rather than order time, governs the cutoff. Shared
+  Medication and Location records must be linked from retrieved evidence.
+  Encounter fetches expose dates and visit identifiers so the model can
+  resolve scope even when the packet omitted an encounter. The model reports which encounters the
   question is about. IDs that aren't among the retrieved encounters are
   dropped and noted in the limitation.
 - **Result.** Record IDs by type, the relevant resource types, the scope
   (patient, current time, encounter IDs), and a limitation. The records
   themselves stay in the shared workspace, so the bus log stays small.
+- **Evidence preservation.** Both searches merge records into the
+  workspace. Fetched IDs replace earlier copies with original source
+  records; records outside the fetched result are retained.
 - **Repair.** On a repair task the agent keeps the workspace, sees the
   verifier's issues and what it already holds, and doesn't reload the
   packet.

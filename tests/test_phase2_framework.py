@@ -13,8 +13,10 @@ from tools import cache
 
 PATIENT = "11111111-1111-1111-1111-111111111111"
 OBSERVATIONS = [
-    {"resourceType": "Observation", "id": "o1", "valueQuantity": {"value": 20}},
-    {"resourceType": "Observation", "id": "o2", "valueQuantity": {"value": 18}},
+    {"resourceType": "Observation", "id": "o1", "subject": {"reference": f"Patient/{PATIENT}"},
+     "valueQuantity": {"value": 20}},
+    {"resourceType": "Observation", "id": "o2", "subject": {"reference": f"Patient/{PATIENT}"},
+     "valueQuantity": {"value": 18}},
 ]
 
 

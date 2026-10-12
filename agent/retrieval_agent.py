@@ -19,7 +19,7 @@ from copy import deepcopy
 
 from .framework import RETRIEVAL_TOOLS, Role, Toolbox
 from .output_schema import _json_objects
-from tools.resource_tools import supported_types
+from tools.resource_tools import FHIR_ID_RE, supported_types
 from tools.starting_packet import get_starting_packet
 
 SYSTEM_PROMPT = f"""You are the retrieval agent in a team answering questions about one patient's FHIR record.
@@ -27,11 +27,13 @@ Your job is only to gather the records needed to answer the question; another ag
 
 You start from a starting packet: an excerpt of the patient's record chosen for this question. It may be
 incomplete. Use the tools to fetch what is missing:
-- get_resources_by_patient_fhir_id fetches all of the patient's resources of one type and replaces that type's
-  records in the workspace.
+- get_resources_by_patient_fhir_id fetches the patient's resources of one type and merges them into the workspace.
 - get_resources_by_resource_id fetches one resource by ID and adds it.
 Available resource types: {', '.join(supported_types)}.
 Only the question's patient can be retrieved, and records dated after the assumed current time are left out.
+Medication and Location metadata must be referenced by an already retrieved record. Fetch Encounters before
+undated Conditions so their dates can be established. Excluded records are counted in the tool response;
+unknown patient/time is not proof of an empty result. Encounter responses include fields for resolving scope.
 
 Resolve the question's scope:
 - Hospital visits are Encounters whose identifier system ends in "encounter-hosp"; ICU stays end in
@@ -89,15 +91,24 @@ class RetrievalAgent:
             notes.append("The retrieval agent did not report the question's scope")
         own = summary.get("limitation")
         if own is not None and not isinstance(own, str):
-            own = json.dumps(own)
+            return {"error": "retrieval limitation must be a string or null"}
         types = summary.get("resource_types")
+        if types is not None and (not isinstance(types, list)
+                                  or not all(isinstance(t, str) and t in supported_types for t in types)):
+            return {"error": "resource_types must be a list of supported resource types"}
         types = [t for t in types if t in held] if isinstance(types, list) else sorted(held)
         encounters = {r.get("id") for r in held.get("Encounter", [])}
         requested = summary.get("encounter_ids")
+        if requested is not None and (not isinstance(requested, list) or not all(
+                isinstance(e, str) and FHIR_ID_RE.fullmatch(e.removeprefix("Encounter/")) for e in requested)):
+            return {"error": "encounter_ids must be a list of Encounter IDs"}
         requested = [str(e).rsplit("/", 1)[-1] for e in requested] if isinstance(requested, list) else []
         unknown = [e for e in requested if e not in encounters]
         if unknown:
             notes.append(f"Encounter scope not among the retrieved encounters: {', '.join(unknown)}")
+        unresolved = self.role.toolbox.scope_failures
+        if unresolved:
+            notes.append("Patient/time scope could not be established for: " + ", ".join(sorted(unresolved)))
         limitation = ". ".join(([own] if own else []) + notes) or None
         return {
             "record_ids": {rtype: [f"{rtype}/{r.get('id')}" for r in items] for rtype, items in held.items()},
