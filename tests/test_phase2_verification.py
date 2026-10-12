@@ -178,6 +178,19 @@ class VerificationTests(unittest.TestCase):
         result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), fetch("later-fetch"), verdict())
         self.assertEqual(result["issues"][-1]["type"], "independent_check")
 
+    def test_failed_later_tools_cannot_reuse_a_previous_successful_result(self):
+        for later in [call(PYTHON_TOOL, code="raise ValueError('broken')"),
+                      call("get_resources_by_patient_fhir_id", resource_type="Observation",
+                           patient_fhir_id="different-patient")]:
+            result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), later, verdict())
+            self.assertEqual(result["issues"][-1]["type"], "independent_check")
+
+    def test_failed_fetch_then_python_over_stale_records_is_not_independent(self):
+        result = self.verify(fetch(), call("get_resources_by_patient_fhir_id", resource_type="Observation",
+                                           patient_fhir_id="different-patient"),
+                             call(PYTHON_TOOL, code=MIN_CODE), verdict())
+        self.assertEqual(result["issues"][-1]["type"], "independent_check")
+
     def test_null_recomputation_is_a_mismatch_for_a_nonempty_draft(self):
         result = self.verify(fetch(), call(PYTHON_TOOL, code="answer = None"), verdict(recomputed=None))
         self.assertEqual(result["issues"][0]["type"], "recompute_mismatch")

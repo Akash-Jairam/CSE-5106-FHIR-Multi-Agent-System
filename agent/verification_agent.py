@@ -106,6 +106,12 @@ class VerificationToolbox(Toolbox):
         self.computation = None
 
     def call(self, tool_call):
+        name = tool_call.function.name
+        if name in RETRIEVAL_TOOLS:
+            self.fetched = False
+            self.computation = None
+        elif name == PYTHON_TOOL:
+            self.computation = None
         reply = super().call(tool_call)
         try:
             output = json.loads(reply["content"])
@@ -113,11 +119,11 @@ class VerificationToolbox(Toolbox):
             return reply
         if not isinstance(output, dict) or "error" in output:
             return reply
-        if tool_call.function.name in RETRIEVAL_TOOLS:
+        if name in RETRIEVAL_TOOLS:
             self.fetched = True
             # A calculation over a previous workspace cannot verify later fetched records.
             self.computation = None
-        elif tool_call.function.name == PYTHON_TOOL and self.fetched and "answer" in output:
+        elif name == PYTHON_TOOL and self.fetched and "answer" in output:
             if _valid_answer(output["answer"]):
                 self.computation = output
         return reply
