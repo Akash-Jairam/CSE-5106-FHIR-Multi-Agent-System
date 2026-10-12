@@ -69,6 +69,11 @@ The multi-agent system will be a `BaseAgent` subclass whose `_run()` is the
 fixed controller (P2-12). It creates roles (P2-13 to P2-15) and routes
 `Bus` messages, including repairs (P2-17).
 
+This P2-11 correction supplies the graph adapter and compatibility spike;
+it does not add the controller, clinical role handlers, or later repair
+classification. The existing `Toolbox` API is unchanged so those dependent
+PRs can adopt the adapter without receiving their own implementation early.
+
 ## Spike Results
 
 `tests/test_phase2_framework.py` runs a two-role retrieval → analysis
@@ -99,3 +104,7 @@ unchanged. `MultiTurnCodeResourceAgent` still has its own tool dispatch, so
 the baselines keep their Phase 1 behavior. Adding a file under `agent/`
 changes `run_agent.py`'s code fingerprint, so result files from before this
 change cannot be resumed and must be rerun under a new output path.
+
+The scoped P2-11 correction passed all 134 available Phase 1 and framework
+tests with mocked model/store calls and real macOS sandbox execution. A
+Linux sandbox backend still requires its own platform verification.
