@@ -307,7 +307,7 @@ systems.
 bash scripts/run_demo.sh --model gpt-5-nano --max_total_tokens 200000 --max_tool_calls 30
 ```
 
-The launcher runs `streamlit run demo/app.py` (Streamlit is already in
+The launcher changes to the repository root and runs `streamlit run demo/app.py` (Streamlit is already in
 `requirements.txt`). It binds to `localhost` and hides Streamlit's deploy
 toolbar.
 
@@ -320,32 +320,40 @@ toolbar.
   dataset questions, with its assumed current time. A custom question takes
   free text and an optional current time (`YYYY-MM-DD HH:MM:SS`).
   `demo/backend.build_input()` builds the same context string the runner
-  gives agents, which a test checks against a dataset row. Reference
-  answers are never loaded or shown.
+  gives agents, which a test checks against a dataset row. The picker reads
+  only question, patient, and time-context columns, after validating the
+  dataset's hash against the split. Reference answers are never passed to
+  the interface. Changing the system, patient, question, or assumed time
+  clears the previous result; an unsuccessful new request clears it too.
 - **Answer, cited fields, verification status.** The result shows:
   - the released answer (or "No answer") and any limitation;
-  - a table of cited fields (resource, field, value), each marked `ok` or
-    with the remaining issue on that field or record;
+  - a table of cited fields (resource, field, value), marked `ok` only with
+    a recorded clean check, `not confirmed` when check results are absent or
+    incomplete, or with the remaining issue on that field or record;
   - a status badge with an icon and label:
 
     | Status | Meaning |
     |---|---|
-    | ✓ Verified | the last check was clean and the answer was released |
-    | ⚠ Not verified | issues remained and the answer was withheld |
-    | ○ Not checked | the direct baseline, which has no checks |
+    | ✓ Verified | a completed check was recorded, clean, and the answer was released |
+    | ⚠ Not verified | check issues remained; the badge states whether an answer was released or withheld |
+    | ○ Not checked | the direct baseline, or a released answer with no recorded completed check |
     | – No answer | the system abstained or hit its budget |
     | ✕ Error | the run failed |
 
   The badge also notes whether a repair ran, and where it started. Expanders
   show the draft and first-check issues, and the usage (tokens, model calls,
-  tool calls, latency, cost).
+  tool calls, latency, cost). Missing usage is shown as unavailable.
 - **Backed by the evaluated pipeline.** `backend.ask()` calls the runner's
   `run_agent_with_input()` with the same strategy, model, base URL,
   per-question budget, and tool cache as the experiment. The header compares
   the current code fingerprint, model, base URL, and budget with the
   `.run.json` of the evaluated ordinary arm for that system (from
-  `--output_dir`, default as in `run_experiments.py`). It reports whether
-  they match, or which settings differ.
+  `--output_dir`, default as in `run_experiments.py`). A matching badge also
+  requires a current split/source binding and a result file with every
+  planned held-out question attempted exactly once per result row, with
+  matching question, patient, and time context. Metadata alone or a partial
+  smoke run cannot claim an evaluated batch. The header reports incomplete
+  batches or settings differences.
 
 The tests check the backend functions and run the app headless with
 Streamlit's `AppTest`, with the model and store mocked. During

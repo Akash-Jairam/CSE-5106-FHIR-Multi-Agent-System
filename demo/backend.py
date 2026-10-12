@@ -3,12 +3,14 @@
 The demo runs the same code path as the experiment: run_agent_with_input()
 with the same strategy, model, base URL, per-question budget, and tool
 cache. It checks the current code and settings against the evaluated run
-identity of the matching ordinary arm. Example questions come from the
-non-held-out splits by default. Reference answers are never loaded or sent
-to the page.
+identity and complete result batch of the matching ordinary arm. Example
+questions come from the non-held-out splits by default. The picker parses
+only context columns; reference answers are never sent to the page.
 """
 import hashlib
+from datetime import datetime
 import json
+import math
 import os
 import re
 import sys
@@ -25,17 +27,30 @@ SYSTEMS = {"multi_agent": "Multi-agent system", "single_agent": "Single agent", 
 DEFAULT_SPLITS = ("pilot", "dev")
 CURRENT_TIME_RE = re.compile(r"current time is (\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?)")
 TIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?$")
+CONTEXT_COLUMNS = ["question_id", "question", "assumption", "patient_fhir_id"]
+
+
+def _file_hash(path):
+    with open(path, "rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+def _input_context(input_file, manifest):
+    """Read only context columns, after checking the frozen source binding."""
+    if manifest.get("source_sha256") != _file_hash(input_file):
+        raise ValueError("The split was built from a different input dataset")
+    return pd.read_csv(input_file, usecols=CONTEXT_COLUMNS)
 
 
 def load_patients(input_file, split_manifest, splits=DEFAULT_SPLITS):
     """Patients of the chosen splits with their example questions (no reference answers)."""
     with open(split_manifest, encoding="utf-8") as stream:
         manifest = json.load(stream)
-    frame = run_agent.read_input_data(input_file)[["question_id", "question", "assumption", "patient_fhir_id"]]
+    frame = _input_context(input_file, manifest)
     patients = []
     for split in splits:
         entry = manifest["splits"][split]
-        chosen = frame[frame["question_id"].isin(entry["question_ids"])].sort_values("question_id")
+        chosen = run_agent.select_split(frame, manifest, split).sort_values("question_id")
         for patient in entry["patients"]:
             rows = chosen[chosen["patient_fhir_id"] == patient["patient_fhir_id"]]
             if rows.empty:
@@ -60,27 +75,75 @@ def build_input(patient_fhir_id, question, current_time=None):
         raise ValueError("Enter a question")
     if current_time and not TIME_RE.match(current_time.strip()):
         raise ValueError("Current time must look like 2150-12-31 23:59:00")
+    if current_time:
+        try:
+            datetime.fromisoformat(current_time.strip())
+        except ValueError as exc:
+            raise ValueError("Current time must be a valid calendar date and time") from exc
     assumption = f"Assume the current time is {current_time.strip()}." if current_time else None
     row = pd.DataFrame([{"question": question, "assumption": assumption, "patient_fhir_id": patient_fhir_id}])
     return curate_input_dataset(row, True)[0]
 
 
-def evaluated_run(system, settings, output_dir):
+def evaluated_run(system, settings, output_dir, input_file=None, split_manifest=None):
     """Whether this demo uses the evaluated ordinary arm's code, model, budget, and cache.
 
     `settings`: model, base_url, max_total_tokens, max_tool_calls.
     """
-    path = os.path.join(output_dir, f"ordinary_{system}.json.run.json")
+    if system not in SYSTEMS:
+        raise ValueError(f"Unknown system: {system}")
+    input_file = input_file or os.path.join(ROOT, "final_dataset", "questions_answers_sql_fhir.csv")
+    split_manifest = split_manifest or os.path.join(ROOT, "manifests", "split.json")
+    result_path = os.path.join(output_dir, f"ordinary_{system}.json")
+    path = result_path + ".run.json"
+    status = {"found": os.path.exists(path), "path": path, "matches": {}, "valid": False, "all_match": False}
     if not os.path.exists(path):
-        return {"found": False, "path": path, "matches": {}}
-    with open(path, encoding="utf-8") as stream:
-        saved = json.load(stream)
+        return status
+    try:
+        with open(path, encoding="utf-8") as stream:
+            saved = json.load(stream)
+        if not isinstance(saved, dict):
+            raise ValueError("Run metadata must be an object")
+    except (OSError, ValueError) as exc:
+        return {**status, "reason": f"Invalid evaluated run metadata: {exc}"}
     current = {"code_hash": run_agent.code_fingerprint(), "model": settings["model"],
                "base_url_hash": hashlib.sha256((settings.get("base_url") or "").encode()).hexdigest(),
                "max_total_tokens": settings.get("max_total_tokens"), "max_tool_calls": settings.get("max_tool_calls"),
-               "enable_cache": True, "agent_strategy": system}
+               "enable_cache": True, "agent_strategy": system, "version": 2, "add_patient_fhir_id": True,
+               "split": "held_out", "split_manifest_hash": _file_hash(split_manifest),
+               "condition": None, "perturbations_hash": None, "subset_hash": None, "repeat": None}
     matches = {key: saved.get(key) == value for key, value in current.items()}
-    return {"found": True, "path": path, "matches": matches, "all_match": all(matches.values())}
+    status["matches"] = matches
+    try:
+        with open(split_manifest, encoding="utf-8") as stream:
+            manifest = json.load(stream)
+        frame = run_agent.select_split(_input_context(input_file, manifest), manifest, "held_out")
+        expected = frame.set_index("question_id").to_dict("index")
+        if not expected:
+            raise ValueError("No held-out questions are planned")
+        with open(result_path, encoding="utf-8") as stream:
+            rows = json.load(stream)
+        if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
+            raise ValueError("Saved results must be a list of result objects")
+        ids = [row.get("question_id") for row in rows]
+        if any(not isinstance(qid, str) for qid in ids) or len(set(ids)) != len(ids) or set(ids) != set(expected):
+            raise ValueError("Saved results must cover every held-out question exactly once")
+        for row in rows:
+            context = expected[row["question_id"]]
+            if row.get("patient_fhir_id") != context["patient_fhir_id"] or row.get("question") != context["question"]:
+                raise ValueError("Saved results do not match their source question and patient")
+            assumption = context["assumption"] if pd.notna(context["assumption"]) else None
+            if row.get("assumption") != assumption:
+                raise ValueError("Saved results do not match their source time context")
+            latency = row.get("latency")
+            if latency is not None and (isinstance(latency, bool) or not isinstance(latency, (int, float))
+                                        or not math.isfinite(latency) or latency < 0):
+                raise ValueError("Saved latency must be a finite non-negative number or null")
+            if latency is None and not row.get("error"):
+                raise ValueError("Some held-out questions have not been attempted")
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        return {**status, "reason": f"No complete evaluated result batch: {exc}"}
+    return {**status, "valid": True, "all_match": all(matches.values())}
 
 
 def ask(system, input_str, settings):
@@ -108,6 +171,14 @@ def remaining_issues(output):
     return [describe_issue(i) for i in (final_issues if final_issues is not None else revision.get("check_issues") or [])]
 
 
+def _check_recorded(output):
+    revision = output.get("revision")
+    if not isinstance(revision, dict) or output.get("error"):
+        return False
+    return isinstance(revision.get("final_check_issues"), list) or (
+        not revision.get("revised") and isinstance(revision.get("check_issues"), list))
+
+
 def verification_status(system, output):
     """State, label, explanation, and remaining issues of one run, for display."""
     revision = output.get("revision") if isinstance(output.get("revision"), dict) else None
@@ -118,7 +189,14 @@ def verification_status(system, output):
         return {"state": "unchecked", "label": "Not checked",
                 "detail": "The direct baseline answers from the starting packet in one call; nothing checks it.",
                 "issues": []}
-    if revision is None:
+    if not _check_recorded(output):
+        issues = remaining_issues(output)
+        if issues:
+            return {"state": "unverified", "label": "Not verified",
+                    "detail": "No completed final check was recorded; earlier issues remain.", "issues": issues}
+        if released:
+            return {"state": "unchecked", "label": "Not checked",
+                    "detail": "No completed check was recorded for the released answer.", "issues": remaining_issues(output)}
         stopped = (output.get("budget") or {}).get("stopped")
         return {"state": "abstained", "label": "No answer",
                 "detail": f"Stopped by the {stopped}." if stopped else "The system produced no draft to check.",
@@ -132,7 +210,8 @@ def verification_status(system, output):
                 "detail": f"Every cited field matched its source record{repair}.", "issues": []}
     if issues:
         return {"state": "unverified", "label": "Not verified",
-                "detail": f"The answer was withheld: {len(issues)} issue(s) remained{repair}.", "issues": issues}
+                "detail": f"{len(issues)} issue(s) remained{repair}; the answer was "
+                          + ("released." if released else "withheld."), "issues": issues}
     return {"state": "abstained", "label": "No answer", "detail": f"The system abstained{repair}.", "issues": []}
 
 
@@ -148,11 +227,13 @@ def cited_fields(output):
             # An issue without a field applies to every citation of its record
             flagged.setdefault((issue["record"], issue["field"]), issue["type"])
     rows = []
+    default = "ok" if _check_recorded(output) and not remaining_issues(output) else "not confirmed"
     for citation in output.get("evidence") or []:
         if not isinstance(citation, dict):
             continue
         record, field = citation.get("resource_id"), citation.get("field_path")
         rows.append({"resource": record, "field": field, "value": _display(citation.get("value")),
-                     "check": flagged.get((record, field)) or flagged.get((record, None)) or "ok"})
+                     "check": flagged.get((record, field)) or flagged.get((record, None))
+                              or (default if record and field else "incomplete citation")})
     return rows
 

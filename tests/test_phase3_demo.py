@@ -90,16 +90,16 @@ class StatusTests(unittest.TestCase):
     def test_cited_fields_flag_only_the_issue_field_or_whole_record(self):
         field_issue = output(answer=None, revision=multi_revision(
             [{"type": "value_mismatch", "record": "Observation/o2", "field": "valueQuantity.value"}]))
-        self.assertEqual([r["check"] for r in backend.cited_fields(field_issue)], ["ok", "ok"])
+        self.assertEqual([r["check"] for r in backend.cited_fields(field_issue)], ["not confirmed", "not confirmed"])
         record_issue = output(answer=None, revision=multi_revision(
             [{"type": "patient_scope", "record": "Observation/o2", "field": None}]))
         rows = backend.cited_fields(record_issue)
-        self.assertEqual([r["check"] for r in rows], ["ok", "patient_scope"])
+        self.assertEqual([r["check"] for r in rows], ["not confirmed", "patient_scope"])
         self.assertEqual([r["value"] for r in rows], ["72.5", "2150-03-02T08:00:00"])
 
 
 class EvaluatedRunTests(unittest.TestCase):
-    def test_matches_the_evaluated_ordinary_arm(self):
+    def test_metadata_alone_is_not_an_evaluated_ordinary_arm(self):
         settings = {"model": "test-model", "base_url": None, "max_total_tokens": None, "max_tool_calls": 30}
         with tempfile.TemporaryDirectory() as directory:
             self.assertFalse(backend.evaluated_run("multi_agent", settings, directory)["found"])
@@ -109,7 +109,7 @@ class EvaluatedRunTests(unittest.TestCase):
             run_settings = runner.build_parser().parse_args(experiments.runner_argv(arm, args))
             runner._write_json(runner.run_identity(run_settings, experiments.arm_inputs(arm, run_settings, {})),
                                run_settings.output + ".run.json")
-            self.assertTrue(backend.evaluated_run("multi_agent", settings, directory)["all_match"])
+            self.assertFalse(backend.evaluated_run("multi_agent", settings, directory)["all_match"])
             other = backend.evaluated_run("multi_agent", {**settings, "max_tool_calls": 5}, directory)
             self.assertEqual([k for k, ok in other["matches"].items() if not ok], ["max_tool_calls"])
 
