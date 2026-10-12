@@ -105,6 +105,10 @@ the baselines keep their Phase 1 behavior. Adding a file under `agent/`
 changes `run_agent.py`'s code fingerprint, so result files from before this
 change cannot be resumed and must be rerun under a new output path.
 
-The scoped P2-11 correction passed all 134 available Phase 1 and framework
+Shared token accounting also normalizes real SDK message objects through their
+structured serialization APIs before counting subsequent prompts. This fixes
+bounded multi-turn calls without introducing a personal model configuration.
+
+The scoped P2-11 correction passed all 136 available Phase 1 and framework
 tests with mocked model/store calls and real macOS sandbox execution. A
 Linux sandbox backend still requires its own platform verification.
