@@ -170,7 +170,9 @@ def question_encounter_scope(question, patient_fhir_id, resources, current_time=
     current_time = _wall_clock(current_time) if current_time else None
     if order in ("current", "this") and not current_time:
         return None, [f"encounter_scope: the current {kind} encounter requires an assumed current time"]
-    encounters = [r for r in resources.values() if r.get("resourceType") == "Encounter"]
+    # The evidence index retains both typed and legacy bare keys for one resource.
+    encounters = list({r["id"]: r for r in resources.values()
+                       if r.get("resourceType") == "Encounter" and r.get("id")}.values())
     suffix = "encounter-hosp" if kind.lower() == "hospital" else "encounter-icu"
     encounters = [r for r in encounters
                   if _ref_id(r.get("subject")) == patient_fhir_id

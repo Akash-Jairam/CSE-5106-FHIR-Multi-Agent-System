@@ -249,6 +249,12 @@ class EncounterScopeTests(unittest.TestCase):
                               resources={"done": completed, "ongoing": ongoing})
         self.assertIn("selects Encounter/done, not Encounter/ongoing", result["issues"][0])
 
+    def test_typed_and_legacy_keys_do_not_create_two_current_encounters(self):
+        encounter = self.encounter("e1", "2136-12-30")
+        self.assertEqual(question_encounter_scope("This hospital visit?", PATIENT,
+                                                 {"e1": encounter, "Encounter/e1": encounter}, self.NOW),
+                         ("e1", []))
+
     def test_pure_event_time_helper_does_not_substitute_order_time(self):
         self.assertEqual(resource_event_time({"resourceType": "MedicationRequest", "authoredOn": self.NOW}), "")
 
