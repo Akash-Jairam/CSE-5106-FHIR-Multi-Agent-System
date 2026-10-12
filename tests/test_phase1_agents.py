@@ -176,8 +176,10 @@ class FieldCheckTests(unittest.TestCase):
         observation = deepcopy(OBSERVATION)
         observation["encounter"] = {"reference": "Encounter/old"}
         encounters = [{"resourceType": "Encounter", "id": rid, "subject": {"reference": f"Patient/{PATIENT}"},
-                       "identifier": [{"system": "http://example/encounter-hosp"}], "period": {"start": start}}
-                      for rid, start in [("old", "2185-01-01"), ("latest", "2186-01-01"), ("future", "2187-01-01")]]
+                       "identifier": [{"system": "http://example/encounter-hosp"}], "period": {"start": start, "end": end}}
+                      for rid, start, end in [("old", "2185-01-01", "2185-01-03"),
+                                              ("latest", "2186-01-01", "2186-01-03"),
+                                              ("future", "2187-01-01", "2187-01-03")]]
         client = Mock()
         client.search_with_pagination.return_value = encounters
         with patch("tools.field_check.fetch_from_store", return_value={"o1": observation}), \

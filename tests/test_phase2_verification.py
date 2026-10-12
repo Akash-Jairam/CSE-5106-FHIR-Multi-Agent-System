@@ -106,7 +106,7 @@ class VerificationTests(unittest.TestCase):
         self.assertIn('"type": "time_field"', prompt)
 
     def test_field_check_problems_become_structured_analysis_issues(self):
-        result = self.verify(verdict(), checked=draft(evidence=[
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict(), checked=draft(evidence=[
             cite(value=99), cite(path="issued", value="2150-01-02T09:00:00"), cite(rid="Observation/o9")]))
         by_type = {i["type"]: i for i in result["issues"]}
         self.assertEqual(set(by_type), {"value_mismatch", "time_field", "missing_resource"})
@@ -118,7 +118,7 @@ class VerificationTests(unittest.TestCase):
         self.assertEqual(by_type["missing_resource"]["record"], "Observation/o9")
 
     def test_answer_without_evidence_is_an_issue(self):
-        result = self.verify(verdict(), checked=draft(evidence=[]))
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict(), checked=draft(evidence=[]))
         self.assertEqual([i["type"] for i in result["issues"]], ["no_evidence"])
 
     def test_encounter_scope_issue_is_structured(self):
@@ -128,7 +128,7 @@ class VerificationTests(unittest.TestCase):
             "action": "the question selects Encounter/e1, not Encounter/e2"}])
 
     def test_model_issues_keep_their_role_and_unknown_roles_are_unroutable(self):
-        result = self.verify(verdict(issues=[
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict(issues=[
             {"type": "missing_evidence", "record": None, "field": None, "responsible_role": "retrieval",
              "action": "fetch weights from the second visit"},
             {"type": "ambiguous_question", "responsible_role": "verification", "action": "none"}]))
@@ -136,11 +136,11 @@ class VerificationTests(unittest.TestCase):
                          [("missing_evidence", "retrieval"), ("ambiguous_question", None)])
 
     def test_recomputed_answer_that_differs_is_flagged(self):
-        result = self.verify(verdict(recomputed=65))
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict(), checked=draft(answer=65))
         self.assertEqual(result["issues"][0]["type"], "recompute_mismatch")
         self.assertEqual(result["issues"][0]["responsible_role"], "analysis")
-        self.assertIn("recomputed 65", result["issues"][0]["action"])
-        self.assertEqual(self.verify(verdict(recomputed=None))["issues"], [])
+        self.assertIn("recomputed 68", result["issues"][0]["action"])
+        self.assertEqual(self.verify(verdict(recomputed=None))["issues"][0]["type"], "independent_check")
 
     def test_equivalent_answer_forms_are_not_mismatches(self):
         for a, b in [(68, "68.0"), (["Heparin"], "heparin"), ("2150-01-02T08:00:00", "2150-01-02 08:00:00"),
@@ -149,11 +149,140 @@ class VerificationTests(unittest.TestCase):
         for a, b in [("Tylenol", " ylenol"), (True, 1), (68, 68.5), (["a", "b"], ["a"])]:
             self.assertNotEqual(_canonical(a), _canonical(b), (a, b))
 
+    def test_timestamp_comparison_uses_requested_wall_clock_precision(self):
+        same_time = ["2150-01-02T08:00:00-05:00", "2150-01-02 08:00", "2150-01-02T08:00:59Z"]
+        for timestamp in same_time:
+            self.assertEqual(_canonical(timestamp, "When was the first weight measured?"),
+                             _canonical(same_time[0], "When was the first weight measured?"))
+        self.assertNotEqual(_canonical(same_time[0], "When was the first weight measured?"),
+                            _canonical("2150-01-02T08:01:00-05:00", "When was the first weight measured?"))
+        self.assertNotEqual(_canonical(same_time[0], "At what second was the first weight measured?"),
+                            _canonical("2150-01-02T08:00:01-05:00", "At what second was the first weight measured?"))
+        self.assertEqual(_canonical("2150-01-02", "On what date was the first weight measured?"),
+                         _canonical("2150-01-02T23:59:59-05:00", "On what date was the first weight measured?"))
+        self.assertNotEqual(_canonical("2150-01-02", "When was the first weight measured?"),
+                            _canonical("2150-01-02T00:00:00-05:00", "When was the first weight measured?"))
+        self.assertNotEqual(_canonical(True), _canonical(1))
+
+    def test_equivalent_timestamp_formats_do_not_trigger_a_repair(self):
+        self.agent.context = {**CONTEXT, "question": "When was the first weight measured?"}
+        checked = draft(answer="2150-01-02 08:00", evidence=[
+            cite(path="effectiveDateTime", value="2150-01-02T08:00:00")])
+        code = "answer = retrieved_resources['Observation'][0]['effectiveDateTime']"
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=code),
+                             verdict(recomputed="2150-01-02T08:00:00-05:00"), checked=checked)
+        self.assertEqual(result["issues"], [])
+
     def test_malformed_verdicts_and_model_errors_are_errors(self):
-        self.assertIn("no JSON verdict", self.verify(reply("Looks right to me."))["error"])
-        self.assertIn("list of objects with a type", self.verify(verdict(issues=["wrong unit"]))["error"])
+        self.assertIn("no JSON verdict", self.verify(reply("Looks right to me."))["issues"][-1]["action"])
+        self.assertIn("list of objects with a type", self.verify(verdict(issues=["wrong unit"]))["issues"][-1]["action"])
         self.host._llm_call = Mock(return_value=(None, "provider down", None))
-        self.assertEqual(self.agent({"context": CONTEXT, "draft": draft()}), {"error": "provider down"})
+        result = self.agent({"context": CONTEXT, "draft": draft()})
+        self.assertEqual((result["issues"][-1]["type"], result["issues"][-1]["responsible_role"],
+                          result["issues"][-1]["action"]), ("verification_failure", None, "provider down"))
+
+    def test_a_claimed_answer_or_null_without_tools_cannot_verify(self):
+        for recomputed in (68, None):
+            result = self.verify(verdict(recomputed=recomputed))
+            self.assertEqual([(i["type"], i["responsible_role"]) for i in result["issues"]],
+                             [("independent_check", None)])
+
+    def test_reported_answer_must_match_the_successful_python_result(self):
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict(recomputed=70))
+        self.assertEqual(result["issues"][0]["type"], "independent_check")
+
+    def test_failed_python_or_fetch_does_not_count_as_recomputation(self):
+        for responses in [(fetch(), call(PYTHON_TOOL, code="raise ValueError('broken')"), verdict()),
+                          (call("get_resources_by_patient_fhir_id", resource_type="Observation",
+                                patient_fhir_id="different-patient"), call(PYTHON_TOOL, code="answer = 68"), verdict())]:
+            result = self.verify(*responses)
+            self.assertEqual(result["issues"][-1]["type"], "independent_check")
+
+    def test_new_fetch_invalidates_a_calculation_over_previous_records(self):
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), fetch("later-fetch"), verdict())
+        self.assertEqual(result["issues"][-1]["type"], "independent_check")
+
+    def test_failed_later_tools_cannot_reuse_a_previous_successful_result(self):
+        for later in [call(PYTHON_TOOL, code="raise ValueError('broken')"),
+                      call("get_resources_by_patient_fhir_id", resource_type="Observation",
+                           patient_fhir_id="different-patient")]:
+            result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), later, verdict())
+            self.assertEqual(result["issues"][-1]["type"], "independent_check")
+
+    def test_failed_fetch_then_python_over_stale_records_is_not_independent(self):
+        result = self.verify(fetch(), call("get_resources_by_patient_fhir_id", resource_type="Observation",
+                                           patient_fhir_id="different-patient"),
+                             call(PYTHON_TOOL, code=MIN_CODE), verdict())
+        self.assertEqual(result["issues"][-1]["type"], "independent_check")
+
+    def test_null_recomputation_is_a_mismatch_for_a_nonempty_draft(self):
+        result = self.verify(fetch(), call(PYTHON_TOOL, code="answer = None"), verdict(recomputed=None))
+        self.assertEqual(result["issues"][0]["type"], "recompute_mismatch")
+
+    def test_verified_empty_results_do_not_need_nonexistent_citations(self):
+        with patch("tools.resource_tools.get_fhir_client",
+                   return_value=Mock(search_with_pagination=Mock(return_value=[]))):
+            for answer, code in [(0, "answer = len(retrieved_resources['Observation'])"),
+                                 (False, "answer = bool(retrieved_resources['Observation'])"),
+                                 ([], "answer = [r['id'] for r in retrieved_resources['Observation']]"),
+                                 (None, "answer = next(iter(retrieved_resources['Observation']), None)")]:
+                result = self.verify(fetch(), call(PYTHON_TOOL, code=code), verdict(recomputed=answer),
+                                     checked=draft(answer=answer, evidence=[]))
+                self.assertEqual(result["issues"], [], answer)
+                self.assertEqual(result["recomputed_answer"], answer)
+
+    def test_unverified_empty_result_is_not_treated_as_established(self):
+        result = self.verify(verdict(recomputed=0), checked=draft(answer=0, evidence=[]))
+        self.assertEqual({i["type"] for i in result["issues"]}, {"no_evidence", "independent_check"})
+
+    def test_unresolved_source_scope_cannot_certify_an_empty_result(self):
+        self.agent.toolbox.scope_failures = {}
+
+        def incomplete_search(_):
+            self.agent.toolbox.fetched = True
+            self.agent.toolbox.computation = {"answer": 0}
+            self.agent.toolbox.scope_failures["Observation/undated"] = "unknown_time"
+            return SimpleNamespace(content='{"recomputed_answer": 0, "issues": []}', error=None)
+
+        with patch.object(self.agent.role, "run", side_effect=incomplete_search):
+            result = self.agent({"draft": draft(answer=0, evidence=[])})
+        self.assertEqual({i["type"] for i in result["issues"]}, {"no_evidence", "source_check"})
+        source = next(i for i in result["issues"] if i["type"] == "source_check")
+        self.assertEqual(source["record"], "Observation/undated")
+        self.assertIsNone(source["responsible_role"])
+
+    def test_fresh_verification_clears_previous_scope_failure_audit(self):
+        self.agent.toolbox.scope_failures = {"Observation/old": "unknown_patient"}
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict())
+        self.assertEqual(result["issues"], [])
+        self.assertEqual(self.agent.toolbox.scope_failures, {})
+
+    def test_a_model_duplicate_cannot_reroute_a_deterministic_issue(self):
+        duplicate = {"type": "value_mismatch", "record": "Observation/o2", "field": "valueQuantity.value",
+                     "responsible_role": "retrieval", "action": "wrong suggestion"}
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict(issues=[duplicate]),
+                             checked=draft(evidence=[cite(value=99)]))
+        self.assertEqual(result["issues"][0]["responsible_role"], "analysis")
+        self.assertIn("exact value", result["issues"][0]["action"])
+
+    def test_role_failures_keep_deterministic_findings_and_are_unrepairable(self):
+        result = self.verify(reply("not JSON"), checked=draft(evidence=[cite(value=99)]))
+        self.assertEqual([i["type"] for i in result["issues"]], ["value_mismatch", "verification_failure"])
+        self.assertIsNone(result["issues"][-1]["responsible_role"])
+
+    def test_original_source_failure_is_logged_and_cannot_be_approved(self):
+        with patch("agent.verification_agent.check_fields", side_effect=RuntimeError("source down")):
+            result = self.verify(verdict())
+        self.assertEqual(result["issues"][0]["type"], "source_check")
+        self.assertIsNone(result["issues"][0]["responsible_role"])
+        self.host._llm_call.assert_not_called()
+        self.assertIn("error", json.loads(self.host.messages[-1]["content"]))
+
+    def test_recomputation_must_be_present_and_finite(self):
+        for text in ['{"issues": []}', '{"recomputed_answer": NaN, "issues": []}',
+                     '{"recomputed_answer": {"value": 68}, "issues": []}']:
+            result = self.verify(reply(text))
+            self.assertEqual(result["issues"][-1]["type"], "verification_failure")
 
     def test_no_tool_budget_for_the_field_check_is_unrepairable(self):
         self.host.set_budget(max_tool_calls=0)
@@ -161,6 +290,22 @@ class VerificationTests(unittest.TestCase):
         result = self.agent({"context": CONTEXT, "draft": draft()})
         self.assertEqual([(i["type"], i["responsible_role"]) for i in result["issues"]], [("source_check", None)])
         self.host._llm_call.assert_not_called()
+
+    def test_budget_refused_later_tool_does_not_reuse_a_good_computation(self):
+        self.host.set_budget(max_tool_calls=3)
+        response = call(PYTHON_TOOL, code=MIN_CODE)
+        response.tool_calls.append(fetch("extra-fetch").tool_calls[0])
+        result = self.verify(fetch(), response, verdict())
+        self.assertEqual(result["issues"][-1]["type"], "source_check")
+        self.assertIsNone(result["issues"][-1]["responsible_role"])
+        self.assertEqual(self.host.tool_calls_made, 3)
+        self.assertIn("Not run", self.host.messages[-2]["content"])
+
+    def test_reaching_the_exact_ceiling_without_a_refused_check_can_pass(self):
+        self.host.set_budget(max_tool_calls=3)
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict())
+        self.assertEqual(result["issues"], [])
+        self.assertIsNone(self.host.budget_stop)
 
 
 class PipelineTests(unittest.TestCase):
@@ -179,7 +324,7 @@ class PipelineTests(unittest.TestCase):
             call(PYTHON_TOOL, "py1", code=max_code), wrong,                      # analysis: wrong aggregation
             fetch("fetch2"), call(PYTHON_TOOL, "py2", code=MIN_CODE), verdict(),  # verifier recomputes 68
             call(PYTHON_TOOL, "py3", code=MIN_CODE), reply(json.dumps(draft())),  # analysis repair
-            verdict(),                                                            # second check is clean
+            fetch("fetch3"), call(PYTHON_TOOL, "py4", code=MIN_CODE), verdict(),   # second independent check
         ]
         packet = {"text": "Starting packet", "resources": {}, "resource_ids": {}}
         patches = [patch("agent.base_agent.setup_api_keys"),
@@ -200,8 +345,8 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(revision["final_check_issues"], [])
         self.assertEqual([c["name"] for c in output["tool_calls"]], [
             "get_resources_by_patient_fhir_id", PYTHON_TOOL, "check_fields", "get_resources_by_patient_fhir_id",
-            PYTHON_TOOL, PYTHON_TOOL, "check_fields"])
-        self.assertEqual(output["budget"]["tool_calls_run"], 7)
+            PYTHON_TOOL, PYTHON_TOOL, "check_fields", "get_resources_by_patient_fhir_id", PYTHON_TOOL])
+        self.assertEqual(output["budget"]["tool_calls_run"], 9)
 
 
 if __name__ == "__main__":
