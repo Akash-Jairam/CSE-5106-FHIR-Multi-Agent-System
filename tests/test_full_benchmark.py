@@ -57,6 +57,19 @@ class FullBenchmarkTests(unittest.TestCase):
             self.assertNotIn("--split", command)
             self.assertNotIn("--split_manifest", command)
 
+    def test_v3_gzip_manifest_pins_actual_team_and_shared_storage_settings(self):
+        self.args.team_strategy = "multi_agent_v3"
+        self.args.audit_storage = "gzip"
+        manifest = full.build_manifest(self.args, self.patients)
+        self.assertEqual(manifest["settings"]["team_strategy"], "multi_agent_v3")
+        self.assertEqual(manifest["settings"]["audit_storage"], "gzip")
+        for strategy, identity in manifest["run_identities"].items():
+            actual = "multi_agent_v3" if strategy == "multi_agent" else strategy
+            self.assertEqual(identity["agent_strategy"], actual)
+            self.assertEqual((identity["audit_storage"], identity["audit_artifact_schema"]), ("gzip", 2))
+            self.assertEqual((identity["max_total_tokens"], identity["max_tool_calls"]), (200000, 30))
+        self.assertEqual(manifest["expected_first_attempts"], 8793)
+
     def test_wrong_size_or_duplicate_dataset_is_rejected(self):
         with self.input.open("a") as stream:
             stream.write("q0,patient0,Synthetic fixture,[],\n")
@@ -121,6 +134,7 @@ class FullBenchmarkTests(unittest.TestCase):
         self.assertEqual(manifest["settings"]["input_guard_tokens"], 32000)
 
     def test_supervisor_starts_each_arm_once_and_analyzes_terminal_errors_without_retry(self):
+        self.args.audit_storage = "inline"  # This scheduling fixture has no real audit payloads.
         with patch("run_agent.get_default_model", return_value="fixture"):
             manifest = full.build_manifest(self.args, self.patients)
         launches = []
@@ -168,6 +182,25 @@ class FullBenchmarkTests(unittest.TestCase):
         self.assertEqual(state["arms"]["single_agent"]["errors"], 1)
         with self.assertRaises(ValueError):
             full.run_supervisor(self.args, manifest, self.patients)
+
+    def test_gzip_health_requires_owned_existing_artifacts(self):
+        from scripts.audit_store import externalize_result_audit
+        self.identity["audit_storage"] = "gzip"
+        self.identity["audit_artifact_schema"] = 2
+        rows = [{"question_id": question_id, "patient_fhir_id": patient, "latency": None, "error": None}
+                for question_id, patient in self.patients.items()]
+        rows[0].update(latency=1, tokens={"total": 10, "cost": None}, trace=[], retrieved_fhir_resources={})
+        rows[0] = externalize_result_audit(rows[0], self.output)
+        path = self.output / "full_single_agent.json"
+        path.write_text(json.dumps(rows))
+        (self.output / "full_single_agent.json.run.json").write_text(json.dumps(self.identity))
+        good = full.arm_health("single_agent", self.output, self.patients, self.identity)
+        self.assertEqual(good["audit_artifact_rows"], 1)
+        self.assertEqual(good["missing_audit_artifacts"], 0)
+        (self.output / rows[0]["audit_artifacts"]["path"]).unlink()
+        bad = full.arm_health("single_agent", self.output, self.patients, self.identity)
+        self.assertEqual(bad["missing_audit_artifacts"], 1)
+        self.assertIn("missing_or_invalid_audit_artifact", bad["problems"])
 
 
 if __name__ == "__main__":

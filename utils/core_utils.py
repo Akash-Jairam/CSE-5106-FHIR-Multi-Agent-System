@@ -212,10 +212,10 @@ def process_trace(trace, max_items=10):
 
 # Columns run_agent.py saves per question (see agent/output_schema.py for the contract)
 RESULT_COLUMNS = ["agent_answer", "evidence", "limitation", "tokens", "tool_calls", "latency",
-                  "agent_fhir_resources", "trace", "error", "usage", "revision", "budget"]
+                  "agent_fhir_resources", "trace", "error", "usage", "revision", "budget", "audit_artifacts"]
 
 
-def parse_outputs(agent_output, max_items=10):
+def parse_outputs(agent_output, max_items=10, include_full_audit=False):
     """Flatten an AgentOutput (or an {"error": ...} from a crashed run) into result columns."""
     if set(agent_output) == {"error"}:
         return {**{col: None for col in RESULT_COLUMNS}, "trace": [], "error": agent_output["error"]}
@@ -228,7 +228,7 @@ def parse_outputs(agent_output, max_items=10):
     except Exception as e:
         trace = str(e)
     tokens = agent_output["tokens"]
-    return {
+    output = {
         "agent_answer": agent_output["answer"],
         "evidence": agent_output["evidence"],
         "limitation": agent_output["limitation"],
@@ -240,10 +240,16 @@ def parse_outputs(agent_output, max_items=10):
         "error": agent_output["error"],
         "revision": agent_output.get("revision"),
         "budget": agent_output.get("budget"),
+        "audit_artifacts": None,
         # Legacy name and keys, kept for existing evaluation scripts
         "usage": {"prompt_tokens": tokens["prompt"], "completion_tokens": tokens["completion"],
                   "total_tokens": tokens["total"], "cost": tokens["cost"], "llm_calls": tokens["llm_calls"]},
     }
+    if include_full_audit:
+        # Transient transport to the driver; gzip storage removes this map
+        # before any output is retained in the DataFrame.
+        output["retrieved_fhir_resources"] = agent_output.get("retrieved_fhir_resources", {})
+    return output
 
 
 def read_input_data(fname):
@@ -316,12 +322,14 @@ def create_agent(agent_strategy, model, verbose=False, base_url=None):
     return agent_class(model=model, verbose=verbose, base_url=base_url)
 
 
-def run_agent_safe(agent, input_data):
+def run_agent_safe(agent, input_data, include_full_audit=False):
     """Keep one experimental attempt; retries belong to its budgeted model calls."""
     try:
         outputs = agent.run(input_data)
     except Exception as e:
         outputs = {"error": str(e)}
+    if include_full_audit:
+        return parse_outputs(outputs, include_full_audit=True)
     return parse_outputs(outputs)
 
 
@@ -339,6 +347,8 @@ def run_agent_with_input(args_tuple):
     input_data, agent_strategy, model, verbose, base_url, enable_cache, *rest = args_tuple
     budget = rest[0] if rest else {}
     perturbation = rest[1] if len(rest) > 1 else None
+    include_full_audit = bool(rest[2]) if len(rest) > 2 else False
+    audit_context = rest[3] if len(rest) > 3 else None
     
     # Set global cache setting before creating agent
     import tools.cache as cache_module
@@ -347,6 +357,13 @@ def run_agent_with_input(args_tuple):
     agent = create_agent(agent_strategy, model, verbose, base_url)
     agent.set_budget(**(budget or {}))
     agent.set_perturbation(perturbation)
+    if include_full_audit:
+        output = run_agent_safe(agent, input_data, include_full_audit=True)
+        if audit_context is not None:
+            from scripts.audit_store import externalize_result_audit
+            output = externalize_result_audit(output, audit_context["output_dir"],
+                                               question_id=audit_context["question_id"])
+        return output
     return run_agent_safe(agent, input_data)
 
 

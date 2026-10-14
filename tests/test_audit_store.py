@@ -17,6 +17,8 @@ class AuditStoreTests(unittest.TestCase):
         self.output = {"agent_answer": 7, "evidence": [{"resource_id": "Observation/o1", "value": 7}],
                        "tokens": {"total": 10, "cost": None}, "budget": {"stopped": None}, "error": None,
                        "trace": [{"role": "tool", "content": "large Unicode 測 data " * 10000}],
+                       "retrieved_fhir_resources": {"Observation": [{"id": "o1", "valueQuantity": {"value": 7},
+                             "extension": [{"url": "fixture", "valueString": "full source metadata " * 10000}]}]},
                        "revision": {"draft": {"answer": 8}, "final": {"answer": 7}, "revised": True,
                                     "messages": [{"payload": {"records": list(range(10000))}}]}}
 
@@ -41,7 +43,7 @@ class AuditStoreTests(unittest.TestCase):
 
     def test_corruption_and_path_escape_are_rejected(self):
         compact = externalize_result_audit(self.output, self.root)
-        reference = compact["trace"][0]["artifact_ref"]
+        reference = compact["audit_artifacts"]
         path = self.root / reference["path"]
         with gzip.open(path, "wb") as stream:
             stream.write(b'{}')
@@ -56,6 +58,25 @@ class AuditStoreTests(unittest.TestCase):
         self.assertEqual(externalize_result_audit(result, self.root), result)
         self.assertEqual(restore_result_audit(result, self.root), result)
         self.assertFalse((self.root / "audit").exists())
+
+    def test_question_identity_and_paired_citations_remain_exact(self):
+        self.output["evidence"][0]["scope_index"] = 1
+        compact = externalize_result_audit(self.output, self.root, question_id="q1")
+        self.assertEqual(compact["evidence"], self.output["evidence"])
+        self.assertEqual(restore_result_audit(compact, self.root, question_id="q1"), self.output)
+        with self.assertRaisesRegex(ValueError, "another question"):
+            restore_result_audit(compact, self.root, question_id="q2")
+
+    def test_historical_attempt_artifacts_are_restored_without_losing_current_or_first_attempt(self):
+        first = {**deepcopy(self.output), "error": "first failure"}
+        second = deepcopy(self.output)
+        compact_first = externalize_result_audit(first, self.root, question_id="q1")
+        compact_second = externalize_result_audit(second, self.root, question_id="q1")
+        compact_second["attempt_history"] = [compact_first]
+        restored = restore_result_audit(compact_second, self.root, question_id="q1")
+        self.assertEqual(restored["attempt_history"], [first])
+        restored.pop("attempt_history")
+        self.assertEqual(restored, second)
 
 
 if __name__ == "__main__":

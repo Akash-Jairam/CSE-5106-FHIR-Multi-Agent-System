@@ -80,12 +80,14 @@ def source_hashes(root=ROOT):
 
 
 def arm_command(strategy, args):
-    return [sys.executable, str(ROOT / "run_agent.py"), "--agent_strategy", strategy,
+    actual_strategy = getattr(args, "team_strategy", "multi_agent") if strategy == "multi_agent" else strategy
+    return [sys.executable, str(ROOT / "run_agent.py"), "--agent_strategy", actual_strategy,
             "--model", args.model, "--input", str(args.input),
             "--output", str(args.output_dir / f"full_{strategy}.json"),
             "--limit", str(QUESTIONS), "--max_total_tokens", str(args.max_total_tokens),
             "--max_tool_calls", str(args.max_tool_calls), "--num_processes", str(args.num_processes),
-            "--save_interval", str(args.save_interval), "--enable_cache", "true", "--quiet"]
+            "--save_interval", str(args.save_interval), "--enable_cache", "true",
+            "--audit_storage", getattr(args, "audit_storage", "gzip"), "--quiet"]
 
 
 def build_manifest(args, patients):
@@ -101,9 +103,13 @@ def build_manifest(args, patients):
             "first_attempt_only": True, "automatic_retries": False,
             "expected_questions_per_arm": QUESTIONS, "expected_first_attempts": QUESTIONS * len(SYSTEMS),
             "settings": {"model": args.model, "max_total_tokens": args.max_total_tokens,
+                         "team_strategy": args.team_strategy,
                          "max_tool_calls": args.max_tool_calls, "input_guard_tokens": INPUT_GUARD,
                          "num_processes_per_arm": args.num_processes, "save_interval": args.save_interval,
                          "enable_cache": True, "heartbeat_seconds": args.heartbeat_seconds,
+                         "audit_storage": args.audit_storage,
+                         "audit_artifact_schema": 2 if args.audit_storage == "gzip" else None,
+                         "audit_artifacts_directory": str(args.output_dir / "audit") if args.audit_storage == "gzip" else None,
                          "large_result_heartbeat_seconds": max(args.heartbeat_seconds, LARGE_RESULT_HEARTBEAT),
                          "large_result_threshold_bytes": LARGE_RESULT_BYTES,
                          "stall_seconds": args.stall_seconds},
@@ -201,7 +207,8 @@ def arm_health(strategy, directory, patients, identity):
     health = {"questions": QUESTIONS, "attempted": 0, "completed": 0, "errors": 0,
               "budget_stops": 0, "limitations": 0, "identity_verified": False,
               "tokens_recorded": 0, "token_unknown_attempts": 0, "provider_usage_unknown_attempts": 0,
-              "cost_known_subtotal": 0, "cost_unknown_attempts": 0, "problems": []}
+              "cost_known_subtotal": 0, "cost_unknown_attempts": 0, "audit_artifact_rows": 0,
+              "missing_audit_artifacts": 0, "problems": []}
     if identity_path.exists():
         try:
             health["identity_verified"] = json.loads(identity_path.read_text()) == identity
@@ -231,6 +238,19 @@ def arm_health(strategy, directory, patients, identity):
             if not attempted:
                 continue
             health["attempted"] += 1
+            if identity.get("audit_storage") == "gzip":
+                from scripts.audit_store import ARTIFACT_PATTERN
+                reference = row.get("audit_artifacts")
+                match = ARTIFACT_PATTERN.fullmatch(reference.get("path", "")) if isinstance(reference, dict) else None
+                artifact_path = (directory / reference["path"]).resolve() if match else None
+                valid = (match and reference.get("version") == 2 and reference.get("codec") == "json+gzip"
+                         and match[1] == reference.get("sha256") and reference.get("question_id") == question_id
+                         and artifact_path.is_relative_to(directory.resolve()) and artifact_path.is_file())
+                if valid:
+                    health["audit_artifact_rows"] += 1
+                else:
+                    health["missing_audit_artifacts"] += 1
+                    health["problems"].append("missing_or_invalid_audit_artifact")
             health["errors"] += int(failed)
             health["completed"] += int(not failed)
             health["limitations"] += int(bool(row.get("limitation")))
@@ -297,7 +317,8 @@ def compact_summary(state):
             "all_first_attempts_complete": state.get("all_first_attempts_complete", False),
             "arms": {strategy: {key: detail.get(key) for key in
                 ("pid", "process_alive", "return_code", "attempted", "completed", "errors", "budget_stops",
-                 "identity_verified", "stall_status", "cost_unknown_attempts", "problems")}
+                 "identity_verified", "stall_status", "cost_unknown_attempts", "audit_artifact_rows",
+                 "missing_audit_artifacts", "problems")}
                      for strategy, detail in state.get("arms", {}).items()}}
 
 
@@ -458,10 +479,13 @@ def build_parser():
     parser.add_argument("--input", type=Path, default=ROOT / "final_dataset/questions_answers_sql_fhir.csv")
     parser.add_argument("--families", type=Path, default=ROOT / "manifests/question_families.csv")
     parser.add_argument("--model", default="gpt-6-luna")
+    parser.add_argument("--team_strategy", choices=("multi_agent", "multi_agent_v3"), default="multi_agent")
     parser.add_argument("--max_total_tokens", type=int, default=200000)
     parser.add_argument("--max_tool_calls", type=int, default=30)
     parser.add_argument("--num_processes", type=int, default=2)
     parser.add_argument("--save_interval", type=int, default=10)
+    parser.add_argument("--audit_storage", choices=("inline", "gzip"), default="gzip",
+                        help="Lossless gzip audits keep full-cohort memory bounded; use inline only for legacy compatibility")
     parser.add_argument("--heartbeat_seconds", type=int, default=30)
     parser.add_argument("--stall_seconds", type=int, default=45 * 60)
     parser.add_argument("--bootstrap", type=int, default=10000)

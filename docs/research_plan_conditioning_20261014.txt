@@ -1,0 +1,52 @@
+Planning before solving: additional primary-source alternatives
+14 October 2026. Research only; not an implemented part of V3.2.
+
+DIN-SQL (Pourreza and Rafiei, NeurIPS 2023)
+https://papers.neurips.cc/paper_files/paper/2023/file/72223cc66f63ca1aa59edaec1b3670e6-Paper-Conference.pdf
+https://github.com/MohammadrezaPourreza/Few-shot-NL2SQL-with-prompting
+https://raw.githubusercontent.com/MohammadrezaPourreza/Few-shot-NL2SQL-with-prompting/main/DIN-SQL.py
+
+The paper separates schema linking, difficulty/decomposition, generation and
+self-correction. Author code actually feeds the linking output to classification
+and generation and uses decomposed subquestions for nested queries. A final
+prompt revises the SQL without execution feedback. The released driver uses
+separate GPT-4 calls, few-shot examples and unbounded retry loops; it does not
+certify an equal aggregate resource ceiling. Gold query text is printed/stored
+for offline evaluation, while the shown generation calls use the natural
+question, database schema and predicted links. We should not import gold SQL,
+benchmark examples, unbounded retries, or its blanket grouping instructions.
+
+Local hypothesis: a question-only semantic plan could improve the solver's
+first computation by making resource/field/window/order/aggregation obligations
+explicit before code. This differs from V3.2, whose blind contract is withheld
+from the solver. Exposing it would be a distinct recorded treatment with possible
+anchoring error, rather than an unnoticed prompt change. A plan must remain
+advisory and grounded in the actual question and public FHIR schema.
+
+MAC-SQL (Wang et al., COLING 2025)
+https://aclanthology.org/2025.coling-main.36.pdf
+https://github.com/wbbeyourself/MAC-SQL
+https://raw.githubusercontent.com/wbbeyourself/MAC-SQL/main/core/agents.py
+https://raw.githubusercontent.com/wbbeyourself/MAC-SQL/main/core/const.py
+
+The paper uses a core decomposer plus optional selector and execution refiner.
+Author code routes selected schema and keys into the decomposer, retains its
+subquestion/code output, executes SQL, and invokes a refiner on selected runtime
+failures. Code differs from a universal semantic judge: Spider accepts any
+execution with a data field, whereas its BIRD branch treats empty/None results
+as reasons to refine. Selector code can accept supplied extracted schema as
+gold; absent it, it predicts a schema subset. Prompt examples carry domain
+evidence and relational schemas. These mechanisms are not directly equivalent
+to FHIR API traversal, source provenance, or our fixed model/budget conditions.
+
+Local hypothesis: persistent plan plus executable solver may transfer; aggressive
+schema pruning and empty-result-as-error do not. Our 42 empty references and
+valid null answers require preserving truthful absence. An auditor cannot call
+an unfamiliar or empty result wrong merely to force a new answer. Any future
+plan-conditioned variant should retain original question, full executable
+workspace, source checks, same model and shared aggregate accounting.
+
+Repository main URLs are mutable; no author commit hash was established by the
+web view. These alternatives have not been benchmarked here and do not provide
+proof of a FHIR gain. They remain candidates only if a completed recorded run
+shows a mechanism that this intervention can plausibly address.

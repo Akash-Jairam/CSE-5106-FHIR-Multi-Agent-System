@@ -1,0 +1,254 @@
+Current final-policy review: V3.2 static audit
+14 October 2026, America/Chicago
+
+This section supersedes the earlier V3.1 phase allocation and probe policy
+retained below as review history. No active repository files were edited,
+model inference launched, or benchmark accuracy ranked for this review.
+
+Reviewed stable isolated implementation:
+  /private/tmp/fhir-v3-design/agent/query_contract_agent.py
+  /private/tmp/fhir-v3-design/tests/test_query_contract_agent.py
+  /private/tmp/fhir-v3-design/docs/design-v3-query-contract-candidate.txt
+
+Result: no fatal phase, release, source, or accounting issue found.
+All 113 grouped offline tests independently passed with the actual OS sandbox
+and mocked model/FHIR boundaries. All 40 recorded shared-substrate files were
+independently compared against frozen 3352037 again; no mismatch.
+
+Exact final phase allocation
+
+  Phase       Model tokens   Executed tools
+  Contract          10,000                0
+  Solver           175,000               27
+  Static audit      15,000                0
+  Targeted               0                3
+  Aggregate        200,000               30
+
+The solver permits 25 model-requested tools and reserves two counted original-
+source checks inside its 27-tool cap. Lower global limits also reserve those
+checks. Actual solver model calls remain capped at 20; a host boundary adds
+no model usage. Local and global provider overshoots or reported unknown usage
+remain fatal. Phase-local refusals cannot spend later-phase reserves.
+
+The solver requires a validated mode=final execution from its first actual
+call. Early unexecuted answer prose receives the existing explicit-execution
+feedback instead of becoming a released draft. The regression with early
+unexecuted 999 proceeds to an actual artifact and source check; the prose is
+never promoted. All previous final metadata, workspace hash, retrieval/failure
+invalidation, full-batch boundary, and unresolved source-scope gates remain.
+
+The auditor is Role(Toolbox(()), max_turns=1, max_tool_calls=0). The prompt
+requires one static JSON audit and forbids inspection or replacement answers.
+Role rejects a requested probe before execution and returns immediately;
+its extra synthesis path is not reached. The audit has no copied Python
+workspace and no executable tools. Valid primary preservation on a forbidden
+probe, malformed JSON, UNKNOWN, or auxiliary unavailability is explicitly
+covered. A token/refusal failure may mean no audit completion, not a retry
+with a new allocation.
+
+A valid primary has an executed typed artifact and completed original source
+check before audit. Unresolved fetched patient/time/linkage records block both
+empty and positive primary answers. Unsupported starting-packet completeness
+cannot authorize a targeted repair. One supported repair still requires the
+frozen-workspace original replay, patched explicit final, changed original-
+field witnesses, and counted replacement source check. Direct count/raw ordinal,
+question anchoring, ambiguity/mutation, membership, source/time/visit/unit,
+limitation, and global-budget gates were retained. No post-audit synthesis or
+third semantic solver exists.
+
+Assurance limits
+
+The initial intent contract remains candidate-blind. The static auditor later
+sees solver code, ledger, and bounded source samples; the rendered answer is
+hidden, but code can reveal answer literals. Removing probes limits its ability
+to investigate broad concept, scope, joins, and aggregation semantics. Actual
+execution evidence is supplied only for the supported host-targeted local
+repair. These checks do not establish an independently recomputed clinical
+answer or global semantic correctness. Conservative future-only metadata
+abstentions and changed-contributor repair limits remain documented.
+
+Stable V3.2 fingerprints
+
+  Source: 8d2ebbd2688c39c8269774ed45fe1755d0445d62495f195e16e76c1989aa4323
+  Tests:  e8a020fb04458b2b116f74653d78864fa23f3973ad0a70f70a70512b53c0e097
+
+An operational gzip/runner merge must record its own updated fingerprints and
+retain the audited inference lifecycle. The earlier combined transport review
+below remains evidence for its output-only boundary, not an assertion that the
+previous combined module hash describes this final static candidate.
+
+Earlier V3.1 review history follows
+
+Read-only V3 implementation review
+14 October 2026, America/Chicago
+
+Reviewed isolated files:
+  /private/tmp/fhir-v3-design/agent/query_contract_agent.py
+  /private/tmp/fhir-v3-design/tests/test_query_contract_agent.py
+  /private/tmp/fhir-v3-design/docs/design-v3-query-contract-candidate.txt
+
+No active V2 source or benchmark results were modified. Reproductions used
+mocked model and FHIR boundaries with the existing OS sandbox. No inference,
+real FHIR reads, credential-file inspection, or partial V2 accuracy ranking
+was performed for this review.
+
+Resolved findings, verified in the fresh patch
+
+1. Fetched source scope is now persistent and gates all primary answers.
+
+ScopedLedgerToolbox retains original fetched records and current unresolved
+patient/time bindings. Later retrieval retries those unchanged originals
+through the shared validator. LedgerSolver._check appends actual source_scope
+issues whenever unresolved bindings remain; this is independent of an audit
+UNKNOWN verdict and applies to positive answers as well as empty ones.
+complete_types is recomputed from current unresolved state.
+
+Independent real-sandbox reproductions: a dated value 71 plus an owner-valid
+undated value 99 yields executed primary count 1, mean 71, and last value 71.
+All three release null, retain Observation/undated=unknown_time, show actual
+source_scope final issues, and record no complete Observation search. The
+implementation agent also added count/mean/minimum/maximum/last regressions.
+The Condition-then-Encounter test recovers an initially undated Condition from
+its original record after held Encounter context establishes its scope.
+
+2. Whole-question predicate/rank ambiguity now prevents automatic edits.
+
+The reproduced question "How many weights are less than 70 or greater than
+70?" originally allowed an anchored greater-than requirement to replace the
+less-than branch, changing correct primary 2 to wrong replacement 1. The fresh
+patch declines multiple question thresholds and preserves the correct primary.
+Multiple ordinal tokens and first-weight/last-height ambiguity are declined.
+Exact quotes identify provenance rather than proving clause-to-code binding.
+Unique quote positions are normalized from the question before solver reveal;
+missing or repeated quotes cannot become valid through a supplied span.
+
+3. Standard revision fields now include both correction mechanisms.
+
+Outer draft is the initial solver draft, primary is the source-corrected
+executed artifact, and final is the released result. revised covers source
+feedback and targeted changes; solver_source_revised and targeted_revised
+separate them. Failed-primary paths provide standard draft/final/revised
+fields. Existing transition scripts can therefore see source corrections.
+
+Additional confirmed finding, now resolved
+
+4. Completed HTTP Medication closure can still have unresolved held linkage.
+
+Confirmed with the actual offline integration harness: a patient Medication
+fetch returns Medication/m1, but without held Request/Admin roots the shared
+validator excludes it as unlinked_metadata. Before the pending fix this did
+not enter scope_failures, so complete_types contained Medication and an empty
+held Medication count released 0 with final_check_issues=[]. Fetching a dated,
+owner-valid MedicationRequest/mr1 referencing m1 later did not recover m1.
+
+The final V3-only scoped dispatcher retains unlinked Medication/Location
+originals as unresolved_scope=unlinked_metadata. Source release and completeness
+are denied until newly held roots let the unchanged validator recover those
+original records. Its actual shared-helper/sandbox regression blocks closure-
+first zero and recovers m1 after the Request fetch. No shared helper was changed.
+
+Known future-only root linkage remains a conservative abstention risk: the
+shared closure has no caller clock and includes future event dependencies.
+The candidate deliberately does not attempt an unsupported graph negative
+proof. Its design note states this limitation explicitly.
+
+Inspected production controls
+
+The initial intent contract receives only question and bound context before
+any solver program or resource selection exists. The later auditor explicitly
+sees code, ledger, and bounded source previews; only the rendered candidate
+answer is hidden. Code can contain answer literals, so this is not a fully blind
+independent answer computation.
+
+Artifact readiness is checked after the whole preceding tool batch. Later
+retrieval, failed non-inspect calculation, or denied requested retrieval/final
+execution invalidates readiness. Inspect diagnostics preserve a valid final.
+The original source checker still runs before primary acceptance.
+
+Global allocation is 200,000 accounted model tokens and 30 tools. Contract,
+solver, audit, targeted caps sum to those ceilings. Solver model tools reserve
+two automatic source checks within its 24-tool cap; smaller global limits also
+reserve them. Audit permits at most two actual inspect probes. Targeted replay,
+patched final, and source check cost three tools and zero model tokens. The
+same parent accountant receives all calls. Local refusals restore global limits
+and remain in phase diagnostics. Reported usage-unavailable or aggregate token
+overshoot is fatal, including auxiliary phases.
+
+The earlier usage=None caveat is not a normal-runtime protocol flaw: inspection
+of unchanged safe_llm_call shows usage=None only for its pre-dispatch input
+refusal. Dispatched exceptions/timeouts carry per_call usage_available=False,
+which PhaseHost treats as fatal. The synthetic provider-unavailable/None test
+is not evidence that real dispatched usage is silently ignored.
+
+Residual targeted-repair limitation
+
+Original-field changed-ID witnesses establish a local operator/rank discrepancy,
+not correctness of the rest of the program. Review identified a compensating
+aggregate counterexample: rows >= 70 with answer=len(rows)-1 can be correct over
+values 70 and 71; changing >= to > alone harms it. The final predicate-release
+gate requires a How-many question, integer answers equal to each artifact's
+contributing Observation count, and actual changed-ID membership witnesses.
+The compensated-count regression preserves correct primary 1. Ordinal release
+requires answers equal to directly selected original source quantities, exact
+changed ranks, and distinct original source times.
+
+Additional numeric comparisons, negation/synonym threshold clauses, multi-rank
+questions, aliases/mutations, and unsupported semantic edits are declined.
+Concept mappings, arbitrary code semantics, aggregation intent, and complete
+clinical correctness are still not independently proved. The recorded assurance
+local_constraint_not_global_semantic_proof correctly describes that boundary.
+
+Review status
+
+No remaining fatal protocol issue was found in the reviewed isolated patch.
+All 109 grouped offline tests independently passed with the actual OS sandbox
+and mocked model/FHIR boundaries. Review also independently compared all 40
+recorded shared-substrate files against frozen commit 3352037; no mismatch.
+
+Stable source fingerprints:
+  agent/query_contract_agent.py
+  e07fa803eb4ec4e207c0f06448491133184a67f6e7f4416685a746e293ca3e43
+  tests/test_query_contract_agent.py
+  07dae422bdeb7777fa0170cc2935c062665a870f7e68f34fca95d9cd7615ae6c
+  query_contract_v3.patch
+  181d2243454294afa6a8276751ec751695617d3ac72006526d39fdae6f683a53
+
+This is offline implementation/protocol evidence, not a claim of improved
+benchmark accuracy. Any operational gzip/runner merge needs its own source
+identity and tests; the merged helper files cannot be called byte-identical
+to frozen V2 once their I/O implementation changes.
+
+Final local-budget and operational audit follow-up
+
+The final PhaseHost delta also treats reported usage above the local phase
+ceiling as fatal even when it remains below the global ceiling. This prevents
+a provider overshoot from silently borrowing a later phase's reserved budget.
+Both final added tests were included in the independent 109-test pass.
+
+Read-only combined staging reviewed:
+  /private/tmp/fhir-v3-combined-tSu0kb
+
+The combined V3 module has an identical inference AST to the final reviewed
+module after excluding only run_v3_job. The dispatch wrapper forwards the
+optional include_full_audit flag and per-question output context, calls the
+common budgeted execution wrapper, and externalizes full trace/resources to a
+content-addressed gzip artifact before worker IPC. The parent receives compact
+result fields and stores the same reference idempotently before DataFrame
+accumulation. Inline default behavior remains compatible when extra fields are
+absent. No model-visible prompt, source selection, answer, evidence, budget,
+usage, or inference call is changed by this storage boundary.
+
+Independent focused audit/driver tests: 19 passed, including V3 dispatch before
+IPC, exact round trip, question ownership, missing/corrupt artifact refusal,
+failed-attempt history, explicit runner flags, and identical inline/gzip
+scoring/execution fields. Artifact writes are atomic, hashes cover uncompressed
+JSON, restored paths are restricted to the selected output directory, and
+resume validates current and historical references. No fatal audit transport
+issue was found.
+
+Combined module SHA-256:
+  067a7dd62df4a49827d83e56216feb41aa760dc02db5c9fc261a2bcfe2fb9e4b
+
+The combined tree changes shared output transport helpers, so its design and
+source identity must describe this operational change explicitly. It must not
+reuse the isolated candidate's whole-tree byte-identity claim.

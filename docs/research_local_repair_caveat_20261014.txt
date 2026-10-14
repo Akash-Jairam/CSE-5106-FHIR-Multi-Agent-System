@@ -1,0 +1,12 @@
+Reflect-SQL mechanism boundary, checked 14 October 2026
+
+https://arxiv.org/html/2601.06678v1
+
+The paper localizes feedback to typed generation stages and modifies stage
+prompts across a query set; it is not simply an AST patcher. Its proposed
+monotonicity depends on proxy semantic judgments and validated-constraint
+preservation, not execution success alone. The author code link is omitted
+for anonymity, so no official implementation was verified. Our narrow AST
+repair transfers the localization/preservation idea, not its complete method
+or claimed SQL benchmark gains. A changed source witness is evidence about
+one supported predicate/rank; it cannot prove the whole clinical question.

@@ -1,0 +1,139 @@
+Combined V3 architecture and operational audit I/O handoff
+
+Ready in isolated staging: /private/tmp/fhir-v3-combined-tSu0kb.
+Combined patch: /private/tmp/fhir-v3-combined.patch.
+SHA-256: 9756730cabf9ea4202fa58edfc7cc80df89f288c3a1dcda04c16aaeb8a52f520.
+Base: 0bce77a9888f84492bc8e701278e4e72f507c1eb. Its runtime matches 3352037;
+only the frozen V2 design documents and source ZIP differ between those bases.
+git apply --check against the active checkout passed. The active checkout is
+unchanged by this task. V2 outcomes are recorded at 3f1417e3731476d28b9576a0d4746f9215e9b018; the active branch is experiments/query-contract-v3 with only root-owned research notes untracked.
+No inference or live FHIR requests were made by this combined staging task.
+This engineering check is not a new substantial design run.
+
+Architecture changes
+
+Research's final query-contract V3.2 static-audit patch is incorporated, including its final
+PhaseHost guard that treats reported local phase token overshoot as fatal even
+below the global ceiling. The original patch SHA-256 is
+6eb3da2f7392e86572abd1763606aada44f1eeeae228be1de9de3ca10e73e793.
+It adds agent/query_contract_agent.py, the associated tests and design note,
+plus additive dispatch and --team_strategy selections in the three launchers.
+
+The team derives a question-only contract before revealing solver code, runs
+one continuous solver with the shared single-agent substrate, then performs a
+one static code audit with no tools. Its phase token limits are 10,000 / 175,000 / 15,000 / 0 and tool limits are 0 / 27 / 0 / 3. The solver gets 25 ordinary tools plus two automatic source checks and requires explicit final execution from its first turn; unexecuted prose receives the existing execution feedback. Only question-anchored, mechanically restricted predicate
+or measurement-ordinal corrections can replace a source-valid primary after
+host replay and source checks. UNKNOWN, malformed audit prose and unsupported
+changes preserve the valid primary. It retains unresolved original records
+until unchanged patient/time/linkage validation can bind them, recomputes
+current search completeness, and preserves standard revision reporting. The
+sum of phase limits remains 200,000 tokens and 30 tools. Architecture details,
+research references and acknowledged conservative risks are in the included
+docs/design-v3-query-contract-candidate.txt and /private/tmp/fhir-v3-review.txt.
+
+Operational changes
+
+The driver supports explicit --audit_storage inline|gzip. The subset launcher
+defaults to inline and forwards a selected mode; the full supervisor defaults
+to gzip. Team strategy and storage mode are independent: stable result arm
+filenames remain unchanged while identities pin the actual multi_agent_v3
+strategy, storage mode, artifact schema and source fingerprint. The full public
+manifest also records the selected team strategy.
+
+All workers can preserve complete returned traces, retrieved_fhir_resources
+maps and revision.messages in content-addressed, timestamp-free gzip JSON
+artifacts before returning results across IPC. The V3 worker consumes the same
+optional include_full_audit and audit_context tuple fields as the legacy worker,
+uses the common output wrapper, then the common lossless externalizer. The
+parent stores the same reference idempotently before Pandas accumulation.
+Answers, exact evidence (including optional paired scope_index), limitation,
+resource IDs, tool calls, token/cost/budget data, and revision outcomes stay
+inline. Empty list placeholders plus audit_artifacts retain field types. This
+does not change model inputs, prompts, field semantics, tool behavior, scoring,
+or the original agent latency boundary. The artifact codec improves provenance
+by retaining raw returned workspace maps that the frozen V2 driver dropped.
+
+The artifact descriptor pins schema 2, codec, owning question, allowed relative
+path, exact stored fields and uncompressed SHA-256. Atomic writes avoid partial
+artifacts. Explicit restore_result_audit reconstructs the complete returned
+audit, including historical attempts, field order and all message/code strings.
+Restoration validates owner/path/hash and has a 512 MiB per-question safety
+limit; data is never truncated. Missing/corrupt references refuse resume before
+any model call. Legacy trace-based diagnostics must deliberately restore audit
+fields; compact accuracy/token/revision metrics do not require restoration.
+Streaming result-array validation avoids reloading the complete temporary JSON.
+Full supervision remains first-attempt only, with no automatic retries, immutable
+manifest/source checks, clean process-group termination, and partial-run alerts.
+
+Shared inference equality
+
+The combined module's inference AST matches research's final source after
+excluding only operational run_v3_job. Of the 40 frozen substantive files in
+research's substrate manifest, 39 remain byte-identical. utils/core_utils.py
+changes only RESULT_COLUMNS and the output/worker transport functions; its
+remaining AST, including model calls, agent creation and context/budget helpers,
+matches frozen V2. Existing shared single-agent/semantic/tool/scorer files remain
+identical. Do not describe the combined helper tree as byte-identical. Reuse of
+the frozen V2 single control relies on unchanged inference semantics, supported
+by transport parity tests. The completed refreshed single is the control: 231 / 300, compared with the completed V2 team's 198 / 300. V3 uses fresh first attempts and preserves the completed control output and identity. Do not make a topology-only causal claim: earlier V2
+shared tool/contract changes and V3 team design are distinct recorded changes.
+
+Validation
+
+188 final changed-boundary and combined I/O offline tests passed; the unchanged subset reporting paths previously passed 76 additional regressions. Model and FHIR boundaries were mocked;
+generated-code fixtures used the real existing macOS sandbox. They cover final
+V3 protocol/source/budget guards, exact audit/resource restoration, first-attempt
+history/resume refusal, worker-before-IPC compaction, compact DataFrame storage,
+inline/gzip scoring and execution parity, V3 gzip dispatch, independent strategy
+and storage flags, actual full manifest settings, and existing subset reporting.
+Independent review of the prior merged transport passed 109 V3 grouped tests and 19 audit/driver tests and found no fatal worker/transport issue. Research independently passed 113 final static-protocol grouped tests. Evidence:
+/private/tmp/fhir-v3-combined-static-tests.log
+/private/tmp/fhir-v3-combined-manifest.json
+/private/tmp/fhir-v3-review.txt
+
+Offline full/subset plans passed. The full plan selects all 2,931 questions and
+94 patients, three arms with two workers each, save interval 10, cached tools,
+32,000-token input guard and the shared 200,000-token/30-tool ceilings. It pins
+8,793 expected first attempts, gzip schema 2 and actual V3 team dispatch. The subset plan selects exactly the frozen 300-question ordinary team arm with four workers and save interval 1.
+
+Starting-packet eligibility
+
+The ordinary packet runtime is dynamic and does not gate on frozen 370-packet
+membership. The earlier read-only dataset/NDJSON audit validated all 2,931
+question contexts and seven representative packet constructions outside that
+manifest, including duration and paired families. Root's subsequent live source
+preflight passed all 94 patients, including 36 outside the fixed subset. Each
+requested patient was found; maximum packet size was 7,997 tokens. That stronger
+report is /private/tmp/fhir-v2-full-patient-preflight.json (zero model calls).
+This establishes eligibility and source availability, not answer accuracy.
+
+V2 audit-retention correction
+
+Frozen V2 parse_outputs retains resource ID maps and complete returned tool and
+message traces, but drops the raw returned retrieved_fhir_resources workspace.
+Its frozen design prose claiming all retrieved inputs were retained therefore
+overstates saved workspace coverage. Append that correction to the V2 outcome
+record without rewriting the frozen design. Gzip preserves future returned maps;
+it cannot recover an already lost workspace or one an exception never returned.
+A post-exit cache snapshot is only supplementary provenance: see
+/private/tmp/fhir-full-io-13MERv/cache_snapshot_proposal.py. It hashes/copies only
+regular resource-cache files, never deserializes pickle or reads credentials,
+and cannot prove every historical time-of-use workspace. No cache copy was made.
+
+Launch commands after applying, committing and recording the fresh design
+
+Fixed 300-question team trial (root owns the design record and launch):
+.venv/bin/python .local-setup/phase3.py run --project-root . --model gpt-6-luna --team_strategy multi_agent_v3 --audit_storage gzip --split held_out --limit 300 --arms ordinary_multi_agent --num_processes 4 --save_interval 1 --max_total_tokens 200000 --max_tool_calls 30 --output_dir output/experiments/gpt-6-luna/query_contract_v3_300q
+
+Full cohort, only once the fixed-subset result meets the goal criterion:
+.venv/bin/python .local-setup/full.py run --project-root . --model gpt-6-luna --team_strategy multi_agent_v3 --audit_storage gzip --num_processes 2 --save_interval 10 --max_total_tokens 200000 --max_tool_calls 30 --output_dir output/experiments/gpt-6-luna/query_contract_v3_full_2931
+
+The local launchers read provider credentials internally through their existing
+normal runtime. No secrets should be printed or copied to public records. Use
+fresh output directories, freeze source before inference, and retain the raw
+gzip artifact directory with the result files. The previous size probe and
+additional I/O detail are in /private/tmp/fhir-full-io-13MERv/IO_IMPACT_REPORT.txt.
+
+Final actual transport evidence (development checks, not a substantial run)
+
+Research replayed two saved audit packets that formerly lacked probe/synthesis room. Both final static audits returned valid JSON in exactly one SDK call, zero tools, and 5,214 / 5,997 tokens. A development-only tools-disabled first request forced early prose; the unchanged execution-feedback path recovered into an explicit source-valid final and static audit, with four SDK calls, 24,505 tokens and two tools. Frozen production source stayed unchanged. Artifacts: /private/tmp/fhir-v3-static-transport-4xtn8nx5. This combined staging task made no model or FHIR calls.

@@ -1,0 +1,296 @@
+{
+  "source_base_commit": "0bce77a9888f84492bc8e701278e4e72f507c1eb",
+  "frozen_runtime_commit": "3352037",
+  "active_commit_apply_checked": "3f1417e3731476d28b9576a0d4746f9215e9b018",
+  "active_branch": "experiments/query-contract-v3",
+  "staging_path": "/private/tmp/fhir-v3-combined-tSu0kb",
+  "combined_patch": "/private/tmp/fhir-v3-combined.patch",
+  "combined_patch_sha256": "9756730cabf9ea4202fa58edfc7cc80df89f288c3a1dcda04c16aaeb8a52f520",
+  "research_patch_sha256": "6eb3da2f7392e86572abd1763606aada44f1eeeae228be1de9de3ca10e73e793",
+  "protocol": "query-contract-v3.2-static-audit",
+  "phase_tokens": [
+    10000,
+    175000,
+    15000,
+    0
+  ],
+  "phase_tools": [
+    0,
+    27,
+    0,
+    3
+  ],
+  "research_inference_ast_equal_except_operational_worker": true,
+  "core_ast_equal_except_output_transport": true,
+  "shared_frozen_files_checked": 40,
+  "shared_frozen_files_unchanged": 39,
+  "operationally_changed_shared_file": [
+    "utils/core_utils.py"
+  ],
+  "substantive_files": [
+    {
+      "path": "agent/__init__.py",
+      "frozen_sha256": "c1cb3fedaccb3c808fbcfb102780b2f2ea1b27b5d6240cad71d37f66c0d518be",
+      "combined_sha256": "c1cb3fedaccb3c808fbcfb102780b2f2ea1b27b5d6240cad71d37f66c0d518be",
+      "identical": true
+    },
+    {
+      "path": "agent/analysis_agent.py",
+      "frozen_sha256": "113a74110c0b925a8cc5f57dc6e2fe6da99f5b258c241d27f3a0b933a3232adc",
+      "combined_sha256": "113a74110c0b925a8cc5f57dc6e2fe6da99f5b258c241d27f3a0b933a3232adc",
+      "identical": true
+    },
+    {
+      "path": "agent/base_agent.py",
+      "frozen_sha256": "4a83a407520c67c458b371a2b143231114566cfb4956bd69aaa682a92ead7eca",
+      "combined_sha256": "4a83a407520c67c458b371a2b143231114566cfb4956bd69aaa682a92ead7eca",
+      "identical": true
+    },
+    {
+      "path": "agent/controller.py",
+      "frozen_sha256": "8d230c5d01f78652dc6179dc73472f000b32f84723c0827eb57a72edb5626977",
+      "combined_sha256": "8d230c5d01f78652dc6179dc73472f000b32f84723c0827eb57a72edb5626977",
+      "identical": true
+    },
+    {
+      "path": "agent/direct_llm_agent.py",
+      "frozen_sha256": "c8164f57a9efa48a6cee0d0733e040e464b2577729ef3a3063b5c10e4a37beee",
+      "combined_sha256": "c8164f57a9efa48a6cee0d0733e040e464b2577729ef3a3063b5c10e4a37beee",
+      "identical": true
+    },
+    {
+      "path": "agent/ehr_semantics.py",
+      "frozen_sha256": "2c6a12e0c2e5428b028c22b3d017bbabd8bc479b874d32facca98612d7055fe4",
+      "combined_sha256": "2c6a12e0c2e5428b028c22b3d017bbabd8bc479b874d32facca98612d7055fe4",
+      "identical": true
+    },
+    {
+      "path": "agent/framework.py",
+      "frozen_sha256": "4ab01c58ec6ab1e39db4633033884ea0cbb0f82301f4e4eded9d4d861dcb12c8",
+      "combined_sha256": "4ab01c58ec6ab1e39db4633033884ea0cbb0f82301f4e4eded9d4d861dcb12c8",
+      "identical": true
+    },
+    {
+      "path": "agent/multi_agent.py",
+      "frozen_sha256": "ee799be8aef44605834abc0a9c9692edf360daef905de15e4e1fc2eecd3b36c3",
+      "combined_sha256": "ee799be8aef44605834abc0a9c9692edf360daef905de15e4e1fc2eecd3b36c3",
+      "identical": true
+    },
+    {
+      "path": "agent/multi_turn_code_resource_agent.py",
+      "frozen_sha256": "938a57c1664309e9673c5011c7f1d76b22a5e1d63380322ba6ca34e74e0645e6",
+      "combined_sha256": "938a57c1664309e9673c5011c7f1d76b22a5e1d63380322ba6ca34e74e0645e6",
+      "identical": true
+    },
+    {
+      "path": "agent/multi_turn_code_resource_v2_agent.py",
+      "frozen_sha256": "00e1999c5a1330643f0bc5d8f7512e5bb78d9b672b7a7760db35f3be2b0157dc",
+      "combined_sha256": "00e1999c5a1330643f0bc5d8f7512e5bb78d9b672b7a7760db35f3be2b0157dc",
+      "identical": true
+    },
+    {
+      "path": "agent/multi_turn_resource_agent.py",
+      "frozen_sha256": "91cd84a7e2cf906e13aceb23975ecf5d98b52d23cba4c667e107e1b8a7caa357",
+      "combined_sha256": "91cd84a7e2cf906e13aceb23975ecf5d98b52d23cba4c667e107e1b8a7caa357",
+      "identical": true
+    },
+    {
+      "path": "agent/output_schema.py",
+      "frozen_sha256": "daba54d1a63237f7961bce70c89bc064b03708818f6aaa704a958b02bb7b13a6",
+      "combined_sha256": "daba54d1a63237f7961bce70c89bc064b03708818f6aaa704a958b02bb7b13a6",
+      "identical": true
+    },
+    {
+      "path": "agent/retrieval_agent.py",
+      "frozen_sha256": "bd477172c265ec988bbabf78e39da1a3b9336389d2ba4c859bfc975db0f30e0c",
+      "combined_sha256": "bd477172c265ec988bbabf78e39da1a3b9336389d2ba4c859bfc975db0f30e0c",
+      "identical": true
+    },
+    {
+      "path": "agent/single_agent.py",
+      "frozen_sha256": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+      "combined_sha256": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+      "identical": true
+    },
+    {
+      "path": "agent/single_turn_code_resource_agent.py",
+      "frozen_sha256": "48cc8abea9fbf0c4e07eb08954f95c3ad4e6dcccadfc1b8d305a5eda7a162b8a",
+      "combined_sha256": "48cc8abea9fbf0c4e07eb08954f95c3ad4e6dcccadfc1b8d305a5eda7a162b8a",
+      "identical": true
+    },
+    {
+      "path": "agent/single_turn_request_agent.py",
+      "frozen_sha256": "bc4891e4b4dcbfd484e27429bcc4413f3554a34ea3cd827d2228ca010617fa07",
+      "combined_sha256": "bc4891e4b4dcbfd484e27429bcc4413f3554a34ea3cd827d2228ca010617fa07",
+      "identical": true
+    },
+    {
+      "path": "agent/single_turn_resource_agent.py",
+      "frozen_sha256": "b559844b1eff503098d17d85e77d17cfd4b97a9483012cc3236ed30490b345b9",
+      "combined_sha256": "b559844b1eff503098d17d85e77d17cfd4b97a9483012cc3236ed30490b345b9",
+      "identical": true
+    },
+    {
+      "path": "agent/verification_agent.py",
+      "frozen_sha256": "d46a60dea90f80ad63455f8d2122ad5ac87938af542e6be6510fa0dbf7ec67fb",
+      "combined_sha256": "d46a60dea90f80ad63455f8d2122ad5ac87938af542e6be6510fa0dbf7ec67fb",
+      "identical": true
+    },
+    {
+      "path": "tools/__init__.py",
+      "frozen_sha256": "20fd87e431de62093c1d56815c02a125be8fa1b819bf4b056a8805ae9a2d3496",
+      "combined_sha256": "20fd87e431de62093c1d56815c02a125be8fa1b819bf4b056a8805ae9a2d3496",
+      "identical": true
+    },
+    {
+      "path": "tools/cache.py",
+      "frozen_sha256": "c53aee7aafe497f66674200375d641d7bcc9301b82e2b15db17b08bd380dc8a9",
+      "combined_sha256": "c53aee7aafe497f66674200375d641d7bcc9301b82e2b15db17b08bd380dc8a9",
+      "identical": true
+    },
+    {
+      "path": "tools/field_check.py",
+      "frozen_sha256": "53345095c1e489185ff9b280034999c4225748d4c88bc9df939960f3119457c5",
+      "combined_sha256": "53345095c1e489185ff9b280034999c4225748d4c88bc9df939960f3119457c5",
+      "identical": true
+    },
+    {
+      "path": "tools/perturbation.py",
+      "frozen_sha256": "4b676901a511247f3b14851ab867b0949e32fb0de17b280a49cb7d24dd54c0b3",
+      "combined_sha256": "4b676901a511247f3b14851ab867b0949e32fb0de17b280a49cb7d24dd54c0b3",
+      "identical": true
+    },
+    {
+      "path": "tools/python_executor.py",
+      "frozen_sha256": "87d701913d1505283ce481720bf9f2780e1759d892680d7f8d373fbe039b6c8f",
+      "combined_sha256": "87d701913d1505283ce481720bf9f2780e1759d892680d7f8d373fbe039b6c8f",
+      "identical": true
+    },
+    {
+      "path": "tools/python_worker.py",
+      "frozen_sha256": "fd1384f568c9af65e5a7411f1a056598c9f0a635b3c4bedb6263ebc69d3a37c3",
+      "combined_sha256": "fd1384f568c9af65e5a7411f1a056598c9f0a635b3c4bedb6263ebc69d3a37c3",
+      "identical": true
+    },
+    {
+      "path": "tools/registry.py",
+      "frozen_sha256": "0a7fdaf3627517d6e5d3a30ee727ea84eaa5cb43803391434a60a95eb2929dfb",
+      "combined_sha256": "0a7fdaf3627517d6e5d3a30ee727ea84eaa5cb43803391434a60a95eb2929dfb",
+      "identical": true
+    },
+    {
+      "path": "tools/request_tools.py",
+      "frozen_sha256": "36a4eb8d65f2360f53e5319f817cd2bdc40509824941860073d76feb464256d7",
+      "combined_sha256": "36a4eb8d65f2360f53e5319f817cd2bdc40509824941860073d76feb464256d7",
+      "identical": true
+    },
+    {
+      "path": "tools/resource_tools.py",
+      "frozen_sha256": "ed5319a217eeb6c439deb386dbe84e9319082854c5bcfe3e7072d60bd12a568d",
+      "combined_sha256": "ed5319a217eeb6c439deb386dbe84e9319082854c5bcfe3e7072d60bd12a568d",
+      "identical": true
+    },
+    {
+      "path": "tools/starting_packet.py",
+      "frozen_sha256": "96d6547bc5ce41647d9e38bc360c8e49de76d1df2d5c1c72e2e1efefac997d63",
+      "combined_sha256": "96d6547bc5ce41647d9e38bc360c8e49de76d1df2d5c1c72e2e1efefac997d63",
+      "identical": true
+    },
+    {
+      "path": "utils/__init__.py",
+      "frozen_sha256": "3f063771d803b5a83817d462997c729cb84ac9d7e704178eb18cb2bf4c68dc9d",
+      "combined_sha256": "3f063771d803b5a83817d462997c729cb84ac9d7e704178eb18cb2bf4c68dc9d",
+      "identical": true
+    },
+    {
+      "path": "utils/answer_scorer.py",
+      "frozen_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+      "combined_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+      "identical": true
+    },
+    {
+      "path": "utils/core_utils.py",
+      "frozen_sha256": "4ec967b0cbc2b9aed5045d854b3179f6f078a7f99fc19c14cb459ebe1f7b8ae9",
+      "combined_sha256": "e0fa62f8d5093b275a9100ce618c94b03722982d1acd6295f666ab5509c126d0",
+      "identical": false
+    },
+    {
+      "path": "utils/evidence_scorer.py",
+      "frozen_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+      "combined_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+      "identical": true
+    },
+    {
+      "path": "utils/fhir_utils.py",
+      "frozen_sha256": "a559915d6033c2eedd69a95f10eccf82956ce83e63e410aac5c3a2f15a1dd92a",
+      "combined_sha256": "a559915d6033c2eedd69a95f10eccf82956ce83e63e410aac5c3a2f15a1dd92a",
+      "identical": true
+    },
+    {
+      "path": "utils/metrics_utils.py",
+      "frozen_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063",
+      "combined_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063",
+      "identical": true
+    },
+    {
+      "path": "utils/model_config.py",
+      "frozen_sha256": "b178e25086e68be738fefe1f0f5cc6f0a449b171aa1e0fd14540a34a6d39846c",
+      "combined_sha256": "b178e25086e68be738fefe1f0f5cc6f0a449b171aa1e0fd14540a34a6d39846c",
+      "identical": true
+    },
+    {
+      "path": "utils/sql_to_fhir_utils.py",
+      "frozen_sha256": "f26d0efe8c32f6420744bcccbadf2cfe2a13dec7327a5fc54f4ebd0b88973498",
+      "combined_sha256": "f26d0efe8c32f6420744bcccbadf2cfe2a13dec7327a5fc54f4ebd0b88973498",
+      "identical": true
+    },
+    {
+      "path": "config.py",
+      "frozen_sha256": "d7dd438bd5f0bd91cb8652565d2bce85faac3b087f22a6cc15a85018ddd717c6",
+      "combined_sha256": "d7dd438bd5f0bd91cb8652565d2bce85faac3b087f22a6cc15a85018ddd717c6",
+      "identical": true
+    },
+    {
+      "path": "fhir_client.py",
+      "frozen_sha256": "613a584ddc69623a3011363645e262732beb25a760b0f28881ddb8d3547e9886",
+      "combined_sha256": "613a584ddc69623a3011363645e262732beb25a760b0f28881ddb8d3547e9886",
+      "identical": true
+    },
+    {
+      "path": "evaluation_metrics.py",
+      "frozen_sha256": "06b7edd485125e17864a48f8839e17edaa2b5d2b2969423e9bc3d71d3f04a12d",
+      "combined_sha256": "06b7edd485125e17864a48f8839e17edaa2b5d2b2969423e9bc3d71d3f04a12d",
+      "identical": true
+    },
+    {
+      "path": "requirements.txt",
+      "frozen_sha256": "b69aedf83d649f735190528f0e075cf13fcadd53515a70deb1af77f75d1e84e7",
+      "combined_sha256": "b69aedf83d649f735190528f0e075cf13fcadd53515a70deb1af77f75d1e84e7",
+      "identical": true
+    }
+  ],
+  "final_focused_tests_passed": 188,
+  "prior_unchanged_reporting_tests_passed": 76,
+  "model_calls_by_this_merge_task": 0,
+  "FHIR_requests_by_this_merge_task": 0,
+  "actual_development_transport_evidence": "/private/tmp/fhir-v3-static-transport-4xtn8nx5",
+  "subset_plan": {
+    "path": "/private/tmp/fhir-v3-combined-subset-plan.txt",
+    "questions": 300,
+    "workers": 4,
+    "save_interval": 1,
+    "audit_storage": "gzip",
+    "team_strategy": "multi_agent_v3"
+  },
+  "full_plan": {
+    "path": "/private/tmp/fhir-v3-combined-full-plan.json",
+    "questions_per_arm": 2931,
+    "first_attempts": 8793,
+    "workers_per_arm": 2,
+    "save_interval": 10,
+    "audit_storage": "gzip"
+  },
+  "apply_check_passed": true,
+  "active_checkout_modified_by_this_task": false,
+  "expected_root_owned_untracked_notes": 3
+}

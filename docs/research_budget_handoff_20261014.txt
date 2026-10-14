@@ -1,0 +1,69 @@
+Budget awareness and final-artifact handoff
+Additional primary-source research, 14 October 2026; active V2 remains frozen.
+
+Budget-Aware Tool Use Enables Effective Agent Scaling, Liu et al., COLM 2026:
+https://arxiv.org/html/2511.17006v2
+Official publication page:
+https://research.google/pubs/cost-effective-agent-test-time-scaling/
+
+The paper's Budget Tracker exposes remaining per-tool budgets at each round.
+Its BATS workflow keeps a constraint checklist and chooses continue/pivot after
+candidate verification. The experiments distinguish preset ceilings from realized
+cost, and measure token plus external-tool costs. This is chiefly web search;
+the reported scaling also uses multiple trajectories and model-based selection,
+which differ from our one-primary/one-targeted-repair FHIR protocol.
+
+Local inference: a role should know its actual remaining allocation before it
+starts another diagnostic calculation. The control's observed repeated final
+calculations motivate a solver-to-auditor handoff on a validated executed artifact.
+This is an untested local lifecycle hypothesis. Fixed ceilings alone do not make
+the model budget-aware. Physical HTTP requests, logical tool invocations, cached
+input tokens and total replayed tokens are different measures; missing billing
+cannot be inferred from token counts alone.
+
+Official repository inspected on 14 October 2026, main branch:
+https://github.com/google-research/budget-aware-agent
+https://raw.githubusercontent.com/google-research/budget-aware-agent/main/src/agent_budget_tracker.py
+https://raw.githubusercontent.com/google-research/budget-aware-agent/main/src/prompts_budget_tracker.py
+https://raw.githubusercontent.com/google-research/budget-aware-agent/main/src/select_answer.py
+
+The tracker implementation initializes a budget block and appends updated used/
+remaining counts after each tool response. Query and URL lists can batch external
+actions, and truncation respects those action counts. Optional browse summaries
+use a cheaper model; optional old-response removal changes the visible context.
+The repository's BATS result selection is a later model-selection stage, distinct
+from its gold-based offline scoring. The code can also force continued exploration
+after an answer while resources remain. None of these auxiliary model choices,
+forced continuation rules, or post-hoc gold-scoring machinery is adopted here.
+Exact author commit was not established from the web view; main links are mutable.
+
+Local inference: transfer budget status, not the whole sampling/selection system.
+A valid artifact is an interface contract, not proof that its chosen concepts or
+filters answer the question. Any early handoff must preserve limitations, source
+checks, entire tool-batch audit and workspace validity; later retrieval in the same
+batch can invalidate a previously finalized answer.
+
+ThinkBrake: Mitigating Overthinking in Tool Reasoning, Oh et al., October 2025:
+https://arxiv.org/html/2510.00546v1
+
+ThinkBrake monitors a stopping-token log-probability margin at sentence boundaries
+on a small Qwen reasoning model and BFCL. Its oracle stopping experiment uses
+knowledge of correctness; its deployable heuristic requires token probabilities.
+Its evaluation is narrow and does not establish an effective FHIR stopping rule.
+Our configured hosted model interface does not expose the required decoding
+control, so this heuristic is not directly usable.
+
+Thinking Past the Answer, Caldarella et al., June 2026:
+https://arxiv.org/html/2606.02835v1
+Author project: https://simonecaldarella.github.io/thinking-past-the-answer
+
+The authors distinguish redundant verbosity from harmful revisions. Their best
+first-correct-prefix stopping result is explicitly an oracle requiring gold,
+and generic shorter reasoning does not eliminate harmful overthinking. It is
+useful as a warning against equating brevity with correctness, not a deployable
+oracle or proof that our first valid final computation is the best answer.
+
+Local inference: record net corrections and harmful revisions in every substantial
+run. An early solver artifact should be audited against the independently frozen
+question contract; neither execution success nor an asserted confidence score
+can serve as semantic ground truth.

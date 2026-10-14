@@ -1,0 +1,47 @@
+Protocol alignment and homogeneous-agent simulation
+Additional source research, 14 October 2026; read while V2 source remains frozen.
+
+Do More Agents Help? Controlled and Protocol-Aligned Evaluation of LLM Agent
+Workflows, Fu et al., 4 June 2026:
+https://arxiv.org/html/2606.05670v1
+
+The controlled BenchAgent comparison shares loaders, tools, answer contracts,
+usage accounting, and trajectory logs. Most tested multi-agent wrappers trail
+its single-agent anchor; EvoAgent's small positive average lies within their
+single-run uncertainty guidance. Their external GAIA runtime result improves
+harder tasks, but Table 11 explicitly says a uniform resource ceiling is not
+certified. Its advantage therefore does not establish equal-budget topology
+lift. Retained examples suggest lost constraints during linear handoffs and
+local recoverability through persistent state; these mechanisms remain bundled.
+No author release URL was verified in the paper's HTML despite a release claim.
+
+Local inference: report exact role-visible state, repair gates, contracts, and
+caps alongside accuracy. Preserve all question constraints and actual artifacts
+across our audit handoff. Our refreshed single control is necessary to distinguish
+the shared tool/interface improvement from a team benefit. Patient-block paired
+intervals are more appropriate locally than treating related patient questions
+as independent observations. The V2 bundle is explicitly exploratory, not a
+causal topology ablation; V3 must keep its shared substrate fixed.
+
+Rethinking the Value of Multi-Agent Workflow: A Strong Single Agent Baseline,
+Xu et al., 18 January 2026:
+https://arxiv.org/html/2601.12307v1
+
+OneFlow investigates compact automatically designed workflows and single-context
+execution of homogeneous roles across seven benchmarks. A single implementation
+can match its multi-context counterpart while improving efficiency. Its
+simulation proposition requires the same role-visible histories, routing,
+deterministic tool behavior, and decoding distribution. The implementation appends
+role instructions and retains earlier context; it also discusses KV-cache reuse.
+Its automatic design search uses additional designer/critic models and benchmark
+performance, which differs from our frozen per-question policy and same-model
+inference comparison. No author repository was verified from this HTML.
+
+Local inference: roles alone do not justify a team. Our draft-blind verifier and
+question-contract auditor deliberately receive different visible histories, so
+the identical-history simulation proposition does not establish their behavior
+is equivalent to our existing single agent. Conversely, separate calls do not
+guarantee useful independence: shared model biases can persist. We should retain
+an integrated solver, add only a distinct audit function, and measure net repair
+gain, harmful revisions, cost and failures. A future same-context audit ablation
+could test the value of context isolation; it is not an outcome already shown.

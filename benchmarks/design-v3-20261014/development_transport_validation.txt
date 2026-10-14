@@ -1,0 +1,34 @@
+Final V3.2 tiny actual transport validation (development only)
+
+Frozen source: /private/tmp/fhir-v3-static-transport-4xtn8nx5/source
+Module SHA-256: 8d2ebbd2688c39c8269774ed45fe1755d0445d62495f195e16e76c1989aa4323
+No frozen/delivered runtime or active checkout file changed during this check.
+Normal original Azure child environment and sitecustomize bootstrap loaded
+configuration internally; no config/key values were inspected or displayed.
+Actual usage reports provider azure, model gpt-6-luna, reasoning_effort none.
+
+Two saved executed primary audit packets that previously exhausted probe/synthesis
+budget were audited statically, without rerunning either primary. Each actual SDK
+request produced parseable audit JSON in exactly one model call and zero tools.
+Usage was 5,214 and 5,997 tokens, both below the 15,000-token/0-tool audit ceiling.
+
+One fixed-subset Medication lookup exercised first-turn prose handling through
+actual SDK calls. A development-only wrapper disabled tools for the FIRST solver
+request only. That request returned prose, reported 9,097 tokens, and already had
+the explicit-final requirement flag enabled. The existing SingleAgent feedback
+then requested mode=final; subsequent requests used normal tool availability.
+The solver executed a strict final artifact and its source check passed. The
+static auditor completed. Total: four model calls, 24,505 tokens, two tools.
+Phase usage: contract1,360/0, solver19,230/2, audit3,915/0, targeted unused.
+Exact final ceilings remain tokens10k/175k/15k/0 and tools0/27/0/3.
+All actual usage was reported; all local/global caps held; no runtime errors.
+
+The tools=None injection and its output are DEVELOPMENT ONLY, excluded from
+production source, formal design results, and any accuracy claim. The harness
+is transport_check.py. Raw static role replies/traces are static_audits.json;
+raw full early-prose output is early_prose_output.json; details are in
+transport_summary.json. No baseline rerun or gold-dependent routing/scoring was
+performed. One exact host-boundary content marker and a later source check are
+present. The development serializer chose HostBoundary.model_dump (API shape),
+so its diagnostic phase/model_call annotation is absent from this raw JSON; the
+production serializer uses to_dict and retains that annotation, tested offline.
