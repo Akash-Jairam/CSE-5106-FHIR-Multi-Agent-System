@@ -1,0 +1,34 @@
+Substantial experiment journal
+Updated 14 October 2026
+
+Original fixed-300 pipeline
+Branch: runs/300q-20261012; preserved archive: benchmarks/run-300q-20261012
+Single 223/300 (74.3%); original team 162/300 (54.0%); direct 202/300 (67.3%).
+The old full_v1 label described an experiment matrix, not the full 2,931 cohort.
+
+V2 — iterative analyst and blind executable verifier
+Branch: experiments/verified-team-v2; record: benchmarks/design-v2-20261013
+Source commit: 3352037; completed outcomes commit: 3f1417e.
+Refreshed single 231/300 (77.0%); team 198/300 (66.0%).
+Acceptance failed. All 600 first attempts retained; no retry replacement.
+Design/source/provenance/results/mechanisms are in that record.
+
+V3 — blind question contract, integrated solver, static local audit
+Branch: experiments/query-contract-v3; record: benchmarks/design-v3-20261014
+Source commit: cb9f113; pre-run freeze commit: d937c02.
+Reuses the completed refreshed-single control with unchanged inference substrate.
+Scheduled: 300 fresh team first attempts, 4 workers, gzip, 200k tokens/30 tools.
+Status: NOT STARTED. Automatic approval review requires explicit permission to
+send patient-derived FHIR benchmark payloads to configured Azure gpt-6-luna.
+The launch_status.json file is append-only operational status; the frozen
+design and source manifest are unchanged. No V3 accuracy result exists yet.
+
+Selection and scoring
+
+Main remains unchanged until a team exceeds both 223/300 archived single and
+231/300 refreshed single. All experiments use the same fixed question IDs and
+typed scorer. Terminal errors remain incorrect; empty references can credit
+unverified null. Repeated fixed-cohort selection is exploratory development,
+not fresh held-out proof. Small development checks have no experiment entries.
+A selected design will receive a separate real full 2,931-question three-arm
+launch record. No full benchmark has started for this goal yet.
