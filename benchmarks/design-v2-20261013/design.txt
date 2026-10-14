@@ -1,0 +1,150 @@
+Design V2: iterative analyst with blind executable verification
+Substantial fixed-subset experiment, 13 October 2026 (America/Chicago)
+
+Research question and decision
+
+Can a team with an analyst able to supplement retrieval and a draft-blind
+independent recomputer beat the archived single-agent 223/300 result and a
+refreshed single agent receiving the same improved tools and contracts?
+This is a system-bundle experiment, not a causal estimate of topology alone.
+No accuracy result for this design is known when this record is frozen.
+
+Research basis
+
+FHIR-AgentBench identifies resource choice, terminology, reference traversal
+and executable reasoning as important errors. CodeAct's author implementation
+returns interpreter observations, including bounded stdout. EHRAgent instead
+has an explicit answer-variable contract and localized execution feedback.
+FHIRPath-QA motivates inspectable executable queries but supplies no automatic
+semantic oracle. CoVe motivates independently computing before seeing a draft;
+CRITIC motivates external source feedback and warns of harmful revisions.
+MAST and current agent-scaling research caution that fragmented contexts and
+duplicate tool work can degrade a capable single solver.
+
+Primary links:
+https://arxiv.org/html/2509.19319v2
+https://github.com/glee4810/FHIR-AgentBench
+https://arxiv.org/html/2402.01030v4
+https://github.com/xingyaoww/code-act
+https://aclanthology.org/2024.emnlp-main.1245/
+https://github.com/wshi83/EhrAgent
+https://arxiv.org/html/2602.23479v1
+https://github.com/mooshifrew/fhirpath-qa
+https://aclanthology.org/2024.findings-acl.212/
+https://arxiv.org/abs/2305.11738
+https://arxiv.org/abs/2503.13657
+https://www.nature.com/articles/s42256-026-01268-y
+https://arxiv.org/html/2605.14126v1
+
+Detailed source findings, official code commit links, caveats and alternatives
+are in the two research .txt documents included in source.zip. Recommendations
+are local hypotheses, not claims that cited papers prove a win on this cohort.
+No gold-informed CodeAct/MINT feedback agent or trained external verifier is used.
+
+Team protocol
+
+1. A retrieval context starts with the unchanged deterministic starting packet,
+   fetches relevant patient types and resolves visit scope. Local tool ceiling5.
+2. An analyst sees the retrieval report and actual workspace concept inventory.
+   It can supplement missing resource types or references, inspects schemas,
+   and runs self-contained Python. Local tool ceiling9; at most10 tool turns.
+   A successful mode=final execution captures answer, source citations, all
+   contributing IDs, operation and limitation directly from executed code.
+3. A separate verifier starts with an empty private workspace and ONLY question,
+   patient/reference-time assumptions and shared generic semantics. It sees
+   neither candidate values/citations nor retrieval/analysis conversations.
+   It independently retrieves and computes with a mandatory validated final
+   execution. Local tool ceiling11. Host source checks validate both candidate
+   and independent citations, including fields, patient, time and visit scope.
+4. The host compares typed canonical answers at requested wall-clock precision.
+   Issues route at most one semantic repair to retrieval/analysis. A repaired
+   candidate is source-checked again and compared with the same frozen valid
+   independent computation. Reuse requires unchanged question/private-workspace
+   identity and no unresolved independent source, scope or budget error.
+   A missing/incomplete check does not release a draft. One metadata-only final
+   correction is allowed only inside the verifier's existing local/host budget.
+
+The controller is deterministic, not a fourth model. Role messages and full
+executed tool replies remain in the audit. Actual allocation can be below the
+local maxima. All repairs, format corrections and deterministic checks consume
+the same shared ceilings; ceilings are never per-role.
+
+Shared improvements applied to both single and team
+
+- Model-facing tool replies are bounded to8,000characters. Full retrieved inputs
+  and final computations are retained; previews are explicitly marked. Diagnostic
+  stdout is captured up to65,536characters with total/truncation counts; stdout
+  can never certify a final answer. Structured small inspections are preferred.
+- Final Python metadata is validated at the tool boundary, yielding actionable
+  errors within the same role rather than terminal prose-copy failures. Exact
+  citation keys, held typed contributor IDs, finite answers, operations and
+  limitations are required. Positive answers require citations; completed empty
+  searches can support null/zero/false/empty lists. Both systems use the executed
+  final artifact instead of a later model's transcription when one exists.
+- Estimated model context compacts above28k toward24k while preserving question,
+  system instructions and recent complete assistant/tool groups. The inherited
+ 32,000 estimated-input guard and200,000 aggregate-token ceiling are preserved.
+  The raw audit remains complete. Compaction does not truncate computation inputs.
+- Both systems receive gold-free field/time/encounter semantics, calendar midnight
+  and SQLite month rules, concrete inspect/final examples and actual source labels.
+  The refreshed single remains one context with the same tools and one revision;
+  conflicting print-only legacy examples are replaced by a compact prompt.
+- Patient Medication searches follow owned Request/Administration references and
+  recursive mixture ingredients through bounded _id batches, instead of an
+  unsupported Medication?patient query or many LLM-selected individual fetches.
+  Reachability excludes unrelated metadata. Missing/partial closure is explicit.
+  Physical request/page counts and cache hits for this path are logged.
+- Paired-measurement source checking derives operand scopes from question text,
+  allows only the requested union or explicit scope_index0/1, and keeps integrity,
+  patient/current-time constraints. The actual released paired patterns are217
+  same-visit pairs,25 exact-timestamp pairs and one shared final-ICU qualifier.
+  Ordinary single-scope questions retain their previous source-check path.
+
+These changes are included in the source snapshot; no tool/prompt/scorer change
+is permitted during the substantial run. No stronger model, larger context guard,
+larger aggregate budget, hidden-answer retrieval rule or best-of-N selection is used.
+
+Frozen cohort and execution
+
+Exactly the existing300 question IDs in manifests/split.json held_out:
+58 observed patients;92lookup/counting,159temporal selection,49aggregation.
+The raw released QA CSV hash and split/source hashes are in manifest.json.
+Run two fresh ordinary arms (600first attempts), each with four workers and
+save_interval1, cache enabled. Single runs first, team second. Do not retry
+failed questions to replace their first outcomes. Baselines remain read-only.
+
+Model: gpt-6-luna via the same configured Azure deployment; reasoning_effort none;
+provider completion cap16,384. Same200,000 aggregate tokens and30logical tools
+per question. Provider identity is hash-bound without storing credentials.
+
+Comparison and acceptance
+
+Use the unchanged typed scorer; terminal errors are incorrect and every scheduled
+first attempt stays in the denominator. Compare archived single223/300 and team
+162/300 with the refreshed single and V2 team. Report paired wins/losses, family
+accuracy, patient-block95%bootstrap intervals (10,000draws, seed5106), terminal
+errors, budget stops, draft/final transitions, tokens and latency. Missing billed
+cost stays unknown. Evidence validity and source completeness remain distinct.
+
+If V2 loses, preserve the whole run and its design, diagnose mechanisms, research
+an alternative, then freeze a new substantial experiment. A leading fallback is
+an independent question/query-contract auditor with source-backed localized
+alternate execution on a concrete disagreement, rather than duplicating the
+whole calculation on every question or vetoing a valid draft with vague concerns.
+
+Interpretation limits
+
+The300 questions are now architecture-development data, because failure analysis
+and repeated selection used them. A win is exploratory, not fresh held-out proof.
+The primary scorer can credit null answers against empty references; retain that
+frozen rule and disclose it. Field validity/independent agreement alone does not
+prove correct concepts, complete retrieval or semantics. No new blinded human
+audit or official LLM-judge result is claimed. Small development checks are not
+separate entries in the substantial experiment journal.
+
+After a selected team beats both controls on this fixed cohort, main should carry
+the best implementation. The real full launch uses all2,931released questions
+(94patients), including459duration/comparison/difference questions outside the
+original three-family selection, with direct/single/team (8,793first attempts).
+Full-run memory-safe audit storage is an operational preparation, not an extra
+accuracy improvement. Its exact source/settings will get a separate full record.
