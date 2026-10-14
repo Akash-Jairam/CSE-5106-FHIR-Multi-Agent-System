@@ -348,4 +348,21 @@ class Role:
                     audit_reply["model_content"] = model_reply["content"]
                 messages.append(model_reply)
                 self.host.messages.append(audit_reply)
-        return RoleResult(error=f"{self.name}: no final reply within {self.max_turns} turns")
+        if self.max_turns < 1:
+            return RoleResult(error=f"{self.name}: no final reply within {self.max_turns} turns")
+        # The last tool result still needs a model reply. Give it one bounded
+        # synthesis call under the host's existing token ceiling, with no tools.
+        final_task = {"role": "user", "content": (
+            "The tool turns are complete. Use the results already returned and reply now with the final JSON "
+            "object required by your role. No more tools are available. If the checks are incomplete, report "
+            "that in the required response format; do not invent a successful result.")}
+        messages.append(final_task)
+        self.host.messages.append(deepcopy(final_task))
+        response, error, _ = self.host._llm_call(messages, tools=None)
+        if error:
+            return RoleResult(error=error)
+        messages.append(response)
+        self.host.messages.append(response)
+        if response.tool_calls:
+            return RoleResult(error=f"{self.name}: requested tools instead of a final reply after {self.max_turns} turns")
+        return RoleResult(content=response.content)

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="viz-root" viewBox="0 0 680 420" width="680" height="420" role="img" aria-labelledby="t d">
+<style>
+.viz-root{color-scheme:light;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--muted:#898781;--grid:#e1e0d9;
+--axis:#c3c2b7;--direct_llm:#2a78d6;--single_agent:#eb6834;--multi_agent:#1baf7a;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme: dark){:root:where(:not([data-theme="light"])) .viz-root{color-scheme:dark;--surface:#1a1a19;--ink:#ffffff;--ink-2:#c3c2b7;--grid:#2c2c2a;--axis:#383835;--direct_llm:#3987e5;--single_agent:#d95926;--multi_agent:#199e70;}}
+:root[data-theme="dark"] .viz-root{color-scheme:dark;--surface:#1a1a19;--ink:#ffffff;--ink-2:#c3c2b7;--grid:#2c2c2a;--axis:#383835;--direct_llm:#3987e5;--single_agent:#d95926;--multi_agent:#199e70;}
+.title{font-size:15px;font-weight:600;fill:var(--ink)} .sub{font-size:12px;fill:var(--ink-2)}
+.tick{font-size:11px;fill:var(--muted);font-variant-numeric:tabular-nums} .label{font-size:12px;fill:var(--ink-2)}
+.grid{stroke:var(--grid);stroke-width:1} .axis{stroke:var(--axis);stroke-width:1}
+.point:hover .hit{fill:var(--grid);fill-opacity:.6}
+</style>
+<rect width="680" height="420" fill="var(--surface)"/>
+<text id="t" class="title" x="16" y="26">Accuracy vs tokens per question</text>
+<text id="d" class="sub" x="16" y="44">gpt-6-luna, held_out questions; patient-clustered 95% CIs where estimable (10,000 resamples)</text>
+<circle cx="21" cy="62" r="5" fill="var(--direct_llm)"/><text class="label" x="30" y="66">Direct LLM</text>
+<circle cx="131" cy="62" r="5" fill="var(--single_agent)"/><text class="label" x="140" y="66">Single agent</text>
+<circle cx="257" cy="62" r="5" fill="var(--multi_agent)"/><text class="label" x="266" y="66">Multi-agent</text>
+<line class="grid" x1="64" x2="560" y1="368.0" y2="368.0"/><text class="tick" x="56" y="372.0" text-anchor="end">40%</text>
+<line class="grid" x1="64" x2="560" y1="297.0" y2="297.0"/><text class="tick" x="56" y="301.0" text-anchor="end">50%</text>
+<line class="grid" x1="64" x2="560" y1="226.0" y2="226.0"/><text class="tick" x="56" y="230.0" text-anchor="end">60%</text>
+<line class="grid" x1="64" x2="560" y1="155.0" y2="155.0"/><text class="tick" x="56" y="159.0" text-anchor="end">70%</text>
+<line class="grid" x1="64" x2="560" y1="84.0" y2="84.0"/><text class="tick" x="56" y="88.0" text-anchor="end">80%</text>
+<line class="grid" x1="64.0" x2="64.0" y1="84" y2="368"/><text class="tick" x="64.0" y="386" text-anchor="middle">2k</text>
+<line class="grid" x1="180.2" x2="180.2" y1="84" y2="368"/><text class="tick" x="180.2" y="386" text-anchor="middle">5k</text>
+<line class="grid" x1="268.1" x2="268.1" y1="84" y2="368"/><text class="tick" x="268.1" y="386" text-anchor="middle">10k</text>
+<line class="grid" x1="355.9" x2="355.9" y1="84" y2="368"/><text class="tick" x="355.9" y="386" text-anchor="middle">20k</text>
+<line class="grid" x1="472.1" x2="472.1" y1="84" y2="368"/><text class="tick" x="472.1" y="386" text-anchor="middle">50k</text>
+<line class="grid" x1="560.0" x2="560.0" y1="84" y2="368"/><text class="tick" x="560.0" y="386" text-anchor="middle">100k</text>
+<line class="axis" x1="64" x2="560" y1="368" y2="368"/>
+<text class="tick" x="312.0" y="408" text-anchor="middle">Mean tokens per question (log scale)</text>
+<text class="tick" transform="translate(16 226.0) rotate(-90)" text-anchor="middle">Accuracy</text>
+<g class="point"><title>Direct LLM: accuracy 67.3% (95% CI 62.1% to 72.4%); 6,003 tokens per question (95% CI 5,384 to 6,569); 300 questions, 58 patients</title><circle class="hit" cx="203.4" cy="173.9" r="14" fill="transparent"/>
+<line x1="203.4" x2="203.4" y1="210.8" y2="137.7" stroke="var(--direct_llm)" stroke-width="2" stroke-linecap="round"/>
+<line x1="189.6" x2="214.8" y1="173.9" y2="173.9" stroke="var(--direct_llm)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="203.4" cy="173.9" r="5" fill="var(--direct_llm)" stroke="var(--surface)" stroke-width="2"/><text class="label" x="213.4" y="165.9">Direct LLM 67%</text></g>
+<g class="point"><title>Single agent: accuracy 74.3% (95% CI 69.6% to 78.9%); 52,144 tokens per question (95% CI 47,450 to 57,020); 300 questions, 58 patients</title><circle class="hit" cx="477.4" cy="124.2" r="14" fill="transparent"/>
+<line x1="477.4" x2="477.4" y1="157.9" y2="92.1" stroke="var(--single_agent)" stroke-width="2" stroke-linecap="round"/>
+<line x1="465.5" x2="488.8" y1="124.2" y2="124.2" stroke="var(--single_agent)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="477.4" cy="124.2" r="5" fill="var(--single_agent)" stroke="var(--surface)" stroke-width="2"/><text class="label" x="487.4" y="116.2">Single agent 74%</text></g>
+<g class="point"><title>Multi-agent: accuracy 54.0% (95% CI 48.0% to 60.3%); 77,155 tokens per question (95% CI 70,637 to 83,755); 300 questions, 58 patients</title><circle class="hit" cx="527.1" cy="268.6" r="14" fill="transparent"/>
+<line x1="527.1" x2="527.1" y1="311.3" y2="224.1" stroke="var(--multi_agent)" stroke-width="2" stroke-linecap="round"/>
+<line x1="515.9" x2="537.5" y1="268.6" y2="268.6" stroke="var(--multi_agent)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="527.1" cy="268.6" r="5" fill="var(--multi_agent)" stroke="var(--surface)" stroke-width="2"/><text class="label" x="537.1" y="260.6">Multi-agent 54%</text></g>
+</svg>

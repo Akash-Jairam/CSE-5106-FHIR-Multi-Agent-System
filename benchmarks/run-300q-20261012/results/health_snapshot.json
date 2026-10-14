@@ -1,0 +1,1231 @@
+{
+  "generated_utc": "2026-10-13T03:07:44Z",
+  "output_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1",
+  "split": "held_out",
+  "expected_model": "gpt-6-luna",
+  "models": [
+    "gpt-6-luna"
+  ],
+  "full_benchmark_schedule": {
+    "arms": 22,
+    "questions": 1400,
+    "ordinary": 900,
+    "recovery": 200,
+    "variability": 300,
+    "per_arm": {
+      "ordinary_direct_llm": 300,
+      "ordinary_single_agent": 300,
+      "ordinary_multi_agent": 300,
+      "recovery_single_agent_intact": 50,
+      "recovery_single_agent_omitted": 50,
+      "recovery_multi_agent_intact": 50,
+      "recovery_multi_agent_omitted": 50,
+      "variability_direct_llm_r1": 20,
+      "variability_direct_llm_r2": 20,
+      "variability_direct_llm_r3": 20,
+      "variability_direct_llm_r4": 20,
+      "variability_direct_llm_r5": 20,
+      "variability_single_agent_r1": 20,
+      "variability_single_agent_r2": 20,
+      "variability_single_agent_r3": 20,
+      "variability_single_agent_r4": 20,
+      "variability_single_agent_r5": 20,
+      "variability_multi_agent_r1": 20,
+      "variability_multi_agent_r2": 20,
+      "variability_multi_agent_r3": 20,
+      "variability_multi_agent_r4": 20,
+      "variability_multi_agent_r5": 20
+    }
+  },
+  "active_schedule": {
+    "ordinary_direct_llm": 300,
+    "ordinary_single_agent": 300,
+    "ordinary_multi_agent": 300,
+    "recovery_single_agent_intact": 50,
+    "recovery_single_agent_omitted": 50,
+    "recovery_multi_agent_intact": 50,
+    "recovery_multi_agent_omitted": 50,
+    "variability_direct_llm_r1": 20,
+    "variability_direct_llm_r2": 20,
+    "variability_direct_llm_r3": 20,
+    "variability_direct_llm_r4": 20,
+    "variability_direct_llm_r5": 20,
+    "variability_single_agent_r1": 20,
+    "variability_single_agent_r2": 20,
+    "variability_single_agent_r3": 20,
+    "variability_single_agent_r4": 20,
+    "variability_single_agent_r5": 20,
+    "variability_multi_agent_r1": 20,
+    "variability_multi_agent_r2": 20,
+    "variability_multi_agent_r3": 20,
+    "variability_multi_agent_r4": 20,
+    "variability_multi_agent_r5": 20
+  },
+  "totals": {
+    "attempted": 1400,
+    "completed": 1298,
+    "errors": 102,
+    "limitations": 404,
+    "budget_stops": 70,
+    "unattempted": 0,
+    "retry_count": 0,
+    "expected_questions": 1400,
+    "first_attempt": {
+      "attempted": 1400,
+      "completed": 1298,
+      "errors": 102,
+      "limitations": 404,
+      "budget_stops": 70
+    },
+    "tokens": {
+      "first_attempt": {
+        "known_total": 66170610,
+        "measured_attempts": 1400,
+        "unknown_attempts": 0,
+        "total": 66170610
+      },
+      "retries": {
+        "known_total": 0,
+        "measured_attempts": 0,
+        "unknown_attempts": 0,
+        "total": 0
+      },
+      "all_attempts": {
+        "known_total": 66170610,
+        "measured_attempts": 1400,
+        "unknown_attempts": 0,
+        "total": 66170610
+      }
+    },
+    "terminal_error_classes": {
+      "unclassified": 102
+    },
+    "trace_error_classes": {
+      "SyntaxError": 18,
+      "NameError": 55,
+      "AttributeError": 3,
+      "ModuleNotFoundError": 12,
+      "unclassified": 29,
+      "TypeError": 7,
+      "ValueError": 3,
+      "KeyError": 1
+    }
+  },
+  "last_result_modified_utc": "2026-10-13T03:07:06Z",
+  "arms": {
+    "ordinary_direct_llm": {
+      "expected_questions": 300,
+      "saved_rows": 300,
+      "state": "all_attempted_with_errors",
+      "attempted": 300,
+      "completed": 297,
+      "errors": 3,
+      "limitations": 86,
+      "budget_stops": 0,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 300,
+        "completed": 297,
+        "errors": 3,
+        "limitations": 86,
+        "budget_stops": 0
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1800924,
+          "measured_attempts": 300,
+          "unknown_attempts": 0,
+          "total": 1800924
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1800924,
+          "measured_attempts": 300,
+          "unknown_attempts": 0,
+          "total": 1800924
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 3
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T01:47:39Z",
+      "problems": []
+    },
+    "ordinary_single_agent": {
+      "expected_questions": 300,
+      "saved_rows": 300,
+      "state": "all_attempted_with_errors",
+      "attempted": 300,
+      "completed": 284,
+      "errors": 16,
+      "limitations": 72,
+      "budget_stops": 8,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 300,
+        "completed": 284,
+        "errors": 16,
+        "limitations": 72,
+        "budget_stops": 8
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 15643114,
+          "measured_attempts": 300,
+          "unknown_attempts": 0,
+          "total": 15643114
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 15643114,
+          "measured_attempts": 300,
+          "unknown_attempts": 0,
+          "total": 15643114
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 16
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:06:07Z",
+      "problems": []
+    },
+    "ordinary_multi_agent": {
+      "expected_questions": 300,
+      "saved_rows": 300,
+      "state": "all_attempted_with_errors",
+      "attempted": 300,
+      "completed": 258,
+      "errors": 42,
+      "limitations": 117,
+      "budget_stops": 30,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 300,
+        "completed": 258,
+        "errors": 42,
+        "limitations": 117,
+        "budget_stops": 30
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 23146443,
+          "measured_attempts": 300,
+          "unknown_attempts": 0,
+          "total": 23146443
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 23146443,
+          "measured_attempts": 300,
+          "unknown_attempts": 0,
+          "total": 23146443
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 42
+      },
+      "trace_error_classes": {
+        "SyntaxError": 10,
+        "NameError": 33,
+        "AttributeError": 2,
+        "ModuleNotFoundError": 7,
+        "unclassified": 18,
+        "TypeError": 3,
+        "ValueError": 1
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:35:18Z",
+      "problems": []
+    },
+    "recovery_single_agent_intact": {
+      "expected_questions": 50,
+      "saved_rows": 50,
+      "state": "all_attempted_with_errors",
+      "attempted": 50,
+      "completed": 48,
+      "errors": 2,
+      "limitations": 1,
+      "budget_stops": 0,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 50,
+        "completed": 48,
+        "errors": 2,
+        "limitations": 1,
+        "budget_stops": 0
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1595250,
+          "measured_attempts": 50,
+          "unknown_attempts": 0,
+          "total": 1595250
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1595250,
+          "measured_attempts": 50,
+          "unknown_attempts": 0,
+          "total": 1595250
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 2
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:37:26Z",
+      "problems": []
+    },
+    "recovery_single_agent_omitted": {
+      "expected_questions": 50,
+      "saved_rows": 50,
+      "state": "all_attempted_with_errors",
+      "attempted": 50,
+      "completed": 48,
+      "errors": 2,
+      "limitations": 2,
+      "budget_stops": 1,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 50,
+        "completed": 48,
+        "errors": 2,
+        "limitations": 2,
+        "budget_stops": 1
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 2175924,
+          "measured_attempts": 50,
+          "unknown_attempts": 0,
+          "total": 2175924
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 2175924,
+          "measured_attempts": 50,
+          "unknown_attempts": 0,
+          "total": 2175924
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 2
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:40:06Z",
+      "problems": []
+    },
+    "recovery_multi_agent_intact": {
+      "expected_questions": 50,
+      "saved_rows": 50,
+      "state": "all_attempted_with_errors",
+      "attempted": 50,
+      "completed": 46,
+      "errors": 4,
+      "limitations": 13,
+      "budget_stops": 2,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 50,
+        "completed": 46,
+        "errors": 4,
+        "limitations": 13,
+        "budget_stops": 2
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 3002942,
+          "measured_attempts": 50,
+          "unknown_attempts": 0,
+          "total": 3002942
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 3002942,
+          "measured_attempts": 50,
+          "unknown_attempts": 0,
+          "total": 3002942
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 4
+      },
+      "trace_error_classes": {
+        "TypeError": 1,
+        "unclassified": 4,
+        "ModuleNotFoundError": 1,
+        "NameError": 2
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:44:22Z",
+      "problems": []
+    },
+    "recovery_multi_agent_omitted": {
+      "expected_questions": 50,
+      "saved_rows": 50,
+      "state": "all_attempted_with_errors",
+      "attempted": 50,
+      "completed": 46,
+      "errors": 4,
+      "limitations": 13,
+      "budget_stops": 4,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 50,
+        "completed": 46,
+        "errors": 4,
+        "limitations": 13,
+        "budget_stops": 4
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 3440673,
+          "measured_attempts": 50,
+          "unknown_attempts": 0,
+          "total": 3440673
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 3440673,
+          "measured_attempts": 50,
+          "unknown_attempts": 0,
+          "total": 3440673
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 4
+      },
+      "trace_error_classes": {
+        "NameError": 7,
+        "unclassified": 3,
+        "ModuleNotFoundError": 4,
+        "TypeError": 2
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:49:32Z",
+      "problems": []
+    },
+    "variability_direct_llm_r1": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 19,
+      "errors": 1,
+      "limitations": 6,
+      "budget_stops": 0,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 19,
+        "errors": 1,
+        "limitations": 6,
+        "budget_stops": 0
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 128541,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 128541
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 128541,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 128541
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 1
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:49:43Z",
+      "problems": []
+    },
+    "variability_direct_llm_r2": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 19,
+      "errors": 1,
+      "limitations": 5,
+      "budget_stops": 0,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 19,
+        "errors": 1,
+        "limitations": 5,
+        "budget_stops": 0
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 128737,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 128737
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 128737,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 128737
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 1
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:49:53Z",
+      "problems": []
+    },
+    "variability_direct_llm_r3": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 19,
+      "errors": 1,
+      "limitations": 7,
+      "budget_stops": 0,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 19,
+        "errors": 1,
+        "limitations": 7,
+        "budget_stops": 0
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 128529,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 128529
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 128529,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 128529
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 1
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:50:04Z",
+      "problems": []
+    },
+    "variability_direct_llm_r4": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "complete",
+      "attempted": 20,
+      "completed": 20,
+      "errors": 0,
+      "limitations": 5,
+      "budget_stops": 0,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 20,
+        "errors": 0,
+        "limitations": 5,
+        "budget_stops": 0
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 128364,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 128364
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 128364,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 128364
+        }
+      },
+      "terminal_error_classes": {},
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:50:14Z",
+      "problems": []
+    },
+    "variability_direct_llm_r5": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "complete",
+      "attempted": 20,
+      "completed": 20,
+      "errors": 0,
+      "limitations": 6,
+      "budget_stops": 0,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 20,
+        "errors": 0,
+        "limitations": 6,
+        "budget_stops": 0
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 128589,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 128589
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 128589,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 128589
+        }
+      },
+      "terminal_error_classes": {},
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:50:25Z",
+      "problems": []
+    },
+    "variability_single_agent_r1": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 19,
+      "errors": 1,
+      "limitations": 6,
+      "budget_stops": 1,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 19,
+        "errors": 1,
+        "limitations": 6,
+        "budget_stops": 1
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1331817,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1331817
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1331817,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1331817
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 1
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:51:35Z",
+      "problems": []
+    },
+    "variability_single_agent_r2": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 19,
+      "errors": 1,
+      "limitations": 5,
+      "budget_stops": 2,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 19,
+        "errors": 1,
+        "limitations": 5,
+        "budget_stops": 2
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1153314,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1153314
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1153314,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1153314
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 1
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:53:18Z",
+      "problems": []
+    },
+    "variability_single_agent_r3": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 19,
+      "errors": 1,
+      "limitations": 7,
+      "budget_stops": 2,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 19,
+        "errors": 1,
+        "limitations": 7,
+        "budget_stops": 2
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1249439,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1249439
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1249439,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1249439
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 1
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:54:25Z",
+      "problems": []
+    },
+    "variability_single_agent_r4": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 17,
+      "errors": 3,
+      "limitations": 5,
+      "budget_stops": 2,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 17,
+        "errors": 3,
+        "limitations": 5,
+        "budget_stops": 2
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1370535,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1370535
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1370535,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1370535
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 3
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:55:39Z",
+      "problems": []
+    },
+    "variability_single_agent_r5": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 19,
+      "errors": 1,
+      "limitations": 6,
+      "budget_stops": 1,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 19,
+        "errors": 1,
+        "limitations": 6,
+        "budget_stops": 1
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1194064,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1194064
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1194064,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1194064
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 1
+      },
+      "trace_error_classes": {},
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:56:40Z",
+      "problems": []
+    },
+    "variability_multi_agent_r1": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 16,
+      "errors": 4,
+      "limitations": 7,
+      "budget_stops": 3,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 16,
+        "errors": 4,
+        "limitations": 7,
+        "budget_stops": 3
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1837022,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1837022
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1837022,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1837022
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 4
+      },
+      "trace_error_classes": {
+        "SyntaxError": 1,
+        "KeyError": 1,
+        "unclassified": 1,
+        "TypeError": 1,
+        "NameError": 1
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T02:58:40Z",
+      "problems": []
+    },
+    "variability_multi_agent_r2": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 15,
+      "errors": 5,
+      "limitations": 8,
+      "budget_stops": 3,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 15,
+        "errors": 5,
+        "limitations": 8,
+        "budget_stops": 3
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1632066,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1632066
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1632066,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1632066
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 5
+      },
+      "trace_error_classes": {
+        "NameError": 3,
+        "unclassified": 2,
+        "SyntaxError": 3
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T03:00:30Z",
+      "problems": []
+    },
+    "variability_multi_agent_r3": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 16,
+      "errors": 4,
+      "limitations": 8,
+      "budget_stops": 3,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 16,
+        "errors": 4,
+        "limitations": 8,
+        "budget_stops": 3
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1579794,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1579794
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1579794,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1579794
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 4
+      },
+      "trace_error_classes": {
+        "NameError": 2,
+        "unclassified": 1
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T03:02:42Z",
+      "problems": []
+    },
+    "variability_multi_agent_r4": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 16,
+      "errors": 4,
+      "limitations": 9,
+      "budget_stops": 5,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 16,
+        "errors": 4,
+        "limitations": 9,
+        "budget_stops": 5
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1654026,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1654026
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1654026,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1654026
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 4
+      },
+      "trace_error_classes": {
+        "NameError": 2,
+        "SyntaxError": 1
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T03:05:05Z",
+      "problems": []
+    },
+    "variability_multi_agent_r5": {
+      "expected_questions": 20,
+      "saved_rows": 20,
+      "state": "all_attempted_with_errors",
+      "attempted": 20,
+      "completed": 18,
+      "errors": 2,
+      "limitations": 10,
+      "budget_stops": 3,
+      "unattempted": 0,
+      "first_attempt": {
+        "attempted": 20,
+        "completed": 18,
+        "errors": 2,
+        "limitations": 10,
+        "budget_stops": 3
+      },
+      "retry_count": 0,
+      "tokens": {
+        "first_attempt": {
+          "known_total": 1720503,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1720503
+        },
+        "retries": {
+          "known_total": 0,
+          "measured_attempts": 0,
+          "unknown_attempts": 0,
+          "total": 0
+        },
+        "all_attempts": {
+          "known_total": 1720503,
+          "measured_attempts": 20,
+          "unknown_attempts": 0,
+          "total": 1720503
+        }
+      },
+      "terminal_error_classes": {
+        "unclassified": 2
+      },
+      "trace_error_classes": {
+        "SyntaxError": 3,
+        "NameError": 5,
+        "AttributeError": 1,
+        "ValueError": 2
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "split": "held_out",
+      "last_result_modified_utc": "2026-10-13T03:07:06Z",
+      "problems": []
+    }
+  },
+  "identity_validation": "metadata model only; use run_experiments.py status for full identity validation"
+}

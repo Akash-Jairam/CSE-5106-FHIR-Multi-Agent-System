@@ -96,6 +96,16 @@ class VerificationTests(unittest.TestCase):
         self.assertEqual(json.loads(python_reply["content"]), {"answer": 68})
         self.assertEqual(self.host.tool_calls_made, 3)
 
+    def test_last_allowed_calculation_can_produce_a_valid_tool_free_verdict(self):
+        self.agent.role.max_turns = 2
+        self.host.set_budget(max_tool_calls=3)
+        result = self.verify(fetch(), call(PYTHON_TOOL, "last-calculation", code=MIN_CODE), verdict())
+        self.assertEqual(result, {"issues": [], "recomputed_answer": 68})
+        self.assertEqual(self.host.tool_calls_made, 3)
+        self.assertEqual(self.host._llm_call.call_count, 3)
+        self.assertIsNone(self.host._llm_call.call_args.kwargs["tools"])
+        self.assertIsNone(self.host.budget_stop)
+
     def test_prompt_is_a_fresh_context_with_the_draft_and_field_check(self):
         self.verify(verdict(), checked=draft(evidence=[cite(path="issued", value="2150-01-02T09:00:00")]))
         messages = self.host._llm_call.call_args.args[0]

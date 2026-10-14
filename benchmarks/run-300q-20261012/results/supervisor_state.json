@@ -1,0 +1,179 @@
+{
+  "supervisor_pid": 50826,
+  "started_at": "2026-10-13T01:39:47.970828+00:00",
+  "stage": "finished_with_failed_attempts",
+  "output_dir": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1",
+  "child_pid": 63018,
+  "child_alive": false,
+  "return_codes": {
+    "run": 1,
+    "analyze": 0,
+    "variability": 0,
+    "revisions": 0
+  },
+  "commands": {
+    "run": [
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase3.py",
+      "run",
+      "--project-root",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System",
+      "--model",
+      "gpt-6-luna",
+      "--max_total_tokens",
+      "200000",
+      "--max_tool_calls",
+      "30",
+      "--num_processes",
+      "4",
+      "--save_interval",
+      "1",
+      "--output_dir",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1"
+    ],
+    "analyze": [
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase3.py",
+      "analyze",
+      "--project-root",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System",
+      "--model",
+      "gpt-6-luna",
+      "--max_total_tokens",
+      "200000",
+      "--max_tool_calls",
+      "30",
+      "--num_processes",
+      "4",
+      "--save_interval",
+      "1",
+      "--output_dir",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1"
+    ],
+    "variability": [
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase3.py",
+      "variability",
+      "--project-root",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System",
+      "--model",
+      "gpt-6-luna",
+      "--max_total_tokens",
+      "200000",
+      "--max_tool_calls",
+      "30",
+      "--num_processes",
+      "4",
+      "--save_interval",
+      "1",
+      "--output_dir",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1"
+    ],
+    "revisions": [
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase3.py",
+      "revisions",
+      "--project-root",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System",
+      "--model",
+      "gpt-6-luna",
+      "--max_total_tokens",
+      "200000",
+      "--max_tool_calls",
+      "30",
+      "--num_processes",
+      "4",
+      "--save_interval",
+      "1",
+      "--output_dir",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1",
+      "--evidence_source",
+      "ndjson",
+      "--fhir_dir",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase2-fhir"
+    ]
+  },
+  "automatic_retries": false,
+  "analysis_policy": "Analyze recorded terminal attempts even after a nonzero run exit; failures remain in the denominator.",
+  "keep_awake_pid": 50827,
+  "updated_at": "2026-10-13T03:07:44.087872+00:00",
+  "keep_awake_policy": "Prevent idle sleep only while the supervisor lives; no power settings changed.",
+  "stage_started_at": "2026-10-13T03:07:29.315073+00:00",
+  "run_launch_requested_at": "2026-10-13T01:39:47.973737+00:00",
+  "run_started_at": "2026-10-13T01:39:47.974926+00:00",
+  "heartbeat_at": "2026-10-13T03:07:40.735450+00:00",
+  "snapshot_return_code": 0,
+  "snapshot_at": "2026-10-13T03:07:44.087140+00:00",
+  "health_totals": {
+    "attempted": 1400,
+    "completed": 1298,
+    "errors": 102,
+    "limitations": 404,
+    "budget_stops": 70,
+    "unattempted": 0,
+    "retry_count": 0,
+    "expected_questions": 1400,
+    "first_attempt": {
+      "attempted": 1400,
+      "completed": 1298,
+      "errors": 102,
+      "limitations": 404,
+      "budget_stops": 70
+    },
+    "tokens": {
+      "first_attempt": {
+        "known_total": 66170610,
+        "measured_attempts": 1400,
+        "unknown_attempts": 0,
+        "total": 66170610
+      },
+      "retries": {
+        "known_total": 0,
+        "measured_attempts": 0,
+        "unknown_attempts": 0,
+        "total": 0
+      },
+      "all_attempts": {
+        "known_total": 66170610,
+        "measured_attempts": 1400,
+        "unknown_attempts": 0,
+        "total": 66170610
+      }
+    },
+    "terminal_error_classes": {
+      "unclassified": 102
+    },
+    "trace_error_classes": {
+      "SyntaxError": 18,
+      "NameError": 55,
+      "AttributeError": 3,
+      "ModuleNotFoundError": 12,
+      "unclassified": 29,
+      "TypeError": 7,
+      "ValueError": 3,
+      "KeyError": 1
+    }
+  },
+  "health_models": [
+    "gpt-6-luna"
+  ],
+  "health_problems": {},
+  "terminal_counts": {
+    "source": "health_snapshot.json",
+    "expected_attempts": 1400,
+    "attempted": 1400,
+    "successful": 1298,
+    "failed": 102,
+    "budget_stopped": 70,
+    "missing_arms": [],
+    "invalid_arms": [],
+    "all_attempts_complete": true,
+    "all_successful": false,
+    "incomplete": false
+  },
+  "health_snapshot_file": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/health_snapshot.json",
+  "stage_finished_at": "2026-10-13T03:07:37.483743+00:00",
+  "run_exit_nonzero": true,
+  "report_failures": {},
+  "finished_at": "2026-10-13T03:07:44.087867+00:00"
+}

@@ -1,0 +1,145 @@
+diff --git a/agent/framework.py b/agent/framework.py
+index 72463b6..856664c 100644
+--- a/agent/framework.py
++++ b/agent/framework.py
+@@ -348,4 +348,21 @@ class Role:
+                     audit_reply["model_content"] = model_reply["content"]
+                 messages.append(model_reply)
+                 self.host.messages.append(audit_reply)
+-        return RoleResult(error=f"{self.name}: no final reply within {self.max_turns} turns")
++        if self.max_turns < 1:
++            return RoleResult(error=f"{self.name}: no final reply within {self.max_turns} turns")
++        # The last tool result still needs a model reply. Give it one bounded
++        # synthesis call under the host's existing token ceiling, with no tools.
++        final_task = {"role": "user", "content": (
++            "The tool turns are complete. Use the results already returned and reply now with the final JSON "
++            "object required by your role. No more tools are available. If the checks are incomplete, report "
++            "that in the required response format; do not invent a successful result.")}
++        messages.append(final_task)
++        self.host.messages.append(deepcopy(final_task))
++        response, error, _ = self.host._llm_call(messages, tools=None)
++        if error:
++            return RoleResult(error=error)
++        messages.append(response)
++        self.host.messages.append(response)
++        if response.tool_calls:
++            return RoleResult(error=f"{self.name}: requested tools instead of a final reply after {self.max_turns} turns")
++        return RoleResult(content=response.content)
+diff --git a/agent/verification_agent.py b/agent/verification_agent.py
+index 48fff95..adc0a76 100644
+--- a/agent/verification_agent.py
++++ b/agent/verification_agent.py
+@@ -37,6 +37,12 @@ Your tools fetch the patient's records (get_resources_by_patient_fhir_id, get_re
+ Available resource types: {', '.join(supported_types)}. Only the question's patient can be retrieved, and records
+ dated after the assumed current time are left out.
+ 
++Python printed output is discarded. To inspect records or intermediate values, set `answer` to the JSON value
++you need returned, such as a scalar, list, or diagnostic object; do not use print() or answer=None as a way to
++inspect data. For the final recomputation, set `answer` to the actual finite scalar, list of answer values, or
++null for an established empty result. A diagnostic object is not the recomputed answer. After that calculation,
++return your JSON verdict promptly using its result.
++
+ 1. Fetch the records the question needs yourself; do not rely on the draft's record list being complete.
+    Fetch patient-owned events and their Encounters before fetching linked Medication or Location metadata.
+ 2. Recompute the answer in Python, applying the question's scope (visit, time window, current time).
+diff --git a/tests/test_phase2_framework.py b/tests/test_phase2_framework.py
+index 4d83363..15de06d 100644
+--- a/tests/test_phase2_framework.py
++++ b/tests/test_phase2_framework.py
+@@ -168,8 +168,55 @@ class FrameworkTests(unittest.TestCase):
+         self.assertEqual(Role("analysis", "", Toolbox([]), agent).run("x").error, "provider down")
+         agent._llm_call = Mock(return_value=(calls(tool_call("execute_python_code", code="answer = 1")), None, None))
+         role = Role("analysis", "", Toolbox(["execute_python_code"]), agent, max_turns=2)
+-        with patch("agent.framework.get_tool", return_value=Mock(return_value={"answer": 1})):
+-            self.assertIn("no final reply within 2 turns", role.run("x").error)
++        execute = Mock(return_value={"answer": 1})
++        with patch("agent.framework.get_tool", return_value=execute):
++            self.assertIn("requested tools instead of a final reply after 2 turns", role.run("x").error)
++        self.assertEqual(execute.call_count, 2)
++        self.assertEqual(agent._llm_call.call_count, 3)
++        self.assertIsNone(agent._llm_call.call_args.kwargs["tools"])
++
++    def test_last_tool_result_gets_one_final_reply_under_the_shared_budget(self):
++        agent = PipelineAgent("test-model")
++        agent.set_budget(max_total_tokens=1000, max_tool_calls=1)
++        role = Role("analysis", "Return the answer JSON.", Toolbox(["execute_python_code"]), agent, max_turns=1)
++        result_json = json.dumps({"answer": 18, "evidence": [], "limitation": None})
++        usage = {"prompt_tokens": 5, "completion_tokens": 5, "total_tokens": 10, "llm_calls": 1}
++        provider = Mock(side_effect=[
++            (calls(tool_call("execute_python_code", code="answer = 18")), None, usage),
++            (reply(result_json), None, usage)])
++        execute = Mock(return_value={"answer": 18})
++        with patch("agent.base_agent.count_tokens_in_messages", return_value=1), \
++                patch("agent.base_agent.safe_llm_call", provider), \
++                patch("agent.framework.get_tool", return_value=execute):
++            result = role.run("Calculate it.")
++        self.assertIsNone(result.error)
++        self.assertEqual(json.loads(result.content)["answer"], 18)
++        execute.assert_called_once()
++        self.assertEqual(agent.tool_calls_made, 1)
++        self.assertEqual(agent.total_usage["total_tokens"], 20)
++        self.assertEqual(agent.total_usage["llm_calls"], 2)
++        self.assertEqual(provider.call_count, 2)
++        final_request = provider.call_args.kwargs
++        self.assertIsNone(final_request["tools"])
++        self.assertEqual(final_request["max_completion_tokens"], 925)
++        tool_results = [m for m in final_request["messages"] if isinstance(m, dict) and m.get("role") == "tool"]
++        self.assertEqual(json.loads(tool_results[-1]["content"]), {"answer": 18})
++
++    def test_final_synthesis_cannot_exceed_the_token_ceiling(self):
++        agent = PipelineAgent("test-model")
++        agent.set_budget(max_total_tokens=100, max_tool_calls=1)
++        role = Role("analysis", "Return the answer JSON.", Toolbox(["execute_python_code"]), agent, max_turns=1)
++        usage = {"prompt_tokens": 5, "completion_tokens": 35, "total_tokens": 40, "llm_calls": 1}
++        provider = Mock(return_value=(calls(tool_call("execute_python_code", code="answer = 18")), None, usage))
++        with patch("agent.base_agent.count_tokens_in_messages", return_value=1), \
++                patch("agent.base_agent.safe_llm_call", provider), \
++                patch("agent.framework.get_tool", return_value=Mock(return_value={"answer": 18})):
++            result = role.run("Calculate it.")
++        self.assertIn("Budget exceeded", result.error)
++        self.assertIn("token budget", agent.budget_stop)
++        provider.assert_called_once()
++        self.assertEqual(agent.tool_calls_made, 1)
++        self.assertEqual(agent.total_usage["total_tokens"], 40)
+ 
+     def test_bus_copies_payloads_and_rejects_non_json(self):
+         bus, payload = Bus(), {"ids": ["Observation/o1"]}
+diff --git a/tests/test_phase2_verification.py b/tests/test_phase2_verification.py
+index 77dfd5d..a980ba3 100644
+--- a/tests/test_phase2_verification.py
++++ b/tests/test_phase2_verification.py
+@@ -96,6 +96,16 @@ class VerificationTests(unittest.TestCase):
+         self.assertEqual(json.loads(python_reply["content"]), {"answer": 68})
+         self.assertEqual(self.host.tool_calls_made, 3)
+ 
++    def test_last_allowed_calculation_can_produce_a_valid_tool_free_verdict(self):
++        self.agent.role.max_turns = 2
++        self.host.set_budget(max_tool_calls=3)
++        result = self.verify(fetch(), call(PYTHON_TOOL, "last-calculation", code=MIN_CODE), verdict())
++        self.assertEqual(result, {"issues": [], "recomputed_answer": 68})
++        self.assertEqual(self.host.tool_calls_made, 3)
++        self.assertEqual(self.host._llm_call.call_count, 3)
++        self.assertIsNone(self.host._llm_call.call_args.kwargs["tools"])
++        self.assertIsNone(self.host.budget_stop)
++
+     def test_prompt_is_a_fresh_context_with_the_draft_and_field_check(self):
+         self.verify(verdict(), checked=draft(evidence=[cite(path="issued", value="2150-01-02T09:00:00")]))
+         messages = self.host._llm_call.call_args.args[0]
+diff --git a/tools/python_executor.py b/tools/python_executor.py
+index afb56a9..c9d3bd1 100644
+--- a/tools/python_executor.py
++++ b/tools/python_executor.py
+@@ -88,11 +88,11 @@ tool_registry.register_tool("execute_python_code", execute_python_code, {
+     "type": "function",
+     "function": {
+         "name": "execute_python_code",
+-        "description": "Execute Python in an isolated worker using only retrieved_resources. Set the answer variable to a JSON value. Execution has a real timeout; repository files, credentials, and network are unavailable.",
++        "description": "Execute Python in an isolated worker using only retrieved_resources. Printed output is discarded. Set the answer variable to the JSON value you need to inspect, including diagnostic counts or sample records; each call starts a fresh worker. Set answer to the computed result for your final calculation. Execution has a real timeout; repository files, credentials, and network are unavailable.",
+         "parameters": {
+             "type": "object",
+             "properties": {
+-                "code": {"type": "string", "description": "Python code to execute. Use 'answer' variable to store final result."},
++                "code": {"type": "string", "description": "Python code to execute. Only the 'answer' variable is returned; print() output is discarded. Use answer for diagnostics as well as the final result."},
+                 "timeout": {"type": "integer", "description": "Timeout in seconds", "default": 30}
+             },
+             "required": ["code"]

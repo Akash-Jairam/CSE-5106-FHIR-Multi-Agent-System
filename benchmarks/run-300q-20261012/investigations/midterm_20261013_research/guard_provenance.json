@@ -1,0 +1,210 @@
+{
+  "checked_date": "2026-10-13",
+  "upstream_repository": "https://github.com/glee4810/FHIR-AgentBench",
+  "upstream_pinned_commit": "bbb42909a5a7eb907d1cd91f72a560729e7037ea",
+  "upstream_commit_url": "https://github.com/glee4810/FHIR-AgentBench/commit/bbb42909a5a7eb907d1cd91f72a560729e7037ea",
+  "local_initial_commit": "d3d1364348cd7f84c51e3dede76d4646a866d1a8",
+  "local_initial_commit_url": "https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/commit/d3d1364348cd7f84c51e3dede76d4646a866d1a8",
+  "comparison_method": "GitHub contents API git-blob SHA compared with git rev-parse local_initial:path; identical Git blob SHA proves identical file bytes.",
+  "file_comparisons": [
+    {
+      "path": "utils/core_utils.py",
+      "git_blob_sha": "6544570985916074f40a5fb469243aa5ced22f65",
+      "local_initial_matches": true,
+      "url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/utils/core_utils.py",
+      "lines": 483,
+      "evidence": [
+        {
+          "pattern": "def process_trace",
+          "line": 198
+        },
+        {
+          "pattern": "def parse_outputs",
+          "line": 217
+        },
+        {
+          "pattern": "outputs = agent.run",
+          "line": 297
+        },
+        {
+          "pattern": "parsed_outputs = parse_outputs",
+          "line": 303
+        },
+        {
+          "pattern": "def count_tokens_in_messages",
+          "line": 328
+        },
+        {
+          "pattern": "def safe_llm_call",
+          "line": 345
+        },
+        {
+          "pattern": "if input_tokens > max_tokens",
+          "line": 349
+        },
+        {
+          "pattern": "num_turns = len(messages)",
+          "line": 353
+        },
+        {
+          "pattern": "messages = messages[:num_turns]",
+          "line": 384
+        }
+      ]
+    },
+    {
+      "path": "tools/python_executor.py",
+      "git_blob_sha": "fed2cdb067c8a9a635c2e75af0b9cf954c0cbc3b",
+      "local_initial_matches": true,
+      "url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/tools/python_executor.py",
+      "lines": 79,
+      "evidence": [
+        {
+          "pattern": "def execute_python_code",
+          "line": 27
+        },
+        {
+          "pattern": "answer = exec_globals.get",
+          "line": 52
+        },
+        {
+          "pattern": "return {\"answer\": answer}",
+          "line": 54
+        }
+      ]
+    },
+    {
+      "path": "agent/multi_turn_code_resource_agent.py",
+      "git_blob_sha": "f4d7262a34fbd707a66e85598f0905be5f24a646",
+      "local_initial_matches": true,
+      "url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/agent/multi_turn_code_resource_agent.py",
+      "lines": 281,
+      "evidence": [
+        {
+          "pattern": "max_iterations: int = 30",
+          "line": 12
+        },
+        {
+          "pattern": "def run(self",
+          "line": 177
+        },
+        {
+          "pattern": "response_message, error, usage_info = safe_llm_call",
+          "line": 187
+        },
+        {
+          "pattern": "if error:",
+          "line": 197
+        },
+        {
+          "pattern": "saved_as_variable =",
+          "line": 225
+        },
+        {
+          "pattern": "\"content\": saved_as_variable",
+          "line": 234
+        },
+        {
+          "pattern": "\"content\": str(tool_output)",
+          "line": 254
+        }
+      ]
+    },
+    {
+      "path": "tools/cache.py",
+      "git_blob_sha": "ebb650ca032400ba833a6e1c0a7522aceb8ddb72",
+      "local_initial_matches": true,
+      "url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/tools/cache.py",
+      "lines": 208,
+      "evidence": [
+        {
+          "pattern": "CACHE_HOURS =",
+          "line": 11
+        },
+        {
+          "pattern": "def cached_tool",
+          "line": 106
+        },
+        {
+          "pattern": "return cached_result",
+          "line": 128
+        }
+      ]
+    },
+    {
+      "path": "README.md",
+      "git_blob_sha": "29c85885a8c7202e59249e938d6e2c3b615bea3d",
+      "local_initial_matches": true,
+      "url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/README.md",
+      "lines": 208,
+      "evidence": [
+        {
+          "pattern": "--max-model-len 32768",
+          "line": 194
+        }
+      ]
+    }
+  ],
+  "guard_origin": {
+    "inherited": true,
+    "upstream_lines": [
+      345,
+      350
+    ],
+    "url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/utils/core_utils.py#L345-L350",
+    "max_input_estimate": 32000,
+    "rejects_before_provider_call": true,
+    "original_counts_message_content_and_framing": true,
+    "original_does_not_count_tool_schemas_or_tool_arguments": true,
+    "current_project_added_stricter_accounting_commit": "71650117"
+  },
+  "paper_evidence": {
+    "version": "2509.19319v2",
+    "url": "https://arxiv.org/html/2509.19319v2",
+    "sections": {
+      "4.2": "Full-record context failed; interpreter computes over retrieved data outside the model context.",
+      "4.3": "The 32k context restriction is a deliberate common comparison constraint for model fairness."
+    }
+  },
+  "original_runtime": {
+    "published_multi_turn_agent": "multi_turn_code_resource",
+    "llm_role_count": 1,
+    "max_iterations": 30,
+    "retrieval_reply": "Resource variable name plus item count; full fetched records are kept in a Python workspace.",
+    "retrieval_reply_url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/agent/multi_turn_code_resource_agent.py#L217-L235",
+    "python_reply": "Unbounded string representation of returned answer/error appended to the next model context.",
+    "python_reply_url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/agent/multi_turn_code_resource_agent.py#L237-L255",
+    "python_returns": "Non-null answer variable; null returns an error. Tool description mentions stdout, but code does not capture stdout into its reply.",
+    "python_return_url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/tools/python_executor.py#L49-L60",
+    "guard_behavior": "Return an error from the agent when the local input estimate exceeds the threshold; no automatic summarization or continuation.",
+    "guard_behavior_url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/agent/multi_turn_code_resource_agent.py#L187-L203",
+    "history_compaction": false,
+    "saved_trace_truncation": "process_trace truncates trace fields only after agent.run returns; it does not bound subsequent live requests.",
+    "saved_trace_url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/utils/core_utils.py#L198-L239",
+    "retry_slice": "messages[:num_turns] restores the pre-call length after retry bookkeeping; it does not discard earlier conversation turns.",
+    "retry_slice_url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/utils/core_utils.py#L353-L386",
+    "tool_cache": "Caches retrieval results for reuse; it returns the same data and does not compress the model context.",
+    "cache_url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/tools/cache.py#L106-L136"
+  },
+  "project_additions": {
+    "v2_agent_original_author_release": false,
+    "v2_creation_commit": "c63b41414261a3de0cda9874de269353882fd1fd",
+    "v2_creation_date": "2026-10-08",
+    "v2_url": "https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/c63b41414261a3de0cda9874de269353882fd1fd/agent/multi_turn_code_resource_v2_agent.py#L4-L47",
+    "v2_behavior": "Adds FHIR layout and inspect-before-filter prompt guidance to the inherited single-role ReAct code agent; no output cap or context compaction.",
+    "framework_creation_commit": "d7039cd4b06e645c609394d9e5f2fcf60d659bae",
+    "controller_creation_commit": "970249afbfbef0ace290d24683b627e0bfeec628",
+    "team_strategy_creation_commit": "98a86e18942df3014cd174143cae5ce5f4cc987e",
+    "team_role_count": 3,
+    "upstream_agent_directory_url": "https://api.github.com/repos/glee4810/FHIR-AgentBench/contents/agent?ref=bbb42909a5a7eb907d1cd91f72a560729e7037ea",
+    "upstream_agent_directory_has_v2_or_team": false
+  },
+  "conclusions": [
+    "The input threshold and error check are inherited exactly, rather than introduced by the project.",
+    "The original implementation reduces retrieval context by keeping resources in a Python workspace and returning thin retrieval acknowledgments; this is prevention rather than guaranteed oversized-result recovery.",
+    "The pinned public code contains no automatic solution for oversized Python results or accumulated history; a large result still reaches the guard and fails.",
+    "Our new multi-agent contexts and output contracts introduce additional failure pathways, so inheriting the guard does not absolve the project from managing its own payloads."
+  ],
+  "recommended_interpretation": "Retain the common 32k input constraint for the main comparison and improve payload/history management. Treat larger model context as a separate same-cap-for-all-systems ablation, rather than silently changing the inherited benchmark rule.",
+  "privacy": "No secret configuration or credential files read. No code/pipeline/baseline changes, model calls, or paid evaluations."
+}

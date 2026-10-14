@@ -1,0 +1,25 @@
+Full benchmark model API cost estimate
+
+Known input tokens: 64,986,286
+Recorded cached input tokens (included in input): 48,859,765
+Known uncached input tokens: 16,126,521
+Known output tokens: 1,184,324
+Model dispatches: 9,314; 9,313 with known usage; 1 timeout with unknown usage.
+No recorded question/SDK/model retries.
+
+Azure Global Standard: $2.69341175 (about $2.69)
+Azure US Data Zone Standard: $2.96
+Azure EU Data Zone Standard: $3.23
+Same recorded usage without cached-input discount: $7.09 (Global).
+
+These scenarios apply official short-context list rates to recorded usage, assume cached input is billed at its cached-read rate, and apply no unknown cache-write adjustment. Actual Azure deployment/contract/invoice is not verified; unknown timeout usage, cache-write charges, taxes, FHIR hosting, local compute and other infrastructure costs are excluded. Saved dollar-cost fields are null, not zero.
+Known successful calls before the timeout remain in this subtotal; the full-run provider-aware total is incomplete.
+Estimated repeated prompts are not automatically cached and are not separately deducted.
+
+Prior saved pilot v1/v2 add about $0.03 under the Global scenario; excluded from full benchmark amount.
+Proposed 240-trial pilot: illustrative $0.59 with existing cache behavior, $1.46 without discount; variants/usage/cache writes can differ. Conditional configured token-price envelope: $24 (48M tokens at $0.50/M); not a total invoice guarantee.
+
+Formula: ((input-cached)*0.10 + cached*0.01 + output*0.50)/1,000,000.
+Source: https://azure.microsoft.com/en-us/blog/gpt-6-astra-sol-and-luna-for-production-agents-in-microsoft-foundry/
+Source: https://developers.openai.com/api/docs/models/gpt-6-luna
+Detailed provenance, per-arm usage and pricing assumptions: cost_usage.json.

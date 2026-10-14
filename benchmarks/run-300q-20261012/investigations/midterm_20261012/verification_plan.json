@@ -1,0 +1,161 @@
+{
+  "scope": "Development-only plan; no inference requested or performed. Baseline midterm_20261012_full_v1 and fingerprinted source remain unchanged.",
+  "primary_findings": {
+    "ordinary_team_correct": 162,
+    "ordinary_single_correct": 223,
+    "ordinary_direct_correct": 202,
+    "paired_team_only_vs_single": 10,
+    "paired_single_only_vs_team": 71,
+    "correct_draft_withheld_losses": 31,
+    "loss_primary_reason_exclusive": {
+      "independent_computation_contract_failure": 23,
+      "budget_prevented_complete_verification": 7,
+      "semantic_repair_disagreement": 1
+    },
+    "missing_computation_diagnostic_objects": 12,
+    "missing_computation_diagnostic_object_lists": 7,
+    "earlier_valid_scalar_overwritten_by_later_diagnostics": 3,
+    "ordinary_team_execution_errors": {
+      "legacy_input_limit_32k": 28,
+      "role_contract": 14
+    },
+    "revision_answer_gains_nonempty_reference": 4,
+    "revision_apparent_gains_from_withholding_on_empty_reference": 3
+  },
+  "interpretation_limits": [
+    "Typed-correct is an answer-scoring property, not proof of complete clinical support. Flagged correct drafts must not be called false verifier verdicts without scope/citation/computation review.",
+    "Among 57 flagged typed-correct drafts, logged initial checks show 29 valid citations without scope warnings, 19 no citations, 7 field/scope warnings, and 2 unavailable field checks; completeness remains unestablished.",
+    "Among 31 withheld losses, 26 initial citation checks were clean, 2 warned, 2 were unavailable, and 1 had no citations. Independent calculation gates still matter.",
+    "Error-excluded and paired non-error accuracy are descriptive conditional outcomes, not causal estimates of removing errors or verification.",
+    "Null, zero and empty-list outcomes can be scored equivalently for empty numeric references while differing in verifier provenance requirements; distinguish supported empty results from policy abstentions.",
+    "A Python row containing a timestamp, resource identifier and another scalar can be accepted as a generic scalar list, while the verdict emits only the timestamp. A typed scorer may accept both, but the independent-tool agreement check properly rejects the unequal computation contract. Example: 58dca5f1f34e6a0994b147eb.",
+    "The first verifier cleared 25 typed-wrong drafts: agreement with an independent recomputation establishes execution agreement, not correct question interpretation or complete evidence support."
+  ],
+  "proposed_development_ablations": [
+    {
+      "name": "Explicit inspection versus final computation contract",
+      "source_paths": [
+        "agent/verification_agent.py",
+        "tools/python_executor.py",
+        "tools/python_worker.py"
+      ],
+      "gate_paths": [
+        "agent/verification_agent.py:104",
+        "agent/verification_agent.py:125",
+        "agent/verification_agent.py:219"
+      ],
+      "change_to_test": "Separate diagnostic inspection data from the final typed calculation result, or add explicit inspection/compute modes. Only a successful finite scalar/list-of-answer-values computation becomes independent verification evidence; diagnostic dictionaries, object lists and mixed result-row metadata never do.",
+      "required_regressions": [
+        "Dictionary diagnostics followed by a valid scalar calculation",
+        "Object-list diagnostics followed by a valid calculation",
+        "Earlier valid scalar followed by diagnostics cannot silently become stale final evidence",
+        "Returned calculation payload and reported verdict must agree",
+        "No extra tool or token ceiling allowance"
+      ],
+      "safe_example_qids": [
+        "0ad44ecce7e9c2eea3028673",
+        "1718f0835a82b0bb7c0517f1",
+        "287474d13b646c19858f98f7",
+        "58dca5f1f34e6a0994b147eb"
+      ]
+    },
+    {
+      "name": "Bounded verifier contract recovery",
+      "source_paths": [
+        "agent/verification_agent.py",
+        "agent/framework.py",
+        "agent/controller.py"
+      ],
+      "gate_paths": [
+        "agent/verification_agent.py:219",
+        "agent/controller.py:95",
+        "agent/controller.py:222"
+      ],
+      "change_to_test": "Before emitting an unrepairable independent_check, provide structured local feedback that inspection output cannot establish a final answer, and allow correction only within the existing shared token/tool budget. Keep failed source checks, incomplete scope, stale computation and tool/verdict disagreement blocking release.",
+      "required_regressions": [
+        "No successful fetch/computation still withholds",
+        "Failed later fetch invalidates prior computation",
+        "Malformed final answer still withholds",
+        "Budget denial stops correction",
+        "Correction never releases based on reference-answer equality"
+      ]
+    },
+    {
+      "name": "Budget and preview discipline with strict source checks",
+      "source_paths": [
+        "agent/framework.py",
+        "agent/base_agent.py",
+        "agent/verification_agent.py"
+      ],
+      "change_to_test": "Use compact diagnostic summaries and declared final-result schemas so inspection does not consume verification capacity. Compare an explicit verifier work reserve under the same aggregate 200000-token/30-tool ceilings against current scheduling; do not raise ceilings or skip independent source checks.",
+      "measurements": [
+        "Contract completion rate",
+        "Provider input-guard failures",
+        "Budget stops",
+        "Independent computation coverage",
+        "Valid-citation coverage",
+        "False abstention on nonempty references",
+        "Supported-empty versus policy-null outcomes",
+        "Typed paired accuracy with all first-attempt failures retained"
+      ]
+    },
+    {
+      "name": "Repair transition diagnostics",
+      "source_paths": [
+        "agent/controller.py",
+        "agent/analysis_agent.py",
+        "scripts/revisions.py"
+      ],
+      "change_to_test": "On fixed development/pilot questions, log candidate correctness, issue provenance, computation coverage and released correctness separately. Retain the one-repair protocol and strict release gate; compare operational completion and semantic mistakes without replacing primary first-attempt outcomes.",
+      "measurements": [
+        "Right-to-wrong withholding losses",
+        "Wrong-to-right nonempty answer improvements",
+        "Empty-reference null-score effects",
+        "Correct-draft citation/scope warnings",
+        "Wrong drafts accepted by clear independent verdict",
+        "Repair role and shared budget usage"
+      ]
+    },
+    {
+      "name": "Shared question semantics across roles",
+      "source_paths": [
+        "agent/analysis_agent.py:33",
+        "agent/verification_agent.py:32",
+        "tools/field_check.py",
+        "utils/answer_scorer.py"
+      ],
+      "status": "Source-based hypothesis; not a measured causal explanation of this benchmark gap.",
+      "change_to_test": "Give verification the same explicit wall-clock comparison, Observation effectiveDateTime, prescription validityPeriod.start, and hospital/ICU encounter rules supplied to analysis, preferably through a shared tested scope/time helper. Retain independent retrieval and calculation; matching computations cannot substitute for correct filters and fields.",
+      "required_regressions": [
+        "Wall-clock timestamp comparison without invented timezone conversion",
+        "Observation event time versus issued time",
+        "Prescription start versus authored time",
+        "Hospital versus ICU encounter and partOf scope",
+        "Wrong filter reproduced by both roles must remain a semantic error"
+      ],
+      "measurements": [
+        "Typed-wrong drafts receiving a clear verdict",
+        "Scope/field mistake incidence",
+        "Independent-computation agreement",
+        "Paired typed accuracy with all first-attempt errors retained"
+      ]
+    }
+  ],
+  "retained_gates": [
+    "Independent re-fetch with patient/time/encounter scope",
+    "Finite final scalar/list answer schema",
+    "Actual Python result equals reported recomputation",
+    "Citations agree with source fields",
+    "Any unrepairable issue blocks release",
+    "Aggregate token and tool ceilings",
+    "No golden-reference-based release override",
+    "First-attempt primary scoring including errors"
+  ],
+  "safe_artifacts": [
+    "verification_diagnostics.json",
+    "paired_outcomes.csv",
+    "computation_contract_losses.json",
+    "withholding_policy_audit.json",
+    "verification_plan.json"
+  ]
+}

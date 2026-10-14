@@ -1,0 +1,775 @@
+{
+  "generated_utc": "2026-10-13T03:11:53.384626+00:00",
+  "sources": {
+    "files": 24,
+    "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+    "dataset_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+    "family_manifest_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+    "provider_binding_sha256": "4fe2866b7abd64b68c82887cc66d782247be4f123574c56a02f93e275b09c1e1"
+  },
+  "settings": {
+    "model": "gpt-6-luna",
+    "split": "held_out",
+    "max_total_tokens": 200000,
+    "max_tool_calls": 30
+  },
+  "provenance": {
+    "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+    "verified_arm_count": 7,
+    "launch_manifest_sha256": "2739683a6fda3c727ca6eeceda476474b2ed2296de8f16eb12b3facf35016567",
+    "git_head": "d87ae5a2e7d7e57fceeb17b88e5b9d877b15361c",
+    "answer_scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+    "identity_validation": "Each included arm passed current canonical code/input/settings identity validation and matches the frozen launch; provider binding passed the local launcher status gate.",
+    "analysis_summary_sha256": "f6b909f336d2aa30d4ea032035ef7936b29ff93b35a09d65228887f796a48d0c"
+  },
+  "primary_policy": "First recorded attempt; failed attempts remain in all scheduled denominators.",
+  "arms": {
+    "ordinary_direct_llm": {
+      "questions": 300,
+      "failed_first_attempts": 3,
+      "typed_accuracy": {
+        "count": 202,
+        "denominator": 300,
+        "rate": 0.6733333333333333
+      },
+      "citation_coverage": {
+        "count": 249,
+        "denominator": 300,
+        "rate": 0.83
+      },
+      "uncited_runs": 51,
+      "valid_citations": {
+        "count": 762,
+        "denominator": 767,
+        "rate": 0.9934810951760105
+      },
+      "macro_valid_citation_fraction_among_citing_runs": {
+        "estimate": 0.9933065595718875,
+        "eligible": 249,
+        "undefined": 51,
+        "scheduled": 300
+      },
+      "citation_issues": {
+        "malformed": 2,
+        "missing_resource": 2,
+        "bad_path": 1
+      },
+      "legacy_workspace_precision": {
+        "estimate": 0.11916836935835341,
+        "eligible": 300,
+        "undefined": 0,
+        "scheduled": 300
+      },
+      "legacy_binary_complete_gold_recall": {
+        "estimate": 0.8008298755186722,
+        "eligible": 241,
+        "undefined": 59,
+        "scheduled": 300
+      },
+      "fractional_gold_recall_nonempty_gold": {
+        "estimate": 0.8358131892764333,
+        "eligible": 241,
+        "undefined": 0,
+        "scheduled": 300,
+        "excluded_empty_gold": 59
+      },
+      "workspace_precision_nonempty_gold": {
+        "estimate": 0.14834236849587562,
+        "eligible": 241,
+        "undefined": 0,
+        "scheduled": 241
+      },
+      "legacy_cited_resource_precision": {
+        "estimate": 0.7184878863831579,
+        "eligible": 285,
+        "undefined": 15,
+        "scheduled": 300
+      },
+      "legacy_fractional_cited_resource_recall": {
+        "estimate": 0.6465686235873646,
+        "eligible": 277,
+        "undefined": 23,
+        "scheduled": 300
+      },
+      "resource_empty_cases": {
+        "gold_empty_workspace_empty": 0,
+        "gold_empty_workspace_nonempty": 59,
+        "gold_nonempty_workspace_empty": 0,
+        "gold_nonempty_workspace_nonempty": 241
+      },
+      "answer_and_evidence_success": {
+        "available": false,
+        "reason": "Citation validity and resource overlap do not establish semantic support or search completeness."
+      },
+      "primary_accuracy_agrees_with_analysis": true,
+      "artifacts": {
+        "source_result_sha256": "70f4349310bd28bf32cce81efc14aaaf0d4eb4b3700ef2e11f8592825abb6877",
+        "run_metadata_sha256": "bc92315040d8edf0b7826d7b530ba6f039c0a88c39ea20a6825864a002d518f3",
+        "verified_identity": {
+          "model": "gpt-6-luna",
+          "split": "held_out",
+          "max_total_tokens": 200000,
+          "max_tool_calls": 30,
+          "code_hash": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+          "agent_strategy": "direct_llm",
+          "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+          "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+          "condition": null,
+          "repeat": null,
+          "perturbations_hash": null,
+          "subset_hash": null,
+          "enable_cache": true
+        },
+        "first_attempt_input": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/inputs/ordinary_direct_llm.json",
+        "first_attempt_input_sha256": "f074d67edf08f0c68bcebeae8925ae37cff1204d10d8bc697541ecb273b18b49",
+        "evaluation": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/arms/ordinary_direct_llm/20261013T031153384493Z/ordinary_direct_llm_eval.json",
+        "evaluation_sha256": "9f480a0b59233dc4f8e2901886ce6b651bca51511449091128f7699e1b615dd1",
+        "evaluator_sha256": "06b7edd485125e17864a48f8839e17edaa2b5d2b2969423e9bc3d71d3f04a12d",
+        "answer_scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+        "evidence_scorer_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+        "metrics_utils_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063"
+      }
+    },
+    "ordinary_single_agent": {
+      "questions": 300,
+      "failed_first_attempts": 16,
+      "typed_accuracy": {
+        "count": 223,
+        "denominator": 300,
+        "rate": 0.7433333333333333
+      },
+      "citation_coverage": {
+        "count": 240,
+        "denominator": 300,
+        "rate": 0.8
+      },
+      "uncited_runs": 60,
+      "valid_citations": {
+        "count": 814,
+        "denominator": 828,
+        "rate": 0.9830917874396136
+      },
+      "macro_valid_citation_fraction_among_citing_runs": {
+        "estimate": 0.9833333333333333,
+        "eligible": 240,
+        "undefined": 60,
+        "scheduled": 300
+      },
+      "citation_issues": {
+        "missing_resource": 14
+      },
+      "legacy_workspace_precision": {
+        "estimate": 0.059844543308840856,
+        "eligible": 300,
+        "undefined": 0,
+        "scheduled": 300
+      },
+      "legacy_binary_complete_gold_recall": {
+        "estimate": 0.9377593360995851,
+        "eligible": 241,
+        "undefined": 59,
+        "scheduled": 300
+      },
+      "fractional_gold_recall_nonempty_gold": {
+        "estimate": 0.9752496435397912,
+        "eligible": 241,
+        "undefined": 0,
+        "scheduled": 300,
+        "excluded_empty_gold": 59
+      },
+      "workspace_precision_nonempty_gold": {
+        "estimate": 0.07449528212718778,
+        "eligible": 241,
+        "undefined": 0,
+        "scheduled": 241
+      },
+      "legacy_cited_resource_precision": {
+        "estimate": 0.7974136974136364,
+        "eligible": 286,
+        "undefined": 14,
+        "scheduled": 300
+      },
+      "legacy_fractional_cited_resource_recall": {
+        "estimate": 0.6971393893567944,
+        "eligible": 287,
+        "undefined": 13,
+        "scheduled": 300
+      },
+      "resource_empty_cases": {
+        "gold_empty_workspace_empty": 0,
+        "gold_empty_workspace_nonempty": 59,
+        "gold_nonempty_workspace_empty": 0,
+        "gold_nonempty_workspace_nonempty": 241
+      },
+      "answer_and_evidence_success": {
+        "available": false,
+        "reason": "Citation validity and resource overlap do not establish semantic support or search completeness."
+      },
+      "primary_accuracy_agrees_with_analysis": true,
+      "artifacts": {
+        "source_result_sha256": "295f291b28cc3ca67f46799bd621b20a5d6a071be9d33e6590e9fac5b4377478",
+        "run_metadata_sha256": "6370677f545116bccb5e5b7c93a924905f5814cb2f7ff7ff097e3fa9f9521641",
+        "verified_identity": {
+          "model": "gpt-6-luna",
+          "split": "held_out",
+          "max_total_tokens": 200000,
+          "max_tool_calls": 30,
+          "code_hash": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+          "agent_strategy": "single_agent",
+          "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+          "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+          "condition": null,
+          "repeat": null,
+          "perturbations_hash": null,
+          "subset_hash": null,
+          "enable_cache": true
+        },
+        "first_attempt_input": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/inputs/ordinary_single_agent.json",
+        "first_attempt_input_sha256": "553ff6c2994681ca6c4109eea4bd8e972f0e40b3ad9341660e8be2b256c3f052",
+        "evaluation": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/arms/ordinary_single_agent/20261013T031153384493Z/ordinary_single_agent_eval.json",
+        "evaluation_sha256": "401e351a3a898546951e0f7436bd2a41777a8d600e4687f13049e9b0bffc2db0",
+        "evaluator_sha256": "06b7edd485125e17864a48f8839e17edaa2b5d2b2969423e9bc3d71d3f04a12d",
+        "answer_scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+        "evidence_scorer_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+        "metrics_utils_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063"
+      }
+    },
+    "ordinary_multi_agent": {
+      "questions": 300,
+      "failed_first_attempts": 42,
+      "typed_accuracy": {
+        "count": 162,
+        "denominator": 300,
+        "rate": 0.54
+      },
+      "citation_coverage": {
+        "count": 212,
+        "denominator": 300,
+        "rate": 0.7066666666666667
+      },
+      "uncited_runs": 88,
+      "valid_citations": {
+        "count": 970,
+        "denominator": 976,
+        "rate": 0.9938524590163934
+      },
+      "macro_valid_citation_fraction_among_citing_runs": {
+        "estimate": 0.9889937106919812,
+        "eligible": 212,
+        "undefined": 88,
+        "scheduled": 300
+      },
+      "citation_issues": {
+        "missing_resource": 5,
+        "bad_path": 1
+      },
+      "legacy_workspace_precision": {
+        "estimate": 0.06643847105331414,
+        "eligible": 300,
+        "undefined": 0,
+        "scheduled": 300
+      },
+      "legacy_binary_complete_gold_recall": {
+        "estimate": 0.9128630705394191,
+        "eligible": 241,
+        "undefined": 59,
+        "scheduled": 300
+      },
+      "fractional_gold_recall_nonempty_gold": {
+        "estimate": 0.9722487244218863,
+        "eligible": 241,
+        "undefined": 0,
+        "scheduled": 300,
+        "excluded_empty_gold": 59
+      },
+      "workspace_precision_nonempty_gold": {
+        "estimate": 0.08270349093773546,
+        "eligible": 241,
+        "undefined": 0,
+        "scheduled": 241
+      },
+      "legacy_cited_resource_precision": {
+        "estimate": 0.7467092803035156,
+        "eligible": 256,
+        "undefined": 44,
+        "scheduled": 300
+      },
+      "legacy_fractional_cited_resource_recall": {
+        "estimate": 0.6191189248210527,
+        "eligible": 285,
+        "undefined": 15,
+        "scheduled": 300
+      },
+      "resource_empty_cases": {
+        "gold_empty_workspace_empty": 0,
+        "gold_empty_workspace_nonempty": 59,
+        "gold_nonempty_workspace_empty": 0,
+        "gold_nonempty_workspace_nonempty": 241
+      },
+      "answer_and_evidence_success": {
+        "available": false,
+        "reason": "Citation validity and resource overlap do not establish semantic support or search completeness."
+      },
+      "primary_accuracy_agrees_with_analysis": true,
+      "artifacts": {
+        "source_result_sha256": "3874f3aba302c7620fdc10de59d91e93ba91a353e1a7766c6f2b4d6388a517bf",
+        "run_metadata_sha256": "8c8438608c7d91ec7c5f9d660ad0ca4600d65702b1d1aa43afbab571b92f6f9c",
+        "verified_identity": {
+          "model": "gpt-6-luna",
+          "split": "held_out",
+          "max_total_tokens": 200000,
+          "max_tool_calls": 30,
+          "code_hash": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+          "agent_strategy": "multi_agent",
+          "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+          "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+          "condition": null,
+          "repeat": null,
+          "perturbations_hash": null,
+          "subset_hash": null,
+          "enable_cache": true
+        },
+        "first_attempt_input": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/inputs/ordinary_multi_agent.json",
+        "first_attempt_input_sha256": "8d2b95a8b93ecc6635569ff44c4aa7ff9a4ffaaf06e7fb2f17d3474c931404a5",
+        "evaluation": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/arms/ordinary_multi_agent/20261013T031153384493Z/ordinary_multi_agent_eval.json",
+        "evaluation_sha256": "03962a45c427ee63c49cb665a2150e2bce3a8ae3ec54b16221ca8c8a05b472b1",
+        "evaluator_sha256": "06b7edd485125e17864a48f8839e17edaa2b5d2b2969423e9bc3d71d3f04a12d",
+        "answer_scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+        "evidence_scorer_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+        "metrics_utils_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063"
+      }
+    },
+    "recovery_single_agent_intact": {
+      "questions": 50,
+      "failed_first_attempts": 2,
+      "typed_accuracy": {
+        "count": 48,
+        "denominator": 50,
+        "rate": 0.96
+      },
+      "citation_coverage": {
+        "count": 48,
+        "denominator": 50,
+        "rate": 0.96
+      },
+      "uncited_runs": 2,
+      "valid_citations": {
+        "count": 236,
+        "denominator": 236,
+        "rate": 1.0
+      },
+      "macro_valid_citation_fraction_among_citing_runs": {
+        "estimate": 1.0,
+        "eligible": 48,
+        "undefined": 2,
+        "scheduled": 50
+      },
+      "citation_issues": {},
+      "legacy_workspace_precision": {
+        "estimate": 0.046075953604319334,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "legacy_binary_complete_gold_recall": {
+        "estimate": 1.0,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "fractional_gold_recall_nonempty_gold": {
+        "estimate": 1.0,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50,
+        "excluded_empty_gold": 0
+      },
+      "workspace_precision_nonempty_gold": {
+        "estimate": 0.046075953604319334,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "legacy_cited_resource_precision": {
+        "estimate": 0.9238095238104167,
+        "eligible": 48,
+        "undefined": 2,
+        "scheduled": 50
+      },
+      "legacy_fractional_cited_resource_recall": {
+        "estimate": 0.8816666666659999,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "resource_empty_cases": {
+        "gold_empty_workspace_empty": 0,
+        "gold_empty_workspace_nonempty": 0,
+        "gold_nonempty_workspace_empty": 0,
+        "gold_nonempty_workspace_nonempty": 50
+      },
+      "answer_and_evidence_success": {
+        "available": false,
+        "reason": "Citation validity and resource overlap do not establish semantic support or search completeness."
+      },
+      "primary_accuracy_agrees_with_analysis": true,
+      "artifacts": {
+        "source_result_sha256": "6b96ec7c5e529b88389823b8fcde83835b92903ca61a56c2ab1556063a802e1d",
+        "run_metadata_sha256": "b7daeed14093ab9e44803657860fedb840d604571fff3fa2481516e72cf37e05",
+        "verified_identity": {
+          "model": "gpt-6-luna",
+          "split": "held_out",
+          "max_total_tokens": 200000,
+          "max_tool_calls": 30,
+          "code_hash": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+          "agent_strategy": "single_agent",
+          "input_hash": "89c2dbc915aaf33ad3a54ca15a7a99d2ecdfdc42851a36a5b1a7355332839756",
+          "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+          "condition": "intact",
+          "repeat": null,
+          "perturbations_hash": "9c7062305a3b69ce9b76e0a1064b0c5915a4a71ef5c9f2000853633cea02b25f",
+          "subset_hash": null,
+          "enable_cache": true
+        },
+        "first_attempt_input": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/inputs/recovery_single_agent_intact.json",
+        "first_attempt_input_sha256": "12fae7ac2819622dc5e56c168a3dfff60552dbba0b35c5fed7bbeacaaa0ca138",
+        "evaluation": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/arms/recovery_single_agent_intact/20261013T031153384493Z/recovery_single_agent_intact_eval.json",
+        "evaluation_sha256": "fa3bb601d70b22e20b8ed967c325140248ae1abe1d78841b950e1e99e2e7f11b",
+        "evaluator_sha256": "06b7edd485125e17864a48f8839e17edaa2b5d2b2969423e9bc3d71d3f04a12d",
+        "answer_scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+        "evidence_scorer_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+        "metrics_utils_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063"
+      }
+    },
+    "recovery_single_agent_omitted": {
+      "questions": 50,
+      "failed_first_attempts": 2,
+      "typed_accuracy": {
+        "count": 41,
+        "denominator": 50,
+        "rate": 0.82
+      },
+      "citation_coverage": {
+        "count": 47,
+        "denominator": 50,
+        "rate": 0.94
+      },
+      "uncited_runs": 3,
+      "valid_citations": {
+        "count": 250,
+        "denominator": 250,
+        "rate": 1.0
+      },
+      "macro_valid_citation_fraction_among_citing_runs": {
+        "estimate": 1.0,
+        "eligible": 47,
+        "undefined": 3,
+        "scheduled": 50
+      },
+      "citation_issues": {},
+      "legacy_workspace_precision": {
+        "estimate": 0.022026047031944503,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "legacy_binary_complete_gold_recall": {
+        "estimate": 0.94,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "fractional_gold_recall_nonempty_gold": {
+        "estimate": 0.955,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50,
+        "excluded_empty_gold": 0
+      },
+      "workspace_precision_nonempty_gold": {
+        "estimate": 0.022026047031944503,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "legacy_cited_resource_precision": {
+        "estimate": 0.8689969604872341,
+        "eligible": 47,
+        "undefined": 3,
+        "scheduled": 50
+      },
+      "legacy_fractional_cited_resource_recall": {
+        "estimate": 0.8208974358960001,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "resource_empty_cases": {
+        "gold_empty_workspace_empty": 0,
+        "gold_empty_workspace_nonempty": 0,
+        "gold_nonempty_workspace_empty": 0,
+        "gold_nonempty_workspace_nonempty": 50
+      },
+      "answer_and_evidence_success": {
+        "available": false,
+        "reason": "Citation validity and resource overlap do not establish semantic support or search completeness."
+      },
+      "primary_accuracy_agrees_with_analysis": true,
+      "artifacts": {
+        "source_result_sha256": "52756a750ffc056cc67bada447f5ecaf41217136317f8e86cee3d9c400eaa280",
+        "run_metadata_sha256": "9bca96cec025af0c892fc71dbc298794e37d84bd75416d20d6fd8f08dc472af8",
+        "verified_identity": {
+          "model": "gpt-6-luna",
+          "split": "held_out",
+          "max_total_tokens": 200000,
+          "max_tool_calls": 30,
+          "code_hash": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+          "agent_strategy": "single_agent",
+          "input_hash": "89c2dbc915aaf33ad3a54ca15a7a99d2ecdfdc42851a36a5b1a7355332839756",
+          "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+          "condition": "omitted",
+          "repeat": null,
+          "perturbations_hash": "9c7062305a3b69ce9b76e0a1064b0c5915a4a71ef5c9f2000853633cea02b25f",
+          "subset_hash": null,
+          "enable_cache": true
+        },
+        "first_attempt_input": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/inputs/recovery_single_agent_omitted.json",
+        "first_attempt_input_sha256": "f2a1e5b04a2cdd1ff4a4dff9ce762959c5a65b3a3dc80db07403c3262b8e36fd",
+        "evaluation": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/arms/recovery_single_agent_omitted/20261013T031153384493Z/recovery_single_agent_omitted_eval.json",
+        "evaluation_sha256": "925d37f81aba8161e0dc94136a613d84a92049f51b2abff0c744769b33fd6d92",
+        "evaluator_sha256": "06b7edd485125e17864a48f8839e17edaa2b5d2b2969423e9bc3d71d3f04a12d",
+        "answer_scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+        "evidence_scorer_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+        "metrics_utils_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063"
+      }
+    },
+    "recovery_multi_agent_intact": {
+      "questions": 50,
+      "failed_first_attempts": 4,
+      "typed_accuracy": {
+        "count": 33,
+        "denominator": 50,
+        "rate": 0.66
+      },
+      "citation_coverage": {
+        "count": 44,
+        "denominator": 50,
+        "rate": 0.88
+      },
+      "uncited_runs": 6,
+      "valid_citations": {
+        "count": 216,
+        "denominator": 216,
+        "rate": 1.0
+      },
+      "macro_valid_citation_fraction_among_citing_runs": {
+        "estimate": 1.0,
+        "eligible": 44,
+        "undefined": 6,
+        "scheduled": 50
+      },
+      "citation_issues": {},
+      "legacy_workspace_precision": {
+        "estimate": 0.02357852856739162,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "legacy_binary_complete_gold_recall": {
+        "estimate": 0.98,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "fractional_gold_recall_nonempty_gold": {
+        "estimate": 0.9933333333333333,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50,
+        "excluded_empty_gold": 0
+      },
+      "workspace_precision_nonempty_gold": {
+        "estimate": 0.02357852856739162,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "legacy_cited_resource_precision": {
+        "estimate": 0.8340909090909091,
+        "eligible": 44,
+        "undefined": 6,
+        "scheduled": 50
+      },
+      "legacy_fractional_cited_resource_recall": {
+        "estimate": 0.780897435896,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "resource_empty_cases": {
+        "gold_empty_workspace_empty": 0,
+        "gold_empty_workspace_nonempty": 0,
+        "gold_nonempty_workspace_empty": 0,
+        "gold_nonempty_workspace_nonempty": 50
+      },
+      "answer_and_evidence_success": {
+        "available": false,
+        "reason": "Citation validity and resource overlap do not establish semantic support or search completeness."
+      },
+      "primary_accuracy_agrees_with_analysis": true,
+      "artifacts": {
+        "source_result_sha256": "805b5eea8945e1dcdc85584763b320ac92c43107218246a688e67707f99b1cb1",
+        "run_metadata_sha256": "0ed02cc6435ba1c80a639e34bdce69d7ab809bc1a79ba15a7fd8a317f9fd54af",
+        "verified_identity": {
+          "model": "gpt-6-luna",
+          "split": "held_out",
+          "max_total_tokens": 200000,
+          "max_tool_calls": 30,
+          "code_hash": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+          "agent_strategy": "multi_agent",
+          "input_hash": "89c2dbc915aaf33ad3a54ca15a7a99d2ecdfdc42851a36a5b1a7355332839756",
+          "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+          "condition": "intact",
+          "repeat": null,
+          "perturbations_hash": "9c7062305a3b69ce9b76e0a1064b0c5915a4a71ef5c9f2000853633cea02b25f",
+          "subset_hash": null,
+          "enable_cache": true
+        },
+        "first_attempt_input": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/inputs/recovery_multi_agent_intact.json",
+        "first_attempt_input_sha256": "41fc1dd13c64f43fe950480963bd3c4faf34a32a867e840252f0b1cf5eff5e7f",
+        "evaluation": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/arms/recovery_multi_agent_intact/20261013T031153384493Z/recovery_multi_agent_intact_eval.json",
+        "evaluation_sha256": "c2014827234bc0dc2430fef5ad6964889cb53cfaee964a12e387e95d7793fa36",
+        "evaluator_sha256": "06b7edd485125e17864a48f8839e17edaa2b5d2b2969423e9bc3d71d3f04a12d",
+        "answer_scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+        "evidence_scorer_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+        "metrics_utils_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063"
+      }
+    },
+    "recovery_multi_agent_omitted": {
+      "questions": 50,
+      "failed_first_attempts": 4,
+      "typed_accuracy": {
+        "count": 31,
+        "denominator": 50,
+        "rate": 0.62
+      },
+      "citation_coverage": {
+        "count": 43,
+        "denominator": 50,
+        "rate": 0.86
+      },
+      "uncited_runs": 7,
+      "valid_citations": {
+        "count": 224,
+        "denominator": 224,
+        "rate": 1.0
+      },
+      "macro_valid_citation_fraction_among_citing_runs": {
+        "estimate": 1.0,
+        "eligible": 43,
+        "undefined": 7,
+        "scheduled": 50
+      },
+      "citation_issues": {},
+      "legacy_workspace_precision": {
+        "estimate": 0.023833401396491018,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "legacy_binary_complete_gold_recall": {
+        "estimate": 0.98,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "fractional_gold_recall_nonempty_gold": {
+        "estimate": 0.9933333333333333,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50,
+        "excluded_empty_gold": 0
+      },
+      "workspace_precision_nonempty_gold": {
+        "estimate": 0.023833401396491018,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "legacy_cited_resource_precision": {
+        "estimate": 0.8488372093023255,
+        "eligible": 43,
+        "undefined": 7,
+        "scheduled": 50
+      },
+      "legacy_fractional_cited_resource_recall": {
+        "estimate": 0.754572649572,
+        "eligible": 50,
+        "undefined": 0,
+        "scheduled": 50
+      },
+      "resource_empty_cases": {
+        "gold_empty_workspace_empty": 0,
+        "gold_empty_workspace_nonempty": 0,
+        "gold_nonempty_workspace_empty": 0,
+        "gold_nonempty_workspace_nonempty": 50
+      },
+      "answer_and_evidence_success": {
+        "available": false,
+        "reason": "Citation validity and resource overlap do not establish semantic support or search completeness."
+      },
+      "primary_accuracy_agrees_with_analysis": true,
+      "artifacts": {
+        "source_result_sha256": "c0e2dcbc0143c3dcd9d82a27c28d16969fe273d86d6c6e0292bb3e0e08b7b7a9",
+        "run_metadata_sha256": "c5c5ee5e16eab19c329025e4bd91f078d7ca16921a4bdc35f3ec7d9ee67344da",
+        "verified_identity": {
+          "model": "gpt-6-luna",
+          "split": "held_out",
+          "max_total_tokens": 200000,
+          "max_tool_calls": 30,
+          "code_hash": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+          "agent_strategy": "multi_agent",
+          "input_hash": "89c2dbc915aaf33ad3a54ca15a7a99d2ecdfdc42851a36a5b1a7355332839756",
+          "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+          "condition": "omitted",
+          "repeat": null,
+          "perturbations_hash": "9c7062305a3b69ce9b76e0a1064b0c5915a4a71ef5c9f2000853633cea02b25f",
+          "subset_hash": null,
+          "enable_cache": true
+        },
+        "first_attempt_input": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/inputs/recovery_multi_agent_omitted.json",
+        "first_attempt_input_sha256": "bbfde1b518dfaaac19a1256252721e2860dab3ece45f8e94eac0b1926d7b929e",
+        "evaluation": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/evaluation/arms/recovery_multi_agent_omitted/20261013T031153384493Z/recovery_multi_agent_omitted_eval.json",
+        "evaluation_sha256": "e97b6fb9f0676328ce5a722ba9b65a33d760931c4ad77496571226185b658513",
+        "evaluator_sha256": "06b7edd485125e17864a48f8839e17edaa2b5d2b2969423e9bc3d71d3f04a12d",
+        "answer_scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+        "evidence_scorer_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+        "metrics_utils_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063"
+      }
+    }
+  },
+  "skipped": {},
+  "model_calls": 0,
+  "fhir_service_calls": 0,
+  "metric_policy": {
+    "legacy_recall": "Binary complete-gold recall, macro over defined rows.",
+    "legacy_precision": "Fractional workspace-ID precision, macro over defined rows.",
+    "empty_gold_empty_workspace": "Legacy precision=1 and recall=1.",
+    "empty_gold_nonempty_workspace": "Legacy precision=0 and recall undefined.",
+    "nonempty_gold_empty_workspace": "Legacy precision undefined and recall=0.",
+    "fractional_recall": "Separate macro fractional recall over all nonempty-gold rows, including zero for empty workspace.",
+    "citation_validity": "Resource exists, field path resolves, and claimed value matches local frozen source; no semantic support/completeness inference.",
+    "source_scope": "Workspace IDs are a diagnostic, not physical FHIR request counts.",
+    "llm_judge": "Unavailable; no paid calls launched."
+  },
+  "complete_selected": true,
+  "complete_seven_arms": true,
+  "helper_sha256": "34994309fad5d52e23e4e5ce354cb00585216a17f2ce698452ad888bb4d323f1"
+}

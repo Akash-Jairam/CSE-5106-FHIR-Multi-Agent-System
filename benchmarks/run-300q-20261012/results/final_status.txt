@@ -1,0 +1,29 @@
+arm                             done failed tried total  state
+ordinary_direct_llm              297      3   300   300  in progress
+ordinary_single_agent            284     16   300   300  in progress
+ordinary_multi_agent             258     42   300   300  in progress
+recovery_single_agent_intact      48      2    50    50  in progress
+recovery_single_agent_omitted     48      2    50    50  in progress
+recovery_multi_agent_intact       46      4    50    50  in progress
+recovery_multi_agent_omitted      46      4    50    50  in progress
+variability_direct_llm_r1         19      1    20    20  in progress
+variability_direct_llm_r2         19      1    20    20  in progress
+variability_direct_llm_r3         19      1    20    20  in progress
+variability_direct_llm_r4         20      0    20    20  complete
+variability_direct_llm_r5         20      0    20    20  complete
+variability_single_agent_r1       19      1    20    20  in progress
+variability_single_agent_r2       19      1    20    20  in progress
+variability_single_agent_r3       19      1    20    20  in progress
+variability_single_agent_r4       17      3    20    20  in progress
+variability_single_agent_r5       19      1    20    20  in progress
+variability_multi_agent_r1        16      4    20    20  in progress
+variability_multi_agent_r2        15      5    20    20  in progress
+variability_multi_agent_r3        16      4    20    20  in progress
+variability_multi_agent_r4        16      4    20    20  in progress
+variability_multi_agent_r5        18      2    20    20  in progress
+ordinary: 839/900 runs complete
+  900/900 runs attempted (errors retained for analysis)
+recovery: 188/200 runs complete
+  200/200 runs attempted (errors retained for analysis)
+variability: 271/300 runs complete
+  300/300 runs attempted (errors retained for analysis)

@@ -37,6 +37,12 @@ Your tools fetch the patient's records (get_resources_by_patient_fhir_id, get_re
 Available resource types: {', '.join(supported_types)}. Only the question's patient can be retrieved, and records
 dated after the assumed current time are left out.
 
+Python printed output is discarded. To inspect records or intermediate values, set `answer` to the JSON value
+you need returned, such as a scalar, list, or diagnostic object; do not use print() or answer=None as a way to
+inspect data. For the final recomputation, set `answer` to the actual finite scalar, list of answer values, or
+null for an established empty result. A diagnostic object is not the recomputed answer. After that calculation,
+return your JSON verdict promptly using its result.
+
 1. Fetch the records the question needs yourself; do not rely on the draft's record list being complete.
    Fetch patient-owned events and their Encounters before fetching linked Medication or Location metadata.
 2. Recompute the answer in Python, applying the question's scope (visit, time window, current time).

@@ -1,0 +1,234 @@
+{
+  "correct_draft_flagged_initial_field_audit": {
+    "no_citations_to_validate": 19,
+    "citations_valid_no_logged_scope_warnings": 29,
+    "field_or_scope_warning": 7,
+    "missing_field_check": 2
+  },
+  "correct_draft_withheld_initial_field_audit": {
+    "citations_valid_no_logged_scope_warnings": 26,
+    "missing_field_check": 2,
+    "field_or_scope_warning": 2,
+    "no_citations_to_validate": 1
+  },
+  "field_warning_incidence_in_flagged_correct_drafts": {
+    "valid": 27,
+    "time_field": 2,
+    "time_window": 6,
+    "encounter_link": 9
+  },
+  "field_audit_qids": {
+    "no_citations_to_validate": [
+      "0a43e2fe814473ab9035db70",
+      "0edf383920d07410f686cb96",
+      "230ffeaf99bdda6a8e74e380"
+    ],
+    "citations_valid_no_logged_scope_warnings": [
+      "0ad44ecce7e9c2eea3028673",
+      "1718f0835a82b0bb7c0517f1",
+      "1eb6a80e3bcffd099385b474"
+    ],
+    "field_or_scope_warning": [
+      "264e8e9083e7fe02916af314",
+      "80583d948d18de33fb6987b2",
+      "bc7d9cca70c0c64f7dd707af"
+    ],
+    "missing_field_check": [
+      "50a2ff309d50e7539213d116",
+      "8575a4d0318c42ed703a89a1"
+    ]
+  },
+  "loss_primary_exclusive_reason": {
+    "independent_computation_contract_failure": 23,
+    "budget_prevented_complete_verification": 7,
+    "other_verifier_semantic_issue": 1
+  },
+  "loss_rows": [
+    {
+      "question_id": "0ad44ecce7e9c2eea3028673",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "bool"
+    },
+    {
+      "question_id": "1718f0835a82b0bb7c0517f1",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "float"
+    },
+    {
+      "question_id": "1eb6a80e3bcffd099385b474",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "21ee43d3aa608dce16db8951",
+      "primary_withholding_reason": "budget_prevented_complete_verification",
+      "revised": false,
+      "draft_shape": "int"
+    },
+    {
+      "question_id": "264556fad0e8f61d4b7fe7e9",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "int"
+    },
+    {
+      "question_id": "287474d13b646c19858f98f7",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "292e05db320f21dac9efa68e",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "2ecf6ed7b588701c5b61916c",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "int"
+    },
+    {
+      "question_id": "315e7c004443575bb2996afc",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": true,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "3e4b52c69a2bdf36e4f03676",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "44d5008230190a09f20e3682",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "bool"
+    },
+    {
+      "question_id": "44fca1429144bd57023476d8",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "4a22689b12923d592f28be83",
+      "primary_withholding_reason": "budget_prevented_complete_verification",
+      "revised": false,
+      "draft_shape": "bool"
+    },
+    {
+      "question_id": "4f945a0ea52625d2facbf443",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "int"
+    },
+    {
+      "question_id": "50a2ff309d50e7539213d116",
+      "primary_withholding_reason": "budget_prevented_complete_verification",
+      "revised": false,
+      "draft_shape": "bool"
+    },
+    {
+      "question_id": "58dca5f1f34e6a0994b147eb",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "5a9d2f417f6b862c0b7366e8",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "float"
+    },
+    {
+      "question_id": "5b8ab7986b30db4c19fb1088",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "bool"
+    },
+    {
+      "question_id": "7e6b0e29fe9f32760b7fcfc5",
+      "primary_withholding_reason": "budget_prevented_complete_verification",
+      "revised": false,
+      "draft_shape": "list"
+    },
+    {
+      "question_id": "8521d760a18e114ce1c608b3",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "8575a4d0318c42ed703a89a1",
+      "primary_withholding_reason": "budget_prevented_complete_verification",
+      "revised": false,
+      "draft_shape": "bool"
+    },
+    {
+      "question_id": "88ef45f61812b1ec67818a35",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": true,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "8e96be7df6dd4cc4c1e2a3b4",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "list"
+    },
+    {
+      "question_id": "b88f292ca552b0ea6d9929d1",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "bool"
+    },
+    {
+      "question_id": "bad5c823a031437e5a7ff621",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "int"
+    },
+    {
+      "question_id": "bbd3ab3b5e2878e0c7d8dc79",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "float"
+    },
+    {
+      "question_id": "bd164a06951b24d9fbb32e90",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "bf1ccb5ac4a847d66be6bc96",
+      "primary_withholding_reason": "budget_prevented_complete_verification",
+      "revised": true,
+      "draft_shape": "str"
+    },
+    {
+      "question_id": "de871565192e846d9c7ca39a",
+      "primary_withholding_reason": "independent_computation_contract_failure",
+      "revised": false,
+      "draft_shape": "bool"
+    },
+    {
+      "question_id": "f6875e17c4dd27a3b3e56653",
+      "primary_withholding_reason": "other_verifier_semantic_issue",
+      "revised": true,
+      "draft_shape": "int"
+    },
+    {
+      "question_id": "fb7a0f8c9dc16e058b2fa6fb",
+      "primary_withholding_reason": "budget_prevented_complete_verification",
+      "revised": true,
+      "draft_shape": "str"
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+Multi agent benchmark investigation and repair pilot plan
+13 October 2026 research revision, America/Chicago
+
+The team underperformed because large Python tool replies caused execution failures, role outputs broke their contracts, and independent verification often failed to produce an acceptable final computation. Verification also failed to reject some wrong answers. The 32,000-token guard is inherited from FHIR-AgentBench, whose authors deliberately used a common 32k limit for fair model comparisons. The primary repair must manage outputs and history within that policy; a larger context is a separate experiment. The next step is to repair these mechanisms in a separate implementation and compare controlled variants on development/pilot questions. The completed full batch remains the baseline.
+
+BASELINE AND OBSERVED RESULTS
+
+Baseline: output/experiments/gpt-6-luna/midterm_20261012_full_v1.
+Source: GitHub commit d87ae5a2e7d7e57fceeb17b88e5b9d877b15361c plus the documented pre-run pilot patch, saved as pilot_fix.patch in the baseline. Evaluated code fingerprint: f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276.
+All 1,400 first attempts are retained: 900 ordinary, 200 recovery and 300 variability. All use GPT-6 Luna, reasoning effort none, a shared 200,000-token per-question ceiling and 30 tool calls. There were no question retries. This investigation makes no model/FHIR calls and does not modify the baseline or pipeline code.
+
+Upstream provenance is now verified at glee4810/FHIR-AgentBench commit bbb42909a5a7eb907d1cd91f72a560729e7037ea. The five inspected utility/agent/tool/README files have identical Git blob SHAs to our project's initial import d3d1364348cd7f84c51e3dede76d4646a866d1a8. The guard and raw Python reply behavior are inherited; stricter request accounting, the v2 prompt, starting packets, aggregate budgets, and three-role verification workflow are project changes. The original published multi-turn code agent is one LLM acting repeatedly, not this three-role team. Detailed evidence is in output/investigations/midterm_20261013_research/guard_provenance.json.
+
+Ordinary evaluation: the same 300 questions from 58 observed patients.
+
+System          Correct    Typed accuracy   Terminal errors   32k guards   Budget stops
+Direct LLM      202/300       67.3%                3                0             0
+Single agent    223/300       74.3%               16               10             8
+Multi agent     162/300       54.0%               42               28            30
+
+The paired team-minus-single difference is -20.3 percentage points, with patient-clustered 95% CI [-26.4, -14.1]. Team minus direct is -13.3 points. The team wins only 10 questions that single misses and loses 71 questions that single gets right. Against direct it wins 24 and loses 64.
+
+Among the 252 questions where team and single both avoided terminal errors, team answered 160 correctly and single 196. Against direct, on their 258 common non-error questions, team answered 162 correctly and direct 181. These are conditional descriptive comparisons, not estimates of the causal benefit of removing errors.
+
+On the 258 questions with nonempty references, correct counts are direct 171, single 188 and team 127. False abstentions are 25, 20 and 71 respectively. Empty-reference correct counts are 31/42, 35/42 and 35/42; the scorer can credit null answers produced by withholding or budget stops. Primary accuracy must remain labeled typed reference-value matching, with evidence-supported success reported separately.
+
+WHY THE TEAM LOST
+
+1. Unbounded Python output, rather than the initial packet, overflows the inherited input policy.
+
+   safe_llm_call defaults to max_tokens=32000 in utils/core_utils.py:386-392, while BaseAgent._llm_call does not override that input cap (agent/base_agent.py:107-124). This is separate from the 200,000-token aggregate ceiling and from the model/provider context limit.
+
+   The original paper specifies the comparison constraint in section 4.3. Published code checks an estimated 32,000 message-input-token limit, rather than proving a 32k combined input/output window. Our later accounting includes tool schemas and tool arguments that the original estimator omitted. Preserve this distinction in reporting; do not claim strict reproduction of the paper's context window from the guard alone.
+   Original guard: https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/utils/core_utils.py#L345-L350
+   Paper: https://arxiv.org/html/2509.19319v2
+
+   The original code stores fetched records in Python and returns a variable name/count to the model, mitigating retrieval verbosity. However, it appends Python answer/error objects in full and returns an error on overflow. Its saved-trace truncation happens after execution; its retry slice does not compact old turns. No automatic recovery from large Python outputs is implemented in that published path. Our repair extends compact delivery to those outputs and accumulated history rather than copying an upstream recovery mechanism that does not exist.
+   Original agent: https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/agent/multi_turn_code_resource_agent.py#L187-L255
+
+   All 58 guard failures across the full batch are terminal errors. The team contributes 44 (37 analysis, 7 verification), single contributes 14, and retrieval contributes none. In ordinary team trials, 23 occur in analysis and 5 in verification. No additional non-error guard catches were found in verdict or bus diagnostics.
+
+   Python tool replies are the largest aggregate content component in every rejected context; none fails on the initial role prompt. The largest rejected team context is 133,535 estimated tokens, including 131,675 from aggregate Python output. Ordinary team guard contexts have median 41,718 estimated tokens. Framework retrieval previews are bounded, but Python replies pass through unchanged (agent/framework.py:287-314); the sandbox permits much larger JSON results.
+
+   Even replacing all 28 ordinary team guard failures with correct answers would give at most 190/300 (63.3%), below both observed baselines. This is an optimistic bound, not a predicted gain. Merely lifting the cap would also let repeated large replies consume the aggregate ceiling.
+
+2. Typed role/output failures stop otherwise useful work.
+
+   The 14 remaining ordinary team terminal errors are role-contract failures. Logged contract incidences include invalid draft answer shapes, citations absent from contributing_ids, malformed evidence and contributing-ID lists. Schema incidences can overlap within a question; they are not an additive count of separate failures. Direct's three errors and six of single's errors are outer output-schema failures.
+
+   Analysis returns a contract error immediately (agent/analysis_agent.py:102-138). Verifier format failures become verification_failure issues that the controller cannot repair (agent/verification_agent.py:203-245; agent/controller.py:90-101). BaseAgent also retains last_llm_error as a terminal error (agent/base_agent.py:169), explaining why verifier guard failures remain errors despite an issue-based verdict.
+
+3. Inspection results are confused with final independent computations.
+
+   Among 251 non-error team attempts with recorded drafts, 31 typed-correct drafts became wrong released outcomes; all 31 were withheld. Seven drafts became correct released outcomes, but three gains are null withholding against empty references and only four are nonempty answer improvements. Net transition loss is 24. The 28 scored repaired attempts have five gains and five losses, for net zero.
+
+   An exclusive diagnostic classification of the 31 losses is: 23 independent-computation contract failures, 7 budget-prevented checks and 1 remaining semantic repair disagreement. The overlapping issue counts are 19 missing accepted computations, 4 disagreements between the reported answer and tool result, 7 source-budget issues and 5 verifier-budget failures, plus other semantic issues.
+
+   All 19 missing computations ended with successful diagnostic output: 12 dictionaries and 7 lists of objects. In three cases an earlier acceptable scalar was erased by a later diagnostic Python call. VerificationToolbox.call clears computation before every Python call and accepts only scalar/list/null final values (agent/verification_agent.py:125-145); the acceptance checks then require that stored value to match the verdict (219-233).
+
+   Representative structural cases: 0ad44ecce7e9c2eea3028673 (dictionary diagnostics), 1718f0835a82b0bb7c0517f1 (object-list diagnostics), and 287474d13b646c19858f98f7 (earlier scalar superseded by diagnostics). Use synthetic or development fixtures reproducing these shapes, not held-out answer values, for regression tests.
+
+   Of these 31 losses, 26 had clean initial logged citation checks, 2 warnings, 2 unavailable checks and 1 no citations. Clean fields and a typed-correct value do not establish complete semantic support. Releasing every blocked draft would conceal legitimate evidence failures.
+
+4. Independent model agreement is not semantic correctness.
+
+   The first verifier flagged 57 typed-correct drafts and cleared 25 typed-wrong drafts. The former are not automatically false verifier findings; some have missing citations or scope warnings. The latter show that fresh records and recomputation can reproduce a wrong filter or interpretation.
+
+   A source-based hypothesis is inconsistent question semantics: analysis explicitly specifies wall-clock comparison, Observation effectiveDateTime, prescription start time, and hospital/ICU encounter rules (agent/analysis_agent.py:33-39), while the verifier prompt lacks the same explicit guidance (agent/verification_agent.py:32-65). Trace evidence does not yet quantify its contribution. Validate this with development examples and a separate ablation before claiming a gain.
+
+REPAIR WORK IN ORDER
+
+1. Preserve and isolate the baseline.
+   Keep all baseline files read-only in the workflow; do not resume, retry, overwrite, regenerate reports in, or point a repaired runner at that directory. The 101-file SHA256 inventory is output/investigations/midterm_20261012/baseline_inventory.json. Reconstruct a separate frozen baseline checkout from the commit plus pilot patch; retain adapter/bootstrap bindings without copying secrets into artifacts. Give every repaired snapshot/variant a distinct output directory and code/settings identity. Compare the inventory after all investigation and pilot work.
+
+2. Implement the context and budget bundle C.
+   Bound model-facing replies from every tool, including Python diagnostics, with record counts, truncation flags, summaries and stable references to full audit artifacts. Keep complete resources in the sandbox workspace and audit storage; do not silently truncate the computation inputs, contribution IDs or evidence. Discourage dumping whole patient record collections. Retain bounded samples and permit targeted inspection.
+   Make the existing 32k estimated-input policy an explicit, fingerprinted setting shared by all systems. Do not raise it in the primary repair pilot. Preflight the complete serialized request, including tools/arguments, and separately account for native provider input/output capacity and remaining aggregate budget. Calibrate estimates against recorded provider usage; a local tokenizer is not an exact provider counter. The official OpenAI Responses counting interface is not established for this Azure Chat Completions deployment.
+   Compact superseded tool payloads deterministically before another request, preserving current question/patient/time assumptions, workspace handles, evidence identity, computation state and paired tool-call/result IDs. Keep full audit history separately. Apply this shared transport/tool policy to single and direct where relevant, as well as team roles. A bounded preview is not proof that the model can find the relevant evidence; test access and answer quality separately.
+   Reserve enough aggregate tokens and tool slots for the source check, independent fetch/computation, final verdict and one bounded correction. Select allocations from development input/usage diagnostics; keep the original 200k/30 ceilings for comparable pilots. Do not solve this by increasing the total budget or enabling untracked retries.
+
+3. Implement the contracts and verification bundle V.
+   Separate inspection from final computation in the tool contract. Use explicit modes/tools and a typed final result envelope containing the answer and execution/workspace provenance; diagnostics have a distinct channel. A dictionary of diagnostics or a mixed record row is never silently converted into an answer. Tie accepted computation to the workspace version and question scope. Either require a final compute step or retain a valid computation only when later read-only inspection cannot invalidate it. For a legitimately large final answer, preserve its complete value and contribution metadata in an immutable computation artifact; the host must resolve it for comparison/release. A bounded sample or a model-written summary cannot replace the full answer.
+   Enforce role-specific JSON schemas and validate finite answer values, citation paths and contribution IDs before finalization. Generate contribution metadata from actual execution/workspace data where possible; retain full lists in audit artifacts and send bounded summaries to the model. Use at most one explicit, budget-accounted format correction for a malformed role response.
+   Distinguish verified, refuted and incomplete checks, with structured reasons. Route contract/format failures back to the responsible verifier instead of treating them as unrepairable clinical disagreements. Keep patient, time, encounter, source-field and independent-computation release gates strict; an incomplete check still cannot establish a supported answer. Do not turn off verification or release a draft because it matches benchmark gold.
+   Share gold-free field/time/unit/encounter semantics across all roles and the single baseline, while keeping the verifier's fetched records and computation independent. Log draft, repaired candidate and released answer separately. Record why a candidate was withheld, what failed, and whether each stage completed.
+
+   Official structured-output documentation supports schema-constrained final messages, but schemas do not prove semantic correctness and refusals/incomplete outputs still need handling. The Azure adapter already forwards response_format; the common safe_llm_call/_llm_call interfaces currently do not expose it. Test the entire pinned transport chain and supported schema subset before enabling it in the pilot. Do not claim that the adapter alone already enforces strict role outputs.
+   As a separate development hypothesis, test computing a blind independent answer before revealing the candidate draft, then perform deterministic comparison/source checks. Chain-of-Verification motivates this conditioning ablation; it does not establish a gain for this FHIR team. Keep it separate from the primary mechanical contract fixes unless its own evidence justifies inclusion.
+
+4. Improve accounting and diagnostics.
+   Record model/role/invocation, prompt-size components, completion caps, tool-output sizes, workspace version, verification status and retries for each dispatch. Preserve raw provider usage details, cache-read/cache-write counts when supplied, service tier and billing-rate provenance. Missing fields must remain unknown rather than defaulting to zero. Keep partial successful-call usage when a later call times out. Record timing and both raw counters and provider-aware completeness.
+
+OFFLINE AND PILOT VALIDATION
+
+First run targeted offline regressions without model calls. Cover large Python objects and object lists, repeated inspection, stale computations after retrieval, mixed diagnostic rows, scalar false/zero, established empty results, malformed role JSON, invalid citations, wrong scope, unit/time-field mistakes, budget exhaustion before verification, and bounded format recovery. Assert full audit/workspace data survive preview compaction and all requests/corrections respect the shared ceilings. Run the existing budget, framework, analysis, verification, routing, schema, scoring and orchestration checks affected by the implementation.
+
+Use the 50-question development split to debug mechanical behavior and choose bundle settings. Freeze settings and source before the comparative pilot. Keep the existing packets, source hashes, family manifest, scoring rules, cache policy, Luna model, reasoning mode, and common 32k estimated-input policy fixed. Do not tune packet ranking or caps from held-out gold-ID recall. Record execution order, cache state and provider response model/version when available; counterbalance variant order where practical to limit warm-cache/time confounding.
+
+The pilot uses all 20 existing pilot questions from 3 patients: 6 lookup/counting, 3 numeric and 11 temporal. Run these eight configurations once (160 first attempts):
+  B0 direct; B0 single; B0 team;
+  team with C only; team with V only; team with C+V;
+  repaired direct; repaired single with applicable shared fixes.
+The two bundles isolate context/budget changes from contracts/verification changes; they do not identify the effect of each change inside a bundle. Every ablation flag or source snapshot must be part of the saved run identity. Compare repaired team against repaired baselines for the final architecture comparison.
+
+Then repeat the selected combined team and repaired single twice more on the same 20 questions (80 additional attempts), for 240 trials total and three repeats of those two systems. Save each repeat independently; retain failed first attempts and all later correction costs. Planned output namespace: output/experiments/gpt-6-luna/midterm_repair_pilot_v1/<variant-and-repeat>. A system-specific pilot invocation uses --split pilot with exactly one named arm (--arms ordinary_direct_llm, ordinary_single_agent or ordinary_multi_agent), --model gpt-6-luna --max_total_tokens 200000 --max_tool_calls 30 --num_processes 4 --save_interval 1 and a new output directory. The grouped --arms ordinary command runs all three systems (60 attempts), so it is only suitable when the scheduler deliberately groups those three controls; do not use it for every 20-question team variant. Implement explicit ablation selection/run identities before executing variants; the current runner has no C/V switches.
+
+Pilot gates, fixed before inspecting new outcomes:
+  Mechanical: no avoidable request overflow from diagnostic output or replay, role-schema or missing-final-computation failures; complete identities/usage accounting; no unverified budget overrun; no release on failed source/scope checks; synthetic negative cases remain blocked. If mandatory state cannot fit the fixed cap, fail explicitly and retain that first attempt rather than silently increasing the cap.
+  Verification: inspect-versus-compute failures fall to zero; supported synthetic correct drafts survive; unsupported drafts remain blocked; manually audit all new repairs, correct-to-wrong losses, empty answers and verifier approvals of typed-wrong answers against source records.
+  Quality: paired candidate correctness and supported-answer coverage do not regress against B0 team; record whether combined team matches repaired single on this pilot. If it loses to repaired single, do not describe the repair as demonstrated team superiority or proceed on that premise. Iterate on development cases if mechanical/support gates fail.
+  Efficiency: report mean/p95 prompt components, total tokens, calls, median/p95 latency, failures, withholding reasons, cache usage and dollar estimates for every variant/repeat. Compare against both B0 and repaired single; lower cost is not established by token-count reduction alone.
+
+A 20-question/3-patient pilot is a functional and descriptive gate, not proof of superiority. One question is five accuracy points. After passing, freeze a new implementation and run a separately named full matrix. Since this investigation used the original held-out outcomes to diagnose problems, report that rerun as a post-baseline follow-up, preserving the original results. A new confirmatory research claim requires genuinely unexposed evaluation data/patients or an explicit disclosure of the exposure limit.
+
+Any optional larger-context study follows the mechanical pilot and changes only the common explicit input cap for all three repaired systems. Predeclare the alternative cap, hold aggregate tokens/tools/model/questions fixed, and use separate output identities and cost accounting. Do not bundle that protocol change into an architecture-improvement claim.
+
+RESEARCH SUPPORT AND ITS LIMITS
+
+The reviewed primary sources and author repositories are indexed in context_sources.json, verification_sources.json and supplemental_sources.json under output/investigations/midterm_20261013_research/. They support the mechanisms and validation design, not a promised accuracy improvement. Lost in the Middle informs context-delivery tests; CodeAct and the original benchmark inform code/workspace use; CRITIC and Huang et al. inform external feedback and correction-loss auditing; Chain-of-Verification informs the optional draft-blind ablation. Official tool/structured-output specifications inform explicit type validation. Keep clinical fields, scope and source checks independently verified regardless of syntax or model agreement.
+
+The research synthesis is output/investigations/midterm_20261013_research/research_findings.txt. The pre-research plan is preserved there as repair_plan_before_research_20261012.txt. Baseline result files are untouched.
+
+COST OF THE COMPLETED FULL BATCH
+
+Recorded known usage: 64,986,286 input tokens, including 48,859,765 cached input; 1,184,324 output tokens; 66,170,610 total. There were 9,314 model dispatches, 9,313 with known usage and one timeout with unavailable usage. The successful calls earlier in the timed-out attempt are included. No question, SDK or model retries were recorded. Every saved dollar-cost field is unavailable, not zero.
+
+At Azure Global Standard short-context list rates of $0.10/M ordinary input, $0.01/M cached input and $0.50/M output, the recorded-cache/no-cache-write-adjustment estimate is:
+  (64,986,286 - 48,859,765)*0.10/1,000,000
+  + 48,859,765*0.01/1,000,000
+  + 1,184,324*0.50/1,000,000 = $2.69341175, about $2.69.
+US Data Zone Standard gives $2.96; EU Data Zone Standard gives $3.23. Pricing the same input without any cache discount gives $7.09 at Global Standard. These are list-price scenarios, not an Azure invoice. Actual deployment/SKU/contract, cache-write charges and the missing timeout usage are unverified; FHIR hosting, local compute, taxes and other infrastructure costs are excluded. Provider cache-read counts are used; estimated repeated prompts are not deducted as if they were cached.
+
+The two earlier saved pilots add about $0.0265 ($0.03) under the same Global scenario and are excluded from the $2.69 full-batch amount. Setup/preflight calls outside those saved result files are not included.
+
+For the proposed 240-trial pilot mix, existing ordinary mean usage gives an illustrative Global estimate of $0.59 with the recorded cache behavior, or $1.46 without the cache discount. Changed contexts, variants and cache writes may change this. The 240*200k aggregate ceiling is 48M tokens; at the highest Global input/output rate used here ($0.50/M), $24 is a conditional planned token-price envelope, not an invoice or infrastructure-cost guarantee.
+
+Official price sources checked 12 October 2026:
+https://azure.microsoft.com/en-us/blog/gpt-6-astra-sol-and-luna-for-production-agents-in-microsoft-foundry/
+https://developers.openai.com/api/docs/models/gpt-6-luna
+
+REVIEWABLE OUTPUTS
+
+Investigation data and integrity records: output/investigations/midterm_20261012/.
+  runtime_investigation.json and guard_occurrences.csv: guard/error pathways and context sizes.
+  verification_diagnostics.json and paired_outcomes.csv: paired outcomes and revision transitions.
+  computation_contract_losses.json and withholding_policy_audit.json: inspection/computation losses, denominators and support caveats.
+  cost_usage.json, cost_summary.txt and pricing_reference.json: per-arm/call accounting, formula, scenario prices and assumptions.
+  baseline_inventory.json and baseline_integrity_check.json: original-file hashes and unchanged-baseline verification.
+
+Implementation and paid pilot execution are future steps in this plan. The baseline remains available for the midterm report regardless of whether repairs improve the pilot.

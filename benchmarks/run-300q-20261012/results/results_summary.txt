@@ -1,0 +1,123 @@
+Midterm benchmark results
+
+This is a frozen subset study of the published FHIR-AgentBench dataset. The ordinary evaluation covers 300 held-out questions from 58 observed patients, answered by each of three systems (900 attempts). Recovery evaluates 50 questions per system/condition from 27 observed patients (single and multi-agent × intact and omitted packets = 200 attempts). Variability uses the same 20-question subset in five repeats per system (300 attempts). All 22 arms and 1,400 first attempts are covered.
+Every system uses one base model, gpt-6-luna, through azure; reasoning effort none. Per-question ceilings: 200,000 tokens and 30 tool calls. The tool cache is shared.
+Typed reference-value matching accuracy, released-answer diagnostics and primary usage describe the first recorded attempt. Failed attempts count as wrong; a later retry cannot improve the benchmark score. Intervals are patient-clustered 95% percentile bootstrap CIs (10,000 resamples, seed 5106); differences are paired on identical questions.
+The frozen typed scorer does not consult limitation or budget-stop flags. A null/empty prediction matching an empty reference ([] or [[None]]) can count correct even when produced by a budget stop, abstention or unverified withholding. Primary reference-value matching accuracy therefore does not establish supported empty answers. Evidence-backed correct empty-reference counts are reported separately below from empty_reference_verified.
+
+Ordinary first-attempt typed reference-value matching accuracy
+  Direct LLM: 202/300 correct; 67.3% [95% CI 62.1%, 72.4%]; 58 patients.
+  Single agent: 223/300 correct; 74.3% [95% CI 69.6%, 78.9%]; 58 patients.
+  Multi-agent: 162/300 correct; 54.0% [95% CI 48.0%, 60.3%]; 58 patients.
+  Paired multi-agent − single agent: -20.3 pp [95% CI -26.4 pp, -14.1 pp]; n=300.
+
+Family results (ordinary; first attempt)
+  lookup_counting: n=92, patients=52; Direct LLM 82.6% [95% CI 74.2%, 90.0%]; Single agent 80.4% [95% CI 72.0%, 88.1%]; Multi-agent 68.5% [95% CI 58.7%, 77.7%].
+    Paired multi-agent − single agent: -12.0 pp [95% CI -22.3 pp, -2.0 pp].
+  numerical_aggregation: n=49, patients=28; Direct LLM 69.4% [95% CI 55.0%, 82.1%]; Single agent 69.4% [95% CI 53.2%, 83.0%]; Multi-agent 42.9% [95% CI 25.6%, 58.5%].
+    Paired multi-agent − single agent: -26.5 pp [95% CI -41.9 pp, -12.2 pp].
+  temporal_selection: n=159, patients=52; Direct LLM 57.9% [95% CI 50.6%, 65.8%]; Single agent 72.3% [95% CI 65.2%, 79.3%]; Multi-agent 49.1% [95% CI 41.8%, 57.1%].
+    Paired multi-agent − single agent: -23.3 pp [95% CI -30.0 pp, -16.1 pp].
+
+Recovery accuracy and missing-record recovery
+  Single agent intact: 96.0% [95% CI 89.8%, 100.0%]; omitted: 82.0% [95% CI 72.1%, 91.1%]; n=50 each.
+    Paired omitted − intact: -14.0 pp [95% CI -23.1 pp, -5.8 pp].
+    fetched 47/50 (94.0%), unknown 0/50; retrieved 47/50 (94.0%), unknown 0/50; cited 42/50 (84.0%), unknown 0/50; used 0/3 (0.0%), unknown 47/50; verifier_only 0/0 (unavailable), unknown 50/50; recovered 0/9 (0.0%), unknown 41/50.
+    Correct when returned to answer workspace: 41/47 (87.2%); correct among intact-correct questions: 41/48 (85.4%).
+  Multi-agent intact: 66.0% [95% CI 52.3%, 78.8%]; omitted: 62.0% [95% CI 48.9%, 75.5%]; n=50 each.
+    Paired omitted − intact: -4.0 pp [95% CI -13.0 pp, +5.7 pp].
+    fetched 50/50 (100.0%), unknown 0/50; retrieved 50/50 (100.0%), unknown 0/50; cited 40/50 (80.0%), unknown 0/50; used 34/50 (68.0%), unknown 0/50; verifier_only 0/44 (0.0%), unknown 6/50; recovered 31/50 (62.0%), unknown 0/50.
+    Correct when returned to answer workspace: 31/50 (62.0%); correct among intact-correct questions: 26/33 (78.8%).
+
+Latency and tokens (first attempt; all ordinary/recovery arms)
+Arm | median / p95 seconds (measured) | mean tokens (measured) | retries | retry-inclusive tokens
+ordinary_direct_llm | 1.6 / 25.7 (300/300) | 6,003 (300/300) | 0 | 1,800,924 (300/300 questions fully measured)
+ordinary_single_agent | 11.4 / 33.0 (300/300) | 52,144 (300/300) | 0 | 15,643,114 (300/300 questions fully measured)
+ordinary_multi_agent | 20.3 / 49.3 (300/300) | 77,155 (300/300) | 0 | 23,146,443 (300/300 questions fully measured)
+recovery_single_agent_intact | 8.7 / 15.6 (50/50) | 31,905 (50/50) | 0 | 1,595,250 (50/50 questions fully measured)
+recovery_single_agent_omitted | 9.4 / 19.8 (50/50) | 43,518 (50/50) | 0 | 2,175,924 (50/50 questions fully measured)
+recovery_multi_agent_intact | 18.7 / 30.7 (50/50) | 60,059 (50/50) | 0 | 3,002,942 (50/50 questions fully measured)
+recovery_multi_agent_omitted | 23.5 / 36.1 (50/50) | 68,813 (50/50) | 0 | 3,440,673 (50/50 questions fully measured)
+
+Execution health and usage
+  First attempts: 1298 completed, 102 failed, 404 with limitations, 70 budget stops, denominator 1,400. These flags can overlap.
+  Current saved outcomes: 1298 completed, 102 errors; 0 retries recorded.
+  first_attempt recorded token counters (usage lower bound): complete counter sum 66,170,610; recorded subtotal 66,170,610; 1400 available numeric counters and 0 missing numeric counters.
+  retries recorded token counters (usage lower bound): complete counter sum 0; recorded subtotal 0; 0 available numeric counters and 0 missing numeric counters.
+  all_attempts recorded token counters (usage lower bound): complete counter sum 66,170,610; recorded subtotal 66,170,610; 1400 available numeric counters and 0 missing numeric counters.
+  First-attempt runtime classifications: api_timeout=1; invalid_output_schema=19; legacy_input_limit_32k=58; other=2; role_contract=22; budget-stop categories: token=63; tool=7. Provider-aware first-attempt token coverage: 1399/1,400 measured, 1 unknown, 1 with unavailable provider usage; known subtotal 66,072,194, complete total unavailable. These counts preserve the first attempt; no error messages are included.
+  Provider-aware coverage is authoritative for whether billed token usage is known. Numeric counters above can omit usage from calls whose provider did not report it; they are not complete billing totals.
+  Azure dollar cost is unavailable; token usage is reported without converting unknown pricing to zero.
+
+Evidence validity, repairs and abstentions (first attempt)
+  ordinary_direct_llm: unsupported lower bound 6/242 (2.5%), unknown 0; 5 answered runs with invalid source-checked citation(s); 1 answered runs without evidence, 0 independently verified empty results.
+    Empty-reference value-matching accuracy 31/42 (73.8%); evidence-backed correct empty-reference results 0/42 (0.0%); false abstentions 25/258 (9.7%); empty-proof status unknown 61.
+    Draft/released transitions unavailable: no recorded draft.
+  ordinary_single_agent: unsupported lower bound 4/229 (1.7%), unknown 0; 4 answered runs with invalid source-checked citation(s); 0 answered runs without evidence, 0 independently verified empty results.
+    Empty-reference value-matching accuracy 35/42 (83.3%); evidence-backed correct empty-reference results 0/42 (0.0%); false abstentions 20/258 (7.8%); empty-proof status unknown 42.
+    Draft/released: 1 wrong→right, 10 right→wrong, net -9/278 scored drafts; 6 failed draft attempts excluded; 26 repaired runs.
+  ordinary_multi_agent: unsupported lower bound 1/164 (0.6%), unknown 0; 1 answered runs with invalid source-checked citation(s); 0 answered runs without evidence, 23 independently verified empty results.
+    Empty-reference value-matching accuracy 35/42 (83.3%); evidence-backed correct empty-reference results 12/42 (28.6%); false abstentions 71/258 (27.5%); empty-proof status unknown 0.
+    Draft/released: 7 wrong→right, 31 right→wrong, net -24/251 scored drafts; 6 failed draft attempts excluded; 28 repaired runs.
+  recovery_single_agent_intact: unsupported lower bound 0/48 (0.0%), unknown 0; 0 answered runs with invalid source-checked citation(s); 0 answered runs without evidence, 0 independently verified empty results.
+    Empty-reference value-matching accuracy 0/0 (unavailable); evidence-backed correct empty-reference results 0/0 (unavailable); false abstentions 0/50 (0.0%); empty-proof status unknown 0.
+    Draft/released: 0 wrong→right, 0 right→wrong, net +0/48 scored drafts; 1 failed draft attempts excluded; 1 repaired runs.
+  recovery_single_agent_omitted: unsupported lower bound 0/47 (0.0%), unknown 0; 0 answered runs with invalid source-checked citation(s); 0 answered runs without evidence, 0 independently verified empty results.
+    Empty-reference value-matching accuracy 0/0 (unavailable); evidence-backed correct empty-reference results 0/0 (unavailable); false abstentions 1/50 (2.0%); empty-proof status unknown 1.
+    Draft/released: 0 wrong→right, 0 right→wrong, net +0/47 scored drafts; 1 failed draft attempts excluded; 0 repaired runs.
+  recovery_multi_agent_intact: unsupported lower bound 0/36 (0.0%), unknown 0; 0 answered runs with invalid source-checked citation(s); 0 answered runs without evidence, 1 independently verified empty results.
+    Empty-reference value-matching accuracy 0/0 (unavailable); evidence-backed correct empty-reference results 0/0 (unavailable); false abstentions 10/50 (20.0%); empty-proof status unknown 0.
+    Draft/released: 0 wrong→right, 7 right→wrong, net -7/44 scored drafts; 0 failed draft attempts excluded; 0 repaired runs.
+  recovery_multi_agent_omitted: unsupported lower bound 0/35 (0.0%), unknown 0; 0 answered runs with invalid source-checked citation(s); 0 answered runs without evidence, 1 independently verified empty results.
+    Empty-reference value-matching accuracy 0/0 (unavailable); evidence-backed correct empty-reference results 0/0 (unavailable); false abstentions 11/50 (22.0%); empty-proof status unknown 0.
+    Draft/released: 1 wrong→right, 9 right→wrong, net -8/46 scored drafts; 1 failed draft attempts excluded; 3 repaired runs.
+  Valid citations do not establish complete answer support. Unsupported-answer rates are explicitly lower bounds.
+
+Additional offline citation and retrieval diagnostics (all seven first-attempt arms; no model/FHIR-service calls)
+  ordinary_direct_llm: cited runs 249/300 (83.0%), uncited 51/300, failed first attempts 3/300; citation-weighted validity 762/767 (99.3%); macro validity among citing runs 99.3% (defined 249/300, undefined 51).
+    Workspace-ID precision (macro, legacy) 11.9% (defined 300/300, undefined 0); complete-gold recall (binary, macro, legacy) 80.1% (defined 241/300, undefined 59); fractional recall on nonempty gold 83.6% (defined 241/300, undefined 0, excluded empty-gold 59).
+    Workspace-ID precision on nonempty gold 14.8% (defined 241/241, undefined 0); cited-resource precision 71.8% (defined 285/300, undefined 15); cited-resource fractional recall 64.7% (defined 277/300, undefined 23).
+  ordinary_single_agent: cited runs 240/300 (80.0%), uncited 60/300, failed first attempts 16/300; citation-weighted validity 814/828 (98.3%); macro validity among citing runs 98.3% (defined 240/300, undefined 60).
+    Workspace-ID precision (macro, legacy) 6.0% (defined 300/300, undefined 0); complete-gold recall (binary, macro, legacy) 93.8% (defined 241/300, undefined 59); fractional recall on nonempty gold 97.5% (defined 241/300, undefined 0, excluded empty-gold 59).
+    Workspace-ID precision on nonempty gold 7.4% (defined 241/241, undefined 0); cited-resource precision 79.7% (defined 286/300, undefined 14); cited-resource fractional recall 69.7% (defined 287/300, undefined 13).
+  ordinary_multi_agent: cited runs 212/300 (70.7%), uncited 88/300, failed first attempts 42/300; citation-weighted validity 970/976 (99.4%); macro validity among citing runs 98.9% (defined 212/300, undefined 88).
+    Workspace-ID precision (macro, legacy) 6.6% (defined 300/300, undefined 0); complete-gold recall (binary, macro, legacy) 91.3% (defined 241/300, undefined 59); fractional recall on nonempty gold 97.2% (defined 241/300, undefined 0, excluded empty-gold 59).
+    Workspace-ID precision on nonempty gold 8.3% (defined 241/241, undefined 0); cited-resource precision 74.7% (defined 256/300, undefined 44); cited-resource fractional recall 61.9% (defined 285/300, undefined 15).
+  recovery_single_agent_intact: cited runs 48/50 (96.0%), uncited 2/50, failed first attempts 2/50; citation-weighted validity 236/236 (100.0%); macro validity among citing runs 100.0% (defined 48/50, undefined 2).
+    Workspace-ID precision (macro, legacy) 4.6% (defined 50/50, undefined 0); complete-gold recall (binary, macro, legacy) 100.0% (defined 50/50, undefined 0); fractional recall on nonempty gold 100.0% (defined 50/50, undefined 0, excluded empty-gold 0).
+    Workspace-ID precision on nonempty gold 4.6% (defined 50/50, undefined 0); cited-resource precision 92.4% (defined 48/50, undefined 2); cited-resource fractional recall 88.2% (defined 50/50, undefined 0).
+  recovery_single_agent_omitted: cited runs 47/50 (94.0%), uncited 3/50, failed first attempts 2/50; citation-weighted validity 250/250 (100.0%); macro validity among citing runs 100.0% (defined 47/50, undefined 3).
+    Workspace-ID precision (macro, legacy) 2.2% (defined 50/50, undefined 0); complete-gold recall (binary, macro, legacy) 94.0% (defined 50/50, undefined 0); fractional recall on nonempty gold 95.5% (defined 50/50, undefined 0, excluded empty-gold 0).
+    Workspace-ID precision on nonempty gold 2.2% (defined 50/50, undefined 0); cited-resource precision 86.9% (defined 47/50, undefined 3); cited-resource fractional recall 82.1% (defined 50/50, undefined 0).
+  recovery_multi_agent_intact: cited runs 44/50 (88.0%), uncited 6/50, failed first attempts 4/50; citation-weighted validity 216/216 (100.0%); macro validity among citing runs 100.0% (defined 44/50, undefined 6).
+    Workspace-ID precision (macro, legacy) 2.4% (defined 50/50, undefined 0); complete-gold recall (binary, macro, legacy) 98.0% (defined 50/50, undefined 0); fractional recall on nonempty gold 99.3% (defined 50/50, undefined 0, excluded empty-gold 0).
+    Workspace-ID precision on nonempty gold 2.4% (defined 50/50, undefined 0); cited-resource precision 83.4% (defined 44/50, undefined 6); cited-resource fractional recall 78.1% (defined 50/50, undefined 0).
+  recovery_multi_agent_omitted: cited runs 43/50 (86.0%), uncited 7/50, failed first attempts 4/50; citation-weighted validity 224/224 (100.0%); macro validity among citing runs 100.0% (defined 43/50, undefined 7).
+    Workspace-ID precision (macro, legacy) 2.4% (defined 50/50, undefined 0); complete-gold recall (binary, macro, legacy) 98.0% (defined 50/50, undefined 0); fractional recall on nonempty gold 99.3% (defined 50/50, undefined 0, excluded empty-gold 0).
+    Workspace-ID precision on nonempty gold 2.4% (defined 50/50, undefined 0); cited-resource precision 84.9% (defined 43/50, undefined 7); cited-resource fractional recall 75.5% (defined 50/50, undefined 0).
+  Citation-weighted validity divides all valid citations by all citations; macro validity averages each citing run's fraction. Uncited runs are undefined for citation validity, and the uncited/failed counts remain visible.
+  Legacy empty-gold/empty-workspace cases score precision=recall=1. Empty gold with a nonempty workspace scores precision=0 and leaves recall undefined. Nonempty gold with an empty workspace leaves precision undefined and scores recall=0. The separate fractional recall excludes empty-gold cases and includes zero for empty workspaces.
+  Source-valid citations establish existing resources, resolving fields and matching claimed values. Resource-ID overlap is a diagnostic; these metrics do not establish semantic answer support, completeness or combined answer-and-evidence success.
+  Combined semantic answer-correctness-and-evidence validity and the official LLM-judge score remain unavailable; no such success is inferred from citation validity or resource overlap.
+
+Variability (fixed 20-question subset, five repeats per system)
+  Direct LLM accuracy: mean 63.0%, SD 2.7 percentage points, range 60.0%–65.0%; 5/5 measured repeats; abstention: mean 14.0%, SD 4.2 percentage points, range 10.0%–20.0%; 5/5 measured repeats; errors: mean 3.0%, SD 2.7 percentage points, range 0.0%–5.0%; 5/5 measured repeats.
+    Mean tokens: mean 6,427.6, SD 6.7, range 6,418.2–6,436.9; 5/5 measured repeats; median latency seconds: mean 1.6, SD 0.1, range 1.5–1.8; 5/5 measured repeats.
+    Always/never/sometimes correct: 12/7/1; pairwise correctness agreement 97.0%; identical answers 80.0%.
+  Single agent accuracy: mean 68.0%, SD 2.7 percentage points, range 65.0%–70.0%; 5/5 measured repeats; abstention: mean 20.0%, SD 3.5 percentage points, range 15.0%–25.0%; 5/5 measured repeats; errors: mean 7.0%, SD 4.5 percentage points, range 5.0%–15.0%; 5/5 measured repeats.
+    Mean tokens: mean 62,991.7, SD 4,556.4, range 57,665.7–68,526.8; 5/5 measured repeats; median latency seconds: mean 10.4, SD 0.7, range 9.3–11.0; 5/5 measured repeats.
+    Always/never/sometimes correct: 13/6/1; pairwise correctness agreement 97.0%; identical answers 70.0%.
+  Multi-agent accuracy: mean 51.0%, SD 2.2 percentage points, range 50.0%–55.0%; 5/5 measured repeats; abstention: mean 41.0%, SD 6.5 percentage points, range 35.0%–50.0%; 5/5 measured repeats; errors: mean 19.0%, SD 5.5 percentage points, range 10.0%–25.0%; 5/5 measured repeats.
+    Mean tokens: mean 84,234.1, SD 4,949.8, range 78,989.7–91,851.1; 5/5 measured repeats; median latency seconds: mean 20.4, SD 1.6, range 19.2–22.6; 5/5 measured repeats.
+    Always/never/sometimes correct: 6/7/7; pairwise correctness agreement 82.0%; identical answers 35.0%.
+
+Provenance and limitations
+  GitHub source: https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System at d87ae5a2e7d7e57fceeb17b88e5b9d877b15361c.
+  Local pilot fixes: Final role response after last tool; clarify Python return contract. Based only on pilot data. 102 regressions passed.
+  Local patch SHA256: f6b5d9de273f33974c7733275f8041dec9537d90cc5c40fd1d0bbeab2975be0e; evaluated code fingerprint: f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276.
+  Pipeline corrections were made using pilot data before this held-out run; the evaluated implementation includes those local changes. This batch was not used for outcome-driven tuning.
+  This eligible subset study does not reproduce the full published benchmark or establish clinical effectiveness. This first full batch checks the current implementation and does not establish research superiority. Family and recovery comparisons are exploratory and CIs are not adjusted for multiple comparisons. Constant outcomes can yield zero-width bootstrap intervals. Five repeats on 20 questions give coarse variability estimates (one question is five accuracy points). Shared cached records do not make model/provider execution deterministic.
+  Missing metric coverage is disclosed above. Primary token means require all contributing question usage; latency summarizes only measured attempts. Recovery counts use known metadata denominators; unknown use/fetch metadata is not counted as failure or success.
+  A shared implementation guard rejects individual input prompts above 32,000 tokens, separately from the 200,000-token aggregate ceiling. Large accumulated contexts, including the single-agent baseline, can fail at this guard before reaching the aggregate ceiling. These errors are implementation-limit observations, not measurements of the provider context limit; they remain wrong first-attempt outcomes. Aggregate ceiling stops are recorded separately as budget stops.
+  Completion and numeric consistency were checked from aggregate reports and final health. Current input/code/settings identities must also pass the repository status gate.
+  Sources: analysis/summary.json, variability_report.json, revisions/revisions.json, launch_manifest.json, health_snapshot.json, runtime_diagnostics.json, evaluation/evidence_metrics.json.

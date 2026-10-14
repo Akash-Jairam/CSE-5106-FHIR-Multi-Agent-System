@@ -1,0 +1,59 @@
+
+Supervisor stage revisions started 2026-10-13T03:07:29.315573+00:00
+
+ordinary_direct_llm: accuracy 202/300 (67%)
+  first attempts failed 3; 300 execution attempts total
+  unsupported answers (lower bound) 6/242 (2%): 1 without evidence, 5 invalid citation; 0 independently verified empty, 0 unknown
+  empty-reference questions correct 31/42 (74%); false abstentions 25/258 (10%)
+
+ordinary_single_agent: accuracy 223/300 (74%)
+  first attempts failed 16; 300 execution attempts total
+  draft -> released: right->wrong 10, wrong->right 1 (net -9) over 278 scored drafts (6 failed attempts excluded)
+  repaired runs: 26; right->wrong 9, wrong->right 1 (net -8)
+  unsupported answers (lower bound) 4/229 (2%): 0 without evidence, 4 invalid citation; 0 independently verified empty, 0 unknown
+  empty-reference questions correct 35/42 (83%); false abstentions 20/258 (8%)
+
+ordinary_multi_agent: accuracy 162/300 (54%)
+  first attempts failed 42; 300 execution attempts total
+  draft -> released: right->wrong 31, wrong->right 7 (net -24) over 251 scored drafts (6 failed attempts excluded)
+  repaired runs: 28; right->wrong 5, wrong->right 5 (net +0)
+  unsupported answers (lower bound) 1/164 (1%): 0 without evidence, 1 invalid citation; 23 independently verified empty, 0 unknown
+  empty-reference questions correct 35/42 (83%); false abstentions 71/258 (28%)
+
+recovery_single_agent_intact: accuracy 48/50 (96%)
+  first attempts failed 2; 50 execution attempts total
+  draft -> released: right->wrong 0, wrong->right 0 (net +0) over 48 scored drafts (1 failed attempts excluded)
+  repaired runs: 1; right->wrong 0, wrong->right 0 (net +0)
+  unsupported answers (lower bound) 0/48 (0%): 0 without evidence, 0 invalid citation; 0 independently verified empty, 0 unknown
+  empty-reference questions correct n/a; false abstentions 0/50 (0%)
+
+recovery_single_agent_omitted: accuracy 41/50 (82%)
+  first attempts failed 2; 50 execution attempts total
+  draft -> released: right->wrong 0, wrong->right 0 (net +0) over 47 scored drafts (1 failed attempts excluded)
+  repaired runs: 0; right->wrong 0, wrong->right 0 (net +0)
+  unsupported answers (lower bound) 0/47 (0%): 0 without evidence, 0 invalid citation; 0 independently verified empty, 0 unknown
+  empty-reference questions correct n/a; false abstentions 1/50 (2%)
+
+recovery_multi_agent_intact: accuracy 33/50 (66%)
+  first attempts failed 4; 50 execution attempts total
+  draft -> released: right->wrong 7, wrong->right 0 (net -7) over 44 scored drafts (0 failed attempts excluded)
+  repaired runs: 0; right->wrong 0, wrong->right 0 (net +0)
+  unsupported answers (lower bound) 0/36 (0%): 0 without evidence, 0 invalid citation; 1 independently verified empty, 0 unknown
+  empty-reference questions correct n/a; false abstentions 10/50 (20%)
+
+recovery_multi_agent_omitted: accuracy 31/50 (62%)
+  first attempts failed 4; 50 execution attempts total
+  draft -> released: right->wrong 9, wrong->right 1 (net -8) over 46 scored drafts (1 failed attempts excluded)
+  repaired runs: 3; right->wrong 2, wrong->right 1 (net -1)
+  unsupported answers (lower bound) 0/35 (0%): 0 without evidence, 0 invalid citation; 1 independently verified empty, 0 unknown
+  empty-reference questions correct n/a; false abstentions 11/50 (22%)
+
+recovery (single_agent, omitted packet): fetched 47/50 (94%), answer workspace 47/50 (94%), cited 42/50 (84%), used 0/3 (0%)
+  verifier only n/a; recovered and correct 0/9 (0%), correct 41/50 (82%); missing metadata {'fetched': 0, 'retrieved': 0, 'cited': 0, 'used': 47, 'verifier_only': 50, 'recovered': 41}
+  correct when fetched back 41/47 (87%); correct among intact-correct 41/48 (85%)
+
+recovery (multi_agent, omitted packet): fetched 50/50 (100%), answer workspace 50/50 (100%), cited 40/50 (80%), used 34/50 (68%)
+  verifier only 0/44 (0%); recovered and correct 31/50 (62%), correct 31/50 (62%); missing metadata {'fetched': 0, 'retrieved': 0, 'cited': 0, 'used': 0, 'verifier_only': 6, 'recovered': 0}
+  correct when fetched back 31/50 (62%); correct among intact-correct 26/33 (79%)
+
+Wrote /Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/revisions

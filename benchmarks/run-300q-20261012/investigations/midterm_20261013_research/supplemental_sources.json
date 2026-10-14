@@ -1,0 +1,43 @@
+{
+  "checked_date": "2026-10-13",
+  "scope": "Primary sources read by the root agent in addition to the context and verification matrices. No inference calls or pipeline changes.",
+  "sources": [
+    {
+      "id": "codeact_icml2024",
+      "title": "Executable Code Actions Elicit Better LLM Agents",
+      "venue": "ICML 2024, PMLR 235",
+      "paper_url": "https://proceedings.mlr.press/v235/wang24h.html",
+      "full_text_read": "https://arxiv.org/html/2402.01030v4",
+      "author_repository": "https://github.com/xingyaoww/code-act",
+      "author_readme_blob_sha": "bc93de200040127aac2db6fb9c4dc9a8f2ec283e",
+      "read_sections": "Sections 2.1 to 2.3, Tables 2 and 3, and author README.",
+      "finding": "The paper compares executable code actions with text/JSON actions in API-Bank and compositional M3ToolEval, using 17 historical models. Python supplies control/data flow and reusable intermediate state; benefits depend on model/task and are not universal.",
+      "local_inference": "Use code for filtering/aggregation over exact workspace data and bounded observations. Do not migrate every native tool call to code or assume persistent mutable interpreter state is required.",
+      "limitations": "Different tasks/models/action formats. It does not test bounded Python results or this Luna FHIR team. Our sandbox isolation and source immutability must remain intact."
+    },
+    {
+      "id": "openai_structured_outputs",
+      "title": "Official OpenAI structured outputs and function calling documentation",
+      "urls": [
+        "https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=chat",
+        "https://developers.openai.com/api/docs/guides/function-calling"
+      ],
+      "read_sections": "Structured Outputs versus JSON mode, supported schemas, strict mode, refusal/incomplete-output handling.",
+      "finding": "JSON mode only establishes parseable JSON; structured outputs and strict function schemas constrain shape. Unsupported schemas can be rejected. Refusals and incomplete generations remain explicit edge cases.",
+      "local_inference": "Use role-specific typed final schemas and explicit inspection/computation envelopes, while retaining deterministic source, scope and computation-equality validation.",
+      "local_transport_review": "The private Azure adapter forwards response_format at lines 100 to 102, but public safe_llm_call and BaseAgent._llm_call do not currently expose that argument. Supporting adapter passthrough is not proof that current role outputs are strict or that every planned schema works on the deployed service.",
+      "limitations": "Normative API guidance, not evidence of semantic correctness or accuracy gain. Validate the pinned transport/schema subset offline and with a small sanity stage included in a future pilot; no API call was made during this research."
+    },
+    {
+      "id": "fhir_rl_preprint_2026",
+      "title": "Reinforcement Learning for Tool-Calling Agents in Fast Healthcare Interoperability Resources (FHIR)",
+      "url": "https://arxiv.org/html/2605.14126v1",
+      "kind": "2026 primary preprint",
+      "read_sections": "Background, Section 3.2 system architecture and experiment scope.",
+      "finding": "Its FHIR harness stores retrieved resources in a shared workspace, permits Python schema inspection and computation, and distinguishes a terminal Finish action. It also changes training and the agent harness.",
+      "local_inference": "The inspection/computation/finalization separation is relevant engineering precedent. RL training and changing base models are outside this Luna repair plan.",
+      "limitations": "Different models, training and evaluation. Its performance claims do not validate our repairs, and no new training or benchmark migration is proposed."
+    }
+  ],
+  "validation_status": "Source-backed design and local trace/provenance evidence are established. Proposed implementation correctness and accuracy gains require the planned offline tests and controlled pilot."
+}

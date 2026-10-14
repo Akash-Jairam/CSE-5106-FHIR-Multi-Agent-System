@@ -1,0 +1,186 @@
+{
+  "correct_draft_withheld_loss_row_incidence": {
+    "independent_check:missing_scalar": 19,
+    "source_check:budget": 7,
+    "verification_failure:budget": 5,
+    "independent_check:tool_disagreement": 4,
+    "recompute_mismatch": 5,
+    "wrong_calculation": 2,
+    "encounter_link": 1,
+    "no_evidence": 1
+  },
+  "missing_independent_computation_losses": {
+    "last_python_diagnostic_object": 12,
+    "last_python_diagnostic_list_object": 7
+  },
+  "representative_safe_qids": {
+    "last_python_diagnostic_object": [
+      "0ad44ecce7e9c2eea3028673",
+      "1eb6a80e3bcffd099385b474",
+      "287474d13b646c19858f98f7",
+      "2ecf6ed7b588701c5b61916c",
+      "315e7c004443575bb2996afc"
+    ],
+    "last_python_diagnostic_list_object": [
+      "1718f0835a82b0bb7c0517f1",
+      "264556fad0e8f61d4b7fe7e9",
+      "292e05db320f21dac9efa68e",
+      "44d5008230190a09f20e3682",
+      "44fca1429144bd57023476d8"
+    ]
+  },
+  "safe_cases": [
+    {
+      "question_id": "0ad44ecce7e9c2eea3028673",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "boolean"
+    },
+    {
+      "question_id": "1718f0835a82b0bb7c0517f1",
+      "cause": "last_python_diagnostic_list_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "list_object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "number"
+    },
+    {
+      "question_id": "1eb6a80e3bcffd099385b474",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "string"
+    },
+    {
+      "question_id": "264556fad0e8f61d4b7fe7e9",
+      "cause": "last_python_diagnostic_list_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "list_object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "number"
+    },
+    {
+      "question_id": "287474d13b646c19858f98f7",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 1,
+      "draft_answer_type": "string"
+    },
+    {
+      "question_id": "292e05db320f21dac9efa68e",
+      "cause": "last_python_diagnostic_list_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "list_object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "string"
+    },
+    {
+      "question_id": "2ecf6ed7b588701c5b61916c",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "number"
+    },
+    {
+      "question_id": "315e7c004443575bb2996afc",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "string"
+    },
+    {
+      "question_id": "3e4b52c69a2bdf36e4f03676",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "string"
+    },
+    {
+      "question_id": "44d5008230190a09f20e3682",
+      "cause": "last_python_diagnostic_list_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "list_object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "boolean"
+    },
+    {
+      "question_id": "44fca1429144bd57023476d8",
+      "cause": "last_python_diagnostic_list_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "list_object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "string"
+    },
+    {
+      "question_id": "4f945a0ea52625d2facbf443",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "number"
+    },
+    {
+      "question_id": "5a9d2f417f6b862c0b7366e8",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "number"
+    },
+    {
+      "question_id": "8521d760a18e114ce1c608b3",
+      "cause": "last_python_diagnostic_list_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "list_object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "string"
+    },
+    {
+      "question_id": "88ef45f61812b1ec67818a35",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "string"
+    },
+    {
+      "question_id": "8e96be7df6dd4cc4c1e2a3b4",
+      "cause": "last_python_diagnostic_list_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "list_object",
+      "successful_scalar_computations_in_final_verifier": 1,
+      "draft_answer_type": "list_scalar"
+    },
+    {
+      "question_id": "b88f292ca552b0ea6d9929d1",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 1,
+      "draft_answer_type": "boolean"
+    },
+    {
+      "question_id": "bad5c823a031437e5a7ff621",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "number"
+    },
+    {
+      "question_id": "bbd3ab3b5e2878e0c7d8dc79",
+      "cause": "last_python_diagnostic_object",
+      "last_tool": "execute_python_code",
+      "last_answer_type": "object",
+      "successful_scalar_computations_in_final_verifier": 0,
+      "draft_answer_type": "number"
+    }
+  ]
+}

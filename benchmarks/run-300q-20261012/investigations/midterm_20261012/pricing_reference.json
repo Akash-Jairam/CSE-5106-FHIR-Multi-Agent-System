@@ -1,0 +1,18 @@
+{
+  "model": "gpt-6-luna",
+  "currency": "USD",
+  "units": "per 1000000 tokens",
+  "checked_client_date": "2026-10-12",
+  "sources": [
+    "https://azure.microsoft.com/en-us/blog/gpt-6-astra-sol-and-luna-for-production-agents-in-microsoft-foundry/",
+    "https://developers.openai.com/api/docs/models/gpt-6-luna"
+  ],
+  "short_context_rates": {
+    "azure_global_standard": {"input": 0.10, "cached_input": 0.01, "cache_write": 0.125, "output": 0.50},
+    "azure_us_data_zone_standard": {"input": 0.11, "cached_input": 0.011, "cache_write": 0.1375, "output": 0.55},
+    "azure_eu_data_zone_standard": {"input": 0.12, "cached_input": 0.012, "cache_write": 0.15, "output": 0.60}
+  },
+  "pricing_application": "Scenario estimates only. The baseline records provider azure but does not identify the billable deployment tier, negotiated rates, cache-write meter or invoice. All rates are public list prices, not verified account rates. Unknown timeout usage remains additional. FHIR hosting, local compute, taxes and other infrastructure charges are excluded.",
+  "openai_short_context_threshold_input_tokens": 272000,
+  "baseline_local_input_estimate_guard": 32000
+}

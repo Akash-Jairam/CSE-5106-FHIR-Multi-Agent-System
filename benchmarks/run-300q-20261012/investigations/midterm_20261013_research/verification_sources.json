@@ -1,0 +1,121 @@
+{
+  "reviewed_on": "2026-10-13",
+  "scope": "Primary papers, author repositories and versioned official tool documentation. No model calls, credential reads, source edits or baseline edits.",
+  "interpretation": "These sources motivate hypotheses and safeguards. None evaluates this GPT-6 Luna three-role FHIR team or demonstrates that the proposed local fixes improve its accuracy. The original FHIR-AgentBench single-agent architecture and inherited per-call context policy must be distinguished from the new local team.",
+  "pilot_constraints": {
+    "per_call_input_tokens": 32000,
+    "aggregate_total_tokens": 200000,
+    "tool_calls": 30,
+    "context_policy": "Retain inherited 32k fairness policy in the main repair pilot. Any larger-context study must be a separate controlled comparison across all systems."
+  },
+  "sources": [
+    {
+      "id": "huang_iclr2024",
+      "title": "Large Language Models Cannot Self-Correct Reasoning Yet",
+      "authors": "Huang et al.",
+      "venue": "ICLR 2024",
+      "primary_url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/8b4add8b0aa8749d80a34ca5d941c355-Paper-Conference.pdf",
+      "paper_url": "https://arxiv.org/abs/2310.01798",
+      "read_sections": "Sections 3–5; Tables 2–4 and 7; experimental setup.",
+      "findings": "On the sampled GPT-4 GSM8K evaluation, standard prompting scored 95.5%, then intrinsic correction scored 91.5% and 89.0% after one/two rounds. Oracle stopping achieved 97.5%. GPT-4 used 200 sampled questions, not the full test set. Equal-response comparisons also expose extra-compute confounding.",
+      "local_inference": "Retain external source/execution gates, measure right-to-wrong losses, and compare methods at fixed budgets. A second model opinion or apparent agreement is not a correctness certificate.",
+      "source_paths": [
+        "agent/verification_agent.py",
+        "agent/controller.py",
+        "scripts/revisions.py"
+      ],
+      "limits": "Historical models and math/commonsense/closed-book QA; no FHIR or Luna evidence. Oracle feedback is unavailable in deployment.",
+      "must_test": "On fixed development cases, retain failures and measure both correction gains and losses; distinguish semantic errors from operational withholding."
+    },
+    {
+      "id": "critic_iclr2024",
+      "title": "CRITIC: Large Language Models Can Self-Correct with Tool-Interactive Critiquing",
+      "authors": "Gou et al.",
+      "venue": "ICLR 2024",
+      "primary_url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/fef126561bbf9d4467dbb8d27334b8fe-Paper-Conference.pdf",
+      "paper_url": "https://arxiv.org/abs/2305.11738",
+      "author_repository": "https://github.com/microsoft/ProphetNet/tree/master/CRITIC",
+      "read_sections": "Method; Table 2; execution-feedback ablation; Appendix E.2 failure examples; author README.",
+      "findings": "For mathematical program synthesis, GPT-3.5-Turbo GSM8K rose from PoT 72.5% to CRITIC 78.2%; the no-tool variant scored 77.0%. Improvement is not universal: Text-Davinci-003 SVAMP fell from 84.0% to 80.7%. The paper documents wrong verification and wrong correction despite execution feedback.",
+      "local_inference": "Use actual execution outputs and structured error feedback for bounded repair. Keep semantic/scope checks: successful execution does not establish a correct question interpretation.",
+      "source_paths": [
+        "agent/verification_agent.py",
+        "agent/framework.py",
+        "tools/python_executor.py",
+        "tools/python_worker.py"
+      ],
+      "limits": "Web QA, math programs and toxicity tasks; oracle variants must not be conflated with deployed correction. No diagnostic/final schema ablation or FHIR team evaluation.",
+      "must_test": "Inspection objects cannot count as final computation; a final scalar/result list must agree with the verdict; preserve source and budget gates."
+    },
+    {
+      "id": "cove_acl2024",
+      "title": "Chain-of-Verification Reduces Hallucination in Large Language Models",
+      "authors": "Dhuliawala et al.",
+      "venue": "Findings of ACL 2024",
+      "primary_url": "https://aclanthology.org/2024.findings-acl.212.pdf",
+      "paper_url": "https://aclanthology.org/2024.findings-acl.212/",
+      "read_sections": "Section 3 variants; Tables 1–3; results discussion.",
+      "findings": "Factored verification answers questions without conditioning on the initial response. For Llama 65B biographies, FACTSCORE was 60.8 joint, 63.7 factored and 71.4 factor+revise, versus 55.9 few-shot. Generated fact count also fell: 16.6 few-shot versus 12.3 factor+revise.",
+      "local_inference": "Consider a blind independent-computation-first development ablation before exposing the candidate answer. Compare retained correct content/coverage as well as final accuracy.",
+      "source_paths": [
+        "agent/verification_agent.py",
+        "agent/controller.py"
+      ],
+      "limits": "List QA, closed-book MultiSpanQA and biographies with historical Llama models. Independence reduces conditioning, but does not prove source validity, completeness or clinical semantics.",
+      "must_test": "Under unchanged budgets, measure wrong-draft clear verdicts, false withholding, citation coverage and supported-empty outcomes; do not presume three agents outperform one."
+    },
+    {
+      "id": "tau_bench_2024",
+      "title": "tau-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains",
+      "authors": "Yao et al.",
+      "venue": "2024 benchmark paper",
+      "primary_url": "https://arxiv.org/html/2406.12045v1",
+      "paper_url": "https://arxiv.org/abs/2406.12045",
+      "author_repository": "https://github.com/sierra-research/tau-bench",
+      "read_sections": "Task construction/evaluation; pass^k definition; Table 2 and consistency discussion; current author README.",
+      "findings": "The original benchmark checks final database state against annotated goals. GPT-4o function calling scored 61.2% retail, 35.2% airline and 48.2% domain-average. Retail pass^8 was below 25%. Pass^k measures all k trials succeeding, unlike pass@k. The current original repository warns that its tasks are outdated.",
+      "local_inference": "Validate complete end-to-end contracts and domain rules, not only parsable tool calls or model self-reports; retain repeated-run reliability and versioned provenance.",
+      "source_paths": [
+        "agent/framework.py",
+        "agent/controller.py",
+        "tests/test_phase2_verification_runtime.py",
+        "scripts/variability.py"
+      ],
+      "limits": "Transactional customer service and simulated users, not read-only clinical QA. Numerical scores cannot predict local performance; use the pinned paper for historical claims.",
+      "must_test": "Repeated fixed development trials must check patient/time scope, final computation shape, release gates and artifact completeness. No benchmark migration is proposed."
+    },
+    {
+      "id": "mcp_tools_20250618",
+      "title": "Model Context Protocol specification: Tools and structured tool results",
+      "authors": "Official MCP specification",
+      "venue": "Version 2025-06-18 normative specification",
+      "primary_url": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "read_sections": "Tool definitions; Structured Content; Output Schema; Error Handling.",
+      "findings": "The versioned specification separates inputSchema from optional outputSchema and identifies structuredContent as server-produced data. When outputSchema exists, servers must conform and clients should validate. This is an interface requirement, not an empirical accuracy result.",
+      "local_inference": "Define inspection data and final computation data explicitly, validate them at the Python/host boundary, and preserve tool error provenance. Adopting MCP itself is unnecessary.",
+      "source_paths": [
+        "tools/python_executor.py",
+        "tools/python_worker.py",
+        "agent/verification_agent.py"
+      ],
+      "limits": "Schema conformance cannot establish correct filters, patient scope, complete evidence or semantic answer validity. The local pipeline currently uses its own registry, not MCP.",
+      "must_test": "Objects/object lists/mixed diagnostic rows cannot become final answers accidentally; finite typed answer values and verdict agreement remain necessary; stale calculations stay invalidated."
+    }
+  ],
+  "evidence_to_local_findings": {
+    "observed_contract_failure": "The local audit found 19 correct-draft losses ending in diagnostic dictionaries/object lists instead of accepted final calculations. The schema separation fix is directly motivated by local traces; MCP provides a design precedent, not empirical proof of a gain.",
+    "verification_limits": "The local verifier cleared 25 typed-wrong initial drafts. Huang/CRITIC/CoVe motivate measuring semantic error and conditioning; none proves those exact errors would disappear.",
+    "preserved_safeguards": [
+      "Independent source retrieval and computation",
+      "Patient/time/encounter scope",
+      "Finite final answer schema",
+      "Actual tool result equals reported recomputation",
+      "Citation/source checks",
+      "Unrepairable issues block release",
+      "No gold-based release override",
+      "First-attempt failures retained",
+      "Fixed context/token/tool ceilings"
+    ],
+    "development_only": "Use synthetic and existing pilot/development cases for regression and controlled ablations. Preserve the completed benchmark as an immutable measurement; no new held-out tuning or paid inference is authorized by this research task."
+  }
+}

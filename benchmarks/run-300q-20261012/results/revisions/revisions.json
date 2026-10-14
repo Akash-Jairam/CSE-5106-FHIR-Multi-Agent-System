@@ -1,0 +1,512 @@
+{
+ "settings": {
+  "model": "gpt-6-luna",
+  "split": "held_out",
+  "limit": null,
+  "evidence_source": "ndjson"
+ },
+ "arms": {
+  "ordinary_direct_llm": {
+   "questions": 300,
+   "failed_first_attempts": 3,
+   "attempts": 300,
+   "failed_attempts": 3,
+   "accuracy": {
+    "n": 300,
+    "count": 202,
+    "rate": 0.6733333333333333
+   },
+   "transitions": null,
+   "transitions_revised": null,
+   "runs_with_draft": 0,
+   "runs_scored_transitions": 0,
+   "transition_excluded_errors": 0,
+   "runs_revised": 0,
+   "unsupported": {
+    "n": 242,
+    "count": 6,
+    "rate": 0.024793388429752067,
+    "unknown": 0,
+    "no_evidence": 1,
+    "verified_empty": 0,
+    "invalid_citation": 5,
+    "citations_checked": true,
+    "support_completeness_checked": false,
+    "lower_bound": true
+   },
+   "empty_reference": {
+    "n": 42,
+    "count": 31,
+    "rate": 0.7380952380952381
+   },
+   "empty_reference_verified": {
+    "n": 42,
+    "count": 0,
+    "rate": 0.0
+   },
+   "empty_verification_unknown": 61,
+   "false_abstention": {
+    "n": 258,
+    "count": 25,
+    "rate": 0.09689922480620156
+   }
+  },
+  "ordinary_single_agent": {
+   "questions": 300,
+   "failed_first_attempts": 16,
+   "attempts": 300,
+   "failed_attempts": 16,
+   "accuracy": {
+    "n": 300,
+    "count": 223,
+    "rate": 0.7433333333333333
+   },
+   "transitions": {
+    "right_to_right": 221,
+    "right_to_wrong": 10,
+    "wrong_to_right": 1,
+    "wrong_to_wrong": 46,
+    "net": -9
+   },
+   "transitions_revised": {
+    "right_to_right": 10,
+    "right_to_wrong": 9,
+    "wrong_to_right": 1,
+    "wrong_to_wrong": 6,
+    "net": -8
+   },
+   "runs_with_draft": 284,
+   "runs_scored_transitions": 278,
+   "transition_excluded_errors": 6,
+   "runs_revised": 26,
+   "unsupported": {
+    "n": 229,
+    "count": 4,
+    "rate": 0.017467248908296942,
+    "unknown": 0,
+    "no_evidence": 0,
+    "verified_empty": 0,
+    "invalid_citation": 4,
+    "citations_checked": true,
+    "support_completeness_checked": false,
+    "lower_bound": true
+   },
+   "empty_reference": {
+    "n": 42,
+    "count": 35,
+    "rate": 0.8333333333333334
+   },
+   "empty_reference_verified": {
+    "n": 42,
+    "count": 0,
+    "rate": 0.0
+   },
+   "empty_verification_unknown": 42,
+   "false_abstention": {
+    "n": 258,
+    "count": 20,
+    "rate": 0.07751937984496124
+   }
+  },
+  "ordinary_multi_agent": {
+   "questions": 300,
+   "failed_first_attempts": 42,
+   "attempts": 300,
+   "failed_attempts": 42,
+   "accuracy": {
+    "n": 300,
+    "count": 162,
+    "rate": 0.54
+   },
+   "transitions": {
+    "right_to_right": 153,
+    "right_to_wrong": 31,
+    "wrong_to_right": 7,
+    "wrong_to_wrong": 60,
+    "net": -24
+   },
+   "transitions_revised": {
+    "right_to_right": 6,
+    "right_to_wrong": 5,
+    "wrong_to_right": 5,
+    "wrong_to_wrong": 12,
+    "net": 0
+   },
+   "runs_with_draft": 257,
+   "runs_scored_transitions": 251,
+   "transition_excluded_errors": 6,
+   "runs_revised": 28,
+   "unsupported": {
+    "n": 164,
+    "count": 1,
+    "rate": 0.006097560975609756,
+    "unknown": 0,
+    "no_evidence": 0,
+    "verified_empty": 23,
+    "invalid_citation": 1,
+    "citations_checked": true,
+    "support_completeness_checked": false,
+    "lower_bound": true
+   },
+   "empty_reference": {
+    "n": 42,
+    "count": 35,
+    "rate": 0.8333333333333334
+   },
+   "empty_reference_verified": {
+    "n": 42,
+    "count": 12,
+    "rate": 0.2857142857142857
+   },
+   "empty_verification_unknown": 0,
+   "false_abstention": {
+    "n": 258,
+    "count": 71,
+    "rate": 0.2751937984496124
+   }
+  },
+  "recovery_single_agent_intact": {
+   "questions": 50,
+   "failed_first_attempts": 2,
+   "attempts": 50,
+   "failed_attempts": 2,
+   "accuracy": {
+    "n": 50,
+    "count": 48,
+    "rate": 0.96
+   },
+   "transitions": {
+    "right_to_right": 48,
+    "right_to_wrong": 0,
+    "wrong_to_right": 0,
+    "wrong_to_wrong": 0,
+    "net": 0
+   },
+   "transitions_revised": {
+    "right_to_right": 1,
+    "right_to_wrong": 0,
+    "wrong_to_right": 0,
+    "wrong_to_wrong": 0,
+    "net": 0
+   },
+   "runs_with_draft": 49,
+   "runs_scored_transitions": 48,
+   "transition_excluded_errors": 1,
+   "runs_revised": 1,
+   "unsupported": {
+    "n": 48,
+    "count": 0,
+    "rate": 0.0,
+    "unknown": 0,
+    "no_evidence": 0,
+    "verified_empty": 0,
+    "invalid_citation": 0,
+    "citations_checked": true,
+    "support_completeness_checked": false,
+    "lower_bound": true
+   },
+   "empty_reference": {
+    "n": 0,
+    "count": 0,
+    "rate": null
+   },
+   "empty_reference_verified": {
+    "n": 0,
+    "count": 0,
+    "rate": null
+   },
+   "empty_verification_unknown": 0,
+   "false_abstention": {
+    "n": 50,
+    "count": 0,
+    "rate": 0.0
+   }
+  },
+  "recovery_single_agent_omitted": {
+   "questions": 50,
+   "failed_first_attempts": 2,
+   "attempts": 50,
+   "failed_attempts": 2,
+   "accuracy": {
+    "n": 50,
+    "count": 41,
+    "rate": 0.82
+   },
+   "transitions": {
+    "right_to_right": 41,
+    "right_to_wrong": 0,
+    "wrong_to_right": 0,
+    "wrong_to_wrong": 6,
+    "net": 0
+   },
+   "transitions_revised": {
+    "right_to_right": 0,
+    "right_to_wrong": 0,
+    "wrong_to_right": 0,
+    "wrong_to_wrong": 0,
+    "net": 0
+   },
+   "runs_with_draft": 48,
+   "runs_scored_transitions": 47,
+   "transition_excluded_errors": 1,
+   "runs_revised": 0,
+   "unsupported": {
+    "n": 47,
+    "count": 0,
+    "rate": 0.0,
+    "unknown": 0,
+    "no_evidence": 0,
+    "verified_empty": 0,
+    "invalid_citation": 0,
+    "citations_checked": true,
+    "support_completeness_checked": false,
+    "lower_bound": true
+   },
+   "empty_reference": {
+    "n": 0,
+    "count": 0,
+    "rate": null
+   },
+   "empty_reference_verified": {
+    "n": 0,
+    "count": 0,
+    "rate": null
+   },
+   "empty_verification_unknown": 1,
+   "false_abstention": {
+    "n": 50,
+    "count": 1,
+    "rate": 0.02
+   }
+  },
+  "recovery_multi_agent_intact": {
+   "questions": 50,
+   "failed_first_attempts": 4,
+   "attempts": 50,
+   "failed_attempts": 4,
+   "accuracy": {
+    "n": 50,
+    "count": 33,
+    "rate": 0.66
+   },
+   "transitions": {
+    "right_to_right": 33,
+    "right_to_wrong": 7,
+    "wrong_to_right": 0,
+    "wrong_to_wrong": 4,
+    "net": -7
+   },
+   "transitions_revised": {
+    "right_to_right": 0,
+    "right_to_wrong": 0,
+    "wrong_to_right": 0,
+    "wrong_to_wrong": 0,
+    "net": 0
+   },
+   "runs_with_draft": 44,
+   "runs_scored_transitions": 44,
+   "transition_excluded_errors": 0,
+   "runs_revised": 0,
+   "unsupported": {
+    "n": 36,
+    "count": 0,
+    "rate": 0.0,
+    "unknown": 0,
+    "no_evidence": 0,
+    "verified_empty": 1,
+    "invalid_citation": 0,
+    "citations_checked": true,
+    "support_completeness_checked": false,
+    "lower_bound": true
+   },
+   "empty_reference": {
+    "n": 0,
+    "count": 0,
+    "rate": null
+   },
+   "empty_reference_verified": {
+    "n": 0,
+    "count": 0,
+    "rate": null
+   },
+   "empty_verification_unknown": 0,
+   "false_abstention": {
+    "n": 50,
+    "count": 10,
+    "rate": 0.2
+   }
+  },
+  "recovery_multi_agent_omitted": {
+   "questions": 50,
+   "failed_first_attempts": 4,
+   "attempts": 50,
+   "failed_attempts": 4,
+   "accuracy": {
+    "n": 50,
+    "count": 31,
+    "rate": 0.62
+   },
+   "transitions": {
+    "right_to_right": 30,
+    "right_to_wrong": 9,
+    "wrong_to_right": 1,
+    "wrong_to_wrong": 6,
+    "net": -8
+   },
+   "transitions_revised": {
+    "right_to_right": 0,
+    "right_to_wrong": 2,
+    "wrong_to_right": 1,
+    "wrong_to_wrong": 0,
+    "net": -1
+   },
+   "runs_with_draft": 47,
+   "runs_scored_transitions": 46,
+   "transition_excluded_errors": 1,
+   "runs_revised": 3,
+   "unsupported": {
+    "n": 35,
+    "count": 0,
+    "rate": 0.0,
+    "unknown": 0,
+    "no_evidence": 0,
+    "verified_empty": 1,
+    "invalid_citation": 0,
+    "citations_checked": true,
+    "support_completeness_checked": false,
+    "lower_bound": true
+   },
+   "empty_reference": {
+    "n": 0,
+    "count": 0,
+    "rate": null
+   },
+   "empty_reference_verified": {
+    "n": 0,
+    "count": 0,
+    "rate": null
+   },
+   "empty_verification_unknown": 0,
+   "false_abstention": {
+    "n": 50,
+    "count": 11,
+    "rate": 0.22
+   }
+  }
+ },
+ "recovery": {
+  "single_agent": {
+   "questions": 50,
+   "fetched": {
+    "n": 50,
+    "count": 47,
+    "rate": 0.94
+   },
+   "retrieved": {
+    "n": 50,
+    "count": 47,
+    "rate": 0.94
+   },
+   "cited": {
+    "n": 50,
+    "count": 42,
+    "rate": 0.84
+   },
+   "used": {
+    "n": 3,
+    "count": 0,
+    "rate": 0.0
+   },
+   "verifier_only": {
+    "n": 0,
+    "count": 0,
+    "rate": null
+   },
+   "recovered": {
+    "n": 9,
+    "count": 0,
+    "rate": 0.0
+   },
+   "unknown": {
+    "fetched": 0,
+    "retrieved": 0,
+    "cited": 0,
+    "used": 47,
+    "verifier_only": 50,
+    "recovered": 41
+   },
+   "correct": {
+    "n": 50,
+    "count": 41,
+    "rate": 0.82
+   },
+   "correct_when_retrieved": {
+    "n": 47,
+    "count": 41,
+    "rate": 0.8723404255319149
+   },
+   "correct_given_intact_correct": {
+    "n": 48,
+    "count": 41,
+    "rate": 0.8541666666666666
+   }
+  },
+  "multi_agent": {
+   "questions": 50,
+   "fetched": {
+    "n": 50,
+    "count": 50,
+    "rate": 1.0
+   },
+   "retrieved": {
+    "n": 50,
+    "count": 50,
+    "rate": 1.0
+   },
+   "cited": {
+    "n": 50,
+    "count": 40,
+    "rate": 0.8
+   },
+   "used": {
+    "n": 50,
+    "count": 34,
+    "rate": 0.68
+   },
+   "verifier_only": {
+    "n": 44,
+    "count": 0,
+    "rate": 0.0
+   },
+   "recovered": {
+    "n": 50,
+    "count": 31,
+    "rate": 0.62
+   },
+   "unknown": {
+    "fetched": 0,
+    "retrieved": 0,
+    "cited": 0,
+    "used": 0,
+    "verifier_only": 6,
+    "recovered": 0
+   },
+   "correct": {
+    "n": 50,
+    "count": 31,
+    "rate": 0.62
+   },
+   "correct_when_retrieved": {
+    "n": 50,
+    "count": 31,
+    "rate": 0.62
+   },
+   "correct_given_intact_correct": {
+    "n": 33,
+    "count": 26,
+    "rate": 0.7878787878787878
+   }
+  }
+ },
+ "skipped": {}
+}

@@ -1,0 +1,1883 @@
+{
+  "generated_utc": "2026-10-13T03:10:06+00:00",
+  "complete": true,
+  "primary_policy": "First recorded terminal attempt per arm/question; retries never replace primary failures or usage.",
+  "planned_arms": 22,
+  "planned_terminal_attempts": 1400,
+  "totals": {
+    "planned": 1400,
+    "attempted": 1400,
+    "unattempted": 0,
+    "failed": 102,
+    "successful_terminal": 1298,
+    "limitations": 404,
+    "budget_stops": 70,
+    "retry_count": 0,
+    "failure_categories": {
+      "api_timeout": 1,
+      "invalid_output_schema": 19,
+      "legacy_input_limit_32k": 58,
+      "other": 2,
+      "role_contract": 22
+    },
+    "budget_stop_categories": {
+      "token": 63,
+      "tool": 7
+    },
+    "tokens": {
+      "measured_attempts": 1399,
+      "unknown_attempts": 1,
+      "coverage": 0.9992857142857143,
+      "known_total": 66072194,
+      "total": null,
+      "mean_measured": 47228.15868477484,
+      "min_measured": 613,
+      "max_measured": 198631
+    },
+    "reported_tokens": {
+      "measured_attempts": 1400,
+      "unknown_attempts": 0,
+      "coverage": 1.0,
+      "known_total": 66170610,
+      "total": 66170610,
+      "mean_measured": 47264.72142857143,
+      "min_measured": 613,
+      "max_measured": 198631
+    },
+    "latency_seconds": {
+      "measured_attempts": 1400,
+      "unknown_attempts": 0,
+      "coverage": 1.0,
+      "known_total": 20091.124,
+      "total": 20091.124,
+      "mean_measured": 14.350802857142858,
+      "min_measured": 0.819,
+      "max_measured": 117.221
+    },
+    "provider_usage_unavailable_attempts": 1,
+    "input_guard": {
+      "source": "Anchored Input tokens exceeded: <prompt_estimate> > <cap> error, allowing only known controller/role wrappers; optional explicit input_guard fields.",
+      "observed_attempts": 58,
+      "prompt_estimate": {
+        "measured_attempts": 58,
+        "unknown_attempts": 1342,
+        "coverage": 0.041428571428571426,
+        "known_total": 2812333,
+        "total": null,
+        "mean_measured": 48488.5,
+        "min_measured": 32023,
+        "max_measured": 133535
+      },
+      "cap": {
+        "measured_attempts": 58,
+        "unknown_attempts": 1342,
+        "coverage": 0.041428571428571426,
+        "known_total": 1856000,
+        "total": null,
+        "mean_measured": 32000.0,
+        "min_measured": 32000,
+        "max_measured": 32000
+      }
+    }
+  },
+  "arms": {
+    "ordinary_direct_llm": {
+      "planned": 300,
+      "attempted": 300,
+      "unattempted": 0,
+      "failed": 3,
+      "successful_terminal": 297,
+      "limitations": 86,
+      "budget_stops": 0,
+      "failure_categories": {
+        "invalid_output_schema": 3
+      },
+      "budget_stop_categories": {},
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 300,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1800924,
+        "total": 1800924,
+        "mean_measured": 6003.08,
+        "median_measured": 8191.0,
+        "min_measured": 613,
+        "max_measured": 10515
+      },
+      "reported_tokens": {
+        "measured_attempts": 300,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1800924,
+        "total": 1800924,
+        "mean_measured": 6003.08,
+        "median_measured": 8191.0,
+        "min_measured": 613,
+        "max_measured": 10515
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 300,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1864.754,
+        "total": 1864.754,
+        "mean_measured": 6.215846666666667,
+        "median_measured": 1.632,
+        "min_measured": 0.819,
+        "max_measured": 94.469
+      },
+      "input_guard": {
+        "observed_attempts": 0,
+        "prompt_estimate": {
+          "measured_attempts": 0,
+          "unknown_attempts": 300,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        },
+        "cap": {
+          "measured_attempts": 0,
+          "unknown_attempts": 300,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        }
+      }
+    },
+    "ordinary_single_agent": {
+      "planned": 300,
+      "attempted": 300,
+      "unattempted": 0,
+      "failed": 16,
+      "successful_terminal": 284,
+      "limitations": 72,
+      "budget_stops": 8,
+      "failure_categories": {
+        "invalid_output_schema": 6,
+        "legacy_input_limit_32k": 10
+      },
+      "budget_stop_categories": {
+        "token": 8
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 300,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 15643114,
+        "total": 15643114,
+        "mean_measured": 52143.71333333333,
+        "median_measured": 44378.5,
+        "min_measured": 4578,
+        "max_measured": 197461
+      },
+      "reported_tokens": {
+        "measured_attempts": 300,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 15643114,
+        "total": 15643114,
+        "mean_measured": 52143.71333333333,
+        "median_measured": 44378.5,
+        "min_measured": 4578,
+        "max_measured": 197461
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 300,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 4387.034,
+        "total": 4387.034,
+        "mean_measured": 14.623446666666666,
+        "median_measured": 11.400500000000001,
+        "min_measured": 1.357,
+        "max_measured": 97.131
+      },
+      "input_guard": {
+        "observed_attempts": 10,
+        "prompt_estimate": {
+          "measured_attempts": 10,
+          "unknown_attempts": 290,
+          "coverage": 0.03333333333333333,
+          "known_total": 508205,
+          "total": null,
+          "mean_measured": 50820.5,
+          "median_measured": 46105.5,
+          "min_measured": 32095,
+          "max_measured": 101982
+        },
+        "cap": {
+          "measured_attempts": 10,
+          "unknown_attempts": 290,
+          "coverage": 0.03333333333333333,
+          "known_total": 320000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000.0,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "ordinary_multi_agent": {
+      "planned": 300,
+      "attempted": 300,
+      "unattempted": 0,
+      "failed": 42,
+      "successful_terminal": 258,
+      "limitations": 117,
+      "budget_stops": 30,
+      "failure_categories": {
+        "legacy_input_limit_32k": 28,
+        "role_contract": 14
+      },
+      "budget_stop_categories": {
+        "token": 27,
+        "tool": 3
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 300,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 23146443,
+        "total": 23146443,
+        "mean_measured": 77154.81,
+        "median_measured": 61126.5,
+        "min_measured": 8541,
+        "max_measured": 198631
+      },
+      "reported_tokens": {
+        "measured_attempts": 300,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 23146443,
+        "total": 23146443,
+        "mean_measured": 77154.81,
+        "median_measured": 61126.5,
+        "min_measured": 8541,
+        "max_measured": 198631
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 300,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 6846.912,
+        "total": 6846.912,
+        "mean_measured": 22.823040000000002,
+        "median_measured": 20.2515,
+        "min_measured": 4.062,
+        "max_measured": 85.205
+      },
+      "input_guard": {
+        "observed_attempts": 28,
+        "prompt_estimate": {
+          "measured_attempts": 28,
+          "unknown_attempts": 272,
+          "coverage": 0.09333333333333334,
+          "known_total": 1425118,
+          "total": null,
+          "mean_measured": 50897.07142857143,
+          "median_measured": 41718.0,
+          "min_measured": 32023,
+          "max_measured": 133535
+        },
+        "cap": {
+          "measured_attempts": 28,
+          "unknown_attempts": 272,
+          "coverage": 0.09333333333333334,
+          "known_total": 896000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000.0,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "recovery_single_agent_intact": {
+      "planned": 50,
+      "attempted": 50,
+      "unattempted": 0,
+      "failed": 2,
+      "successful_terminal": 48,
+      "limitations": 1,
+      "budget_stops": 0,
+      "failure_categories": {
+        "invalid_output_schema": 1,
+        "legacy_input_limit_32k": 1
+      },
+      "budget_stop_categories": {},
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1595250,
+        "total": 1595250,
+        "mean_measured": 31905.0,
+        "median_measured": 28485.5,
+        "min_measured": 11652,
+        "max_measured": 70051
+      },
+      "reported_tokens": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1595250,
+        "total": 1595250,
+        "mean_measured": 31905.0,
+        "median_measured": 28485.5,
+        "min_measured": 11652,
+        "max_measured": 70051
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 463.59,
+        "total": 463.59,
+        "mean_measured": 9.271799999999999,
+        "median_measured": 8.7395,
+        "min_measured": 4.335,
+        "max_measured": 16.84
+      },
+      "input_guard": {
+        "observed_attempts": 1,
+        "prompt_estimate": {
+          "measured_attempts": 1,
+          "unknown_attempts": 49,
+          "coverage": 0.02,
+          "known_total": 45218,
+          "total": null,
+          "mean_measured": 45218.0,
+          "median_measured": 45218,
+          "min_measured": 45218,
+          "max_measured": 45218
+        },
+        "cap": {
+          "measured_attempts": 1,
+          "unknown_attempts": 49,
+          "coverage": 0.02,
+          "known_total": 32000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "recovery_single_agent_omitted": {
+      "planned": 50,
+      "attempted": 50,
+      "unattempted": 0,
+      "failed": 2,
+      "successful_terminal": 48,
+      "limitations": 2,
+      "budget_stops": 1,
+      "failure_categories": {
+        "invalid_output_schema": 1,
+        "legacy_input_limit_32k": 1
+      },
+      "budget_stop_categories": {
+        "token": 1
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 2175924,
+        "total": 2175924,
+        "mean_measured": 43518.48,
+        "median_measured": 40411.0,
+        "min_measured": 13293,
+        "max_measured": 185057
+      },
+      "reported_tokens": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 2175924,
+        "total": 2175924,
+        "mean_measured": 43518.48,
+        "median_measured": 40411.0,
+        "min_measured": 13293,
+        "max_measured": 185057
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 553.032,
+        "total": 553.032,
+        "mean_measured": 11.060640000000001,
+        "median_measured": 9.359,
+        "min_measured": 5.87,
+        "max_measured": 27.807
+      },
+      "input_guard": {
+        "observed_attempts": 1,
+        "prompt_estimate": {
+          "measured_attempts": 1,
+          "unknown_attempts": 49,
+          "coverage": 0.02,
+          "known_total": 45693,
+          "total": null,
+          "mean_measured": 45693.0,
+          "median_measured": 45693,
+          "min_measured": 45693,
+          "max_measured": 45693
+        },
+        "cap": {
+          "measured_attempts": 1,
+          "unknown_attempts": 49,
+          "coverage": 0.02,
+          "known_total": 32000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "recovery_multi_agent_intact": {
+      "planned": 50,
+      "attempted": 50,
+      "unattempted": 0,
+      "failed": 4,
+      "successful_terminal": 46,
+      "limitations": 13,
+      "budget_stops": 2,
+      "failure_categories": {
+        "legacy_input_limit_32k": 2,
+        "other": 1,
+        "role_contract": 1
+      },
+      "budget_stop_categories": {
+        "token": 2
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 3002942,
+        "total": 3002942,
+        "mean_measured": 60058.84,
+        "median_measured": 48982.0,
+        "min_measured": 14393,
+        "max_measured": 195139
+      },
+      "reported_tokens": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 3002942,
+        "total": 3002942,
+        "mean_measured": 60058.84,
+        "median_measured": 48982.0,
+        "min_measured": 14393,
+        "max_measured": 195139
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 985.589,
+        "total": 985.589,
+        "mean_measured": 19.71178,
+        "median_measured": 18.6965,
+        "min_measured": 4.957,
+        "max_measured": 48.6
+      },
+      "input_guard": {
+        "observed_attempts": 2,
+        "prompt_estimate": {
+          "measured_attempts": 2,
+          "unknown_attempts": 48,
+          "coverage": 0.04,
+          "known_total": 87167,
+          "total": null,
+          "mean_measured": 43583.5,
+          "median_measured": 43583.5,
+          "min_measured": 43515,
+          "max_measured": 43652
+        },
+        "cap": {
+          "measured_attempts": 2,
+          "unknown_attempts": 48,
+          "coverage": 0.04,
+          "known_total": 64000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000.0,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "recovery_multi_agent_omitted": {
+      "planned": 50,
+      "attempted": 50,
+      "unattempted": 0,
+      "failed": 4,
+      "successful_terminal": 46,
+      "limitations": 13,
+      "budget_stops": 4,
+      "failure_categories": {
+        "legacy_input_limit_32k": 3,
+        "role_contract": 1
+      },
+      "budget_stop_categories": {
+        "token": 1,
+        "tool": 3
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 3440673,
+        "total": 3440673,
+        "mean_measured": 68813.46,
+        "median_measured": 57780.5,
+        "min_measured": 15601,
+        "max_measured": 183857
+      },
+      "reported_tokens": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 3440673,
+        "total": 3440673,
+        "mean_measured": 68813.46,
+        "median_measured": 57780.5,
+        "min_measured": 15601,
+        "max_measured": 183857
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 50,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1137.98,
+        "total": 1137.98,
+        "mean_measured": 22.7596,
+        "median_measured": 23.459,
+        "min_measured": 6.713,
+        "max_measured": 43.047
+      },
+      "input_guard": {
+        "observed_attempts": 3,
+        "prompt_estimate": {
+          "measured_attempts": 3,
+          "unknown_attempts": 47,
+          "coverage": 0.06,
+          "known_total": 103852,
+          "total": null,
+          "mean_measured": 34617.333333333336,
+          "median_measured": 34448,
+          "min_measured": 33324,
+          "max_measured": 36080
+        },
+        "cap": {
+          "measured_attempts": 3,
+          "unknown_attempts": 47,
+          "coverage": 0.06,
+          "known_total": 96000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "variability_direct_llm_r1": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 1,
+      "successful_terminal": 19,
+      "limitations": 6,
+      "budget_stops": 0,
+      "failure_categories": {
+        "invalid_output_schema": 1
+      },
+      "budget_stop_categories": {},
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 128541,
+        "total": 128541,
+        "mean_measured": 6427.05,
+        "median_measured": 8325.0,
+        "min_measured": 652,
+        "max_measured": 8762
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 128541,
+        "total": 128541,
+        "mean_measured": 6427.05,
+        "median_measured": 8325.0,
+        "min_measured": 652,
+        "max_measured": 8762
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 33.268,
+        "total": 33.268,
+        "mean_measured": 1.6634,
+        "median_measured": 1.619,
+        "min_measured": 0.952,
+        "max_measured": 2.844
+      },
+      "input_guard": {
+        "observed_attempts": 0,
+        "prompt_estimate": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        },
+        "cap": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        }
+      }
+    },
+    "variability_direct_llm_r2": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 1,
+      "successful_terminal": 19,
+      "limitations": 5,
+      "budget_stops": 0,
+      "failure_categories": {
+        "invalid_output_schema": 1
+      },
+      "budget_stop_categories": {},
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 128737,
+        "total": 128737,
+        "mean_measured": 6436.85,
+        "median_measured": 8351.0,
+        "min_measured": 648,
+        "max_measured": 8740
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 128737,
+        "total": 128737,
+        "mean_measured": 6436.85,
+        "median_measured": 8351.0,
+        "min_measured": 648,
+        "max_measured": 8740
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 34.162,
+        "total": 34.162,
+        "mean_measured": 1.7081,
+        "median_measured": 1.826,
+        "min_measured": 1.162,
+        "max_measured": 2.396
+      },
+      "input_guard": {
+        "observed_attempts": 0,
+        "prompt_estimate": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        },
+        "cap": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        }
+      }
+    },
+    "variability_direct_llm_r3": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 1,
+      "successful_terminal": 19,
+      "limitations": 7,
+      "budget_stops": 0,
+      "failure_categories": {
+        "invalid_output_schema": 1
+      },
+      "budget_stop_categories": {},
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 128529,
+        "total": 128529,
+        "mean_measured": 6426.45,
+        "median_measured": 8382.0,
+        "min_measured": 650,
+        "max_measured": 8690
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 128529,
+        "total": 128529,
+        "mean_measured": 6426.45,
+        "median_measured": 8382.0,
+        "min_measured": 650,
+        "max_measured": 8690
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 34.214,
+        "total": 34.214,
+        "mean_measured": 1.7106999999999999,
+        "median_measured": 1.672,
+        "min_measured": 1.192,
+        "max_measured": 2.248
+      },
+      "input_guard": {
+        "observed_attempts": 0,
+        "prompt_estimate": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        },
+        "cap": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        }
+      }
+    },
+    "variability_direct_llm_r4": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 0,
+      "successful_terminal": 20,
+      "limitations": 5,
+      "budget_stops": 0,
+      "failure_categories": {},
+      "budget_stop_categories": {},
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 128364,
+        "total": 128364,
+        "mean_measured": 6418.2,
+        "median_measured": 8374.5,
+        "min_measured": 650,
+        "max_measured": 8704
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 128364,
+        "total": 128364,
+        "mean_measured": 6418.2,
+        "median_measured": 8374.5,
+        "min_measured": 650,
+        "max_measured": 8704
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 32.202,
+        "total": 32.202,
+        "mean_measured": 1.6100999999999999,
+        "median_measured": 1.501,
+        "min_measured": 0.88,
+        "max_measured": 2.58
+      },
+      "input_guard": {
+        "observed_attempts": 0,
+        "prompt_estimate": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        },
+        "cap": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        }
+      }
+    },
+    "variability_direct_llm_r5": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 0,
+      "successful_terminal": 20,
+      "limitations": 6,
+      "budget_stops": 0,
+      "failure_categories": {},
+      "budget_stop_categories": {},
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 128589,
+        "total": 128589,
+        "mean_measured": 6429.45,
+        "median_measured": 8373.5,
+        "min_measured": 649,
+        "max_measured": 8843
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 128589,
+        "total": 128589,
+        "mean_measured": 6429.45,
+        "median_measured": 8373.5,
+        "min_measured": 649,
+        "max_measured": 8843
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 35.537,
+        "total": 35.537,
+        "mean_measured": 1.77685,
+        "median_measured": 1.58,
+        "min_measured": 1.101,
+        "max_measured": 3.816
+      },
+      "input_guard": {
+        "observed_attempts": 0,
+        "prompt_estimate": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        },
+        "cap": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        }
+      }
+    },
+    "variability_single_agent_r1": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 1,
+      "successful_terminal": 19,
+      "limitations": 6,
+      "budget_stops": 1,
+      "failure_categories": {
+        "invalid_output_schema": 1
+      },
+      "budget_stop_categories": {
+        "token": 1
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1331817,
+        "total": 1331817,
+        "mean_measured": 66590.85,
+        "median_measured": 55043.5,
+        "min_measured": 10813,
+        "max_measured": 177645
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1331817,
+        "total": 1331817,
+        "mean_measured": 66590.85,
+        "median_measured": 55043.5,
+        "min_measured": 10813,
+        "max_measured": 177645
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 262.98,
+        "total": 262.98,
+        "mean_measured": 13.149000000000001,
+        "median_measured": 11.047,
+        "min_measured": 3.551,
+        "max_measured": 30.476
+      },
+      "input_guard": {
+        "observed_attempts": 0,
+        "prompt_estimate": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        },
+        "cap": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        }
+      }
+    },
+    "variability_single_agent_r2": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 1,
+      "successful_terminal": 19,
+      "limitations": 5,
+      "budget_stops": 2,
+      "failure_categories": {
+        "invalid_output_schema": 1
+      },
+      "budget_stop_categories": {
+        "token": 2
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1153314,
+        "total": 1153314,
+        "mean_measured": 57665.7,
+        "median_measured": 46359.0,
+        "min_measured": 20643,
+        "max_measured": 188207
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1153314,
+        "total": 1153314,
+        "mean_measured": 57665.7,
+        "median_measured": 46359.0,
+        "min_measured": 20643,
+        "max_measured": 188207
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 327.024,
+        "total": 327.024,
+        "mean_measured": 16.3512,
+        "median_measured": 9.9025,
+        "min_measured": 5.296,
+        "max_measured": 90.456
+      },
+      "input_guard": {
+        "observed_attempts": 0,
+        "prompt_estimate": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        },
+        "cap": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        }
+      }
+    },
+    "variability_single_agent_r3": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 1,
+      "successful_terminal": 19,
+      "limitations": 7,
+      "budget_stops": 2,
+      "failure_categories": {
+        "invalid_output_schema": 1
+      },
+      "budget_stop_categories": {
+        "token": 2
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1249439,
+        "total": 1249439,
+        "mean_measured": 62471.95,
+        "median_measured": 45982.5,
+        "min_measured": 13039,
+        "max_measured": 197047
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1249439,
+        "total": 1249439,
+        "mean_measured": 62471.95,
+        "median_measured": 45982.5,
+        "min_measured": 13039,
+        "max_measured": 197047
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 251.357,
+        "total": 251.357,
+        "mean_measured": 12.56785,
+        "median_measured": 10.864999999999998,
+        "min_measured": 4.086,
+        "max_measured": 23.774
+      },
+      "input_guard": {
+        "observed_attempts": 0,
+        "prompt_estimate": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        },
+        "cap": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        }
+      }
+    },
+    "variability_single_agent_r4": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 3,
+      "successful_terminal": 17,
+      "limitations": 5,
+      "budget_stops": 2,
+      "failure_categories": {
+        "invalid_output_schema": 1,
+        "legacy_input_limit_32k": 2
+      },
+      "budget_stop_categories": {
+        "token": 2
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1370535,
+        "total": 1370535,
+        "mean_measured": 68526.75,
+        "median_measured": 53767.0,
+        "min_measured": 13971,
+        "max_measured": 183846
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1370535,
+        "total": 1370535,
+        "mean_measured": 68526.75,
+        "median_measured": 53767.0,
+        "min_measured": 13971,
+        "max_measured": 183846
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 263.835,
+        "total": 263.835,
+        "mean_measured": 13.191749999999999,
+        "median_measured": 10.649000000000001,
+        "min_measured": 5.556,
+        "max_measured": 28.788
+      },
+      "input_guard": {
+        "observed_attempts": 2,
+        "prompt_estimate": {
+          "measured_attempts": 2,
+          "unknown_attempts": 18,
+          "coverage": 0.1,
+          "known_total": 69613,
+          "total": null,
+          "mean_measured": 34806.5,
+          "median_measured": 34806.5,
+          "min_measured": 32325,
+          "max_measured": 37288
+        },
+        "cap": {
+          "measured_attempts": 2,
+          "unknown_attempts": 18,
+          "coverage": 0.1,
+          "known_total": 64000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000.0,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "variability_single_agent_r5": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 1,
+      "successful_terminal": 19,
+      "limitations": 6,
+      "budget_stops": 1,
+      "failure_categories": {
+        "invalid_output_schema": 1
+      },
+      "budget_stop_categories": {
+        "token": 1
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1194064,
+        "total": 1194064,
+        "mean_measured": 59703.2,
+        "median_measured": 45760.0,
+        "min_measured": 13971,
+        "max_measured": 185382
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1194064,
+        "total": 1194064,
+        "mean_measured": 59703.2,
+        "median_measured": 45760.0,
+        "min_measured": 13971,
+        "max_measured": 185382
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 226.437,
+        "total": 226.437,
+        "mean_measured": 11.321850000000001,
+        "median_measured": 9.311499999999999,
+        "min_measured": 5.388,
+        "max_measured": 25.322
+      },
+      "input_guard": {
+        "observed_attempts": 0,
+        "prompt_estimate": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        },
+        "cap": {
+          "measured_attempts": 0,
+          "unknown_attempts": 20,
+          "coverage": 0.0,
+          "known_total": 0,
+          "total": null,
+          "mean_measured": null,
+          "median_measured": null,
+          "min_measured": null,
+          "max_measured": null
+        }
+      }
+    },
+    "variability_multi_agent_r1": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 4,
+      "successful_terminal": 16,
+      "limitations": 7,
+      "budget_stops": 3,
+      "failure_categories": {
+        "legacy_input_limit_32k": 2,
+        "other": 1,
+        "role_contract": 1
+      },
+      "budget_stop_categories": {
+        "token": 3
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1837022,
+        "total": 1837022,
+        "mean_measured": 91851.1,
+        "median_measured": 57599.0,
+        "min_measured": 19152,
+        "max_measured": 198498
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1837022,
+        "total": 1837022,
+        "mean_measured": 91851.1,
+        "median_measured": 57599.0,
+        "min_measured": 19152,
+        "max_measured": 198498
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 454.86199999999997,
+        "total": 454.86199999999997,
+        "mean_measured": 22.7431,
+        "median_measured": 19.2945,
+        "min_measured": 10.088,
+        "max_measured": 41.283
+      },
+      "input_guard": {
+        "observed_attempts": 2,
+        "prompt_estimate": {
+          "measured_attempts": 2,
+          "unknown_attempts": 18,
+          "coverage": 0.1,
+          "known_total": 71740,
+          "total": null,
+          "mean_measured": 35870.0,
+          "median_measured": 35870.0,
+          "min_measured": 32189,
+          "max_measured": 39551
+        },
+        "cap": {
+          "measured_attempts": 2,
+          "unknown_attempts": 18,
+          "coverage": 0.1,
+          "known_total": 64000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000.0,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "variability_multi_agent_r2": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 5,
+      "successful_terminal": 15,
+      "limitations": 8,
+      "budget_stops": 3,
+      "failure_categories": {
+        "legacy_input_limit_32k": 4,
+        "role_contract": 1
+      },
+      "budget_stop_categories": {
+        "token": 3
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1632066,
+        "total": 1632066,
+        "mean_measured": 81603.3,
+        "median_measured": 63857.0,
+        "min_measured": 19175,
+        "max_measured": 196085
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1632066,
+        "total": 1632066,
+        "mean_measured": 81603.3,
+        "median_measured": 63857.0,
+        "min_measured": 19175,
+        "max_measured": 196085
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 406.476,
+        "total": 406.476,
+        "mean_measured": 20.3238,
+        "median_measured": 19.3425,
+        "min_measured": 9.397,
+        "max_measured": 37.474
+      },
+      "input_guard": {
+        "observed_attempts": 4,
+        "prompt_estimate": {
+          "measured_attempts": 4,
+          "unknown_attempts": 16,
+          "coverage": 0.2,
+          "known_total": 179176,
+          "total": null,
+          "mean_measured": 44794.0,
+          "median_measured": 38271.0,
+          "min_measured": 32621,
+          "max_measured": 70013
+        },
+        "cap": {
+          "measured_attempts": 4,
+          "unknown_attempts": 16,
+          "coverage": 0.2,
+          "known_total": 128000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000.0,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "variability_multi_agent_r3": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 4,
+      "successful_terminal": 16,
+      "limitations": 8,
+      "budget_stops": 3,
+      "failure_categories": {
+        "api_timeout": 1,
+        "legacy_input_limit_32k": 2,
+        "role_contract": 1
+      },
+      "budget_stop_categories": {
+        "token": 3
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 19,
+        "unknown_attempts": 1,
+        "coverage": 0.95,
+        "known_total": 1481378,
+        "total": null,
+        "mean_measured": 77967.26315789473,
+        "median_measured": 55189,
+        "min_measured": 13622,
+        "max_measured": 196369
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1579794,
+        "total": 1579794,
+        "mean_measured": 78989.7,
+        "median_measured": 55992.5,
+        "min_measured": 13622,
+        "max_measured": 196369
+      },
+      "provider_usage_unavailable_attempts": 1,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 481.961,
+        "total": 481.961,
+        "mean_measured": 24.09805,
+        "median_measured": 19.169,
+        "min_measured": 7.515,
+        "max_measured": 74.186
+      },
+      "input_guard": {
+        "observed_attempts": 2,
+        "prompt_estimate": {
+          "measured_attempts": 2,
+          "unknown_attempts": 18,
+          "coverage": 0.1,
+          "known_total": 70944,
+          "total": null,
+          "mean_measured": 35472.0,
+          "median_measured": 35472.0,
+          "min_measured": 32055,
+          "max_measured": 38889
+        },
+        "cap": {
+          "measured_attempts": 2,
+          "unknown_attempts": 18,
+          "coverage": 0.1,
+          "known_total": 64000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000.0,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "variability_multi_agent_r4": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 4,
+      "successful_terminal": 16,
+      "limitations": 9,
+      "budget_stops": 5,
+      "failure_categories": {
+        "legacy_input_limit_32k": 2,
+        "role_contract": 2
+      },
+      "budget_stop_categories": {
+        "token": 4,
+        "tool": 1
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1654026,
+        "total": 1654026,
+        "mean_measured": 82701.3,
+        "median_measured": 58816.0,
+        "min_measured": 13655,
+        "max_measured": 193443
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1654026,
+        "total": 1654026,
+        "mean_measured": 82701.3,
+        "median_measured": 58816.0,
+        "min_measured": 13655,
+        "max_measured": 193443
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 537.864,
+        "total": 537.864,
+        "mean_measured": 26.8932,
+        "median_measured": 22.592,
+        "min_measured": 7.028,
+        "max_measured": 117.221
+      },
+      "input_guard": {
+        "observed_attempts": 2,
+        "prompt_estimate": {
+          "measured_attempts": 2,
+          "unknown_attempts": 18,
+          "coverage": 0.1,
+          "known_total": 93670,
+          "total": null,
+          "mean_measured": 46835.0,
+          "median_measured": 46835.0,
+          "min_measured": 32247,
+          "max_measured": 61423
+        },
+        "cap": {
+          "measured_attempts": 2,
+          "unknown_attempts": 18,
+          "coverage": 0.1,
+          "known_total": 64000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000.0,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    },
+    "variability_multi_agent_r5": {
+      "planned": 20,
+      "attempted": 20,
+      "unattempted": 0,
+      "failed": 2,
+      "successful_terminal": 18,
+      "limitations": 10,
+      "budget_stops": 3,
+      "failure_categories": {
+        "legacy_input_limit_32k": 1,
+        "role_contract": 1
+      },
+      "budget_stop_categories": {
+        "token": 3
+      },
+      "retry_count": 0,
+      "tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1720503,
+        "total": 1720503,
+        "mean_measured": 86025.15,
+        "median_measured": 67031.5,
+        "min_measured": 16022,
+        "max_measured": 198417
+      },
+      "reported_tokens": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 1720503,
+        "total": 1720503,
+        "mean_measured": 86025.15,
+        "median_measured": 67031.5,
+        "min_measured": 16022,
+        "max_measured": 198417
+      },
+      "provider_usage_unavailable_attempts": 0,
+      "latency_seconds": {
+        "measured_attempts": 20,
+        "unknown_attempts": 0,
+        "coverage": 1.0,
+        "known_total": 470.054,
+        "total": 470.054,
+        "mean_measured": 23.502699999999997,
+        "median_measured": 21.6465,
+        "min_measured": 8.206,
+        "max_measured": 41.395
+      },
+      "input_guard": {
+        "observed_attempts": 1,
+        "prompt_estimate": {
+          "measured_attempts": 1,
+          "unknown_attempts": 19,
+          "coverage": 0.05,
+          "known_total": 111937,
+          "total": null,
+          "mean_measured": 111937.0,
+          "median_measured": 111937,
+          "min_measured": 111937,
+          "max_measured": 111937
+        },
+        "cap": {
+          "measured_attempts": 1,
+          "unknown_attempts": 19,
+          "coverage": 0.05,
+          "known_total": 32000,
+          "total": null,
+          "mean_measured": 32000.0,
+          "median_measured": 32000,
+          "min_measured": 32000,
+          "max_measured": 32000
+        }
+      }
+    }
+  },
+  "provenance": {
+    "git_head": "d87ae5a2e7d7e57fceeb17b88e5b9d877b15361c",
+    "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+    "launch_manifest_sha256": "2739683a6fda3c727ca6eeceda476474b2ed2296de8f16eb12b3facf35016567",
+    "frozen_manifest_sha256": {
+      "manifests/split.json": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+      "manifests/perturbations.json": "9c7062305a3b69ce9b76e0a1064b0c5915a4a71ef5c9f2000853633cea02b25f",
+      "manifests/variability_subset.json": "d5afed544cf273149dc15a4fa4d57a91332a36a2ba22a49c4a94427b97d4805e"
+    },
+    "diagnostics_helper_sha256": "4f15ee8c0b2ddebd6f3c076393131bb385532b8e53b9e0618768118095a79edb",
+    "arm_artifacts": {
+      "ordinary_direct_llm": {
+        "result_sha256": "70f4349310bd28bf32cce81efc14aaaf0d4eb4b3700ef2e11f8592825abb6877",
+        "run_metadata_sha256": "bc92315040d8edf0b7826d7b530ba6f039c0a88c39ea20a6825864a002d518f3",
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "ordinary_single_agent": {
+        "result_sha256": "295f291b28cc3ca67f46799bd621b20a5d6a071be9d33e6590e9fac5b4377478",
+        "run_metadata_sha256": "6370677f545116bccb5e5b7c93a924905f5814cb2f7ff7ff097e3fa9f9521641",
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "ordinary_multi_agent": {
+        "result_sha256": "3874f3aba302c7620fdc10de59d91e93ba91a353e1a7766c6f2b4d6388a517bf",
+        "run_metadata_sha256": "8c8438608c7d91ec7c5f9d660ad0ca4600d65702b1d1aa43afbab571b92f6f9c",
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "recovery_single_agent_intact": {
+        "result_sha256": "6b96ec7c5e529b88389823b8fcde83835b92903ca61a56c2ab1556063a802e1d",
+        "run_metadata_sha256": "b7daeed14093ab9e44803657860fedb840d604571fff3fa2481516e72cf37e05",
+        "input_hash": "89c2dbc915aaf33ad3a54ca15a7a99d2ecdfdc42851a36a5b1a7355332839756",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "recovery_single_agent_omitted": {
+        "result_sha256": "52756a750ffc056cc67bada447f5ecaf41217136317f8e86cee3d9c400eaa280",
+        "run_metadata_sha256": "9bca96cec025af0c892fc71dbc298794e37d84bd75416d20d6fd8f08dc472af8",
+        "input_hash": "89c2dbc915aaf33ad3a54ca15a7a99d2ecdfdc42851a36a5b1a7355332839756",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "recovery_multi_agent_intact": {
+        "result_sha256": "805b5eea8945e1dcdc85584763b320ac92c43107218246a688e67707f99b1cb1",
+        "run_metadata_sha256": "0ed02cc6435ba1c80a639e34bdce69d7ab809bc1a79ba15a7fd8a317f9fd54af",
+        "input_hash": "89c2dbc915aaf33ad3a54ca15a7a99d2ecdfdc42851a36a5b1a7355332839756",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "recovery_multi_agent_omitted": {
+        "result_sha256": "c0e2dcbc0143c3dcd9d82a27c28d16969fe273d86d6c6e0292bb3e0e08b7b7a9",
+        "run_metadata_sha256": "c5c5ee5e16eab19c329025e4bd91f078d7ca16921a4bdc35f3ec7d9ee67344da",
+        "input_hash": "89c2dbc915aaf33ad3a54ca15a7a99d2ecdfdc42851a36a5b1a7355332839756",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_direct_llm_r1": {
+        "result_sha256": "1808b5e74941566c95ee2b40210cc55374732de99452b53c2e17ddd4426f2295",
+        "run_metadata_sha256": "38a3d8a60cbba1130a1c69c01984ec313b29b852f4ad13e379d1b8c2bc1cf94b",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_direct_llm_r2": {
+        "result_sha256": "df233e45f18906600e10b55a43984d69760d26138ea196b6a1ab2e0c2613cb4d",
+        "run_metadata_sha256": "93a09bf9ff1081cf33e462ed9e7743cc00fe7db538c1d6c9eb7d4fa22aa4d2bd",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_direct_llm_r3": {
+        "result_sha256": "c13562b0cdef949c01e2a88851e74cb7a201e4ddcdd0acd4ce8a8decf5223075",
+        "run_metadata_sha256": "f64dfa4f787dc9d65619d2b28a5754a50c984f9f8b4a6a683aa3412bbce150a4",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_direct_llm_r4": {
+        "result_sha256": "b35f214d4efb00eee4e13e080b376b74d7547ddda579a98e5d8eb0886e67d051",
+        "run_metadata_sha256": "43e04821970cb69f38fd714a91048c72af08725507dff56a4ebbd419f98dd9f9",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_direct_llm_r5": {
+        "result_sha256": "3ba1f5581d47a1aadc8e5342e5e48aae2b159d90d88bfa46deedacec971387f7",
+        "run_metadata_sha256": "8cd911ed64ee03f358b2bb83c27bdc4dbd38c2aecf6a5384dfabd59c1b7ee2a1",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_single_agent_r1": {
+        "result_sha256": "479ab6f987b36de081e5aefa97e4323b007ec9483660fa7dc986d1b4ad4afbf1",
+        "run_metadata_sha256": "4ce35f1849d14664f5f1df70d222dbc80da67fd389734b29cff9b091913cb8e4",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_single_agent_r2": {
+        "result_sha256": "11c95d6f94073e97b20d8b1b2b95694fac3b71e2cb03dd20a00d1cd578fbd470",
+        "run_metadata_sha256": "f0dc0014f37dddd93b547274cfb7bdc701067c7f3298764f02946abc5d6a3fca",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_single_agent_r3": {
+        "result_sha256": "af99163eb3f1e498c53f53dfa983fee27cd4c4026c1ccf1f9ef8c44f52dc6875",
+        "run_metadata_sha256": "8905957fd1c3852fa60c00a74957e24cee6d33202b699563f8aee6ecca180ea5",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_single_agent_r4": {
+        "result_sha256": "c27031114a5bf6af26a3469da0d831b88f5aab387bd1d804f66ef2570900c04c",
+        "run_metadata_sha256": "940af4ae34008fddc2e4846102f60ae5b221c222acf4f301fe803751d7d9e17c",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_single_agent_r5": {
+        "result_sha256": "1d989fbbd5da0270c1fd47eee811e9f25d679b9a24df843f0783d44c7a3ebdf3",
+        "run_metadata_sha256": "d9becd213cdd8e2786164c81084664a56ad61e8645dd3922ffaf9427379ecbac",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_multi_agent_r1": {
+        "result_sha256": "8381b845a8a891c96886c74e124b1db22fae01dbabbeac20a3014d094e4bd06f",
+        "run_metadata_sha256": "ad71de896eb0bc280ae1ea0f9e27b4e4f4fe9d5d99140f486aed3d73f21225b3",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_multi_agent_r2": {
+        "result_sha256": "a38d209b385acc16ffc7400609c8dbf57500f105fa754dda73c8a821da3ab551",
+        "run_metadata_sha256": "a4f6c8c8fc7111d4b06da28a987e5db5cec322cb72cb44dba176f973e2afb9a9",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_multi_agent_r3": {
+        "result_sha256": "d6fa8b75345ab34a094baf443d1e8d6d31f41ce7886d22a637d64a5061ab1cfb",
+        "run_metadata_sha256": "4296ac3d6a0fd631d0935674f46d219b79185161d6be848c56b36dd61b6f850a",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_multi_agent_r4": {
+        "result_sha256": "db81476396a4fdc1c798ee53e4e417d593790e4c3fa4f88b9b293ba121c10990",
+        "run_metadata_sha256": "43e9db115b8632069119bf71fd5369866ee8e61756fdce55867fcc109d74c694",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      },
+      "variability_multi_agent_r5": {
+        "result_sha256": "c43042f1893b7bcbb8b8927f59ec439f69b6a86fd5e0b168f9ddf93b7ed9dca5",
+        "run_metadata_sha256": "15736b3a470335acaba4ff487bc6eb18bc16e3de468ee6fc21767be93c61b0cd",
+        "input_hash": "11bfa249d15351dc7f0bc288cce8b8ba29082af4e65c041cc8f943648fbe248d",
+        "code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276"
+      }
+    },
+    "validation": "Frozen question IDs, manifest hashes, model, split, budgets, condition/repeat, and recorded code fingerprint checked."
+  },
+  "csv_policy": "Only first-attempt terminal errors or budget stops; eight allow-listed columns; no clinical content or error bodies.",
+  "validation_problem_arms": []
+}

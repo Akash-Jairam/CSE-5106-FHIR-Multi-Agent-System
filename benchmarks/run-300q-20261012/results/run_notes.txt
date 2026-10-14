@@ -1,0 +1,20 @@
+First full midterm benchmark
+
+Model: gpt-6-luna via the configured local Azure deployment, reasoning_effort none.
+Matrix: 900 ordinary + 200 intact/omitted recovery + 300 variability = 1400 trials.
+Budget: 200000 aggregate tokens and 30 tool calls per question; four workers, save after each question.
+GitHub source main: d87ae5a2e7d7e57fceeb17b88e5b9d877b15361c.
+Local pilot-only fix is frozen in pilot_fix.patch and launch_manifest.json: clarify Python answer/print contract; add one final role JSON turn with tools disabled and existing budgets.
+102 focused regressions passed after the fix. Repeated pilot: 9/9 terminal attempts, no errors, limitations, or budget stops. Pilot accuracy is exploratory only.
+Preflight: all 50 omission packets matched the fresh store; all 24 local FHIR source files matched frozen hashes.
+health_snapshot.json updates approximately every 30 seconds. supervisor_state.json records liveness and stages.
+On run termination, the supervisor runs analyze, variability, and revisions using verified local NDJSON evidence.
+Primary outcomes use first attempts; failed attempts and abstentions remain in accuracy denominators. No automatic retries.
+Dollar cost is unavailable from this Azure adapter; token usage is measured.
+A thread heartbeat checks every 15 minutes and reports meaningful failures or completion.
+Do not edit source/dependencies while the benchmark is running.
+
+Interpretation notes from monitoring
+The shared helper has a 32000-token per-request input guard in addition to the 200000-token aggregate question budget. The local Azure adapter caps each completion at 16384 tokens.
+The frozen typed scorer ignores limitation and budget-stop flags: it can credit null/empty outputs against empty/NULL references without requiring verification. Explicit execution errors count wrong. Independently verified correct empty results are reported separately.
+After inference, offline evidence evaluation will report citation-field validity and annotation-overlap retrieval diagnostics with their defined denominators. These do not prove semantic support or retrieval completeness. The legacy secondary LLM judge is not run because it does not preserve reliable error/usage coverage.

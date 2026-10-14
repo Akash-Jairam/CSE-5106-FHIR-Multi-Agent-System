@@ -88,11 +88,11 @@ tool_registry.register_tool("execute_python_code", execute_python_code, {
     "type": "function",
     "function": {
         "name": "execute_python_code",
-        "description": "Execute Python in an isolated worker using only retrieved_resources. Set the answer variable to a JSON value. Execution has a real timeout; repository files, credentials, and network are unavailable.",
+        "description": "Execute Python in an isolated worker using only retrieved_resources. Printed output is discarded. Set the answer variable to the JSON value you need to inspect, including diagnostic counts or sample records; each call starts a fresh worker. Set answer to the computed result for your final calculation. Execution has a real timeout; repository files, credentials, and network are unavailable.",
         "parameters": {
             "type": "object",
             "properties": {
-                "code": {"type": "string", "description": "Python code to execute. Use 'answer' variable to store final result."},
+                "code": {"type": "string", "description": "Python code to execute. Only the 'answer' variable is returned; print() output is discarded. Use answer for diagnostics as well as the final result."},
                 "timeout": {"type": "integer", "description": "Timeout in seconds", "default": 30}
             },
             "required": ["code"]

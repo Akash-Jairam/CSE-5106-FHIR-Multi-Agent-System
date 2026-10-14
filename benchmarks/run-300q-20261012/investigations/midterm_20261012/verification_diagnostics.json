@@ -1,0 +1,290 @@
+{
+  "policy": "All primary accuracy denominators retain first-attempt failures. Error-excluded figures are conditional descriptive statistics, not causal effects. A correct draft flag means typed answer correctness, not proof of complete source support.",
+  "baseline_sha256": {
+    "direct_llm": "70f4349310bd28bf32cce81efc14aaaf0d4eb4b3700ef2e11f8592825abb6877",
+    "single_agent": "295f291b28cc3ca67f46799bd621b20a5d6a071be9d33e6590e9fac5b4377478",
+    "multi_agent": "3874f3aba302c7620fdc10de59d91e93ba91a353e1a7766c6f2b4d6388a517bf"
+  },
+  "ordinary": {
+    "direct_llm": {
+      "n": 300,
+      "correct": 202,
+      "errors": 3,
+      "accuracy": 0.6733333333333333,
+      "error_excluded_descriptive_accuracy": 0.6801346801346801,
+      "budget_stops": 0,
+      "false_abstentions_nonempty_reference": 25,
+      "empty_reference_correct": 31,
+      "empty_reference_n": 42,
+      "verified_empty": 0,
+      "release_buckets": {
+        "non_null_release": 242,
+        "null_release": 55,
+        "execution_error": 3
+      },
+      "family": {
+        "lookup_counting": {
+          "n": 92,
+          "correct": 76
+        },
+        "numerical_aggregation": {
+          "n": 49,
+          "correct": 34
+        },
+        "temporal_selection": {
+          "n": 159,
+          "correct": 92
+        }
+      }
+    },
+    "single_agent": {
+      "n": 300,
+      "correct": 223,
+      "errors": 16,
+      "accuracy": 0.7433333333333333,
+      "error_excluded_descriptive_accuracy": 0.7852112676056338,
+      "budget_stops": 8,
+      "false_abstentions_nonempty_reference": 20,
+      "empty_reference_correct": 35,
+      "empty_reference_n": 42,
+      "verified_empty": 0,
+      "release_buckets": {
+        "non_null_release": 229,
+        "budget_stop": 6,
+        "execution_error": 16,
+        "null_release": 31,
+        "withheld_unverified": 18
+      },
+      "family": {
+        "lookup_counting": {
+          "n": 92,
+          "correct": 74
+        },
+        "numerical_aggregation": {
+          "n": 49,
+          "correct": 34
+        },
+        "temporal_selection": {
+          "n": 159,
+          "correct": 115
+        }
+      }
+    },
+    "multi_agent": {
+      "n": 300,
+      "correct": 162,
+      "errors": 42,
+      "accuracy": 0.54,
+      "error_excluded_descriptive_accuracy": 0.627906976744186,
+      "budget_stops": 30,
+      "false_abstentions_nonempty_reference": 71,
+      "empty_reference_correct": 35,
+      "empty_reference_n": 42,
+      "verified_empty": 23,
+      "release_buckets": {
+        "execution_error": 42,
+        "non_null_release": 152,
+        "null_release": 12,
+        "withheld_unverified": 87,
+        "budget_stop": 7
+      },
+      "family": {
+        "lookup_counting": {
+          "n": 92,
+          "correct": 63
+        },
+        "numerical_aggregation": {
+          "n": 49,
+          "correct": 21
+        },
+        "temporal_selection": {
+          "n": 159,
+          "correct": 78
+        }
+      }
+    }
+  },
+  "paired": {
+    "multi_agent_vs_single_agent": {
+      "n": 300,
+      "both_correct": 152,
+      "a_only_correct": 10,
+      "b_only_correct": 71,
+      "both_wrong": 67,
+      "both_nonerror_descriptive": {
+        "n": 252,
+        "a_correct": 160,
+        "b_correct": 196
+      }
+    },
+    "multi_agent_vs_direct_llm": {
+      "n": 300,
+      "both_correct": 138,
+      "a_only_correct": 24,
+      "b_only_correct": 64,
+      "both_wrong": 74,
+      "both_nonerror_descriptive": {
+        "n": 258,
+        "a_correct": 162,
+        "b_correct": 181
+      }
+    },
+    "single_agent_vs_direct_llm": {
+      "n": 300,
+      "both_correct": 186,
+      "a_only_correct": 37,
+      "b_only_correct": 16,
+      "both_wrong": 61,
+      "both_nonerror_descriptive": {
+        "n": 284,
+        "a_correct": 223,
+        "b_correct": 198
+      }
+    },
+    "three_way_correctness_patterns": {
+      "000": 55,
+      "001": 6,
+      "010": 19,
+      "011": 18,
+      "100": 12,
+      "101": 4,
+      "110": 52,
+      "111": 134
+    }
+  },
+  "team": {
+    "transitions_nonerror": {
+      "right_to_right": 153,
+      "wrong_to_wrong": 60,
+      "right_to_wrong": 31,
+      "wrong_to_right": 7
+    },
+    "transitions_revised_nonerror": {
+      "wrong_to_wrong": 12,
+      "wrong_to_right": 5,
+      "right_to_right": 6,
+      "right_to_wrong": 5
+    },
+    "draft_present_error_correctness": {
+      "correct": 5,
+      "wrong": 1
+    },
+    "right_to_wrong_loss_breakdown": {
+      "withheld_unverified": 31,
+      "draft_other": 27,
+      "draft_false": 4
+    },
+    "right_to_wrong_final_issue_incidence": {
+      "independent_check": 23,
+      "verification_failure": 5,
+      "source_check": 7,
+      "recompute_mismatch": 5,
+      "wrong_calculation": 2,
+      "encounter_link": 1,
+      "no_evidence": 1
+    },
+    "wrong_to_right_gain_breakdown": {
+      "non_null_release": 4,
+      "reference_nonempty": 4,
+      "withheld_unverified": 3,
+      "reference_empty": 3
+    },
+    "candidate_vs_release": {
+      "correct_candidate_non_null_release": 129,
+      "wrong_candidate_null_release": 2,
+      "correct_candidate_withheld_unverified": 52,
+      "wrong_candidate_withheld_unverified": 35,
+      "wrong_candidate_non_null_release": 23,
+      "correct_candidate_null_release": 10,
+      "correct_candidate_execution_error": 5,
+      "wrong_candidate_execution_error": 1
+    },
+    "initial_verdict_matrix_relative_typed_reference": {
+      "right_draft_clear": 132,
+      "wrong_draft_clear": 25,
+      "right_draft_flagged": 57,
+      "wrong_draft_flagged": 43
+    },
+    "last_verdict_matrix_relative_typed_reference": {
+      "right_draft_clear": 139,
+      "wrong_draft_clear": 25,
+      "right_draft_flagged": 57,
+      "wrong_draft_flagged": 36
+    },
+    "all_verdict_events": {
+      "right_draft_clear": 139,
+      "right_recomputation_clear": 139,
+      "wrong_draft_clear": 25,
+      "wrong_recomputation_clear": 25,
+      "right_draft_flagged": 68,
+      "right_recomputation_flagged": 69,
+      "wrong_draft_flagged": 53,
+      "wrong_recomputation_flagged": 52
+    },
+    "correct_draft_alert_issue_incidence": {
+      "wrong_filter": 4,
+      "independent_check": 42,
+      "recompute_mismatch": 18,
+      "verification_failure": 10,
+      "source_check": 11,
+      "wrong_field": 2,
+      "time_field": 2,
+      "missing_evidence": 4,
+      "wrong_calculation": 4,
+      "no_evidence": 2,
+      "time_window": 4,
+      "encounter_link": 4
+    },
+    "unrepairable_initial_issue_incidence": {
+      "independent_check": 46,
+      "source_check": 79,
+      "verification_failure": 17
+    },
+    "repair_route_counts": {
+      "analysis": 19,
+      "retrieval": 13
+    },
+    "semantic_equivalence": {
+      "both_typed_right_but_canonical_diff": 4
+    },
+    "representative_safe_qids": {
+      "wrong_answer_clean_release": [
+        "05a9aa5bb494b962444ac354",
+        "15f218ddc4b0e3bc25f8f534",
+        "1f2e37aaa091d50e833afad1",
+        "1f40a273d375689f569acb2e",
+        "2021b8d65fd7fd080d685ca4"
+      ],
+      "correct_draft_flagged": [
+        "0a43e2fe814473ab9035db70",
+        "0ad44ecce7e9c2eea3028673",
+        "0edf383920d07410f686cb96",
+        "1718f0835a82b0bb7c0517f1",
+        "1eb6a80e3bcffd099385b474"
+      ],
+      "withheld_unverified": [
+        "0ad44ecce7e9c2eea3028673",
+        "1718f0835a82b0bb7c0517f1",
+        "1eb6a80e3bcffd099385b474",
+        "21ee43d3aa608dce16db8951",
+        "264556fad0e8f61d4b7fe7e9"
+      ],
+      "typed_equivalent_canonical_mismatch": [
+        "5768d20678cf5c0dad75054a",
+        "cdf6333e8b6736879a871a9a",
+        "e198cf387b6b22216a593d12",
+        "e60e3b0dd9bb998ce08e850c"
+      ]
+    },
+    "right_to_wrong_paired_competitors": {
+      "n": 31,
+      "single_correct": 26,
+      "direct_correct": 24
+    },
+    "wrong_to_right_paired_competitors": {
+      "n": 7,
+      "single_correct": 5,
+      "direct_correct": 1
+    }
+  }
+}

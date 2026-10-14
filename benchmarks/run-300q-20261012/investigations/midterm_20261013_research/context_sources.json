@@ -1,0 +1,102 @@
+{
+  "research_date": "2026-10-13",
+  "purpose": "Primary-source evidence for a context-delivery repair within the frozen experiment's limits; design hypotheses, not predicted accuracy improvements.",
+  "primary_repair_policy": {
+    "model": "gpt-6-luna",
+    "retain_common_32k_experiment_limit": true,
+    "retain_max_total_tokens": 200000,
+    "retain_max_tool_calls": 30,
+    "larger_context_is_a_separate_all_systems_ablation": true,
+    "baseline_and_pipeline_modified": false,
+    "model_inference_calls": 0,
+    "credential_files_read": false
+  },
+  "upstream_coordination": {
+    "author_repository": "https://github.com/glee4810/FHIR-AgentBench",
+    "pinned_head_supplied_by_parent": "bbb42909a5a7eb907d1cd91f72a560729e7037ea",
+    "paper": "https://arxiv.org/abs/2509.19319v2",
+    "parent_owns_repository_and_original_pipeline_comparison": true,
+    "this_audit_independently_read_paper_sections": ["4.2", "4.3"],
+    "repository_web_blob_fetch": "Failed; the parent team's pinned-code inspection supplies repository provenance, not this browser fetch."
+  },
+  "sources": [
+    {
+      "id": "fhir_agentbench_v2",
+      "title": "FHIR-AgentBench: Benchmarking LLM Agents for Realistic Interoperable EHR Question Answering",
+      "kind": "primary research paper, ML4H 2025 / PMLR 297",
+      "url": "https://arxiv.org/html/2509.19319v2",
+      "pdf_url": "https://arxiv.org/pdf/2509.19319v2",
+      "read_scope": "Full-text methods, sections 4.2 and 4.3; PDF pages 6–7.",
+      "finding": "The authors motivate retrieval and Python computation because full nested FHIR records overwhelm context. Section 4.3 imposes a common 32k context restriction for fair model comparisons.",
+      "design_implication": "Keep the common limit in the repair pilot. Improve how fetched records reach the model; retain exact records for code execution. Increasing the limit changes the experiment and requires a separate controlled comparison.",
+      "limitation": "Published architectures, models, whole-dataset evaluation and judging differ from this project's Luna subset and typed scorer. The paper does not validate this proposed repair."
+    },
+    {
+      "id": "lost_in_the_middle",
+      "title": "Lost in the Middle: How Language Models Use Long Contexts",
+      "kind": "primary peer-reviewed empirical paper, TACL 2024",
+      "url": "https://aclanthology.org/2024.tacl-1.9/",
+      "pdf_url": "https://aclanthology.org/2024.tacl-1.9.pdf",
+      "read_scope": "Sections 2.1–2.3, 3.1–3.2 and 5; controlled QA, key-value retrieval and retrieval-reader analysis.",
+      "finding": "Controlled experiments change relevant-information position and distractor quantity. Many tested models perform worse when evidence lies centrally; adding retrieved documents can improve retrieval coverage without comparable answer gains.",
+      "design_implication": "Measure accessible evidence and answer quality separately. Keep question and necessary working state easy to locate; test context delivery rather than assuming a larger permitted window solves reasoning.",
+      "limitation": "Experiments use earlier models and nonclinical tasks, not gpt-6-luna. The findings do not establish that pruning, a particular ordering or a particular cap improves this project's accuracy."
+    },
+    {
+      "id": "code_execution_mcp",
+      "title": "Code execution with MCP: Building more efficient agents",
+      "kind": "primary provider engineering article, Anthropic, 2025-11-04",
+      "url": "https://www.anthropic.com/engineering/code-execution-with-mcp",
+      "read_scope": "Context-efficient tool results, progressive disclosure, and state persistence sections; implementation examples read.",
+      "finding": "Examples process/filter large tool results inside an execution environment, returning small views to the model. Persistent files hold intermediate state and reusable code instead of repeatedly passing all data through context.",
+      "design_implication": "Store full fetched FHIR JSON in a canonical workspace. Return stable handles, complete counts, field/index metadata and bounded previews; let Python inspect exact records when needed.",
+      "limitation": "Illustrative engineering examples and token savings are not a clinical benchmark or controlled evidence for Luna accuracy. Code execution adds sandbox, resource-limit and state-consistency requirements."
+    },
+    {
+      "id": "tool_response_design",
+      "title": "Writing effective tools for agents—using agents",
+      "kind": "primary provider engineering guidance, Anthropic, 2025-09-11",
+      "url": "https://www.anthropic.com/engineering/writing-tools-for-agents",
+      "read_scope": "Returning meaningful context; response formats; token efficiency; evaluation metrics and held-out evaluation sections.",
+      "finding": "Guidance favors purposeful tools and bounded response formats, pagination, selection and filtering, with actionable notices when output is truncated. It recommends examining tool errors, tokens and traces alongside task success.",
+      "design_implication": "Use deterministic bounded projections with an explicit continuation/access path. Preserve resource IDs required by subsequent operations and disclose incomplete previews; reduce repeated payload replay without silently deleting underlying records.",
+      "limitation": "Vendor internal examples and response-format recommendations are task-dependent. Blind truncation can omit necessary evidence; this source does not prove lossless task performance."
+    },
+    {
+      "id": "request_token_budgeting",
+      "title": "Counting tokens and managing the context window",
+      "kind": "primary official OpenAI API documentation, accessed 2026-10-13",
+      "url": "https://developers.openai.com/api/docs/guides/token-counting",
+      "supporting_url": "https://developers.openai.com/api/docs/guides/conversation-state",
+      "read_scope": "Counting-token overview, local-tokenizer limitations, request formatting overhead, and context-window accounting.",
+      "finding": "The Responses counting interface counts complete request structure, including tools and framing. Local text tokenization can omit those costs. Context capacity includes input, output and applicable reasoning tokens; per-request capacity differs from cumulative usage.",
+      "design_implication": "Apply a deterministic preflight to the complete serialized request, preserve the experimental cap, reserve generation headroom and enforce the separate aggregate budget. Calibrate local estimates against recorded provider usage rather than treating an estimate as exact.",
+      "limitation": "The documented counting interface is for OpenAI Responses. Equivalent availability or exact framing for this Azure Chat Completions deployment is not established here. No counting endpoint or model call was invoked."
+    }
+  ],
+  "recommended_design": {
+    "status": "Source-supported engineering hypothesis requiring offline checks and a controlled pilot.",
+    "data_plane": "Keep canonical raw resources intact, keyed by stable resource identity or workspace handle; preserve timestamps, units, casing and field values needed for independent verification.",
+    "model_plane": "Provide compact deterministic metadata and bounded views with complete counts and explicit access paths. A view is incomplete context; the underlying data store remains complete.",
+    "replay": "Prune only superseded materialized payload replay. Keep the current question, patient/time assumptions, system contract, recent live tool-call/result pairs, workspace manifest and verification state. Do not replace clinical facts with an unvalidated model-generated summary.",
+    "budget": "Keep the common 32k policy, 200k cumulative ceiling and 30-tool ceiling. Count tools/framing and reserve output. A larger context limit belongs in a separate all-systems ablation, not a silent repair.",
+    "evaluation": "Compare context-delivery repair independently of verification/schema repair; then test their combination. Use the same eligible questions, model, cache and ceilings, and preserve all first-attempt failures in denominators."
+  },
+  "offline_acceptance_checks_before_any_paid_pilot": [
+    "Full workspace resource identities and hashes remain unchanged after rendering a compact view.",
+    "Every omitted-from-preview record is still accessible through its documented handle or query path.",
+    "Recent tool-call IDs remain paired with results; schema-required IDs and verification fields remain available.",
+    "Large synthetic retrieval payloads and repeated tool observations cannot exceed the configured request cap; fail clearly if mandatory state alone cannot fit.",
+    "Projection and replay pruning are deterministic, idempotent and do not change patient/time context or expose gold/perturbation labels.",
+    "Independent recomputation uses canonical source data, not a mutated analyst workspace or a lossy model summary.",
+    "Record estimated request tokens, provider-reported usage, preview coverage, truncation/handle counts, errors, limitations and budget stops as separate diagnostics."
+  ],
+  "claims_not_supported": [
+    "Removing or raising the inherited 32k guard is required for a fair reproduction.",
+    "A larger provider context window alone improves this project's answer accuracy.",
+    "A bounded preview is semantically lossless merely because raw resources remain stored.",
+    "Anthropic's illustrative token savings transfer numerically to this Luna/FHIR workload.",
+    "OpenAI Responses token counting is automatically supported by the Azure Chat Completions deployment.",
+    "Valid citations or retained workspace records by themselves establish supported answers or complete retrieval."
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "snapshot_version": 1,
+  "created_utc": "2026-10-14T03:15:18.151947+00:00",
+  "run_id": "midterm_20261012_full_v1",
+  "source_parent_commit": "d87ae5a2e7d7e57fceeb17b88e5b9d877b15361c",
+  "launch_code_fingerprint": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+  "local_patch_sha256": "f6b5d9de273f33974c7733275f8041dec9537d90cc5c40fd1d0bbeab2975be0e",
+  "archive": {
+    "path": "output/archives/run-300q-20261012-results.tar.gz",
+    "sha256": "24ebaae5241b4a4c77335805298196653b3635880a54758a193ffa818c4b151c",
+    "compressed_bytes": 445092123,
+    "original_bytes": 1171375127,
+    "original_files": 101,
+    "prefix": "midterm_20261012_full_v1"
+  },
+  "original_outputs_unchanged": true,
+  "tracked_result_files": 55,
+  "investigation_files": 22,
+  "runtime_files": 6,
+  "publication_status": "Local snapshot and archive; GitHub backup pending.",
+  "branch": "runs/300q-20261012",
+  "tag": "run-300q-20261012",
+  "subset": {
+    "origin": "Project proposal; not an official upstream benchmark subset",
+    "seed": 5106,
+    "questions": 300,
+    "observed_patients": 58,
+    "families": {
+      "lookup_counting": 92,
+      "temporal_selection": 159,
+      "numerical_aggregation": 49
+    },
+    "original_benchmark_questions": 2931
+  }
+}

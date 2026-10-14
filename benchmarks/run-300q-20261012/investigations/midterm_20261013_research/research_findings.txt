@@ -1,0 +1,106 @@
+Origin of the 32k limit and research supported repair decisions
+13 October 2026, America/Chicago
+
+The 32k guard comes from the original FHIR-AgentBench implementation. It was imported unchanged into this project, and the authors deliberately used a common 32k constraint for model-comparison fairness. The primary repair pilot should retain the existing policy and improve output/history delivery. A larger context window is an optional separate all-system experiment. The three-role team's verification failures are project-specific additions and remain our responsibility to fix.
+
+PROVENANCE CHECK
+
+Original repository: https://github.com/glee4810/FHIR-AgentBench
+Pinned inspected commit: bbb42909a5a7eb907d1cd91f72a560729e7037ea.
+Local initial import: d3d1364348cd7f84c51e3dede76d4646a866d1a8.
+
+GitHub content Git-blob hashes for utils/core_utils.py, tools/python_executor.py, agent/multi_turn_code_resource_agent.py, tools/cache.py and README.md match the initial local import byte for byte. This establishes inheritance directly, rather than relying on names or current blame attribution. Later changes to the function signature and request accounting did not introduce the threshold.
+
+Original guard, lines 345 to 350:
+https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/utils/core_utils.py#L345-L350
+
+The paper explicitly states its fairness restriction in section 4.3:
+https://arxiv.org/html/2509.19319v2
+
+The distinction matters: the public function checks an estimated message-input count against 32,000. It is not a 200,000-token cumulative budget or the provider's native context limit. Its original tokenizer omits tool schema/argument costs; our later estimator accounts for more request structure. The paper's stated context window and this code's estimated-input check are not interchangeable guarantees about combined input/output tokens.
+
+WHAT THE ORIGINAL AUTHORS IMPLEMENTED
+
+The published multi-turn code agent keeps complete fetched FHIR data in its Python workspace and gives the model a resource-variable name plus count. The model writes code to inspect/filter/aggregate that data. It is one LLM interacting repeatedly, not this project's retrieval/analysis/verification team.
+https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/agent/multi_turn_code_resource_agent.py#L217-L235
+
+The same agent appends Python result/error strings in full. If accumulated context exceeds the guard, it returns an error. This is partial prevention of verbosity, not guaranteed recovery from oversized results. No automatic context summarization, rolling-history compaction or adaptive cap is implemented in the inspected path.
+https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/agent/multi_turn_code_resource_agent.py#L187-L203
+https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/agent/multi_turn_code_resource_agent.py#L237-L255
+
+Two apparent safeguards are not live context controls. process_trace truncates saved traces after execution. messages[:num_turns] removes retry bookkeeping, rather than older conversation turns. The retrieval cache reuses data but does not compress its representation. Detailed source locations are retained in guard_provenance.json.
+
+Another inherited inconsistency is that the Python tool description promises stdout capture, while the implementation returns the non-null answer variable and does not include stdout in the tool reply. Our pre-run pilot clarified this contract, but that alone did not prevent diagnostic objects from replacing a final accepted computation in the new verifier.
+https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/tools/python_executor.py#L49-L74
+
+The v2 agent prompt first appeared in our project's October 8 commit c63b41414261a3de0cda9874de269353882fd1fd. The three-role framework/controller/strategy are also local project additions; they are not original-author recovery solutions. The benchmark paper's results use different models, whole-dataset coverage and an LLM judge, so its scores are not a direct performance comparison with our subset and typed scorer.
+
+HOW RESEARCH CHANGES THE PROPOSED FIX
+
+1. Preserve exact data outside model context, and bound every model-facing observation.
+
+   The original architecture is already a direct precedent. CodeAct (ICML 2024) supplies a broader code/data-flow precedent, with an author implementation available at https://github.com/xingyaoww/code-act. Its experiments are not tests of our proposed output cap. Keep our sandbox isolated and our canonical resources immutable rather than adopting arbitrary persistent Python side effects.
+   Paper: https://proceedings.mlr.press/v235/wang24h.html
+
+   Anthropic's code-execution engineering examples and tool-response guidance favor processing/filtering results in execution environments and returning bounded views with access paths. These are engineering examples, not controlled Luna/FHIR accuracy evidence. Adopt the pattern, not its reported token-savings magnitude.
+   https://www.anthropic.com/engineering/code-execution-with-mcp
+   https://www.anthropic.com/engineering/writing-tools-for-agents
+
+   For this project, records remain complete in host/source workspaces. Model replies carry counts, field metadata, stable handles and bounded samples. Large legitimate computed answers remain complete in immutable result artifacts, resolved by the host for equality checks and release. An incomplete preview or sample never becomes the full answer or a completeness certificate.
+
+2. Keep 32k in the main repair comparison and prune replay carefully.
+
+   Lost in the Middle (TACL 2024) shows that relevant-position/distractor changes can affect tested models' performance. It supports measuring context delivery; it does not prove that a particular ordering, cap or pruning scheme helps Luna.
+   https://aclanthology.org/2024.tacl-1.9/
+
+   Preserve current question/patient/time context, system contracts, workspace/result identities, required evidence and recent paired tool calls/results. Only superseded materialized payloads may be removed from live replay; complete audit history remains separate. Use deterministic views before considering model-written compaction, which could alter clinical facts.
+
+   Preflight the complete serialized request and calibrate estimates against saved provider usage. Official OpenAI documentation distinguishes request structure and native input/output capacity from cumulative usage. The Responses counting endpoint is not established for this Azure Chat Completions deployment, so the plan does not assume that endpoint is available.
+   https://developers.openai.com/api/docs/guides/token-counting
+   https://developers.openai.com/api/docs/guides/conversation-state
+
+3. Distinguish final computation from inspection and validate both sides of the interface.
+
+   The strongest direct evidence is local: 19 lost typed-correct drafts ended with diagnostic dictionaries/object lists; three lost an earlier scalar after another diagnostic call. MCP's versioned structured-result specification is a normative design precedent, not a reason to migrate frameworks or proof of an accuracy gain.
+   https://modelcontextprotocol.io/specification/2025-06-18/server/tools
+
+   Official OpenAI documentation distinguishes JSON syntax from schema adherence and requires handling refusals/incomplete output. The private adapter forwards response_format, but the public wrappers do not expose it yet. Validate the supported schema and complete transport path before enabling strict final messages. Keep finite-value, workspace-version, source/scope and tool-result equality checks independently of model syntax.
+   https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=chat
+   https://developers.openai.com/api/docs/guides/function-calling
+
+4. Use external evidence and audit correction losses; do not equate agreement with correctness.
+
+   Huang et al. (ICLR 2024) documents degradation under intrinsic correction in its tested settings. CRITIC (ICLR 2024) uses external tools for correction but also reports failures. These motivate execution-grounded feedback and right-to-wrong auditing, not guaranteed improvement.
+   https://arxiv.org/abs/2310.01798
+   https://arxiv.org/abs/2305.11738
+   Author code: https://github.com/microsoft/ProphetNet/tree/master/CRITIC
+
+   Chain-of-Verification (ACL 2024) motivates a separate draft-blind computation ablation. Our verifier sees the draft today, so a fresh workspace alone does not remove conditioning. Do not add that change to the mechanical repair bundle without its own development evidence.
+   https://aclanthology.org/2024.findings-acl.212/
+
+   tau-bench supplies an end-to-end rule/state-checking and repeated-reliability precedent, but its transactional tasks differ from FHIR QA and its original repository warns about outdated tasks. Use its evaluation principle, not its scores or task suite as a replacement.
+   https://arxiv.org/html/2406.12045v1
+   https://github.com/sierra-research/tau-bench
+
+   The 2026 FHIR reinforcement-learning preprint uses separate retrieval/inspection/Python/finalization stages. Its training changes and performance results are outside this fixed-Luna repair scope; no RL training or model switch is proposed.
+   https://arxiv.org/html/2605.14126v1
+
+VALIDATION REQUIRED BEFORE CLAIMING IMPROVEMENT
+
+The primary pilot remains 240 trials with GPT-6 Luna, the current 32k estimated-input policy, 200k cumulative tokens and 30 tool calls. It compares frozen controls, context/budget-only team repair, contract/verification-only team repair, their combination and repaired direct/single controls. Optional blind verification and larger contexts are separate hypotheses.
+
+Offline gates must show that view rendering preserves full resource identities/hashes, every excluded-from-preview record remains accessible, replay pruning keeps tool-call/result pairs valid, and final computation artifacts retain exact answer values and provenance. Include large outputs, repeated diagnostics, stale workspaces, false/zero/empty results, mixed scalar diagnostic rows, malformed schemas, wrong scope and source failures. Strict proof gates must continue blocking unsupported answers even when the legacy typed scorer would credit a value.
+
+The paid pilot then measures both accuracy and evidence-supported coverage, contract/guard/budget failures, correct-to-wrong losses, wrong-verdict approvals, repeated-run reliability and cost. A schema or retained workspace alone cannot establish semantic completeness. Passing mechanical tests does not prove team superiority; the repaired single agent remains the fair comparison.
+
+Research verifies the provenance and motivates the mechanisms. It does not constitute execution validation of a repair that has not been implemented or a promise of gains on this model. The completed baseline and evaluated source patch remain unchanged; their file hashes are rechecked separately.
+
+FILES
+
+Updated implementation/pilot plan: docs/midterm_multi_agent_repair_plan.txt.
+Pinned code/history evidence: guard_provenance.json.
+Context primary-source matrix: context_sources.json.
+Verification primary-source matrix: verification_sources.json.
+Additional paper/API review: supplemental_sources.json.
+Prior plan preserved: repair_plan_before_research_20261012.txt.
+Baseline integrity result for this research: baseline_integrity_check.json.

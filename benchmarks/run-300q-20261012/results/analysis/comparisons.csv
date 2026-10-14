@@ -1,0 +1,29 @@
+comparison,family,a,b,n,patients,estimate,ci_low,ci_high
+multi_agent - single_agent,all,ordinary_multi_agent,ordinary_single_agent,300,58,-0.20333333333333334,-0.26380368098159507,-0.14130434782608695
+multi_agent - single_agent,lookup_counting,ordinary_multi_agent,ordinary_single_agent,92,52,-0.11956521739130435,-0.22340425531914893,-0.019801980198019802
+multi_agent - single_agent,numerical_aggregation,ordinary_multi_agent,ordinary_single_agent,49,28,-0.2653061224489796,-0.4186046511627907,-0.12195121951219512
+multi_agent - single_agent,temporal_selection,ordinary_multi_agent,ordinary_single_agent,159,52,-0.23270440251572327,-0.3,-0.16058394160583941
+multi_agent - direct_llm,all,ordinary_multi_agent,ordinary_direct_llm,300,58,-0.13333333333333333,-0.18823652473541716,-0.07739849370603318
+multi_agent - direct_llm,lookup_counting,ordinary_multi_agent,ordinary_direct_llm,92,52,-0.14130434782608695,-0.24175824175824176,-0.043478260869565216
+multi_agent - direct_llm,numerical_aggregation,ordinary_multi_agent,ordinary_direct_llm,49,28,-0.2653061224489796,-0.42857142857142855,-0.125
+multi_agent - direct_llm,temporal_selection,ordinary_multi_agent,ordinary_direct_llm,159,52,-0.0880503144654088,-0.17142857142857143,-0.005259129967776643
+single_agent - direct_llm,all,ordinary_single_agent,ordinary_direct_llm,300,58,0.07,0.018050541516245487,0.12500851498637588
+single_agent - direct_llm,lookup_counting,ordinary_single_agent,ordinary_direct_llm,92,52,-0.021739130434782608,-0.08333333333333333,0.038461538461538464
+single_agent - direct_llm,numerical_aggregation,ordinary_single_agent,ordinary_direct_llm,49,28,0.0,-0.10256410256410256,0.09259259259259259
+single_agent - direct_llm,temporal_selection,ordinary_single_agent,ordinary_direct_llm,159,52,0.14465408805031446,0.06060606060606061,0.22727272727272727
+single_agent: omitted - intact,all,recovery_single_agent_omitted,recovery_single_agent_intact,50,27,-0.14,-0.23076923076923078,-0.057692307692307696
+single_agent: omitted - intact,lookup_counting,recovery_single_agent_omitted,recovery_single_agent_intact,15,14,0.0,0.0,0.0
+single_agent: omitted - intact,numerical_aggregation,recovery_single_agent_omitted,recovery_single_agent_intact,15,12,-0.2,-0.46153846153846156,0.0
+single_agent: omitted - intact,temporal_selection,recovery_single_agent_omitted,recovery_single_agent_intact,20,16,-0.2,-0.34782608695652173,-0.05263157894736842
+multi_agent: omitted - intact,all,recovery_multi_agent_omitted,recovery_multi_agent_intact,50,27,-0.04,-0.12962962962962962,0.05660377358490566
+multi_agent: omitted - intact,lookup_counting,recovery_multi_agent_omitted,recovery_multi_agent_intact,15,14,-0.06666666666666667,-0.26666666666666666,0.14285714285714285
+multi_agent: omitted - intact,numerical_aggregation,recovery_multi_agent_omitted,recovery_multi_agent_intact,15,12,0.13333333333333333,0.0,0.3333333333333333
+multi_agent: omitted - intact,temporal_selection,recovery_multi_agent_omitted,recovery_multi_agent_intact,20,16,-0.15,-0.3684210526315789,0.05263157894736842
+omitted: multi_agent - single_agent,all,recovery_multi_agent_omitted,recovery_single_agent_omitted,50,27,-0.2,-0.34,-0.061224489795918366
+omitted: multi_agent - single_agent,lookup_counting,recovery_multi_agent_omitted,recovery_single_agent_omitted,15,14,-0.13333333333333333,-0.375,0.14285714285714285
+omitted: multi_agent - single_agent,numerical_aggregation,recovery_multi_agent_omitted,recovery_single_agent_omitted,15,12,-0.26666666666666666,-0.5333333333333333,0.0
+omitted: multi_agent - single_agent,temporal_selection,recovery_multi_agent_omitted,recovery_single_agent_omitted,20,16,-0.2,-0.47368421052631576,0.05
+intact: multi_agent - single_agent,all,recovery_multi_agent_intact,recovery_single_agent_intact,50,27,-0.3,-0.42592592592592593,-0.18
+intact: multi_agent - single_agent,lookup_counting,recovery_multi_agent_intact,recovery_single_agent_intact,15,14,-0.06666666666666667,-0.21428571428571427,0.0
+intact: multi_agent - single_agent,numerical_aggregation,recovery_multi_agent_intact,recovery_single_agent_intact,15,12,-0.6,-0.8461538461538461,-0.375
+intact: multi_agent - single_agent,temporal_selection,recovery_multi_agent_intact,recovery_single_agent_intact,20,16,-0.25,-0.4287267080745328,-0.09523809523809523

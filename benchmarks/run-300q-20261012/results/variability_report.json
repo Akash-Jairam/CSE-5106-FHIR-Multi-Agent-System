@@ -1,0 +1,375 @@
+{
+  "subset": "manifests/variability_subset.json",
+  "planned_repeats": 5,
+  "systems": {
+    "direct_llm": {
+      "repeats": 5,
+      "questions": 20,
+      "accuracy": {
+        "mean": 0.63,
+        "sd": 0.02738612787525833,
+        "min": 0.6,
+        "max": 0.65,
+        "n": 5
+      },
+      "abstention_rate": {
+        "mean": 0.13999999999999999,
+        "sd": 0.04183300132670378,
+        "min": 0.1,
+        "max": 0.2,
+        "n": 5
+      },
+      "error_rate": {
+        "mean": 0.030000000000000006,
+        "sd": 0.027386127875258306,
+        "min": 0.0,
+        "max": 0.05,
+        "n": 5
+      },
+      "mean_tokens": {
+        "mean": 6427.6,
+        "sd": 6.6889834803206405,
+        "min": 6418.2,
+        "max": 6436.85,
+        "n": 5
+      },
+      "median_latency": {
+        "mean": 1.6396000000000002,
+        "sd": 0.12143022687947186,
+        "min": 1.501,
+        "max": 1.826,
+        "n": 5
+      },
+      "retry_count": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 5
+      },
+      "retry_inclusive_tokens_total": {
+        "mean": 128552.0,
+        "sd": 133.7796696064092,
+        "min": 128364,
+        "max": 128737,
+        "n": 5
+      },
+      "retry_inclusive_latency_total": {
+        "mean": 33.876599999999996,
+        "sd": 1.2376287003782678,
+        "min": 32.202,
+        "max": 35.537,
+        "n": 5
+      },
+      "always_correct": 12,
+      "never_correct": 7,
+      "unstable": 1,
+      "correctness_agreement": 0.97,
+      "identical_answers": 0.8,
+      "per_repeat": [
+        {
+          "accuracy": 0.6,
+          "abstention_rate": 0.1,
+          "error_rate": 0.05,
+          "mean_tokens": 6427.05,
+          "median_latency": 1.619,
+          "retry_count": 0,
+          "failed_attempts": 1,
+          "retry_inclusive_tokens_total": 128541,
+          "retry_inclusive_latency_total": 33.268
+        },
+        {
+          "accuracy": 0.6,
+          "abstention_rate": 0.1,
+          "error_rate": 0.05,
+          "mean_tokens": 6436.85,
+          "median_latency": 1.826,
+          "retry_count": 0,
+          "failed_attempts": 1,
+          "retry_inclusive_tokens_total": 128737,
+          "retry_inclusive_latency_total": 34.162
+        },
+        {
+          "accuracy": 0.65,
+          "abstention_rate": 0.15,
+          "error_rate": 0.05,
+          "mean_tokens": 6426.45,
+          "median_latency": 1.672,
+          "retry_count": 0,
+          "failed_attempts": 1,
+          "retry_inclusive_tokens_total": 128529,
+          "retry_inclusive_latency_total": 34.214
+        },
+        {
+          "accuracy": 0.65,
+          "abstention_rate": 0.15,
+          "error_rate": 0.0,
+          "mean_tokens": 6418.2,
+          "median_latency": 1.501,
+          "retry_count": 0,
+          "failed_attempts": 0,
+          "retry_inclusive_tokens_total": 128364,
+          "retry_inclusive_latency_total": 32.202
+        },
+        {
+          "accuracy": 0.65,
+          "abstention_rate": 0.2,
+          "error_rate": 0.0,
+          "mean_tokens": 6429.45,
+          "median_latency": 1.58,
+          "retry_count": 0,
+          "failed_attempts": 0,
+          "retry_inclusive_tokens_total": 128589,
+          "retry_inclusive_latency_total": 35.537
+        }
+      ],
+      "skipped_incomplete": []
+    },
+    "single_agent": {
+      "repeats": 5,
+      "questions": 20,
+      "accuracy": {
+        "mean": 0.6799999999999999,
+        "sd": 0.02738612787525827,
+        "min": 0.65,
+        "max": 0.7,
+        "n": 5
+      },
+      "abstention_rate": {
+        "mean": 0.2,
+        "sd": 0.035355339059327376,
+        "min": 0.15,
+        "max": 0.25,
+        "n": 5
+      },
+      "error_rate": {
+        "mean": 0.06999999999999999,
+        "sd": 0.04472135954999579,
+        "min": 0.05,
+        "max": 0.15,
+        "n": 5
+      },
+      "mean_tokens": {
+        "mean": 62991.69,
+        "sd": 4556.350171381698,
+        "min": 57665.7,
+        "max": 68526.75,
+        "n": 5
+      },
+      "median_latency": {
+        "mean": 10.355,
+        "sd": 0.7278475973718678,
+        "min": 9.311499999999999,
+        "max": 11.047,
+        "n": 5
+      },
+      "retry_count": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 5
+      },
+      "retry_inclusive_tokens_total": {
+        "mean": 1259833.8,
+        "sd": 91127.0034276339,
+        "min": 1153314,
+        "max": 1370535,
+        "n": 5
+      },
+      "retry_inclusive_latency_total": {
+        "mean": 266.3266,
+        "sd": 37.137754648066704,
+        "min": 226.437,
+        "max": 327.024,
+        "n": 5
+      },
+      "always_correct": 13,
+      "never_correct": 6,
+      "unstable": 1,
+      "correctness_agreement": 0.97,
+      "identical_answers": 0.7,
+      "per_repeat": [
+        {
+          "accuracy": 0.7,
+          "abstention_rate": 0.2,
+          "error_rate": 0.05,
+          "mean_tokens": 66590.85,
+          "median_latency": 11.047,
+          "retry_count": 0,
+          "failed_attempts": 1,
+          "retry_inclusive_tokens_total": 1331817,
+          "retry_inclusive_latency_total": 262.98
+        },
+        {
+          "accuracy": 0.65,
+          "abstention_rate": 0.2,
+          "error_rate": 0.05,
+          "mean_tokens": 57665.7,
+          "median_latency": 9.9025,
+          "retry_count": 0,
+          "failed_attempts": 1,
+          "retry_inclusive_tokens_total": 1153314,
+          "retry_inclusive_latency_total": 327.024
+        },
+        {
+          "accuracy": 0.65,
+          "abstention_rate": 0.25,
+          "error_rate": 0.05,
+          "mean_tokens": 62471.95,
+          "median_latency": 10.864999999999998,
+          "retry_count": 0,
+          "failed_attempts": 1,
+          "retry_inclusive_tokens_total": 1249439,
+          "retry_inclusive_latency_total": 251.357
+        },
+        {
+          "accuracy": 0.7,
+          "abstention_rate": 0.2,
+          "error_rate": 0.15,
+          "mean_tokens": 68526.75,
+          "median_latency": 10.649000000000001,
+          "retry_count": 0,
+          "failed_attempts": 3,
+          "retry_inclusive_tokens_total": 1370535,
+          "retry_inclusive_latency_total": 263.835
+        },
+        {
+          "accuracy": 0.7,
+          "abstention_rate": 0.15,
+          "error_rate": 0.05,
+          "mean_tokens": 59703.2,
+          "median_latency": 9.311499999999999,
+          "retry_count": 0,
+          "failed_attempts": 1,
+          "retry_inclusive_tokens_total": 1194064,
+          "retry_inclusive_latency_total": 226.437
+        }
+      ],
+      "skipped_incomplete": []
+    },
+    "multi_agent": {
+      "repeats": 5,
+      "questions": 20,
+      "accuracy": {
+        "mean": 0.51,
+        "sd": 0.022360679774997918,
+        "min": 0.5,
+        "max": 0.55,
+        "n": 5
+      },
+      "abstention_rate": {
+        "mean": 0.41,
+        "sd": 0.0651920240520265,
+        "min": 0.35,
+        "max": 0.5,
+        "n": 5
+      },
+      "error_rate": {
+        "mean": 0.19,
+        "sd": 0.05477225575051661,
+        "min": 0.1,
+        "max": 0.25,
+        "n": 5
+      },
+      "mean_tokens": {
+        "mean": 84234.11,
+        "sd": 4949.769311341693,
+        "min": 78989.7,
+        "max": 91851.1,
+        "n": 5
+      },
+      "median_latency": {
+        "mean": 20.4089,
+        "sd": 1.5979696258064475,
+        "min": 19.169,
+        "max": 22.592,
+        "n": 5
+      },
+      "retry_count": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 5
+      },
+      "retry_inclusive_tokens_total": {
+        "mean": 1684682.2,
+        "sd": 98995.38622683383,
+        "min": 1579794,
+        "max": 1837022,
+        "n": 5
+      },
+      "retry_inclusive_latency_total": {
+        "mean": 470.2434,
+        "sd": 47.46775836080741,
+        "min": 406.476,
+        "max": 537.864,
+        "n": 5
+      },
+      "always_correct": 6,
+      "never_correct": 7,
+      "unstable": 7,
+      "correctness_agreement": 0.82,
+      "identical_answers": 0.35,
+      "per_repeat": [
+        {
+          "accuracy": 0.5,
+          "abstention_rate": 0.35,
+          "error_rate": 0.2,
+          "mean_tokens": 91851.1,
+          "median_latency": 19.2945,
+          "retry_count": 0,
+          "failed_attempts": 4,
+          "retry_inclusive_tokens_total": 1837022,
+          "retry_inclusive_latency_total": 454.86199999999997
+        },
+        {
+          "accuracy": 0.5,
+          "abstention_rate": 0.35,
+          "error_rate": 0.25,
+          "mean_tokens": 81603.3,
+          "median_latency": 19.3425,
+          "retry_count": 0,
+          "failed_attempts": 5,
+          "retry_inclusive_tokens_total": 1632066,
+          "retry_inclusive_latency_total": 406.476
+        },
+        {
+          "accuracy": 0.5,
+          "abstention_rate": 0.4,
+          "error_rate": 0.2,
+          "mean_tokens": 78989.7,
+          "median_latency": 19.169,
+          "retry_count": 0,
+          "failed_attempts": 4,
+          "retry_inclusive_tokens_total": 1579794,
+          "retry_inclusive_latency_total": 481.961
+        },
+        {
+          "accuracy": 0.5,
+          "abstention_rate": 0.45,
+          "error_rate": 0.2,
+          "mean_tokens": 82701.3,
+          "median_latency": 22.592,
+          "retry_count": 0,
+          "failed_attempts": 4,
+          "retry_inclusive_tokens_total": 1654026,
+          "retry_inclusive_latency_total": 537.864
+        },
+        {
+          "accuracy": 0.55,
+          "abstention_rate": 0.5,
+          "error_rate": 0.1,
+          "mean_tokens": 86025.15,
+          "median_latency": 21.6465,
+          "retry_count": 0,
+          "failed_attempts": 2,
+          "retry_inclusive_tokens_total": 1720503,
+          "retry_inclusive_latency_total": 470.054
+        }
+      ],
+      "skipped_incomplete": []
+    }
+  }
+}
