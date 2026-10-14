@@ -1,0 +1,10 @@
+{
+  "recorded_at_utc": "2026-10-14T14:37:02.268298+00:00",
+  "state": "running",
+  "scheduled_questions": 300,
+  "runtime_code_commit": "cb9f113713b20f5997e752685e23d18440288ff5",
+  "frozen_source_files_verified": 133,
+  "approval": "Human explicitly approved benchmark questions and retrieved patient-derived FHIR records to configured Azure gpt-6-luna for task subset experiments and final full benchmark.",
+  "command": "caffeinate -i .venv/bin/python .local-setup/phase3.py run --project-root . --model gpt-6-luna --max_total_tokens 200000 --max_tool_calls 30 --num_processes 4 --save_interval 1 --output_dir output/experiments/gpt-6-luna/query_contract_v3_300q --arms ordinary_multi_agent --split held_out --team_strategy multi_agent_v3 --audit_storage gzip",
+  "previous_block_record": "launch_status.json"
+}
