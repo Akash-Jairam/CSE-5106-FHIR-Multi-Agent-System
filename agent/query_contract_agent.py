@@ -229,6 +229,15 @@ class LedgerSolver(SingleAgent):
         self.retrieval_ledger = []
         self._scoped_box = None
 
+    def _append_message(self, message):
+        if isinstance(message, HostBoundaryMessage):
+            # The SDK accepts message mappings, not arbitrary host objects.
+            # Keep host-only annotations in the saved audit, outside API input.
+            self.messages.append(message.to_dict())
+            self.model_messages.append(message.model_dump())
+            return
+        return super()._append_message(message)
+
     def complete_types(self):
         unresolved = set(self._scoped_box.scope_failures if self._scoped_box else {})
         unresolved_types = {key.split("/", 1)[0] for key in unresolved}

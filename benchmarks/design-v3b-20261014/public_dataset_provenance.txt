@@ -1,0 +1,50 @@
+FHIR-AgentBench provenance and model payload audit
+
+Clinical source: deidentified records from real patients, not a simulated patient
+population. PhysioNet identifies MIMIC-IV Clinical Database Demo on FHIR 2.1.0 as
+a 100-patient subset converted from MIMIC-IV/ED demo 2.2. Its ethics statement
+identifies deidentified Beth Israel Deaconess Medical Center data. The benchmark
+paper explicitly grounds its questions in real, deidentified MIMIC-IV-FHIR demo
+records. Its Synthea discussion describes other benchmarks. Benchmark questions
+are clinician-derived EHRSQL constructions with restored anchor years and clinical
+terms; transformed identifiers/dates and synthetic unit-test fixtures do not
+make the clinical source population synthetic.
+Sources: https://physionet.org/content/mimic-iv-fhir-demo/2.1.0/
+https://arxiv.org/html/2509.19319v1 (sections 1 and 3; comparison table)
+https://github.com/glee4810/FHIR-AgentBench (author repository/readme)
+
+Local evidence: README line 54 and manifests/starting_packets.source.json point
+to that exact PhysioNet release. All 24 downloaded NDJSON gzip files match their
+recorded SHA-256 values. The local Patient file contains 100 patients, and all
+94 patients in the 2,931-question benchmark belong to that set. Hash/count proof:
+/private/tmp/fhir-public-provenance-local-proof.json. Root's prior live preflight
+found every requested patient and constructed bounded starting packets; it did
+not record a complete canonical hash comparison of all live clinical values.
+Thus recorded local-source integrity is verified, while identity/count agreement
+alone does not prove that every live-store value equals an unchanged public file.
+No additional live-store requests were made for this audit.
+
+Outbound model content: curated question, pseudonymous patient identifiers and
+assumed current time; an initial pruned FHIR excerpt capped at 8,000 tokens; then
+bounded retrieved-resource/tool previews, computed values, citations, execution
+diagnostics and source-check feedback. These can include demographics, shifted
+event dates, encounter/ward details, diagnoses, measurements, microbiology and
+medication/dose data. V3's contract gets question/context; its static auditor gets
+contract, executed code, workspace identity, retrieval ledger and bounded source
+samples. The rendered solver answer is deliberately omitted from that auditor.
+The local Azure adapter forwards messages/tools to AzureOpenAI chat completions.
+Bounds and gzip audit storage do not remove patient-derived content from prompts.
+
+Hidden from agents: reference true_answer, SQL queries, gold FHIR-resource lists,
+family/template scoring labels and split/perturbation manifest annotations. The
+driver's curated prompt uses question, patient_fhir_id and assumption only;
+starting-packet selection uses the question and fetched record, not gold answers.
+Retrieved source IDs and model-computed answers are visible as ordinary tool data.
+Evidence: utils/core_utils.py:265; tools/starting_packet.py; agent/single_agent.py;
+agent/query_contract_agent.py; .local-setup/azure_adapter.py:88-103 (code only).
+
+This report describes provenance and transmission, not authorization. Public
+availability or the demo's license does not itself replace consent. Root received
+the user's explicit model-run consent separately. No secret configurations/API
+values were read, no model calls were made, and no source files were changed by
+this audit.

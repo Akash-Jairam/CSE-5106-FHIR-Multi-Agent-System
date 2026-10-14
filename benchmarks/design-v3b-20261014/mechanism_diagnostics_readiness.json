@@ -1,0 +1,28 @@
+{
+  "status": "Ready for complete 300 first attempts only; independent review complete; 8 synthetic tests passed independently.",
+  "scope": "No actual model run scored; frozen/stopped V3 runtime untouched.",
+  "integrity": "Exact displayed answer/evidence/limitation binding; first-attempt precedence; complete-cohort, audit owner/checksum, and source hashes.",
+  "outputs": [
+    "mechanisms.json",
+    "mechanisms_rows.json",
+    "mechanisms.csv"
+  ],
+  "files": {
+    "helper": {
+      "path": "/private/tmp/fhir_v3_large_run_diagnostics.py",
+      "sha256": "307e4ccb4f3ace901f3010d9773b4b2c3dbd2e7075dfc08bc4522cf6919c292a"
+    },
+    "schema": {
+      "path": "/private/tmp/fhir-v3-diagnostics-schema.txt",
+      "sha256": "ed10786ec542d66a7135a65cd3b4281b8377bf6094ff2b6c03cbfef0eb5b87cb"
+    },
+    "tests": {
+      "path": "/private/tmp/test_fhir_v3_large_run_diagnostics.py",
+      "sha256": "9e3fb6b41c79ef0917a10a00893fd714ac7dbf094909e76ecd200ea751457d94"
+    },
+    "offline_check": {
+      "path": "/private/tmp/fhir-v3-diagnostics-offline-check.json",
+      "sha256": "79eb4748f04e2ecf0c38ce77cb09e5b07b9df7f38333c2ec05e3e8b007e5bfc4"
+    }
+  }
+}

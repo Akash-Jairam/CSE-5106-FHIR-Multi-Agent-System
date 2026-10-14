@@ -1,0 +1,22 @@
+{
+  "previous_module_sha256": "8d2ebbd2688c39c8269774ed45fe1755d0445d62495f195e16e76c1989aa4323",
+  "corrected_module_sha256": "98d27d725057498589d22fd22ff279fff45fbec225294970cc5ccaf2159e901a",
+  "patch_sha256": "dab128d54f975a496d5dce5278200a29e6f66023e05e8409f4489a87379e4df1",
+  "delta": "Nine-line V3-only _append_message override stores API primitive role/content and audit primitive annotated dict; new real SDK source-feedback/worker gzip regression.",
+  "shared_single_provider_tool_scorer_changes": false,
+  "protocol": "query-contract-v3.2-static-audit",
+  "tools_by_phase": [
+    0,
+    27,
+    0,
+    3
+  ],
+  "tokens_by_phase": [
+    10000,
+    175000,
+    15000,
+    0
+  ],
+  "operational_workers": 2,
+  "prior_aborted_record": "benchmarks/design-v3-20261014"
+}

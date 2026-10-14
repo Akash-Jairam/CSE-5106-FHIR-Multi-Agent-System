@@ -1,0 +1,64 @@
+Independent V3.2 HostBoundary transport review
+14 October 2026
+
+Reviewed isolated patch:
+  /private/tmp/fhir-v3-serialization-Mm9kTD/agent/query_contract_agent.py
+  /private/tmp/fhir-v3-serialization-Mm9kTD/tests/test_v3_host_boundary_transport.py
+
+No stopped/active runtime source was edited, real inference or network launched,
+credential file read, or actual partial-run accuracy computed for this review.
+
+Conclusion
+
+No fatal issue found in the minimal transport patch. The inference AST is
+identical to the stopped source after excluding only the new V3-only
+LedgerSolver._append_message method. All other 36 agent/tools/utils Python
+modules independently compared to the stopped checkout are byte-identical.
+
+The new method recognizes only HostBoundaryMessage. It stores to_dict() in
+saved audit messages, retaining model_call=False and phase=solver_boundary,
+and stores model_dump() in model_messages as a plain role/content mapping.
+All other messages delegate to the unchanged SingleAgent implementation.
+No host-only phase/model-call annotations are sent through the API boundary.
+A source-feedback continuation therefore no longer submits an arbitrary
+custom Python object to the actual Azure SDK JSON encoder. The same mapping
+is also compatible with existing context compaction and lossless gzip storage.
+
+The synthetic boundary still costs no model call. It retains the same visible
+content and still occurs after the full preceding tool batch. Explicit final
+metadata/hash authority, retrieval and failure invalidation, source feedback,
+source-check reservations, aggregate caps, static one-pass/zero-tool audit,
+and targeted original-field proofs are unchanged. This transport repair does
+not increase semantic assurance or authorize release before source checking.
+
+Validation
+
+142 offline tests independently passed: the two new transport regressions,
+V3 lifecycle/repair/scope tests, strict final-artifact tests, blind verification,
+framework and budget tests, context compaction, and gzip/driver tests. Actual
+AzureOpenAI + httpx.MockTransport was used through safe_llm_call, with real
+OS sandbox Python execution and mocked FHIR source. No provider network or
+real credentials were used.
+
+The actual SDK regression exercises a source-invalid citation in the first
+executed final, the automatic checker, source-feedback continuation with a
+previous host boundary in API history, a corrected explicit final and source
+check, and the static audit. It records exactly five model calls and five tools.
+The worker returns compact gzip references; exact restored output retains two
+host boundaries and clean source validation. This does not duck-type arbitrary
+messages before the SDK, which would hide the original defect.
+
+The direct representation test also checks that model history contains only
+a plain API dictionary, saved audit history retains host annotations, and
+nested revision.primary_revision messages/traces survive gzip round trip.
+
+Fingerprints
+
+  query_contract_agent.py:
+  98d27d725057498589d22fd22ff279fff45fbec225294970cc5ccaf2159e901a
+  test_v3_host_boundary_transport.py:
+  783757b5e4920a24a487b2354a8c2e78d7b58483496fdeb06f5367914a0186ee
+
+The corrected run needs a new source/run identity. Preserve the stopped raw
+first attempt and its error record; do not replace its outcome or mix it into
+the new complete comparison. No score is reported for the incomplete run.

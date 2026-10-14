@@ -1,0 +1,114 @@
+"""Real SDK JSON encoding and lossless worker output, with all I/O mocked."""
+from copy import deepcopy
+import json
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+
+import httpx
+import litellm
+from openai import AzureOpenAI
+
+import run_agent as runner
+from agent.query_contract_agent import HostBoundaryMessage, LedgerSolver, PhaseHost, QueryContractAgent
+from scripts.audit_store import externalize_result_audit, restore_result_audit
+from tests import test_query_contract_agent as query_fixture
+from tests.test_query_contract_agent import (
+    FixtureMessage, QUESTION, CODE, contract, audit, fetch, final_call, reply,
+)
+from utils import core_utils
+
+
+class HostBoundaryTransportTests(unittest.TestCase):
+    def test_boundary_is_plain_api_input_with_lossless_nested_audit(self):
+        with patch("agent.base_agent.setup_api_keys"):
+            host = QueryContractAgent("gpt-6-luna")
+            solver = LedgerSolver(host, PhaseHost(host, "solver"))
+        solver.messages, solver.model_messages = [], []
+        boundary = HostBoundaryMessage()
+        solver._append_message(boundary)
+        self.assertEqual(solver.model_messages, [boundary.model_dump()])
+        self.assertEqual(solver.messages, [boundary.to_dict()])
+        self.assertEqual(type(solver.model_messages[0]), dict)
+        self.assertNotIn("model_call", solver.model_messages[0])
+        self.assertNotIn("phase", solver.model_messages[0])
+        json.dumps({"messages": solver.model_messages}, allow_nan=False)
+        nested = {"trace": deepcopy(solver.messages), "latency": 1,
+                  "revision": {"messages": deepcopy(solver.messages),
+                               "primary_revision": {"messages": deepcopy(solver.messages),
+                                                    "nested_trace": [deepcopy(solver.messages)]}}}
+        with tempfile.TemporaryDirectory() as directory:
+            compact = externalize_result_audit(nested, directory, question_id="synthetic-q")
+            json.dumps(compact, allow_nan=False)
+            restored = restore_result_audit(compact, directory, question_id="synthetic-q")
+        self.assertEqual(restored, nested)
+        self.assertFalse(restored["revision"]["primary_revision"]["messages"][0]["model_call"])
+
+    def test_actual_sdk_source_feedback_continuation_and_worker_gzip(self):
+        # The first explicit final has a source-invalid citation. The next real
+        # SDK request must encode a history containing the preceding boundary.
+        fixture = query_fixture.QueryContractIntegrationTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        wrong = CODE.replace("'value': r['valueQuantity']['value']", "'value': 999")
+        responses = iter([reply(json.dumps(contract())), fetch(), final_call(wrong, "wrong-citation"),
+                          final_call(CODE, "corrected-citation"), reply(json.dumps(audit("PASS")))])
+        requests = []
+
+        def handle(request):
+            body = json.loads(request.content)
+            requests.append(body)
+            response = FixtureMessage(**vars(next(responses))).model_dump()
+            return httpx.Response(200, json={
+                "id": "offline-response", "object": "chat.completion", "created": 0,
+                "model": "gpt-6-luna", "choices": [{"index": 0, "message": response,
+                    "finish_reason": "tool_calls" if response.get("tool_calls") else "stop"}],
+                "usage": {"prompt_tokens": 100, "completion_tokens": 50, "total_tokens": 150},
+            })
+
+        http_client = httpx.Client(transport=httpx.MockTransport(handle))
+        self.addCleanup(http_client.close)
+        client = AzureOpenAI(azure_endpoint="https://offline-fixture.invalid", api_version="2024-12-01-preview",
+                             api_key="non-secret-unit-test-placeholder", max_retries=0, http_client=http_client)
+        self.addCleanup(client.close)
+
+        def sdk_completion(**kwargs):
+            # Mirrors the local Azure adapter's actual request boundary. Do not
+            # duck-type arbitrary objects through model_dump: that masks the bug.
+            parameters = {"model": "offline-deployment", "messages": kwargs["messages"],
+                          "max_completion_tokens": min(kwargs.get("max_completion_tokens", 16384), 16384)}
+            if kwargs.get("tools"):
+                parameters["tools"] = kwargs["tools"]
+            response = client.chat.completions.create(**parameters)
+            return litellm.ModelResponse(**response.model_dump(exclude_none=True))
+
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(core_utils.litellm, "completion", side_effect=sdk_completion):
+            budget = {"max_total_tokens": 200000, "max_tool_calls": 30}
+            job = runner.prepare_multiprocessing_inputs([QUESTION], "multi_agent_v3", "gpt-6-luna", False,
+                None, False, budget, include_full_audit=True,
+                audit_contexts=[{"output_dir": directory, "question_id": "synthetic-q"}])[0]
+            compact = runner.dispatch_agent_job(job)
+            json.dumps(compact, allow_nan=False)
+            restored = restore_result_audit(compact, directory, question_id="synthetic-q")
+            artifact = compact["audit_artifacts"]
+            self.assertTrue((Path(directory) / artifact["path"]).is_file())
+        self.assertIsNone(restored["error"], restored.get("error"))
+        self.assertEqual(restored["agent_answer"], 2)
+        self.assertEqual(len(requests), 5)
+        self.assertEqual(restored["tokens"]["llm_calls"], 5)
+        self.assertEqual(restored["budget"]["tool_calls_run"], 5)
+        self.assertEqual(restored["revision"]["primary_revision"]["final_check_issues"], [])
+        self.assertTrue(restored["revision"]["primary_revision"]["revised"])
+        self.assertIsNone(restored["revision"]["primary_revision"]["revision_error"])
+        wire_boundaries = [message for message in requests[3]["messages"]
+                           if message.get("content") == HostBoundaryMessage.content]
+        self.assertEqual(wire_boundaries, [HostBoundaryMessage().model_dump()])
+        audit_boundaries = [message for message in restored["trace"] if message.get("phase") == "solver_boundary"]
+        self.assertEqual(len(audit_boundaries), 2)
+        self.assertTrue(all(message["model_call"] is False for message in audit_boundaries))
+
+
+if __name__ == "__main__":
+    unittest.main()

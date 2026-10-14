@@ -1,0 +1,32 @@
+{
+  "scope": "Completed V2 refreshed single reused; inference substrate unchanged, output-only transport differences disclosed. No rerun or identity rewrite.",
+  "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/verified_team_v2_300q/ordinary_single_agent.json",
+  "result_sha256": "6010afe99ca9c6b90e52ee3f359e64a3ab9ccf331a826bb8e1de306b2d0ee873",
+  "run_identity": {
+    "version": 2,
+    "agent_strategy": "single_agent",
+    "model": "gpt-6-luna",
+    "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "max_total_tokens": 200000,
+    "max_tool_calls": 30,
+    "add_patient_fhir_id": true,
+    "enable_cache": true,
+    "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+    "code_hash": "651af308b30a6fb1077ca3cccdbb3efe4c378d34c93a34b085355096d6b637c4",
+    "split": "held_out",
+    "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+    "condition": null,
+    "perturbations_hash": null,
+    "subset_hash": null,
+    "repeat": null
+  },
+  "correct": 231,
+  "questions": 300,
+  "formal_record": "benchmarks/design-v2-20261013",
+  "source_commit": "3352037",
+  "provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "2f1c9e82a8f7418bbe7976e3d9e974c0dbc60fbf7082fe68ee5fb0f9fd0a225d",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  }
+}

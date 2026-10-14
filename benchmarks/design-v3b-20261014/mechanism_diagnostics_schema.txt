@@ -1,0 +1,180 @@
+V3 substantial-run diagnostics helper and report schema
+14 October 2026
+
+Helper:
+  /private/tmp/fhir_v3_large_run_diagnostics.py
+Offline checks:
+  /private/tmp/test_fhir_v3_large_run_diagnostics.py
+
+Purpose and execution boundary
+
+This is a post-hoc helper for the fixed 300-question cohort. It is not imported
+by an agent and must be run only after the complete substantial run. It rejects
+any missing, duplicate, unexpected, or unfinished first attempt before invoking
+the scorer or writing reports. The first attempt is history[0] when history
+exists, otherwise the saved current result. Later success cannot replace an
+initial failure. Explicit terminal errors always count as incorrect, including
+errors whose null answer happens to match an empty reference.
+
+The helper loads utils/answer_scorer.py unchanged by filesystem module path,
+without importing the agent/configuration packages. It loads the audit-store
+utility the same way. It performs no inference, FHIR reads, credential access,
+or pipeline edits. Gzip audits are restored one question at a time using the
+existing integrity/ownership/path validator. No raw result or sidecar is edited.
+
+Invocation after completion
+
+  python3 /private/tmp/fhir_v3_large_run_diagnostics.py \
+    --root '<repository>' \
+    --source-manifest '<frozen-design>/manifest.json' \
+    --arm 'v3=<run-directory>/ordinary_multi_agent.json' \
+    --output '<frozen-design>/diagnostics'
+
+Use the actual frozen record/run paths. The default cohort comes from
+manifests/split.json -> splits.held_out.question_ids and must contain exactly
+300 unique IDs. For another explicitly frozen 300-question list, pass
+--subset '<subset-manifest>' with a question_ids list. There is no partial,
+pilot, force, or full-cohort override. Multiple --arm NAME=PATH arguments are
+allowed only when every arm has the same complete scheduled cohort; their
+sidecars and code fingerprints are recorded separately.
+
+Outputs
+
+mechanisms.json
+  schema_version: 3
+  scope/scoring/caveats: exact post-hoc interpretation
+  input_hashes: dataset, families, cohort, source manifest/archive, scorer,
+    diagnostic helper, and selected current source module hashes
+  frozen_protocol: PHASE_CAPS and PROTOCOL extracted with ast.literal_eval
+    from the source module, without importing that module
+  raw_inputs[arm]: raw result SHA-256, run-sidecar SHA-256, selected identity
+    fields, and the first-attempt audit artifact index; each artifact records
+    its compressed file SHA-256 and declared/validated uncompressed SHA-256
+  arms[arm]: descriptive counts and phase totals described below
+
+mechanisms_rows.json
+  One compact, answer-free mechanism record per arm/question. Contains typed
+  correctness booleans and reasons, not reference answers or runtime feedback.
+
+mechanisms.csv
+  Same per-question records. Dictionary/list cells contain JSON text so nested
+  counters and phase records can be restored without lossy flattening.
+
+Per-question fields
+
+question_id/family/protocol/arm
+  Cohort mapping and recorded strategy protocol. Family templates are used by
+  the unchanged scorer, never by the runtime helper.
+
+terminal_error/terminal_error_kind
+  First-attempt error and descriptive timeout/budget/input/transport/provider/source/
+  execution/other classification. Raw error is preserved in the source result.
+
+correct/typed_reason/reference_empty
+  Scored released first outcome, with errors forced incorrect. An empty
+  reference does not make an errored run correct.
+
+draft_correct/primary_correct/final_candidate_correct
+  Typed matches of the corresponding stored answer candidates, independent of
+  release. Null means the candidate was not available, not an incorrect score.
+
+draft_artifact_present/primary_artifact_present/released_artifact_present
+  Whether the stored candidate has the complete executed-answer metadata shape.
+  This is a recorded-envelope check, not a new semantic/source certification.
+
+primary_source_valid
+  The recorded primary source-check result, when its nested source revision
+  record is available. Null means unavailable; it is not inferred from success.
+
+missing_final_artifact
+  A V3 protocol was recorded but no complete primary artifact was retained.
+
+clean_final_source_check/released_artifact_matches_output/source_valid_release/release_policy
+  A clean final source-check record is distinguished from a V3 executed release
+  under a known source-valid policy. Exact finite-JSON answer/evidence/limitation
+  equality binds the displayed output to that artifact; a mismatch denies source-
+  valid credit and records released_artifact_mismatch. Neither proves clinical
+  query semantics or
+  exhaustive retrieval completeness. A released limitation is separately counted.
+
+answer_is_null/scored_null_credit/unverified_null_credit
+  A scored null credit can occur on an empty reference. The unverified variant
+  lacks a source-valid executed release. This must not be described as verified
+  absence. Zero/false/empty-list outcomes remain visible via the broader
+  credited_without_source_valid_release field and reference-empty counters.
+
+solver_source_revised/targeted_revised/revised
+  Separate source-feedback and restricted host repair mechanisms. Source
+  revision help/harm compares draft with primary; targeted help/harm compares
+  primary with the scored released first outcome. Correct candidates lost to
+  final withholding or terminal errors are reported separately.
+
+audit_status/audit_verdict_counts/audit_error
+  Statuses: valid_json, malformed_record, malformed_or_failed, unavailable,
+  budget_or_guard, forbidden_tool, program_cap, contract_unavailable_or_not_run,
+  or not_run. PASS/FAIL/UNKNOWN/N/A counts describe requirements, not questions.
+  The original audit error text remains for disambiguation.
+
+targeted_proposed/targeted_status/targeted_denial_reason/targeted_issue_types
+  Distinguishes a proposed repair, accepted source-checked local correction,
+  unsupported/rejected/failed/no-effect result, and its exact recorded reason.
+
+initial_issue_types/final_issue_types
+  Structured issue kinds or prefixes from legacy source-check strings.
+
+unresolved_scope_count/unresolved_scope_reason_counts
+  Retained patient/time/linkage uncertainty. No excluded record is inferred to
+  be irrelevant by this diagnostics code.
+
+phase_records/phase_fatal/phase_local_refusal/exhaustion_scope
+  Raw per-phase token/tool caps, measured consumption, errors, and fatal flag.
+  exhaustion_scope separates local refusal, recorded aggregate stop, fatal
+  accounting, and none. Fatal local overshoot versus global overshoot is further
+  distinguished by accounting_anomalies. A generic local error is called a
+  refusal rather than asserting it consumed the entire allocation.
+
+accounting_anomalies
+  Phase cap mismatch/exceedance, malformed/unknown measures, duplicate phases,
+  phase-total mismatch, and measured global token/tool cap exceedance. Missing
+  usage is not filled with zero. Provider usage_available=False is explicit.
+
+tokens/tool_calls/provider_usage_unknown/context_compactions/has_limitation
+  First-attempt recorded operational values. Retry-inclusive spend is excluded
+  from these outcome mechanisms; recorded_retries retains history length.
+
+trace_stats
+  Host final boundaries, original-source checker replies, worker-valid explicit
+  final replies, worker final-contract errors, and malformed Python replies.
+  Static audit is never described as an independently computed answer artifact.
+
+Aggregate report
+
+Each arm records counts for errors, typed correct outcomes, source-valid releases,
+null credits, source and targeted help/harm, correct draft/primary losses, wrong
+primary recoveries, missing artifacts, unknown primary source validation,
+unresolved scope, local/fatal/global stops, and accounting anomalies. Histograms
+cover audit status/verdicts, release policies, targeted status/denial reasons,
+terminal error kind, source issue kinds, unresolved reasons, and trace stats.
+Per-phase totals include observed phase count, known tokens/tools, fatal flags,
+local refusals, and error strings. These are descriptive mechanisms; no causal
+attribution to role count or auditor accuracy is implied.
+
+Integrity safeguards
+
+The frozen scorer hash must match. Declared dataset/split/archive and selected
+source modules must match their frozen hashes when present. Gzip restoration
+validates question ownership, path confinement, and uncompressed checksum. Raw
+results, sidecars, dataset/families/cohort/manifest must remain unchanged during
+analysis. Reports are written only after every arm and audit has been validated.
+The run's code_hash remains separate from the current analysis source hashes;
+an output-only operational merge must still have its own recorded provenance.
+
+Offline validation
+
+Eight synthetic 300-row checks passed: expected source/targeted transitions,
+null credit versus terminal error, first attempt surviving a successful retry,
+phase overshoot, unresolved source/audit classifications, immutable raw hashes,
+complete artifact indexing, refusal of incomplete/missing cohorts, wrong-owner
+or corrupt gzip, changed scorer, displayed-answer/evidence artifact mismatches, and malformed/
+trailing streamed JSON. These
+fixtures are not clinical benchmarks and do not enter the substantial-run log.
