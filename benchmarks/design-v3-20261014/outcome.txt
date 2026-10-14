@@ -1,0 +1,17 @@
+V3 first substantial launch: aborted, no accuracy ranking
+
+The intended 300-question run was stopped after 33 saved first attempts,
+including 14 terminal failures. A demonstrated production error
+reported HostBoundaryMessage not JSON serializable. Provider 408 timeouts
+were also observed. The frozen 133-file source remained unchanged.
+
+The owned process group was terminated (exit 143). No failed question was
+retried to replace a saved outcome. In-flight incomplete work is not scored.
+This incomplete cohort has no valid full-300 accuracy result and will not be
+used to rank designs. The attempted rows and complete returned gzip audits
+are preserved with exact checksums and a local archive in aborted_run.json.
+
+A minimal lifecycle/transport compatibility fix will receive a fresh source
+freeze and a new 300-question output directory. The original run and source
+are preserved here on experiments/query-contract-v3. No source or scoring
+change is being attributed retroactively to this aborted run.

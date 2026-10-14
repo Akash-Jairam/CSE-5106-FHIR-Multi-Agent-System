@@ -18,10 +18,12 @@ Branch: experiments/query-contract-v3; record: benchmarks/design-v3-20261014
 Source commit: cb9f113; pre-run freeze commit: d937c02.
 Reuses the completed refreshed-single control with unchanged inference substrate.
 Scheduled: 300 fresh team first attempts, 4 workers, gzip, 200k tokens/30 tools.
-Status: RUNNING after explicit human approval for the task subset and full
-benchmark payloads to configured Azure gpt-6-luna. launch_status.json preserves
-the initial pre-inference approval block; launch_started.json records resolution.
-The frozen design/source manifest are unchanged. No V3 accuracy is known yet.
+Status: ABORTED after 33 saved first attempts, before full-cohort scoring.
+A production HostBoundaryMessage serialization error was demonstrated.
+Provider 408 timeouts are retained. No full-300 V3 accuracy result exists.
+Raw first attempts/gzip artifacts are checksummed in aborted_run.json.
+Explicit human approval covers task subset/full payloads to configured Azure.
+A corrected runtime will get a new source freeze and fresh 300-question run.
 
 Selection and scoring
 
