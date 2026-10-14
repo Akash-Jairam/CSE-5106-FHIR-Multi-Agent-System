@@ -1,0 +1,13 @@
+{
+  "recorded_at_utc": "2026-10-14T15:58:14.108414+00:00",
+  "source": "User pasted Azure warning during the run; not independently retrieved from authenticated Service Health",
+  "incident_start_utc": "2026-10-14T08:00:00Z",
+  "reported_service": "Azure OpenAI Service",
+  "reported_region": "East US 2",
+  "deployment_region_independently_verified": false,
+  "tracking_id": null,
+  "notice": "There is currently an active service issue affecting the Azure OpenAI Service in East US 2. Starting at 08:00 UTC on October 14, 2026, users may experience intermittent request timeouts or HTTP 408 errors for resources hosted in this region. The issue was detected through automated service monitoring, indicating an increase in unsuccessful requests and timeouts due to intermittent connection failures within a specific service component. The next update on this issue will be provided within 60 minutes or as events warrant.",
+  "interpretation": "Reported incident timing and HTTP408 symptom match this run; leading external explanation pending region/health confirmation. Preserve all first attempts and do not infer clean architecture superiority from success-selected cases. Retest unchanged design after service recovery before selecting another architecture.",
+  "runtime_changes": false,
+  "new_large_run_started": false
+}

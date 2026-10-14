@@ -1,0 +1,43 @@
+{
+  "offline_mock_only": true,
+  "real_network_requests": 0,
+  "credential_loader_used": false,
+  "sdk_max_retries": 0,
+  "request_bodies": [
+    {
+      "reasoning_effort": "none",
+      "max_completion_tokens": 12000
+    },
+    {
+      "reasoning_effort": "none",
+      "max_completion_tokens": 4096
+    },
+    {
+      "reasoning_effort": "none",
+      "max_completion_tokens": 2000
+    }
+  ],
+  "request_timeout_extensions": [
+    {
+      "connect": 60.0,
+      "read": 60.0,
+      "write": 60.0,
+      "pool": 60.0
+    },
+    {
+      "connect": 60.0,
+      "read": 60.0,
+      "write": 60.0,
+      "pool": 60.0
+    },
+    {
+      "connect": 60.0,
+      "read": 60.0,
+      "write": 60.0,
+      "pool": 60.0
+    }
+  ],
+  "adapter_sha256": "2f1c9e82a8f7418bbe7976e3d9e974c0dbc60fbf7082fe68ee5fb0f9fd0a225d",
+  "openai_version": "3.26.1",
+  "httpx_version": "0.28.1"
+}

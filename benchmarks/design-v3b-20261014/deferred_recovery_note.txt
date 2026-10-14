@@ -1,0 +1,24 @@
+DEFERRED recovery-retest note for the frozen V3 design
+Prepared 14 October 2026. User stopped Azure experimentation and requested a milestone record with benchmarking pending. This is supplementary /private/tmp planning only: no new formal freeze, source modification, launch, provider call, selective retry, V4 application or future work schedule. Resume requires a new user instruction. The partial V3b milestone and goal pause are handled by root.
+
+Source reference
+V3b experiment: design-v3b-20261014; code 4c7fbd13c1fd6e0b38abd002b072af8654837f28.
+Existing manifest SHA256: 7a33acdcac909370128629f22f8d35a5ab45ddd0289f43ba76ff41665fe10e63.
+It records 134 frozen files; the canonical sorted source_sha256 mapping has SHA256 1c82d061d967c09f8316dcaa352b236eec05de517304511d16b57e55590f34dc.
+Dataset SHA256: e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0.
+Split SHA256: f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015.
+These reference the existing V3b freeze; this note does not create a new source snapshot. Exact-repeat option requires all 134 inference-source hashes unchanged and the same fixed held_out 300 IDs/order, patient/current-time context, packets, helpers and typed scorer.
+
+Incident interpretation
+benchmarks/design-v3b-20261014/user_reported_service_incident.json records the user's pasted Azure Service Health warning: East US 2 Azure OpenAI intermittent connection failures/HTTP408 starting 2026-10-14 08:00 UTC. It was not independently retrieved from authenticated Service Health; deployment region is not independently verified and tracking ID is unavailable. Timing and symptom correspondence make the incident a plausible external explanation, not proof that every timeout arose from it or that this deployment was in the affected region. Conditional success-selected comparisons cannot establish acceptance or architecture superiority. No partial output was analyzed in preparing this note.
+
+If later explicitly resumed after health recovery
+A recovery comparison would run the same V3 team topology and a fresh concurrent single-agent control in fresh output directories, over all 300 original questions per arm. Recommend two separate jobs, one worker per arm, overlapping in time; stable arm filenames and each job's own identity/audits avoid output collisions. Neither arm replaces or rewrites historical controls. Whole first attempts remain the denominator, including provider/source/runtime/budget failures; no timeout-only reruns, answer-selected reruns or best-attempt substitution.
+Keep Azure gpt-6-luna, reasoning none, aggregate 200k tokens/30 executed tools per question, 32k estimated-input guard, caller/adapter completion ceilings, timeouts, retries, transport binding and cache policy unchanged. V3 phases remain contract10k/0, solver175k/27 (25 requested +2 source checks), static audit15k/0, targeted0/3. Shared single/helper/source/scorer behavior stays frozen. Save each result promptly with lossless gzip audits and preserve raw output/adapter provenance. Recovery confirmation and nonsecret deployment-region confirmation should be recorded before a later launch; a promised next incident update is not evidence of recovery.
+
+Optional compatibility-only V3.3 delta, not selected
+Independent offline review reproduced a lifecycle edge: inherited21 host-loop slots cannot consume a valid final on real solver call20 after an earlier source rejection. A V3-only22-slot change could fit20 real invocations plus2 non-model source-check boundaries, retaining the existing20-call guard, semantic contract, static audit, repair gates and phase/global caps. Do not silently apply it. If root later selects it from completed diagnostics, it changes inference hashes and must receive its own pre-run delta/source record; that run is not an exact134-hash repeat. The provisional V4 already contains an independently tested equivalent override but remains reserved and unlaunched.
+
+Acceptance and reporting
+A later complete team result must exceed archived223/300, refreshed231/300, and the concurrent fresh single score, using unchanged typed scoring and all first300 attempts. Report paired wins/losses, patient-block uncertainty, families, terminal408/runtime/budget errors, source-valid coverage, revisions/repair gains and harms, usage and latency. Provider failure rates and conditional nonterminal accuracy are secondary diagnostics with explicit selection limits, never substitute acceptance. The reused fixed cohort remains exploratory. Full benchmarking remains pending until the user's goal is resumed and the subset criterion is satisfied.
+

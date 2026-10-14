@@ -1,0 +1,96 @@
+V3.2 milestone: comparable observed performance; clean benchmark pending
+Recorded 14 October 2026. Status: experiment stopped at the user's request.
+
+The tested design is preserved on experiments/query-contract-v3-compat.
+Inference source commit: 4c7fbd1. Pre-run source freeze: 780f9bc.
+The original design.txt, manifest.json and source.zip remain unchanged;
+all 134 frozen source file hashes were verified after stopping.
+
+Design
+
+A question-only agent first derives a text-anchored query contract without
+seeing the solver's answer, code, or patient records. One integrated solver
+then retains its retrieval and computation context, produces an explicitly
+executed final artifact, and checks evidence against the original sources.
+A separate static audit agent compares the executed code with the contract
+and retrieval ledger. It receives bounded samples rather than independently
+recomputing the answer. Unsupported or uncertain audit findings preserve a
+source-valid primary answer. At most one narrow host repair can change an
+explicit numeric threshold or measurement ordinal, with replay, changed
+contributor witnesses and source checks required before release.
+
+The aggregate ceiling remains 200,000 tokens and 30 tools on the configured
+Azure gpt-6-luna deployment. Contract/solver/audit token allocations are
+10,000/175,000/15,000; tool allocations are 0/27/0 with three reserved for
+targeted repair. Solver model calls remain capped at 20. Unknown provider
+usage remains a fatal accounting failure. Raw traces and retrieval workspace
+artifacts use lossless gzip storage. The SDK host-boundary conversion fix
+passed actual-SDK mock tests and a small source-feedback transport check.
+No shared single-agent inference or answer scorer was changed for V3b.
+The full frozen design and research rationale are in design.txt/source.zip.
+
+Observed milestone evidence
+
+The run was stopped at 16:02:22 UTC, before the scheduled cohort completed.
+292 first attempts were saved, with 88 terminal errors (85 Azure HTTP408,
+one Azure HTTP500, and two client SDK timeouts) and
+204 attempts without terminal errors. Eight scheduled questions have no
+completed saved result; some may have been in flight and their usage/outcome
+is unknown. No saved HostBoundaryMessage serialization failure occurred.
+190 nonterminal results have an empty source-issue list and a final artifact
+consistent with the displayed answer/evidence/limitation.
+
+On the 204 questions whose team attempts had no terminal error, the unchanged
+typed scorer credits the team with 163 correct (79.9%) and the historical
+refreshed single with 159 correct on those same questions (77.9%). There are
+10 team wins and six losses. Three credited team answers have no clean
+source release; these are retained under the unchanged scorer's null rules.
+
+This supports recording the design as a promising milestone with comparable
+observed performance. It is a selected successful-attempt comparison from
+an incomplete run. The control was recorded at a different time. It does
+not establish complete fixed-300 accuracy, statistical superiority, an
+incident-free architecture comparison, or acceptance of the project goal.
+All first attempts, errors and pending rows remain preserved. Failed or
+interrupted request usage/cost cannot be inferred to be zero.
+
+Azure incident
+
+During the run the user pasted an Azure notice describing an active East
+US 2 service issue from 08:00 UTC on 14 October 2026, involving intermittent
+connection failures and HTTP408 timeouts. Its timing and symptom match the
+run. The notice is user-attributed evidence; this task did not independently
+retrieve the authenticated incident or confirm the deployment's region.
+See user_reported_service_incident.json and azure_timeout_research.txt.
+Offline SDK inspection verifies reasoning_effort=none is actually sent,
+the requested completion ceiling is honored, and the SDK timeout is 60s.
+An HTTP408 received from the service differs from a local SDK timeout.
+Increasing a client timeout alone would not repair an already returned408.
+No post-stop API health probe, cap experiment or benchmark was started.
+
+Preservation
+
+milestone.json records the exact selected-case analysis, question inventory,
+raw output/identity/audit/log checksums, and the verified local raw archive.
+milestone_analysis_source.py makes that offline analysis reproducible.
+The complete-300 comparison and mechanism helper were not run on this
+partial cohort. Small development checks have no separate experiment entry.
+main is unchanged. V4 remains an isolated, unselected development candidate.
+
+Benchmark required to complete
+
+Work is paused at the user's request. After Azure recovers and the user
+resumes, confirm service/deployment health and run a fresh complete fixed300
+with a contemporaneous single-agent control under the same provider policy,
+global ceilings, scorer and first-attempt rules. Count terminal failures;
+do not establish a win by excluding timeouts or replacing failed attempts.
+Review the independently identified source-feedback boundary on solver
+call20 before a full run. Any chosen lifecycle fix or other inference change
+requires a new source identity and explicit design record before validation.
+The optional recovery note describes this edge without selecting a change.
+
+Only after an accepted complete-cohort result should the tested best design
+be promoted to local main. Then start and verify the real full benchmark:
+2,931 questions for each of direct, single-agent and multi-agent (8,793 first
+attempts total), with frozen source/settings and retained audit artifacts.
+Neither that benchmark nor the goal is complete. No future run is scheduled.

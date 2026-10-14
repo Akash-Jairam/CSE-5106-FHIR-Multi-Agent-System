@@ -31,7 +31,15 @@ Source commit: 4c7fbd1; pre-run freeze: 780f9bc (134 source files).
 Only V3 host-boundary input/audit normalization changed; shared inference intact.
 Exact phase ceilings remain 200k aggregate tokens and 30 aggregate tools.
 Fresh 300 team first attempts, 2 workers/save1/gzip; completed control reused.
-Status: RUNNING. No substantial V3b accuracy result is known yet.
+Status: MILESTONE — BENCHMARK PENDING; stopped at user's request during Azure incident.
+Stopped 14 October 2026 at 16:02:22 UTC; 292/300 saved first attempts.
+88 terminal failures (85 HTTP408, 1 HTTP500, 2 client SDK timeouts);
+204 nonterminal attempts; 8 not saved complete.
+On those 204 selected nonterminal questions: team163/204 (79.9%) vs historical
+refreshed single159/204 (77.9%), 10 wins/6 losses. Incomplete/provider-selected;
+comparable observed performance is a milestone, not a completed benchmark win.
+See milestone.txt/milestone.json for limitations, immutable-source checks,
+incident attribution, raw archive/checksums and required recovery validation.
 Actual SDK source-feedback and complete worker/gzip validation passed.
 
 
@@ -44,3 +52,6 @@ unverified null. Repeated fixed-cohort selection is exploratory development,
 not fresh held-out proof. Small development checks have no experiment entries.
 A selected design will receive a separate real full 2,931-question three-arm
 launch record. No full benchmark has started for this goal yet.
+Experiments are paused at the user's request. A fresh complete fixed300 with
+a contemporaneous single control is required after service recovery/resumption.
+No post-stop health/model call or future benchmark is scheduled.
