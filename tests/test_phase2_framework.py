@@ -128,7 +128,7 @@ class FrameworkTests(unittest.TestCase):
         self.assertIsNone(output["error"])
         self.assertEqual(output["answer"], 18)
         python_reply = next(m for m in output["trace"] if isinstance(m, dict) and m.get("name") == "execute_python_code")
-        self.assertEqual(json.loads(python_reply["content"]), {"answer": 18})
+        self.assertEqual(json.loads(python_reply["content"]), {"answer": 18, "mode": "auto"})
         self.assertEqual([c["name"] for c in output["tool_calls"]],
                          ["get_resources_by_patient_fhir_id", "execute_python_code"])
         self.assertEqual(output["budget"]["tool_calls_run"], 2)

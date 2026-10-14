@@ -1,0 +1,575 @@
+Research notes: improving evidence-grounded FHIR multi-agent QA
+Checked 13 October 2026, America/Chicago
+
+Purpose and status
+
+These are research notes and proposed design rationales, not an experiment record.
+No new benchmark result is claimed here. The exact implemented design, code hash,
+commands, budgets, input manifest, results and decision belong in a separate
+record when a substantial fixed-subset run starts. Development smoke checks do
+not need their own research-run record.
+
+The investigation read the proposal source, AGENTS.md, existing protocol and
+failure analysis, current role interfaces, and offline taxonomy metadata. It did
+not read config.yml, credential files or API key values. Runtime agents must
+continue to receive only question, patient, explicit assumptions and permitted
+FHIR tools/records. Hidden answers, gold IDs, SQL, canonical templates, val_dict
+and family/support tags are not solver inputs.
+
+Working conclusion
+
+The highest-priority design is an iterative tool-capable solver and a separate
+draft-blind recomputer, with shared source semantics and explicit executed final
+artifacts. Separate retrieval and analysis contexts should not make the analyst
+unable to recover missing resource types or inspect the store. A verifier should
+not treat diagnostic Python output as the final answer, and should not rewrite a
+candidate without source-grounded evidence of the defect. These are hypotheses
+to test under the existing model and aggregate ceilings, not guarantees of a win.
+
+Simply adding more debating agents is poorly motivated for this task. Most work
+is sequential: select scope, resolve concepts and links, execute filters and
+aggregation, establish coverage. Diversity is valuable when it changes a query
+interpretation or catches a concrete semantic error, not when agents repeatedly
+paraphrase the same candidate. An executable plan and a complete source search
+can supply information that a second model opinion cannot.
+
+Primary sources inspected
+
+Each source below was opened directly, rather than relying on a search-engine
+summary. Paper findings and proposed local adaptations are kept distinct.
+Repository links are author/official implementations except where explicitly
+marked unverified. No external repository was installed or executed during this
+research pass.
+
+1. FHIR-AgentBench, Lee et al.
+   First arXiv submission: 12 September 2025; proceedings entry labels 2026.
+   Paper: https://arxiv.org/html/2509.19319v2
+   Proceedings: https://proceedings.mlr.press/v297/lee26a.html
+   Code/data: https://github.com/glee4810/FHIR-AgentBench
+   Inspected: architectures, implementation details, error analysis/appendix.
+
+   Findings: Code reasoning is central to this benchmark. Errors include wrong
+   resource types, terminology systems, references and encounter scope. The
+   authors use patient-wide type retrieval and Python, and a common 32k context
+   policy. This is the correct executable baseline to preserve. A single agent
+   acting over multiple turns is different from a team of multiple agents.
+
+   Local adaptation: Make resource discovery and schema inspection available
+   wherever answer computation occurs. Audit the concrete predicates and joins
+   independently. Do not assume standard clinical terminology codes match the
+   actual MIMIC code system or that every Observation has the same source role.
+
+2. FHIRPath-QA, Frew, Bheda and Tripp
+   First arXiv submission: 26 February 2026.
+   Paper: https://arxiv.org/html/2602.23479v1
+   Code/data: https://github.com/mooshifrew/fhirpath-qa
+   Inspected: query-first/retrieval-first comparison, token table, limitations.
+
+   Findings: Generates executable FHIRPath from language, then evaluates the
+   query on records. The paper reports much lower token consumption for its
+   query-first approach, but zero-shot query synthesis remains difficult and
+   accuracy is not uniformly higher across models. It has its own dataset and
+   supervised fine-tuning experiments; its results do not establish a gain on
+   our fixed subset or with our base model.
+
+   Local adaptation: An explicit query specification can bound communication
+   and expose scope mistakes. Prefer the existing Python runtime for the first
+   iteration, rather than introducing a new query language and dependency at
+   the same time as changing coordination. A later constrained execution plan
+   is more plausible than blindly importing FHIRPath-QA's question templates.
+
+3. EHRAgent, Shi et al.
+   First arXiv submission: 13 January 2024; EMNLP 2024 paper.
+   Paper: https://aclanthology.org/2024.emnlp-main.1245/
+   Full text: https://pmc.ncbi.nlm.nih.gov/articles/PMC11867733/
+   Paper preprint: https://arxiv.org/abs/2401.07128
+   Inspected: schema/tool metadata, domain information, execution/debug loop.
+
+   Findings: Plans and executes code for multi-table EHR reasoning, iterates
+   from execution feedback, and uses memory of successful cases. The design
+   combines domain/schema information and a persistent code interface.
+
+   Local adaptation: Provide compact actual schema examples, concept inventories
+   and reference rules. Reuse generic validated helpers, not held-out question
+   solutions. Successful prior cases or demonstrations must come from permitted
+   development examples and count against context/budget when sent to models.
+
+4. EHRNavigator, Qian et al.
+   First arXiv submission: 15 January 2026.
+   Paper: https://arxiv.org/abs/2601.10020
+   Full paper: https://arxiv.org/pdf/2601.10020
+   Inspected: structured retrieval module, sampling, SQL loop, code availability.
+
+   Findings: Uses table reviewing, retrieval, SQL writing/execution and answer
+   synthesis over structured and unstructured EHR. The writer inspects actual
+   rows/columns and retries execution failures. The paper states code will be
+   released after acceptance; this pass did not verify an available author repo.
+   The reported comparisons include training and heterogeneous information.
+
+   Local adaptation: Inspect representative data before producing code. Its
+   SQL debugging precedent does not prove independent field-level verification
+   will improve answers after code already executes successfully. Do not compare
+   its trained scores directly with our same-model, no-training experiment.
+
+5. Reinforcement Learning for Tool-Calling Agents in FHIR
+   First arXiv submission: 13 May 2026.
+   Paper: https://arxiv.org/html/2605.14126v1
+   Inspected: environment, short prompt, tool workspace, training/evaluation.
+
+   Findings: Uses CodeAct-style retrieval and Python over FHIR-AgentBench.
+   Retrieved resources stay in a shared workspace; claims trace to execution,
+   and uncertain schemas are inspected. The reported 76.7% result is a trained
+   Qwen3-8B policy on the authors' 424-question validation setup, not a prompting
+   improvement or an equal-model comparison applicable to our 300 questions.
+
+   Local adaptation: The execution-grounded prompting and schema discovery are
+   useful immediately. RL or model replacement is outside the first controlled
+   redesign: either would confound the architecture claim and require a separate
+   training split, compute accounting and experiment.
+
+6. CodeAct: Executable Code Actions Elicit Better LLM Agents, Wang et al.
+   First arXiv submission: 1 February 2024; ICML 2024.
+   Paper: https://arxiv.org/abs/2402.01030
+   Official code: https://github.com/xingyaoww/code-act
+   Inspected: abstract, official implementation description and runtime concept.
+
+   Findings: Python actions allow tool composition, inspection and revision
+   from new observations in a multi-turn interpreter loop. Its benchmarks and
+   trained CodeActAgent differ from this FHIR system.
+
+   Local adaptation: Let the solver fetch an omitted type after computation
+   exposes the gap. Preserve the Python workspace across inspections. Return
+   bounded previews to the model while the full records remain executable.
+   A role boundary should not prohibit an otherwise necessary tool action.
+
+7. Program of Thoughts, Chen et al.
+   First arXiv submission: 22 November 2022; TMLR 2023.
+   Paper: https://arxiv.org/abs/2211.12588
+   Official code: https://github.com/TIGER-AI-Lab/Program-of-Thoughts
+   Inspected: numerical reasoning setup and repository description.
+
+   Findings: The model expresses reasoning as a program; the interpreter does
+   computation. Its mathematical and financial QA gains support executable
+   reasoning but do not validate clinical concept mappings or search coverage.
+
+   Local adaptation: Release the value of an executed final envelope, not a
+   separately transcribed model answer. Lists, grouped results, zero, false and
+   established nulls must retain their typed value. Execution success alone
+   cannot certify that the program implements the question's intended scope.
+
+8. PAL: Program-aided Language Models, Gao et al.
+   First arXiv submission: 18 November 2022; ICML 2023.
+   Paper: https://proceedings.mlr.press/v202/gao23f/gao23f.pdf
+   Official code: https://github.com/reasoning-machines/pal
+   Inspected: program-as-intermediate reasoning and official runtime overview.
+
+   Findings: Program generation delegates symbolic/arithmetic solution steps to
+   a runtime. Again, this supports exact computation, not oracle verification of
+   which records, units or temporal definitions should be used.
+
+   Local adaptation: Structure a computation as select scope, match concept,
+   filter, sort/select, aggregate and render. The critic can audit those steps
+   instead of arguing about a fluent final explanation.
+
+9. Chain-of-Verification (CoVe), Dhuliawala et al.
+   First arXiv submission: 20 September 2023; ACL Findings 2024.
+   Paper: https://arxiv.org/html/2309.11495v2
+   Published paper: https://aclanthology.org/2024.findings-acl.212/
+   Inspected: joint, two-step, factored and factor-plus-revise conditioning.
+
+   Findings: Verification answers are less biased when computed without the
+   original draft in context. Factored checking also separates check contexts.
+   CoVe's experiments do not use external tools; it is not evidence that a
+   source-grounded FHIR verifier is correct merely because it has a fresh chat.
+
+   Local adaptation: Give the verifier question and assumptions first, but no
+   analyst answer/operation/record list. Let it fetch and compute, then reveal
+   candidate and citation checks for comparison. Preserve the timing of reveal
+   in the trace so independence can be audited.
+
+10. CRITIC, Gou et al.
+    First arXiv submission: 19 May 2023; ICLR 2024.
+    Paper: https://arxiv.org/html/2305.11738v3
+    Official code: https://github.com/microsoft/ProphetNet/tree/master/CRITIC
+    Inspected: tool feedback, no-tool ablations, oracle distinction, limitations.
+
+    Findings: Critique obtains external evidence through search/interpreter
+    tools before correction. No-tool self-correction is less reliable. Starred
+    oracle variants know when the answer is incorrect and must not be treated
+    as a deployable detection mechanism.
+
+    Local adaptation: Require a concrete field, predicate, missing traversal or
+    executed contradiction before changing a candidate. The relevant external
+    tool is our FHIR store/Python, not general web medical knowledge. Gold
+    answers cannot decide whether to invoke repair or select between candidates.
+
+11. Large Language Models Cannot Self-Correct Reasoning Yet, Huang et al.
+    First arXiv submission: 3 October 2023; ICLR 2024.
+    Paper: https://arxiv.org/abs/2310.01798
+    Published discussion/paper: https://openreview.net/forum?id=IkmD3fKBPQ
+    Inspected: definition of intrinsic self-correction and interpretation.
+
+    Findings: Intrinsic correction without external feedback can degrade
+    reasoning. This is not a claim that all correction fails: feedback sources,
+    stopping rules and correctness discrimination matter.
+
+    Local adaptation: Track both wrong-to-right repairs and right-to-wrong
+    changes/withholding. A correct draft discarded because of verifier transport
+    failure is an accuracy loss, not evidence of successful conservative QA.
+    Keep answer correctness and supported-answer coverage as separate measures.
+
+12. Why Do Multi-Agent LLM Systems Fail? (MAST), Cemri et al.
+    First arXiv submission: 17 March 2025; inspected v2 dated 22 April 2025.
+    Paper: https://arxiv.org/html/2503.13657v2
+    Official code/data: https://github.com/multi-agent-systems-failure-taxonomy/MAST
+    Inspected: taxonomy, verifier discussion, structural interventions.
+
+    Findings: The updated study distinguishes specification, inter-agent
+    misalignment and task-verification failures. Incorrect verification is
+    distinct from missing verification. Better prompts alone are not enough.
+
+    Local adaptation: Record where evidence stopped moving, what each role could
+    observe, whether a purported computation was executed, and why a final answer
+    was withheld. Reserve resources for required checks; avoid redundant role
+    turns and premature completion from a preview that lacks coverage.
+
+13. Capable language models can outgrow the benefits of collaboration, Kim et al.
+    Published 24 July 2026 in Nature Machine Intelligence.
+    Published paper: https://www.nature.com/articles/s42256-026-01268-y
+    Earlier preprint title: Towards a Science of Scaling Agent Systems
+    Preprint: https://arxiv.org/abs/2512.08296
+    Official code: https://github.com/ybkim95/agent-scaling
+    Changelog: https://github.com/ybkim95/agent-scaling/blob/main/CHANGELOG.md
+    Inspected: current published results and corrected-analysis release notes.
+
+    Findings: The published study evaluates 260 configurations/six benchmarks,
+    holding prompts, tools and compute ceilings fixed. Benefits are conditional
+    on task/architecture. Baseline capability is a robust predictor; the ~45%
+    threshold is presented as a practical selection rule, not a universal law.
+    Tool overhead is a descriptive pattern, not a confirmed cluster-robust effect.
+
+    Local adaptation: Avoid unnecessary sequential decomposition. Measure real
+    coordination cost. Do not claim our FHIR team must lose because single
+    accuracy exceeds 45%; that extrapolation is unjustified.
+
+    Version caution: repo v2.2.x corrects analysis defaults that in v2.1.3 included
+    out-of-sample runs. Cite the current published study rather than older
+    preprint regression figures as if unchanged.
+
+14. Single-Agent LLMs Outperform MAS on Multi-Hop Reasoning Under Equal Thinking
+    Token Budgets, Tran and Kiela
+    First arXiv submission: 2 April 2026.
+    Paper: https://arxiv.org/html/2604.02460v1
+    Inspected: budget normalization, context-utilization assumptions, caveats.
+
+    Findings: Tests multi-hop reasoning under matched thinking-token budgets
+    and finds strong single-agent performance. The information-efficiency
+    argument assumes perfect context utilization; empirical budget interfaces
+    have important artifacts. Its models/tasks differ from our tool QA setup.
+
+    Local adaptation: Report ceilings and actual spend, including repeated input
+    context, corrections and rejected dispatches. Same per-question ceiling is
+    not the same as equal actual compute. Distinct role contexts are useful only
+    if their information gain justifies lost integration and repeated prompts.
+
+15. MDAgents, Kim et al.
+    First arXiv submission: 22 April 2024; NeurIPS 2024.
+    Paper: https://arxiv.org/abs/2404.15155
+    Official code: https://github.com/mitmedialab/MDAgents
+    Inspected: solo/group selection and official implementation description.
+
+    Findings: Selects collaboration structure according to medical-task
+    complexity. It addresses medical knowledge/diagnostic benchmarks rather
+    than structured patient-record retrieval with exact aggregation.
+
+    Local adaptation: Complexity may justify selective extra checking, but use
+    observable evidence risk (ambiguous concept/profile, incomplete retrieval,
+    competing time windows), not a broad subjective claim of clinical difficulty.
+
+16. Multi-agent Architecture Search via Agentic Supernet (MaAS), Zhang et al.
+    First arXiv submission: 6 February 2025; inspected v2 dated 9 June 2025.
+    Paper: https://arxiv.org/html/2502.04180v2
+    Official code: https://github.com/bingreeky/MaAS
+    Inspected: query-dependent operator sampling and cost-constrained search.
+
+    Findings: Learns a distribution over query-dependent workflows instead of
+    using a single static architecture. Reported efficiency uses task-specific
+    optimization and benchmark splits, not a free drop-in improvement.
+
+    Local adaptation: A small deterministic controller can choose agreement,
+    targeted critique or escalation from gold-free evidence states. Do not train
+    or optimize a router on the 300-question labels and call that held-out proof.
+
+17. MAgICoRe, Chen et al.
+    First arXiv release 2024; inspected v2 dated 17 September 2025.
+    Paper: https://arxiv.org/html/2409.12147v2
+    Author-advertised code: https://github.com/dinobby/MAgICoRe
+    Inspected: selective refinement, reviewer/refiner separation, over-correction.
+
+    Findings: Refines only harder cases, using external outcome/process reward
+    models to localize errors and retain better candidates. It uses many samples
+    and extra learned reward models, which differ materially from our constraints.
+
+    Local adaptation: Preserve prior executed candidates rather than replacing
+    them automatically. Source/execution checks can be our external step
+    feedback. Do not claim equivalence to its learned reward-model guarantees.
+
+18. DynaDebate, Li et al.
+    First submission: 9 January 2026; inspected v2 dated 15 June 2026.
+    Paper: https://arxiv.org/html/2601.05746v2
+    Paper-advertised code: https://github.com/nwpuLee2021/brianstorm
+    The advertised repository could not be fetched during this research pass.
+    Inspected: process critique and trigger-based external verification.
+
+    Findings: Encourages different solution paths and activates tool verification
+    for unresolved disagreements. It is not validated on our FHIR records.
+
+    Local adaptation: Ask a challenger to resolve one specific scope/filter
+    discrepancy with data. Distinct programs and assumptions are more useful
+    than superficial personas. An observed disagreement is a routing signal,
+    not proof that the minority or reviewer answer should replace the solver.
+
+19. Debate or Vote, Choi, Zhu and Li
+    First arXiv submission: 24 August 2025; NeurIPS 2025 paper.
+    Paper: https://arxiv.org/html/2508.17536v1
+    Author code: https://github.com/deeplearning-wisc/debate-or-vote
+    Inspected: debate/voting decomposition and theoretical assumptions.
+
+    Findings: In its experiments, voting explains much of apparent debate gain.
+    Its stochastic-process result relies on its modeled update assumptions and
+    is not a universal impossibility theorem for all tool-backed collaboration.
+
+    Local adaptation: Unstructured answer debate is a weak next experiment.
+    Independent executable solutions plus evidence-based comparison would be a
+    more informative alternative to repeated discussion or majority preference.
+
+20. Rethinking the Evaluation of Efficiency Methods for MAS, Zhang et al.
+    Inspected arXiv v1 dated 5 September 2026.
+    Paper: https://arxiv.org/html/2609.05933v1
+    Author code: https://github.com/chili-lab/rethinking-mas-efficiency-eval
+    Inspected: shared-runtime evaluation, structural collapse, cost schema.
+
+    Findings: Pruning results depend strongly on the starting topology and can
+    resemble random pruning, collapse a structure or disable tool paths. It
+    argues for fixing roles, model and runtime when attributing topology effects.
+
+    Local adaptation: If an adaptive variant improves, record what actually
+    changed and retain a repaired single control. A skipped verifier or collapsed
+    team cannot be advertised as independently verified multi-agent superiority.
+
+21. Lost in the Middle, Liu et al.
+    First arXiv submission: 6 July 2023; TACL publication 2024.
+    Paper: https://arxiv.org/abs/2307.03172
+    Author code: https://github.com/nelson-liu/lost-in-the-middle
+    Inspected: relevant-information position and long-context QA results.
+
+    Findings: Long context availability does not ensure equally good access to
+    relevant information at different positions. Its older models do not prove
+    our present model has the same effect size.
+
+    Local adaptation: Keep raw records in the workspace and communicate bounded
+    schema/code inventories, exact result values and handles. Raising a context
+    cap is not a substitute for useful evidence delivery or an equal-budget test.
+
+22. MIMIC-IV FHIR primary data and conversion documentation
+    Demo v2.1.0 published 27 August 2025.
+    Demo: https://physionet.org/content/mimic-iv-fhir-demo/2.1.0/
+    Full profile description: https://physionet.org/content/mimic-iv-fhir/2.1/
+    Actual conversion code: https://github.com/kind-lab/mimic-fhir
+    Conversion assumptions:
+    https://github.com/kind-lab/mimic-fhir/wiki/FHIR-Conversion-Assumptions
+    Inspected: source-to-profile mappings and actual conversion provenance.
+
+    Findings: Source terminology is preserved rather than universally mapped to
+    LOINC. Lab/chart/output observations have distinct profiles. Microbiology
+    uses Test->Org->Susc relationships. MedicationRequest can reference a mix
+    whose ingredients reference component medications. Transfers are represented
+    through encounter location information.
+
+    Local adaptation: Use these actual mappings rather than another project's
+    different MIMIC-to-FHIR conversion. Resolve nested medication references and
+    count microbiology test events separately from child results. Domain schema
+    guidance belongs in every relevant role and the fair single-agent control.
+
+Candidate design A: iterative solver plus blind independent computation
+
+This is the preferred first substantial architecture test after common transport
+and contract repairs. It can retain a retrieval specialist, but retrieval must
+not create a hard information bottleneck for the solver.
+
+1. Retrieval obtains complete patient-owned types and relevant encounter metadata
+   into the workspace. It reports covered types, successful queries, excluded or
+   unresolved records, and source counts. Initial packet presence alone does not
+   establish complete retrieval. Linked metadata follows observed references.
+
+2. Analysis is an iterative solver with Python and supplemental retrieval. It
+   inspects actual profiles/codes/fields, resolves question semantics, computes
+   and emits an executed final envelope. The envelope contains typed answer,
+   evidence, operation, contributor identities and relevant scope. Inspection
+   objects are distinct from final-answer artifacts. Host validation checks
+   record identities, citation values, JSON finiteness and expected shape.
+
+3. The verifier starts with its own empty workspace and the same question/time
+   assumptions/semantic guide. It does not initially receive draft answer,
+   operation, contributing IDs, retrieval summary or analyst reasoning. It
+   independently obtains records and executes a final computation. Its observed
+   fetched sources and executed result are retained.
+
+4. After successful independent computation, reveal the candidate and source
+   field checks. Deterministic answer canonicalization handles requested time
+   precision and typed values. Agreement plus clean source checks establishes
+   the tested release gates; agreement does not itself establish semantic truth.
+
+5. Disagreement routes a bounded issue identifying the exact predicate, time
+   field, concept/profile, join or arithmetic operation in dispute. A repair
+   must execute. Required checks have reserved tool and token capacity. A format
+   correction consumes the budget and remains visible in the trace.
+
+6. Separate refuted, supported and incomplete states. An incomplete verification
+   cannot certify support, but should be diagnosed as such instead of being
+   mislabeled a clinical reasoning disagreement. Keep a draft candidate immutable
+   so harmful withholding/transcription can be measured honestly.
+
+Why this should differ from the original design: it restores iterative
+retrieval/computation feedback, removes early candidate anchoring and fixes the
+diagnostic/final-value confusion. It does not expand the model, aggregate budget,
+data or score tolerance. Its effect must be separated from shared reliability
+repairs by comparing against a control receiving those applicable repairs.
+
+Observable failure predictions: context/contract errors should fall; false
+withholding from missing final computation should fall; code-system/visit-scope
+mistakes may remain correlated. If draft accuracy remains below single, the
+remaining problem is solver interpretation/information delivery, not only gates.
+If drafts improve but release accuracy falls, investigate verifier discrimination
+and budget allocation before adding agents.
+
+Strong alternative B if A loses: semantic-plan review with executable resolution
+
+Use two separate reasoning loci: a tool-capable solver and a semantic-plan
+reviewer. The solver produces a short structured query plan before final code:
+concept/profile, patient scope, encounter selection, time field, windows and
+boundaries, numeric predicate, operation, tie behavior, units and output type.
+The reviewer derives its own intended plan from question plus actual inventories,
+then compares plans. The solver alone executes and debug-loops in one persistent
+workspace. For agreement, deterministic field/scope/artifact gates finish the
+case. For disagreement or absent coverage, a fresh checker executes only the
+specific alternative interpretation. The checker can be the reviewer's second
+phase; a fourth agent is unnecessary.
+
+This spends extra reasoning on a task where independent computation is useful,
+while avoiding complete duplicate retrieval/analysis on every easy question.
+The actual counterexample or alternative query must come from the source store,
+not an invented correction. Keep an immutable prior program/candidate and do not
+replace it merely because the reviewer asks for a rewrite. If the review cannot
+establish a supported alternative, record uncertainty/incomplete support.
+
+Risk: a shared inventory/semantics guide can induce shared wrong assumptions;
+plans can look plausible while the implementation violates them. Execution
+checks must bind result and contributors to the selected plan/workspace version.
+Skip/escalation rules should be fixed on development questions using gold-free
+observable states. A different source-query capability given only to the team
+would confound agent topology with tools and must be labeled as a system bundle.
+
+Alternative C: small executable plan language and independent semantic reviewer
+
+If both architectures repeatedly lose on filtering, scope and evidence shape,
+replace open-ended Python for common operations with a validated plan executor.
+The model chooses a plan; deterministic code executes generic selection,
+temporal order, strict comparisons, counts, aggregates, two-point comparisons,
+durations and grouped results. Retain Python as a bounded fallback for uncommon
+queries. A separate reviewer independently checks plan intent and source coverage.
+
+This is a larger redesign and should have a new formal run/design record. It
+must support generic operations over actual schema, never dataset template IDs,
+gold SQL, val_dict or question-specific answer shortcuts. It may improve total
+system performance while shifting the research question toward tool design;
+provide the same executor to a single-agent control if claiming coordination
+benefit. FHIRPath-QA motivates execution separation but does not promise this
+executor or plan reviewer will outperform the existing baseline.
+
+Practical semantic checklist derived for development and common guidance
+
+- Resolve clinical names through observed coding system/code/display/text and
+  profile. Compare normalized strings with explicit abbreviation expansion only
+  when justified; substring matches can overcount a distinct test.
+- Distinguish chart, laboratory, output and microbiology observation sources.
+  Count source events rather than all nested resource rows or components.
+- Use measurement/event time for event questions. Define wall-clock comparison
+  and requested output precision consistently with the benchmark contract.
+  Distinguish result posting, ordering, prescription validity and encounter times.
+- Hospital visits, ICU stays and care-unit transfers need different entities.
+  Resolve parent links. Do not count every Encounter as a hospital admission.
+- First/last visit selection precedes event aggregation. Current/open visit and
+  last completed visit are different interpretations; select from explicit time
+  assumptions and actual period/status fields.
+- Complete empty search is distinct from partial packet, truncated result,
+  failed query, unknown scope or unsupported mapping. Null aggregation is not
+  numeric zero. Established false/count-zero can be source-supported outcomes.
+- Retain ties and complete list/group answers. A bounded display preview cannot
+  be the actual scored answer. Full contributors can stay in audit artifacts.
+- Before summing medication doses, resolve mix/ingredient semantics and compatible
+  units. A medication request and a medication administration are different events.
+
+Full benchmark scope implications (offline metadata, not runtime input)
+
+The current manifests/question_families.csv contains 2,931 rows. Its family
+counts are 1,311 temporal_selection, 756 lookup_counting, 405
+numerical_aggregation and 459 out_of_scope. The last group contains 216 duration,
+106 paired_comparison and 137 paired_difference questions, including 263 marked
+as nonempty values by offline answer-kind metadata.
+
+Thus, completing the existing 2,472 in-scope questions would be a full
+project-scope evaluation, not the full 2,931 official benchmark. A true full
+benchmark must retain every released row and explicitly implement or account for
+these additional operations. Existing generic tools may technically process
+them, but that is not demonstrated semantic support.
+
+The release spans admissions 317, chartevents 555, diagnoses 35, icustays 121,
+labevents 570, microbiology 334, output 166, patients 44, prescriptions 602,
+procedures 133 and transfers 54. Success on the 300 subset cannot establish all
+those domains/operations. Current-encounter elapsed questions are concentrated
+on a few patients and often have empty references according to the preexisting
+audit; do not infer a runtime shortcut from that fact. The model must derive
+scope/answer from question and records.
+
+Pre-run recording recommendations for each substantial candidate
+
+Record this information before dispatching the fixed subset, then append results
+after completion without rewriting the tested hypothesis:
+
+  Design name/version and exact branch/commit/code fingerprint.
+  Role topology, tool access, message/reveal sequence and stop/escalation policy.
+  Shared versus team-only changes, with a repaired control where appropriate.
+  Prompt and semantic-guide hashes; bounded preview/compaction/final envelope rules.
+  Model/provider/reasoning mode, per-request context policy and aggregate ceilings.
+  Immutable question manifest/source hashes; first-attempt/no-gold runtime policy.
+  Tool-cache setting/state and concurrency; exact launch and scoring commands.
+  Primary typed accuracy, paired wins/losses, patient-clustered uncertainty,
+  supported-answer coverage, errors and withholding states.
+  Draft/repair/release transitions; reason and tool evidence for every changed answer.
+  Total and per-role input/output tokens, model/tool calls, latency and missing usage.
+  Comparison versus frozen original single and, if common fixes changed it,
+  a contemporaneous repaired single using the same permitted data and ceilings.
+  Decision: promote, reject or iterate, with an explicit mechanism supported by traces.
+
+The fixed subset has already informed redesign and will be reused for tuning as
+the user requested. Describe subsequent wins as adaptive follow-up performance
+on that fixed set; do not turn a narrow observed margin into unexposed-confirmatory
+evidence. The full benchmark can establish operational completion and broad
+coverage while disclosing its overlap with exposed questions/patients.
+
+Research choices intentionally not prioritized
+
+Training an RL policy, adding stronger models, importing hidden template/SQL
+metadata, increasing the team's budget alone, exhaustive generic debate, learned
+agent-graph search on held-out labels and unaccounted whole-run resets all change
+the experiment in ways that obscure the proposed coordination benefit. They may
+be separate future studies, but do not solve the first controlled redesign.
+
+Author repositories with directly reusable concepts, ordered by immediate fit:
+FHIR-AgentBench (existing tool/agent baseline), CodeAct (persistent interpreter
+feedback), CRITIC (external critique), Program-of-Thoughts/PAL (execution-bound
+answers), kind-lab/mimic-fhir (actual schema provenance), FHIRPath-QA (query-first
+alternative), MAST (trace failure categories). MaAS, MDAgents and MAgICoRe are
+useful design precedents; their trained/learned machinery should not be copied
+into this overnight experiment without a separately accounted protocol.

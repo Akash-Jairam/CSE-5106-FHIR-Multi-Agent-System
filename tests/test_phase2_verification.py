@@ -93,7 +93,7 @@ class VerificationTests(unittest.TestCase):
         self.assertEqual((check["name"], json.loads(check["arguments"])), ("check_fields", {"citations": [cite()]}))
         self.assertEqual(json.loads(self.host.messages[1]["content"])["n_valid"], 1)
         python_reply = next(m for m in self.host.messages if isinstance(m, dict) and m.get("name") == PYTHON_TOOL)
-        self.assertEqual(json.loads(python_reply["content"]), {"answer": 68})
+        self.assertEqual(json.loads(python_reply["content"])["answer"], 68)
         self.assertEqual(self.host.tool_calls_made, 3)
 
     def test_last_allowed_calculation_can_produce_a_valid_tool_free_verdict(self):
@@ -106,14 +106,17 @@ class VerificationTests(unittest.TestCase):
         self.assertIsNone(self.host._llm_call.call_args.kwargs["tools"])
         self.assertIsNone(self.host.budget_stop)
 
-    def test_prompt_is_a_fresh_context_with_the_draft_and_field_check(self):
+    def test_prompt_is_fresh_and_candidate_blind(self):
         self.verify(verdict(), checked=draft(evidence=[cite(path="issued", value="2150-01-02T09:00:00")]))
         messages = self.host._llm_call.call_args.args[0]
         self.assertEqual([m["role"] for m in messages[:2]], ["system", "user"])
         prompt = messages[1]["content"]
-        self.assertIn('"operation": "min of valueQuantity.value"', prompt)
-        self.assertIn('"contributing_ids": ["Observation/o1", "Observation/o2"]', prompt)
-        self.assertIn('"type": "time_field"', prompt)
+        self.assertNotIn('"operation": "min of valueQuantity.value"', prompt)
+        self.assertNotIn('"contributing_ids": ["Observation/o1", "Observation/o2"]', prompt)
+        self.assertNotIn('"type": "time_field"', prompt)
+        self.assertNotIn('"answer"', prompt)
+        self.assertIn(CONTEXT['question'], prompt)
+        self.assertIn(PATIENT, prompt)
 
     def test_field_check_problems_become_structured_analysis_issues(self):
         result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), verdict(), checked=draft(evidence=[

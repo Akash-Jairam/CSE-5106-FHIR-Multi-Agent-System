@@ -28,8 +28,10 @@ def normalize_retrieved_resources(resources: dict) -> dict:
     return normalized
 
 
-def execute_python_code(code: str, timeout: int = 60, global_vars: dict = None) -> str:
+def execute_python_code(code: str, timeout: int = 60, global_vars: dict = None, mode: str = "auto") -> dict:
     """Execute calculations in an OS sandbox with only copied task data and a deadline."""
+    if mode not in ("auto", "inspect", "final"):
+        return {"error": "mode must be auto, inspect, or final"}
     if isinstance(timeout, bool) or not isinstance(timeout, (int, float)) or timeout <= 0:
         return {"error": "timeout must be positive"}
     timeout = min(timeout, 60)
@@ -37,7 +39,7 @@ def execute_python_code(code: str, timeout: int = 60, global_vars: dict = None) 
         task_data = global_vars or {}
         task_data = {k: v for k, v in task_data.items() if k in {"retrieved_resources", "retrieved_fhir_resources"}}
         resources = normalize_retrieved_resources(task_data.get("retrieved_resources", task_data.get("retrieved_fhir_resources", {})))
-        payload = json.dumps({"code": code, "resources": resources}, allow_nan=False)
+        payload = json.dumps({"code": code, "resources": resources, "mode": mode}, allow_nan=False)
         with tempfile.TemporaryDirectory(prefix="fhir-python-") as temporary:
             command = _sandbox_command(temporary)
             if command is None:
@@ -88,12 +90,13 @@ tool_registry.register_tool("execute_python_code", execute_python_code, {
     "type": "function",
     "function": {
         "name": "execute_python_code",
-        "description": "Execute Python in an isolated worker using only retrieved_resources. Printed output is discarded. Set the answer variable to the JSON value you need to inspect, including diagnostic counts or sample records; each call starts a fresh worker. Set answer to the computed result for your final calculation. Execution has a real timeout; repository files, credentials, and network are unavailable.",
+        "description": "Execute Python in an isolated worker using only retrieved_resources. Each call starts fresh. Use mode inspect for diagnostics; prefer assigning actual diagnostic data to answer. Printed stdout is diagnostic only, bounded at 64 KiB characters with truncation flags; bare expressions are not returned. Use mode final for the authoritative computation and set answer, evidence (exact resource_id/field_path/value citation list), operation (string), contributing_ids (unique full held resource IDs), and limitation (string or null). Printed output never certifies a final result. Execution has a real timeout; repository files, credentials, and network are unavailable.",
         "parameters": {
             "type": "object",
             "properties": {
-                "code": {"type": "string", "description": "Python code to execute. Only the 'answer' variable is returned; print() output is discarded. Use answer for diagnostics as well as the final result."},
-                "timeout": {"type": "integer", "description": "Timeout in seconds", "default": 30}
+                "code": {"type": "string", "description": "Python code to execute. For structured diagnostics set answer; bounded printed stdout also supports inspection. For mode final set answer plus evidence, operation, contributing_ids, limitation. Citation keys must be exactly resource_id, field_path, value."},
+                "timeout": {"type": "integer", "description": "Timeout in seconds", "default": 30},
+                "mode": {"type": "string", "enum": ["auto", "inspect", "final"], "default": "auto", "description": "inspect returns diagnostics without replacing a prior final; final records the authoritative computation; auto preserves legacy calls."}
             },
             "required": ["code"]
         }

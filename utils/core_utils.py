@@ -379,6 +379,101 @@ def count_tokens_in_messages(messages, tools=None) -> int:
     return tokens + 2
 
 
+def compact_model_messages(messages, tools=None, trigger_tokens=28_000, target_tokens=24_000):
+    """Deterministically shorten old turns while preserving the task and complete recent tool exchanges.
+
+    This returns a separate model context. Callers retain the original full audit trace.
+    No model, reference answer, dataset template, or gold resource ID is used to choose history.
+    """
+    before = count_tokens_in_messages(messages, tools)
+    if before <= trigger_tokens:
+        return messages, None
+
+    def mapping(message):
+        if isinstance(message, dict):
+            return message
+        if hasattr(message, "model_dump"):
+            return message.model_dump(exclude_none=True)
+        if hasattr(message, "to_dict"):
+            return message.to_dict()
+        raise TypeError("A prompt message must be serializable")
+
+    anchor_end = 0
+    for index, message in enumerate(messages):
+        role = mapping(message).get("role")
+        if role == "system":
+            anchor_end = index + 1
+        elif role == "user":
+            anchor_end = index + 1
+            break
+        else:
+            break
+    anchors = list(messages[:anchor_end])
+    groups = []
+    for message in messages[anchor_end:]:
+        if mapping(message).get("role") == "tool" and groups:
+            groups[-1].append(message)
+        else:
+            groups.append([message])
+    if not groups:
+        return messages, None
+
+    retained = []
+    used = count_tokens_in_messages(anchors, tools) + 2_000
+    for group in reversed(groups):
+        size = count_tokens_in_messages(group)
+        if retained and used + size > target_tokens:
+            break
+        retained.insert(0, group)
+        used += size
+    omitted = groups[:len(groups) - len(retained)]
+    if not omitted:
+        return messages, None
+    facts = []
+    for group in reversed(omitted):
+        for message in reversed(group):
+            item = mapping(message)
+            if item.get("role") != "tool":
+                continue
+            content = item.get("content", "")
+            try:
+                result = json.loads(content)
+            except (ValueError, TypeError):
+                result = {"observation": str(content)[:240]}
+            fact = {"tool": item.get("name")}
+            if isinstance(result, dict):
+                for key in ("mode", "answer", "operation", "items", "n_valid", "issues", "error",
+                            "ids_count", "records_count", "preview_truncated"):
+                    if key in result:
+                        value = result[key]
+                        if isinstance(value, list):
+                            value = value[:6]
+                        if len(json.dumps(value, default=str)) > 600:
+                            value = {"omitted_large_value": True, "value_type": type(value).__name__}
+                        fact[key] = value
+                if "observation" in result:
+                    fact["observation"] = result["observation"]
+            else:
+                fact["observation"] = str(result)[:240]
+            candidate = [*facts, fact]
+            if len(json.dumps(candidate, default=str)) <= 6_000:
+                facts = candidate
+        if len(facts) >= 20:
+            break
+    summary = {"role": "user", "content": (
+        "Earlier tool exchanges were compacted to stay within the same 32,000-token input guard. "
+        "The original question and recent complete exchanges are preserved. Full retrieved resources remain "
+        "in the Python workspace; use a focused inspection if a detail is needed. These are prior observations, "
+        "not new evidence or independent verification. Newest prior observations first:\n" +
+        json.dumps(facts, default=str))}
+    compacted = [*anchors, summary, *(message for group in retained for message in group)]
+    after = count_tokens_in_messages(compacted, tools)
+    if after >= before:
+        return messages, None
+    return compacted, {"input_tokens_before": before, "input_tokens_after": after,
+                       "omitted_turn_groups": len(omitted), "preserved_turn_groups": len(retained)}
+
+
 def _is_luna_chat_model(model):
     return model.removeprefix("openai/") == "gpt-6-luna"
 

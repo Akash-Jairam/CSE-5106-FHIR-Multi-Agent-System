@@ -3,6 +3,7 @@ import hashlib
 import os
 import pickle
 import functools
+from copy import deepcopy
 from datetime import datetime, timedelta
 
 
@@ -69,6 +70,16 @@ def load_from_cache(tool_name, args, kwargs):
             # Read result from cache file
             with open(file_path, 'rb') as f:
                 result = pickle.load(f)
+                if isinstance(result, dict) and isinstance(result.get("retrieval_metadata"), dict):
+                    result = deepcopy(result)
+                    origin = result["retrieval_metadata"]
+                    result["retrieval_metadata"] = {**origin, "cache_hit": True,
+                        "origin_physical_queries": origin.get("physical_queries"),
+                        "origin_physical_requests": origin.get("physical_requests"),
+                        "origin_returned_records": origin.get("returned_records"),
+                        "physical_queries": 0, "physical_requests": 0, "pages": 0, "response_bytes": 0,
+                        "returned_records": 0,
+                        "physical_requests_known": True}
                 print(f"[CACHE HIT] Using cached result for {tool_name}({kwargs})")
                 return result
         except Exception as e:

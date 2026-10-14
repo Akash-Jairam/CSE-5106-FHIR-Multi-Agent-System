@@ -15,4 +15,4 @@ class MultiAgentSystem(FixedController):
     def build_roles(self, context, workspace):
         return {"retrieval": RetrievalAgent(self, context, workspace),
                 "analysis": AnalysisAgent(self, context, workspace),
-                "verification": VerificationAgent(self, context)}
+                "verification": VerificationAgent(self, context, require_explicit_final=True)}

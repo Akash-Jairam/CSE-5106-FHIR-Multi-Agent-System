@@ -1,0 +1,286 @@
+Execution feedback, semantic query audits, and adaptive verification
+Research addendum, 13 October 2026
+
+This is source research and a design recommendation, not a substantial-run
+record. The pilot observations below were supplied by the root agent; I have
+not run benchmark/model calls. No runtime code in the active checkout was
+changed by this subagent. Primary papers and author repositories only were
+used for technical claims. Every architecture recommendation is an inference
+to be tested under the same aggregate model/tool budget, not a published FHIR
+result.
+
+Immediate interpretation of the pilot
+
+The reported pilot contained 41 printed-output-discarded errors among 153 tool
+calls. Independent computations were often correct but failed evidence metadata.
+These observations argue against spending more reasoning calls to compensate
+for an interface mismatch. The first correction is a shared exploration channel
+that returns execution feedback, followed by a strict final artifact. This
+changes both single and team controls. It cannot alone be counted as a multi-agent
+advantage. Root has now implemented bounded stdout diagnostics; this addendum
+documents the research basis and what remains an architecture question.
+
+CodeAct's actual interface and the limits of borrowing it
+
+Paper: https://arxiv.org/html/2402.01030v4 (ICML 2024)
+Author repository: https://github.com/xingyaoww/code-act
+Inspected main tree: d607f56c9cfe9e8632ebaf65dcaf2b4b7fe1c6f8
+Prompt: https://github.com/xingyaoww/code-act/blob/d607f56c9cfe9e8632ebaf65dcaf2b4b7fe1c6f8/mint/prompt/templates/template_with_tool.txt
+Runtime: https://github.com/xingyaoww/code-act/blob/d607f56c9cfe9e8632ebaf65dcaf2b4b7fe1c6f8/mint/tools/python_tool.py
+
+The prompt makes interactive Python output an explicit action observation and
+uses printing as its basic example. The runtime captures an IPython cell's
+stdout, reports successful no-output execution, and marks outputs truncated at
+2,000 characters. Its shell retains variables; the file includes persistence
+and reset demonstrations. Our sandbox starts fresh on each call, so snippets
+must recreate selections. A prompt implying persistent Python variables would
+be inaccurate even though retrieved resources persist in our host workspace.
+
+Do not import the MINT feedback template as a runtime critic:
+https://github.com/xingyaoww/code-act/blob/d607f56c9cfe9e8632ebaf65dcaf2b4b7fe1c6f8/mint/prompt/templates/template_feedback_agent.txt
+It takes the correct solution as an input. That benchmark feedback mechanism
+is not a gold-free deployment verifier.
+
+Local inference: inspect-mode stdout should be bounded and visibly truncated,
+usable without an answer assignment, while final mode must require its executed
+typed envelope. A 64 KiB worker capture cap controls memory, but a much smaller
+model-visible diagnostic prefix or small structured samples control context.
+Returning thousands of records defeats the mechanism's token-efficiency purpose.
+
+EHRAgent is an explicit answer-variable interface, not the same stdout contract
+
+Paper: https://aclanthology.org/2024.emnlp-main.1245/ (EMNLP 2024)
+Author repository: https://github.com/wshi83/EhrAgent
+Inspected main tree: 7dfcaf36c230d0b987a16aabe64b8d3024ccd8a6
+Prompt: https://github.com/wshi83/EhrAgent/blob/7dfcaf36c230d0b987a16aabe64b8d3024ccd8a6/ehragent/prompts_mimic.py
+Runtime: https://github.com/wshi83/EhrAgent/blob/7dfcaf36c230d0b987a16aabe64b8d3024ccd8a6/ehragent/toolset_high.py
+Debugger: https://github.com/wshi83/EhrAgent/blob/7dfcaf36c230d0b987a16aabe64b8d3024ccd8a6/ehragent/medagent.py
+
+The task prompt instructs code to assign answer. The runtime builds a new globals
+dictionary, executes the complete code, checks the final noncomment code line
+for answer, and returns that variable. Exceptions are reduced to a localized
+type/message/code-line diagnostic. The agent can append a model-generated most
+likely error reason. Its general assistant prompt also mentions printing, but
+the actual task runtime's answer contract is narrower. Therefore describing
+EHRAgent as a persistent stdout-based interpreter would be inaccurate.
+
+Local inference: interface examples must match the actual mode. General
+print-friendly few-shot examples combined with an answer-only tool silently
+waste calls. A metadata error should identify a missing key or invalid path and
+allow one local correction, preserving the independently computed answer. It
+should not trigger another retrieval/solver pipeline.
+
+FHIR-specific CodeAct RL: useful interface evidence, not a prompting result
+
+Knorr, Mueller, Bremer, Schweingruber, 13 May 2026:
+https://arxiv.org/html/2605.14126v1
+Inspected sections 3.2, 3.3, 4.1-4.3 and appendix.
+
+This paper retrieves patient resource types into a shared workspace, permits
+Python inspection through printing, feeds outputs/errors into later turns, and
+uses a separate finish action. The short prompt requires claims grounded in
+execution and sampling unfamiliar schemas. The reported 76.7% result on 424
+validation questions is Qwen3-8B after RL, with execution-grounded label rewards,
+not evidence that the short prompt or an extra critic alone yields that gain.
+Training and evaluation turn budgets differ; the table reports five rollouts.
+
+No paper-linked FHIR source repository was verified. An author's public post
+links https://github.com/aganthos/clawloop, but the inspected current tree and
+README do not establish the paper's FHIR environment or exact implementation.
+Do not cite clawloop as a reproduced FHIR RL harness.
+
+Local inference: schema exploration plus observation feedback is directly
+relevant to the printed-output pilot issue. Training a new policy overnight
+would change the model/training regime and require a separate fair experiment.
+
+Semantic correctness: executable code may answer the wrong question
+
+Reflective Reasoning for SQL Generation, 10 January 2026:
+https://arxiv.org/html/2601.06678v1
+Inspected stages, critic/refiner loop, semantic prompts, ablations and limitations.
+
+The mechanism separates schema interpretation, values/literals, predicates,
+aggregation, semantic planning and SQL realization. Critique names the failed
+constraint/stage so revisions preserve the remaining semantics. Semantic checker
+removal lowers reported BIRD execution accuracy by seven points. Crucially,
+the paper's reflection modifies stage prompts, not only one SQL instance; copying
+its full scheme would add cross-question state and substantial model calls.
+Its abstract monotonicity argument assumes faithful constraints and evaluators;
+an LLM judge may miss executable semantic mistakes. The paper claims code release
+but omits its link for anonymity, so no official implementation was verified.
+
+Local inference: use a small immutable question contract and localized repair;
+do not mutate prompts across benchmark questions. The most useful independent
+agent may audit the intended query rather than repeat arithmetic already done
+correctly by Python. A semantic contract must originate from the question and
+actual source inventories, not gold SQL/templates/family labels.
+
+DeepEye-SQL, 20 October 2025:
+https://arxiv.org/html/2510.17586v1
+Inspected Table 1, Algorithms 4-5 and selection/ablation sections.
+
+It executes deterministic syntax/clause checkers and invokes revision only for
+a concrete checker error. Candidates are clustered by execution result; strong
+agreement can bypass expensive adjudication, while low-confidence cases get
+pairwise review. Multiple generation strategies and sampled adjudications cost
+far more than one selective second reasoning locus. No author source repository
+was verified from the paper.
+
+Two rules are unsafe to transfer blindly: empty/NULL results are flagged as
+meaningless, and a max/min pattern can be rewritten to ORDER BY with LIMIT.
+FHIR-AgentBench permits genuine empty answers and may require ties. Therefore
+the transferable idea is error-triggered localized revision, not those exact
+generic SQL policies. Execution agreement is a signal, not proof of correct scope.
+
+TraceSQL, 18 August 2026:
+https://arxiv.org/html/2608.17795v1
+Inspected feature definitions, held-out evaluation and training setup.
+
+It extracts 67 features from question intent, schema/SQL pairing, SQL AST and
+alignment diagnostics. Relevant probes include analytical operation, output
+structure, grouping, ordering, joins, identifiers, temporal semantics, metric,
+filter and scope. Its learned classifier is trained using execution-match labels;
+diagnostic backends include GPT-4o and GPT-5.2. Held-out generated-candidate
+accuracy is 62.46%, not a reliable oracle. Internal refitted training metrics
+must not be mistaken for held-out results. No official repository was verified.
+
+Local inference: borrow an explicit checklist and retain UNKNOWN, while avoiding
+the trained router, heterogeneous stronger models and automatic abstention on
+ambiguous prose. The checklist localizes a proposed alternate query to test.
+
+GradeSQL / Test-Time Verification for Text-to-SQL, 29 June 2026:
+https://arxiv.org/html/2606.30851v1
+Paper-linked author repository: https://github.com/sisinflab/GradeSQL
+Model collection: https://huggingface.co/collections/sisinflab-ai/gradesql-models
+Inspected motivation, candidate labeling/training and best-of-N selection.
+
+Its trained outcome model ranks candidate SQL after labeled synthetic training.
+Execution success and answer frequency are coarse semantic proxies. Reported
+gains are modest but consistent across studied SQL generators; they do not
+establish zero-shot verifier reliability over FHIR. Local inference: don't
+assume two agreeing code executions are a calibrated correctness probability.
+An imported SQL reward model also changes the same-base-model comparison.
+The repository README still cites its earlier 2025 preprint 2509.01308, so an
+exact 2026-paper code version was not established. The README's ORM interface
+scores a question/SQL pair in a few output tokens; that compact interface is
+trained, not evidence a similarly short zero-shot judge is accurate.
+
+ToolGate, 8 January 2026:
+https://arxiv.org/html/2601.04688v1
+Inspected symbolic state/contracts, runtime acceptance, formal assumptions.
+
+Its reusable idea is typed state with tool preconditions and postconditions:
+only validated outputs update trusted state. Claimed logical guarantees are
+conditional on sound contracts and validators, rather than proof that a natural
+language interpretation is medically/semantically correct. No official source
+repository was verified. Local inference: our patient binding, immutable source
+workspace, field-value checks and explicit final schemas are appropriate
+deterministic contracts; model prose should not overwrite their accepted values.
+
+FHIRPath-QA validation does not supply an inference-time semantic oracle
+
+Frew et al., 26 February 2026:
+https://arxiv.org/html/2602.23479v1
+Author repository: https://github.com/mooshifrew/fhirpath-qa
+Section 3.5 validates syntax with OctoFHIR and manually checks semantics across
+placeholder configurations and five curated bundles averaging 17 resources.
+It assumes complete patient bundles for query execution. This is useful evidence
+for query-first execution, but the manually validated templates are benchmark
+construction material, not a deployable semantic auditor. Local inference: we
+can make plans explicit while keeping current Python/store tools; adopting an
+entire FHIRPath runtime is unnecessary for the first architecture comparison.
+
+Recommended fallback architecture: solver plus independent query-contract audit
+
+This is the most promising alternative if repaired v2 remains weaker than the
+shared single control. It uses two reasoning loci, not more personas. One solver
+retains all retrieval, schema inspection, executable calculation and local
+debugging. One audit role independently derives a short question contract before
+seeing the solver's plan, code or answer, then compares the intent against the
+solver's executable artifact. Initial answer hiding reduces anchoring; revealing
+code afterward makes semantic inspection possible. This differs honestly from a
+fully independent second answer.
+
+Contract fields: concept and actual local profile/code system; patient scope;
+hospital/ICU selection and completed/current status; each time window with
+inclusivity; event-time field; numerical predicate; ordinal/tie behavior;
+grouping/count-distinct semantics; aggregation; paired-operand orientation;
+units; output shape; and how complete search/empty result is established.
+Mark uncertain constraints explicitly instead of filling them from priors.
+
+The auditor returns PASS/FAIL/UNKNOWN per applicable constraint, a source field
+or code fragment supporting each FAIL, and one exact alternate predicate/step.
+It cannot change an answer merely because it is plausible or an empty result
+looks suspicious. A concrete disagreement triggers targeted execution on the
+original immutable records, fetching only a missing type if necessary. A revised
+candidate must pass the same deterministic contracts and fix the named mismatch.
+Preserve the initial executable candidate and every attempted repair in artifacts.
+Agreement/UNKNOWN with valid artifacts should avoid an ungrounded veto.
+
+Budget sketch for the existing 30-tool-call ceiling: solver may use up to 18
+calls, auditor normally uses zero or one bounded diagnostic, and at most six
+calls are reserved for the identified alternate interpretation/repair. Keep
+aggregate ceilings and measured accounting identical to the single control;
+these role allocations are suggestions, not calibrated optimal constants.
+Reducing the initial context/retrieval LLM passes could restore solver headroom.
+Do not use benchmark family/gold answer to route easy questions.
+
+Why this might help current traces: correct arithmetic with invalid metadata
+needs deterministic capture helpers/local correction, not a full second solve.
+Wrong calendar/visit/concept selection needs independent semantics, not another
+copy of the same helper assumptions. Candidate preservation and concrete repair
+requirements target the historical 31 harmful answer-to-withholding revisions.
+Why it might fail: the reviewer may miss wrong code, both models may share a bad
+mapping, contracts may be inaccurate, and preserving candidates can release an
+unresolved wrong answer. Measure false critic flags, repaired-win/loss pairs,
+solver draft accuracy, final accuracy, calls/tokens and coverage separately.
+
+More constrained alternative: shared generic plan executor
+
+If free-form metadata and filtering mistakes remain dominant, provide a small
+gold-free operator library to both controls: scoped_records, concept_matches,
+ordered_measurements, selected_ordinal, aggregate/group, and source_citation.
+The model chooses arguments; helpers generate citations and contributor IDs
+from exact source paths. A reviewer audits plan arguments. Helpers must never
+encode benchmark answers, patient exceptions or template-ID dispatch. This is
+an architectural/tooling intervention shared with single; the only team gain
+would come from the separate independent plan audit. Test representative
+synthetic cases (ties, missing values, boundary dates, mixed resource profiles,
+multiple encounters) before any substantial run.
+
+Correction and paired-scope prototype caveats
+
+An earlier chat claim that the old one-scope gate blocks all 243 released paired
+questions was too broad. Question-only inspection found 25 exact timestamp
+pairs, 217 repetitions of the same visit, and one shared final-ICU qualifier.
+No distinct calendar-window pair occurs among those actual 243. Thus the
+concrete gaps are unenforced exact operand timestamps and the final synonym;
+two-window union support is a defensive general case, not a blanket measured
+failure. The isolated patch parses question-derived operand scopes, preserves
+single-question behavior and checks each citation against their union or an
+optional bound scope_index. It proves source membership only: concept, ordinal
+selection, operand completeness and difference direction still need computation
+and semantic audit. Exact optional-index support must be allowed by final
+metadata schemas before model callers can use it.
+
+Isolated patch/tests/audit are in /private/tmp/fhir-paired-scope/. Twelve synthetic
+tests pass with store access forbidden. No model/benchmark run result should
+be inferred from those development tests. Root must review/apply the patch after
+the live pilot and record the implemented design before a substantial 300 run.
+
+Additional primary retrieval references checked by the root agent
+
+Google Cloud Healthcare FHIR search:
+https://docs.cloud.google.com/healthcare-api/docs/how-tos/fhir-search
+The documentation defines comma-separated search values as logical OR and _id
+as a common resource search parameter. This supports bounded ID batches for
+known metadata dependencies, rather than unsupported Medication?patient queries.
+
+HL7 R4 MedicationRequest:
+https://hl7.org/fhir/R4/medicationrequest.html
+Patient scope belongs to MedicationRequest.subject; medicationReference links
+to Medication. MIMIC mixtures can require ingredient references described in
+PhysioNet's dataset conversion documentation:
+https://physionet.org/content/mimic-iv-fhir/2.1/
+Closure retrieval should remain rooted in the question patient's actual events.
+Finding additional components does not itself decide how a question counts drugs.
