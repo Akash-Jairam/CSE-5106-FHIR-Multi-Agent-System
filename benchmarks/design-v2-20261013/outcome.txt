@@ -1,0 +1,67 @@
+V2 outcome — completed 14 October 2026 UTC
+
+All 600 scheduled first attempts finished: 300 refreshed single and 300 V2
+team. The process exited 1 because terminal failures remain in the first-
+attempt results. There was no retry or replacement of failed questions.
+
+                          Correct   Accuracy   Terminal   Budget stops
+Archived single           223/300    74.3%       16           8
+Archived team             162/300    54.0%       42          30
+Refreshed single          231/300    77.0%        3          16
+V2 team                   198/300    66.0%        7          32
+
+V2 improves the archived team by 12.0 percentage points (patient-block 95%
+bootstrap CI +7.0 to +16.7; 54 paired wins, 18 losses). It remains below the
+archived single by 8.3 points (CI -13.7 to -3.2; 17 wins, 42 losses) and the
+refreshed single by 11.0 points (CI -16.1 to -6.0; 7 wins, 40 losses).
+The acceptance condition failed. V2 is preserved on experiments/verified-team-v2.
+
+Family scores are 74/92 lookup/counting, 95/159 temporal, and 29/49 numerical
+aggregation, compared with refreshed single 80/92, 115/159, and 36/49.
+Mean accounted tokens: V2 98,564.7, refreshed single 72,658.9. Median/p95
+latency: V2 32.548/61.114 seconds, refreshed single 17.709/62.976 seconds.
+Actual billed cost is unknown; some failed-request usage can be unavailable.
+
+The V2 team had 220 correct drafts and lost 34 of them after verification,
+all nonterminal; it recovered 12 incorrect drafts. Its independent result was
+wrong on 16 correct drafts and correct on 11 wrong final answers. V2 therefore
+improved the solving substrate but still lost too many valid drafts during
+verification. This motivates an integrated solver with a blind question contract
+and narrowly actionable audit instead of a full duplicate calculation and veto.
+No result-specific answer, question-ID rule, or gold-informed router is proposed.
+
+Scoring and limits
+
+The unchanged typed scorer includes all first attempts, counts terminal errors
+incorrect, and can credit an unverified null against an empty reference. There
+are 42 empty references; V2 answers 38 correctly and 160 nonempty references
+correctly. Eighteen scored-correct V2 rows lack a clean release. Source validity
+and independent agreement do not establish clinical semantics or complete
+retrieval. The reused fixed cohort is development data; gains are exploratory.
+The shared-tool/prompt/controller changes form a system bundle, so the V2 gain
+cannot be attributed to topology alone. Full results and paired intervals are
+in results.json; post-hoc mechanisms and per-question flags are separate files.
+
+Append-only provenance corrections to the frozen design
+
+The frozen design says full retrieved inputs are retained. V2 parse_outputs
+actually retains retrieval IDs and full tool traces but drops the returned full
+raw workspace maps. The after-run cache snapshot preserves 1,271 cache entries
+(1,686,897,971 uncompressed bytes), may include unused entries, and does not
+retroactively reconstruct every private role workspace. No pickle was loaded
+when capturing it. The archive checksum and entry checksums are recorded in
+cache_manifest.json; the local archive is ignored output, not a Git payload.
+
+Medication physical request/page/cache metadata exists in the team trace, but
+the single-agent dispatcher drops that optional metadata. Both use the same
+retrieval helper; the audit logging is asymmetric. We do not claim symmetric
+physical-request measurements for this run. The next operational storage change
+will preserve full per-question trace and raw workspace before worker IPC,
+using hash-checked gzip artifacts. That storage change is not an accuracy claim.
+
+Source stayed frozen for all 600 attempts. The record includes source.zip,
+125 file hashes, dataset/split hashes, raw-result checksums, public provider
+binding hashes, allowlisted credential-free adapter sources, completed
+protocol audit, and full-patient model-free readiness checks. No secret-bearing
+configuration or environment values were copied. Small transport/development
+checks do not receive substantial-run entries.

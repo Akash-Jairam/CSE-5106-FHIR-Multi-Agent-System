@@ -1,0 +1,141 @@
+Read-only V2 protocol audit
+14 October 2026, America/Chicago
+
+This audit does not change the running implementation, launch model or FHIR
+calls, retry questions, or rank the partially completed arms by accuracy.
+
+Source identity
+
+All 125 source files named in benchmarks/design-v2-20261013/manifest.json
+match their recorded SHA-256 hashes in the active checkout. The source.zip
+SHA-256 matches the manifest. Its 125 curated paths contain no config.yml or
+.local-setup credential paths. This is a path-inventory check, not a claim
+that a separate credential-content scan was performed.
+
+The current HEAD is 0bce77a9888f84492bc8e701278e4e72f507c1eb, a later
+experiment-record commit. Runtime source files match the recorded source
+commit 33520374e68f6fdcd0c891690aaacf0162beefdd exactly. The live run identity
+records gpt-6-luna, a 200,000-token aggregate ceiling and 30 logical tools.
+
+Hidden labels and verification
+
+run_agent.py dispatches only question_with_context strings to agents.
+Reference answers are retained in evaluation/result rows and scorer-side
+data; the agent dispatch does not send those labels to the model. The
+inspected production reasoning/retrieval code does not use gold answers or
+gold resource identifiers to make runtime choices.
+
+Production MultiAgentSystem constructs VerificationAgent with
+require_explicit_final=True. Its legacy auto-mode compatibility for older
+unit tests therefore does not bypass the production final-execution gate.
+The verifier prompt is candidate-blind. Source checks, complete independent
+execution, metadata validation, scoped citations and unchanged private
+workspace/question identity remain necessary for certification and reuse.
+Scope or budget failures do not establish supported absence.
+
+Early execution observations
+
+At the inspected snapshot, 128 of the 300 scheduled single-agent rows had
+recorded token measurements. There were no observed 200,000-token or
+30-tool ceiling overruns. Seven attempts recorded budget stops, and one
+recorded a provider timeout. The timeout remains a first-attempt outcome;
+it must not be retried to improve the benchmark score. The team arm had
+not yet produced its output file. No partial accuracy comparison was made.
+
+Material recording limitation
+
+Both arms call the shared patient-rooted Medication dependency helper.
+However, the single agent's inherited retrieval dispatcher converts its
+result to a resource-handle/count string and discards retrieval_metadata.
+Its trace therefore does not record the helper's physical request/page
+counts or cache-hit metadata. The team Toolbox preserves that metadata.
+The early single trace had zero such metadata replies.
+
+Consequently, physical Medication request/page/cache accounting is not
+symmetrically observable in the two saved arm traces. The design should
+report this coverage limitation rather than claim complete physical-path
+audit coverage for both arms. This does not change the shared logical
+30-tool ceiling or the implemented Medication closure strategy.
+
+Conclusion
+
+No fatal protocol issue was found in the inspected frozen source and early
+execution rows. The asymmetric physical-request logging is a material
+reporting caveat. Runtime edits are deferred until the comparison finishes.
+
+
+Team operational snapshot (read-only; no accuracy ranking)
+
+{
+  "snapshot_at_utc": "2026-10-14T05:26:10.445957+00:00",
+  "operational_counts": {
+    "completed_rows": 62,
+    "verification_verdict_events": 71,
+    "verdict_events_with_retained_independent_artifact": 67,
+    "independent_cache_reuse_events": 10,
+    "analysis_worker_validated_final_executions": 72,
+    "blind_initial_or_correction_prompts_checked": 61,
+    "verification_worker_validated_final_executions": 59,
+    "analysis_final_before_synthesis_failure": 4,
+    "analysis_in_role_final_contract_errors": 10,
+    "local_allocation_completed_prompts": 8,
+    "verification_in_role_final_contract_errors": 5,
+    "verdict_events_without_independent_artifact": 4,
+    "verification_final_before_synthesis_failure": 1
+  },
+  "independent_artifact_events_with_own_source_rejection": 2,
+  "gate_event_counts": {
+    "recompute_mismatch": 18,
+    "independent_evidence": 12,
+    "time_field": 2,
+    "time_window": 36,
+    "source_check": 2,
+    "verification_failure": 4,
+    "encounter_link": 4,
+    "independent_check": 3,
+    "missing_evidence": 2
+  },
+  "aggregate_exhaustion": {
+    "aggregate_tokens": 6
+  },
+  "candidate_prompt_marker_violations": [],
+  "medication_metadata_replies": 27,
+  "incomplete_medication_closures": 0,
+  "medication_cache_hits": 25
+}
+
+Worker-validated final execution counts establish contract-valid executable outputs,
+not semantic answer correctness or complete source support. Retained artifacts may
+still be rejected by independent source-field gates, as reported separately.
+Initial and correction verifier prompts contain no candidate/draft marker.
+Code inspection confirms deterministic field-check audit messages are not added
+to the verifier model message list. Host-only source-check replies are therefore
+excluded from the 8,000-character role-visible tool-view check.
+
+
+Full released patient preflight (model-free development check)
+
+{
+  "completed_patients": 94,
+  "successful_patients": 94,
+  "fixed_subset_patients": 58,
+  "outside_fixed_subset_patients": 36,
+  "outside_fixed_subset_successes": 36,
+  "requested_patient_missing": 0,
+  "closure_incomplete": 0,
+  "cache_hit_patients": 45,
+  "fresh_physical_requests": 4094,
+  "maximum_patient_medications": 252,
+  "maximum_packet_tokens": 7997,
+  "model_calls": 0,
+  "cache_invocation_note": "Initial preflight calls used positional cache keys; remaining calls use the runtime keyword form. Completed patient records were preserved during that correction.",
+  "patient_partition_note": "Observed patient membership uses the actual 300 question IDs; the split metadata patient pool contains 59 entries but only 58 are observed in those questions."
+}
+
+All 94 patients have the requested Patient resource, a complete linked
+Medication closure, and a successfully constructed starting packet for one
+existing released question. This includes all 36 patients outside the fixed
+300-question cohort. This is a patient/store availability check, not a
+2,931-question semantic or accuracy evaluation. It launches no model calls
+and changes no frozen runtime source or recorded benchmark result.
+The per-patient compact report is /private/tmp/fhir-v2-full-patient-preflight.json.
