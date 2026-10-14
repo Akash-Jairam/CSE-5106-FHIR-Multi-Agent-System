@@ -1,0 +1,14 @@
+test_twentieth_call_corrected_final_gets_second_source_check_and_release (tests.test_v3_source_boundary_slots.V3SourceBoundarySlotTests.test_twentieth_call_corrected_final_gets_second_source_check_and_release) ... FAIL
+
+======================================================================
+FAIL: test_twentieth_call_corrected_final_gets_second_source_check_and_release (tests.test_v3_source_boundary_slots.V3SourceBoundarySlotTests.test_twentieth_call_corrected_final_gets_second_source_check_and_release)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/fhir-v3c-loop-compat-p00e9nrt/tests/test_v3_source_boundary_slots.py", line 70, in test_twentieth_call_corrected_final_gets_second_source_check_and_release
+    self.assertEqual(output["answer"], 1)
+AssertionError: None != 1
+
+----------------------------------------------------------------------
+Ran 1 test in 0.102s
+
+FAILED (failures=1)

@@ -1,0 +1,178 @@
+Design V3c: service-recovery comparison of V3 with a fresh paired single control
+Prepared before the substantial 600-first-attempt run, 14 October 2026.
+The formal manifest binds the post-fix source, provider profile, inputs and
+commands before inference. This is the recorded design for the fresh comparison.
+No V3c accuracy result is known.
+
+Why this comparison
+The prior V3b run was stopped at the user's request after 292 saved first
+attempts, including 88 terminal errors: 85 HTTP408, one HTTP500, and two client
+SDK timeouts (milestone.json is authoritative); eight questions were unfinished.
+The selected 204 nonterminal rows had 163 team correct versus 159 historical
+single correct on those IDs. Those supplied milestone diagnostics are subject
+to service/success selection and are not a complete 300 result or acceptance.
+Keep V3b's source, partial output and incident record intact; do not extend that
+output or replace failed rows. V4 remains a separate reserved, unlaunched design.
+
+The user's Azure Service Health notice reported East US 2 connection failures
+and intermittent HTTP408 starting 2026-10-14 08:00 UTC. Four resumed health requests all returned HTTP 200, reported East US 2 and
+had no truncation: nonclinical 71 tokens/1.849s; contract 1,361/2.703s;
+solver 9,739/3.013s; audit 5,021/2.232s. Six focused root offline checks passed.
+The official public status view at 23:27 UTC 14 October reported Good. These observations
+support regional correspondence and current availability; authenticated incident
+resolution is unverified, and a green public status page need not show all
+subscription-specific incidents. A tiny successful request does not establish
+full-workload reliability. Root's representative role checks are operational
+preflight only and must be recorded separately from the substantial 600 attempts.
+Do not change completion limits, timeout, retry policy or architecture in
+response to individual outcomes during the frozen comparison.
+
+Treatment and control
+Run the original fixed held_out 300 in each arm, for 600 first attempts total:
+ordinary_single_agent using single_agent, and ordinary_multi_agent using
+multi_agent_v3. Both use the same current Azure gpt-6-luna deployment/profile,
+reasoning_effort none, configured per-request caller ceiling 16,384, SDK timeout
+60 seconds and no retries. Preserve smaller caller ceilings imposed by the
+agent's phase/global budget; 16,384 is a ceiling rather than a required request
+size. Keep the 32k estimated-input guard, compactor, retrieval/cache policy,
+starting packets, question/context parsing, sandbox, source validation and
+typed/evidence scorers. Never interpret missing failed-request usage as zero
+billing. The current refreshed V2/V3b SingleAgent/prompt and shared helpers/scorers
+stay byte-identical; record source equality rather than relying on an old score.
+That control identity refers to the refreshed substrate in the V3b record;
+byte identity with the author's d87ae5a implementation is not asserted.
+The single retains its existing loop and one source-feedback revision; the
+team-specific 20-call/host-boundary lifecycle is part of the treatment.
+
+Use two concurrent separate jobs, exactly one worker per arm, in a fresh common
+directory output/experiments/gpt-6-luna/query_contract_v3c_300q. Each arm owns its
+distinct ordinary_single_agent.json or ordinary_multi_agent.json and run identity;
+gzip audit artifacts retain owner/path/content-hash checks. Save_interval 1 and
+gzip-before-worker-IPC remain unchanged. Preserve actual UTC execution intervals,
+health observations and provider/profile hashes without credentials. Request
+IDs/allowlisted response headers are captured by the separate health probes
+only; the unchanged benchmark adapter does not add full HTTP-header capture.
+Overlap reduces the historical service-time confound but
+does not guarantee identical instantaneous load or eliminate request-length
+differences. Keep all first attempts, including provider/runtime/source/budget
+failures, in each 300 denominator. No selective retry, best-attempt replacement,
+success-only primary leaderboard or gold-informed routing is permitted.
+
+Frozen V3 semantics and role-visible inputs
+Question contract: 10,000 total input/output tokens, 0 tools, one completion.
+It sees only the original question, patient/current-time assumptions and shared
+semantic guide. No solver answer, code, fetched records or gold annotations are
+visible. Exact question quotes/spans are normalized only when unique, frozen and
+hashed before code reveal. Invalid/UNKNOWN contract output is diagnostic; it
+does not veto an otherwise source-valid primary.
+
+Continuous solver: 175,000 tokens, 27 executed tools comprising 25 model-requested
+tools plus 2 reserved automatic original-source checks, at most 20 actual model
+invocations. It sees the original question/context, deterministic incomplete
+starting packet, shared guide and all original retrieval/code/check tools.
+The contract is withheld from the solver. An explicit mode=final artifact with
+answer/evidence/contributors/operation/limitation must be executed. The complete
+tool batch finishes before the host boundary; retrieval or failed mutation in
+the same batch invalidates an earlier final. Re-fetched source checks permit
+one existing source-feedback correction. Deferred unknown patient/time or
+unlinked metadata stays unresolved until unchanged source validation resolves
+it; unresolved scope blocks positive and absence answers.
+
+Static program audit: 15,000 tokens, 0 tools, exactly one completion. It sees the
+frozen question contract, actual executed code, workspace identity, retrieval
+ledger and bounded source previews, with no rendered candidate answer. It makes
+no inspection probes, whole second solve or mandatory final synthesis.
+Unsupported, UNKNOWN, malformed or unavailable auxiliary results preserve a
+valid primary only when accounting remains nonfatal and verified. Unknown failed
+API usage or reported phase/global overshoot stays fatal, even with a valid
+primary. Source samples and exact spans do not prove global semantics.
+
+Targeted host execution: 0 model tokens, up to 3 logical tools in the same global
+budget: original replay, one mechanically supported expression patch, and
+replacement source check. Preserve existing unique-AST, single-clause,
+changed-contributor, unchanged-dependency, source-membership/ordinal witnesses,
+completeness and strict-final/source gates. No new retrieval or model rewrite.
+Only a supported executed/source-checked local repair can replace the primary;
+its assurance is local constraint correction, not fully independent semantic
+verification. Counts/nulls/false/empty answers retain their question-specific
+meaning. No stronger model, extra vote, patient exceptions, template/gold SQL,
+reference answers, known successful programs or per-question outcome routing.
+
+Total ceilings remain 200,000 accounted tokens and 30 executed logical tools:
+contract 10k/0, solver 175k/27, audit 15k/0, targeted 0/3. Unknown provider usage and
+reported local/global overshoot remain fatal. Unused phase allocation is unused.
+Tool-request refusals and unavailable audit calls retain their recorded policies.
+
+One disclosed V3-only lifecycle compatibility correction
+The V3c source to be frozen includes 22 host loop slots instead of 21 in
+LedgerSolver, retaining its 20-real-invocation guard. Independent offline
+reproduction showed that after an initial source rejection, a valid final on
+real call 20 could otherwise miss the second non-model boundary/check. 22 slots
+fit 20 real invocations plus up to 2 host source-check boundaries. This changes no
+prompt, role visibility, semantic contract, audit/repair policy, source gate,
+tool allowance or actual model-call ceiling. The shared single is not changed. Its existing 30-loop default remains; the
+team solver retains its 20 actual-call guard plus two host processing slots.
+Focused tests must verify the late corrected-final release and the never-final
+20-invocation limit, including actual SDK/source-feedback/gzip compatibility.
+Record this source delta and new hashes explicitly; V3c is a recovery comparison
+with one lifecycle fix, not an exact 134-file-hash repeat of V3b.
+
+Inputs and source provenance
+Use final_dataset/questions_answers_sql_fhir.csv and manifests/split.json.
+The held_out cohort has 300 IDs, 58 patients and the same ordering/families as
+the prior fixed subset. Existing V3b metadata references:
+code 4c7fbd13c1fd6e0b38abd002b072af8654837f28;
+dataset SHA256 e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0;
+split SHA256 f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015.
+Do not read runtime credentials into records. Root's new manifest must pin the
+actual fixed V3c code/prompts/helpers/tests, lifecycle patch, provider binding,
+source archive and exact commands before any substantial inference. Preserve
+the raw inline results, full lossless audit traces/workspace/revision messages,
+sidecars and output hashes. Health probes are not benchmark rows.
+
+Research rationale and limits
+Committed V3 design/research notes motivate integrated executable solving,
+draft-blind question intent, budget visibility and narrowly executed repairs:
+benchmarks/design-v3b-20261014/design.txt;
+docs/research_multi_agent_20261013.txt;
+docs/research_execution_verification_20261013.txt;
+docs/research_budget_handoff_20261014.txt;
+docs/research_protocol_alignment_20261014.txt.
+Primary mechanisms: CodeAct interactive code feedback
+https://arxiv.org/html/2402.01030v4 and https://github.com/xingyaoww/code-act;
+factored verification in CoVe https://aclanthology.org/2024.findings-acl.212/;
+localized query repair https://arxiv.org/html/2601.06678v1;
+visible remaining budgets in BATS https://arxiv.org/html/2511.17006v2 and
+https://github.com/google-research/budget-aware-agent.
+Their domains, sampling/selection, model and resource settings differ. They
+support mechanisms to test, not promised FHIR improvement or an intrinsic
+advantage from more homogeneous roles. Preserve harmful revisions, lost valid
+drafts and missed/unsupported repairs as well as gains. A source-valid executed
+answer can still implement the wrong question. First-final handoff and
+conservative metadata/ordinal limits inherited from V3 remain disclosed.
+
+Decision rule after both complete 300
+Use unchanged typed scoring over all scheduled first attempts, with terminal
+errors incorrect and no null credit for error placeholders. The team must
+exceed 223/300 archived single, 231/300 refreshed single, AND the contemporaneous
+fresh single score. Analyze only once both complete 300 identities and audits
+are validated. Report paired wins/losses, patient-block 95% bootstrap intervals
+(10,000 draws,seed 5106), family accuracy, provider408/runtime/budget failures,
+source-valid release coverage, null-credit caveats, solver-source revisions,
+audit completion and targeted-repair gain/harm, accounted usage and latency.
+Conditional nonterminal accuracy is secondary and explicitly selected; it never
+replaces the 600-first-attempt comparison. The fixed cohort has repeatedly served
+development, so any win remains exploratory, not fresh held-out generalization.
+
+If the criterion passes, root can select/promote the best tested implementation
+and separately freeze the real full 2931-question three-arm benchmark: 8793 first
+attempts across direct_llm, single_agent and the selected team, under the same
+current scheduler/provider policy. Full benchmarking follows only a winning
+subset design. Verify arm identities, actual progress, audit integrity and
+supervisor health; subset accuracy does not establish full-run accuracy.
+If the criterion fails, preserve the complete result and decide refinement from
+research and whole-run mechanisms, not partial outcomes or hidden selection.
+
+Exact launch-pair template (root runs both concurrently from the frozen repo)
+caffeinate -i .venv/bin/python .local-setup/phase3.py run --project-root . --model gpt-6-luna --max_total_tokens 200000 --max_tool_calls 30 --num_processes 1 --save_interval 1 --output_dir output/experiments/gpt-6-luna/query_contract_v3c_300q --arms ordinary_single_agent --split held_out --team_strategy multi_agent_v3 --audit_storage gzip
+caffeinate -i .venv/bin/python .local-setup/phase3.py run --project-root . --model gpt-6-luna --max_total_tokens 200000 --max_tool_calls 30 --num_processes 1 --save_interval 1 --output_dir output/experiments/gpt-6-luna/query_contract_v3c_300q --arms ordinary_multi_agent --split held_out --team_strategy multi_agent_v3 --audit_storage gzip

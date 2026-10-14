@@ -1,0 +1,12 @@
+V3 source-boundary compatibility correction
+
+Base: 844f74128038814c658d5424db3541a9b37b8424
+Only runtime change: LedgerSolver max_iterations 21 -> 22, with explanatory comment.
+The model-call guard remains 20; contract/solver/audit/targeted roles, prompts, source gates, caps, tool reservations and SDK host mapping are byte/AST unchanged.
+
+Before fix: the new call-20 correction fixture failed because the final source check was not consumed.
+After fix: six focused offline regressions passed: corrected final on call20 releases after two source checks; invalid call20 final stays blocked; missing final never adds call21; 25+2 solver tools and exact phase caps remain reserved; actual Azure SDK mock source-feedback and nested gzip roundtrip pass.
+All network/model/store responses are mocked. Final calculations use the unchanged real OS sandbox. No configuration reads, active checkout edits, provider calls or benchmark changes.
+
+Patch: v3c_source_boundary_slots.patch
+Inference identity must be freshly recorded before a new substantial run.

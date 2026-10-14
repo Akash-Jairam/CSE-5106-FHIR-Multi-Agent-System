@@ -45,6 +45,18 @@ See milestone.txt/milestone.json for limitations, immutable-source checks,
 incident attribution, raw archive/checksums and required recovery validation.
 Actual SDK source-feedback and complete worker/gzip validation passed.
 
+V3c — fresh comparison after service-availability checks
+Current branch: experiments/query-contract-v3; record: benchmarks/design-v3c-20261014
+Source commit: 36c5770. Same V3 topology, prompts, phase/global caps and provider.
+One disclosed lifecycle correction: 22 host loop slots fit both source checks,
+with the same 20 actual solver-call guard. Six focused offline regressions pass.
+All four resumed health requests returned HTTP200 and reported East US 2;
+the public Azure status page reports Good; authenticated incident resolution
+remains unverified. Preflight is not benchmark accuracy or reliability proof.
+Scheduled: fresh300 single + fresh300 team, concurrent one-worker jobs,
+save1/gzip, unchanged200k tokens/30 tools, all first attempts retained.
+Status: FROZEN BEFORE LAUNCH. No V3c accuracy result is known.
+
 
 Selection and scoring
 
@@ -55,6 +67,6 @@ unverified null. Repeated fixed-cohort selection is exploratory development,
 not fresh held-out proof. Small development checks have no experiment entries.
 A selected design will receive a separate real full 2,931-question three-arm
 launch record. No full benchmark has started for this goal yet.
-Experiments are paused at the user's request. A fresh complete fixed300 with
-a contemporaneous single control is required after service recovery/resumption.
-No post-stop health/model call or future benchmark is scheduled.
+The user resumed on 14 October and requested a fresh complete fixed300 with
+a contemporaneous single control. V3c is frozen for that comparison.
+The stopped V3b milestone remains historical; its pause did not complete the goal.
