@@ -25,6 +25,16 @@ Raw first attempts/gzip artifacts are checksummed in aborted_run.json.
 Explicit human approval covers task subset/full payloads to configured Azure.
 A corrected runtime will get a new source freeze and fresh 300-question run.
 
+V3b — same V3.2 design with source-feedback SDK compatibility corrected
+Branch: experiments/query-contract-v3-compat; record: benchmarks/design-v3b-20261014
+Source commit: 4c7fbd1; pre-run freeze: 780f9bc (134 source files).
+Only V3 host-boundary input/audit normalization changed; shared inference intact.
+Exact phase ceilings remain 200k aggregate tokens and 30 aggregate tools.
+Fresh 300 team first attempts, 2 workers/save1/gzip; completed control reused.
+Status: RUNNING. No substantial V3b accuracy result is known yet.
+Actual SDK source-feedback and complete worker/gzip validation passed.
+
+
 Selection and scoring
 
 Main remains unchanged until a team exceeds both 223/300 archived single and
