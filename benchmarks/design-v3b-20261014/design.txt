@@ -1,0 +1,405 @@
+Design V3b: corrected SDK compatibility for the frozen V3.2 protocol
+Substantial fresh 300-question team run, 14 October 2026
+
+No completed accuracy result is known when this corrected source is frozen.
+The prior substantial V3 launch was aborted after 33 saved first attempts:
+11 HTTP408 timeouts and 3 HostBoundaryMessage serialization errors. Its raw
+results and source are preserved in benchmarks/design-v3-20261014. That
+incomplete cohort is not scored or used for architecture ranking.
+
+The demonstrated compatibility failure occurred only when a source check
+requested revision after the host final boundary. An arbitrary HostBoundary
+object then entered a real Azure SDK request. The correction stores plain
+role/content dictionaries in V3 model history and annotated dictionaries in
+audit history. Shared SingleAgent/provider/tool/scorer code is unchanged.
+No semantic repair gate, release policy, model setting or phase ceiling changes.
+Actual OpenAI HTTP encoding plus source-feedback continuation and worker gzip
+round-trip regressions fail on the old append path and pass on the fixed path.
+The tiny real-interface validation is recorded as development evidence only.
+
+Run a FRESH 300-question ordinary_multi_agent arm with multi_agent_v3, same
+fixed IDs, Azure gpt-6-luna/reasoning none, 200k aggregate tokens/30 logical
+tools, gzip audits and save_interval1. Use TWO workers instead of four as an
+operational precaution after the observed timeouts; it does not change a
+question's agent protocol or resource ceilings. The timeout cause is not
+proven. Provider failures/unknown usage stay visible and can be terminal.
+No SDK retry change, failed-question replacement or hidden-answer selection
+is introduced. All first attempts remain in the final denominator.
+
+Reuse the completed refreshed-single 231/300 control; its inference substrate
+is unchanged, while provider health/time and worker count differ. Preserve
+that limitation and report all terminal failures, latency and accounted usage.
+The criterion remains exceeding BOTH archived223/300 and refreshed231/300,
+with unchanged scoring and patient-block paired analysis. A gain on the reused
+fixed cohort is exploratory. No fresh held-out or topology-only proof is claimed.
+A subsequent full run compares all arms under the same current scheduler.
+
+The full exact V3.2 design below is retained for protocol specification. Its
+first-launch four-worker description is superseded only by the two-worker
+execution choice and explicit SDK message compatibility correction above.
+Source.zip contains the actual corrected code, prompts, tests and helpers.
+The initial V3 launch outcome is referenced, not overwritten or presented
+as a successful completed 300-question result.
+
+Inherited exact protocol and research rationale
+
+Design V3: blind question contract, integrated solver, static program audit
+Substantial fixed 300-question comparison, 14 October 2026
+
+Frozen acceptance criterion
+
+The ordinary team must exceed both archived single 223/300 (74.3%) and the
+completed refreshed single 231/300 (77.0%) with the unchanged typed scorer.
+All scheduled first attempts remain in the denominator, including terminal
+errors. No failed question will be retried to replace its result. No accuracy
+result for this substantial V3 design is known when this record is frozen.
+
+Controls and treatment
+
+Run one fresh 300-question ordinary_multi_agent arm using multi_agent_v3, with
+4 workers, save_interval 1, gzip audit storage, the same Azure gpt-6-luna model,
+reasoning_effort none, 200,000 aggregate tokens and 30 aggregate logical tools.
+The exact existing manifests/split.json held_out cohort has 300 question IDs,
+58 observed patients, 92 lookup/counting, 159 temporal and 49 aggregation.
+Patient IDs/current-time assumptions and starting packets remain gold-free.
+
+Reuse the completed refreshed single control from the V2 substantial record.
+Do not rewrite its source or run identity. Its shared agent/prompt/tool/scorer
+code is unchanged; the combined operational helper changes affect output
+transport only, with AST and inline/gzip parity evidence in the protocol audit.
+The team-specific dispatcher, strict final boundary, budget signals, blind
+contract and local audit are the treatment. This is a system-design comparison,
+not a causal ablation of context isolation or role count alone.
+
+The frozen V2 team result is 198/300, with 34 correct drafts discarded and 32
+budget stops. This motivates preserving the integrated solving trajectory
+and replacing unproductive verification vetoes with actionable local checks.
+The detailed protocol, source-visible state, exact phase caps, supported repairs,
+source-completeness rules and conservative limitations follow below.
+
+Protocol caps: contract 10k tokens/0 tools; solver 175k/27 (25 model-requested
+plus two reserved source checks); static audit 15k/0; targeted execution 0/3.
+Exactly one static audit completion; no inspection probes, whole second solve
+or final synthesis model call. Unsupported/UNKNOWN auxiliary findings preserve
+a source-valid primary. Only a supported unique expression change with actual
+source witnesses, changed contributors, successful replay and source checks
+can replace it. No stronger model, question-ID routing, gold-answer retrieval,
+best-of-N selection, or larger aggregate ceiling is used.
+
+Source and evidence retention
+
+The source archive and hashes are frozen before inference. Complete returned
+traces, raw workspace and revision messages are losslessly externalized inside
+workers before IPC; owner/path/hash checked gzip artifacts remain with the raw
+output. Answers/evidence/usage/revision summaries stay inline. This operational
+change improves memory/provenance and is not credited as an accuracy mechanism.
+If a question fails before returning a workspace, storage cannot reconstruct it.
+Credential-free adapter source/binding hashes are recorded separately.
+
+Small development checks are not formal experiment entries and provide no
+accuracy estimate. Actual-interface validation confirmed single-pass static
+audits and recovery from injected early prose under the final caps; the test
+injection is excluded from production and substantial results.
+
+Analysis and next decision
+
+Compare archived single/team, refreshed single, V2 team, and V3 team using all
+first attempts, unchanged scoring, paired wins/losses and patient-block 95%
+bootstrap intervals (10,000 draws, seed 5106). Report family accuracy, errors,
+budget stops, tokens, latency, source-valid coverage, null-credit caveat,
+solver revisions, audit coverage and targeted-repair gain/harm. Preserve raw
+checksums and per-question mechanism flags. Actual billed cost stays unknown
+unless observed. Do not use a partial-score leaderboard to alter this run.
+
+The fixed cohort has been reused for design selection, so any win is exploratory.
+Source validity and a localized witness do not prove full question semantics.
+If the criterion fails, archive this design/result on its own branch and decide
+a distinct research-backed design after the complete results. If it succeeds,
+promote the best tested implementation to local main, freeze the real full
+2,931-question/94-patient three-arm benchmark (8,793 first attempts), launch it
+and verify each arm's actual identity, successful progress and supervisor health.
+The full population includes additional duration/paired families; its eventual
+accuracy is not established by the fixed-subset result.
+
+Detailed implementation and research rationale
+
+Query-contract V3.2 final static-audit candidate
+Prepared 14 October 2026, from frozen V2 commit 3352037.
+An earlier V3.1 eight-question development transport check was performed; it
+was not a substantial benchmark/journal entry. It motivated the final V3.2
+static audit before any substantial V3 run. No reference-dependent routing was
+used. The final tiny transport validation is reported separately.
+All implementation and tests remain isolated under /private/tmp/fhir-v3-design.
+
+Additive entry points
+
+Strategy: multi_agent_v3 -> agent.query_contract_agent.QueryContractAgent.
+run_agent.py dispatches this strategy through an additive worker. All legacy
+strategies still use the unchanged utils.run_agent_with_input function. The
+utils factory/helper files remain byte-identical to frozen V2.
+scripts/run_experiments.py and scripts/full_benchmark.py accept optional
+--team_strategy multi_agent_v3. Their defaults remain multi_agent. Stable arm
+filenames (ordinary_multi_agent/full_multi_agent) remain compatible with existing
+analysis; the actual run_agent strategy and source fingerprints appear in run
+identity/commands. Do not reuse or rewrite a completed control's run identity.
+Compare a V3 team result against the separately recorded frozen V2 single result.
+
+Exact implemented protocol
+
+1. A candidate-blind auditor receives only the question, bound patient/current
+time assumptions and shared semantic guide. It derives requirements with exact
+substring quotes and model-supplied spans. For a uniquely occurring exact quote,
+the host derives its actual [start,end) position from the original question,
+retains the supplied span and records normalization. Repeated/missing quotes
+remain invalid even if a model span selects one occurrence. This question-only
+normalization precedes solver reveal. The contract is frozen and hashed before any solver code or
+resource-selection metadata is revealed. Invalid contract output is recorded and
+skips auditing; it does not block the independent primary solver.
+
+2. The primary solver reuses SingleAgent's continuous retrieval/code/debug/final
+and one source-feedback correction trajectory. A solver-specific retrieval
+dispatcher uses the existing Toolbox validation, patient/time binding, linked
+closure and completeness metadata. Starting packets do not establish complete
+searches. A persistent scoped dispatcher retains excluded counts and original
+records with unknown patient/time binding. It retries those original records
+against the unchanged validator after a later retrieval adds source context
+(e.g. Condition then linked Encounter). Unresolved scope is an actual source-check
+issue, including for zero/false absence answers; it cannot certify completeness.
+Historical successful searches are not enough: completeness is recomputed from
+current unresolved scope. Unlinked Medication/Location originals are also
+deferred: complete HTTP closure does not imply their ownership roots are held.
+Later valid roots can recover them with the same validator. Known future-only
+roots currently leave shared metadata unresolved rather than proving absence;
+this is a conservative false-abstention risk, documented below. This stricter
+team-only dispatch is part of the treatment.
+The shared SingleAgent class, prompt, tools, field checker, sandbox,
+budget accountant, context compactor and scorers remain byte-identical to V2.
+
+3. The solver receives a visible remaining token/tool signal before each actual
+model call, plus a request to finalize before inspection consumes its allocation.
+Before the first real solver call, a team-only flag requires an explicit final
+execution. Early unexecuted JSON/prose receives the unchanged SingleAgent
+final-execution feedback and cannot terminate as an outer-gate abstention.
+It stops at the boundary after the entire current tool batch when its explicit
+validated final artifact matches the workspace. A deterministic host boundary
+message replaces the otherwise unnecessary full-context synthesis model call.
+The existing automatic source check still executes before acceptance. A later
+retrieval, failed non-inspect calculation or denied requested mutation/retrieval
+in the same batch invalidates readiness. Inspect diagnostics cannot replace a
+final. A first artifact can still implement the wrong question: this lifecycle
+change is not an oracle early-stopping claim.
+
+4. The auditor then receives actual final code, its frozen contract, immutable
+workspace identity, retrieval ledger and bounded source samples. It receives no
+rendered candidate answer. It gets no inspection tools and makes exactly one
+static audit completion. The targeted host executor supplies actual replay,
+changed-source counterexample and source-check feedback for a supported proposed
+repair. PASS/FAIL/UNKNOWN/N/A checks and at most one expression
+repair are parsed; vague disapproval, malformed output, unavailable auxiliary
+calls and UNKNOWN do not veto a valid primary.
+
+5. A repair is restricted to a unique matching AST expression. This version
+supports one numerical operator over explicit valueQuantity.value reads with an
+unchanged question-literal threshold, or one measurement ordinal index over an
+unambiguously ascending effectiveDateTime-sorted variable. It rejects compound
+changes, scalar aliases, uncertain sorts, sorted-variable mutation/aliasing,
+AugAssign/deletion/shadowing, item assignments and unsupported concepts/dates/visits/aggregations.
+Whole-question multiple supported thresholds or multiple ordinal tokens are
+conservatively unsupported: a quote alone cannot bind a clause to an AST node.
+The reproduced `<70 OR >70` false-positive replacement is now blocked; its
+correct primary is preserved. The first-weight/last-height ambiguity is also
+blocked. Additional threshold synonyms/negation and multiple numeric AST
+comparisons are conservatively unsupported. These are demonstrated failure
+regressions, not merely caveats.
+Question spans establish provenance, not semantic truth. Supported literal
+operators/ranks are parsed deterministically; broader intent remains uncertain.
+
+6. The host replays the original calculation on the exact frozen workspace,
+then runs the patched code in the same existing sandbox. No model rewrites or
+new retrieval are allowed in the targeted phase. Ordinal replay captures actual
+sorted IDs as diagnostics while reproducing the primary's typed artifact.
+Replacement requires a changed answer, nonempty changed contributing-ID set,
+unchanged non-Observation dependencies and original-field witnesses drawn from
+the changed IDs. Predicate replacement is restricted to a How-many question
+with integer answers exactly equal to each artifact's contributing Observation
+count; this rejects a compensating len(rows)-1 calculation. Ordinal replacement
+requires answers equal to the directly selected original source quantities;
+converted or compound ordinal outputs remain unsupported. Each predicate
+witness must actually change membership under
+the old/new operator. Ordinal witnesses must match the exact old/new source ranks
+and have distinct, ordered original effective times. An equal-time tie does not
+establish this strict ordinal discrepancy.
+
+7. The replacement undergoes the same final metadata and re-fetched source gates
+as the primary, including patient, field/value, current time, question windows,
+encounter and unit checks. A source failure, insufficient checker budget,
+limitation, missing completeness, stale/irreproducible artifact or unsupported
+witness preserves the source-valid primary. Source-valid release records
+final_check_issues=[]; failed primary release records the actual source/execution
+issues. Targeted candidate failures remain separately in the proof audit.
+
+8. No mandatory third solver or final synthesis call exists in this candidate.
+The controller releases the chosen executed artifact unchanged and stores primary,
+contract/hash, audit, targeted replay/patch/witness/check, phase accounting,
+retrieval ledger and release-policy reason. Standard outer draft/final/revised
+fields describe the initial solver draft through the final released result,
+covering both source-feedback revisions and targeted changes. Separate
+solver_source_revised/targeted_revised flags and primary_revision preserve the
+two mechanisms for transition/harm diagnostics. Assurance is source-checked local
+constraint correction, never fully independent semantic verification.
+
+Exact fixed caps
+
+Same parent model, provider/base URL and reasoning settings for every role.
+Common global ceiling: 200,000 accounted model tokens, 30 executed tool calls.
+Existing per-request context guard/compaction and missing-usage failure remain.
+Contract phase: 10,000 tokens / 0 tools, one model completion.
+Solver phase: 175,000 tokens / 27 tools, at most 20 actual model calls. At most
+25 model-requested tools; TWO automatic original-source checks are reserved and
+included in the 27. Smaller global budgets also reserve those source slots.
+Program-audit phase: 15,000 tokens / 0 tools, exactly one static audit completion.
+Both the Role allocation and empty Toolbox deny any requested probe. An auditor
+that requests a tool instead of JSON is an auxiliary failure that preserves P.
+Targeted phase: 0 model tokens / 3 tools: original replay, patched final, and
+replacement source check. All three count in the same global 30.
+Totals of phase ceilings: 200,000 tokens / 30 tools. Unused budget stays unused.
+Local phase ceilings temporarily cap provider completions; they restore the
+global ceiling afterward. Local refusals remain in phase diagnostics without
+contaminating later phases; unknown provider usage or reported local/global
+ceiling overshoot stays fatal. A provider cannot exceed a phase ceiling and
+then spend a later phase's reserve merely because it remains below 200,000.
+
+Scope and tradeoffs
+
+This changes team topology/lifecycle and adds a semantic perspective, while
+leaving shared solver/helper/source/scoring code untouched. The early solver
+boundary, budget signals, validated retrieval ledger and audit are a combined
+treatment. A win cannot be attributed solely to role count or the auditor.
+
+A completed-control aggregate diagnostic reported 289/300 rows with successful
+final tool artifacts; the first artifact matched the typed reference in 229.
+Seven first matches ended wrong, three first mismatches ended correct, and 39
+rows contained multiple finals. The actual control score remains 231/300. This
+post-hoc observation has both recovery and lost-self-refinement implications.
+The first artifact has not necessarily passed host source gates. The runtime
+does not receive this diagnostic, gold values, or per-question routing hints;
+it uses the same predetermined batch boundary for every question. This is a
+lifecycle hypothesis to evaluate, not a guaranteed accuracy improvement.
+
+Many real queries will receive no automatic semantic repair. Calendar windows,
+concept mappings, medication links, joins, counts/distinct/ties and paired
+arithmetic are audited but remain UNKNOWN unless the narrow supported rule
+applies. The integrated solver must solve those competently. A contract auditor
+can still miss a mistake, and a source-valid primary can still be semantically
+wrong. Preserving it trades uncertain wrong releases for fewer false vetoes.
+
+The required changed-contributor gate rejects an ordinal fix when both artifacts
+correctly preserve every sort input in the same contributor set. Supporting that
+case safely needs a separate executed selected-ID lineage field or a constrained
+plan executor, not weakening the current contributor gate. This is a material
+limit of this conservative insurance implementation. Retained unlinked
+metadata can also cause an abstention when all patient references are known
+future events: this candidate does not implement an exhaustive root-graph
+negative proof. Fixing that needs completed original Request/Admin searches and
+source-only reachability, never an auditor claim or a weakened date gate.
+A third blind vote remains
+an unimplemented separate treatment requiring a new recorded allocation/policy.
+
+Research mechanisms and boundaries
+
+CodeAct's explicit interactive execution feedback supports bounded diagnostics:
+https://arxiv.org/html/2402.01030v4
+https://github.com/xingyaoww/code-act
+CoVe's factored verification motivates deriving intent before candidate reveal:
+https://aclanthology.org/2024.findings-acl.212/
+Reflect-SQL motivates localized constraint repair instead of whole-program drift:
+https://arxiv.org/html/2601.06678v1
+BATS/Budget Tracker provides source support for visible remaining budget signals:
+https://arxiv.org/html/2511.17006v2
+https://github.com/google-research/budget-aware-agent/blob/main/src/agent_budget_tracker.py
+Its search sampling, selection models and continuation policies are different;
+this implementation does not force continuation until the budget is exhausted.
+Independent voting cannot certify correctness of correlated interpretations:
+https://arxiv.org/html/2510.17472v1
+https://arxiv.org/html/2508.17536v1
+Additional research/tradeoffs are in the earlier isolated design_protocol.txt and
+research_execution_verification_addendum_20261013.txt. This source candidate does
+not import gold templates, SQL, answers, trained reward models or patient exceptions.
+
+Validation
+
+113 offline tests passed with the real macOS sandbox worker and mocked model/FHIR
+store calls, covering the new integration plus existing strict-single artifact,
+blind verifier, role framework and aggregate-budget tests. Tests demonstrate
+question-threshold and ordinal corrections from source records; zero-probe
+one-pass audit enforcement, forbidden audit-tool refusal without veto, early
+unexecuted prose followed by explicit execution feedback, exact final phase caps; malformed/UNKNOWN
+audit preservation; source failures/budget failures; full-batch invalidation;
+final-versus-inspection authority; exact metadata recovery; source-slot accounting;
+local token reserve restoration; changed-source membership, dependency and rank
+guards; empty answers; fatal missing usage; whole-question multi-clause repair
+rejection; unique/repeated/missing span normalization; unknown-time zero-answer
+rejection; retrieval-order Condition-to-Encounter recovery; and current-state
+completeness recomputation. Both independent review reproductions now have
+actual sandbox integration regressions. Additional tests cover positive count,
+mean, minimum, maximum and last under unresolved source scope; Medication
+closure before held roots and later recovery; compensated-count rejection;
+negation and additional numeric-clause rejection. No inference was performed.
+
+Command (dependency directory contains packages only; no sitecustomize/Azure
+configuration was enabled):
+PYTHONPATH='<repo>/.local-setup/phase2-dependencies:/private/tmp/fhir-v3-design' \
+  <repo>/.venv/bin/python -m unittest tests.test_query_contract_agent \
+  tests.test_single_computation_artifact tests.test_verification_blind \
+  tests.test_phase2_framework tests.test_phase1_budget
+
+The outer macOS execution sandbox cannot nest sandbox-exec; these offline tests
+were run with the auto-approved escalated test command. Production generated-code
+execution still requires the existing kernel sandbox and has no host-exec fallback.
+
+Shared-substrate verification
+
+The isolated source hash comparison covers 40 unchanged frozen files: every
+tracked agent/tools/utils Python file from 3352037, plus config.py source (not
+config.yml), fhir_client.py, evaluation_metrics.py and requirements.txt. All are
+byte-identical. Only the new V3 module, tests, design note and additive three
+launchers are included in this patch. shared_substrate_hashes.json records each
+SHA-256. Reusing the completed V2 single is justified only while its shared
+solver/prompt/tools/helpers/scorers remain identical. Any later operational I/O
+merge must document its helper changes and demonstrate unchanged substantive
+agent behavior; do not simply claim the merged tree is byte-identical.
+
+Preflight-driven protocol decision (before substantial V3)
+
+The V3.1 frozen eight-question Azure development check completed 8/8 with zero
+SDK/runtime errors and eight executed/source-valid releases. All caps held;
+five audits returned JSON, while three used two sequential probes and lacked
+room for their synthesis prompt under 15k. Their auxiliary failures correctly
+preserved the primary. One periodic weight question also recovered after four
+strict schema rejections of dictionary finals. All eight recorded a host final
+boundary and subsequent automatic source check. Full development output and
+source hashes remain under /private/tmp/fhir-v3-preflight-6nt9v7wk.
+
+The parent chose V3.2 as the final proposed treatment: replace probe-then-synthesis
+with one static question-contract/code audit. Keep token ceilings 10k/175k/15k/0,
+reallocate tools to 0/27/0/3, and require final execution from the solver's first
+turn. The static auditor still sees frozen independent intent, code and bounded
+source previews, but cannot verify broader semantics by probing. Actual execution
+and original-field witnesses remain in the bounded targeted host phase. This
+change is recorded before the substantial run, rather than attributing V3.1's
+incomplete audits to a finished semantic verifier. Further protocol changes are
+reserved for demonstrated bugs, not post-hoc question-specific routing.
+
+
+Final actual-interface compatibility validation before V3b launch
+
+The frozen corrected source completed the normal run_v3_job -> run_agent_safe
+-> parse_outputs -> worker gzip -> restore path through the actual configured
+Azure adapter. A development-only first source-check rejection forced normal
+source-feedback continuation and a second host boundary. Both actual source
+checks had zero issues; the final release and static audit completed. Six SDK
+calls, 52,702 accounted tokens and six tools; contract1,490/0, solver46,175/6,
+audit5,037/0. All usage reported, all caps held, no runtime or provider errors.
+All 43 isolated runtime/helper files stayed frozen. No gold scoring occurred;
+the injected rejection/harness is excluded from production and formal results.
+The small success validates compatibility, not 300-question provider stability.

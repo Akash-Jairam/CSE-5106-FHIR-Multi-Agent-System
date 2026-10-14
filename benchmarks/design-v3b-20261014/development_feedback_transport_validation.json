@@ -1,0 +1,136 @@
+{
+  "development_only": true,
+  "injection_excluded_from_production": true,
+  "question_id": "00b98d0bf4d50497625b257e",
+  "production_worker_used": true,
+  "normal_run_agent_safe_used": true,
+  "gzip_before_output_used": true,
+  "compact_is_json_serializable": true,
+  "restored_is_json_serializable": true,
+  "gzip_reference_verified": true,
+  "sdk_completion_module": "azure_adapter",
+  "sdk_completion_name": "azure_completion",
+  "runtime_error": null,
+  "source_valid_final": true,
+  "source_revision_recorded": true,
+  "source_feedback_messages": 1,
+  "host_boundaries": 2,
+  "source_checks": [
+    {
+      "issues_count": 1,
+      "injected": true
+    },
+    {
+      "issues_count": 0,
+      "injected": false
+    }
+  ],
+  "audit_completed": true,
+  "phases": [
+    {
+      "phase": "contract",
+      "token_cap": 10000,
+      "tool_cap": 0,
+      "tokens": 1490,
+      "tool_calls": 0,
+      "errors": [],
+      "fatal": false
+    },
+    {
+      "phase": "solver",
+      "token_cap": 175000,
+      "tool_cap": 27,
+      "tokens": 46175,
+      "tool_calls": 6,
+      "errors": [],
+      "fatal": false
+    },
+    {
+      "phase": "audit",
+      "token_cap": 15000,
+      "tool_cap": 0,
+      "tokens": 5037,
+      "tool_calls": 0,
+      "errors": [],
+      "fatal": false
+    }
+  ],
+  "tokens": {
+    "prompt": 51399,
+    "completion": 1303,
+    "total": 52702,
+    "cost": null,
+    "llm_calls": 6,
+    "cached_prompt": 28070,
+    "repeated_prompt": 39329,
+    "per_call": [
+      {
+        "prompt": 1180,
+        "completion": 310,
+        "cached": 1177,
+        "usage_available": true
+      },
+      {
+        "prompt": 9688,
+        "completion": 51,
+        "cached": 9685,
+        "usage_available": true
+      },
+      {
+        "prompt": 10522,
+        "completion": 98,
+        "cached": 10519,
+        "usage_available": true
+      },
+      {
+        "prompt": 12274,
+        "completion": 364,
+        "cached": 2762,
+        "usage_available": true
+      },
+      {
+        "prompt": 12893,
+        "completion": 285,
+        "cached": 2762,
+        "usage_available": true
+      },
+      {
+        "prompt": 4842,
+        "completion": 195,
+        "cached": 1165,
+        "usage_available": true
+      }
+    ]
+  },
+  "budget": {
+    "max_total_tokens": 200000,
+    "max_tool_calls": 30,
+    "tool_calls_run": 6,
+    "stopped": null
+  },
+  "provider_usage_available": true,
+  "phase_caps_held": true,
+  "source_unchanged": true,
+  "changed_source_files": [],
+  "injection_observations": [
+    {
+      "development_only": true,
+      "injection": "one source-check issue appended AFTER actual first automatic checker; later checks unmodified",
+      "actual_original_issue_count": 0,
+      "actual_original_results_count": 0,
+      "citation_count": 0,
+      "actual_checker_preserved": true
+    }
+  ],
+  "audit_artifact": {
+    "version": 2,
+    "codec": "json+gzip",
+    "path": "audit/e60baa645db38a7a24fd612fef8d8f2b8beb334bb51e954eb3320874098e3b40.json.gz",
+    "sha256": "e60baa645db38a7a24fd612fef8d8f2b8beb334bb51e954eb3320874098e3b40",
+    "fields": [
+      "trace",
+      "retrieved_fhir_resources"
+    ],
+    "question_id": "00b98d0bf4d50497625b257e"
+  }
+}
