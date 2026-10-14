@@ -1,0 +1,34 @@
+V3 development-branch consolidation — 14 October 2026
+
+At the user's request, the SDK compatibility correction and milestone records
+were merged into the original V3 branch. This is Git housekeeping within the
+same V3 architecture, not a new design experiment or a benchmark result.
+
+Canonical/current local branch: experiments/query-contract-v3
+Previous original V3 tip: f4e9d0f
+Merged compatibility/milestone tip: 47554d7
+SDK message correction: 4c7fbd1
+V3b source freeze: 780f9bc
+
+The original branch was fast-forwarded to 47554d7. The redundant local
+experiments/query-contract-v3-compat reference was then safely deleted.
+Every original, correction, freeze, launch and milestone commit remains in
+the canonical branch's ancestry. No commit was squashed or rewritten.
+
+The fix converts internal HostBoundaryMessage objects into plain API-message
+mapping objects before the solver sends source-check feedback to Azure.
+The saved audit still retains host annotations. Without the conversion, a
+source-feedback continuation can fail JSON serialization before HTTP begins.
+The correction changes transport representation; V3's roles, prompts,
+clinical semantics, budgets, source checks and audit policy are preserved.
+
+Frozen manifests, source archives, original design records and the milestone
+record intentionally retain the branch names that existed at freeze/launch.
+Those are historical provenance, not current checkout instructions. Their
+recorded hashes remain unchanged. The mutable experiment_index.txt identifies
+the canonical current branch. This note is subsequent housekeeping metadata
+and is outside the original milestone's immutable checksum list.
+
+The milestone remains provisional and a clean complete benchmark is pending.
+Experiments and the goal remain paused. No model/health probe or new run was
+started, and main remains at d87ae5a.

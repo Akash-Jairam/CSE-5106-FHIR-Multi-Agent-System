@@ -26,7 +26,10 @@ Explicit human approval covers task subset/full payloads to configured Azure.
 A corrected runtime will get a new source freeze and fresh 300-question run.
 
 V3b — same V3.2 design with source-feedback SDK compatibility corrected
-Branch: experiments/query-contract-v3-compat; record: benchmarks/design-v3b-20261014
+Current branch: experiments/query-contract-v3; record: benchmarks/design-v3b-20261014
+The development -compat branch was fast-forward merged into original V3 and
+removed on 14 October 2026. Frozen records retain their historical branch names.
+See design-v3b-20261014/branch_consolidation.txt; all tested commits are retained.
 Source commit: 4c7fbd1; pre-run freeze: 780f9bc (134 source files).
 Only V3 host-boundary input/audit normalization changed; shared inference intact.
 Exact phase ceilings remain 200k aggregate tokens and 30 aggregate tools.
