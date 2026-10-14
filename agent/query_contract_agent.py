@@ -215,9 +215,9 @@ class LedgerSolver(SingleAgent):
     packets never establish a patient-wide search's completeness.
     """
     def __init__(self, parent, phase):
-        # One extra loop slot lets the host consume a final from the last tool
-        # batch without another model call. Actual calls remain capped at 20.
-        super().__init__(parent.model, max_iterations=21, verbose=parent.verbose, base_url=parent.base_url)
+        # Two host-only slots cover the initial and revised final source checks
+        # after tool batches. Actual model calls remain capped at 20.
+        super().__init__(parent.model, max_iterations=22, verbose=parent.verbose, base_url=parent.base_url)
         self._phase = phase
         self._llm_call = self._solver_llm_call
         self._take_tool_call = self._solver_take_tool_call

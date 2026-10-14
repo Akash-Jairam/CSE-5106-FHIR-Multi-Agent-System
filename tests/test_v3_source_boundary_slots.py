@@ -1,0 +1,133 @@
+"""Host source-check slots must not consume or extend actual model allocations.
+
+All model/store responses are fixtures; executed finals use the real sandbox
+and unchanged source-field checks. No configuration, network or model calls.
+"""
+from copy import deepcopy
+import json
+import unittest
+from unittest.mock import patch
+
+from agent.query_contract_agent import (
+    HostBoundaryMessage, LedgerSolver, PHASE_CAPS, PhaseHost, QueryContractAgent,
+)
+from tests import test_query_contract_agent as query_fixture
+from tests.test_query_contract_agent import (
+    CODE, QUESTION, FixtureMessage, audit, contract, fetch, final_call, reply,
+)
+
+
+GOOD_CODE = CODE.replace(" >= 70", " > 70")
+BAD_CITATION_CODE = GOOD_CODE + "\nevidence[0]['value'] = 999\n"
+
+
+class V3SourceBoundarySlotTests(unittest.TestCase):
+    def setUp(self):
+        self.fixture = query_fixture.QueryContractIntegrationTests()
+        self.fixture.setUp()
+        self.addCleanup(self.fixture.doCleanups)
+        self.requests = []
+
+    def run_agent(self, responses):
+        pending = iter(responses)
+
+        def llm(**kwargs):
+            self.requests.append(deepcopy(kwargs))
+            item = FixtureMessage(**vars(next(pending)))
+            usage = {"prompt_tokens": 100, "completion_tokens": 50,
+                     "total_tokens": 150, "llm_calls": 1, "cost": 0,
+                     "per_call": [{"prompt": 100, "completion": 50,
+                                   "usage_available": True}]}
+            return item, None, usage
+
+        with patch("agent.base_agent.safe_llm_call", side_effect=llm):
+            host = QueryContractAgent("test-model")
+            host.set_budget(max_total_tokens=200_000, max_tool_calls=30)
+            output = host.run(QUESTION)
+        return host, output
+
+    @staticmethod
+    def delayed_final(code):
+        # Exactly 20 actual solver calls: retrieve, rejected final, 17 prose
+        # turns, corrected final. The host checks consume two additional loops.
+        return [reply(json.dumps(contract())), fetch(), final_call(BAD_CITATION_CODE)] + [
+            reply("Continue reasoning before the revised calculation.")
+        ] * 17 + [final_call(code, "last-call-final")]
+
+    def assert_two_source_boundaries(self, output):
+        boundaries = [item for item in output["trace"] if isinstance(item, dict)
+                      and item.get("phase") == "solver_boundary"]
+        checks = [item for item in output["trace"] if isinstance(item, dict)
+                  and item.get("role") == "tool" and item.get("name") == "check_fields"]
+        self.assertEqual(len(boundaries), 2)
+        self.assertTrue(all(item["model_call"] is False for item in boundaries))
+        self.assertEqual(len(checks), 2)
+
+    def test_twentieth_call_corrected_final_gets_second_source_check_and_release(self):
+        responses = self.delayed_final(GOOD_CODE) + [reply(json.dumps(audit("PASS")))]
+        host, output = self.run_agent(responses)
+        self.assertIsNone(output["error"])
+        self.assertEqual(output["answer"], 1)
+        self.assertEqual(len(self.requests), 22)  # contract + 20 solver + audit
+        self.assertEqual(host.total_usage["llm_calls"], 22)
+        self.assertEqual(host.total_usage["total_tokens"], 3_300)
+        self.assertEqual(host.tool_calls_made, 5)  # retrieval, two finals, two checks
+        self.assert_two_source_boundaries(output)
+        revision = output["revision"]
+        self.assertTrue(revision["solver_source_revised"])
+        self.assertFalse(revision["targeted_revised"])
+        self.assertEqual(revision["release_policy"], "source_valid_primary_preserved")
+        self.assertEqual(revision["final_check_issues"], [])
+        self.assertTrue(revision["primary_revision"]["check_issues"])
+        self.assertEqual(revision["primary_revision"]["final_check_issues"], [])
+        self.assertEqual([(p["phase"], p["token_cap"], p["tool_cap"]) for p in revision["phases"]],
+                         [("contract", 10_000, 0), ("solver", 175_000, 27), ("audit", 15_000, 0)])
+        self.assertEqual(revision["phases"][1]["tokens"], 3_000)
+        # SDK compatibility remains intact in the actual continuation history:
+        # saved annotations never enter the API input mapping.
+        wire = [m for m in self.requests[4]["messages"]
+                if isinstance(m, dict) and m.get("content") == HostBoundaryMessage.content]
+        self.assertEqual(wire, [HostBoundaryMessage().model_dump()])
+        self.assertTrue(all(type(m) is dict for m in wire))
+
+    def test_twentieth_call_still_invalid_final_is_checked_and_never_released(self):
+        host, output = self.run_agent(self.delayed_final(BAD_CITATION_CODE))
+        self.assertIsNone(output["answer"])
+        self.assertEqual(len(self.requests), 21)  # contract + exactly20 solver
+        self.assertEqual(host.total_usage["llm_calls"], 21)
+        self.assertEqual(host.tool_calls_made, 5)
+        self.assert_two_source_boundaries(output)
+        self.assertTrue(output["revision"]["primary_revision"]["final_check_issues"])
+        self.assertEqual(output["revision"]["release_policy"], "primary_failed_execution_or_source_contract")
+        self.assertEqual([p["phase"] for p in output["revision"]["phases"]], ["contract", "solver"])
+
+    def test_extra_host_slot_never_permits_twenty_first_actual_solver_call(self):
+        responses = [reply(json.dumps(contract()))] + [reply("No computation yet.")] * 20
+        host, output = self.run_agent(responses)
+        self.assertIsNone(output["answer"])
+        self.assertEqual(len(self.requests), 21)
+        self.assertEqual(host.total_usage["llm_calls"], 21)
+        self.assertEqual(host.total_usage["total_tokens"], 3_150)
+        self.assertEqual(host.tool_calls_made, 0)
+        self.assertIn("20 model-call allocation", output["error"])
+        self.assertEqual(output["revision"]["release_policy"], "primary_failed_execution_or_source_contract")
+
+    def test_two_source_slots_and_frozen_phase_caps_stay_reserved(self):
+        host = QueryContractAgent("test-model")
+        host.set_budget(max_total_tokens=200_000, max_tool_calls=30)
+        solver = LedgerSolver(host, PhaseHost(host, "solver"))
+        for _ in range(25):
+            self.assertTrue(solver._solver_take_tool_call())
+        self.assertFalse(solver._solver_take_tool_call())
+        self.assertEqual(host.tool_calls_made, 25)
+        solver._source_check_active = True
+        self.assertTrue(solver._solver_take_tool_call())
+        self.assertTrue(solver._solver_take_tool_call())
+        self.assertFalse(solver._solver_take_tool_call())
+        self.assertEqual(host.tool_calls_made, 27)
+        self.assertEqual(PHASE_CAPS, {"contract": (10_000, 0), "solver": (175_000, 27),
+                                     "audit": (15_000, 0), "targeted": (0, 3)})
+
+
+if __name__ == "__main__":
+    unittest.main()
