@@ -1,0 +1,17 @@
+{
+  "status": "READY_AFTER_INDEPENDENT_REVIEW",
+  "guard_sha256": "49ec8be98372cbeaf9c9ab917d02fdf0bbbdce06471a8a0745a02aae9c485c18",
+  "delivery_sha256": "9137aafee5be25a702a48ad49d4ff3f8bc292eb43b7adb664260eea5b9942c05",
+  "independent_review": {
+    "path": "/private/tmp/fhir-v6-guard-independent-review.txt",
+    "sha256": "b7740a93c89bc96eb39ad90a80418ce366c603c7b99cabd12678436d7be25830",
+    "tests": 39,
+    "result": "PASS",
+    "scope": "Only synthetic metadata/artifact/lifecycle fixtures; no actual outputs/models/scoring"
+  },
+  "independent_test_script": {
+    "path": "/private/tmp/fhir-v6-guard-independent-tests.py",
+    "sha256": "570103b73592119286d05b7b6af2e05a8bf1bcd40d44ab9317c4a49a2f43ba1d"
+  },
+  "official_prelaunch_remaining": "Root copies reviewed helper/base into formal record, creates externally prespecified pins and runs prelaunch. No runtime source changes required."
+}

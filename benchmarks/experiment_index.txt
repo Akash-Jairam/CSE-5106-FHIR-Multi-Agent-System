@@ -168,7 +168,8 @@ worker integration tests pass on final bytes; 96 independent earlier tests and
 a hash-bound prompt-diff review passed. Three reserved dev questions plus one
 interface recheck produced27 successful SDK calls, no protected overlap or
 accuracy scoring. These are engineering checks, not separate experiments.
-Status: FROZEN — PRELAUNCH PASS; ready for fresh600 inference, no V6 accuracy result.
+Status: RUNNING — fresh600 first attempts launched after prelaunch PASS and
+pushed freeze82452a9; no partial accuracy scoring.
 Scheduled: fresh Single300 + Team300 first attempts, concurrent one worker/arm,
 save1/gzip/native diagnostics. No partial scoring or selective replacement.
 Strict development gate: Team >239 AND >fresh contemporary Single. A pass only
