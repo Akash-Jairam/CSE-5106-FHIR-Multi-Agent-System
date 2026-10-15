@@ -4,7 +4,7 @@ import json
 import unittest
 from unittest.mock import Mock, patch
 
-from agent.convention_verified_agent import ConventionVerifiedAgent, PHASE_CAPS
+from agent.convention_verified_agent import ConventionVerifiedAgent, PHASE_CAPS_V8
 from tests.test_phase2_verification import PATIENT, NOW, call, reply
 from tests.test_query_contract_agent import FixtureMessage
 from tools import cache
@@ -105,7 +105,7 @@ class ConventionVerifiedAgentTests(unittest.TestCase):
         self.assertIn("tie_completeness -> analysis", repair_prompt)
         self.assertIn("MedicationRequest/rx2", repair_prompt)
         self.assertEqual([p["phase"] for p in revision["phases"]], ["contract", "solver", "audit", "repair"])
-        self.assertLessEqual(revision["phases"][-1]["tool_calls"], PHASE_CAPS["repair"][1])
+        self.assertLessEqual(revision["phases"][-1]["tool_calls"], PHASE_CAPS_V8["repair"][1])
 
     def test_repair_to_null_or_still_failing_keeps_the_source_valid_draft(self):
         _, output = self.run_agent(self.base_responses() + [final(NULL_CODE, "repair-final")])

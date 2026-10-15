@@ -116,7 +116,7 @@ class PhaseHost:
     """
     def __init__(self, parent, name):
         self.parent, self.name = parent, name
-        self.token_cap, self.tool_cap = PHASE_CAPS[name]
+        self.token_cap, self.tool_cap = getattr(parent, "phase_caps", PHASE_CAPS)[name]
         self.start_tokens = parent.total_usage["total_tokens"]
         self.start_tools = parent.tool_calls_made
         self.errors = []

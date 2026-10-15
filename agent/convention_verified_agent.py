@@ -23,7 +23,7 @@ from .controller import FixedController
 from .query_contract_agent import HostBoundaryMessage, PHASE_CAPS, PhaseHost, QueryContractAgent
 from .output_schema import parse_final_message
 
-PHASE_CAPS["repair"] = (45_000, 6)
+PHASE_CAPS_V8 = {**PHASE_CAPS, "repair": (45_000, 6)}  # V3 caps stay frozen
 PROTOCOL_V8 = "convention-verified-v8"
 REPAIR_MODEL_CALLS = 6
 VERIFIER_MODEL_ENV = "VERIFIER_MODEL"
@@ -55,6 +55,7 @@ def run_v8_job(args_tuple):
 
 class ConventionVerifiedAgent(QueryContractAgent):
     protocol = PROTOCOL_V8
+    phase_caps = PHASE_CAPS_V8
 
     def __init__(self, model, verbose=False, base_url=None, verifier_model=None):
         super().__init__(model, verbose=verbose, base_url=base_url)
