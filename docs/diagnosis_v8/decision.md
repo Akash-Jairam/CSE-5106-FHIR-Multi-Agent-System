@@ -142,19 +142,11 @@ exposed patient, scored once. Otherwise the result is reported as negative.
 
 ## 5. Run order (all on the team's credentialed machine)
 
-```
-# B3 is in the code; every arm below runs under the new fingerprint.
-python scripts/run_experiments.py --split dev --strategies direct_llm single_agent multi_agent_v8 \
-    --team_strategy multi_agent_v8 --audit_storage gzip                       # C: paired 300
-python scripts/run_experiments.py --split dev --strategies single_agent multi_agent_v8 \
-    --perturbations manifests/perturbations.json --condition intact           # B1
-python scripts/run_experiments.py --split dev --strategies single_agent multi_agent_v8 \
-    --perturbations manifests/perturbations.json --condition omitted          # B1
-python scripts/run_experiments.py --split dev --strategies direct_llm single_agent multi_agent_v8 \
-    --model <weaker>                                                           # B2
-python scripts/run_experiments.py --split dev --strategies multi_agent_v8 \
-    --verifier_model <other family>                                            # D2 arm 2
-```
-
-Exact flags are confirmed in `docs/phase3_experiments.md` once the strategy is
-registered.
+Exact, flag-checked commands live in [`launch.md`](launch.md); the design
+text frozen before launch is [`design_v8.txt`](design_v8.txt). Order:
+pre-flight smoke (pilot split) → `record_design.py freeze` → C paired 300
+(`--split held_out --arms ordinary --team_strategy multi_agent_v8`) →
+heterogeneous arm (`--verifier_model`) → B1 (`--arms recovery`) → B2
+(`--model <weaker>`) → `analyze` / `compare_runs.py` → gate → confirmation
+only if the gate passes. Note the burned "300 development questions" are
+`split.json` → `held_out`; `--split dev` is the 50-question smoke split.

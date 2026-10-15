@@ -1,0 +1,100 @@
+Design V8: convention-verified team (deterministic contract checks, one routed repair)
+Substantial fixed 300-question comparison; frozen before any V8 accuracy result is known
+
+Frozen acceptance gate
+
+On the 300 split.json held_out questions (the reused development cohort), paired
+with a fresh single_agent control run under the same code fingerprint, model,
+budgets, cache and worker count, all three must hold with the unchanged typed
+scorer, all scheduled first attempts in the denominator, terminal errors incorrect,
+no retries and no best-attempt replacement:
+
+  1. team typed-accuracy > fresh single typed-accuracy;
+  2. patient-block bootstrap 95% CI lower bound of (team - single) > -2 points;
+  3. net revisions (wrong_to_right - right_to_wrong among released repairs) >= 0.
+
+Only if all three hold: one once-only confirmation on a family-stratified
+300-question sample of the protected questions (never in pilot/dev/held_out,
+patient-disjoint from every entry in manifests/development_exposure.json and
+docs/diagnosis_v8/audited_subject_ids.json), scored once. Otherwise V8 is reported
+as a negative result alongside V2-V7. The gate is not changed after results.
+
+Why this design (docs/diagnosis_v8/decision.md)
+
+Seven same-model verifiers (V2-V7) produced ~0 complementary correct answers on a
+stable both-wrong core of 45 questions. The manual audit labels 37/45 (82%) of that
+core convention / label_issue / format: the analyst's program runs and cites valid
+sources but applies a benchmark convention the question text does not state. The
+plan's decision rule (>= 60% convention) therefore selects a verifier that does not
+share the analyst's priors: deterministic checks derived from the audit, plus an
+optional heterogeneous-model audit arm.
+
+Treatment
+
+multi_agent_v8 (agent/convention_verified_agent.py) extends the V3 query-contract
+team unchanged through its release decision, then runs agent/convention_checks.py
+on the released draft with no model call:
+
+  tie_completeness      first/last drug or route must include every distinct value
+                        at the selected minute within the same encounter set
+                        (Medication.ingredient expands mixtures);
+  specimen_field        specimen answers must be a Specimen.type display string
+                        present in the workspace; a missing Specimen is a
+                        retrieval gap;
+  organism_children     a cited test with hasMember children never retrieved is a
+                        retrieval gap;
+  distinct_count_scope  distinct counts over prescriptions require the complete
+                        MedicationRequest type, not a preview;
+  timestamp_field       "when" answers must equal validityPeriod.start or the parent
+                        test effectiveDateTime at minute precision;
+  admission_type_field  admission type must come from Encounter.priority coding.
+
+Issues use the controller vocabulary (missing_evidence -> retrieval; wrong_field /
+wrong_filter -> analysis) and are routed by the existing FixedController to exactly
+one repair phase that continues the solver's own trajectory (cap 45,000 tokens and
+6 tools inside the shared 200,000 / 30 aggregate ceiling; V3 caps contract 10k/0,
+solver 175k/27, audit 15k/0, targeted 0/3 are unchanged). The repaired candidate is
+released only if the automatic source check passes, the triggering checks no longer
+fire and the answer is non-null; otherwise the original source-valid draft stands.
+No abstention is ever substituted for a draft. Release policy and routing are
+recorded in the revision record (protocol convention-verified-v8).
+
+Optional arm: --verifier_model <other family> runs only the V3 static program audit
+on another model; retrieval, analysis and repair stay on the base model. This is a
+declared deviation from the proposal's "same base LLM in three contexts", justified
+by the measured shared-model error correlation. It is reported as a separate arm,
+not folded into the primary gate.
+
+Shared-guide fairness (B3)
+
+agent/ehr_semantics.CONVENTION_GUIDANCE (audit-derived conventions) is appended to
+the guide used by single and team and injected into the direct LLM system prompt.
+It changes the code fingerprint, so direct, single and team all run fresh under the
+same new fingerprint; no prior result is reused as a control. Exposure of the 36
+audited development patients is recorded in docs/diagnosis_v8/exposure.md.
+
+Controls and settings
+
+Model gpt-6-luna (Azure, reasoning_effort none), 200,000 aggregate tokens and
+30 aggregate logical tools per question for every system, enable_cache true,
+gzip audit storage, identical worker count across arms. No stronger model,
+question-ID routing, gold-answer or reference-SQL access, best-of-N or larger
+ceiling is used by any arm. No benchmark ID, template ID, cached correctness or
+model identity controls inference.
+
+Companion prespecified experiments (reported regardless of the gate)
+
+  B1 recovery: the four recovery arms (50 perturbed questions x intact/omitted x
+     single/V8 team) under the B3 guide; report accuracy drop and omitted-resource
+     recovery rate per proposal section 5.3.
+  B2 weaker model: direct/single/V8 team on the same 300 with the smallest Azure
+     deployment passing scripts/check_setup.py and a five-question pilot smoke
+     (candidate order gpt-5-mini, gpt-5.4-mini); fixed before launch.
+
+Analysis
+
+scripts/run_experiments.py analyze (patient-block bootstrap, 10,000 resamples,
+seed 5106) and scripts/compare_runs.py for paired team - single differences;
+revisions via scripts/run_experiments.py revisions. Report accuracy, tokens,
+tool calls, terminal errors, budget stops and helpful/harmful revisions per arm.
+Development checks (pilot split, --limit) are not experiment entries.
