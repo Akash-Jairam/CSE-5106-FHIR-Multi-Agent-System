@@ -57,11 +57,14 @@ once with 71 tokens and the same public provider profile; sustained recovery
 remains unproven. Independent prelaunch source/archive/settings audit passes.
 Scheduled: fresh 300 single + fresh 300 team, concurrent one-worker jobs,
 save1/gzip and per-process provider journals in a fresh output directory.
-Status: RUNNING. Freeze commit 246e230; both arms launched around 00:50 UTC
-on 15 October (19:50 Central on 14 October). The normal bootstrap binding
-matches the frozen profile/adapter/bootstrap. Initial sample at 00:51:37 UTC:
-three saved questions per arm, zero terminal errors, 49 successful provider
-requests. This is operational progress only; no accuracy result is known.
+Status: COMPLETE — acceptance not met. All 300 first attempts per arm saved.
+Fresh single 238/300 (79.3%); team 232/300 (77.3%); paired -2.0 pp,
+patient-block 95% interval [-5.2, +1.1], eight wins/fourteen losses.
+Single has zero provider errors; team has one read timeout and one HTTP500.
+All 600 gzip audits and frozen source/input/runtime identities verified.
+Static audit proposed no material repair on 283 valid primaries; no targeted
+revision occurred. Full results, mechanisms and exact archives are recorded.
+A further research-backed refinement is required before a full launch.
 
 
 Selection and scoring
