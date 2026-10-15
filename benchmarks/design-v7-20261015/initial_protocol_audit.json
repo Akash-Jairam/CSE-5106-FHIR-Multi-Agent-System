@@ -1,0 +1,190 @@
+{
+  "status": "INITIAL_SNAPSHOT_PASS",
+  "mode": "initial",
+  "recorded_at_utc": "2026-10-15T11:37:42.690710+00:00",
+  "protocol": "full-single-residual-trajectories-v7",
+  "manifest_sha256": "d800f8969f28891ca9536295a6439391705d41b8e9c64c7a2c253396f1ee964e",
+  "source_inventory_sha256": "235b3a4514efd6945e9710c284ef86da9fff6f31f45cee76e4bf0b61452ad7f0",
+  "frozen_source_files_verified": 182,
+  "runtime_adapter_files_verified": 4,
+  "pins_sha256": "eea97f39b4a7cfa58fb363c4f4bd92990c1c7484ba4ac0e0171fbed1c6e60827",
+  "guard_sha256": "bf47aa9e9c84735b0a096acbb6d209776473fcb7e81e8cfa2e366576d90e1115",
+  "reviewed_base_sha256": "98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8",
+  "source_archive_sha256": "fca7ce2314b1d68da8a7197c5d9bbf201f339176970e48fdab4b7c42787228b1",
+  "design_sha256": "8a9908b2e3c56aece87791faa993c5a5c910f04c85a483e84e969e2489550bb3",
+  "dataset_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+  "split_sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+  "code_hash": "c9332a04069cfc43161c08d95c08a28edb7bfe0c76450bbe6a114c5bff607c3e",
+  "provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "model_calls": 0,
+  "network_calls": 0,
+  "scoring_performed": false,
+  "caller_asserted_owned_jobs_terminal": null,
+  "owned_jobs_attestation_sha256": null,
+  "limits": [
+    "Auxiliary invocations, retained model replies and SDK journal events are distinct evidence; no equality is inferred on failed/fatal paths.",
+    "Executed programs and recorded clean source citations do not establish semantic/clinical correctness or search completeness.",
+    "Ordinary source citations bind exact retained check results; the guard does not refetch records or substitute stricter equality for the frozen checker semantics.",
+    "Unavailable usage remains unknown; failures and phase overshoots are retained outcomes, not deleted questions.",
+    "Initial files/journals are individually captured snapshots, not a simultaneous state; unmatched latest starts can be in flight.",
+    "Completion terminality is an external root process-supervision assertion; this helper validates complete saved cohorts and provenance.",
+    "No program is rerun and no source records are refetched. Mechanical artifact checks use retained immutable data only.",
+    "Ineligible/prose-only primaries remain their actual Single outcomes; source-bound execution and source-valid nulls are separate from benchmark answer credit.",
+    "The fixed300 remains adaptive development validation, not confirmation of generalization."
+  ],
+  "arms": {
+    "ordinary_single_agent": {
+      "scheduled_rows": 300,
+      "saved_first_attempts": 2,
+      "terminal_errors": 0,
+      "verified_owned_gzip_audits": 2,
+      "budget_stops": 0,
+      "recorded_unknown_provider_usage_attempts": 0,
+      "reported_aggregate_token_overshoots": 0,
+      "reported_tool_overshoots": 0,
+      "reported_model_call_overshoots": 0,
+      "recorded_clean_rendered_source_checks": 2,
+      "release_policies": {
+        "None": 2
+      },
+      "restored_uncompressed_bytes": 900501,
+      "result_sha256": "b7272f7a9bf15eaf118c07443802acfbbca4539f9fb236c6978d6391734a3b24",
+      "identity_sha256": "998120dca5b83eab0a23a868b36a703d02f34ee7c95765794070067337b937f4",
+      "bytes": 366487
+    },
+    "ordinary_multi_agent": {
+      "scheduled_rows": 300,
+      "saved_first_attempts": 1,
+      "terminal_errors": 0,
+      "verified_owned_gzip_audits": 1,
+      "budget_stops": 0,
+      "recorded_unknown_provider_usage_attempts": 0,
+      "reported_aggregate_token_overshoots": 0,
+      "reported_tool_overshoots": 0,
+      "reported_model_call_overshoots": 0,
+      "phase_A_retained_natural_model_responses": 10,
+      "phase_A_retained_charged_tool_replies": 10,
+      "phase_A_charged_minus_observed_model_attempts": 0,
+      "phase_A_charged_minus_observed_tool_calls": 0,
+      "phase_B_retained_natural_model_responses": 2,
+      "phase_B_retained_charged_tool_replies": 2,
+      "phase_B_charged_minus_observed_model_attempts": 0,
+      "phase_B_charged_minus_observed_tool_calls": 0,
+      "status_B_ineligible": 1,
+      "actual_A_source_bound": 1,
+      "source_valid_executed_releases": 1,
+      "source_valid_executed_null_answers": 0,
+      "null_answers_outside_executed_release": 0,
+      "fatal_phase_records": 0,
+      "recorded_clean_rendered_source_checks": 1,
+      "release_policies": {
+        "B_ineligible": 1
+      },
+      "restored_uncompressed_bytes": 242728,
+      "result_sha256": "e2f9a3dbab235dffbc87356a7d123a0e0c3f144a814361bac603c5224219f9cb",
+      "identity_sha256": "8d0b35870c67320b17933cb6a8330fd566fbc45744c2072da97cba02a0a5687c",
+      "bytes": 312424
+    }
+  },
+  "ordered_input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+  "restored_audit_records": 3,
+  "unique_referenced_artifacts": 3,
+  "journal": {
+    "totals": {
+      "starts": 42,
+      "ends": 40,
+      "successes": 40,
+      "unknown_usage_ends": 0,
+      "matched_pairs": 40,
+      "unmatched_starts": 2,
+      "unmatched_ends": 0,
+      "unvalidated_partial_bytes": 0
+    },
+    "files": [
+      {
+        "path": "provider-events/azure-diagnostics-50220-24df4727b3ca41bcb7acf8e7e72d9216.jsonl",
+        "sha256": "3b099a6a24862d4ac8fbdf905d2fa3cb1546a4a31948cf4851302b2ff57fa03a",
+        "bytes": 47671,
+        "counts": {
+          "starts": 20,
+          "ends": 19,
+          "successes": 19,
+          "unknown_usage_ends": 0,
+          "matched_pairs": 19,
+          "unmatched_starts": 1,
+          "unmatched_ends": 0,
+          "unvalidated_partial_bytes": 0
+        },
+        "safe_to_archive": true,
+        "pairing_complete": false,
+        "unmatched_start_counters": [
+          20
+        ],
+        "unmatched_start_details": [
+          {
+            "counter": 20,
+            "started_utc": "2026-10-15T11:37:42.567485+00:00",
+            "latest_start_in_snapshot": true
+          }
+        ],
+        "unmatched_end_counters": [],
+        "cause_types": {},
+        "cause_codes": {},
+        "cause_flags": {},
+        "http_status_counts": {
+          "None": 19
+        },
+        "completed_default_transports": {
+          "httpx2.HTTPTransport": 19
+        },
+        "numeric_fd_min": 9,
+        "numeric_fd_max": 10,
+        "distinct_nonnull_sdk_client_ids": 1
+      },
+      {
+        "path": "provider-events/azure-diagnostics-50233-59ac8293f6ff42daa378bbfeabae7a8a.jsonl",
+        "sha256": "56c5ad67aa082e80ef6abcf5b4e799d53935e49d4af61377cb90f3564538cd75",
+        "bytes": 52649,
+        "counts": {
+          "starts": 22,
+          "ends": 21,
+          "successes": 21,
+          "unknown_usage_ends": 0,
+          "matched_pairs": 21,
+          "unmatched_starts": 1,
+          "unmatched_ends": 0,
+          "unvalidated_partial_bytes": 0
+        },
+        "safe_to_archive": true,
+        "pairing_complete": false,
+        "unmatched_start_counters": [
+          22
+        ],
+        "unmatched_start_details": [
+          {
+            "counter": 22,
+            "started_utc": "2026-10-15T11:37:41.593348+00:00",
+            "latest_start_in_snapshot": true
+          }
+        ],
+        "unmatched_end_counters": [],
+        "cause_types": {},
+        "cause_codes": {},
+        "cause_flags": {},
+        "http_status_counts": {
+          "None": 21
+        },
+        "completed_default_transports": {
+          "httpx2.HTTPTransport": 21
+        },
+        "numeric_fd_min": 9,
+        "numeric_fd_max": 10,
+        "distinct_nonnull_sdk_client_ids": 1
+      }
+    ]
+  }
+}
