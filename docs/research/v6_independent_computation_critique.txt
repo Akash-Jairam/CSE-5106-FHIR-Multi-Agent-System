@@ -1,0 +1,147 @@
+One bounded candidate-independent recomputation hypothesis — review only
+2026-10-15. No implementation, architecture selection, inference, current case
+labels, protected full questions/answers, credentials or active edits. Uses root's
+completed aggregate V5 findings, frozen V2 design, frozen public Single/V3/V5
+source and primary research. Not a new substantial-run record.
+
+Judgment
+This is materially different from V2, and it removes a real V5 interface burden;
+it is not established to outperform the capable SingleAgent. I would reject its
+description as semantic verification or as a tool-interactive adjudicator that
+gets fresh diagnostic feedback within two calls. The honest simple version is
+independent B computation followed by fallible execution-informed model selection.
+It is a coherent bounded experiment if later selected, not a research-proven fix.
+Parser repairs alone are not a sufficient rationale: root's aggregate attribution
+places most source-valid wrong primaries in KEEP/UNKNOWN, not mechanical failure.
+
+Primary policy must be named exactly
+Frozen SingleAgent defaults to 30 model iterations, keeps one conversation and
+normally waits for the model's non-tool response before automatic source checking.
+A mode=final tool result can therefore be followed by more self-refinement.
+LedgerSolver instead requires an executed final from the start, stops at the first
+valid artifact after its full tool batch, caps 20 real calls, adds budget nudges,
+reserves source slots and uses persistent scoped-ledger retrieval/completeness.
+These are substantive differences, not two names for the same primary.
+
+For this hypothesis, preserving the actual capable Single solving loop/prompt is
+a more defensible starting point than assuming V3's early handoff is equivalent.
+But Single at 175k/27 is still not the fresh 200k/30 control that scored 237: less
+budget may change behavior, and the strict executed/source eligibility adapter
+can withhold outcomes the baseline represents differently. Keep the current
+scope/patient/time/source barriers; do not loosen them because an answer matched
+gold. An unexecuted prose result cannot silently become a validated executable A.
+Any retained Ledger overrides, new source reservations, forced finalization or
+extra budget messages must be disclosed as remaining policy changes. A literal
+Single-style 30-iteration primary plus two auxiliary calls permits 32 calls,
+versus V5's 20+2; aggregate tokens/tools still bound cost, but call counts are not
+matched. If forced back to 20/first-final handoff, do not call it actual Single
+policy. No causal claim follows from 225 versus 237 aggregate accuracy alone.
+
+Truthful minimal protocol inside the requested bound
+A: 175k total input/output tokens, 27 actual tools including two automatic source
+checks (25 model-requested if checks are reserved), one ordinary source-feedback
+revision. Preserve its natural solving trajectory until its final policy ends.
+Run the auxiliary only if A has a genuine executed final on its exact immutable
+workspace and passes all existing release gates. A failed primary is not rescued.
+
+Auxiliary: at most 25k aggregate input/output tokens, two explicit model calls,
+and at most TWO tools in the simple path, within the allowed three-tool ceiling.
+Thus this path uses at most 29 tools overall; the unused slot is not secretly an
+inspection, replay, retry, metadata repair or free execution.
+
+Call1 gets original question/context, unchanged semantic guide, held-workspace
+schema/inventory and completeness flags. It sees no A program, answer, evidence,
+operation prose or conversation. It emits one self-contained Python final
+program using the ordinary existing five-field executed-envelope interface.
+Tool1 executes B on a copy of the same frozen retrieved_resources. Tool2 performs
+the original real-source/empty-result/scope check. One pass only: malformed code,
+bad final metadata, insufficient source support or limitation preserves A; there
+is no B debugging/retrieval allowance. This is code/answer blindness, not an
+independent retrieval channel: A selected the available data, and both models
+share its omissions, guide and provider priors.
+
+If eligible A/B answers agree by the task's declared typed equality, keep A and
+record agreement, not a correctness proof. On disagreement only, Call2 sees the
+original context, intact A/B programs, their actual executed artifacts and source
+check summaries, with source details already present in those artifacts. It may
+return only A, B or UNKNOWN with a brief question-anchored reason. It cannot
+write a third answer, fix B, edit either program or discard citations. Release
+the selected original artifact exactly; malformed/uncertain/nonfatal unavailable
+selection retains valid A. Quotes establish provenance, not semantic truth.
+Do not frame B as necessarily the correction or prefer its nonempty answer.
+Unknown admitted provider usage and actual budget overshoot retain the existing
+fatal accounting policy, so auxiliary failure is not universally harmless.
+
+One possible fixed completion reservation is 4000 for B and 1800 for selection,
+inside the unchanged 16384 caller ceiling; all prompt replays also count. Before
+Call1 reserve a bounded intact A/B/context packet for Call2, including a worst-
+case B response; recheck the actual second input before admission. If the intact
+packet cannot fit 25k, skip/preserve A rather than truncate essential code or
+pretend the call is free. These are provisional bounds, not tuned parameters.
+
+The third tool cannot solve the selection problem for free. If Call2 requests
+a new probe, interpreting its new feedback takes Call3. A precommitted selection
+program can instead consume Tool3 and return an index, but then it is another
+fallible computation/conditional gate without model feedback, and reintroduces
+the probe/witness interface burden being removed. That is not part of this
+minimal option. With two eligible candidates and no independent oracle, the
+remaining selector is an LLM judge grounded in executed programs, not mechanical
+semantic adjudication. Confident wrong selection remains possible.
+
+What research actually supports
+CoVe (Dhuliawala et al., Findings ACL 2024, first preprint September 2023) supports
+withholding the original answer when answering verification questions; its factored
+variants reduce copying and interference. Its experiments concern factual list,
+span and longform QA, not one-shot FHIR program selection under these caps. It
+also finds worse verification from binary claim-conditioned questions. This
+motivates B's open computation and limited independence claim, not automatic
+trust in the later A/B choice. I found no official code link in the paper; do
+not label third-party CoVe implementations as the author implementation.
+https://aclanthology.org/2024.findings-acl.212/
+https://aclanthology.org/2024.findings-acl.212.pdf
+
+CRITIC (Gou et al., ICLR 2024; first preprint May 2023) supports actual external
+feedback and documents incorrect corrections. Its interpreter establishes program
+behavior, not correspondence to natural-language intent. The pinned author
+program driver makes separate critique and rewrite calls on each iteration, then
+executes the new program. Its displayed gold comparison is logging/evaluation,
+not a selection oracle in that generation loop. That process cannot be cited as
+evidence that one B call plus one selector has the same feedback capacity.
+https://arxiv.org/html/2305.11738v4
+https://github.com/microsoft/ProphetNet/blob/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC/src/program/critic.py
+
+Execution-based MBR selects by agreement across many samples; two disagreeing
+candidates have no majority. DPC's distinguishing fixture plus independent proxy
+is a different, more expensive test. Neither supplies an oracle in this simpler
+two-call design. Source validity also cannot choose between two different but
+well-cited wrong operators, scopes or projections.
+https://aclanthology.org/2022.emnlp-main.231/
+https://arxiv.org/html/2604.15163v2
+
+Why this is not merely V2 — and what V2 still warns about
+V2 allocated only 5 retrieval +9 analysis tools before an 11-tool fresh-private-
+workspace verifier, then required agreement and routed a semantic repair. Its
+frozen design explicitly allowed missing/incomplete verification to block release.
+This proposal retains 27 tools/175k in A, shares held resources, and preserves
+eligible A on B failure or undecided selection. It avoids duplicate retrieval,
+mandatory verifier agreement and repair-transcription loss. Those are meaningful
+changes. V2 remains direct negative evidence against assuming blind computation
+is more accurate or judging disagreements is easy; common source/inventory bias
+and B's one-shot metadata burden remain. No guarantee follows from the word blind.
+
+Compared with the earlier two alternatives, this preserves far more primary
+capacity than two 90k solves and needs no new SQL/fixture TaskAdapter. It gives
+up fresh retrieval and the genuinely independent executable proxy/contrastive
+data of the five-tool design. It is the lowest-engineering-risk independence
+test, with the weakest semantic selection evidence of those options.
+
+Decision evidence if root later selects an experiment
+Record A-only versus released outcomes, B eligibility/disagreement, switches that
+help/harm, actual calls/tools/tokens, source refusals and accounting/provider loss.
+An oracle pass@2 is only posthoc diagnosis, not routing or acceptance. Use the
+capable fresh Single control, all 300 firsts, and the strongest prior completed
+comparable Single; do not choose weaker archived controls. Freeze one protocol
+before the once-only final question-confirmation stratum. Same-model question/
+code independence is an architectural property, not demonstrated cross-model,
+new-patient, new-template or other-QA generalization. No new experiment is
+recommended solely because V5 failed or because this option is simpler.

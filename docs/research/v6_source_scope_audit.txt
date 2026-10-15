@@ -1,0 +1,97 @@
+Prospective generic source-scope audit — no V6 selected
+2026-10-15; source base aa35b689cfb624f9c36d65a1f47f8a70c81dcdf1
+
+Recommendation
+
+A bounded original-record reference witness is feasible as a proof of supporting relationship. It is not a general proof that a referenced child belongs to the same patient encounter or occurred at the root's time. Do not implement broad encounter/time inheritance or simply delete the six warnings. A behavior-changing source-check patch needs the citation contract to distinguish a scoped event from a resource supporting that event. The existing undifferentiated citation contract cannot express that distinction truthfully.
+
+I stopped before an acceptance-relaxation patch because the supplied requirement explicitly forbids unproven broad closure. No active source changed, no model/FHIR calls or confirmation QA were read, and no prospective run was created. A concrete narrow contract and adversarial test matrix are below; they are a reviewable proposal, not a selected architecture or tested fix.
+
+What the actual source and six saved paths establish
+
+The shared tools/field_check.py::_check_one currently requires a direct encounter/context link, or one Encounter.partOf parent, for all cited types except Patient/Medication/Location. Specimen has no direct Encounter element in FHIR R4; demanding that link for a specimen type/name citation prevents a valid supporting relationship from being represented. Two child Observations and two Specimen citations in three withheld cases have actual cited-and-contributing, explicitly patient-owned parent Observations with the exact scoped encounter and original hasMember/specimen references. That establishes a root→support relationship. It does not by itself establish every possible temporal or clinical claim one might make about the child.
+
+The other three cases arise separately in agent/query_contract_agent.py::ScopedLedgerToolbox._validate_scope and LedgerSolver._check. The subclass records unlinked shared metadata as scope_failures, and _check promotes all failures into one global veto; ExecutableCriticAgent then vetoes any remaining unresolved_scope. The saved cases include52,52 Medication records and28 Location records outside both final citations and contributing IDs. This is evidence that the global rule can reject a candidate for unused metadata, but omission from those lists is not a proof that the omitted metadata was unnecessary for an exhaustive query. Both categories must be reported separately.
+
+All six annotations are source-gate diagnoses, not proof of semantic correctness based on typed answer credit. Their paths were already exposed in the completed fixed300; no question IDs, templates, references, model IDs or gold values are proposed as runtime routes.
+
+Primary-source findings
+
+1. Observation.hasMember identifies members of an Observation group; derivedFrom identifies measurements from which a root value was derived; specimen identifies the specimen used. R4 explicitly permits linked Observations to differ in time, method and other attributes. Only inline component values have the stronger shared-parent representation. Therefore hasMember and derivedFrom are not general temporal or encounter-equality edges. [Observation grouping](https://hl7.org/fhir/R4/observation.html#obsgrouping), [Observation definitions](https://hl7.org/fhir/R4/observation-definitions.html#Observation.hasMember).
+
+2. Observation.subject can refer to Patient, Group, Device or Location; focus can identify what the Observation is actually about when that differs from the record's subject. Encounter and effective time are independent elements. An explicitly patient-owned record is necessary for an individual-patient root, but graph reachability cannot settle clinical focus, concept identity or measurement attribution. [Observation.subject](https://hl7.org/fhir/R4/observation-definitions.html#Observation.subject), [Observation.encounter](https://hl7.org/fhir/R4/observation-definitions.html#Observation.encounter).
+
+3. Specimen.subject permits more than patients; collection.collected[x] is distinct from receivedTime. Specimen.request indicates a request requiring collection, not the collection's encounter or time. Observation.specimen proves which specimen was used, not when that specimen was collected. [Specimen definitions](https://hl7.org/fhir/R4/specimen-definitions.html#Specimen.subject), [Specimen collection](https://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_).
+
+4. MedicationRequest.medicationReference identifies the requested product. A Medication ingredient reference describes product composition, not another patient event; an ingredient can be inactive and R4 does not require the ingredient list to be complete. Request linkage does not prove administration or ingestion, and ingredient omission cannot prove absence of a drug. [MedicationRequest](https://hl7.org/fhir/R4/medicationrequest-definitions.html#MedicationRequest.medication_x_), [Medication ingredients](https://hl7.org/fhir/R4/medication-definitions.html#Medication.ingredient).
+
+5. Encounter.location identifies an encounter location; its entry-level period/status carries presence timing. Location.partOf is physical containment, not another patient visit. Location.mode can represent a class of locations and general status is not patient presence. [Encounter.location](https://hl7.org/fhir/R4/encounter-definitions.html#Encounter.location), [Location](https://hl7.org/fhir/R4/location-definitions.html#Location.mode).
+
+6. Encounter.partOf is not an ownership edge: R4 explicitly permits linking a child's encounter to the mother's. Every encountered node therefore needs its own subject check. This also exposes a strengthening opportunity in the existing one-parent check, which currently compares IDs without checking the linked Encounter's explicit owner. [Encounter.partOf](https://hl7.org/fhir/R4/encounter-definitions.html#Encounter.partOf).
+
+7. FHIR references can carry absolute bases, versions and contained identities. The current helper's last-ID extraction is insufficient for a new trusted path protocol. A conservative first witness implementation should accept exact type-qualified relative references only; absolute/versioned/contained/identifier-only references remain unresolved until an exact resolver is explicitly designed. This is an engineering coverage limit, not a restriction imposed by FHIR. [References](https://hl7.org/fhir/R4/references.html), [strict hierarchy rules](https://hl7.org/fhir/R4/references.html#hierarchy).
+
+Concrete bounded witness contract
+
+Keep legacy citations self-scoped by default. Add an explicit support role, conceptually:
+ {"resource_id":"Observation/child","field_path":"code.coding[0].display","value":"...",
+  "supporting_for":"Observation/root",
+  "support_path":[{"from":"Observation/root","field_path":"hasMember[0].reference","to":"Observation/child"}]}
+
+The root must be present in the frozen executed contributing_ids AND have a valid source citation. It must independently pass the original patient, question-derived encounter, current-time and recognized-window checks before any support traversal. A root admitted only through another support witness is not an independent scope root. A root's existence or a model's claimed contributing status does not prove exhaustive retrieval or clinical relevance.
+
+Validate the exact path against re-fetched immutable original records; do not trust Python-mutated copies, model-provided records or a display label. Suggested engineering bounds are3 references/path,128 visited nodes,32 candidate roots; exceeding a bound returns unresolved rather than dropping nodes silently. Ambiguous duplicate identities, missing nodes, unsupported reference syntax/types, cycles on the proposed path and self-reference fail closed. Deduplicating an acyclic diamond is allowed.
+
+First allowed typed edges can be narrowly limited to:
+ - Observation.hasMember[index] → Observation, and Observation.specimen → Specimen;
+ - MedicationRequest.medicationReference → Medication, followed by bounded Medication.ingredient[index].itemReference → Medication;
+ - Encounter.location[index].location → Location, followed by bounded Location.partOf → Location.
+
+Do not add arbitrary recursive reference scanning, siblings, reverse lookups, basedOn chains, subject/focus traversal, Specimen.parent pooling, ServiceRequest closure or derivedFrom in the first candidate. Those relationships are useful, but require distinct semantics; they are not necessary for the demonstrated direct support paths.
+
+Every non-shared node must retain explicit target-patient ownership; a missing/non-Patient subject remains unresolved, and an explicit other patient rejects the path. Medication/Location are shared descriptive metadata and never ownership roots; their link establishes relevance to the root only. Any explicit contradictory child encounter/context rejects the path. Validate every Encounter subject before allowing the existing ICU→hospital ancestry policy; never cross a mother/child boundary. Do not override child current-time/window warnings, copy a root date into a missing child time, reinterpret a specimen collection date as test time, or treat metadata timestamps as clinical events.
+
+The result should distinguish:
+ - direct_event_scope_verified;
+ - supporting_reference_verified, with root ID and exact original edge pointers;
+ - child_event_scope_unknown or conflicting;
+ - query_completeness_unestablished.
+
+It must not relabel supporting_reference_verified as direct event membership. The unresolved design decision is how the answer computation declares that its question-scoped event is the root and the child is only supporting it. A generic root/support role is one possible contract, but accepting that declaration is still fallible semantic interpretation. It needs explicit selection and evaluation, not a silent validator substitution. Scalar measurement facts and child-time claims cannot automatically inherit a parent scope merely because the citation adds supporting_for.
+
+Shared versus Ledger-only implementation boundaries
+
+If selected, any supporting-citation semantics must live in shared check_fields and apply identically to Single and Team. Both hosts should supply exact executed contributing IDs; a model tool argument must not override the host's patient/time/encounter context or supporting root set. Original source value, unit, patient, current-time and recognized-window checks stay active. Ordinary and paired-operand scope paths require the same semantics; supporting paths cannot match the union when an explicit operand index contradicts the selected root.
+
+The global unused-metadata rule is a separate Ledger-only policy change, not part of shared field validation. A sound future separation would retain blocking patient/time failures, actually used unresolved dependencies, unused excluded metadata, and per-type query-completeness state independently. An ignored metadata warning must not turn an incomplete Medication/Location search into a completed one. For absence, unique counts, rankings and exhaustive lists, missing metadata can change the result even when it was not named in a candidate's contributing list. The present source contract has no independently verified program-read/query dependency certificate to settle that counterfactual. I therefore do not propose simply filtering unresolved_scope to cited/contributing IDs or silently removing all unlinked_metadata failures.
+
+Adversarial synthetic acceptance matrix for a selected implementation
+
+Relationship-positive but not automatic child-event certification:
+ - Independently scoped patient-owned Observation explicitly references same-patient Specimen.type.
+ - Scoped panel explicitly references same-patient child Observation with no direct encounter.
+ - Scoped MedicationRequest references a Medication product; bounded ingredient path describes composition only.
+ - Patient-owned scoped Encounter references a Location; bounded physical ancestry describes parent location only.
+ - Shared descendants in an acyclic diamond preserve exact edge provenance.
+
+Must reject or retain original unresolved warning:
+ - Child explicitly belongs to another patient, has a contradictory encounter, or is future-dated.
+ - Root has missing ownership, wrong encounter, bad time/window, invalid source citation or is not executed-contributing.
+ - Child is linked only by an arbitrary extension, display string, sibling, reverse search or unsupported derivedFrom edge.
+ - Parent and child have different effective times; no root-time inheritance may make an older/future child pass.
+ - Prior-encounter specimen reused by a current Observation; supporting link may be valid, collection-in-current-encounter remains unproved.
+ - Child/mother Encounter.partOf cross-patient example; do not inherit either patient's ownership.
+ - Cyclic Medication ingredient/Location partOf path; self-reference; conflicting typed-ID alias; absolute-base collision; missing node; bound exceeded.
+ - Paired citation explicitly bound to operand0 but supporting root belongs only to operand1.
+ - Unused metadata exclusion stays non-evidence of metadata query completeness; a negative/name/count query with an unresolved needed product remains unsupported.
+ - Metadata was excluded from the workspace yet the model omits it from contributing_ids; omission alone cannot discharge the dependency.
+
+These are prospective tests, not tests claimed to have passed. No runtime patch or experiment is delivered by this audit. The behavior-changing portion should wait for an explicit, truthfully scoped evidence-role/completeness contract; otherwise it would broaden assurance beyond what R4 and the current artifacts prove.
+
+Source hashes at audit:
+ tools/field_check.py 53345095c1e489185ff9b280034999c4225748d4c88bc9df939960f3119457c5
+ agent/query_contract_agent.py e8466ca0b0df4378289357f677af3bf22718d855643245edac9aced3c5de9ae6
+ agent/single_agent.py 0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e
+ agent/framework.py 4ab01c58ec6ab1e39db4633033884ea0cbb0f82301f4e4eded9d4d861dcb12c8
+ utils/evidence_scorer.py 59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7
+ transition_reconciliation/reconciliation.json e240703d181c228b948ace5ebd21e3e28624890f521789d0b44633c5df5cfe30

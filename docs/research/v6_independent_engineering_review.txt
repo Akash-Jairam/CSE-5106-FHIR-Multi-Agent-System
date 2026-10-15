@@ -1,0 +1,29 @@
+Independent read-only V6 engineering review — 2026-10-15
+
+Disposition: no concrete material blocker found in the reviewed stable sources. This is an implementation review and synthetic verification, not an accuracy result or semantic assurance claim. No actual QA/gold, protected confirmation examples, model/network/FHIR requests, configuration values, or real result files were read. No active source edits made for this review.
+
+Reviewed source binding:
+- agent/continuous_primary.py f3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963
+- agent/independent_recompute_aux.py 048bc20b42b982176d979055c257c7aade2f5cfa58aa2611695a1ffb2138c425
+- agent/independent_recompute_agent.py facb15e3d3b5bdce4e8dd70f1c367dbe05f03786f7910893393e1f9feba9068e
+- agent/base_agent.py e566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77
+- public ignored runtime .local-setup/azure_adapter.py 5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8
+The runtime adapter hash must be included in the next frozen runtime binding; ordinary Git source inventory alone does not bind this ignored file.
+
+Release / fairness checks:
+1. A invokes the actual SingleAgent.run with natural 30-turn completion under min(175k, caller token ceiling) and min(27, caller tool ceiling). It does not stop on the first executed final, rewrite Single prompts, reuse LedgerSolver, or adopt a computed but unreleased candidate. The adoption occurs once into a clean outer ledger; defensive snapshots and repeat-run reset behavior are covered.
+2. Auxiliary eligibility binds the actually released A to a surviving explicit final code/workspace artifact and the actual clean automatic original-record source check after that execution. Ineligible/prose/failed-source A is preserved exactly and B is skipped. Later refused mutation requests cannot manufacture eligibility. Source check and Single files byte-match completed V5 aa35b68.
+3. The generation packet contains only original bound context, held inventory, workspace identity and the no-retrieval declaration. No A answer/code/evidence/operation/trace appears in B's first conversation. Both held workspaces still derive from A's retrieval: this is not independent retrieval.
+4. B can execute only one bounded native mode=final program, in a copied frozen workspace, then one original source check with exact original patient/time/question and B citations. The early deterministic entry-byte guard now prevents a source call for an oversized B. Source failure, unavailable coverage, invalid native response, ambiguous selector response or UNKNOWN preserves A; source checks do not attest to complete search or semantic interpretation.
+5. Typed answer agreement retains the complete original A. On disagreement the fresh tool-free selector receives complete A/B programs/artifacts/source summaries and can release only existing A or B; it has no synthesis/patch/probe path. Code inspection found no actual fallthrough releasing a third result.
+6. Both potential prompts and completion ceilings are reserved before generation; intact essential inputs are not truncated. Each admitted call is adopted once. Canonical per-call usage, cumulative token/cost reconciliation, 4,000/1,800 completion subcaps, phase/global ceilings, unknown billing and admitted exceptions are checked. Fatal accounting withholds the whole row even if A was usable. The shared Base/adapter fix also applies to fresh Single controls; explicit zero usage remains known, while missing native usage remains unavailable and terminal rather than null-answer credit. Known preflight refusal behavior remains unchanged.
+
+Verification:
+Command from repository root (all inputs synthetic; SDK send and FHIR reads mocked):
+env FHIR_LOCAL_AZURE_CONFIG='' MODEL='gpt-6-luna' LITELLM_LOCAL_MODEL_COST_MAP=True PYTHONPATH='.local-setup/phase2-dependencies' .venv/bin/python -m unittest -v tests.test_continuous_primary tests.test_independent_recompute_aux tests.test_independent_recompute_agent tests.test_accounting_failures tests.test_phase1_budget tests.test_azure_diagnostic_journal
+Result: 96 tests PASS in 3.321 seconds. The initial restricted invocation had four real-worker child code-71 failures; the exact same suite passed with permission for the existing OS sandbox subprocess. No source change was needed to resolve that environment restriction.
+Final test log: /private/tmp/fhir-v6-independent-review-tests-escalated.log
+SHA256: 3815b8424de9c475371996f83f6a0d491beb03b39d57130820675cebef1d5e24
+Exact tested file hashes and unchanged shared source proof: /private/tmp/fhir-v6-independent-review-hashes.json
+
+Limits: the selector is fallible and may replace a correct A with an incorrect B. Shared evidence can preserve correlated retrieval omissions. B's packet/program limits may create honest coverage skips. Synthetic tests establish the stated execution/accounting boundaries, not improved benchmark accuracy, task/model generalization, or search completeness. No large experiment was run as part of this review.

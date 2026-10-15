@@ -11,6 +11,7 @@ from utils.core_utils import compact_model_messages, count_tokens_in_messages
 from .output_schema import AgentOutput, extract_tool_calls, parse_final_message, to_tokens, validate_output
 
 BUDGET_EXCEEDED = "Budget exceeded"
+PROVIDER_ACCOUNTING_ERROR = "Provider accounting failure"
 
 
 class BaseAgent:
@@ -133,11 +134,11 @@ class BaseAgent:
         if self.max_total_tokens is not None and not error and usage_info and any(
                 c.get("usage_available") is False for c in usage_info.get("per_call", [])):
             self.budget_stop = "provider did not report token usage; aggregate ceiling cannot be verified"
-            self.last_llm_error = f"{BUDGET_EXCEEDED}: {self.budget_stop}"
+            self.last_llm_error = f"{PROVIDER_ACCOUNTING_ERROR}: {self.budget_stop}"
             return None, self.last_llm_error, usage_info
         if self.max_total_tokens is not None and self.total_usage['total_tokens'] > self.max_total_tokens:
             self.budget_stop = "provider usage exceeded the reserved token ceiling"
-            self.last_llm_error = f"{BUDGET_EXCEEDED}: {self.budget_stop}"
+            self.last_llm_error = f"{PROVIDER_ACCOUNTING_ERROR}: {self.budget_stop}"
             return None, self.last_llm_error, usage_info
         return response, error, usage_info
 

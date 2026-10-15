@@ -1,0 +1,14 @@
+V6 engineering review addendum — generation interface clarification
+
+Disposition: no concrete blocker in the narrow prompt change. This supersedes only the auxiliary source binding in /private/tmp/fhir-v6-independent-review.txt (SHAa8ba31675003b69b717bc6901adc917571aaf991a14839642148fc711c45dea7).
+Old auxiliary048bc20b42b982176d979055c257c7aade2f5cfa58aa2611695a1ffb2138c425 is superseded by f6659d5de56841068666f50c83d9bf3673e180b21c97fe08cedbfca4f1a8fdd6.
+
+Independent byte proof: reversed exactly the added held-record paragraph and changed operation sentence in a private in-memory copy; reconstructed whole-module SHA equals old048bc20b exactly. Thus the only code/source difference is GENERATION_PROMPT text. Captured diff /private/tmp/fhir-v6-generation-prompt-reviewed.diff SHAa30a1c6a0fb695afc5f783b8a0583aa57b57840fb828689c4b365189d93944a0.
+
+The clarification accurately describes the existing worker interface: retrieved_resources contains all HELD records in full beyond prompt examples; a single final program can read/inspect/filter/order/calculate internally, with no intermediate tool feedback or second execution. It expressly preserves held evidence versus complete retrieval, candidate blindness, missing-evidence limitation, one native final invocation and source-validity/semantic limits. A nonempty operation is the existing final schema requirement, now made explicit even for established empty results. No question family, answer kind, model ID, benchmark ID, observed answer or case-specific repair rule is added.
+
+All budgets, tool definitions, schema/size bounds, source gates, fallback/release/accounting logic, selector prompt and shared semantic guide are byte-unchanged. Both prompt reservations still count actual messages/native schema dynamically, so the longer prompt consumes existing allowance rather than expanding it. Candidate blindness and the two-call maximum remain unchanged.
+
+Other reviewed source hashes remain unchanged: primaryf3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963; compositionfacb15e3d3b5bdce4e8dd70f1c367dbe05f03786f7910893393e1f9feba9068e; Basee566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77; public adapter5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8.
+
+No broad test repeat or live/result/data/config access was performed for this addendum. The earlier independent96-test result binds048bc20b, while root owns focused regressions/interface checks on clarifiedf6659d5d. This review makes no accuracy or coverage-improvement claim. Final freeze/pins must usef6659d5d or a later separately reviewed source.

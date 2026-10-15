@@ -1,0 +1,66 @@
+V6 auxiliary delivery and cross-module integration review (synthetic only)
+2026-10-15; conditional experimental design, no accuracy or live-provider claim.
+
+Owned active changes:
+- agent/independent_recompute_aux.py
+  SHA256 048bc20b42b982176d979055c257c7aade2f5cfa58aa2611695a1ffb2138c425
+- tests/test_independent_recompute_aux.py
+  SHA256 cce10e119fa951f4981f9fc42727eea022c576299bb0777fcdffe6b637dddd31
+- tests/test_independent_recompute_agent.py
+  SHA256 61c713c61d87d121f0dcc4509a62d62b0f30b17caa183873afd66d41ed9a41ab
+
+API: run_independent_recompute(host, primary5, artifact, workspace, context,
+primary_source_check) -> (chosen_existing5, diagnostics). BaseAgent-compatible
+host ledger is adopted before entry. Executor/source_checker keyword injection
+is solely for offline fixtures. diagnostics.fatal requires caller to withhold
+the attempt; the returned A remains available for auditing fatal failures.
+
+Auxiliary fixed caps: 25,000 aggregate tokens, 3 actual tools, 2 model calls.
+B generation is one native execute_python_code call, requested completion 4,000;
+host executes once on a fresh frozen-workspace copy and runs original check_fields
+once with bound original context. Both are counted tools. Exact typed answer
+agreement keeps A without selection. Otherwise fresh JSON-only selector requests
+1,800 completion and can choose only existing A/B/UNKNOWN. No third tool is used.
+Source/execution/coverage/schema failure keeps A; unknown/malformed admitted usage
+or completion/phase/global overshoot is fatal. Source checks are not semantic or
+search-completeness proofs. There is no Ledger global-veto addition.
+
+Native tool definitions are counted in prompt estimates. Before generation,
+reserve both calls using intact A/context and an 8,000-byte B selector-entry bound,
+plus 512 token boundary/framing allowance and ordinary 5%/64-token prompt margins.
+Code is bounded to 6,000 characters. The B-entry bound is checked before source
+reads and after actual source binding. Actual intact selector is rechecked against
+remaining budget. These are generic, provisional interface limits; no essential
+program/artifact truncation occurs. Coverage skips do not establish correctness.
+
+Cross-module read-only inspection found no concrete controller binding/cap/fatal
+bug in current continuous_primary.py / independent_recompute_agent.py. The actual
+Single policy remains natural 30 iterations with 175k tokens / 27 inclusive tools.
+The maximum 30+2 model calls differs from the 30-call contemporary control and must
+be disclosed. There is no first-artifact handoff, forced-first-final requirement,
+Ledger prompt, retrieval override or hidden source feedback round.
+
+Final command (normal repo .venv, sandbox escalation needed for nested OS worker):
+.venv/bin/python -m unittest tests.test_independent_recompute_aux \
+  tests.test_independent_recompute_agent -v
+Result: 26 PASS in 3.224 seconds.
+Log: /private/tmp/fhir-v6-aux-and-integration-tests.log
+
+Meaningful actual-path fixture uses the public local azure_adapter.py bridge with
+explicit non-secret settings (never AzureSettings.load/install/config discovery),
+the installed AzureOpenAI default HTTPX2 HTTPTransport, send mocked in memory,
+actual Single loop, real sandbox worker and unchanged check_fields with store
+fetch mocked, actual multi_agent_v6 dispatch, worker-owned gzip before IPC and
+owner-checked lossless restoration. Four SDK calls account 720 tokens exactly once:
+A native final, A natural post-final model turn, B native final, selector. Four
+tools are A final/check plus B final/check. B cannot see A program, operation,
+answer/evidence or history; selector sees both intact programs/artifacts. Source
+summaries are derived only after binding actual clean checker results. Invalid B
+preserves A with no selector; prose-only A disables auxiliary without inventing
+execution. Actual missing native usage survives the public bridge as None and
+causes fatal release refusal, rather than a synthetic free zero-token candidate.
+
+Limitations: send-mocking does not test network, provider reliability, HTTPX2 pool
+behavior, model instruction following, useful independent computations or accuracy.
+Selection remains fallible and correlated; shared held-workspace omissions persist.
+No real model, clinical FHIR store, protected QA, credential config or scoring used.

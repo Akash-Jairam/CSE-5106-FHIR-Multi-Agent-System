@@ -518,7 +518,7 @@ class QueryContractUnitTests(unittest.TestCase):
         with patch("agent.base_agent.safe_llm_call", return_value=(reply("{}"), None, usage)):
             _, error, _ = phase._llm_call([{"role": "user", "content": "short prompt"}])
         self.assertTrue(phase.fatal)
-        self.assertIn("Budget exceeded", error)
+        self.assertIn("Provider accounting failure", error)
         self.assertEqual(agent.max_total_tokens, 200_000)
         self.assertIsNotNone(agent.budget_stop)
 

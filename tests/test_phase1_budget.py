@@ -176,7 +176,7 @@ class BudgetTests(unittest.TestCase):
                 "agent.base_agent.safe_llm_call", return_value=("answer", None, {"total_tokens": 101})):
             message, error, _ = self.agent._llm_call([])
         self.assertIsNone(message)
-        self.assertIn("Budget exceeded", error)
+        self.assertIn("Provider accounting failure", error)
         self.assertEqual(self.agent.total_usage["total_tokens"], 101)
 
     def test_no_automatic_whole_question_retry(self):

@@ -37,6 +37,9 @@ def dispatch_agent_job(args_tuple):
     if args_tuple[1] == "multi_agent_v5":
         from agent.executable_critic_agent import run_v5_job
         return run_v5_job(args_tuple)
+    if args_tuple[1] == "multi_agent_v6":
+        from agent.independent_recompute_agent import run_v6_job
+        return run_v6_job(args_tuple)
     return run_agent_with_input(args_tuple)
 
 
@@ -61,7 +64,7 @@ def build_parser():
     parser.add_argument("--agent_strategy", required=True, choices=[
         "single_turn_request", "single_turn_resource", "single_turn_code_resource",
         "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2",
-        "direct_llm", "single_agent", "multi_agent", "multi_agent_v3", "multi_agent_v4", "multi_agent_v5",
+        "direct_llm", "single_agent", "multi_agent", "multi_agent_v3", "multi_agent_v4", "multi_agent_v5", "multi_agent_v6",
     ])
     parser.add_argument("--add_patient_fhir_id", type=_boolean, nargs="?", const=True, default=True)
     parser.add_argument("--num_processes", type=int, default=-1)
