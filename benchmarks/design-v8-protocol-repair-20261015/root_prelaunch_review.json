@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "recorded_utc": "2026-10-15T23:53:12.891514+00:00",
+  "source_commit": "604aad4f64111ce3e750117b2c93eaaee2a27e64",
+  "source_files": 226,
+  "runtime_files": 4,
+  "pins_sha256": "3cac5e151acd882e40e348d733380a9f354513605349f5f28dc3280c7278bd7b",
+  "study_manifest_path": "manifests/v8_mechanism_120_protocol_repair_20261015.json",
+  "study_manifest_sha256": "1694573a0486df16a502bf1c6650061ad10e3a4adf6dd94a115e92065ba75a19",
+  "guard_sha256": "4c2a99aaa28220865384141f4fa4112b9043c0c05b121109fffe568fd2318aa3",
+  "frozen_source_inventory_archives_current_bytes_match": true,
+  "fresh_output_and_binding_and_log": true,
+  "questions": 120,
+  "policy_outcomes": 480,
+  "physical_A_once_per_case": true,
+  "same_V8_gate_caps_prompts_permissions": true,
+  "source_hold": "All agent/tools/utils/scripts/tests/docs/manifests/root sources must remain byte-identical through owned terminal and integrity checks.",
+  "accuracy_monitoring": false,
+  "plan": {
+    "status": "PLAN_ONLY_NO_INFERENCE",
+    "model": "gpt-6-luna",
+    "output_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v8_mechanism_120_protocol_repair_20261015",
+    "questions": 120,
+    "primary_physical_runs": 120,
+    "followup_physical_runs": 360,
+    "saved_policy_outcomes": 480,
+    "workers": 1,
+    "policy": {
+      "protocol": "counterexample-investigator-mechanism-v8",
+      "primary": {
+        "tokens": 200000,
+        "tools": 30,
+        "sdk_attempts": 30
+      },
+      "aggregate": {
+        "tokens": 200000,
+        "tools": 30,
+        "sdk_attempts": 30
+      },
+      "auxiliary": {
+        "tokens": 60000,
+        "tools": 6,
+        "sdk_attempts": 6,
+        "probes": 2
+      },
+      "primary_contrast": "R - A",
+      "advance_gate": {
+        "O_min": 6,
+        "net_min": 4,
+        "harm_plus_fatal_max": 2,
+        "corrective_patients_min": 3,
+        "corrective_operations_min": 2
+      },
+      "operation_structure_definition": "Six metadata operation_group values used for prospective quotas; never posthoc case labels or runtime routing",
+      "cache": "cold_private_A_then_identical_physical_copies_no_hardlinks",
+      "workers": 1,
+      "retries": 0,
+      "scope": "Broader development; no protected or adaptive300 IDs; not independent patient/template confirmation"
+    },
+    "cache": "A cold percase; same frozen postA bytes physically copied into W/R/C; sibling writes isolated",
+    "physical_A_billing_count": 1,
+    "conceptual_A_usage_per_policy": 1,
+    "automatic_accuracy_analysis": false,
+    "retry_or_resume": false
+  },
+  "actual_provider_binding_must_match_at_child_start": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "working_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System",
+  "generation_argv": [
+    "/usr/bin/caffeinate",
+    "-i",
+    ".venv/bin/python",
+    "-B",
+    "scripts/launch_v8_study.py",
+    "--output",
+    "output/experiments/gpt-6-luna/v8_mechanism_120_protocol_repair_20261015",
+    "--model",
+    "gpt-6-luna",
+    "--manifest",
+    "manifests/v8_mechanism_120_protocol_repair_20261015.json",
+    "--freeze-record",
+    "benchmarks/design-v8-protocol-repair-20261015"
+  ],
+  "environment_for_parent": {
+    "FHIR_LOCAL_AZURE_CONFIG": "",
+    "FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR": "",
+    "LITELLM_LOCAL_MODEL_COST_MAP": "True"
+  },
+  "runtime_bootstrap": "scripts/launch_v8_study.py invokes existing private AzureSettings loader and azure.child_environment; records only3hash public binding. No configuration copied.",
+  "stdout_stderr_log": "output/experiments/gpt-6-luna/v8_mechanism_120_protocol_repair_20261015.launch.log",
+  "workers": 1,
+  "save_every": "Every terminal policy outcome atomically before next policy",
+  "retry_or_resume": false,
+  "process_ownership": "Root must retain exec session and observe terminal exit; no replacement outcomes. caffeinate -i prevents idle sleep for the owned command lifetime.",
+  "monitoring": "Operational saved counts, provider/tool/budget failures and resource use only, no partial correctness.",
+  "postterminal_integrity": "scripts/v8_study_integrity.py completion with prelaunch pin SHA and externally SHA-pinned observed owned-process exit proof; all480 audits/envelopes/journals/cache evidence required.",
+  "postterminal_analysis": "scripts/v8_mechanism_study.py analyze --manifest manifests/v8_mechanism_120_protocol_repair_20261015.json --terminal-confirmed after NEW integrity PASS; all480 NEW outcomes only.",
+  "finish_policy": "Keep complete negative results. Any incomplete infrastructure run is not a completed design result; do not manufacture replacement first attempts."
+}
