@@ -1,0 +1,159 @@
+V7 development specification: full primary, residual independent trajectory
+15 October 2026 UTC. Candidate under implementation; no V7 benchmark result.
+
+Hypothesis and evidence
+
+Preserve the full natural SingleAgent solve, then use its actual unused resources
+for a fresh SingleAgent trajectory with its own retrieval and execution feedback.
+Compare existing answers against explicit requirements from the question. This
+tests whether useful complementary candidates and selective replacement can
+improve accuracy without reducing the primary allowance. The B policy, retrieval,
+allocation and selector changes are a joint intervention, not an isolated ablation.
+
+Completed V6 scored Team231 versus Single234 and failed its prospective gate.
+Recorded actual A-only was233. B had only37 eligible artifacts and no observed
+A-wrong/B-right candidate in that conditional pool. Most one-shot B programs
+failed execution or their output contract before source checking. Fixing those
+mechanics alone would not demonstrate semantic improvement. V7 reuses the actual
+Single policy, including its documented output example and real feedback, instead
+of adding a new special repair grammar. Independent retrieval can recover evidence
+outside A's chosen workspace, but both runs still share the model, patient store,
+starting-packet algorithm and possible cache responses. Independence here means
+separate agent state and acquisition decisions, not statistical independence.
+
+The fresh full-cap V6 Single control has299 known-usage outcomes and one unknown.
+Known median residuals are137901 tokens,24 tools and24 SDK attempts;228 meet the
+coarse joint100k/10/10 residual screen. These are different stochastic trajectories,
+not V7 admission or completion predictions. Worst-case selector reservation is
+substantial and must be included before B. Full A may leave no useful B capacity.
+
+Research supports the hypothesis and also identifies its failure modes:
+* ATTS studies completed independent trajectories and list-wise comparison, with
+  stronger gains than routine reflection in its GAIA setting. Its released code
+  has additional reward calls, a fixed judge and retries; it is not our inclusive
+  residual-budget implementation: https://arxiv.org/html/2506.12928v1
+* FineVerify compares candidates against shared question-derived requirements
+  using independent evidence. V7's single tool-free comparison is a cheaper
+  adaptation, not that method or a reproduction. No reference-aware preprocessing
+  from its released grading driver enters inference:
+  https://arxiv.org/html/2606.00660v1
+* General AgentBench and AgentRewardBench show substantial verification failures.
+  More candidates, valid citations and explicit labels do not guarantee selection
+  accuracy or transfer: https://arxiv.org/html/2602.18998v1 and
+  https://arxiv.org/html/2504.08942v1
+Exact inspected repository/file pins and implementation caveats are retained in
+the completed V6 post-run research record; no reported gains were reproduced.
+
+Policy and accounting
+
+A is an actual SingleAgent with its original prompt, guide, tools, starting packet,
+natural30-iteration loop, execution feedback and automatic source checks. Limits
+are200000 aggregate tokens and30 inclusive tools, reduced only when the caller
+requests a lower global cap. Nothing reserves resources from A, forces an early
+final, supplies a plan, or adds a release veto. Identical responses/tools should
+produce the same A request trajectory and released output as the contemporary
+Single control; separate live calls need not produce the same stochastic answer.
+
+Freeze A's actual released answer/evidence/limitation/error, revision, trace,
+workspace, usage and source-bound final artifact if present. Prose, limitations
+and missing execution metadata do not invent a computed answer or prevent fallback.
+Any nonfatal A can be considered for auxiliary work. Unknown primary accounting
+or actual overshoot makes the whole attempt fatal and forbids B.
+
+After A compute residual tokens, tools and SDK attempts from verified actual usage
+under joint200000/30/30 maxima. Reserve one intact tool-free selector request and
+its2000-token maximum completion before B. Entries are complete finite ASCII JSON,
+at most32768 bytes each. Reservation includes the actual known A/system/original
+question/context packet,32768 possible B bytes,512 boundary tokens, and the shared
+5%/64-token prompt margin. This deliberately conservative bound can skip coverage.
+Never truncate an essential program, evidence field or context to force admission.
+The actual selector prompt must fit its reservation before its request is sent.
+The shared32000-token input guard still applies; an intact packet that exceeds it
+is refused without a request, rather than compacted or truncated.
+
+B starts a fresh actual SingleAgent from the original question/context and the
+same configured domain/model adapter and perturbation. It sees no A answer,
+program, history, workspace, selected types or queries. Its original starting
+packet is initialized internally by the unchanged Single policy. The additional
+B initialization is explicitly charged as one host tool within the global30;
+the common A/control initialization stays unchanged and is excluded equally.
+This is additional I/O, even on a cache hit. There is no duplicate host prefetch.
+
+B's token cap is residual tokens minus the selector reservation; its inclusive
+natural tool cap is residual tools minus the initialization charge; its model
+iteration/attempt allowance is at most residual SDK attempts minus one selector.
+Admission requires at least two B model attempts and two B tools after those
+reservations. After the counted internal initialization, B's ordinary pre-provider
+check rechecks the actual initial packet/native-schema prompt. It may refuse that
+request with no SDK send; initialization remains charged. There is no
+forced early final or guaranteed finishing capacity: B can exhaust its allowance
+before producing an eligible artifact. Automatic checks, feedback, all actual
+requests, replayed prompts and executed tools count. Every actual SDK attempt is
+bounded before sending, in addition to the natural iteration limit. No retries,
+hidden synthesis, uncounted auxiliary requests or correctness-based routing.
+
+Source, selection and fallback
+
+B can replace A only through its actual released final artifact, actual execution
+on its own unchanged workspace and actual clean original-source check. A computed
+candidate later withheld by Single is never substituted for the released result.
+Honest limitations remain visible; deleting them cannot create eligibility.
+Original source checking and the common typed scorer remain unchanged.
+
+Exact finite JSON answer agreement preserves the whole actual A. On disagreement,
+one fresh tool-free selector receives the original task/context and intact entries:
+actual released outcomes, eligible programs/artifacts, source summaries, workspace
+identities and actual successful retrieval-request metadata. Missing provenance is
+labelled missing. Single retains request arguments and a saved-variable/count
+reply, while physical pagination/cache metadata may be unavailable; those retained
+observations are not evidence of exhaustive retrieval. The selector receives the
+unchanged shared FHIR semantic guide and compares both against question-derived
+requirements with supported/not_found/contradicted judgments and concrete bases.
+It returns an existing-candidate A/B/UNKNOWN choice, not a third answer or repair.
+The host accepts B only when all listed B requirements are marked supported and
+at least one shared A requirement contradicted. Missing A provenance, a limitation
+or a not_found label alone cannot justify replacement. These model labels can be
+wrong or incomplete; the acceptance rule does not certify correctness or coverage.
+
+Malformed, inconclusive, oversized or unaffordable auxiliary output, unfinished B
+and known pre-provider refusals preserve the actual A/error state. Unknown admitted
+usage, malformed accounting or actual completion/phase/global overshoot is fatal,
+even after a correct A. Auxiliary local budget markers must not leak into outer
+formatting and replace A with a synthetic null. This policy protects fallback
+identity, not an accuracy floor: a false B selection or later fatal request can
+still lose primary credit.
+
+Keep two versioned candidate snapshots under the existing lossless owned audit
+mechanism. Each retains its own workspace, released result/error, actual program,
+source result, usage and binding. Tagged phase traces preserve local tool-call
+identities without confusing repeated automatic-check IDs. The final displayed
+workspace belongs to the selected candidate; no silent A/B resource union. Large
+unchosen snapshots must externalize before worker IPC and row accumulation.
+
+Validation and evaluation
+
+Before any V7 large run: independent offline tests of actual Single policy-prefix
+equality, source/withholding semantics, state isolation, phase adoption exactly
+once, per-call and aggregate accounting, native SDK boundary, candidate reservation,
+strict selection, fatal/nonfatal fallback and owned gzip restoration. Synthetic
+fixtures vary values, order, missing versus empty data and failed operations;
+these are engineering checks, not accuracy experiments. Any live interface check
+uses only the pre-reserved development pool, never protected confirmation questions.
+
+Freeze exact tested implementation, source/runtime archives, inputs, request profile,
+commands, analysis and integrity guard before fresh300 Single+300 Team first attempts.
+No partial accuracy, retries, selective exclusions or best-attempt replacement.
+Selection requires Team>239 AND Team>the fresh Single control. Record whole-cohort
+accuracy, paired patient-block uncertainty, errors, source/answer eligibility,
+B complementary correctness, selection help/harm, A-only stage counterfactual,
+resource distributions and all admission skips. A-only is the actual same-prefix
+outcome, not another stochastic control or a causal allocation ablation.
+
+The adaptive300 is development only. A selected candidate may use the prespecified
+once-only full2931-by-three-arm run and1397 question-disjoint confirmation, with no
+partial full scores until every attempt is terminal and audited. This is not a
+patient-disjoint test. Do not change the protected protocol after results. No
+cross-model or other-task tests are required now; portability remains an unmeasured
+goal. No benchmark ID, patient/template ID, reference SQL, answer key, cached
+correctness or model identity may control inference. FHIR interpretation stays in
+the common domain adapter. Main changes only after a completed acceptance gate.
