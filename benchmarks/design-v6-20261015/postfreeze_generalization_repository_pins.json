@@ -1,0 +1,138 @@
+{
+  "research_date": "2026-10-15",
+  "scope": "public primary-source read-only background; no code execution or actual project results",
+  "repositories": [
+    {
+      "repository": "ybkim95/agent-scaling",
+      "commit": "8673d6a8d5a764a07b08e4283492380d80257223",
+      "release": "v2.2.3",
+      "release_date": "2026-10-12",
+      "manuscript_tag_commit": "358d67e24c616073127ce1a8b78d4b632162848c",
+      "reviewed_by": "research parent independently verified exact pinned README/CHANGELOG/three scripts/deposited CSV, tag comparison and official final article",
+      "files": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "bd49f544e19fd4d8cb56923aaeb8882616218792",
+          "url": "https://github.com/ybkim95/agent-scaling/blob/8673d6a8d5a764a07b08e4283492380d80257223/README.md"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "git_blob_sha": "6e51fcc75db50b8a259ea10cc193b3e667e3e782",
+          "url": "https://github.com/ybkim95/agent-scaling/blob/8673d6a8d5a764a07b08e4283492380d80257223/CHANGELOG.md"
+        },
+        {
+          "path": "scripts/extended_mixed_effects_6benchmarks.py",
+          "git_blob_sha": "a6002250daa9cba4fa99dcc0e5d4972adb38ec26",
+          "url": "https://github.com/ybkim95/agent-scaling/blob/8673d6a8d5a764a07b08e4283492380d80257223/scripts/extended_mixed_effects_6benchmarks.py"
+        },
+        {
+          "path": "scripts/alternative_capability_metric.py",
+          "git_blob_sha": "1e65c70a020162cbe988fbc68856d003c49a12a2",
+          "url": "https://github.com/ybkim95/agent-scaling/blob/8673d6a8d5a764a07b08e4283492380d80257223/scripts/alternative_capability_metric.py"
+        },
+        {
+          "path": "scripts/error_amplification_analysis.py",
+          "git_blob_sha": "b90cce1d47ee098fa18ef542d09be3f5c51e3a5f",
+          "url": "https://github.com/ybkim95/agent-scaling/blob/8673d6a8d5a764a07b08e4283492380d80257223/scripts/error_amplification_analysis.py"
+        },
+        {
+          "path": "data/Source_Data_Fig1_Fig2.csv",
+          "git_blob_sha": "18607b8802ee02cf540329f996b7b3e8d47a4298",
+          "url": "https://github.com/ybkim95/agent-scaling/blob/8673d6a8d5a764a07b08e4283492380d80257223/data/Source_Data_Fig1_Fig2.csv"
+        }
+      ],
+      "final_paper": {
+        "title": "Capable language models can outgrow the benefits of collaboration",
+        "journal": "Nature Machine Intelligence",
+        "volume": 8,
+        "pages": "1157\u20131172",
+        "published": "2026-07-24",
+        "url": "https://www.nature.com/articles/s42256-026-01268-y",
+        "doi": "10.1038/s42256-026-01268-y"
+      },
+      "earlier_preprint": {
+        "title": "Towards a Science of Scaling Agent Systems",
+        "version": "v3",
+        "date": "2026-04-08",
+        "url": "https://arxiv.org/html/2512.08296v3"
+      },
+      "analysis_sets": {
+        "old_v2_1_3_default_rows": 270,
+        "out_of_sample_gemini3_rows_excluded": 10,
+        "article_and_v2_2_x_default_rows": 260,
+        "pinned_deposited_fig1_fig2_csv_rows": 260,
+        "pinned_deposited_gemini3_rows": 0
+      },
+      "parity_limit": "Source comparison only; no reproduction or environment/numerical parity attestation"
+    },
+    {
+      "repository": "SalesforceAIResearch/jetts-benchmark",
+      "commit": "18c3e9e26deed2bd2d644164b2e1823389d8d1e7",
+      "commit_date": "2026-06-02T18:56:24Z",
+      "files": [
+        {
+          "path": "jetts/judge_task/rerank.py",
+          "git_blob_sha": "237dd7affbb0ec5fdde05dc5f952880b26b85e38",
+          "url": "https://github.com/SalesforceAIResearch/jetts-benchmark/blob/18c3e9e26deed2bd2d644164b2e1823389d8d1e7/jetts/judge_task/rerank.py"
+        },
+        {
+          "path": "jetts/judge_task/refinement.py",
+          "git_blob_sha": "10062cf86ca53a2bfac8b0dcb4d5f627fb8bef9d",
+          "url": "https://github.com/SalesforceAIResearch/jetts-benchmark/blob/18c3e9e26deed2bd2d644164b2e1823389d8d1e7/jetts/judge_task/refinement.py"
+        },
+        {
+          "path": "jetts/judge/prompted_judge.py",
+          "git_blob_sha": "5d182739461aee284898449fbdf17ff5f19e636c",
+          "url": "https://github.com/SalesforceAIResearch/jetts-benchmark/blob/18c3e9e26deed2bd2d644164b2e1823389d8d1e7/jetts/judge/prompted_judge.py"
+        }
+      ]
+    },
+    {
+      "repository": "nikhgarg/llm_correlated_errors_public",
+      "commit": "30a2c0aa88af3f428f1f7034538373d24c209176",
+      "commit_date": "2026-03-29T21:02:29Z",
+      "files": [
+        {
+          "path": "scripts/hugging_face_data_generation.py",
+          "git_blob_sha": "fc64d4c2ba4c9c70120487db9d33047eef7f6d07",
+          "url": "https://github.com/nikhgarg/llm_correlated_errors_public/blob/30a2c0aa88af3f428f1f7034538373d24c209176/scripts/hugging_face_data_generation.py"
+        }
+      ]
+    },
+    {
+      "repository": "Wang-ML-Lab/when-debate-helps",
+      "commit": "899b2834acd13f7b3298eb88233d39ab419d7a15",
+      "commit_date": "2026-10-08T04:21:53Z",
+      "files": [
+        {
+          "path": "src/when_debate_helps/selection.py",
+          "git_blob_sha": "711fddf91ed274d995462f2f6ba761cca0560243",
+          "url": "https://github.com/Wang-ML-Lab/when-debate-helps/blob/899b2834acd13f7b3298eb88233d39ab419d7a15/src/when_debate_helps/selection.py"
+        },
+        {
+          "path": "src/when_debate_helps/debate.py",
+          "git_blob_sha": "8f9b3d13fcd08901bcae741b22cccca5d4da9380",
+          "url": "https://github.com/Wang-ML-Lab/when-debate-helps/blob/899b2834acd13f7b3298eb88233d39ab419d7a15/src/when_debate_helps/debate.py"
+        },
+        {
+          "path": "docs/IMPLEMENTATION.md",
+          "git_blob_sha": "a7ca7fe9b818e0acaac5523bb2544e8cdb4060a0",
+          "url": "https://github.com/Wang-ML-Lab/when-debate-helps/blob/899b2834acd13f7b3298eb88233d39ab419d7a15/docs/IMPLEMENTATION.md"
+        },
+        {
+          "path": "configs/qwen3_4b_paper.yaml",
+          "git_blob_sha": "29d1739b412c65f4cfc5c0c8b732877580f1f9ec",
+          "url": "https://github.com/Wang-ML-Lab/when-debate-helps/blob/899b2834acd13f7b3298eb88233d39ab419d7a15/configs/qwen3_4b_paper.yaml"
+        }
+      ]
+    },
+    {
+      "repository": "instadeepai/DebateLLM",
+      "commit": "1386095e4200dec07f6aa11b76df201590f1d075",
+      "commit_date": "2024-04-18",
+      "reviewed_by": "matched_budget_sources subagent; official paper-linked repository",
+      "limitation": "Snapshot predates final paper v3; exact final paper/code parity not established",
+      "files": []
+    }
+  ]
+}
