@@ -1,0 +1,21 @@
+Frozen V6 posthoc release reconstruction — independent contract review
+Read-only; no live outputs/accuracy/gold/config/model/FHIR access, no active source edits.
+
+Frozen sources reviewed: ContinuousPrimaryf3fa3af7; auxiliaryf6659d5d; compositionfacb15e3; Basee566f424; unchanged Single02256894. Exact full hashes are in /private/tmp/fhir-v6-independent-review-hashes.json plus prompt supersession addendum. This note prepares review of the separate temporary posthoc helper; it is not an analysis result.
+
+Actual released A-only reconstruction:
+- Require actual V6 revision.primary dictionary with all rendered keys (answer/evidence/limitation) and primary_diagnostics; missing metadata/answer key is unavailable, not an actual null artifact. Missing revision must not earn empty-reference counterfactual credit.
+- primary_diagnostics.fatal: reconstruct an explicit primary failure (wrong under unchanged first-attempt rule), preserving unavailable/formatter-failure qualifiers. Do not turn a constructed failure placeholder into a successful null answer.
+- Eligible primary: its error was None because eligibility binds the successfully released/source-checked A. Score the retained normalized revision.primary with error=None, even if an auxiliary call later made the actual team row fatal. This is the valid pre-auxiliary A counterfactual, not the actual final score.
+- Ineligible primary with no auxiliary: controller preserves the actual released Single3fields AND released.error; outer row.error therefore supplies its A-only error semantics. Never infer an error solely from primary_revision.revision_error, budget stop or a limitation: Base intentionally suppresses known Budget exceeded into a non-error abstention, but Provider accounting failure is terminal.
+- Actual no-error typed-null A can receive the unchanged scorer's empty-reference credit even when source execution was unavailable or a computation was withheld. Keep that credit visible in an outside-source-clean category. Do not fabricate it for missing metadata, and do not erase it from the official rule.
+
+Three independent transition axes:
+1. Single source stage: primary_revision.draft (typed candidate) to normalized released revision.primary with reconstructed error. primary_revision.final is a pre-withholding computed candidate, NOT the endpoint. check_issues signals feedback; primary_source_revised/revised inside primary_revision requires a distinct second candidate. Feedback that terminates without a distinct revised candidate is a separate attempted/aborted disposition.
+2. Accepted selection stage: only selected_executed_independent_candidate + independent_candidate_selected/recompute metadata establishes released B. Compare valid A-only versus actual official final for helpful/harmful/both-correct/both-wrong. A generic top-level revised flag includes source correction OR B switch and cannot label B repairs. A computed but rejected correct B is never a helpful accepted repair.
+3. Total auxiliary-stage effect: over valid pre-auxiliary primaries, compare A-only to actual official final including auxiliary accounting/provider losses. Eligible correct A followed by fatal auxiliary error is stage harm even if final answer=None and gold is empty; the explicit error makes official final wrong. Keep this separate from accepted-B semantic selection transitions.
+
+Minimal synthetic boundary matrix for helper review:
+missing revision/missing answer key vs present answer:null; primary fatal with empty reference; ineligible actual error with empty reference; ineligible known-budget non-error null; eligible A followed by fatal auxiliary loss; draft-correct/computed-final-correct but source-withheld released A; Single control late-error versus computed final; source correction versus selected-B flags; selected harmful B; rejected computed-correct B; source-feedback abort; legitimate accepted source-clean empty.
+
+All official300 denominators and frozen typed/template scoring remain authoritative. Counterfactual metadata-unavailable counts are explicit and are not exclusions from official accuracy. Full600 terminal/integrity PASS and frozen official totals must precede any real posthoc scoring. No program replay, source re-fetch or label feedback into inference is needed.

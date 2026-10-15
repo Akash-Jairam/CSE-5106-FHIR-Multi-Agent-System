@@ -1,0 +1,24 @@
+{
+  "recorded_at_utc": "2026-10-15T08:42:20.239443+00:00",
+  "status": "PREPARED_BEFORE_COMPLETION_NOT_INVOKED_ON_ACTUAL_RUN",
+  "analysis_only": true,
+  "runtime_changed": false,
+  "actual_accuracy_scoring_performed": false,
+  "root_synthetic_tests_passed": 32,
+  "independent_synthetic_tests_passed": 35,
+  "files_sha256": {
+    "delivery.json": "0d9086f62d97508199f81c4c9432f54d482b261d0133524c6551130ea0ad3e0a",
+    "independent_review.txt": "854d7f9def140f804947e59a9aae47583507e6c99be8fd9b3ee6ce8526502757",
+    "independent_review_hashes.json": "a2fb1e2706f25bf77a57a3f309dc1be7064e43d8f2a242c0414d11a71252071d",
+    "independent_tests.log": "c0c59d552818e8e60d0bdb971c6c80f24827c8f832cd3ff43cf34c79e19808b5",
+    "independent_tests.py": "3b32d73ddd4225fdc8eb2bd6a9a9c7f10e6480097b840dab50bc890316be97cf",
+    "original_handoff_readme.txt": "5dde5220fddb04caf9fc6f92b3ad5637f4fc3b8a593529bc5f6d1e018c9cb311",
+    "released_primary_contract_review.txt": "f8ae16f25536ccb0c6125ece97ec037608a5acca79dc3fc8009906523ee03485",
+    "root_tests.log": "3181c0f8bf26e042d8c6ea9c63e98ddfd6d56d7a8a14cd54115682b407c37534",
+    "test_v6_posthoc.py": "f6acfefd7c769fdca02d0ebbb97fcecd64f32e9fe028d0e03fd098e2d31a7221",
+    "v6_posthoc.py": "ca0c3820298d7595e5fe062b41c24c6303b7938f82530ef2dc67004be0c2db8a"
+  },
+  "approved_guard_sha256": "49ec8be98372cbeaf9c9ab917d02fdf0bbbdce06471a8a0745a02aae9c485c18",
+  "prespecified_guard_pins_sha256": "e877d4e227a19f519e785c675ced1283eac3878022a0332a7e4f6f91a058017a",
+  "publication_note": "Exact historical test/handoff snapshots retain their original private fixture paths. The analysis helper itself takes explicit CLI root/guard/report paths and is copied unchanged. Root reviewed reconstruction and gate code; no actual posthoc run allowed until both jobs terminal, deep600 PASS and official comparison frozen."
+}
