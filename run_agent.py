@@ -27,11 +27,14 @@ CONDITIONS = ("intact", "omitted")
 
 
 def dispatch_agent_job(args_tuple):
-    """Additive V3 dispatch through the common budget and audit job contract."""
-    if args_tuple[1] != "multi_agent_v3":
-        return run_agent_with_input(args_tuple)
-    from agent.query_contract_agent import run_v3_job
-    return run_v3_job(args_tuple)
+    """Additive candidate dispatch through the common budget/audit job contract."""
+    if args_tuple[1] == "multi_agent_v3":
+        from agent.query_contract_agent import run_v3_job
+        return run_v3_job(args_tuple)
+    if args_tuple[1] == "multi_agent_v4":
+        from agent.plan_conditioned_agent import run_v4_job
+        return run_v4_job(args_tuple)
+    return run_agent_with_input(args_tuple)
 
 
 def _boolean(value):
@@ -55,7 +58,7 @@ def build_parser():
     parser.add_argument("--agent_strategy", required=True, choices=[
         "single_turn_request", "single_turn_resource", "single_turn_code_resource",
         "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2",
-        "direct_llm", "single_agent", "multi_agent", "multi_agent_v3",
+        "direct_llm", "single_agent", "multi_agent", "multi_agent_v3", "multi_agent_v4",
     ])
     parser.add_argument("--add_patient_fhir_id", type=_boolean, nargs="?", const=True, default=True)
     parser.add_argument("--num_processes", type=int, default=-1)

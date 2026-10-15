@@ -479,7 +479,7 @@ def build_parser():
     parser.add_argument("--input", type=Path, default=ROOT / "final_dataset/questions_answers_sql_fhir.csv")
     parser.add_argument("--families", type=Path, default=ROOT / "manifests/question_families.csv")
     parser.add_argument("--model", default="gpt-6-luna")
-    parser.add_argument("--team_strategy", choices=("multi_agent", "multi_agent_v3"), default="multi_agent")
+    parser.add_argument("--team_strategy", choices=("multi_agent", "multi_agent_v3", "multi_agent_v4"), default="multi_agent")
     parser.add_argument("--max_total_tokens", type=int, default=200000)
     parser.add_argument("--max_tool_calls", type=int, default=30)
     parser.add_argument("--num_processes", type=int, default=2)
