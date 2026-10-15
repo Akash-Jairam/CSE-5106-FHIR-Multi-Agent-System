@@ -1,0 +1,91 @@
+Analysis-only exposure-strata validation, 15 October 2026 UTC
+
+Root reviewed and applied the three-file patch. All 28 synthetic regressions
+passed in the active checkout with private Azure setup disabled. The exact
+four-way real manifest was validated from ID/patient/family metadata only.
+No actual unseen question text, answer, SQL or final benchmark accuracy was
+inspected for development; no inference was performed.
+
+The ordinary comparison remains unchanged for valid prior inputs. With the
+new opt-in full-run exposure analysis, every arm and required identity must
+validate before any scorer call. Failed first attempts remain incorrect;
+no retries replace them. One-patient interval bounds remain unavailable.
+The --full_terminal_confirmed flag is explicitly a caller assertion. The
+operational completion/source/audit guard must actually pass independently.
+
+Reviewed delivery and exact file digests:
+{
+  "status": "READY_REVIEWED_ANALYSIS_ONLY_PATCH",
+  "base_commit": "d0ccaaa923ebcf9c65d74812e33f929dc376205c",
+  "patch": "/private/tmp/fhir-full-strata-analysis-y35odlda/full_evaluation_strata.patch",
+  "patch_sha256": "71c0718e8a556be0ce2725c330152722901838a26c57964e25b9185b1d3b608b",
+  "active_apply_check": "PASS",
+  "files": {
+    "scripts/compare_runs.py": "607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c",
+    "scripts/evaluation_strata.py": "2c5dab3eb6d21344d4d22f46785ef44a13811c049cd884818d0f0bcb984e56b6",
+    "tests/test_full_evaluation_strata.py": "2e6859bacbada67a80945262e04c1654398b35bef7942f7263c56bc362d07dac"
+  },
+  "changes": "Optional full-run frozen exposure-stratum validation and paired scoring/CI. Validate all arms before scoring; inference/agents/tools/utils/provider/supervisor are unchanged.",
+  "tests_passed": 28,
+  "independent_tests_passed": 28,
+  "proofs": {
+    "synthetic_tests.log": "766ecb2f8d7cede925253b973b999b7f068f833a1d46ae11d2fbfd01d0681513",
+    "full-strata-independent-review.txt": "b052d5a4a53358ab1e22dddcaa53d7539c7cf5c60fc2f71c9b892db1472ce1a7",
+    "full_strata_independent_tests.log": "56bad1dc1a99a548f4a3c73a2307145ae32d23af545b3ea8165ca0b27ff6ff34",
+    "full-strata-failclosed-edge-review.json": "75e5cd2b1684767c93801d28c53ac24340d6045426ceb1eb1709758a457ccd6f",
+    "manifest_metadata_validation.json": "080f4e4f74b8c0d4b2dd4812df816fa8a13a8cbca3c98412920a2e3da6faa364",
+    "legacy_report_equivalence.json": "f530b65e2bf75af1ce33d910a32890494c1e87c442a96a53e52429d06a4efe74",
+    "method_review.json": "febf9e2acb23c8e08c55ca92ba7b5a462ba3948af3fa02f047f4ec553d75ef6b"
+  },
+  "cli_additions": [
+    "--evaluation_strata PATH",
+    "--evaluation_strata_sha256 FINAL_PRESPECIFIED_SHA256",
+    "--full_terminal_confirmed"
+  ],
+  "real_manifest_metadata_sha256_at_review": "6c0410ae9fc581bf5cf6918f95d4d97407a8eb4b19d488cba6815937a1bbf965",
+  "actual_full_scoring_performed": false,
+  "real_unseen_question_answer_SQL_parsed_for_development": false,
+  "model_calls": 0,
+  "network_calls": 0,
+  "limitations": [
+    "External operational guard remains mandatory; caller flag is not independent process/source/audit proof.",
+    "No automatic favorable-arm or subgroup selection or acceptance decision is added. Outcome writer applies the frozen named team-minus-single gate.",
+    "The manifest source_sha256 auditor-provenance map is intentionally not treated as a future runtime-code binding; the four fixed data/metadata hashes are enforced.",
+    "Default legacy report equality was verified on a synthetic full cohort. This is not an additional real benchmark run."
+  ]
+}
+
+Independent staged full-strata review: PASS
+
+Reviewed /private/tmp/fhir-full-strata-analysis-y35odlda/source.
+Only existing public Python change is scripts/compare_runs.py; all existing
+agent/tool/utils Python sources match the active snapshot. New files are the
+analysis-only validator and synthetic regression tests.
+
+All 28 staged synthetic tests independently passed. The original whole-cohort
+report remains identical without strata on the same synthetic complete cohort.
+Explicit identity, authoritative row patient, finite first-attempt usage/latency,
+source/family/exposure hashes, membership and views are checked before scoring.
+
+Independent edge harness confirms zero typed scorer calls for:
+- required identity bindings missing from both arms;
+- invalid negative first-attempt latency in the second arm;
+- wrong patient metadata in the second arm.
+Earlier versions accepted or scored before rejecting these; the staged fixes
+close those findings. Terminal errors and failed first attempts remain in their
+scheduled denominators. Patient-block statistics preserve question weighting;
+one-patient view bounds are null. The terminal-guard field is explicitly a
+caller assertion, not process supervision or proof.
+
+No remaining concrete blocker found. The operational guard must still verify
+actual terminal jobs, source/audit integrity and complete intended full-run
+identities before real scoring. This review used only synthetic scoring; no
+actual unseen question/reference/SQL contents or real full accuracy were read.
+No model, FHIR, network, private configuration, or active-source edits occurred.
+
+Reviewed SHA256:
+compare_runs.py 607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c
+evaluation_strata.py 2c5dab3eb6d21344d4d22f46785ef44a13811c049cd884818d0f0bcb984e56b6
+test_full_evaluation_strata.py 2e6859bacbada67a80945262e04c1654398b35bef7942f7263c56bc362d07dac
+Independent test log: /private/tmp/full_strata_independent_tests.log
+Independent edge evidence: /private/tmp/full-strata-failclosed-edge-review.json
