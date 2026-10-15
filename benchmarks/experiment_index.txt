@@ -45,34 +45,10 @@ See milestone.txt/milestone.json for limitations, immutable-source checks,
 incident attribution, raw archive/checksums and required recovery validation.
 Actual SDK source-feedback and complete worker/gzip validation passed.
 
-V3c — fresh comparison after service-availability checks
-Current branch: experiments/query-contract-v3; record: benchmarks/design-v3c-20261014
-Source commit: 36c5770. Same V3 topology, prompts, phase/global caps and provider.
-One disclosed lifecycle correction: 22 host loop slots fit both source checks,
-with the same 20 actual solver-call guard. Six focused offline regressions pass.
-All four resumed health requests returned HTTP200 and reported East US 2;
-the public Azure status page reports Good; authenticated incident resolution
-remains unverified. Preflight is not benchmark accuracy or reliability proof.
-Scheduled: fresh300 single + fresh300 team, concurrent one-worker jobs,
-save1/gzip, unchanged200k tokens/30 tools, all first attempts retained.
-Status: COMPLETE WITH CONNECTION FAILURES; acceptance failed.
-Both fresh arms launched concurrently at about 23:35 UTC on 14 October.
-Pre-run freeze commit:e03e39e;136 source files verified unchanged.
-Single 91/300 (30.3%), team 88/300 (29.3%); paired difference -1.0 pp,
-patient-block 95% interval [-3.4, +1.5], six wins/nine losses.
-Single 183 errors (7 SDK timeouts, 176 connection); team 178 (1 timeout, 177 connection).
-No HTTP408 observed. Both workers abruptly failed near 00:13 UTC on 15 October.
-All 600 owned gzip audits and source/input/settings integrity checks passed.
-Default SDK transport is HTTPX2 2.13.1; earlier health/offline checks explicitly
-supplied HTTPX 0.28.1. Fresh requests on both transports now succeed, but generic
-saved errors cannot identify the original DNS/TLS/network/resource cause.
-See outcome.txt/results.json and the complete diagnostic/provenance records.
-Preserve all first attempts; add safe diagnostics before a fresh comparison.
-
 V3d — same semantic design with optional safe provider diagnostics
 Current branch: experiments/query-contract-v3; record: benchmarks/design-v3d-20261014
 Source commit: f00804f; 138 source files frozen before inference.
-All 57 agent/shared runtime source files equal V3c. Default SDK transport,
+All 57 agent/shared runtime source files retain the preceding V3 implementation. Default SDK transport,
 request parameters, 60-second timeout, zero SDK retries and existing budgets
 are unchanged. The local adapter adds only a safe start/end/error journal.
 Fifteen offline regressions pass; missing personal setup skips that optional
@@ -98,5 +74,5 @@ not fresh held-out proof. Small development checks have no experiment entries.
 A selected design will receive a separate real full 2,931-question three-arm
 launch record. No full benchmark has started for this goal yet.
 The user resumed on 14 October and requested a fresh complete fixed300 with
-a contemporaneous single control. V3c completed that comparison with connection failures.
+a contemporaneous single control. That fresh comparison is now running.
 The stopped V3b milestone remains historical; its pause did not complete the goal.
