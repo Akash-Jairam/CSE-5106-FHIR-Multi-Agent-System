@@ -4,6 +4,38 @@ These rules describe the released FHIR data representation and question
 language, not reference answers or per-question benchmark annotations.
 """
 
+CONVENTION_GUIDANCE = """
+Data-representation conventions (how released fields map to question words):
+- Coded answers are the released display string verbatim, with its original
+  spelling and capitalisation; do not paraphrase, normalise or translate codes.
+- "Specimen" or "specimen name" of a microbiology test is the Specimen
+  resource's type display (the test's specimen reference), not the test name
+  in Observation.code. "Organism(s)" are the child Observations linked to the
+  test through hasMember/derivedFrom; fetch them before answering or counting.
+  The time of a microbiology test is the parent test's effectiveDateTime.
+- "Admission type" of a hospital visit is the Encounter priority coding, not
+  Encounter.class or the encounter type list.
+- First/last/earliest/latest selection by time returns every distinct value
+  that shares the selected timestamp exactly: if two drugs (or routes, items)
+  start at the same minute, the answer lists both. Ties at a selected extreme
+  value are broken by the earliest time.
+- A drug or route named in the question matches the released name/route string
+  exactly (e.g. "Furosemide" does not include "Furosemide 10mg/mL"); when the
+  question quotes a name, filter on equality after inspecting the actual strings.
+- "How many different drugs/items" counts distinct released name strings over
+  every scoped record. Search previews are bounded: enumerate the complete scoped
+  set (paging or the patient-wide Medication closure) before counting; a count
+  equal to a preview size is a retrieval gap, not an answer.
+- A "when" answer is the full released timestamp of the selected record
+  (prescription validityPeriod.start, measurement effectiveDateTime, encounter
+  period boundary) at its stored precision, not a date or a related field.
+- Existence questions ("has/was there any ...") are answered within the
+  question's time window and scope only; an event outside the window is no.
+- Per-period aggregates (monthly/daily/yearly min, max, mean) are answered as a
+  plain list of the numeric values in period order, one number per period,
+  without labels or text.
+"""
+
 SEMANTIC_GUIDANCE = """
 Interpret the question before computing:
 - Use the assumed current time as the upper bound of every search. Compare
@@ -62,4 +94,4 @@ Interpret the question before computing:
 - Distinguish established absence (null for no measurement, false for existence,
   zero for a count) from missing retrieval, failed tools or uncertain interpretation.
   A negative answer needs a completed search of the appropriate resource type.
-"""
+""" + CONVENTION_GUIDANCE

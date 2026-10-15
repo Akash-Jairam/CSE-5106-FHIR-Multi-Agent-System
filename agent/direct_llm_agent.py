@@ -1,4 +1,5 @@
 from .base_agent import BaseAgent
+from .ehr_semantics import CONVENTION_GUIDANCE
 from .output_schema import ANSWER_FORMAT_INSTRUCTIONS, has_json_answer, parse_final_message
 from tools.perturbation import get_perturbed_starting_packet
 from tools.starting_packet import get_starting_packet
@@ -17,7 +18,7 @@ You are given an excerpt of the record (the "starting packet"): the patient, the
 - Use the assumed current time in the context to resolve relative dates ("this year", "last hospital visit").
 - Times in the record carry UTC offsets; report times as they appear (local wall-clock time), without the offset.
 - If the excerpt does not contain what is needed, set "answer" to null and explain in "limitation". Do not guess.
-
+{CONVENTION_GUIDANCE}
 {ANSWER_FORMAT_INSTRUCTIONS}"""}
 
     def _run(self, question: str) -> dict:

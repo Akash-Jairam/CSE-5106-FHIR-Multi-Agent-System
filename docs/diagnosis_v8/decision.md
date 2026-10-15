@@ -12,9 +12,9 @@ Both-wrong core = 45 questions (15 pts). Root causes:
 
 | root cause | n | fix type | verification could help? |
 |---|---|---|---|
-| convention (benchmark convention not stated anywhere in the prompt) | 32 | shared guide | no |
+| convention (benchmark convention not stated anywhere in the prompt) | 28 | shared guide | no |
 | retrieval_gap (needed resource never fetched / preview cap) | 8 | tool + guide | yes |
-| label_issue (gold arguably wrong or not representable in FHIR) | 3 | none | no |
+| label_issue (gold arguably wrong or not representable in FHIR) | 7 | none | no |
 | format (correct values, un-typeable output shape) | 2 | shared guide | no |
 
 Convention + label + format = 37/45 = **82 %** (≥ 60 % threshold of the
@@ -28,8 +28,11 @@ plan's decision rule). Five templates account for 30 of the 45:
 - **T001 count distinct drugs (5)** — gold counts 29–97 distinct drug strings;
   agents count a 32-record retrieval preview.
 - **T043 admission type (4)** — gold is `admissions.admission_type`
-  (`EW EMER.`, `OBSERVATION ADMIT`, …) = `Encounter.type` display verbatim;
-  agents answer `Encounter.class`.
+  (`EW EMER.`, `OBSERVATION ADMIT`, …). The released Encounter carries it only
+  as a normalized `priority` coding (v3-ActPriority) that collapses categories
+  (`scripts/packet_query.py` refuses `admission_type` for the same reason), so
+  the raw string is not recoverable; agents answer `Encounter.class`. Counted
+  as label_issue.
 - **T055 organisms (3)** — organisms are child Observations reachable only
   through `hasMember`; agents never fetch them.
 
@@ -61,7 +64,7 @@ either; it is budget pressure and verifier-induced abstention/overwrites
 
 `agent/ehr_semantics.SEMANTIC_GUIDANCE` gains data-representation rules for
 the convention findings: coded-display verbatim answers (`Specimen.type`,
-`Encounter.type`), tie-set completeness for first/last-by-time selections,
+`Encounter.priority`), tie-set completeness for first/last-by-time selections,
 exact drug/route string matching, distinct-count over the full Medication
 closure, `charttime` ≙ parent test `effectiveDateTime`, window-scoped
 existence, plain-list output for per-period aggregates. These are statements
@@ -82,9 +85,9 @@ verifier that does not share the analyst's priors**:
    the host with no model call on the analyst's executed draft:
    - `tie_completeness`: a first/last-by-time selection over drugs/routes
      must return every distinct value sharing the selected timestamp.
-   - `verbatim_code`: specimen / admission-type questions must answer a
-     display string that occurs verbatim in a cited `Specimen.type` or
-     `Encounter.type`.
+   - `verbatim_code`: specimen-name questions must answer a display string
+     that occurs verbatim in a cited `Specimen.type`; admission-type answers
+     must come from `Encounter.priority`, not `Encounter.class`.
    - `timestamp_field`: a "when" answer over prescriptions / microbiology must
      equal `validityPeriod.start` / the parent test `effectiveDateTime` of a
      cited record (minute precision).
