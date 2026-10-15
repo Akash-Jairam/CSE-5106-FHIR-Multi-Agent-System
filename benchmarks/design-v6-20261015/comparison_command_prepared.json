@@ -1,0 +1,43 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "prepared_at_utc": "2026-10-15T08:45:13.285184+00:00",
+  "prerequisite": "Both owned sessions97080/97297 terminal; exact frozen V6 guard deep600 completion PASS before any scoring.",
+  "environment": {
+    "FHIR_LOCAL_AZURE_CONFIG": "",
+    "MODEL": "gpt-6-luna",
+    "LITELLM_LOCAL_MODEL_COST_MAP": "True",
+    "PYTHONPATH": ".local-setup/phase2-dependencies:."
+  },
+  "argv": [
+    ".venv/bin/python",
+    "scripts/compare_runs.py",
+    "--bootstrap",
+    "10000",
+    "--arm",
+    "archive_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/ordinary_single_agent.json",
+    "--arm",
+    "refreshed_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/verified_team_v2_300q/ordinary_single_agent.json",
+    "--arm",
+    "v3d_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_single_agent.json",
+    "--arm",
+    "v3d_team=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_multi_agent.json",
+    "--arm",
+    "v4_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/plan_conditioned_v4_300q/ordinary_single_agent.json",
+    "--arm",
+    "v4_team=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/plan_conditioned_v4_300q/ordinary_multi_agent.json",
+    "--arm",
+    "v5_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/ordinary_single_agent.json",
+    "--arm",
+    "v5_team=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/ordinary_multi_agent.json",
+    "--arm",
+    "v6_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/independent_recomputation_v6_300q/ordinary_single_agent.json",
+    "--arm",
+    "v6_team=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/independent_recomputation_v6_300q/ordinary_multi_agent.json",
+    "--output",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/results.json"
+  ],
+  "shell_command": ".venv/bin/python scripts/compare_runs.py --bootstrap 10000 --arm 'archive_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/ordinary_single_agent.json' --arm 'refreshed_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/verified_team_v2_300q/ordinary_single_agent.json' --arm 'v3d_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_single_agent.json' --arm 'v3d_team=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_multi_agent.json' --arm 'v4_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/plan_conditioned_v4_300q/ordinary_single_agent.json' --arm 'v4_team=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/plan_conditioned_v4_300q/ordinary_multi_agent.json' --arm 'v5_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/ordinary_single_agent.json' --arm 'v5_team=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/ordinary_multi_agent.json' --arm 'v6_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/independent_recomputation_v6_300q/ordinary_single_agent.json' --arm 'v6_team=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/independent_recomputation_v6_300q/ordinary_multi_agent.json' --output '/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/results.json'",
+  "primary_contrast": "v6_team minus v6_single; all first attempts. Other historic contrasts descriptive.",
+  "strict_development_gate": "v6_team>239 AND v6_team>fresh v6_single",
+  "scoring_reads_performed": false
+}

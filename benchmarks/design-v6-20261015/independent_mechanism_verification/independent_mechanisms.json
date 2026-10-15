@@ -1,0 +1,144 @@
+{
+  "status": "PASS_INDEPENDENT_ACTUAL_RELEASED_A_AND_B_MECHANISMS",
+  "summary": {
+    "questions": 300,
+    "owned_Team_audits_restored_now": 300,
+    "a_outcomes_reconstructible": 300,
+    "actual_released_A_correct": 233,
+    "released_Team_correct": 231,
+    "A_outcome_classes": {
+      "actual_eligible_A_before_auxiliary": 272,
+      "actual_ineligible_or_prose_A_inherits_row_error": 24,
+      "recorded_primary_fatal_failure": 4
+    },
+    "primary_source_bound": 272,
+    "primary_fatal_wrong": 4,
+    "source_bound_B_candidates": 37,
+    "B_joint_typed_correctness": {
+      "A1_B1": 31,
+      "A1_B0": 4,
+      "A0_B0": 2
+    },
+    "A_correct_on_B_pool": 35,
+    "B_correct_on_B_pool": 31,
+    "A_wrong_B_correct": 0,
+    "strict_JSON_disagreements": 8,
+    "disagreement_correctness": {
+      "A1_B0": 4,
+      "A0_B0": 1,
+      "A1_B1": 3
+    },
+    "actual_B_switches": 4,
+    "B_switch_effect": {
+      "neutral": 3,
+      "harmful": 1
+    },
+    "auxiliary_fatal_correct_A_losses": 1,
+    "primary_source_revisions": 5,
+    "primary_source_revision_draft_to_released_A": {
+      "neutral": 3,
+      "harmful": 2
+    },
+    "computed_correct_then_source_withheld_A": 2,
+    "all300_root_posthoc_row_endpoint_fields_match": true
+  },
+  "edge_cases": {
+    "actual_B_switches": [
+      {
+        "question_id": "1f40a273d375689f569acb2e",
+        "A_correct": false,
+        "B_correct": false,
+        "final_correct": false,
+        "effect": "neutral"
+      },
+      {
+        "question_id": "2143a6938a83abd7a5830ec5",
+        "A_correct": true,
+        "B_correct": true,
+        "final_correct": true,
+        "effect": "neutral"
+      },
+      {
+        "question_id": "45892e6b5af0f6b70b5c1edd",
+        "A_correct": true,
+        "B_correct": true,
+        "final_correct": true,
+        "effect": "neutral"
+      },
+      {
+        "question_id": "6dc27e0c371f7e5dd9d2a981",
+        "A_correct": true,
+        "B_correct": false,
+        "final_correct": false,
+        "effect": "harmful"
+      }
+    ],
+    "auxiliary_fatal_valid_A_losses": [
+      {
+        "question_id": "568a32b005438f0d65d4f758",
+        "actual_A_correct_before_auxiliary": true,
+        "A_error": false,
+        "Team_error": true,
+        "auxiliary_fatal": true
+      }
+    ],
+    "computed_correct_but_withheld_not_released_A": [
+      {
+        "question_id": "bf1ccb5ac4a847d66be6bc96",
+        "computed_candidate_correct": true,
+        "released_A_correct": false,
+        "actual_source_issues_recorded": true,
+        "is_primary_source_revision": true
+      },
+      {
+        "question_id": "d594afe3713d185962186bc5",
+        "computed_candidate_correct": true,
+        "released_A_correct": false,
+        "actual_source_issues_recorded": true,
+        "is_primary_source_revision": true
+      }
+    ]
+  },
+  "source_proof": {
+    "completion_report_sha256": "ba7a383078218c39c45ec4b485414b1adb248d14cd6e73fe83afd28bcb9d92fd",
+    "official_report_sha256": "678ed113da6e7b785d7e5ef2ce12dfb4db0c6ae7c11584aeff4a91316542f37c",
+    "raw_Team_sha256": "dd685d9a19afc4d408168cd4ff0d8d2c23f15457528738abce9ec231bc67a428",
+    "root_mechanisms_sha256": "870de0f130c4248a06a0b468beb55a6fe39ecf1d40f51b862df6556201ae098a",
+    "root_mechanism_rows_sha256": "387cd00bb01a80c940b86fb53dab54397b27c733af96ac861b23a6d5ec602168",
+    "prior_independent_report_sha256": "64a19e856acc07677c1bdb9b4706b441dfa0a4f2decc9681299d85a3b49276fd",
+    "prior_independent_code_sha256": "3b6689112b7d446d71d3bb0d33a60ff9ec63078884a79a1f4753f31ed9ca969e",
+    "unchanged_scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+    "reproduction_sha256": "67e2b6418ac31414bb059bd0ffe65de89a51129ba8f6f529850baf3664f66feb",
+    "all300_compared_field_inventory": [
+      "correct",
+      "a_only_available",
+      "a_only_correct",
+      "a_only_error",
+      "a_only_disposition",
+      "primary_fatal_recorded",
+      "primary_source_bound",
+      "primary_source_revised",
+      "primary_initial_draft_correct",
+      "primary_prewithholding_candidate_correct",
+      "primary_source_revision_effect_to_released_A",
+      "primary_source_withholding_lost_typed_credit",
+      "b_source_bound",
+      "b_typed_correct",
+      "b_answer_agreement_exact",
+      "independent_candidate_selected",
+      "released_B_effect",
+      "auxiliary_stage_effect",
+      "auxiliary_non_switch_credit_lost"
+    ]
+  },
+  "limits": [
+    "A-only is the actual recorded175k/27 natural Single primary, not a hypothetical200k/30 control or causal primary-cap ablation.",
+    "Primary fatal is wrong; ineligible A keeps actual row.error; eligible A is scored before a later auxiliary fatal outcome. Missing A would reject reconstruction, never fabricate a null credit.",
+    "Primary source revision uses actual draft to Base-normalized released A. primary_revision.final is a pre-withholding candidate and never substitutes for released A.",
+    "Typed-correct withheld candidates still have recorded source issues. This does not establish validator false positives or source support.",
+    "The37 source-bound B pool is conditional on eligibility, coverage and execution. Zero observed helpful alternatives there is not a statement about all263 unavailable B cases.",
+    "Strict JSON answer difference and unchanged typed correctness are distinct; semantic repair counts do not come from generic revision.revised.",
+    "Actual final executions/source replies were bound to traces and immutable workspace, not re-executed/refetched. Source checks do not establish semantic correctness or search completeness.",
+    "All300 first attempts/errors retained; no full comparison/deep600 guard rerun or QA outside completed fixed300. Protected1397 and fullCSV contents were not read."
+  ]
+}

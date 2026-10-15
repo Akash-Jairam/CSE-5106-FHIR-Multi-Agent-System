@@ -1,0 +1,83 @@
+Independent completed V6 mechanism verification — actual released A endpoint
+
+PASS: all 300 owned Team audits restored and all 300 root posthoc row endpoint
+fields independently reproduced from the actual retained artifacts/traces and
+unchanged typed scorer. Prior official verification code/report remained exact.
+No full comparison, full600 guard, program execution, source re-fetch or QA
+outside completed fixed300 occurred. Protected1397, fullCSV contents, private
+config, network, models and FHIR remain untouched. No active source was edited.
+
+Released A-only is233/300 with all300 outcomes reconstructible:
+* Four declared primary-fatal outcomes are incorrect, regardless of typed-null
+  conventions. Each has a recorded terminal error; no failure becomes a null
+  success.
+* Twenty-four nonfatal ineligible/prose A outcomes preserve the actual rendered
+  answer and actual row.error state. All24 error states are None in this run;
+  'inherits error' does NOT mean24 terminal errors. None is scored only when it
+  is the actual released A, not because an artifact/draft is missing.
+* Two hundred seventy-two eligible A outcomes bind actual final program output,
+  immutable workspace and original automatic Single source check. Their A-only
+  error is None even if a later auxiliary call fails. The one later auxiliary
+  fatal outcome loses a source-bound, typed-correct actual A.
+
+Team231 = released A233 minus one harmful selected B minus one auxiliary-fatal
+correct-A loss. No other A-to-Team correctness change exists. Actual A-only is
+this recorded175k/27 natural Single policy, NOT a hypothetical200k/30 control or
+a causal cap ablation against the separate stochastic Single234 run.
+
+B pool and strict disagreement versus typed correctness
+There are37 actual source-bound eligible Bs. Joint unchanged typed correctness:
+31 both correct,4 A-correct/B-wrong,2 both wrong,0 A-wrong/B-right. Thus A is35/37
+and B31/37 within this conditional pool. The other263 cases have no eligible B;
+zero helpful B in the observed pool is not a claim about an unobserved full pool.
+
+Twenty-nine answers agree by exact finite JSON and preserve A. Eight strict JSON
+disagreements comprise4 A-correct/B-wrong,3 both typed-correct and1 both wrong.
+Strict finite JSON preserves boolean/number distinctions and list order; typed
+scoring can accept distinct representations, precision or tolerated values.
+A JSON change therefore does not by itself imply a correctness repair.
+
+Four actual selected Bs produce0 helpful,1 harmful and3 neutral outcomes. The
+neutral selections comprise2 both-correct and1 both-wrong. Actual selector/tool
+replies, final program/source artifacts and released answer all bind; this is
+not inferred from the generic revision.revised flag.
+
+Primary-source revisions and withheld computed answers
+Five completed primary-source revisions have draft -> actual released A effects
+of2 harmful/3 neutral/0 helpful. Source feedback and a completed distinct second
+candidate are different events; the generic revised flag can also reflect B.
+The two typed-correct computed primary_revision.final candidates later withheld
+by source issues are the same two harmful primary-source revision endpoints.
+They are NOT released A and earn no invented A credit. Their typed correctness
+does not establish source support or prove that the validator was falsely strict.
+Those source effects are already inside A233; do not subtract them again when
+explaining the later A233 -> Team231 transition.
+
+Source/assurance boundary
+All300 owned restores use unchanged audit_store and the frozen guard's lossless
+restoration check. Eligible A/B binding reuses only original recorded execution,
+canonical contributor handling and clean source replies; no Python program or
+FHIR query is re-run. Source checks prove their recorded field support, not
+semantic correctness, retrieval completeness or independence of a shared held
+workspace. All failures remain in the first-attempt denominator.
+
+Artifacts (new independent analysis; previous verification immutable)
+verify_mechanisms.py SHA256
+67e2b6418ac31414bb059bd0ffe65de89a51129ba8f6f529850baf3664f66feb
+independent_mechanisms.json SHA256
+00982a6874a3d6caee0402cdc82d8e7d05ac0e52b8a61cd15be5c179046d58ac
+Prior verify_development.py SHA256
+3b6689112b7d446d71d3bb0d33a60ff9ec63078884a79a1f4753f31ed9ca969e
+Prior independent_verification.json SHA256
+64a19e856acc07677c1bdb9b4706b441dfa0a4f2decc9681299d85a3b49276fd
+
+Reproduction
+FHIR_LOCAL_AZURE_CONFIG='' FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR='' \
+  <project>/.venv/bin/python -IB <packet>/verify_mechanisms.py \
+  --root '<absolute-project>' --report /private/tmp/NEW_V6_MECHANISM_CHECK.json
+The original execution uses prior immutable utilities/report in
+/private/tmp/fhir-v6-independent-verification-pf981jd9. If those files are copied
+into a formal record, import this script as a module and point its PRIOR Path
+at that SHA-identical folder before calling verify(root,report); the embedded
+prior code/report hashes must still match. This is a public metadata path only.
+No actual full/source/provider settings or hidden labels are substituted.

@@ -1,0 +1,94 @@
+{
+  "status": "FROZEN_COMPLETE_FIXED300_ENGINEERING_ONLY_NO_SCORING",
+  "completion_report_sha256": "ba7a383078218c39c45ec4b485414b1adb248d14cd6e73fe83afd28bcb9d92fd",
+  "official_report_sha256_bytes_only": "678ed113da6e7b785d7e5ef2ce12dfb4db0c6ae7c11584aeff4a91316542f37c",
+  "frozen_manifest_sha256": "7c1263a60c0c2a51cc009d8a4925d5a4e773c113d3af0476a6b058407114a8a2",
+  "frozen_source_files": {
+    "agent/independent_recompute_aux.py": "f6659d5de56841068666f50c83d9bf3673e180b21c97fe08cedbfca4f1a8fdd6",
+    "agent/continuous_primary.py": "f3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963",
+    "agent/single_agent.py": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+    "agent/analysis_agent.py": "113a74110c0b925a8cc5f57dc6e2fe6da99f5b258c241d27f3a0b933a3232adc",
+    "agent/output_schema.py": "daba54d1a63237f7961bce70c89bc064b03708818f6aaa704a958b02bb7b13a6",
+    "tools/python_worker.py": "fd1384f568c9af65e5a7411f1a056598c9f0a635b3c4bedb6263ebc69d3a37c3",
+    "tools/python_executor.py": "87d701913d1505283ce481720bf9f2780e1759d892680d7f8d373fbe039b6c8f",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf"
+  },
+  "artifacts": {
+    "census.py": {
+      "sha256": "a3593fbefb3c5bb921348f2b711221bc803d5fb6bf2d0ee80637d0530e3e83cf",
+      "bytes": 6619
+    },
+    "deep_census.json": {
+      "sha256": "a7c94437759e41f816681324bd6fac7f37715533254f44a08ca022d801cc4fc7",
+      "bytes": 3218
+    },
+    "deep_census.py": {
+      "sha256": "393f830a916d08e4db3020f81250c7bab7d730443ddbd095f37a518e9dab4d59",
+      "bytes": 9722
+    },
+    "deep_rows.json": {
+      "sha256": "b5e027afb54663700a22a2c16f7afb21a5e6e213d21ea08d0c793f97118ae674",
+      "bytes": 110777
+    },
+    "engineering_census.json": {
+      "sha256": "c7dd55a16a2f73ea3d19dde0b12b2c2fc6a3460da08cbb605049017568ab6bc1",
+      "bytes": 2562
+    },
+    "engineering_rows.json": {
+      "sha256": "f62856c9d5d11a6904c3f441fdd4101ed799424b1c648cb187d8df68d70684f0",
+      "bytes": 258998
+    },
+    "final_reconciliation.json": {
+      "sha256": "e6b090187559126716e2a7a1a628abfc5be716e107f83a43ed594128f2226bd7",
+      "bytes": 1628
+    },
+    "final_reconciliation.py": {
+      "sha256": "a2ac451f82a39eb29549d12a723072d350106b7877604a09be69f5eadcfc3472",
+      "bytes": 6075
+    },
+    "independent_count_review.txt": {
+      "sha256": "9ad8c4138c6d6392918f06034b8d25c240cbc28fb8beef958f760cea5daefa3c",
+      "bytes": 1121
+    },
+    "private_case_ID_provenance.json": {
+      "sha256": "5e1184e55ea9b3aca41d5d71e35176a1b484831397fe228ec6bf1928f0599c72",
+      "bytes": 1740
+    },
+    "private_case_categories.json": {
+      "sha256": "672c6ddaf2b70c0be490a3768f259df2336936a6760cfd86055dceb0ae05cc4d",
+      "bytes": 20307
+    },
+    "provenance_patterns.json": {
+      "sha256": "0916fece2e289935cf7c0c61f6309940c0cdf3d77584457b33df093c4ead33a2",
+      "bytes": 853
+    },
+    "provenance_patterns.py": {
+      "sha256": "453a217b223fcf38096ef7e91b3563ff8935605699c65be450bfaaf839346fc9",
+      "bytes": 5757
+    },
+    "report.txt": {
+      "sha256": "09781c2a38774a709ab070981a988ae3f5e9df422c680c0df134c21f7ba558e9",
+      "bytes": 9387
+    },
+    "two_unresolved_id_patterns.py": {
+      "sha256": "8437c1fdee655152e67e3724f9cb6675c036a1a86c7a20d8ac772b7ca0456b42",
+      "bytes": 1921
+    }
+  },
+  "reference_answer_field_accesses": 0,
+  "scorer_imports": 0,
+  "program_replays": 0,
+  "network_model_FHIR_calls": 0,
+  "protected_confirmation_fullQA_SQL_config_reads": 0,
+  "active_source_mutations": 0,
+  "posthoc_accuracy_aggregates": "Supplied by root; not independently rescored or reference-inspected",
+  "source_review_child": "/root/critic_feasibility/fhir_scope_docs read-only branch/contract mapping; no actual data",
+  "final_first_failure_and_ID_provenance_authority": "final_reconciliation.json; provenance_patterns.json is the earlier coarse structural pass, whose2 unresolved helper cases were refined49bare+1namespace without replay",
+  "independent_aggregate_consistency_review": {
+    "path": "/private/tmp/fhir-v6-engineering-diagnosis/independent_count_review.txt",
+    "sha256": "9ad8c4138c6d6392918f06034b8d25c240cbc28fb8beef958f760cea5daefa3c",
+    "status": "PASS_NO_CONCRETE_MISMATCH",
+    "actual_data_access": false,
+    "test_reruns": 0
+  }
+}

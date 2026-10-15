@@ -1,0 +1,76 @@
+Independent completed V6 development verification: matches official; gate fails
+
+Verified only the completed fixed300 raw Single and Team arms, their metadata,
+public frozen source/runtime and pinned completion evidence. No protected1397
+questions/gold/SQL, full-CSV contents, configuration, models, network or FHIR were
+opened/called. The full CSV was only SHA-hashed. No runtime/source edits occurred.
+No posthoc mechanism analysis was duplicated.
+
+Independent unchanged typed scoring (all300 first attempts/error retention):
+  Single 234/300 (78%), one terminal error,19 known budget stops.
+  Team   231/300 (77%), five terminal errors,zero recorded global budget stops.
+  Team vs Single:15 wins,18 losses,216 both correct,51 both wrong.
+  Difference -0.01;95% patient-cluster interval exactly
+    [-0.05226537769579376,0.031848056863288086].
+  All six saved provider/accounting failures score incorrect. Unknown usage is
+  retained for those six attempts; it is not zero billing or an exclusion.
+  Predeclared selection requires Team>239 AND Team>freshSingle234. Both fail;
+  no promotion/full launch follows. The interval includes zero, so this does
+  not establish statistically reliable harm or superiority.
+
+Exact seed path reproduced independently
+The frozen compare uses sorted question-ID arm_records, seed5106 separately for
+EVERY clustered_mean and paired_difference, not seed+arm/pair index. Statistics
+uses patient ID strings in np.unique order, np.random.default_rng(5106), then
+multinomial(58, uniform58, size10000) cluster weights. Each resample retains all
+questions for each sampled patient. Numerator is weighted per-patient sum and
+denominator is weighted per-patient question count, yielding question-weighted
+resampling rather than patient-macro accuracy. Percentiles use
+(1-.95)/2*100 and100-tail with numpy.percentile's default linear interpolation.
+The independent grouping/weighting implementation exactly matches both frozen
+statistics APIs and official arm/paired values, using NumPy2.3.2.
+
+Null/error sensitivity limits (primary scoring unchanged)
+There are42 typed empty references. Actual non-error None answers occur51 times
+in each arm;33 Single and31 Team earn unchanged typed credit. This is credit for
+actual outputs, not fabricated missing metadata or error outcomes. It does not
+prove justified abstention, complete retrieval or source support. One Team error
+would receive typed empty credit if its error were wrongly ignored; this verifier
+correctly keeps it wrong. The Single error would not receive such typed credit.
+Even the deliberately optimistic bound of counting every Team error correct
+would be236, still below required minimum240; that bound is not adjusted accuracy
+and says nothing about what a recovery run would actually answer.
+
+Evidence scope
+* Verified176 frozen source hashes and source ZIP, four public runtime hashes
+  and runtime ZIP, model/budget/storage/actual strategy/input/code identities,
+  fixed ordered300 membership, exact cross-arm five-field input metadata and
+  input_hash reproduction from those completed rows. Scorer/compare bytes match
+  root's literal pins. Every row has its owner-bound audit reference and no
+  retry history. Both raw and sidecar digests match completed guard and official.
+* Reused the SHA-pinned deep600 PASS for all gzip CRC/SHA/ownership/restoration
+  and safe SDK journal pairing; did not claim a new600-CRC run. All4195 SDK pairs,
+  4189 successes and6 errors are retained in that pinned report. Rechecked
+  archive byte SHA/size and exact609-member central-directory allowlist/sizes,
+  without re-decompressing audit payloads.
+* Root's SHA-pinned actual owned-session exit record precedes official scoring.
+  That is an external root attestation; this script cannot recreate historical
+  process state. Every checked source/input/report/raw digest was rechecked
+  before fresh private report publication.
+* Fixed300 has been reused for adaptive development; this is exploratory and
+  does not assess once-only1397, patient/model/task generalization or semantics.
+
+Reproduction (fresh external report path; completed fixed300 only)
+FHIR_LOCAL_AZURE_CONFIG='' FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR='' \
+  <project>/.venv/bin/python -IB <packet>/verify_development.py \
+  --root '<absolute-project>' --report /private/tmp/NEW_V6_VERIFICATION.json
+
+Immutable verification artifacts:
+verify_development.py SHA
+3b6689112b7d446d71d3bb0d33a60ff9ec63078884a79a1f4753f31ed9ca969e
+independent_verification.json SHA
+64a19e856acc07677c1bdb9b4706b441dfa0a4f2decc9681299d85a3b49276fd
+Official report SHA
+678ed113da6e7b785d7e5ef2ce12dfb4db0c6ae7c11584aeff4a91316542f37c
+Completion report SHA
+ba7a383078218c39c45ec4b485414b1adb248d14cd6e73fe83afd28bcb9d92fd

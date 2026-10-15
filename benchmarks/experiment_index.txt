@@ -168,10 +168,18 @@ worker integration tests pass on final bytes; 96 independent earlier tests and
 a hash-bound prompt-diff review passed. Three reserved dev questions plus one
 interface recheck produced27 successful SDK calls, no protected overlap or
 accuracy scoring. These are engineering checks, not separate experiments.
-Status: RUNNING — fresh600 first attempts launched after prelaunch PASS and
-pushed freeze82452a9; no partial accuracy scoring.
-Scheduled: fresh Single300 + Team300 first attempts, concurrent one worker/arm,
-save1/gzip/native diagnostics. No partial scoring or selective replacement.
+Status: COMPLETE — acceptance failed. All600 first attempts retained, including
+one Single and five Team terminal provider/accounting errors; no retries.
+Team231/300 (77.0%) versus fresh Single234/300 (78.0%), paired -1.0pp,
+patient-block95% interval [-5.23,+3.18]pp,15wins/18losses. Both owned jobs were
+terminal before all600 gzip audits/source/runtime/4195 SDK pairs passed and
+scoring began. Independent typed scoring exactly reproduces the comparison.
+Recorded actual175k/27 A-only233;37 eligible Bs contain zero A-wrong/B-right
+cases. Four selected Bs cause0help/1harm/3neutral; one auxiliary fatal outcome
+loses a correct A. Most B executions fail their contract/runtime before source
+checking; feedback may improve eligibility but does not establish accuracy gain.
+Exact outcome, negative mechanisms, independent reviews and archive hashes are
+in the record. No promotion or full launch; protected confirmation remains unused.
 Strict development gate: Team >239 AND >fresh contemporary Single. A pass only
 selects a method for the once-only full2931 three-arm run and prespecified1397
 question-confirmation assessment. Model/task/patient transfer remains unmeasured.

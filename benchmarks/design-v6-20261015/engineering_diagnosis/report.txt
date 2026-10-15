@@ -1,0 +1,54 @@
+V6 completed fixed300 engineering diagnosis — no scoring, answer/reference review or next-design selection
+
+Conclusion
+B eligibility was limited mainly by the one-shot program/output interface, not native-tool refusal: all220 retained successful generation replies requested exactly one execute_python_code function. Of218 executed programs,138 failed before source checking;99 of these had missing metadata or malformed citation IDs. Feedback could plausibly correct many mechanical failures, as actual Single already receives worker feedback, but the completed aggregate posthoc evidence supplied by root shows no demonstrated complementary correct B among the37 eligible candidates. More eligible programs cannot be equated with accuracy gains.
+
+Exact first-failure funnel (mutually exclusive endpoints sum300)
+  4 fatal primary/provider accounting outcomes, no auxiliary call
+ 24 nonfatal primary ineligible for recomputation:18 released output did not bind a clean executed final,6 no surviving explicit final
+ 30 bound/released A with explicit limitation, auxiliary skipped before generation
+ 21 pre-call intact-packet reservation skips, every reservation >25000
+  1 admitted generation/provider failure with unknown usage and no retained response
+  2 native argument rejections
+138 worker execution/contract errors
+ 35 worker-success programs explicitly declaring a limitation
+  7 candidate entries exceeding8000-byte selector reservation
+  1 original source-check rejection
+ 37 source-clean eligible B
+Of37 eligible:29 exact typed answer agreements preserve A without selector;8 disagreements invoke selection,4 chooseA and4 chooseB. These nested counts are not additional endpoints.
+
+Response/call/tool reconciliation
+221 packets were admitted to invocation:220 have bound generation replies,1 is the fatal unknown-usage send. There are228 known-usage auxiliary model calls (220 generation+8 selector) plus1 unknown-usage invocation,229 attempted calls total. There are256 actual auxiliary tools:218 final executions+38 original source checks. No prose-only, empty, multiple-native or wrong-function generation response was observed. One native arguments JSON is invalid; one combines the five result variables as additional top-level native arguments, although only code/mode/optionaltimeout are accepted. No valid parsed code exceeds6000characters (219 parseableargument objects, max5510). One generation usage reaches the4000completion cap; there is insufficient retained finish-reason evidence to attribute other failures to truncation.
+
+138 worker failures (disjoint; detailed outputs retained in original owned audits)
+ 50 citation resource_id not a supported full held Type/id
+ 49 missing final metadata variables
+ 20 ModuleNotFoundError, all20 programs import dateutil
+  7 final answer has invalid scalar/list/null shape
+  4 metadata container types invalid
+  4 SyntaxError
+  2 no assigned answer variable
+  1 AttributeError
+  1 TypeError
+Missing-variable mentions overlap across49:37 contributing_ids,17 limitation,7 evidence,6 operation. These counts describe the worker's first validation failure, not every latent defect. The native tool documentation does not promise stdlib-only imports; dateutil failures are therefore a plausible generic environment-interface/feedback problem, not evidence correction is impossible.
+
+Citation-ID provenance (all50 programs statically inspected; no replay or patient values retained)
+49 derive citation IDs from bare record['id']/get('id'):48 direct or variable-resolved,1 through a simple helper. One helper loops retrieved_resources.items() and returns the containing mapping key after matching a record, confusing the type→list workspace namespace with a full resource ID; its fallback is also a bare ID. All50 cases' held input ID strings conform to bare FHIR ID syntax. This confirms generic full-Type/id construction and one namespace misunderstanding as the observed leading defects. There are0 confirmed fabricated or not-held literal IDs in this census. This is not proof that every intended resource was held or every repaired path/value would pass: the first failure masks later errors. A correction must derive the actual containing resource type and retain original source checking; blindly adding a prefix or relaxing ownership would not establish support.
+
+Other rejections
+All35 successful but ineligible B programs explicitly declare limitations;28 have empty evidence,7 nonempty. Overlapping language tags:31 absence/no-match/missing-record language,5 uncertainty/ambiguity/insufficiency,20 temporal-scope terms,14 concept/unit/mapping terms. No preview/sample wording was detected. These are coarse self-reported text tags, not evidence records are absent or that a null result is correct. They cannot be dismissed as cosmetic schema failures or accepted merely by deleting limitation.
+All21 pre-call coverage skips exceed the intact25000-token two-call reservation:25162–40919, median26541. They are not tool exhaustion. Admitted reservations span18694–24732, median20864. Seven candidate-entry rejections are9583–55395bytes, median16637, despite code remaining within6000characters. Programs/artifacts/source-summary metadata share that8000-byte bound; the host did not silently truncate them. The one source rejection reports one bad_path and one valid citation, one issue total. It is an actual failed support check, not a format-only success that should have been released.
+
+Assurance and plausible bounded hypotheses
+The frozen B prompt states the full worker mapping is available beyond its preview and explicitly forbids a second execution/feedback. Execution returns detailed errors, but the generator never receives them. Actual Single has a full five-variable example and ordinary execution/source-feedback continuation; B has textual contract guidance and one shot. A generic auxiliary-specific native schema/example and explicit workspace Type→list / full-Type-id / worker-library interface could therefore improve contract compliance. A bounded repair experiment could expose actual missing-variable, ID, import and runtime errors without A or gold, re-execute, then apply the unchanged original source gate. Such an experiment must predeclare how the same25k/3tools/2calls funds repair versus selection; feedback is not free, and patching a result without execution/source checking is not equivalent.
+Packet coverage is a separate hypothesis: inspect lossless representation/reservation composition before any cap change; do not silently drop A/B code, necessary evidence, or complete context. No evidence here justifies granting B more budget, ignoring limitations, relaxing the shared source checker or declaring held retrieval complete.
+Root-supplied official aggregate posthoc context (not independently rescored here): released recorded A-only233/300; eligible B37 has35correct A and31correct B, zero Awrong/Bright; eight strictJSON disagreements include4Acorrect/Bwrong,3bothcorrect under typed scorer and1bothwrong. Actual fourB switches yield1harm and3neutral; one auxiliary fatal provider outcome loses a correct A. These observations argue against explaining the failure solely by insufficient primary allocation or assuming mechanically repaired B will generalize. Error correction, complementary semantic accuracy and selector reliability remain separate empirical questions. No next design is selected.
+
+Frozen source references (relative to private exact frozen projection)
+agent/independent_recompute_aux.py:29–54 prompt/one-shot worker contract;353–367 admission reservation;375–389 native/argument validation;393–403 execution/limitation rejection;407–422 entry bound/source gate;424–454 agreement/selection;455–462 fallback/fatal diagnostics.
+tools/python_worker.py:70–105 final metadata/held-ID contract;122–168 execution/output errors.
+tools/python_executor.py:31–57 isolated worker/runtime errors;93–101 advertised native schema.
+agent/single_agent.py:52–82 explicitly explains the Type→list workspace, full Type/id citations, a complete five-variable final-code example and recoverable contract errors;263–283 ordinary tool feedback/continued computation;303–308 source-check revision feedback. agent/continuous_primary.py:150–230 binds actual released execution/source support. agent/analysis_agent.py:152–189 supplies the reused five-field draft validator; no separate AnalysisAgent inference policy was substituted for actual Single.
+
+Method and artifacts
+Completion audit ba7a383078218c39c45ec4b485414b1adb248d14cd6e73fe83afd28bcb9d92fd and official result bytes678ed113da6e7b785d7e5ef2ce12dfb4db0c6ae7c11584aeff4a91316542f37c externally pinned before inspection. All proof-listed raw SHA/byte sizes checked;300 owned Team gzip audits restored using unchanged public audit_store.py CRC/content/owner checks. No scorer import, program replay, reference-answer field access, protected1397/fullQA/SQL/config access, FHIR/network/model call or source edit. Parent handles official scoring and help/harm attribution. Saved JSON contains counts/interface metrics and private case IDs, never patient field values, questions, reference answers or generated answers. Reproduction scripts and frozen source hashes are bound in delivery.json. First-failure counts do not quantify total latent defects or maximum recoverable accuracy.

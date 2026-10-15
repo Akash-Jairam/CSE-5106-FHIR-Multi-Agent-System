@@ -1,0 +1,120 @@
+{
+  "experiment": "design-v6-20261015",
+  "protocol": "continuous-primary-independent-recompute-v6",
+  "schema_version": 1,
+  "summary": {
+    "questions": 300,
+    "team_correct": 231,
+    "terminal_error": 5,
+    "a_only_available": 300,
+    "primary_fatal_recorded": 4,
+    "primary_source_bound": 272,
+    "primary_known_budget_stop": 19,
+    "primary_source_issue_recorded": 5,
+    "primary_initial_source_issues_recorded": 6,
+    "primary_source_revised": 5,
+    "primary_source_withholding_lost_typed_credit": 2,
+    "b_eligible_recorded": 37,
+    "b_source_bound": 37,
+    "independent_candidate_selected": 4,
+    "auxiliary_entered": 272,
+    "auxiliary_non_switch_credit_lost": 1,
+    "auxiliary_fatal_recorded": 1,
+    "generic_revised_flag_informational_only": 9,
+    "unknown_usage_recorded": 5,
+    "team_exact_None_typed_credit": 31,
+    "a_exact_None_typed_credit": 31,
+    "a_only_correct_observed": 233,
+    "a_only_unavailable": 0,
+    "a_only_accuracy_all_firsts_if_complete": 0.7766666666666666,
+    "a_only_fullcohort_accuracy_bounds": [
+      0.7766666666666666,
+      0.7766666666666666
+    ],
+    "a_to_team_available_denominator": 300,
+    "a_to_team_delta_correct_available": -2,
+    "a_only_disposition": {
+      "actual_eligible_A_before_auxiliary": 272,
+      "actual_ineligible_or_prose_A_inherits_row_error": 24,
+      "recorded_primary_fatal_failure": 4
+    },
+    "primary_source_revision_effect_to_released_A": {
+      "not_applied": 295,
+      "neutral": 3,
+      "harmful": 2
+    },
+    "released_B_effect": {
+      "not_applied": 296,
+      "neutral": 3,
+      "harmful": 1
+    },
+    "auxiliary_stage_effect": {
+      "neutral": 270,
+      "not_applied": 28,
+      "harmful": 2
+    },
+    "auxiliary_status": {
+      "primary_preserved": 217,
+      "agreement_preserved": 29,
+      "not_entered": 28,
+      "coverage_skip": 21,
+      "switched": 4,
+      "accounting_failed": 1
+    },
+    "release_policy": {
+      "continuous_primary_preserved": 267,
+      "continuous_primary_preserved_auxiliary_ineligible": 24,
+      "selected_executed_independent_candidate": 4,
+      "fatal_execution_or_accounting_failure": 5
+    },
+    "b_exact_agreement_counts": {
+      "unavailable": 263,
+      "agree": 29,
+      "disagree": 8
+    }
+  },
+  "scope": "Posthoc mechanisms on all completed fixed300 adaptive development first attempts; no protected/full QA parsed.",
+  "official_totals_reconciled": {
+    "ordinary_single_agent": {
+      "questions": 300,
+      "correct": 234,
+      "official_label": "v6_single"
+    },
+    "ordinary_multi_agent": {
+      "questions": 300,
+      "correct": 231,
+      "official_label": "v6_team"
+    }
+  },
+  "team_minus_recorded_A_only_paired_available": {
+    "n": 300,
+    "patients": 58,
+    "estimate": -0.006666666666666667,
+    "ci_low": -0.01646090534979424,
+    "ci_high": 0.0
+  },
+  "paired_scope": "Secondary posthoc question-weighted patient-cluster comparison on recorded available A outcomes; missing A never filled with null/zero. Full300 only if all A outcomes available.",
+  "completion_status": "PASS",
+  "source_manifest_sha256": "7c1263a60c0c2a51cc009d8a4925d5a4e773c113d3af0476a6b058407114a8a2",
+  "scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+  "compare_source_sha256": "607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c",
+  "statistics_source_sha256": "ee7cbdb3778412f94ff450c2c5a0a5b909585751b32556ad11f9977c231a9620",
+  "helper_sha256": "ca0c3820298d7595e5fe062b41c24c6303b7938f82530ef2dc67004be0c2db8a",
+  "limits": [
+    "A-only is the actual recorded175k/27 natural Single primary, not a hypothetical200k/30 control or a new model run.",
+    "A primary fatal outcome is wrong; an ineligible A inherits its same row error; a source-bound eligible A remains counterfactually scoreable if later auxiliary accounting failed.",
+    "Missing primary/revision/common-output metadata is unavailable. No missing draft/artifact is converted into typed null credit.",
+    "Primary source-revision effects use initial draft -> actual released A, including source-gate withholding; generic revised is informational and not an independent repair count.",
+    "Released-B effects count actual selected existing B only. Eligible but unselected B and fatal/non-switch losses are separate.",
+    "Source validity and successful execution do not prove semantic correctness, complete search, or independent evidence; A and B share the frozen workspace.",
+    "Typed null credit follows unchanged scorer conventions; it does not certify a justified search/abstention. Unknown usage is not zero billing.",
+    "All600 audits restore and source/raw/official SHA checks pass before scorer import. Saved fixed300 inputs alone supply references; full CSV is only byte-hashed by the guard.",
+    "No inference, new retrieval, program re-execution, acceptance threshold or favorable-view selection is introduced."
+  ],
+  "external_bindings": {
+    "completion_report_sha256": "ba7a383078218c39c45ec4b485414b1adb248d14cd6e73fe83afd28bcb9d92fd",
+    "official_report_sha256": "678ed113da6e7b785d7e5ef2ce12dfb4db0c6ae7c11584aeff4a91316542f37c",
+    "guard_sha256": "49ec8be98372cbeaf9c9ab917d02fdf0bbbdce06471a8a0745a02aae9c485c18",
+    "guard_pins_sha256": "e877d4e227a19f519e785c675ced1283eac3878022a0332a7e4f6f91a058017a"
+  }
+}

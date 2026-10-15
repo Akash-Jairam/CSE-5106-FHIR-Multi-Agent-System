@@ -1,0 +1,52 @@
+{
+  "counts": {
+    "aux_invocation_usage": {
+      "known": 228,
+      "unknown": 1
+    },
+    "generation_completion_at4000": {
+      "False": 219,
+      "True": 1
+    },
+    "syntax_error_shape": {
+      "invalid_syntax": 3,
+      "other": 1
+    },
+    "citation_ID_first_failure_program_provenance": {
+      "bare_record_id": 49,
+      "held_mapping_key_namespace_confusion": 1
+    },
+    "no_aux_primary_skip_reason": {
+      "released answer does not bind a clean executed final": 18,
+      "no surviving explicit final artifact": 6,
+      "primary accounting is globally fatal": 4
+    },
+    "unexpected_argument_schema_keys": {
+      "limitation": 1,
+      "operation": 1,
+      "evidence": 1,
+      "contributing_ids": 1,
+      "answer": 1
+    }
+  },
+  "ID_assurance": "Program structural cause only, not a repaired execution/source certificate; first failure hides later failures. No confirmed fabricated/not-held literal IDs in this census; cannot exclude them after repair.",
+  "first_failure_funnel": {
+    "total": 300,
+    "primary_fatal_no_aux": 4,
+    "primary_nonfatal_ineligible_no_aux": 24,
+    "bound_primary_with_limitation_aux_ineligible": 30,
+    "precall_packet_coverage_skip": 21,
+    "admitted_generation_unknown_usage_fatal": 1,
+    "native_generation_replies": 220,
+    "native_argument_rejections": 2,
+    "executions": 218,
+    "worker_errors": 138,
+    "worker_success_explicit_limitation": 35,
+    "candidate_entry_byte_bound": 7,
+    "original_source_rejection": 1,
+    "eligible_B": 37,
+    "exact_typed_agreement": 29,
+    "disagreement_selector_A": 4,
+    "disagreement_selector_B": 4
+  }
+}

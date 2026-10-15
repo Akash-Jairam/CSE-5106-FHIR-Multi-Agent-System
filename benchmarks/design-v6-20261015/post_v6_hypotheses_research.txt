@@ -1,0 +1,199 @@
+TWO POST-V6 HYPOTHESES: RESEARCH ASSESSMENT, NOT A SELECTED V7
+2026-10-15. Public primary-source review plus root-supplied aggregate V6 facts
+only. No QA/results/config/patient data, Azure/model calls, source edits, or
+implementation. The protected 1,397-question confirmation remains unused.
+
+What V6 actually supports
+
+V6 team 231 versus fresh Single 234 failed the prospective >239 AND >fresh
+Single gate. Its recorded 175k/27 A-only outcome was 233/300. Among 220 blind
+generation packets, only 37 B artifacts became eligible (12.3% of all300), with
+29 exact agreements and eight disagreements. No eligible case had A wrong/B
+right. Four B selections gave zero helpful, one harmful and three neutral
+changes. One auxiliary unknown-usage failure lost A credit; four other team
+fatal failures originated in the primary. These are the supplied completed-run
+aggregates, not an inspection of individual cases.
+
+Therefore allocation alone is not evidenced as the main cause. A-only233 versus
+a separate fresh234 is also not a causal estimate of the 25k/3 reservation's
+effect. Low eligibility and absent observed complementarity are separate
+obstacles. Zero complementary correct B among37 does not imply zero probability
+on other cases, another feedback policy, or another retrieval trajectory.
+
+Hypothesis 1: full Single A, then own-feedback B on the frozen workspace
+
+This would remove the deliberate reduction of A's allowance and let B react to
+its own real Python execution/source feedback. It is a plausible repair of the
+one-shot generation interface: an actual runtime/schema/source error is more
+informative than asking the model to criticize itself without observations.
+S* supplies mechanism evidence [R1], but uses public input/output tests. Our
+interpreter and unchanged check_fields are weaker: they establish execution and
+source-field support, not the intended operator, complete retrieval, or answer
+correctness. A source-valid wrong query may receive no corrective signal.
+
+This is the narrower engineering hypothesis. It can increase eligible B yield
+without creating complementary correct answers. B remains blind to A's code,
+answer and trajectory during generation, but shares A's held evidence and its
+omissions. Independence of prompts is not statistical independence [R5]. More
+iterations may repeat the same semantic error or consume the selector's budget.
+There is no evidence here that feeding a successful result back automatically
+improves it; stop or preserve A when no useful, affordable continuation exists.
+
+Hypothesis 2: full Single A, then a fresh natural Single B with original retrieval
+
+Start B from the original question/context, original guide and tools, empty
+agent workspace/history, and the same natural Single policy. Do not expose A's
+program, answer, selected resource types, retrieval queries or workspace. This
+can change both information acquisition and reasoning, addressing a source of
+correlation that hypothesis1 intentionally keeps. Read-only cache hits may serve
+identical responses, but every tool invocation still counts; a cache does not
+make queries statistically independent or provide new patient records.
+
+Independent deep-search rollouts can increase candidate coverage, and tool-using
+verification can exploit that coverage [R2]. Contrary evidence is equally direct:
+general-agent rollouts improve oracle pass@K while actual self-choice often
+fails to follow [R3]. A tiny remaining budget may not support the benefit seen
+with many full rollouts. This is a residual-capped second Single trajectory, not
+two full-cap Single solves. Keeping its natural policy means it can run out
+before a valid final or source revision; do not force a convenient early answer.
+
+This hypothesis more directly changes the evidence available to B. It is also
+the larger treatment, with duplicate retrieval costs, fewer likely completed Bs,
+and more complicated ownership of distinct source snapshots. Selection must
+choose an existing source-bound A or B with its own workspace; merging evidence,
+inventing an answer, or checking B against A's workspace would be another design.
+Neither hypothesis has an empirical winning claim or selection authorization.
+
+Exact residual constraints for either option
+
+Let T_A, U_A and C_A be actual primary tokens, tools (automatic checks included),
+and SDK attempts. After A naturally finishes under full200000/30/30 ceilings:
+R_T=200000-T_A; R_U=30-U_A; R_C=30-C_A. No reservation, budget reminder, forced
+final, early artifact handoff, source relaxation, or Ledger substitution may
+change A. Under identical model responses this preserves its policy prefix;
+separate stochastic runs need not reproduce the same released answer.
+
+Reserve one intact A/B/UNKNOWN selector request including prompt, tool-definition
+cost if present, framing, and bounded completion before admitting B. Then:
+T_B+T_selector <= R_T; U_B+U_selector <= R_U; C_B+1 <= R_C.
+An existing-candidate selector needs zero tools; verification probes would add
+tools AND potentially SDK attempts and cannot be called free. Exact agreement
+may save the selector call, but disagreement must have been affordable at entry.
+
+For hypothesis1, one generation plus one execution plus one source check and a
+disagreement selector needs at least2 SDK attempts and2 tools. A real execution
+feedback revision plus selection needs at least3 SDK attempts and3 tools (two
+executions, one final source check). Checking both B versions needs4 tools.
+These are lower bounds, not promised sufficient budgets or a selected cap split.
+
+For hypothesis2, with m natural B SDK attempts, r retrievals, e executions,
+i inspections and s automatic checks: m+1<=R_C and r+e+i+s<=R_U, alongside the
+token bound. Actual Single tools are inclusive; do not silently assume25+2 or
+28+2 guaranteed source slots. Source-feedback continuation counts in m. Retain
+its normal loop bound, while smaller residual resources may terminate it sooner.
+
+Replayed B history, native schemas, tool results and all completions consume
+tokens. An intact future selector packet needs deterministic size bounds or a
+coverage refusal; essential A/B context cannot be truncated to make it fit.
+Admit continuations only while finish reservations remain. Every admitted SDK
+failure/retry consumes an attempt; unknown usage or actual overshoot remains
+fatal, even with a valid A. Known pre-provider refusals are different. Preserve
+the current provider/SDK/no-retry profile; do not copy research retry wrappers.
+
+Freeze A's original released object, eligible artifact, source-check envelope
+and workspace. B must run in separate state. Verified nonfatal B inability,
+ineligibility, selector UNKNOWN or malformed selection preserves A. This protects
+fallback integrity, not accuracy dominance: wrong B selection and accounting
+failure can still lose a correct A. Full-cap A may leave no auxiliary resources;
+report skips in the whole300 denominator. Resource-only admission implicitly
+favors cheaper A trajectories, so it is not neutral coverage of hard cases.
+
+How a future test could remain interpretable
+
+Retain the actual full-cap A output for every first attempt before any B work.
+Within that run, compare final team outcome to recorded A-only: source eligibility,
+B complementary correctness, helpful/harmful selection, and auxiliary accounting
+losses separately. This is a same-prefix stage counterfactual, not an estimate
+of what another stochastic full-cap Single call would have answered. A fresh
+paired Single arm is still needed for the primary comparison. Never select or
+route cases using these correctness diagnostics; no extra model calls are needed
+to record this A-only comparison. Keep null credit distinct from source-valid
+release, preserve all errors/skips, and disclose actual resource distributions.
+
+The first scientific hurdle is useful complementary eligible B supply, the next
+is recovering it with fewer harmful selections than benefits. Improving only
+eligibility or oracle union coverage does not establish team gains. Any future
+candidate would need a prospective whole-cohort gate and the existing once-only
+question-confirmation protocol; the adaptive300 cannot prove unseen-patient,
+cross-task, or cross-model generalization. The papers below do not authorize a
+new design, automated search, runtime score routing, or consuming protected data.
+
+PRIMARY REFERENCES AND CODE AUDIT
+
+[R1, reused] Li et al., S*: Test Time Scaling for Code Generation, Findings EMNLP
+2025. https://aclanthology.org/2025.findings-emnlp.865/
+Mechanism inspected in https://arxiv.org/html/2502.14382v1 and author code:
+https://github.com/NovaSky-AI/SkyThought/tree/0d190f11fd8e885bbe113aeccacba5ccde5b1102/skythought/test-time-scaling
+SelfDebug retains its own code and actual public-test feedback and can stop once
+public tests pass. Tests with correct expected outputs are stronger feedback
+than execution success. Generated tests/judges remain fallible; oracle modes
+are evaluation only. This code pin predates the November publication, so exact
+final-paper/code parity is unproven; no shared200k/30/30 leftover result is shown.
+
+[R2, new] Zeng et al., Pushing Test-Time Scaling Limits of Deep Search with
+Asymmetric Verification, inspected arXiv v1,7October2025:
+https://arxiv.org/html/2510.06135v1
+The paper separately measures independent trajectory coverage and voting, then
+adds a verifier that searches evidence for proposed answers. It counts searcher
+plus verifier tools in its cost plots; it does not establish our token/tool/SDK
+hard caps. Its reported GLM-4.5 average BrowseComp verification requires18 tools,
+and larger configurations use16–32 solve trajectories plus verifier scaling.
+The answer-verification asymmetry is task dependent: xbench has near-symmetric
+cost, so that study omits verifier scaling there. Author code:
+https://github.com/hkust-nlp/deepsearch-tts/tree/5b11ea97d280b9fde108095b56c13508eea852fd
+solve_problem creates fresh system+question messages. verify_problem creates a
+fresh question+predicted-answer conversation and actually searches. Its prompt
+requests condition-backed confidence, not calibrated truth. deep_websearch can
+invoke an auxiliary-model multi-step explorer, and wrappers retry; an outer
+search count is not our count of every actual SDK attempt. Pin8Oct2025 predates
+ICLR2026 publication; no final-paper/code parity or reproduced gains claimed.
+
+[R3, new] Li et al., Benchmark Test-Time Scaling of General LLM Agents,
+arXiv v1,22February2026: https://arxiv.org/html/2602.18998v1
+Independent trajectories raise oracle pass@K, while pairwise/pointwise self-choice
+shows a persistent gap and sometimes degrades; external GPT-5 pointwise judgment
+does not reliably close it. Longer feedback histories can plateau or regress.
+The study samples at most4 trajectories/model and reports estimated provider-token
+cost; it is not our joint residual-cap experiment. Do not read its pointwise
+conditional retention metric as end-to-end selected-answer accuracy. Author code:
+https://github.com/cxcscmu/General-AgentBench/tree/35f5c027c31ddcb3366b28674c6cb2957460c0e2
+Parallel script launches separate seed-specific passes. Pairwise runner makes
+K-1 real tools=None judge calls and records usage; rankings select existing
+trajectories. Minimal mode can compress/truncate trajectories, so these findings
+are not exact evidence for our intact program/artifact selector. No full parity
+or experiment reproduction attestation is made.
+
+[R4, reused] BATS v2: https://arxiv.org/html/2511.17006v2
+https://github.com/google-research/budget-aware-agent/tree/37d23f66c512734db476313cf436a506edbec9e0
+Supports studying adaptive resource use; reports unified monetary token+tool
+cost (§2.2). Simultaneous hard token/tool/latency control remains future work.
+Section3.3/Algorithm1 andTable3caption describe100 per tool; surrounding Table3
+prose abbreviates100 tool uses. Code's gold-conditioned selector shortcuts and
+discarded selector usage cannot be imported into deployable budget accounting.
+
+[R5, reused] Kim et al., Correlated Errors in Large Language Models, ICML2025:
+https://arxiv.org/html/2506.07962v1
+https://github.com/nikhgarg/llm_correlated_errors_public/tree/30a2c0aa88af3f428f1f7034538373d24c209176
+Different models can share errors; its identical-wrong agreement is conditional
+on both being wrong, not a universal error-correlation coefficient. Same-model
+blind trajectories and fresh retrieval do not guarantee error independence.
+
+[R6, reused] Kim et al., Capable language models can outgrow the benefits of
+collaboration, Nat.Mach.Intell.8,1157–1172,24July2026:
+https://www.nature.com/articles/s42256-026-01268-y
+https://github.com/ybkim95/agent-scaling/tree/8673d6a8d5a764a07b08e4283492380d80257223
+The article/default analysis uses260 configurations;270 includes10out-of-sample
+Gemini3 configurations. Matched reasoning-token ceilings/tool access support
+strong-control and task/capability dependence, not our full accounting parity or
+an empirical performance threshold for routing. Unseen-domain absolute prediction
+is poor; within-domain architecture results are not a portability guarantee.

@@ -1,0 +1,71 @@
+{
+  "questions": 300,
+  "team_correct": 231,
+  "terminal_error": 5,
+  "a_only_available": 300,
+  "primary_fatal_recorded": 4,
+  "primary_source_bound": 272,
+  "primary_known_budget_stop": 19,
+  "primary_source_issue_recorded": 5,
+  "primary_initial_source_issues_recorded": 6,
+  "primary_source_revised": 5,
+  "primary_source_withholding_lost_typed_credit": 2,
+  "b_eligible_recorded": 37,
+  "b_source_bound": 37,
+  "independent_candidate_selected": 4,
+  "auxiliary_entered": 272,
+  "auxiliary_non_switch_credit_lost": 1,
+  "auxiliary_fatal_recorded": 1,
+  "generic_revised_flag_informational_only": 9,
+  "unknown_usage_recorded": 5,
+  "team_exact_None_typed_credit": 31,
+  "a_exact_None_typed_credit": 31,
+  "a_only_correct_observed": 233,
+  "a_only_unavailable": 0,
+  "a_only_accuracy_all_firsts_if_complete": 0.7766666666666666,
+  "a_only_fullcohort_accuracy_bounds": [
+    0.7766666666666666,
+    0.7766666666666666
+  ],
+  "a_to_team_available_denominator": 300,
+  "a_to_team_delta_correct_available": -2,
+  "a_only_disposition": {
+    "actual_eligible_A_before_auxiliary": 272,
+    "actual_ineligible_or_prose_A_inherits_row_error": 24,
+    "recorded_primary_fatal_failure": 4
+  },
+  "primary_source_revision_effect_to_released_A": {
+    "not_applied": 295,
+    "neutral": 3,
+    "harmful": 2
+  },
+  "released_B_effect": {
+    "not_applied": 296,
+    "neutral": 3,
+    "harmful": 1
+  },
+  "auxiliary_stage_effect": {
+    "neutral": 270,
+    "not_applied": 28,
+    "harmful": 2
+  },
+  "auxiliary_status": {
+    "primary_preserved": 217,
+    "agreement_preserved": 29,
+    "not_entered": 28,
+    "coverage_skip": 21,
+    "switched": 4,
+    "accounting_failed": 1
+  },
+  "release_policy": {
+    "continuous_primary_preserved": 267,
+    "continuous_primary_preserved_auxiliary_ineligible": 24,
+    "selected_executed_independent_candidate": 4,
+    "fatal_execution_or_accounting_failure": 5
+  },
+  "b_exact_agreement_counts": {
+    "unavailable": 263,
+    "agree": 29,
+    "disagree": 8
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-15",
+  "scope": "Research-only; two new primary papers plus reused pinned sources; no experiments or protected data inspected.",
+  "new_sources": [
+    {
+      "title": "Pushing Test-Time Scaling Limits of Deep Search with Asymmetric Verification",
+      "paper_version_inspected": "https://arxiv.org/html/2510.06135v1",
+      "repository": "https://github.com/hkust-nlp/deepsearch-tts",
+      "commit": "5b11ea97d280b9fde108095b56c13508eea852fd",
+      "commit_date": "2025-10-08T10:46:06Z",
+      "inspected_git_blobs": {
+        "README.md": "ca42134df63d50c41cd73e0fa3ccdef4dee17d24",
+        "scripts/deep_search.py": "0c91ed03c1c495b6a03dbd2d7d01d5788eda233c",
+        "scripts/prompts/prompts.py": "4b9ceaa687ff9f0b583a8b136625268e6d97ff5b"
+      },
+      "limits": "Pinned author code predates final ICLR2026 publication. Auxiliary explorer and retry wrappers mean outer tool counts are not total SDK-attempt counts. No reproduction, hard-cap parity, or final-paper parity claimed."
+    },
+    {
+      "title": "Benchmark Test-Time Scaling of General LLM Agents",
+      "paper_version_inspected": "https://arxiv.org/html/2602.18998v1",
+      "repository": "https://github.com/cxcscmu/General-AgentBench",
+      "commit": "35f5c027c31ddcb3366b28674c6cb2957460c0e2",
+      "commit_date": "2026-04-14T15:36:50Z",
+      "inspected_git_blobs": {
+        "README.md": "94a3adad8e2fbda05f1b32ab7812dab491ad2471",
+        "general_agent/README.md": "e3e3c091518dc53682aefdbc1b4fa74f87b41729",
+        "general_agent/scripts/run_parallel_scaling.sh": "ae41b298f75ef4528baf7ad355805a39091c0cfe",
+        "general_agent/scripts/run_pairwise_self_choice.sh": "2fb6d3866ddf3226c9b02311f6bbd05bdf4c60fd",
+        "general_agent/scripts/calculate_self_choice_scores.py": "e44cda2b72ef3b13a140c4c14f40039870a38ab5",
+        "general_agent/source/bump_sort/runner.py": "fe1f37765352d3cd88c77b81aab2282a01a8eb6e",
+        "general_agent/source/bump_sort/evaluator.py": "fd6496e6949f7cd69af6ef1b42fb96744384929d",
+        "general_agent/source/bump_sort/prompts.py": "759c971590c24cbaf1445e50c0f6fbdb220628d9"
+      },
+      "limits": "No reproduction or paper/code parity claimed. Pointwise retention metric is distinct from selected-answer accuracy. Pairwise minimal mode can compress inputs; studies are not joint leftover token/tool/SDK experiments."
+    }
+  ],
+  "reused_author_repositories": [
+    {"repository": "NovaSky-AI/SkyThought", "commit": "0d190f11fd8e885bbe113aeccacba5ccde5b1102", "scope": "S* SelfDebug public-test execution feedback; code predates final paper"},
+    {"repository": "google-research/budget-aware-agent", "commit": "37d23f66c512734db476313cf436a506edbec9e0", "scope": "BudgetTracker/BATS and selector/accounting caveats"},
+    {"repository": "nikhgarg/llm_correlated_errors_public", "commit": "30a2c0aa88af3f428f1f7034538373d24c209176", "scope": "conditional identical-wrong correlation analysis"},
+    {"repository": "ybkim95/agent-scaling", "commit": "8673d6a8d5a764a07b08e4283492380d80257223", "scope": "v2.2.3 article-default260 versus full270 distinction; no environment/numerical parity claim"}
+  ],
+  "hash_kind": "Inspected file hashes are Git blob IDs from GitHub at exact commits; not SHA-256 content hashes."
+}

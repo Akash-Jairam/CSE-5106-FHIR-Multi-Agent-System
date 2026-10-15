@@ -1,0 +1,121 @@
+{
+  "status": "PASS_INDEPENDENT_RECOMPUTATION_OFFICIAL_GATE_FAILED",
+  "scope": "Completed fixed300 two arms only; no protected/full CSV parsing, no new scoring rule or mechanism analysis.",
+  "source_commit": "33b2d9d87db48fd38abba28803b4116ee8aca59c",
+  "frozen_source_files_verified": 176,
+  "public_runtime_files_verified": 4,
+  "external_completion_report_sha256": "ba7a383078218c39c45ec4b485414b1adb248d14cd6e73fe83afd28bcb9d92fd",
+  "external_official_report_sha256": "678ed113da6e7b785d7e5ef2ce12dfb4db0c6ae7c11584aeff4a91316542f37c",
+  "actual_root_terminal_attestation_sha256": "5fe88c55fa2c76211f8b1428298ec369e3dc480708f8fbc427bfeae701dadb3f",
+  "source_archive_sha256": "b418fb7ef95617f61768fe81ee57d6f4375cea810e3f4b0e2c64ec46cc4d3be3",
+  "runtime_archive_sha256": "6538aaf9a948ede968e5ffbd28b823517226c970e49d5b80b684b012ec7a9b70",
+  "raw_sha256": {
+    "v6_single": "1837c14caafe3559923faf3b72aa54b54eb75934ba3d865afbae3c27f143938a",
+    "v6_team": "dd685d9a19afc4d408168cd4ff0d8d2c23f15457528738abce9ec231bc67a428"
+  },
+  "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+  "paired_patients": 58,
+  "arms": {
+    "v6_single": {
+      "correct": 234,
+      "n": 300,
+      "terminal_errors": 1,
+      "all_error_rows_scored_wrong": true,
+      "error_rows_that_would_get_typed_credit_if_error_ignored": 0,
+      "actual_nonerror_None_rows": 51,
+      "actual_nonerror_None_typed_credits": 33,
+      "reference_empty_rows": 42,
+      "known_budget_stops": 19,
+      "unknown_usage_attempts": 1,
+      "accuracy": {
+        "n": 300,
+        "patients": 58,
+        "estimate": 0.78,
+        "ci_low": 0.7285714285714285,
+        "ci_high": 0.8258064516129032
+      }
+    },
+    "v6_team": {
+      "correct": 231,
+      "n": 300,
+      "terminal_errors": 5,
+      "all_error_rows_scored_wrong": true,
+      "error_rows_that_would_get_typed_credit_if_error_ignored": 1,
+      "actual_nonerror_None_rows": 51,
+      "actual_nonerror_None_typed_credits": 31,
+      "reference_empty_rows": 42,
+      "known_budget_stops": 0,
+      "unknown_usage_attempts": 5,
+      "accuracy": {
+        "n": 300,
+        "patients": 58,
+        "estimate": 0.77,
+        "ci_low": 0.7220338983050848,
+        "ci_high": 0.8146964856230032
+      }
+    }
+  },
+  "team_minus_single": {
+    "n": 300,
+    "patients": 58,
+    "estimate": -0.01,
+    "ci_low": -0.05226537769579376,
+    "ci_high": 0.031848056863288086,
+    "wins": 15,
+    "losses": 18,
+    "both_correct": 216,
+    "both_wrong": 51
+  },
+  "predeclared_gate": {
+    "team_exceeds_239": false,
+    "team_exceeds_fresh_single": false,
+    "passed": false
+  },
+  "bootstrap_reproduction": {
+    "replicates": 10000,
+    "seed": 5106,
+    "question_order": "sorted question IDs",
+    "cluster_order": "sorted patient ID strings",
+    "draw": "fresh numpy.default_rng(5106).multinomial(58, uniform58, size=10000) for each mean/contrast",
+    "estimand": "question weighted cluster resampling; all questions retained within each sampled patient",
+    "percentiles": "(1-.95)/2*100 and 100-tail, numpy.percentile default linear",
+    "numpy_version": "2.3.2",
+    "independent_implementation_matches_frozen_stats": true,
+    "seed_is_not_shifted_by_arm_pair_index": true
+  },
+  "source_sha256": {
+    "utils/answer_scorer.py": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+    "scripts/compare_runs.py": "607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c",
+    "scripts/experiment_stats.py": "ee7cbdb3778412f94ff450c2c5a0a5b909585751b32556ad11f9977c231a9620",
+    "scripts/analysis.py": "657d768912f429d0b528e11ec2b1e26c12c5bcd9012738927b5371514f0df647",
+    "scripts/variability.py": "71f09254623be968a08f40cd7224899f1c6a09b107e01c9aba9244b64d68f2d3"
+  },
+  "completed_archive": {
+    "sha256": "0fc40fac89f079b1f7bb29bd8adf28ed976a387d22a5561476de2cc7f79b2bdb",
+    "bytes": 217850594,
+    "members": 609,
+    "central_directory_allowlist_sizes_verified": true,
+    "audit_CRC_restoration_not_repeated": true
+  },
+  "journal_totals_reused_from_pinned_deep_report": {
+    "starts": 4195,
+    "ends": 4195,
+    "successes": 4189,
+    "unknown_usage_ends": 6,
+    "errors": 6,
+    "matched_pairs": 4195,
+    "unmatched_starts": 0,
+    "unmatched_ends": 0,
+    "unvalidated_partial_bytes": 0
+  },
+  "reproduction_script_sha256": "3b6689112b7d446d71d3bb0d33a60ff9ec63078884a79a1f4753f31ed9ca969e",
+  "limits": [
+    "The root-owned actual exit record is an external attestation; this script cannot independently reconstruct past process state.",
+    "All600 gzip ownership/SHA/CRC restorations and journal pairing are reused from the externally SHA-pinned completion PASS, not falsely claimed as a new deep audit.",
+    "Actual non-error None credit follows unchanged typed scorer and is descriptive; it does not establish source support, complete search or justified abstention.",
+    "All six saved provider/accounting failures are incorrect. Their unreported billed usage is unknown, not zero. No failure was retried or excluded.",
+    "This adaptive fixed300 result is exploratory. Its interval crosses zero; it does not establish superiority, reliable harm, or protected1397/patient/model/task generalization.",
+    "Raw fixed300 inputs supply the authoritative references, bound by the prelaunch expected input hash and deep guard. Full CSV contents are only opaque-hashed.",
+    "Auxiliary draft/revision summaries are not assessed here; separate posthoc restoration owns mechanisms. No promotion or full launch follows this failed gate."
+  ]
+}

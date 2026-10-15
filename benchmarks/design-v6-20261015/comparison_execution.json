@@ -1,0 +1,46 @@
+{
+  "completed_at_utc": "2026-10-15T10:36:24.090649+00:00",
+  "status": "COMPLETED",
+  "official_report_sha256": "678ed113da6e7b785d7e5ef2ce12dfb4db0c6ae7c11584aeff4a91316542f37c",
+  "completion_report_sha256": "ba7a383078218c39c45ec4b485414b1adb248d14cd6e73fe83afd28bcb9d92fd",
+  "prepared_command_sha256": "83b8741522f5e3ccd89fffa00b0882d7e31de163ba458851baff7a213479507b",
+  "both_actual_owned_jobs_terminal_before_score": true,
+  "all600_owned_audits_passed_before_score": true,
+  "all_first_attempts_including_failures": true,
+  "single": {
+    "correct": 234,
+    "n": 300,
+    "patients": 58,
+    "estimate": 0.78,
+    "ci_low": 0.7285714285714285,
+    "ci_high": 0.8258064516129032
+  },
+  "team": {
+    "correct": 231,
+    "n": 300,
+    "patients": 58,
+    "estimate": 0.77,
+    "ci_low": 0.7220338983050848,
+    "ci_high": 0.8146964856230032
+  },
+  "primary_contrast": {
+    "comparison": "v6_team - v6_single",
+    "wins": 15,
+    "losses": 18,
+    "n": 300,
+    "patients": 58,
+    "estimate": -0.01,
+    "ci_low": -0.05226537769579376,
+    "ci_high": 0.031848056863288086
+  },
+  "strict_gate": {
+    "team_must_exceed_prior_best_single": 239,
+    "team_must_exceed_fresh_single": 234,
+    "actual_team": 231,
+    "passed": false
+  },
+  "historical_contrasts": "Descriptive only; source/runtime/accounting differ across older records.",
+  "promotion": false,
+  "full_benchmark_started": false,
+  "posthoc_mechanisms_started": false
+}

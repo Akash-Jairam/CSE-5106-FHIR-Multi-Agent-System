@@ -1,0 +1,131 @@
+V6 completed development comparison — acceptance failed
+15 October 2026 UTC
+
+Disposition
+Team231/300 (77.0%) versus contemporary Single234/300 (78.0%). Team minus
+Single is -1.00 percentage point, with15 wins and18 losses;216 questions are
+correct in both arms and51 wrong in both. The question-weighted patient-block
+bootstrap (58 patients,10000 draws, seed5106) gives95% interval
+[-5.226537769579376,+3.1848056863288086] percentage points. This interval does
+not establish reliable superiority or harm. The prospective selection rule
+required Team>239 AND Team>fresh Single;231 fails both conditions. No promotion
+to main, protected-question confirmation or full8793-attempt launch follows.
+
+Exact tested design
+Protocol continuous-primary-independent-recompute-v6; source commit
+33b2d9d87db48fd38abba28803b4116ee8aca59c; pushed pre-inference freeze82452a9.
+176 public source files and four public local runtime sources are archived and
+SHA-bound in manifest.json/runtime_adapter_manifest.json. No credential files
+were inspected or archived. design.txt and prospective_protocol.json are the
+original design and predeclared protocol; this outcome does not rewrite them.
+
+The primary runs the actual natural SingleAgent policy with175k tokens,
+27 inclusive tools and30 natural model iterations. The separate fresh Single
+control has200k/30tools/30iterations. A blind second agent receives the original
+question/context and a preview of the primary's frozen retrieved workspace,
+with actual full held records available to its isolated worker. It sees no
+primary answer, code or trajectory and may submit one final Python program.
+Its strict five-variable artifact must execute and pass the unchanged original
+source checker with no limitation. Exact finite JSON answer agreement preserves
+the whole primary. Disagreement permits one fresh tool-free A/B/UNKNOWN selector
+over intact existing artifacts/programs; it cannot invent or repair an answer.
+
+Auxiliary limits are25k tokens/3tools/2SDK calls; the implemented complete path
+uses two tools. Possible team32 SDK calls versus control30 is disclosed, under
+common aggregate200k/30tool ceilings. Pre-call intact-packet reservations and
+an8000-byte candidate-entry bound can refuse coverage. Nonfatal inability keeps
+the actual released primary. Unknown usage or actual declared/global overshoot
+is fatal even after a valid primary. Shared fault-path accounting fixes apply
+to both fresh arms; successful provider request settings remain unchanged.
+
+Completion and integrity
+Both concurrent one-worker jobs retained all300 first attempts, save1/gzip.
+The Single job was confirmed terminal by10:05:38 UTC and Team by10:33:12 UTC.
+Both wrappers exited1 because retained error outcomes make arm_status incomplete;
+normal saved300/usage summaries were present. No retries, resumes or replacement
+attempts were executed. Owned exits precede the deep integrity audit and scoring.
+All600 owned gzip audits passed CRC/SHA/owner restoration. Frozen176 source and
+four runtime identities, ordered input identity, all raw/sidecar hashes and all
+4195 matched SDK start/end pairs passed:4189 successes,6 errors,0 in flight.
+Only after this PASS was the unchanged typed scorer run over all first attempts.
+Independent scoring exactly reproduced the totals, pairing and bootstrap.
+
+Provider/accounting outcomes
+Single has one terminal provider error; Team has five. All six score incorrect,
+with unavailable admitted usage retained as unknown rather than zero billing.
+Two Team read timeouts lasted60s; four connection timeouts affected both workers
+around09:57–09:59 UTC. These had no HTTP status. General public connectivity was
+working during investigation and subsequent Azure calls recovered, but the
+underlying service/network cause is unknown. No Azure incident attribution is
+established. Transport, timeouts and zero-retry settings were not changed.
+Even the deliberately optimistic bound of crediting all five Team failures
+would be236, below the required minimum240; this is not adjusted accuracy or a
+recovery estimate. This completed substantial design run is retained as a
+negative experiment, distinct from an infrastructure-only aborted attempt.
+
+Mechanisms, inspected only after official scoring
+The actual recorded released A-only outcome is233/300. It is the175k/27 policy,
+not a hypothetical200k/30 control or a causal budget ablation. Team231 equals
+A233 minus one harmful B selection and one auxiliary fatal loss of a correct A.
+Four primary fatal outcomes remain wrong;24 ineligible/prose A outcomes inherit
+their actual row error state (all24 are None, not terminal errors). Correct
+computed but unreleased candidates receive no
+invented credit. Five primary source-feedback revisions are2 harmful/3 neutral
+relative to the initial draft and actual released A, including2 typed-correct
+computed candidates withheld before the auxiliary stage.
+
+Only37 second-agent artifacts are source-bound eligible:35 correct A outcomes
+and31 correct B outcomes in those cases, with zero A-wrong/B-right cases. Of29
+strict JSON agreements all retain A. Eight disagreements include4 A-correct/B-
+wrong,3 both typed-correct and1 both wrong. Four actual B selections are0 helpful,
+1 harmful and3 neutral. Strict JSON equality is distinct from typed correctness.
+Execution and source-field support do not prove semantic correctness, complete
+retrieval or statistical independence of agents sharing a workspace.
+
+Engineering census explains low eligibility, without answer/reference review:
+all220 successful generation replies requested exactly one native Python tool;
+there was no observed prose/tool refusal. Two had invalid arguments. Among218
+executions,138 failed (112 final-contract failures and26 Python exceptions).
+Leading defects were50 citation IDs and49 missing metadata variables;20 programs
+imported unavailable dateutil. Static provenance found49 bare record IDs and one
+Type-to-list namespace confusion among the50 leading ID failures, not confirmed
+fabricated IDs. First failure can mask further defects. Of80 worker successes,
+35 declared limitations,7 exceeded the entry bound and1 failed the original
+source check, leaving37. Earlier:4 fatal/24 ineligible primaries prevented entry,
+30 bound primaries declared limitations,21 intact-packet reservations exceeded
+25k, and1 admitted generation failed with unknown usage. These disjoint endpoints
+sum300. Totals reconcile229 attempted auxiliary SDK calls and256 auxiliary tools.
+
+Actual None outputs earn33 Single and31 Team typed credits under the unchanged
+scorer; this does not establish justified abstention or complete evidence. The
+aggregate Team budget-stop flag is0 while the primary phase has19 known stops;
+Single has19. These are different scopes, not evidence that no primary cap bound.
+
+Interpretation and next step
+V6 removed premature primary handoff and tested independent recomputation, but
+did not yield useful complementary eligible answers. More correct program
+interfaces alone cannot be assumed to improve QA. Research and code review now
+compare real feedback and fresh independent retrieval while preserving the full
+natural primary; no next design or winning claim is established by this record.
+Historical runs are descriptive because inference/accounting identities differ.
+The repeatedly reused300 is adaptive development. The prespecified1397-question
+confirmation remains unused and is question-disjoint, not patient-disjoint.
+Cross-model, other-task and new-patient generalization remain unmeasured.
+
+Evidence locations
+Official results: results.json; completion: completion_protocol_audit.json and
+owned_jobs_completion.json; scoring execution: comparison_execution.json.
+comparison_command_prepared.json and comparison_execution.json retain their
+original temporal snapshots (prepared/not-yet-posthoc flags are historical).
+Posthoc: diagnostics/; independent totals: independent_completion_verification/;
+mechanical interface census: engineering_diagnosis/; independent mechanism review
+is recorded separately. Source guard and posthoc helpers were reviewed before
+actual completed-data analysis. Small interface/network checks get no separate
+experiment entry. Local raw archive is intentionally not committed:
+output/archives/independent_recomputation_v6_300q_completed.zip
+217850594 bytes;609 members; SHA256
+0fc40fac89f079b1f7bb29bd8adf28ed976a387d22a5561476de2cc7f79b2bdb.
+Official results SHA256
+678ed113da6e7b785d7e5ef2ce12dfb4db0c6ae7c11584aeff4a91316542f37c.
+Deep completion PASS SHA256
+ba7a383078218c39c45ec4b485414b1adb248d14cd6e73fe83afd28bcb9d92fd.

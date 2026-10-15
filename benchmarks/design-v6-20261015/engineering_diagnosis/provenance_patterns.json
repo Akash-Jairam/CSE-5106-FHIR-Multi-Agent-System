@@ -1,0 +1,31 @@
+{
+  "counts": {
+    "bad_resource_id_programs": {
+      "n": 50
+    },
+    "bad_resource_id_static_expressions": {
+      "bare_record_id_access": 125,
+      "via_variable:bare_record_id_access": 3,
+      "other_expression": 4
+    },
+    "bad_resource_id_program_patterns": {
+      "bare_record_id_access": 48,
+      "other_expression": 2
+    },
+    "bad_resource_id_cases_held_record_id_format": {
+      "all_valid": 50
+    },
+    "B_limitation_tags_overlapping": {
+      "absence_or_no_match": 31,
+      "temporal_scope": 20,
+      "concept_or_unit_mapping": 14,
+      "uncertainty_or_ambiguity": 5,
+      "other": 3
+    },
+    "B_limitation_evidence_presence": {
+      "empty": 28,
+      "nonempty": 7
+    }
+  },
+  "assurance": "Static structural patterns and overlapping keyword tags only; no proof of execution path, missing data or correctness."
+}

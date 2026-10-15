@@ -1,0 +1,137 @@
+{
+  "counts": {
+    "native_function_names": {
+      "execute_python_code": 220
+    },
+    "worker_outcome": {
+      "runtime_SyntaxError": 4,
+      "runtime_ModuleNotFoundError": 20,
+      "contract_missing_metadata": 49,
+      "executed_without_error": 80,
+      "citation_resource_id_not_held_or_invalid": 50,
+      "no_execution": 82,
+      "answer_variable_absent": 2,
+      "answer_not_finite_scalar_list_null": 7,
+      "metadata_container_types": 4,
+      "runtime_AttributeError": 1,
+      "runtime_TypeError": 1
+    },
+    "AST": {
+      "syntax_invalid": 4
+    },
+    "programs_importing_module": {
+      "datetime": 198,
+      "dateutil": 20,
+      "json": 21,
+      "collections": 21,
+      "re": 3,
+      "math": 1,
+      "zoneinfo": 1
+    },
+    "aux_exception_type": {
+      "ValueError": 213,
+      "JSONDecodeError": 1
+    },
+    "module_failure_import_names": {
+      "datetime": 20,
+      "dateutil": 20,
+      "json": 1
+    },
+    "missing_metadata_fields": {
+      "contributing_ids": 37,
+      "operation": 6,
+      "limitation": 17,
+      "evidence": 7
+    },
+    "missing_metadata_assign_patterns": {
+      "answer,evidence,limitation": 3,
+      "answer,evidence,operation": 7,
+      "answer,evidence,operation,limitation": 22,
+      "answer,contributing_ids,operation": 1,
+      "answer,operation,limitation": 3,
+      "answer,evidence,contributing_ids,operation,limitation": 1,
+      "answer,evidence,contributing_ids,operation": 7,
+      "answer,evidence,contributing_ids,limitation": 1,
+      "answer,contributing_ids,operation,limitation": 2,
+      "answer": 1,
+      "answer,evidence,contributing_ids": 1
+    },
+    "no_aux_primary_disposition": {
+      "nonfatal_ineligible_primary": 24,
+      "fatal_primary": 4
+    },
+    "source_rejected_counts": {
+      "checks": 1,
+      "issues": 1
+    },
+    "source_rejected_result_status": {
+      "bad_path": 1,
+      "valid": 1
+    },
+    "B_ineligible_after_worker_success": {
+      "explicit_limitation": 35
+    },
+    "primary_aux_schema_skip": {
+      "limitation": 30
+    },
+    "coverage_skip_cause": {
+      "reservation_over25000": 21
+    },
+    "generation_arguments": {
+      "unexpected_keys": 1,
+      "invalid_JSON": 1
+    }
+  },
+  "metrics": {
+    "all_program_chars": {
+      "n": 219,
+      "min": 761,
+      "median": 2701,
+      "p90": 3804,
+      "max": 5510
+    },
+    "admitted_reservations": {
+      "n": 221,
+      "min": 18694,
+      "median": 20864,
+      "p90": 23564,
+      "max": 24732
+    },
+    "admitted_held_records": {
+      "n": 221,
+      "min": 5,
+      "median": 242,
+      "p90": 6576,
+      "max": 35157
+    },
+    "candidate_entry_bytes": {
+      "n": 45,
+      "min": 1866,
+      "median": 4556,
+      "p90": 14619,
+      "max": 55395
+    },
+    "coverage_skip_reservations": {
+      "n": 21,
+      "min": 25162,
+      "median": 26541,
+      "p90": 31541,
+      "max": 40919
+    },
+    "coverage_skips_held_records": {
+      "n": 21,
+      "min": 180,
+      "median": 14424,
+      "p90": 40740,
+      "max": 48588
+    },
+    "rejected_candidate_entry_bytes": {
+      "n": 7,
+      "min": 9583,
+      "median": 16637,
+      "p90": 55395,
+      "max": 55395
+    }
+  },
+  "no_reference_scoring": true
+}

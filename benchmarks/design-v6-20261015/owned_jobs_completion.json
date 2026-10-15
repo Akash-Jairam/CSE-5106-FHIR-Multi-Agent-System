@@ -1,0 +1,74 @@
+{
+  "recorded_at_utc": "2026-10-15T10:33:12.360707+00:00",
+  "both_owned_jobs_terminal": true,
+  "observer": "root observed tools.write_stdin completion for exact owned sessions",
+  "jobs": [
+    {
+      "arm": "single",
+      "owned_session_id": 97080,
+      "exit_code": 1,
+      "observed_terminal_utc": "2026-10-15T10:05:38.273732+00:00",
+      "saved_first_attempts": 300,
+      "terminal_errors": 1
+    },
+    {
+      "arm": "team",
+      "owned_session_id": 97297,
+      "exit_code": 1,
+      "observed_terminal_utc": "2026-10-15T10:33:12.360707+00:00",
+      "saved_first_attempts": 300,
+      "terminal_errors": 5
+    }
+  ],
+  "exit_disposition": "Normal final300-attempt usage summaries present. run_experiments wrapper returnsnonzero for retained terminal errors. No restart or replay.",
+  "safe_log_checks": {
+    "single": {
+      "normal_final_usage_summary_present": true,
+      "final_traceback_present": false
+    },
+    "team": {
+      "normal_final_usage_summary_present": true,
+      "final_traceback_present": false
+    }
+  },
+  "operational_snapshot": {
+    "recorded_at_utc": "2026-10-15T10:32:48.090377+00:00",
+    "accuracy_scored": false,
+    "arms": {
+      "ordinary_single_agent": {
+        "scheduled_rows": 300,
+        "saved_first_attempts": 300,
+        "terminal_errors": 1,
+        "budget_stops": 19,
+        "unknown_usage": 1,
+        "aggregate_token_overshoots": 0,
+        "tool_overshoots": 0
+      },
+      "ordinary_multi_agent": {
+        "scheduled_rows": 300,
+        "saved_first_attempts": 300,
+        "terminal_errors": 5,
+        "budget_stops": 0,
+        "unknown_usage": 5,
+        "aggregate_token_overshoots": 0,
+        "tool_overshoots": 0
+      }
+    },
+    "sdk": {
+      "starts": 4195,
+      "ends": 4195,
+      "outcomes": {
+        "success": 4189,
+        "error": 6
+      },
+      "last_finished_utc": "2026-10-15T10:32:02.475909+00:00",
+      "fd_range": [
+        9,
+        11
+      ],
+      "incomplete_json_lines": 0
+    }
+  },
+  "accuracy_scored": false,
+  "inference_sources_changed": false
+}

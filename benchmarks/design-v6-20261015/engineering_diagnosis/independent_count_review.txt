@@ -1,0 +1,10 @@
+Independent read-only aggregate consistency review by /root/critic_feasibility/fhir_scope_docs: PASS; no concrete mismatch.
+Reviewed report.txt SHA09781c2a38774a709ab070981a988ae3f5e9df422c680c0df134c21f7ba558e9 against engineering_census.json, deep_census.json, final_reconciliation.json and provenance_patterns.json only. No actual data/reference access, reruns, edits or scorer use.
+Disjoint endpoints:4+24+30+21+1+2+138+35+7+1+37=300.
+Known model calls:220generation+8selector=228; plus1unknown=229attempted.
+Tools:218execution+38source=256.
+Worker categories sum138;49missingmetadata+50invalidID=99.
+Final ID cause:49bare recordIDs +1type→list namespace confusion. Initial structural pass48direct/variable+2unresolved is refined by the later function-body inspection into1barehelper+1namespacecase.
+Execution successes:80=35limitation+7entry+1source+37eligible.
+Eligible:37=29agreement+4selectorA+4selectorB.
+Root-supplied official accuracy/help-harm aggregates are labelled as such, not independently rescored. Actual Single policy/example references are distinguished from reused AnalysisAgent draft validation.
