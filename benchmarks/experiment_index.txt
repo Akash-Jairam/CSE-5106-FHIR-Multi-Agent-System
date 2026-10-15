@@ -81,7 +81,11 @@ once with 71 tokens and the same public provider profile; sustained recovery
 remains unproven. Independent prelaunch source/archive/settings audit passes.
 Scheduled: fresh 300 single + fresh 300 team, concurrent one-worker jobs,
 save1/gzip and per-process provider journals in a fresh output directory.
-Status: FROZEN, LAUNCH PENDING. No accuracy result is known.
+Status: RUNNING. Freeze commit 246e230; both arms launched around 00:50 UTC
+on 15 October (19:50 Central on 14 October). The normal bootstrap binding
+matches the frozen profile/adapter/bootstrap. Initial sample at 00:51:37 UTC:
+three saved questions per arm, zero terminal errors, 49 successful provider
+requests. This is operational progress only; no accuracy result is known.
 
 
 Selection and scoring
