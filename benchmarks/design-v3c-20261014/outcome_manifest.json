@@ -1,0 +1,59 @@
+{
+  "recorded_at_utc": "2026-10-15T00:32:10.832743+00:00",
+  "arms": {
+    "ordinary_single_agent": {
+      "result_sha256": "617e59f7b7e4a2af68df2504084c6980acba103df7b801e1873d850fd30534d9",
+      "run_identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "208a88f0727213df44b4c74d873037d74a939f710b8787128202d254c5da29a9",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/query_contract_v3c_300q/ordinary_single_agent.json"
+    },
+    "ordinary_multi_agent": {
+      "result_sha256": "7c42f9ca9e768a8d985e89cb9a1d2531d23a3995b82957ddc96d50289478be3c",
+      "run_identity": {
+        "version": 2,
+        "agent_strategy": "multi_agent_v3",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "208a88f0727213df44b4c74d873037d74a939f710b8787128202d254c5da29a9",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/query_contract_v3c_300q/ordinary_multi_agent.json"
+    }
+  },
+  "provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "2f1c9e82a8f7418bbe7976e3d9e974c0dbc60fbf7082fe68ee5fb0f9fd0a225d",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "report_sha256": "5ad76ac541dddea31fc21beee1fec99b95904dbde96516b1df8cdbfbc6100e96"
+}

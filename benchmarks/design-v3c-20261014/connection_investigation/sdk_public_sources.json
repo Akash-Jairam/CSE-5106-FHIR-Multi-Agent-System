@@ -1,0 +1,42 @@
+[
+  {
+    "name": "sdkbase",
+    "url": "https://github.com/openai/openai-python/blob/v3.26.1/src/openai/_base_client.py",
+    "git_blob_sha": "883bed6e19b9fd05126affe1e6ced56a309db164"
+  },
+  {
+    "name": "sdkcompat",
+    "url": "https://github.com/openai/openai-python/blob/v3.26.1/src/openai/_httpx2.py",
+    "git_blob_sha": "48222a10aee7252ca45a4b2beaaa8272ef1f7c7e"
+  },
+  {
+    "name": "nativeclient",
+    "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpx2/httpx2/_client.py",
+    "git_blob_sha": "2103d36e3416d7c000a0fd5ec26c390b8beb6e91"
+  },
+  {
+    "name": "nativetransport",
+    "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpx2/httpx2/_transports/default.py",
+    "git_blob_sha": "17d48c4f93d5546b39d82d12739876b619e1035d"
+  },
+  {
+    "name": "pool",
+    "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_sync/connection_pool.py",
+    "git_blob_sha": "a6051bacaabe3ca46e2c9a8aefac1362f159e138"
+  },
+  {
+    "name": "connection",
+    "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_sync/connection.py",
+    "git_blob_sha": "6691a9fc09c4adac4e71e1949cf68bb0fe0eae86"
+  },
+  {
+    "name": "http11",
+    "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_sync/http11.py",
+    "git_blob_sha": "50bce83373d3f65a10e214874669521a48c63e17"
+  },
+  {
+    "name": "backend",
+    "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_backends/sync.py",
+    "git_blob_sha": "54ce5428c4b86361b075ed7b6b6f5e26aa936c95"
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "status": "complete_with_connection_failures",
+  "recorded_at_utc": "2026-10-15T00:32:54.944027+00:00",
+  "expected_first_attempts": 600,
+  "completed_first_attempts": 600,
+  "acceptance_passed": false,
+  "acceptance_thresholds": {
+    "archive_single_correct": 223,
+    "refreshed_single_correct": 231,
+    "contemporaneous_single_correct": 91,
+    "must_exceed_each": true
+  },
+  "current_scores": {
+    "single_correct": 91,
+    "team_correct": 88,
+    "questions_per_arm": 300
+  },
+  "terminal_errors": {
+    "single": {
+      "sdk_timeout": 7,
+      "connection_error": 176,
+      "total": 183
+    },
+    "team": {
+      "sdk_timeout": 1,
+      "connection_error": 177,
+      "total": 178
+    }
+  },
+  "http408": 0,
+  "cause_attribution": "unknown; saved generic errors lack exception causes and process resource state",
+  "all_first_attempts_retained": true,
+  "source_files_verified": 136,
+  "owned_gzip_audits_verified": 600,
+  "main_promoted": false,
+  "full_benchmark_started": false,
+  "next_action": "fresh V3 comparison with optional safe provider diagnostics; same semantics/request policy; no selective retry"
+}

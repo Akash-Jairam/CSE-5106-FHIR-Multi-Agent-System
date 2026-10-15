@@ -1,0 +1,149 @@
+{
+  "no_network": true,
+  "scope": "synthetic ordinary sync HTTP1 failures, not reproduction of benchmark collapse",
+  "versions": {
+    "openai": "3.26.1",
+    "httpx2": "2.13.1",
+    "httpcore2": "2.13.1"
+  },
+  "scenarios": [
+    {
+      "failure": "connect_timeout",
+      "exception": "httpx2.ConnectTimeout",
+      "after_failure": {
+        "client_closed": false,
+        "connections": 0,
+        "requests": 0,
+        "failed_stream_closed": null
+      },
+      "after_success": {
+        "client_closed": false,
+        "connections": 1,
+        "requests": 0,
+        "backend_connects": 2
+      }
+    },
+    {
+      "failure": "connect_error",
+      "exception": "httpx2.ConnectError",
+      "after_failure": {
+        "client_closed": false,
+        "connections": 0,
+        "requests": 0,
+        "failed_stream_closed": null
+      },
+      "after_success": {
+        "client_closed": false,
+        "connections": 1,
+        "requests": 0,
+        "backend_connects": 2
+      }
+    },
+    {
+      "failure": "header_read_timeout",
+      "exception": "httpx2.ReadTimeout",
+      "after_failure": {
+        "client_closed": false,
+        "connections": 0,
+        "requests": 0,
+        "failed_stream_closed": true
+      },
+      "after_success": {
+        "client_closed": false,
+        "connections": 1,
+        "requests": 0,
+        "backend_connects": 2
+      }
+    },
+    {
+      "failure": "body_read_timeout",
+      "exception": "httpx2.ReadTimeout",
+      "after_failure": {
+        "client_closed": false,
+        "connections": 0,
+        "requests": 0,
+        "failed_stream_closed": true
+      },
+      "after_success": {
+        "client_closed": false,
+        "connections": 1,
+        "requests": 0,
+        "backend_connects": 2
+      }
+    }
+  ],
+  "provenance": [
+    {
+      "name": "sdkbase",
+      "url": "https://github.com/openai/openai-python/blob/v3.26.1/src/openai/_base_client.py",
+      "git_blob_sha": "883bed6e19b9fd05126affe1e6ced56a309db164",
+      "local_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/lib/python3.12/site-packages/openai/_base_client.py",
+      "sha256": "7a0a173edf3fadb6b310895d5db6fa0b14264bdaa25b33dd4eb29d860a82639b",
+      "local_git_blob_sha": "883bed6e19b9fd05126affe1e6ced56a309db164",
+      "matches_official_tag": true
+    },
+    {
+      "name": "sdkcompat",
+      "url": "https://github.com/openai/openai-python/blob/v3.26.1/src/openai/_httpx2.py",
+      "git_blob_sha": "48222a10aee7252ca45a4b2beaaa8272ef1f7c7e",
+      "local_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/lib/python3.12/site-packages/openai/_httpx2.py",
+      "sha256": "57911a315c45e0f1d0a94a8c328bd815399114593c4c5a03651ec3fc13d38d74",
+      "local_git_blob_sha": "48222a10aee7252ca45a4b2beaaa8272ef1f7c7e",
+      "matches_official_tag": true
+    },
+    {
+      "name": "nativeclient",
+      "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpx2/httpx2/_client.py",
+      "git_blob_sha": "2103d36e3416d7c000a0fd5ec26c390b8beb6e91",
+      "local_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase2-dependencies/httpx2/_client.py",
+      "sha256": "fa3948aa66a9efd5edf097c6d13d927612c617328b43ceefc4bdd5e350aaa93b",
+      "local_git_blob_sha": "2103d36e3416d7c000a0fd5ec26c390b8beb6e91",
+      "matches_official_tag": true
+    },
+    {
+      "name": "nativetransport",
+      "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpx2/httpx2/_transports/default.py",
+      "git_blob_sha": "17d48c4f93d5546b39d82d12739876b619e1035d",
+      "local_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase2-dependencies/httpx2/_transports/default.py",
+      "sha256": "8fc43a2882d471aff751366a7f28e91c5e31831a4b29aa3bb4e66931a2148e97",
+      "local_git_blob_sha": "17d48c4f93d5546b39d82d12739876b619e1035d",
+      "matches_official_tag": true
+    },
+    {
+      "name": "pool",
+      "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_sync/connection_pool.py",
+      "git_blob_sha": "a6051bacaabe3ca46e2c9a8aefac1362f159e138",
+      "local_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase2-dependencies/httpcore2/_sync/connection_pool.py",
+      "sha256": "ea679999be5d5cedce63b8d5253b28b396ed9a606e3a9642e546e7a78df353f0",
+      "local_git_blob_sha": "a6051bacaabe3ca46e2c9a8aefac1362f159e138",
+      "matches_official_tag": true
+    },
+    {
+      "name": "connection",
+      "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_sync/connection.py",
+      "git_blob_sha": "6691a9fc09c4adac4e71e1949cf68bb0fe0eae86",
+      "local_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase2-dependencies/httpcore2/_sync/connection.py",
+      "sha256": "797d384df0efaa048e8c20796104eec9d3be6edbcc04fac0c6b52371b98fc841",
+      "local_git_blob_sha": "6691a9fc09c4adac4e71e1949cf68bb0fe0eae86",
+      "matches_official_tag": true
+    },
+    {
+      "name": "http11",
+      "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_sync/http11.py",
+      "git_blob_sha": "50bce83373d3f65a10e214874669521a48c63e17",
+      "local_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase2-dependencies/httpcore2/_sync/http11.py",
+      "sha256": "d9999b38e8d4f3d1cb34db5929523ef50f7c0a15efb5eaaa4fcebfe5f90b23c7",
+      "local_git_blob_sha": "50bce83373d3f65a10e214874669521a48c63e17",
+      "matches_official_tag": true
+    },
+    {
+      "name": "backend",
+      "url": "https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_backends/sync.py",
+      "git_blob_sha": "54ce5428c4b86361b075ed7b6b6f5e26aa936c95",
+      "local_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase2-dependencies/httpcore2/_backends/sync.py",
+      "sha256": "b05a7e52c627c7b8b8a8b4159cfa7520fbe39f765e34ee8ee6d009f4eb7658d3",
+      "local_git_blob_sha": "54ce5428c4b86361b075ed7b6b6f5e26aa936c95",
+      "matches_official_tag": true
+    }
+  ]
+}

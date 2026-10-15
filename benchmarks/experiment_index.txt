@@ -55,20 +55,30 @@ the public Azure status page reports Good; authenticated incident resolution
 remains unverified. Preflight is not benchmark accuracy or reliability proof.
 Scheduled: fresh300 single + fresh300 team, concurrent one-worker jobs,
 save1/gzip, unchanged200k tokens/30 tools, all first attempts retained.
-Status: RUNNING. Both fresh arms launched concurrently at about23:35 UTC.
+Status: COMPLETE WITH CONNECTION FAILURES; acceptance failed.
+Both fresh arms launched concurrently at about 23:35 UTC on 14 October.
 Pre-run freeze commit:e03e39e;136 source files verified unchanged.
-No complete-cohort V3c accuracy result is known.
+Single 91/300 (30.3%), team 88/300 (29.3%); paired difference -1.0 pp,
+patient-block 95% interval [-3.4, +1.5], six wins/nine losses.
+Single 183 errors (7 SDK timeouts, 176 connection); team 178 (1 timeout, 177 connection).
+No HTTP408 observed. Both workers abruptly failed near 00:13 UTC on 15 October.
+All 600 owned gzip audits and source/input/settings integrity checks passed.
+Default SDK transport is HTTPX2 2.13.1; earlier health/offline checks explicitly
+supplied HTTPX 0.28.1. Fresh requests on both transports now succeed, but generic
+saved errors cannot identify the original DNS/TLS/network/resource cause.
+See outcome.txt/results.json and the complete diagnostic/provenance records.
+Preserve all first attempts; add safe diagnostics before a fresh comparison.
 
 
 Selection and scoring
 
-Main remains unchanged until a team exceeds both 223/300 archived single and
-231/300 refreshed single. All experiments use the same fixed question IDs and
+Main remains unchanged until a team exceeds 223/300 archived single,
+231/300 refreshed single and the complete contemporaneous single. All experiments use the same fixed question IDs and
 typed scorer. Terminal errors remain incorrect; empty references can credit
 unverified null. Repeated fixed-cohort selection is exploratory development,
 not fresh held-out proof. Small development checks have no experiment entries.
 A selected design will receive a separate real full 2,931-question three-arm
 launch record. No full benchmark has started for this goal yet.
 The user resumed on 14 October and requested a fresh complete fixed300 with
-a contemporaneous single control. V3c is frozen for that comparison.
+a contemporaneous single control. V3c completed that comparison with connection failures.
 The stopped V3b milestone remains historical; its pause did not complete the goal.

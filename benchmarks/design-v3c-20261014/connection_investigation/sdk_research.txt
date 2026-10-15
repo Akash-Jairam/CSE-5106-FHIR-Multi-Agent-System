@@ -1,0 +1,152 @@
+HTTPX2 persistent-client connection failures: primary-source investigation
+Prepared 2026-10-14 for the FHIR benchmark. Development research only; no model,
+provider, FHIR, credential-config, benchmark scoring, or active-source calls/edits.
+
+Conclusion
+The surviving APIConnectionError summary cannot distinguish DNS/socket failure,
+TLS failure, resource exhaustion, or some transport-state failures. The synchronized
+collapse of two independent arms and later fresh-process HTTP200 observations are
+compatible with several causes. Neither a poisoned pool nor Azure/network causation
+has been established. Preserve exception causes in the next worker before changing
+transport, timeouts, retries, worker lifecycle, or benchmark result treatment.
+
+Observed facts supplied by root and failure auditor, not newly scored here
+Both V3c arms completed their fixed300 first attempts. Last successes were saved at
+team00:12:02 and single00:12:12 UTC; timeouts at00:13:10/12 were followed by353 rapid
+connection-error rows. Only identical summary strings survived; underlying exception
+causes were discarded. No explicit close was found in public repo/adapter source.
+The current host FD soft limit is about1million, which does not measure the old
+workers' historical FD usage. Fresh-process success does not locate the old fault.
+
+Actual default transport and parity limit
+Installed OpenAI3.26.1 uses HTTPX2 2.13.1 and HTTPCORE2 2.13.1. Eight installed
+public source files have matching Git blob hashes to official tagged source; exact
+paths, SHA256 values and URLs are in native_timeout_cleanup_results.json. The SDK
+uses a native HTTPX2 client unless http_client is explicitly supplied. LegacyHTTPX
+0.28.1 also being installed does not select it. Earlier SDK MockTransport integration
+fixtures deliberately supplied legacy clients, so they verified API/history and
+serialization compatibility without exercising the default native pool/backend.
+The official migration guide explicitly separates these two client/exception
+families and says legacy-only mocks do not intercept nativeHTTPX2. It also documents
+the new OS trust store and trust_env default; no proxy or CA value was inspected.
+Source: https://github.com/openai/openai-python/blob/v3.26.1/httpx2.md
+
+What installed source actually does
+OpenAI SyncAPIClient passes requests to its underlying client and catches native
+TimeoutException as APITimeoutError. RequestError, ssl.SSLError and AnyIO.EndOfStream
+become APIConnectionError with the original error as __cause__. Native/legacy
+timeout families differ when an explicit legacy client is supplied. A timeout
+handler does not intentionally close the entire SDK client. SDK retries are an
+independent option; our adapter's selected max_retries=0 remains authoritative.
+Sources: https://github.com/openai/openai-python/blob/v3.26.1/src/openai/_base_client.py
+https://github.com/openai/openai-python/blob/v3.26.1/src/openai/_httpx2.py
+
+Native HTTPX2 send() rejects a CLOSED client with RuntimeError. Its ordinary
+response-read failure closes that response and rethrows. Whole-client CLOSED is
+set by close/context exit, rather than an ordinary timeout. This RuntimeError is
+outside the SDK's current request-exception tuple; failure_audit independently
+confirmed it produces a different repo summary than the observed generic string.
+Default native HTTPTransport is synchronous, http1=True and http2=False. HTTP2
+sticky read/write exception state therefore does not establish relevance here.
+Sources: https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpx2/httpx2/_client.py
+https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpx2/httpx2/_transports/default.py
+
+The synchronous HTTPCORE2 backend uses socket.create_connection; socket.timeout
+maps to ConnectTimeout, other OSError (including gaierror/FD24) to ConnectError.
+Read/write socket failures and timeouts get corresponding specific types; TLS
+setup failure closes its stream. Failed TCP establishment marks the connection
+failed. The pool removes failed requests, drops closed/failed connections, and
+reassigns queued requests. HTTP1 request failure calls response cleanup; an
+incomplete h11 cycle closes its connection rather than reusing it. These intended
+paths do not demonstrate absence of every rare cleanup, proxy, OS or concurrency
+bug, but they refute treating persistent disable after any timeout as documented
+normal behavior.
+Sources: https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_backends/sync.py
+https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_sync/connection.py
+https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_sync/connection_pool.py
+https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_sync/http11.py
+
+Native lower-level synthetic check
+test_native_timeout_cleanup.py runs installed HTTPX2 HTTPTransport/HTTPCORE2
+ConnectionPool and real HTTP1 state handling with a purely in-memory fake network
+backend. It does not use a MockTransport shortcut and cannot contact the URL.
+Four cases pass: connect timeout, connect error, response-header read timeout, and
+response-body read timeout. Every failed request leaves client_closed=False,
+zero held connections, zero pool requests; failed read streams close. The SAME
+client then completes a successful response with a replacement connection.
+This proves ordinary synthetic timeout/error recovery, not the real incident's
+cause. Reproduction command:
+  original/.venv/bin/python -I -S /private/tmp/fhir-sdk-connection-research/test_native_timeout_cleanup.py
+The script explicitly adds public package directories and never imports launcher,
+sitecustomize, config or benchmark agents. All eight official-tag matches pass.
+
+Relevant official issue triage; none proves this incident
+HTTPX2 PR1243 (opened2026-10-01, still open at retrieval) describes response cleanup
+interrupted by direct asyncio.Task.cancel, leaking ACTIVE connections and pool
+requests; generated sync cleanup can also leak if a trace callback raises. This
+suggests recording queued/active counts and callback presence. Our sync nonstreaming
+path is not the direct asyncio cancellation case; full-pool failure is normally
+PoolTimeout after pool wait rather than instant generic connection errors.
+https://github.com/pydantic/httpx2/pull/1243
+
+HTTPX2 PR1226 (opened2026-09-22, still open) demonstrates failed TLS-after-CONNECT
+retaining active tunneled connections. Applicability needs an actual proxy route
+and TLS cause; neither was observed. Repeated failures ultimately raise PoolTimeout,
+which differs from the observed rapid APIConnectionError classification.
+https://github.com/pydantic/httpx2/pull/1226
+
+HTTPX2 issue1162 concerns a Timeout OBJECT incorrectly placed in a timeout extension,
+not the selected numeric60 setting. HTTP2 issues1216/1133 describe stream-limit or
+flow-control deadlocks; native defaultHTTP2=False and rapid failures provide no match.
+https://github.com/pydantic/httpx2/issues/1162
+https://github.com/pydantic/httpx2/issues/1216
+https://github.com/pydantic/httpx2/issues/1133
+
+SDK issue3269 reports long nonstreaming calls behind NAT and proposes TCP keepalive
+(SDK2.37.0, long high-reasoning generation). It is a reporter's hypothesis/reproducer,
+not confirmation of this environment. A selected60s socket timeout plus hundreds of
+instant subsequent errors is a materially different symptom. No keepalive change
+is justified from that report alone.
+https://github.com/openai/openai-python/issues/3269
+
+Minimum next-run observations, without semantic/transport changes
+1. Per process: PID/PPID, monotonic call start/end, sequential attempt index, SDK/
+   HTTPX2/HTTPCORE2 versions and public source hashes; stable process-local client
+   identifier; actual SDK/client/transport/pool class module names; is_closed before
+   and after requests. Include route kind (direct/proxy) only as a fixed boolean/
+   class label, not URL, credentials, proxy string or CA path.
+2. On failure: bounded cause-chain fully-qualified class names, integer errno,
+   winerror and TLS verify_code if present; fixed DNS/TLS/socket/timeout-type flags.
+   Traverse explicit __cause__ and, only if absent and not suppressed, __context__;
+   cycle guard and maximum8 nodes. APITimeoutError is a subtype of APIConnectionError,
+   so classify the specific timeout first. Never arbitrary str/repr, traceback
+   locals, request/response, bodies, headers or URL. The generic label must not
+   replace these measurements. SDK no-response transport failures need not carry
+   an HTTP request ID/status; do not invent either.
+3. Capture inexpensive same-worker FD count and its resource limit/highwater. EMFILE
+   errno24 directly supports per-process exhaustion; a current separate shell's
+   limit does not disprove it. An optional failure-only public/private pool snapshot
+   can record connection/request COUNTS and is_idle/is_closed/is_available flags.
+   Do not call has_expired (socket probe) or connection.info/repr (origin disclosure).
+   Treat unavailable introspection as unknown; observation failure must not alter
+   the underlying request, model messages or original raised exception.
+4. Only after a preserved failure, an authorized separate NONCLINICAL diagnosis
+   can compare the still-existing client, fresh client in the same process, and
+   fresh process with the same public profile. This was proposed, not performed.
+   Existing failure + new same-process client success supports client-local state;
+   both fail while contemporaneous fresh process succeeds supports process-local
+   resources/environment, but is still not a mechanism. DNS/socket errno and stage
+   timing are needed. Temporal recovery or shared-network state can confound every
+   comparison. Do not replace failed benchmark rows with diagnostic successes.
+
+The official timeout guide distinguishes connect/read/write/pool operations; a
+numeric60 timeout is not necessarily a total wall-clock deadline for the request.
+https://pydantic.dev/docs/httpx2/advanced/timeouts/
+Official SDK error guidance: https://developers.openai.com/api/docs/guides/error-codes
+
+Decision boundary
+Observation-only journal is the minimal next change. No evidence currently supports
+automatically replacing clients, enabling HTTP2, changing SDK/transport, retries,
+timeouts, keys, proxy/TLS settings, or resetting selected question attempts. A
+transport/lifecycle change would be a new operational binding requiring explicit
+recording and a fresh paired comparison; these notes do not select that change.
