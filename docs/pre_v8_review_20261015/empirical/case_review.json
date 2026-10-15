@@ -1,0 +1,155 @@
+{
+  "scope": "Purposive20-case qualitative audit,15 persistent across all14 arms and5 V4 regressions correct inV3d/V7; retrospective,not prevalence estimate",
+  "case_class_counts": {
+    "wrong_FHIR_concept_with_unresolved_label_mapping": 2,
+    "benchmark_projection_mismatch_NL_ambiguous": 2,
+    "source_cohort_or_reference_intent_unresolved": 3,
+    "medication_identity_representation_unresolved": 3,
+    "direct_program_requirement_contradiction": 7,
+    "period_operator_and_reference_empty_ambiguity": 1,
+    "missing_source_quantity_unresolved": 1,
+    "source_release_graph_association_observed": 1
+  },
+  "cases": [
+    {
+      "question_id": "1f2e37aaa091d50e833afad1",
+      "classification": "wrong_FHIR_concept_with_unresolved_label_mapping",
+      "observed_evidence": "Admission type is projected from hospitalization.admitSource (EMERGENCY ROOM); the selected held Encounter.class is EMER. Reference EW EMER. is not directly retained.",
+      "interpretation_limit": "Wrong source concept is visible; exact legacy-label mapping/attainability not established.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "dbadc610a502fc0a6c69d44e",
+      "classification": "wrong_FHIR_concept_with_unresolved_label_mapping",
+      "observed_evidence": "Admission type is projected from admitSource PHYSICIAN REFERRAL while selected Encounter.class is OBSENC; reference OBSERVATION ADMIT.",
+      "interpretation_limit": "Do not treat source-check success as semantic type correctness or infer exact vocabulary reconstruction.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "2d7404fcfff0b855a4fb2fe9",
+      "classification": "benchmark_projection_mismatch_NL_ambiguous",
+      "observed_evidence": "Program returns Observation code display Specimen Type (lab item52033), not its result or a microbiology specimen type. Held Specimen includes MRSA SCREEN matching reference.",
+      "interpretation_limit": "Saved wording says specimen test and is ambiguous between test identity and specimen type. Held linked/available specimen-type values show a feasible benchmark-matching alternative, not proof that this is the only faithful NL interpretation. Do not call this an unambiguous instruction violation.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "7866a9173d7aff1bce72d3a6",
+      "classification": "benchmark_projection_mismatch_NL_ambiguous",
+      "observed_evidence": "Selected C. difficile PCR Observation links to a held Specimen whose type.display is STOOL, exactly reference; final projects the test code label instead.",
+      "interpretation_limit": "Saved wording says specimen test and is ambiguous between test identity and specimen type. Held linked/available specimen-type values show a feasible benchmark-matching alternative, not proof that this is the only faithful NL interpretation. Do not call this an unambiguous instruction violation.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "c04f16fa062bc81f8c917962",
+      "classification": "source_cohort_or_reference_intent_unresolved",
+      "observed_evidence": "Question asks first microbiology test with no saved assumption. Held May NO GROWTH blood cultures precede the reference December test, also held. Both natural solves choose May.",
+      "interpretation_limit": "Could reflect SQL/FHIR cohort or implicit positivity/hospital constraint; neither reference-error nor program-error established without original exposed SQL/mapping.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "0a8c46b684e72300d29c18aa",
+      "classification": "medication_identity_representation_unresolved",
+      "observed_evidence": "Latest5 requests return5 product strings including HYDROmorphone +0.9% Sodium Chloride; reference lists7 component/brand names.",
+      "interpretation_limit": "Mixture decomposition/alias/cardinality contract unresolved; joining labels is visibly different, but no complete gold-free identity policy proved.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "383586ac765d783e5374a6c0",
+      "classification": "direct_program_requirement_contradiction",
+      "observed_evidence": "Program sorts authoredOn and returns one Simethicone. In the same encounter14 requests share earliest validityPeriod.start; their9 distinct names exactly equal reference.",
+      "interpretation_limit": "Both source-time substitution and tie-collapse witnessed. Shared guidance already says prescription start is validityPeriod.start.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "41b9a346811b51fc23501b6f",
+      "classification": "direct_program_requirement_contradiction",
+      "observed_evidence": "Program sorts IV starts then takes xs[0]. Three held requests tie at earliest start and all3 distinct names exactly equal reference.",
+      "interpretation_limit": "Tie-set witness; robust selector should test whether an extremum is unique rather than choose one arbitrary row.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "bf8aee434927ad78efbb9c37",
+      "classification": "source_cohort_or_reference_intent_unresolved",
+      "observed_evidence": "Latest held exact-IV start before assumed2200 cutoff is Sep28 11:00; reference Sep28 20:00 does not appear at any held MedicationRequest field. Both solves select11:00.",
+      "interpretation_limit": "Possible source version/completeness/time mapping gap; not a timezone fix. Retained held coverage is not proof of equality to SQL source.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "f8d725f820917d71a5301983",
+      "classification": "source_cohort_or_reference_intent_unresolved",
+      "observed_evidence": "Same display PTT exists in lab and chart systems: lab28.2 at Jan30 20:00; lab+chart34.6 at Jan31 03:33(reference). Program pools labels and chooses actual minimum28.2.",
+      "interpretation_limit": "A chartevents-only cohort reproduces reference; question does not specify system. Latent code.text boolean bug is inactive because no held code.text is nonempty.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "204b55b1a8a2dbeafa89b76c",
+      "classification": "period_operator_and_reference_empty_ambiguity",
+      "observed_evidence": "Yearly question receives one global maximum70 from a held L Pleural#1 value; reference empty. Program does not group by year.",
+      "interpretation_limit": "Grouping omission is visible, but nonempty held evidence versus empty reference makes corrected target uncertain; cannot promise that group repair earns credit.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "f6274c47226150acc9cef0e2",
+      "classification": "medication_identity_representation_unresolved",
+      "observed_evidence": "Distinct-drug answer89(reference97) resolves mixtures by product prefix; generic product-name and ingredient-name policies yield different counts on held requests.",
+      "interpretation_limit": "Name/reference/product/component equivalence and raw-source naming not established; do not choose count policy by matching97.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "0c6cdc444ee911941bfd23f0",
+      "classification": "medication_identity_representation_unresolved",
+      "observed_evidence": "Prior-month program counts9 medication references(reference11). Held mixtures expose component versus product ambiguity.",
+      "interpretation_limit": "The window is explicit; identity policy can change count, but no demonstrated exact-source recovery. V3d also wrong with0, so not one uniform cause across versions.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "2ca14c9e3ae55c6d467fa8c1",
+      "classification": "missing_source_quantity_unresolved",
+      "observed_evidence": "14 held Furosemide requests:11 numeric-dose requests sum380;3 have no dosageInstruction at all. Reference630. Released380 has explicit partial-sum limitation.",
+      "interpretation_limit": "No arithmetic-only repair can recover the missing250 from these fields; new appropriate evidence or source-alignment audit required. Honest limitation is not total-dose support.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "967175d0df47b1226680f9bc",
+      "classification": "source_release_graph_association_observed",
+      "observed_evidence": "Actual A is withheld. Organism children lack direct encounter but derivedFrom parent URINE CULTURE linked to requested hospital; final issues are encounter_link on children.",
+      "interpretation_limit": "Graph provenance tension is observable; do not infer complete source support or validator false positive merely because organism labels match reference.",
+      "evidence_file": "selected_case_evidence.json.gz"
+    },
+    {
+      "question_id": "00b98d0bf4d50497625b257e",
+      "classification": "direct_program_requirement_contradiction",
+      "observed_evidence": "V4 plan drops April from04/last year and suggests whole prior year; actual final code instead searches current2182 year and outputs true(referencefalse). V3d/V7 false.",
+      "interpretation_limit": "Two distinct interpretation errors; visibility does not prove planner causality because solver diverges from advice.",
+      "evidence_file": "selected_version_specific_evidence.json.gz"
+    },
+    {
+      "question_id": "461ed0b2f30a1fe2a7aca6e3",
+      "classification": "direct_program_requirement_contradiction",
+      "observed_evidence": "V4 hardcodes host2026-10-15 as cutoff against deidentified future Encounter dates, returnsfalse(reference true). V3d/V7 true.",
+      "interpretation_limit": "Invented clock is directly unsupported by question assumptions; no claim that every ER-mapping problem is solved.",
+      "evidence_file": "selected_version_specific_evidence.json.gz"
+    },
+    {
+      "question_id": "d6121ad75765bc51dceaf4c9",
+      "classification": "direct_program_requirement_contradiction",
+      "observed_evidence": "V4 plan explicitly notes no provided current_time, yet program uses datetime(2026,10,15), excludes completed2141 encounter, returnsNone. V3d/V7 reference timestamp.",
+      "interpretation_limit": "Clear unsupported bound independent of an answer verifier.",
+      "evidence_file": "selected_version_specific_evidence.json.gz"
+    },
+    {
+      "question_id": "65f468deef71db0042d17c04",
+      "classification": "direct_program_requirement_contradiction",
+      "observed_evidence": "Monthly maxima question is implemented as a global max117.7 instead of two monthly maxima115.8 and117.7; V3d/V7 correct.",
+      "interpretation_limit": "Group-then-aggregate operator obligation can be checked without knowing target values.",
+      "evidence_file": "selected_version_specific_evidence.json.gz"
+    },
+    {
+      "question_id": "f517e3cce89ac464b8a1e6e1",
+      "classification": "direct_program_requirement_contradiction",
+      "observed_evidence": "V4 first final computes monthly mean dict; worker rejects dict final shape. Correction returns month-label strings instead of mean values while operation still says averaged. V3d/V7 return means.",
+      "interpretation_limit": "Tool-interface recovery introduced a projection error; generic output-type validation and semantic preservation are distinct from source citation checking.",
+      "evidence_file": "selected_version_specific_evidence.json.gz"
+    }
+  ]
+}

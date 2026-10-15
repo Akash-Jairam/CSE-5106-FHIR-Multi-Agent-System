@@ -1,0 +1,193 @@
+Cross-version exposed-300 failure analysis — 15 October 2026
+Scope: paused-goal research only; no inference, implementation or repository change.
+
+The main empirical result
+
+The completed local series improves the Team from162 to233/300 but never beats
+its contemporary Single. This is not seven isolated tests of topology: the
+primary policy, shared tools/prompts, source gates, allocation, SDK accounting
+and random trajectories changed. The first 'original' row is the first local
+pipeline experiment, not an independently reproduced unmodified author result.
+
+Run        Single correct/errors    Team correct/errors   Team paired wins/losses
+Original       223/16                    162/42                 10/71
+V2             231/3                     198/7                   7/40
+V3d            238/0                     232/2                   8/14
+V4             239/1                     218/0                   8/29
+V5             237/1                     225/0                  10/22
+V6             234/1                     231/5                  15/18
+V7             238/4                     233/6                   7/12
+
+All14 arms reproduce the published typed score from saved fixed300 references;
+all firsts/errors are retained. No broader QA/SQL CSV was opened. Full design
+and confound normalization, with29 authored-record pins, is in normalization/.
+No incomplete V3/V3b accuracy or deleted V3c record is inserted into this table.
+
+Shared difficulty and turnover
+
+37/300 are wrong in all14 arms;30 are temporal selection,5 lookup/counting,2
+numerical. All7 Teams share44 wrong questions; all7 Singles share43; all5 recent
+Teams share46; all10 recent Single/Team arms share41. Thus the persistent set is
+not merely a weak early Team artifact. All37 are nonerror wrong in V7;29 never
+had any terminal error in any of14 arms. Their V7 releases comprise31 nonnull
+wrong answers and6 nulls:4 budget-only limitations,1 source-only limitation,
+and1 source-plus-budget limitation. These limitation categories describe the
+record, not a validated explanation of every wrong computation.
+
+The37 persistent questions span these template counts:9 specimen test naming,
+6 first/last drug naming,5 distinct-drug counting,4 admission type,3 organism
+naming,2 microbiology timing,2 first/last route drug naming,2 route prescription
+timing, and one each yearly output aggregation,total drug dose,last drug dose,
+and minimum-lab timing. Counts group linguistic templates; they are not causal
+labels. The9+8+4 specimen/drug-extremum/admission slots are reasonable places to
+audit semantic projections and multiplicity, not21 guaranteed recoverable points.
+
+There is also substantial turnover. V3d→V4 Team has12 gains/26 losses;
+V3d→V5 has12/19; V3d→V6 has17/18; V3d→V7 has13/12. V6→V7 has16/14.
+Only119 questions are correct in all7 Teams, versus189 in all7 Singles.
+Across14 observed outcomes,263 questions have at least one success, and109
+are always correct. These are retrospective oracle/overlap descriptions, not
+an implementable selector, attainable upper bound, or independent observations.
+
+Twenty bounded trajectory audits
+
+Selection was purposive:15 of the37 persistent failures, plus5 V4 regressions
+that V3d andV7 answer correctly. Categories are mutually exclusive manual audit
+labels, not prevalence estimates. The sample has7 direct program/requirement
+contradictions,2 ambiguous specimen-projection mismatches,2 admission-concept
+projection problems with unresolved label mapping,3 source-cohort/query-intent
+ambiguities,3 drug-identity ambiguities,1 missing-source-dose case,1 period/empty-
+reference ambiguity and1 observed graph-scope withholding. case_taxonomy.json
+gives every ID, observed evidence and uncertainty; retained_facts.json supplies
+small computed facts without running any model-generated program.
+
+Three compact claims root can inspect without replay are in strong_cases.json:
+
+383586… First drug: final sorts authoredOn and takes one Simethicone, although
+shared guidance says prescription start is validityPeriod.start. The same held
+encounter has14 requests tied at the minimum validity start; their9 distinct
+names exactly equal the saved reference set. The wrong time field and arbitrary
+single-item collapse are directly visible; no alternative model answer is needed
+to expose the disagreement between requirement and implemented operator.
+
+41b9a3… First IV drug: final sorts valid prescription starts then uses xs[0].
+Three held requests tie at the earliest time; their3 names exactly equal the
+reference. This is a retained tie witness, not a claim that every first/last
+question must return multiple values or that held data equal the entire source.
+
+7866a9… Specimen test: selected C.difficile PCR Observation links to a held
+Specimen of type STOOL, exactly the reference; final returns the test label.
+The wording 'name of the specimen test' is ambiguous, so this proves a feasible
+benchmark-matching projection, not an unambiguous NL instruction violation.
+The related2d7404… returns generic lab label Specimen Type; a held MRSA SCREEN
+specimen matches reference, but microbiology-versus-general-lab cohort/ranking
+still needs a domain specification.
+
+Other direct contradictions are all V4 regressions:00b98d… loses April from
+'04/last year' in advice, then solver actually searches current2182 year;
+461ed0… andd6121a… invent host2026 bounds against deidentified future encounters;
+65f468… computes one global maximum for a monthly-maxima question;f517e3… first
+computes monthly means as a dict, receives final_contract shape rejection, then
+returns month-label strings while its operation still claims averages. The last
+case demonstrates semantic regression during interface recovery, distinct from
+an erroneous citation. The solver can also contradict otherwise sensible advice;
+these cases do not identify advice visibility as the causal treatment.
+
+Why not all persistent failures are demonstrably agent-repairable
+
+1f2e37… anddbadc6… read hospitalization.admitSource (EMERGENCY ROOM/PHYSICIAN
+REFERRAL) for admission type. Held Encounter.class is EMER/OBSENC. The source
+concept difference is real, but exact legacy labels EW EMER./OBSERVATION ADMIT
+are not literally retained. Mapping/class vocabulary must be established rather
+than taught as answer-specific aliases selected from these references.
+
+c04f16… asks first microbiology test with no saved assumption. Held May NO GROWTH
+cultures precede a held December test at the reference time. Both independent
+natural solves choose May. An implicit hospital/positivity/source-cohort filter
+could explain the benchmark; the saved question alone does not establish it.
+
+f8d725… pools same-display PTT across systems: lab28.2 atJan30 20:00 versus lab
+and chart34.6 atJan31 03:33(reference). Its minimum over that pool is correct;
+chartevents-only would select reference. The question does not name the system.
+This is source-cohort ambiguity, not timezone arithmetic. A suspicious code.text
+boolean shortcut is inactive on this held input and is not assigned causal blame.
+
+bf8aee… latest exact-IV start before assumed2200 cutoff is11:00 in held data;
+the reference20:00 occurs at no held MedicationRequest field. Source version,
+completeness or mapping remains unresolved. Held absence is not proof the public
+FHIR store equals the SQL reference source or that the reference is incorrect.
+
+2ca14c… has14 Furosemide requests:11 known doses sum380,3 have no dosageInstruction.
+Reference630 cannot be recovered arithmetically from the missing quantities.
+The final honestly labels a partial sum; source-checked does not make it the
+requested complete total. Re-solving unchanged fields cannot create evidence.
+
+0a8c46…,0c6cdc…,f6274c… expose product/reference/ingredient/brand naming ambiguity.
+Different defensible identity policies give different cardinalities; none was
+declared correct merely because it approached the reference. 204b55… omits yearly
+grouping but has held numeric output while reference is empty; the correct
+benchmark target remains unresolved rather than automatically forced to null.
+
+967175… is withheld on child-organism encounter links, while derivedFrom points
+to held parent tests linked to the scoped encounter. This is a concrete graph-
+association/release tension. Matching organism labels do not establish that all
+scope, temporal and completeness requirements hold or prove validator error.
+
+Fourteen of the15 persistent-case A snapshots are eligible with retained raw
+source-check issues=[]; the sole exception is967175… without a surviving final.
+This includes the explicitly limited Furosemide partial sum: V7 retains that
+honest limitation. Citation/source binding therefore leaves semantic projection,
+operator correctness, domain/cohort choice and completeness unproved.
+
+Implication for a hypothesis, not another selected design
+
+The supported failure target is semantic query execution and evidence sufficiency,
+not simply 'more independent answers'. V7 already supplied fresh retrieval and
+natural solving; its observed268 B outcomes contained one corrective alternative.
+Blind rerolls cannot resolve a shared wrong field/cohort convention or a missing
+source quantity. A next falsifiable hypothesis is that an independently stated
+query obligation plus targeted counterevidence can expose a wrong operation or
+missing evidence more often than another whole solve, at equal charged budget.
+Examples of gold-free obligations are output entity/type, allowed time anchor,
+event source/cohort, extrema tie policy, group-then-aggregate order and explicit
+provenance edges. These are generic task semantics, not routes keyed to the20 IDs.
+
+Success criteria must include wrong-A counterexamples actually found, correct-A
+damage, evidence acquisition success, accepted repairs and end-to-end gain.
+Generating a plausible query spec, passing citations or changing an answer is
+not success. Keep unsupported source/cohort ambiguity as UNKNOWN and preserve
+the capable primary. Any reservation that changes its solving budget is a new
+policy bundle requiring a fresh fair control; cross-version score changes do
+not isolate it. Before spending on V8, audit exposed-case SQL/FHIR mapping where
+source/intent remains ambiguous, without changing official scoring posthoc.
+
+Beyond300 and limits
+
+Use the existing reserved development/pilot patients and specification-generated
+fixtures to vary ties, temporal boundaries, labels/systems, empty/incomplete input,
+relation chains, units and grouped output. Do not add these exact answers or
+retrospective categories to runtime. Judge failures on unseen synthetic variants,
+not fixtures that only restate a repaired example. Broader reserved-patient tests
+can expose coverage failures without consuming the protected question stratum.
+
+The existing prospective protocol remains the constraint: after development
+selection, one frozen2931 three-arm run; no partial confirmation scoring; all
+first-attempt failures retained; integrity before analysis; primary Team−Single
+on1397 question-disjoint IDs,95% question-weighted patient bootstrap10000/5106,
+lower bound>0 plus positive full2931 difference. Report every prespecified stratum.
+It is not patient-disjoint:1379/1397 belong to previously exposed patients; the
+one nominally unexposed patient has18 questions and cannot justify population
+patient transfer. A failed confirmation cannot be retuned and called held-out.
+Cross-model and independent-task transfer require separate future controls/data;
+current results establish neither. Nothing here spends or inspects confirmation.
+
+Reproduction/provenance
+
+cross_version.py streams14 actual saved arrays, asserts exact ordered fixed300,
+question/reference/patient equality and published totals, then produces the
+matrix and intersections with the unchanged pure scorer. It does not call the
+full-CSV compare entrypoint. extract_cases.py andextract_version_specific.py read
+only20 selected owned audits and verify their content-addressed hashes for the
+evidence being interpreted. retained_facts.py performs transparent field/tie
+inspection; no saved agent program is executed. No model/FHIR/network/config,
+Git/source/record mutation or deleted experiment recreation occurred.

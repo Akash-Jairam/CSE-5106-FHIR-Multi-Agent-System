@@ -1,0 +1,151 @@
+[
+  {
+    "question_id": "383586ac765d783e5374a6c0",
+    "question": "What was the name of the drug that during their first hospital visit patient 10016150 was first prescribed?",
+    "reference": "[['OxycoDONE (Immediate Release) ']\n ['Potassium Chloride']\n ['Nitroglycerin SL']\n ['Aluminum-Magnesium Hydrox.-Simethicone']\n ['PNEUMOcoccal 23-valent polysaccharide vaccine']\n ['Acetaminophen']\n ['Sodium Chloride 0.9%  Flush']\n ['TraZODone']\n ['Simethicone']]",
+    "released_A": "Simethicone",
+    "code": "enc_id='ef3c0803-f981-59f7-a022-0d1223377142'\nrows=[r for r in retrieved_resources['MedicationRequest'] if r.get('encounter',{}).get('reference')=='Encounter/'+enc_id]\nrows.sort(key=lambda r:(r.get('authoredOn') or '',r['id']))\nfirst=rows[0]\nref=first['medicationReference']['reference'].split('/')[-1]\nmed=next(m for m in retrieved_resources['Medication'] if m.get('id')==ref)\nname=next(x['value'] for x in med.get('identifier',[]) if x.get('system','').endswith('mimic-medication-name'))\nanswer=name\nevidence=[{'resource_id':'MedicationRequest/'+first['id'],'field_path':'authoredOn','value':first['authoredOn']},{'resource_id':'MedicationRequest/'+first['id'],'field_path':'medicationReference.reference','value':first['medicationReference']['reference']},{'resource_id':'Medication/'+med['id'],'field_path':'identifier[2].value','value':name},{'resource_id':'Encounter/'+enc_id,'field_path':'period.start','value':next(e['period']['start'] for e in retrieved_resources['Encounter'] if e['id']==enc_id)}]\ncontributing_ids=list(dict.fromkeys(['Encounter/'+enc_id,'MedicationRequest/'+first['id'],'Medication/'+med['id']]))\noperation='Selected earliest-authored MedicationRequest linked to the first hospital encounter, ordered by authoredOn, then resolved its medicationReference to the Medication name.'\nlimitation=None",
+    "retained_facts": {
+      "case_selection": "tied earliest prescription set",
+      "artifact_code_retained": true,
+      "A_released": "Simethicone",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 2,
+        "Location": 3,
+        "Medication": 30,
+        "MedicationRequest": 62
+      },
+      "snapshot_artifact_sha256": "31a0b1bc826868b8ea80f012d6ab3009af36253972e12f144b749e5f45f29def",
+      "tie_witness": {
+        "min_validity_start": "2142-05-10T16:00:00-04:00",
+        "requests_at_min": 14,
+        "distinct_names": [
+          "Acetaminophen",
+          "Aluminum-Magnesium Hydrox.-Simethicone",
+          "Nitroglycerin SL",
+          "OxycoDONE (Immediate Release) ",
+          "PNEUMOcoccal 23-valent polysaccharide vaccine",
+          "Potassium Chloride",
+          "Simethicone",
+          "Sodium Chloride 0.9%  Flush",
+          "TraZODone"
+        ],
+        "exact_reference_set_match": true,
+        "distinct_names_n": 9
+      }
+    },
+    "interpretation_limit": "First two cases have exact held tie-set/reference witnesses. Specimen-test wording in third is ambiguous; linked STOOL proves feasible benchmark-matching projection, not sole faithful NL intent."
+  },
+  {
+    "question_id": "41b9a346811b51fc23501b6f",
+    "question": "What was the first drug prescribed to patient 10037861 via the iv route?",
+    "reference": "[['Sodium Chloride 0.9%  Flush']\n ['Heparin Flush (10 units/ml)']\n ['Sodium Chloride 0.9%']]",
+    "released_A": "Sodium Chloride 0.9%  Flush",
+    "code": "rows=retrieved_resources['MedicationRequest']; meds={m['id']:m for m in retrieved_resources['Medication']}\ndef norm(x): return str(x or '').strip().casefold()\ndef name(m):\n for i in m.get('identifier',[]):\n  if i.get('system','').endswith('mimic-medication-name'): return i.get('value','').strip()\n return ''\nxs=[]\nfor r in rows:\n s=r.get('dispenseRequest',{}).get('validityPeriod',{}).get('start');\n if s and any(norm(c.get('code'))=='iv' for d in r.get('dosageInstruction',[]) for c in d.get('route',{}).get('coding',[])):\n  m=meds.get(r.get('medicationReference',{}).get('reference','').split('/')[-1],{}); xs.append((s,r,m))\nxs.sort(key=lambda z:z[0]); r=xs[0][1]; m=xs[0][2]; answer=name(m); evidence=[{'resource_id':'MedicationRequest/'+r['id'],'field_path':'dispenseRequest.validityPeriod.start','value':r['dispenseRequest']['validityPeriod']['start']},{'resource_id':'MedicationRequest/'+r['id'],'field_path':'dosageInstruction[0].route.coding[0].code','value':r['dosageInstruction'][0]['route']['coding'][0]['code']},{'resource_id':'Medication/'+m['id'],'field_path':'identifier[1].value','value':m['identifier'][1]['value']}]; contributing_ids=['MedicationRequest/'+r['id'],'Medication/'+m['id']]; operation='Searched all patient MedicationRequests, retained those with IV route and a dispense validity start, ordered by start; the earliest start is 2115-10-09 21:00. Medication name from linked Medication metadata.'; limitation=None\n",
+    "retained_facts": {
+      "case_selection": "tied earliest route prescription set",
+      "artifact_code_retained": true,
+      "A_released": "Sodium Chloride 0.9%  Flush",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 3,
+        "Location": 3,
+        "Procedure": 3,
+        "Medication": 155,
+        "MedicationRequest": 236
+      },
+      "snapshot_artifact_sha256": "35fcdc65690134abd1ee8f8f9d2eec777a56b4df93d526df27159f9ba54f5d3e",
+      "tie_witness": {
+        "min_validity_start": "2115-10-09T21:00:00-04:00",
+        "requests_at_min": 3,
+        "distinct_names": [
+          "Heparin Flush (10 units/ml)",
+          "Sodium Chloride 0.9%",
+          "Sodium Chloride 0.9%  Flush"
+        ],
+        "exact_reference_set_match": true,
+        "distinct_names_n": 3
+      }
+    },
+    "interpretation_limit": "First two cases have exact held tie-set/reference witnesses. Specimen-test wording in third is ambiguous; linked STOOL proves feasible benchmark-matching projection, not sole faithful NL intent."
+  },
+  {
+    "question_id": "7866a9173d7aff1bce72d3a6",
+    "question": "What was the name of the specimen test that patient 10020944 had for the last time since 03/2131?",
+    "reference": "[['STOOL']]",
+    "released_A": "C. difficile PCR",
+    "code": "rows=retrieved_resources['Observation']\n# Specimen test means test-level Observation with specimen. Find latest measurement/test effective time since March 1.\nqual=[]\nfor r in rows:\n t=r.get('effectiveDateTime')\n if not t or t < '2131-03-01T00:00:00' or t > '2131-12-31T23:59:00' or not r.get('specimen'):\n  continue\n # exclude component lab analytes; use microbiology/test observations identified by code systems/non numeric local micro codes\n codings=r.get('code',{}).get('coding',[])\n if any(c.get('system','').endswith('CodeSystem/mimic-d-labitems') for c in codings):\n  continue\n qual.append(r)\nqual.sort(key=lambda r:r['effectiveDateTime'])\nif qual:\n r=qual[-1]; c=r['code']['coding'][0]\n answer=c.get('display') or r['code'].get('text')\n evidence=[{'resource_id':'Observation/'+r['id'],'field_path':'code.coding[0].display','value':c.get('display')},{'resource_id':'Observation/'+r['id'],'field_path':'effectiveDateTime','value':r['effectiveDateTime']}]\n contributing_ids=['Observation/'+r['id']]\n operation='Searched all patient Observations with specimen references from 2131-03-01 through assumed current time, excluded component laboratory analytes, and selected the latest specimen test by effectiveDateTime.'\n limitation=None\nelse:\n answer=None; evidence=[]; contributing_ids=[]; operation='Searched all observations with specimen references since 2131-03-01 through current time; none qualifying.'; limitation='No qualifying specimen test found.'",
+    "retained_facts": {
+      "case_selection": "specimen value versus test label",
+      "artifact_code_retained": true,
+      "A_released": "C. difficile PCR",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 2,
+        "Location": 3,
+        "Specimen": 8,
+        "Observation": 14387
+      },
+      "snapshot_artifact_sha256": "2a5e04c7dcbbd0583a50e62093478257e4422aad6b0375db1df63c8e59b44c97",
+      "selected_observations": [
+        {
+          "id": "967f5576-a3ad-5912-876a-27490244608f",
+          "code": {
+            "coding": [
+              {
+                "code": "90221",
+                "display": "C. difficile PCR",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-test"
+              }
+            ]
+          },
+          "effectiveDateTime": "2131-03-09T13:00:00-05:00",
+          "valueString": "Negative for toxigenic C. difficile by the Illumigene DNA amplification assay.            (Reference Range-Negative).  ",
+          "specimen": {
+            "reference": "Specimen/9a2c3eaa-23e5-5cd7-8643-0dc27a5dcd6c"
+          }
+        }
+      ],
+      "linked_specimens": [
+        {
+          "id": "9a2c3eaa-23e5-5cd7-8643-0dc27a5dcd6c",
+          "type": {
+            "coding": [
+              {
+                "code": "70064",
+                "display": "STOOL"
+              }
+            ]
+          },
+          "collection": {
+            "collectedDateTime": "2131-03-09T13:00:00-05:00"
+          }
+        }
+      ],
+      "reference_specimen_type_present": [
+        {
+          "id": "9a2c3eaa-23e5-5cd7-8643-0dc27a5dcd6c",
+          "type": {
+            "coding": [
+              {
+                "code": "70064",
+                "display": "STOOL"
+              }
+            ]
+          },
+          "collection": {
+            "collectedDateTime": "2131-03-09T13:00:00-05:00"
+          }
+        }
+      ]
+    },
+    "interpretation_limit": "First two cases have exact held tie-set/reference witnesses. Specimen-test wording in third is ambiguous; linked STOOL proves feasible benchmark-matching projection, not sole faithful NL intent."
+  }
+]

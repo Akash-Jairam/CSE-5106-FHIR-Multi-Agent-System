@@ -1,0 +1,249 @@
+[
+  {
+    "repository": "microsoft/ProphetNet",
+    "commit": "5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53",
+    "path": "CRITIC/src/qa/critic.py",
+    "git_blob_sha1": "936f8aedbf4926cc580db2fbaf01bfe568a79cc4",
+    "url": "https://github.com/microsoft/ProphetNet/blob/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC/src/qa/critic.py",
+    "local_file": "source/critic__CRITIC__src__qa__critic.py",
+    "bytes": 7814,
+    "sha256": "e0745486a6975f951cec5f4aa4851226f21faf6be8250447bef71a8bfbcca76e",
+    "inspected_locations": [
+      "parse_args21\u201339",
+      "critic_iter42\u2013118",
+      "critic121\u2013205"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "microsoft/ProphetNet",
+    "commit": "5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53",
+    "path": "CRITIC/src/qa/inference.py",
+    "git_blob_sha1": "24fba3e777bcc9942a68f197d3b4c4704ca31d8f",
+    "url": "https://github.com/microsoft/ProphetNet/blob/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC/src/qa/inference.py",
+    "local_file": "source/critic__CRITIC__src__qa__inference.py",
+    "bytes": 5953,
+    "sha256": "8cd3b7853f895014efbccf41f0ec3ff51052f155d3fd67af7843fc9407b5d56f",
+    "inspected_locations": [
+      "inference request construction and output persistence"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "microsoft/ProphetNet",
+    "commit": "5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53",
+    "path": "CRITIC/src/qa/evaluate.py",
+    "git_blob_sha1": "d0ba77895e9458d30756b128ca286cc392dfdb60",
+    "url": "https://github.com/microsoft/ProphetNet/blob/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC/src/qa/evaluate.py",
+    "local_file": "source/critic__CRITIC__src__qa__evaluate.py",
+    "bytes": 7856,
+    "sha256": "db66b2d5d2a9a8899f745b31ed5d78a2c81074b5094930f8404f1bfc0acaaa17",
+    "inspected_locations": [
+      "rejection_sampling_eval9\u201326",
+      "evaluate32\u201399"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "microsoft/ProphetNet",
+    "commit": "5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53",
+    "path": "CRITIC/src/program/critic.py",
+    "git_blob_sha1": "3380050f5482cd2b2b1d5e49965c4b7fb1e95f61",
+    "url": "https://github.com/microsoft/ProphetNet/blob/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC/src/program/critic.py",
+    "local_file": "source/critic__CRITIC__src__program__critic.py",
+    "bytes": 5468,
+    "sha256": "6f0e1c59d1cb4cbe74452627b8953d20e4a0e8b21626613da8ae148b8478436b",
+    "inspected_locations": [
+      "critic36\u2013143; critique85\u201393, regeneration105\u2013117, gold outside prompt134\u2013138"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "anthonywchen/RARR",
+    "commit": "51a1a10fe5bada837a368f98cb55288ac5168c9e",
+    "path": "run_editor_sequential.py",
+    "git_blob_sha1": "ba6c99be6d9854377676843fcf46a0704fff0a2a",
+    "url": "https://github.com/anthonywchen/RARR/blob/51a1a10fe5bada837a368f98cb55288ac5168c9e/run_editor_sequential.py",
+    "local_file": "source/rarr__run_editor_sequential.py",
+    "bytes": 11390,
+    "sha256": "adf60273dfb8d884bbcd03cd460fed70362ee52a59ecf6e030b03058a48f25b2",
+    "inspected_locations": [
+      "run_editor_one_instance41\u2013174; per-evidence gate/edit122\u2013155; defaults41\u201354"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "anthonywchen/RARR",
+    "commit": "51a1a10fe5bada837a368f98cb55288ac5168c9e",
+    "path": "utils/question_generation.py",
+    "git_blob_sha1": "c9f545bb937e98663380f182d00d55deb8feb07a",
+    "url": "https://github.com/anthonywchen/RARR/blob/51a1a10fe5bada837a368f98cb55288ac5168c9e/utils/question_generation.py",
+    "local_file": "source/rarr__utils__question_generation.py",
+    "bytes": 2608,
+    "sha256": "baa080d77d7b2682270ec586fd9754f249d18095659313f2925eb70f5ad275cc",
+    "inspected_locations": [
+      "run_rarr_question_generation33\u201382; retries/sampling63\u201379"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "anthonywchen/RARR",
+    "commit": "51a1a10fe5bada837a368f98cb55288ac5168c9e",
+    "path": "utils/agreement_gate.py",
+    "git_blob_sha1": "90b89c0a1356edfeb30313456c68fb1cbbdd669a",
+    "url": "https://github.com/anthonywchen/RARR/blob/51a1a10fe5bada837a368f98cb55288ac5168c9e/utils/agreement_gate.py",
+    "local_file": "source/rarr__utils__agreement_gate.py",
+    "bytes": 3004,
+    "sha256": "0769dfe1c5c082a263d7d1c995472e014eb5671b48d337768047d50a8a45be65",
+    "inspected_locations": [
+      "parse_api_response11\u201333",
+      "run_agreement_gate36\u201385"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "anthonywchen/RARR",
+    "commit": "51a1a10fe5bada837a368f98cb55288ac5168c9e",
+    "path": "utils/editor.py",
+    "git_blob_sha1": "7f045d6fc088c80e3ed7e19a6793be262b3c6989",
+    "url": "https://github.com/anthonywchen/RARR/blob/51a1a10fe5bada837a368f98cb55288ac5168c9e/utils/editor.py",
+    "local_file": "source/rarr__utils__editor.py",
+    "bytes": 2325,
+    "sha256": "0efbb999763ab5c4101c5e720f26ee245eb47ec3e1097015a73771c20a68a17e",
+    "inspected_locations": [
+      "run_rarr_editor30\u201377"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "anthonywchen/RARR",
+    "commit": "51a1a10fe5bada837a368f98cb55288ac5168c9e",
+    "path": "utils/search.py",
+    "git_blob_sha1": "401d53c2e2d1b77d0cc05a2b8fa76681526db3e6",
+    "url": "https://github.com/anthonywchen/RARR/blob/51a1a10fe5bada837a368f98cb55288ac5168c9e/utils/search.py",
+    "local_file": "source/rarr__utils__search.py",
+    "bytes": 8063,
+    "sha256": "e33e527390ed7843ac9d1f8e5c4fa96f49f75ff99d2404be5dfe49b801bb4cee",
+    "inspected_locations": [
+      "PASSAGE_RANKER13\u201318",
+      "search_bing114\u2013129",
+      "run_search132\u2013225; fetch before truncation165\u2013173"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "anthonywchen/RARR",
+    "commit": "51a1a10fe5bada837a368f98cb55288ac5168c9e",
+    "path": "utils/evidence_selection.py",
+    "git_blob_sha1": "92138b6a88cb49b3214e5e0b9ff9dee57004c40a",
+    "url": "https://github.com/anthonywchen/RARR/blob/51a1a10fe5bada837a368f98cb55288ac5168c9e/utils/evidence_selection.py",
+    "local_file": "source/rarr__utils__evidence_selection.py",
+    "bytes": 3469,
+    "sha256": "62ea3330ed6b5423ebb5cc157e154fc2fd405ddca30f88418867223bb742a323",
+    "inspected_locations": [
+      "compute_score_matrix14\u201333",
+      "select_evidences55\u201389"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "microsoft/ProphetNet",
+    "commit": "5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53",
+    "path": "CRITIC/src/llms/api.py",
+    "git_blob_sha1": "cf6610481a30b29ef56870562782cf6e3dcef3db",
+    "url": "https://github.com/microsoft/ProphetNet/blob/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC/src/llms/api.py",
+    "local_file": "source/critic__CRITIC__src__llms__api.py",
+    "bytes": 1388,
+    "sha256": "02812b37c955d8c00b1c411425d0db9ffcd8c797931f8e40c423b5fdd5b320f0",
+    "inspected_locations": [
+      "llm13\u201340; three actual-attempt loop"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "microsoft/ProphetNet",
+    "commit": "5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53",
+    "path": "CRITIC/src/tools/search_api.py",
+    "git_blob_sha1": "cf318e0b1824943025084d1d0b0ce92ef1eeeb0c",
+    "url": "https://github.com/microsoft/ProphetNet/blob/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC/src/tools/search_api.py",
+    "local_file": "source/critic__CRITIC__src__tools__search_api.py",
+    "bytes": 947,
+    "sha256": "05e282b70ad9de7012e7e7aef7ca1c9be4fa6e784c2d1eb684ebfd4cab5ebfcf",
+    "inspected_locations": [
+      "google10\u201326; unconfigured backend4\u20137"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "microsoft/ProphetNet",
+    "commit": "5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53",
+    "path": "CRITIC/README.md",
+    "git_blob_sha1": "165da49ab89eaa473b9922213b19c06ef0130658",
+    "url": "https://github.com/microsoft/ProphetNet/blob/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC/README.md",
+    "local_file": "source/critic__CRITIC__README.md",
+    "bytes": 4487,
+    "sha256": "3b46fe57ddcd2b8e405f194b65df9167dd8c6f6db0c205fbac9a781016eb7e97",
+    "inspected_locations": [
+      "author web-tools link75; release/model statement32"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "anthonywchen/RARR",
+    "commit": "51a1a10fe5bada837a368f98cb55288ac5168c9e",
+    "path": "README.md",
+    "git_blob_sha1": "3b0409437f595c1486170449e4aa3b0c63d682fe",
+    "url": "https://github.com/anthonywchen/RARR/blob/51a1a10fe5bada837a368f98cb55288ac5168c9e/README.md",
+    "local_file": "source/rarr__README.md",
+    "bytes": 5697,
+    "sha256": "cc47027a147b1d71f1ef0ffb1563f6b7f3241bb881faaafd72c9aaad9e0a469e",
+    "inspected_locations": [
+      "author public implementation description1\u20134; Bing setup17; unsafe generated-evidence flag64\u201378"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "ZubinGou/llm-agent-web-tools",
+    "commit": "ea119d927f44ea631e843c58ac762c65b7acebf2",
+    "path": "src/tools/web_tools/__init__.py",
+    "git_blob_sha1": "34e7b198a44f216d98960c7d3494bea630e2308a",
+    "url": "https://github.com/ZubinGou/llm-agent-web-tools/blob/ea119d927f44ea631e843c58ac762c65b7acebf2/src/tools/web_tools/__init__.py",
+    "local_file": "source/criticweb__src__tools__web_tools____init__.py",
+    "bytes": 968,
+    "sha256": "66692236c5cb69a9ed5bcbede5ba461574364b83005c85a0420d085ac499699d",
+    "inspected_locations": [
+      "public engine imports19\u201328"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "ZubinGou/llm-agent-web-tools",
+    "commit": "ea119d927f44ea631e843c58ac762c65b7acebf2",
+    "path": "src/tools/web_tools/core/base.py",
+    "git_blob_sha1": "f9317b949fd9e689eaaf0de2937427516317ea87",
+    "url": "https://github.com/ZubinGou/llm-agent-web-tools/blob/ea119d927f44ea631e843c58ac762c65b7acebf2/src/tools/web_tools/core/base.py",
+    "local_file": "source/criticweb__src__tools__web_tools__core__base.py",
+    "bytes": 10556,
+    "sha256": "45b70a61b3bbd58b8171e33bd378fef3f574a6d7d522e7ae8eb04a67eedd1c0e",
+    "inspected_locations": [
+      "get_source144\u2013178",
+      "search243\u2013292"
+    ],
+    "executed_or_imported": false
+  },
+  {
+    "repository": "ZubinGou/llm-agent-web-tools",
+    "commit": "ea119d927f44ea631e843c58ac762c65b7acebf2",
+    "path": "src/tools/web_tools/core/engines/google.py",
+    "git_blob_sha1": "f9d9ed456c4b8c00da505d4bbe2a7a32bbae5cb0",
+    "url": "https://github.com/ZubinGou/llm-agent-web-tools/blob/ea119d927f44ea631e843c58ac762c65b7acebf2/src/tools/web_tools/core/engines/google.py",
+    "local_file": "source/criticweb__src__tools__web_tools__core__engines__google.py",
+    "bytes": 12158,
+    "sha256": "f2429243144abc73de85c46a27eec6190ff69d06bfc5fff2d472c6285fb41f7a",
+    "inspected_locations": [
+      "parse_single_result79\u2013226",
+      "parse_page250\u2013311"
+    ],
+    "executed_or_imported": false
+  }
+]

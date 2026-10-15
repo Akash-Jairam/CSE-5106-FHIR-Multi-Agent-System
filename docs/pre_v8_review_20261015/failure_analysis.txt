@@ -1,0 +1,242 @@
+Cross-version failure analysis before V8 — 15 October 2026
+
+Conclusion
+
+No completed multi-agent design beat its contemporary capable Single. V3d
+through V7 largely recovered a competent primary solver, but their auxiliary
+mechanisms did not supply enough useful corrections. V7 is an engineering
+milestone, not evidence of a scientific accuracy advance over V3. The next
+candidate must demonstrate a mechanism before another large architecture run.
+
+The strongest new empirical finding is persistent shared failure:37 of 300
+questions are wrong in ALL 14 saved Single/Team arms across seven completed
+versions.30 are temporal,5 lookup/counting and 2 numerical. The manual trace
+review finds both correctable program behavior and ambiguous source/reference
+conventions. It does not justify labeling all 37 as fixable reasoning errors.
+
+Scope and evidence
+
+The retrospective matrix re-scores all 4,200 saved first outcomes from original,
+V2, completed usable V3d, V4, V5, V6 and V7, using the unchanged typed scorer.
+All arms contain the same 300 IDs; errors remain incorrect. Source-file hashes,
+cohort/scorer hashes, row-level flags and reproducible analysis are in empirical/.
+Existing run-specific mechanism records remain authoritative for phase behavior.
+
+This is adaptive development evidence from one backbone, not14 independent
+models or a new validation set. Original/V2 do not retain every raw role
+workspace, so later trace reconstruction is richer. Saved outputs contain no
+SQL column; broader QA/SQL/reference files were not opened. No model/FHIR call,
+candidate replay, protected-set evaluation or V8 implementation was performed.
+
+Completed comparisons (correct/300)
+
+Design       Single   Team   Team-Single   Distinguishing outcome
+Original       223     162       -61       Fragile sequential handoffs/release
+V2             231     198       -33      34 correct drafts lost,12 repaired
+V3d            238     232        -6       Static audit: zero targeted repairs
+V4             239     218       -21       Up-front advisory plan bundle regressed
+V5             237     225       -12       Executable critic: zero released repairs
+V6             234     231        -3       Eligible B: zero wrong-A/correct-B
+V7             238     233        -5       All 268 B outcomes: one wrong-A/correct-B
+
+V3d denotes the complete usable V3 comparison. Earlier V3 attempts mixed a real
+SDK serialization defect and service/network failures. The selected 204-survivor
+V3b comparison was never a completed win. Those incidents are not architectural
+efficacy comparisons. The user-removed infrastructure-only V3c formal record is
+not recreated here.
+
+Cross-version differences are not isolated topology effects. Shared prompts,
+tools, execution delivery, source gates, allocations and accounting changed;
+fresh stochastic controls also varied. In particular, original 162 to V7's 233
+does not establish71 answers gained from agent collaboration. The contemporary
+Single improved too. V3d to V7 gains 13 cases and loses 12, a net+1. V3d to V4
+gains 12 and loses 26. These flips matter more than interpreting every new version
+number as monotonic progress.
+The 'Original' row is our first local pipeline comparison with a modified Single
+control; it is not a reproduction of the original author's unmodified system.
+
+What each stage actually taught us
+
+Original/V2: verification could destroy correct work. The original Team had 42
+terminal failures versus Single's 16, and many wrong outcomes carried recorded
+release issues. Earlier investigation found diagnostic objects replacing final
+answers and overly large tool/history payloads. V2 improved the substrate, but
+its 220 correct drafts lost 34 correct outcomes after verification and repaired12
+wrong drafts. These transitions are not all verifier semantic judgments: release,
+contract and scope failures also intervene. The combined system was still poor.
+
+V3d combined integrated solving and removal of duplicate verification, yielding
+a stronger observed primary. The promised repair mechanism was inactive. The
+static audit ran on 283 source-valid primaries and produced no material local
+repair. Solver source-feedback revisions
+are a different mechanism; they must not be counted as static-audit successes.
+The 6-answer gap to Single and zero targeted repairs do not support a useful
+collaboration effect. The experiment established operation, not a winning critic.
+
+V4: more planning was not automatically useful. Planning visibility, audit
+removal and allocation changed together, so this is not a clean planning ablation.
+Team had no terminal provider errors, while Single had one; service failures do
+not explain the 21-answer deficit.25 of 29 paired losses were source-valid wrong
+answers. Retained examples include incorrect time windows, ignoring deidentified
+reference time, lost grouping, and changing correct computed content to satisfy
+an output shape. A syntactically valid plan can misinterpret the task, and a
+correct advisory plan can also be ignored by the solver.
+
+V5: an inspect-and-patch interface was too weak in the observed run. The critic
+could inspect only a frozen workspace, had two model replies and at most three
+tools, and required an exact bounded patch. It released ZERO repairs. Of 64
+eligible wrong primaries,49 ended KEEP/UNKNOWN and 15 encountered mechanical or
+probe barriers. No rejected correct changing patch was identified. Source-related
+withholding and solver source-feedback revisions remain separate: even restoring
+all six computed-correct primaries later withheld would yield 231, below Single237.
+Thus release fixes alone cannot explain away the deficit or establish critique.
+
+V6: execution eligibility was not correction quality. B had no new acquisition
+and a restrictive program/metadata contract. Many generated executions failed
+contracts or runtime expectations; only 37 became eligible. But those 37 included
+ZERO wrong-A/correct-B alternatives. Actual A scored 233; Team231 reflects one
+harmful B selection and one correct-A auxiliary fatal loss. Mechanical coverage
+and interfaces needed work, while selection alone had no corrective supply.
+
+V7: much better candidate coverage still supplied almost no complementary answer.
+Full-cap A scored 233. Across 268 actual B outcomes,174 were both correct,48 had
+correct A/wrong B,45 were both wrong and ONE had wrong A/correct B. Eligibility
+retained184; it lost no additional corrective released alternative to wrong A.
+The one helpful selection was canceled by one auxiliary fatal loss of correct A.
+Team233 therefore equals actual A 233; fresh Single scored 238. This does not make
+the 5-answer Single/A difference an experimentally isolated effect of a policy:
+initial saved messages matched, but they were distinct stochastic executions.
+
+For those recorded candidates, even free perfect selection preserving A could
+reach only 234 in V7, below the current minimum 240 selection gate; retaining the
+observed auxiliary fatal loss lowers that to 233. This is a realized candidate
+bound, not a theoretical ceiling on multi-agent systems. V7 also had 81 known B
+budget stops among 268 entrants. Reported mean Team tokens were 1.59 times Single,
+with unknown failed-call usage excluded. Equal maxima did not mean equal actual
+resource use. Neither a selector rewrite nor a larger percentage of executable
+alternatives addresses the observed shortage of useful alternatives.
+
+Persistence and variation
+
+All 7 Teams share44 wrong cases; all 5 recent Teams share46; all 7 Singles share43.
+Only 109 cases are correct in all 14 arms; at least one arm succeeds on 263. These
+are descriptive intersections of related, adaptively developed systems, not
+population independence estimates or a deployable oracle ensemble. They show
+both a shared difficult core and substantial answer turnover outside that core.
+All 37 universal failures are nonerror wrong outcomes in V7;29 had no terminal
+error in any of the 14 arms. Provider failures do not explain that persistent core.
+
+Among the 37 universal failures, generic template metadata includes 9 specimen-
+name questions,6 first/last medication-name questions,5 medication counts and 4
+admission-type questions, plus smaller groups. These are offline diagnostic
+strata. They must never become runtime template routes or answer mappings.
+
+Retained-case analysis
+
+An agent-assisted, purposive20-case review examined15 persistent all 14-wrong
+cases plus 5 V4 regressions where V3d and V7 succeeded. Selection used observed
+outcomes and task structure; review was not blinded. It is not a random sample
+or a prevalence estimate. Root independently checked the actual programs for
+the two medication examples, the specimen example and the global-max regression.
+The 15 persistent A snapshots include 14 source-clean eligible releases and one
+source-withheld result. The case packet distinguishes direct contradictions,
+benchmark-projection ambiguity, source-reference uncertainty and common-gate
+limitations, rather than giving every failure a confident semantic label.
+
+Concrete program/requirement contradictions:
+
+  Case383586: earliest medication during a visit. A sorts authoredOn, despite
+  the shared prescription-start convention, and selects one row. Held records
+  have 14 prescriptions tied at the earliest validity start, yielding9 distinct
+  medication names exactly matching the reference set. This exposes both time-
+  field and tied-set behavior using evidence already held by A.
+
+  Case41b9a3: earliest IV prescription. A sorts validity starts and takes xs[0].
+  Three held requests tie at the minimum, with 3 distinct names exactly matching
+  the reference set. Citations support the returned member but cannot establish
+  complete-set correctness. No new retrieval is necessary to expose the omission.
+
+  Case65f468, V4: question explicitly requests monthly maxima. The actual program
+  computes one global max and returns a scalar. A source check can validate that
+  scalar's input fields while missing the lost grouping requirement.
+
+  Other reviewed V4 regressions:00b98d drops the month and uses the current rather
+  than previous year;461ed0 andd6121 apply a host-year2026 cutoff to deidentified
+  future dates;f517e3 changes a computed monthly-average dictionary to month-label
+  strings after contract rejection, while still claiming to return averages.
+  These cases demonstrate failure modes, not proof that the planner caused them.
+
+Projection ambiguity, not a clean natural-language oracle:
+
+  Case7866a9 says 'name of the specimen test'. A returns the Observation's test
+  name; the reference expects specimen type. The selected Observation links to
+  a held Specimen whose type is exactly the reference. This demonstrates an
+  available alternative projection, but the wording admits confusion; a generic
+  semantic verifier is not guaranteed to infer the benchmark's intended one.
+  Case2d7404 similarly returns a test label; the intended source cohort/projection
+  needs care. Do not add a rule that every specimen question means one source.
+
+Source/convention questions that cannot be called obvious agent repairs:
+
+  Admission-type cases1f2e37 anddbadc6 return admitSource. Held encounter classes
+  carry a different related concept; exact legacy reference labels are absent.
+  Establishing a faithful terminology mapping needs adapter/data review, not
+  answer-specific synonym injection or an LLM pretending to know the mapping.
+
+  Casec04f16 asks first microbiology time. A/B choose an earlier held May test;
+  the reference is a later December test, also held, with no visible date filter
+  explaining that restriction. Hidden source/translation intent is unresolved.
+
+  Casef8d725 pools equal-display PTT observations from laboratory/chart systems.
+  The minimum of that pool precedes the reference; a chart-only cohort would
+  select the reference. The visible question does not state that cohort. This
+  is a source-selection ambiguity, not established timezone arithmetic failure.
+
+  Casebf8aee's reference time was not found in held request fields checked;
+  case2ca14c has 3 matching prescriptions without numeric doses, while380 is the
+  sum of known doses and the output carries an honest limitation. Missing source
+  values do not authorize inventing a dose or assuming the reference is wrong.
+
+Common source-gate limitation:
+
+  Case967175 has organism records with encounter information reachable through
+  held parent observations. The released result is withheld for missing direct
+  encounter links. This motivates a shared adapter/source-validator review with
+  independently specified graph fixtures. A fix would belong in Single too;
+  it would not establish a benefit from agent collaboration. The next proposed
+  investigator initially skips withheld A artifacts and will not solve this case.
+
+The review's 7 direct contradictions comprise2 persistent medication cases and
+5 selected V4 regressions. The 2 specimen cases form a separate ambiguous class.
+Other labels remain narrower or unresolved. Neither these counts nor14 clean
+source checks imply a measured distribution of all 300 root causes. Exact case
+IDs, sources, retained observations and uncertainty are in empirical/case_review.json.
+
+Implications for the next design and process
+
+1. Test a distinct information-producing task. A verifier should probe the
+   actual program's question obligations and retain concrete counterexamples;
+   another whole solve or another static critique is weakly motivated here.
+
+2. Test derived evidence before assuming missing retrieval is dominant. Strong
+   examples already have the needed records. Separate workspace-only versus
+   retrieval-enabled investigation instead of bundling both with a new planner.
+
+3. Separate shared adapter/data repairs from coordination. Timestamps, graph
+   ownership, event identity and reference ambiguities need common rules and a
+   refreshed Single control. Keep official scores unchanged while independently
+   documenting potential reference problems. Do not filter difficult cases out.
+
+4. Require mechanism evidence before another 300. Count wrong-A/correct-B supply,
+   helpful/harmful switches and fatal losses over all scheduled cases. A clearer
+   trace and passing offline tests are necessary engineering, not efficacy.
+
+5. Keep architecture claims smaller than the evidence. Plan visibility was
+   bundled; Single/A differences include stochasticity; correct null credit is
+   not proof of a completed absence search. Causal ablations and protected new
+   questions must precede claims of coordination or generalization.
+
+The proposed study, advancement/rejection rules, budget feasibility work and
+generalization plan are in proposed_design_and_tests.txt. It proposes one bounded
+investigator hypothesis and controlled tests. It does not authorize restarting
+the paused goal, implement V8 or claim that the next system will win.

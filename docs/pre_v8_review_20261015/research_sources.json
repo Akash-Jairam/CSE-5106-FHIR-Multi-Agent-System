@@ -1,0 +1,199 @@
+{
+  "date": "2026-10-15",
+  "scope": "Research and retrospective analysis only. Original improvement goal paused. No model/FHIR calls or V8 implementation.",
+  "sources": [
+    {
+      "id": "fhir_agentbench",
+      "url": "https://arxiv.org/html/2509.19319v2",
+      "published_url": "https://proceedings.mlr.press/v297/lee26a.html",
+      "type": "primary_paper",
+      "read": "architecture, implementation, results, error analysis; no dataset downloaded"
+    },
+    {
+      "id": "fhirpath_qa",
+      "url": "https://arxiv.org/html/2602.23479v1",
+      "type": "primary_paper",
+      "read": "data source, executable-query protocol, held-out resource results, error analysis"
+    },
+    {
+      "id": "ehrnavigator",
+      "url": "https://arxiv.org/pdf/2601.10020",
+      "type": "primary_preprint",
+      "read": "architecture, comparison conditions, code availability"
+    },
+    {
+      "id": "ehragent",
+      "url": "https://aclanthology.org/2024.emnlp-main.1245/",
+      "type": "primary_paper",
+      "read": "published abstract and existing project research"
+    },
+    {
+      "id": "critic",
+      "url": "https://arxiv.org/html/2305.11738v4",
+      "type": "primary_paper_and_existing_author_code_audit",
+      "packet": "/private/tmp/fhir-complementary-verification-audit-20261015",
+      "read": "tool feedback, ordinary versus oracle correction, limits"
+    },
+    {
+      "id": "cove",
+      "url": "https://arxiv.org/html/2309.11495v2",
+      "published_url": "https://aclanthology.org/2024.findings-acl.212/",
+      "type": "primary_paper",
+      "read": "factored verification, conditioning, open questions, no-tool limitation"
+    },
+    {
+      "id": "rarr",
+      "url": "https://arxiv.org/html/2210.08726v3",
+      "type": "primary_paper_and_existing_author_code_audit",
+      "packet": "/private/tmp/fhir-complementary-verification-audit-20261015",
+      "read": "neutral retrieval, agreement gate, attribution versus QA"
+    },
+    {
+      "id": "chess",
+      "url": "https://arxiv.org/html/2405.16755v3",
+      "type": "primary_paper_and_author_code",
+      "read": "UT implementation, actual context, high/low-budget settings, model mixtures and oracle-context controls"
+    },
+    {
+      "id": "chase_sql",
+      "url": "https://arxiv.org/html/2410.01943v1",
+      "type": "primary_paper",
+      "read": "generator diversity, candidate repair and trained selector; third-party implementations excluded"
+    },
+    {
+      "id": "sql_of_thought",
+      "url": "https://arxiv.org/html/2509.00581v2",
+      "type": "primary_preprint",
+      "read": "gold-triggered correction described in section3.1; reject headline as deployable no-oracle evidence"
+    },
+    {
+      "id": "test_suite_sql",
+      "url": "https://arxiv.org/html/2010.02840v1",
+      "published_url": "https://aclanthology.org/2020.emnlp-main.29/",
+      "type": "primary_paper",
+      "read": "single-denotation limits; gold-query-based test generation is evaluation only"
+    },
+    {
+      "id": "agent_scaling",
+      "url": "https://arxiv.org/html/2512.08296v3",
+      "published_url": "https://www.nature.com/articles/s42256-026-01268-y",
+      "type": "primary_paper_and_prior_author_code_audit",
+      "read": "task-conditional topology and cost; no universal capability threshold"
+    },
+    {
+      "id": "correlated_errors",
+      "url": "https://arxiv.org/html/2506.07962v1",
+      "type": "primary_paper_and_prior_author_code_audit",
+      "read": "error correlation versus nominal diversity; not an estimate for current trajectories"
+    },
+    {
+      "id": "mast",
+      "url": "https://openreview.net/pdf?id=fAjbYBmonr",
+      "author_url": "https://sites.google.com/berkeley.edu/mast/home",
+      "type": "primary_paper_and_author_project",
+      "read": "system, coordination and verification failure taxonomy; no imported automated labels"
+    },
+    {
+      "id": "fhir_rl",
+      "url": "https://arxiv.org/html/2605.14126v1",
+      "type": "primary_preprint",
+      "read": "training-based alternative, not fixed-backbone orchestration evidence"
+    },
+    {
+      "id": "hl7_observation",
+      "url": "https://hl7.org/fhir/R4/observation-definitions.html",
+      "type": "primary_standard",
+      "read": "effective[x], issued, specimen, code and absence semantics"
+    },
+    {
+      "id": "hl7_search",
+      "url": "https://hl7.org/fhir/R4/search.html",
+      "type": "primary_standard",
+      "read": "search behavior is distinct from question-level completeness"
+    },
+    {
+      "id": "bird",
+      "url": "https://bird-bench.github.io/",
+      "type": "primary_dataset_project",
+      "read": "metadata only; optional future independent-domain task, no question/answer files"
+    },
+    {
+      "id": "external_fhir_mcp",
+      "url": "https://github.com/coralehr/fhir-mcp-eval",
+      "type": "exploratory_author_repository_not_peer_reviewed",
+      "read": "README and roadmap only; no result rows, questions/answers, score recomputation or code execution",
+      "use": "Control-design caution only; self-reported effects not used as quantitative efficacy evidence"
+    }
+  ],
+  "author_files_newly_read": [
+    {
+      "repository": "ShayanTalaei/CHESS",
+      "commit": "3d6e835f858d26885d21d4bc0215aeecf855efbe",
+      "path": "src/workflow/agents/unit_tester/tool_kit/evaluate.py",
+      "blob_sha": "c61be3a08a460fa96b2ef6e4aecc606713b3a66f",
+      "line_count": 212,
+      "url": "https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/src/workflow/agents/unit_tester/tool_kit/evaluate.py",
+      "reviewed_as_text_only": true
+    },
+    {
+      "repository": "ShayanTalaei/CHESS",
+      "commit": "3d6e835f858d26885d21d4bc0215aeecf855efbe",
+      "path": "src/workflow/agents/unit_tester/tool_kit/generate_unit_test.py",
+      "blob_sha": "bd9243150220e4fb2cad195679419c8f284292e4",
+      "line_count": 129,
+      "url": "https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/src/workflow/agents/unit_tester/tool_kit/generate_unit_test.py",
+      "reviewed_as_text_only": true
+    },
+    {
+      "repository": "ShayanTalaei/CHESS",
+      "commit": "3d6e835f858d26885d21d4bc0215aeecf855efbe",
+      "path": "templates/template_generate_unit_tests.txt",
+      "blob_sha": "7794111b3be193b478442510d4d4433fb3352d6c",
+      "line_count": 42,
+      "url": "https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/templates/template_generate_unit_tests.txt",
+      "reviewed_as_text_only": true
+    },
+    {
+      "repository": "ShayanTalaei/CHESS",
+      "commit": "3d6e835f858d26885d21d4bc0215aeecf855efbe",
+      "path": "templates/template_evaluate.txt",
+      "blob_sha": "fc9e1cd1187248ecd5b62a2fec4c5b09a745fbbe",
+      "line_count": 39,
+      "url": "https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/templates/template_evaluate.txt",
+      "reviewed_as_text_only": true
+    },
+    {
+      "repository": "ShayanTalaei/CHESS",
+      "commit": "3d6e835f858d26885d21d4bc0215aeecf855efbe",
+      "path": "src/workflow/agents/candidate_generator/tool_kit/revise.py",
+      "blob_sha": "b8bd11529a0519e7a71ca9ffe5dff8adbdb5cd30",
+      "line_count": 148,
+      "url": "https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/src/workflow/agents/candidate_generator/tool_kit/revise.py",
+      "reviewed_as_text_only": true
+    },
+    {
+      "repository": "glee4810/FHIR-AgentBench",
+      "commit": "bbb42909a5a7eb907d1cd91f72a560729e7037ea",
+      "path": "agent/multi_turn_code_resource_agent.py",
+      "blob_sha": "f4d7262a34fbd707a66e85598f0905be5f24a646",
+      "line_count": 281,
+      "url": "https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/agent/multi_turn_code_resource_agent.py",
+      "reviewed_as_text_only": true
+    },
+    {
+      "repository": "mooshifrew/fhirpath-qa",
+      "commit": "3b995f15aac7c56c8e98ea23e87eb34195727ca8",
+      "path": "add_splits_to_dataset.py",
+      "blob_sha": "563372bc596a6f0f398fd82eb5c6ca51e09f47e7",
+      "line_count": 250,
+      "url": "https://github.com/mooshifrew/fhirpath-qa/blob/3b995f15aac7c56c8e98ea23e87eb34195727ca8/add_splits_to_dataset.py",
+      "reviewed_as_text_only": true
+    }
+  ],
+  "prior_complementary_packet": {
+    "memo_sha256": "8a05a4b15618efb945050b9061de41d637485a3db0947c3303c02d46ac4c6037",
+    "code_pins_sha256": "601f6e65ae8e3e7c2670512faa8efacf3b099ae113d7687cc747064d3c6d6f38",
+    "files_audited": 17
+  },
+  "no_numerical_reproduction": true
+}

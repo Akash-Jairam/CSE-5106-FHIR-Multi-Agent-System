@@ -1,0 +1,59 @@
+{
+  "status": "BOUNDED_CROSS_VERSION_FAILURE_ANALYSIS_COMPLETE_GOAL_PAUSED",
+  "scope": "Completed local original/V2/V3d/V4/V5/V6/V7 exposed fixed300 only;14 arm scores,20 purposive retained trajectories",
+  "cases": 20,
+  "all14_wrong": 37,
+  "all14_wrong_temporal_family": 30,
+  "all_first_attempts_retained": true,
+  "manual_case_class_counts": {
+    "wrong_FHIR_concept_with_unresolved_label_mapping": 2,
+    "benchmark_projection_mismatch_NL_ambiguous": 2,
+    "source_cohort_or_reference_intent_unresolved": 3,
+    "medication_identity_representation_unresolved": 3,
+    "direct_program_requirement_contradiction": 7,
+    "period_operator_and_reference_empty_ambiguity": 1,
+    "missing_source_quantity_unresolved": 1,
+    "source_release_graph_association_observed": 1
+  },
+  "sourceclean_persistent_sample": {
+    "n": 15,
+    "eligible_A_with_actual_check_issues_empty": 14,
+    "withheld_no_surviving_artifact": 1
+  },
+  "files_sha256": {
+    "case_extraction.log": "2f79d922a0c7b3daab8758a459e0ae9d9af8ec5f402390cddaee2f3696dc390f",
+    "case_taxonomy.json": "3eb169bae09ad46ed3d787b6a9ff110a144aa02b0098c9302eb8ff5c93135a16",
+    "cross_version.log": "9e50e605a3f9c6c896a00318a54765cf5db4b5d371c4dd613dc6e202cb185742",
+    "cross_version.py": "566c424168c48461968c6773f2b9fcdd5ba79c5efb62eeb3627a03c342d53822",
+    "cross_version_summary.json": "51702e9bd720a79a18d7445859d5ae14d1162384157b7702e54ede4abe8d221b",
+    "exposed300_matrix.json": "0daa47592831f3726106b509dbc867fcd7fa1d296f20a06d2ca5d7957871ac6a",
+    "extract_cases.py": "467772c34cb25b51afcc68589d6c31566364663ed3dcef28c13be2e40f743dac",
+    "extract_version_specific.py": "dd246032292819bef092ad996aed1b0380de5e00896cc15cd15a9b21115f8e8a",
+    "findings.txt": "539f7f3984eb9e349e7f31367d08e53ff373e09f4ae3dfe9a338d15a9bd88910",
+    "normalization/delivery.json": "519ceac48ec72dfcae036bb9186fe3c7f2065f375bd9b1c628f612d14103a8aa",
+    "normalization/normalization_note.txt": "556cd6e1f3be69cd5cbb71a0a9d590b8b06b69042780e1100d2b7daf64ae80bd",
+    "normalization/normalized_designs.json": "1756515d6cb1da02f28844cb3506e83d7d736f6c6a38e6a36332f7193a0f35b2",
+    "persistent_release_counts.json": "f3ea9960adc3da55b6fa4b363100dc663bc825d15b51c5f29456e955bc8e8b25",
+    "retained_facts.json": "c31777789defb140afad0670cd91979badd5068b7e2dca085f083b6e0fa94acf",
+    "retained_facts.py": "163456958b9049ecf80c8a777a05ebd4d574238abeadfabe7439e40e36f7e571",
+    "selected_case_evidence.json.gz": "95ccc3c3f3d8f23f600c0b489e325ea197f37159a25fc8fcd8e8393e672720a8",
+    "selected_version_specific_evidence.json.gz": "61bc112120c1dcf391387a26be3afa91125e2fe43b30d9f8cad1f0094398981f",
+    "strong_cases.json": "dd3cd02281c1ac257ae6d9ec2a6664dcc44d029ba03d389157399c794d757613",
+    "supplementary_counts.json": "71cc096c76befaf4af4f1fc942a71190cbf1bb91fcd2468ae810d3f155ddfc97",
+    "version_specific_extraction.log": "3759c0af2b6cae8ff8e61bea59d35b7d851d8e273f3511068a1c1baf236b88a4",
+    "retained_facts.log": "30ab674d9f042b78b1ecc09981d2ec9e62212f15a32aa348d3c03f270b87fe5a"
+  },
+  "reproduction_commands": [
+    "FHIR_LOCAL_AZURE_CONFIG= FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR= .venv/bin/python -IB /private/tmp/fhir-cross-version-analysis-qvrx3xy_/cross_version.py",
+    "python3 -IB /private/tmp/fhir-cross-version-analysis-qvrx3xy_/extract_cases.py",
+    "python3 -IB /private/tmp/fhir-cross-version-analysis-qvrx3xy_/extract_version_specific.py",
+    "python3 -IB /private/tmp/fhir-cross-version-analysis-qvrx3xy_/retained_facts.py"
+  ],
+  "privacy_scope": "All QA values and FHIR evidence are already-exposed300 only, private research data; do not inject case IDs/references into runtime or silently publish whole evidence snapshots. No broader QA/SQL/config/protected1397 read.",
+  "inference_calls": 0,
+  "model_program_replays": 0,
+  "source_edits": false,
+  "git_mutations": false,
+  "new_candidate_selected": false,
+  "full_run_started": false
+}

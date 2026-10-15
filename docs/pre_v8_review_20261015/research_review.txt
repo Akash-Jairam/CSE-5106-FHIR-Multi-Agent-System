@@ -1,0 +1,200 @@
+Pre-V8 research review — 15 October 2026
+
+This review supports a proposal, not a claim that a new design works. No model
+inference, patient-store requests, training, candidate-program replay or V8
+implementation was performed. Public author code was inspected as text. Source
+versions and seven newly inspected author files are in research_sources.json;
+the existing complementary-verification audit also inspected 17 author files.
+No public benchmark answer dumps or newly protected project cases were opened.
+
+Research conclusion
+
+The strongest reason to add another agent is an observable difference in its
+information-producing task. Another answer, a valid citation, successful code,
+an agreeing critic, or a larger checklist does not demonstrate that difference.
+The proposed investigation must expose a concrete violation of the question by
+the actual program, then produce a complete, executed alternative. Whether this
+beats a capable single agent remains an empirical question. More elaborate
+topologies, a new framework, or a new query language are not justified merely
+by the previous variants' failure.
+
+Directly relevant EHR evidence
+
+FHIR-AgentBench separates retrieval from interpretation failures. Its analysis
+includes wrong resource types, narrow searches, unresolved medication links,
+incorrect encounter filtering and wrong concept fields. Its original agent
+already retrieves into an out-of-context Python workspace and iterates on code.
+We cannot sell that existing capability as a new multi-agent mechanism. The
+published full-benchmark, different-model, LLM-judge results are not numerical
+baselines for our adapted subset and typed scorer. Our current Single also
+adds execution-bound answers, shared semantics and original-source checks.
+https://arxiv.org/html/2509.19319v2
+https://proceedings.mlr.press/v297/lee26a.html
+Author code inspected at bbb42909a5a7eb907d1cd91f72a560729e7037ea:
+https://github.com/glee4810/FHIR-AgentBench/blob/bbb42909a5a7eb907d1cd91f72a560729e7037ea/agent/multi_turn_code_resource_agent.py
+
+FHIRPath-QA makes query execution explicit, but does not eliminate semantic
+errors. Its analysis includes wrong resource properties, prescription versus
+administration confusion, distinct-event mistakes and relative-date errors.
+Fine-tuning transfers better to some new compositions/paraphrases, but worsens
+performance on held-out resource types. Its entire cohort is the same MIMIC
+FHIR demo. Its query-first setup can evaluate over a complete patient bundle;
+that is a different acquisition condition from our bounded live-tool agent.
+Its split script assigns paraphrase/template holdouts, not a new patient cohort.
+Thus a FHIRPath rewrite is a separate representation/tool hypothesis requiring
+a Single control with the same executor, not an established coordination fix.
+https://arxiv.org/html/2602.23479v1
+https://github.com/mooshifrew/fhirpath-qa/blob/3b995f15aac7c56c8e98ea23e87eb34195727ca8/add_splits_to_dataset.py
+
+EHRNavigator demonstrates heterogeneous structured/note retrieval and multiple
+backbones. However, its reported comparisons include vanilla full-schema or
+raw-context prompting, pretrained text-to-SQL models and RAG. They do not isolate
+our question: collaboration versus a natural iterative Single with identical
+tools and aggregate caps. Its manuscript says code will follow acceptance.
+It motivates modular evidence acquisition; its headline gains do not predict a
+win over our stronger control.
+https://arxiv.org/pdf/2601.10020
+
+EHRAgent's relevant contribution is interactive executable reasoning with domain
+knowledge, already represented in our Single's capabilities. Its published
+abstract reports multi-dataset benefits, but those are not evidence that an
+additional verifier improves this already executable baseline. We do not claim
+to have reproduced it or newly audited its complete implementation in this phase.
+https://aclanthology.org/2024.emnlp-main.1245/
+
+Verification mechanisms and their limits
+
+CRITIC obtains external search/interpreter observations before revision. Its
+ordinary correction results include harm; oracle variants use correctness
+knowledge unavailable at deployment. The inspected author implementation has
+real multi-step interactions and retries, so round counts are not actual-send
+counts. Our V5's frozen workspace, one inspection and exact patch interface
+were materially narrower. The transferable mechanism is evidence-conditioned
+investigation, not the paper's effect size or oracle stopping. It supports
+testing full-program repair after a concrete observation, while measuring
+right-to-wrong changes and charging all interactions.
+https://arxiv.org/html/2305.11738v4
+https://github.com/microsoft/ProphetNet/tree/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC
+
+Chain-of-Verification separates verification answers from the draft and finds
+open questions useful. Its controlled main setting is closed-book verification,
+without external tools; a separately prompted answer remains a model belief.
+It motivates an anchoring ablation, not treating a question-only contract as
+truth. A fully factored planner/checker/repair chain would add stages and must
+first demonstrate affordability within actual residual resources. We should
+not add it to the initial intervention as an unmeasured bundle.
+https://arxiv.org/html/2309.11495v2
+https://aclanthology.org/2024.findings-acl.212/
+
+RARR finds that neutral information requests can be more useful than searches
+that echo an existing claim. It gates edits on evidence disagreement. Better
+attribution nevertheless does not imply better downstream reasoning: QA results
+are mixed. The author implementation additionally uses retrieval/ranking and
+repeated model calls. For us, a retrieved source must answer an open information
+need, and a local correction must survive recomputation of the whole answer.
+Neither an attribution score nor minimal textual edits substitute for accuracy.
+https://arxiv.org/html/2210.08726v3
+https://github.com/anthonywchen/RARR/tree/51a1a10fe5bada837a368f98cb55288ac5168c9e
+
+What structured-query research does and does not justify
+
+CHESS uses distinct retrieval, schema, generation and testing responsibilities.
+Its high-budget configuration generates 20 candidates and 10 tests; its lower
+budget configuration omits the tester. Crucially, author code generates natural
+language tests from candidate queries and execution clusters, then asks an LLM
+to score them. Those are fallible semantic judgments, not executable unit-test
+proofs. Some model configurations mix fine-tuned and proprietary models; the
+correct-context analysis uses gold-aligned schema as an upper-bound diagnostic.
+We can borrow the idea of exposing semantic differences, while declining its
+compute, training and oracle assumptions. Narrowing schema can also remove
+needed information and should not be automatically added here.
+https://arxiv.org/html/2405.16755v3
+https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/src/workflow/agents/unit_tester/tool_kit/evaluate.py
+https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/src/workflow/agents/unit_tester/tool_kit/generate_unit_test.py
+
+CHASE-SQL deliberately changes generation strategies, rather than relying only
+on repeated identical prompts. Its selected accuracy also depends on a trained
+pairwise selector. Its budget and supervision differ from ours. This supports
+measuring useful candidate complementarity separately from selection, not
+copying its headline performance into a fixed-model, residual-budget proposal.
+Third-party repositories found in search were not treated as author code.
+https://arxiv.org/html/2410.01943v1
+
+SQL-of-Thought is an important exclusion. Section 3.1 explicitly describes
+comparing execution with ground truth to trigger and repeat correction. Other
+descriptions emphasize execution failures, leaving a consequential protocol
+ambiguity. Without evidence of a gold-free deployed loop, its headline score
+cannot justify our verifier. A useful error taxonomy does not authorize access
+to reference answers or a correctness-triggered router.
+https://arxiv.org/html/2509.00581v2
+
+Distilled SQL test suites show why agreement on one database can hide different
+query meanings. Their tests are constructed around gold queries for evaluation.
+They cannot be used as a gold-free inference oracle. The applicable development
+lesson is to generate independent specification fixtures with ties, boundaries,
+irrelevant rows and different projections; a candidate that passes those tests
+still needs empirical QA evaluation on new data.
+https://arxiv.org/html/2010.02840v1
+https://aclanthology.org/2020.emnlp-main.29/
+
+Architecture, cost and transfer
+
+The agent-scaling study finds task- and architecture-dependent outcomes under
+controlled resources. Strong Single performance and coordination overhead are
+relevant to experiment design; a reported capability threshold is not a universal
+law for our model or dataset. We need a same-context followup control before
+attributing an improvement to an isolated agent.
+https://arxiv.org/html/2512.08296v3
+https://www.nature.com/articles/s42256-026-01268-y
+
+Correlated Errors measures shared errors among models, not our conditional
+trajectory distribution. Its implication here is a research hypothesis: nominal
+agent diversity does not ensure useful error diversity. Our direct V6/V7 joint
+outcomes supply the stronger local evidence. We should count correct alternatives
+to wrong A outcomes, rather than treating disagreement rates as useful diversity.
+https://arxiv.org/html/2506.07962v1
+
+MAST distinguishes system specification, interaction and verification failures.
+It supports tracing where a proposed correction failed rather than calling every
+wrong final answer a reasoning failure. We use that distinction qualitatively;
+no external judge labels or paper-level category proportions are imported into
+our local cases.
+https://openreview.net/pdf?id=fAjbYBmonr
+https://sites.google.com/berkeley.edu/mast/home
+
+The recent FHIR RL work changes learned model behavior through supervised reward
+signals and repeated environment interaction. It is relevant evidence that the
+retrieval/interpretation policy is learnable, but training and a changed backbone
+are separate research questions from fixed-Luna orchestration. We do not use its
+score as a directly comparable control or propose training in this phase.
+https://arxiv.org/html/2605.14126v1
+
+An exploratory FHIR MCP repository documents controls for tool-catalog, context
+and code-execution effects, including incomplete historical reproducibility.
+It is a useful engineering lead, not peer-reviewed causal evidence or a numerical
+replication performed here. Only its README and roadmap were consulted; answer
+dumps were deliberately avoided because they reuse our benchmark.
+https://github.com/coralehr/fhir-mcp-eval
+
+Standards versus adapter conventions
+
+FHIR R4 distinguishes an observation's effective time from when that version was
+issued, and permits absent values and linked specimen/context information. These
+are schema semantics. Our shifted wall-clock policy, identifier conventions,
+relative-date rules and what constitutes the benchmark's requested admission
+label are adapter/benchmark conventions, not universal FHIR rules. Any correction
+to those shared conventions must be offered to Single too. Standards do not prove
+that one fetched type contains every event relevant to a natural-language question.
+https://hl7.org/fhir/R4/observation-definitions.html
+https://hl7.org/fhir/R4/search.html
+
+Decision
+
+Prioritize a bounded counterexample investigation with actual probes, full
+recomputation, unchanged source checks and explicit fallback. First test whether
+it produces useful observations and corrective alternatives; then test whether
+role isolation or additional retrieval contributes. Defer a general query DSL,
+trained selector, higher-cap run and elaborate factored verifier until a specific
+failure and a controlled comparison justify them. Research supplies mechanisms
+and failure predictions; it does not supply evidence that the proposed system
+already improves accuracy or generalizes.

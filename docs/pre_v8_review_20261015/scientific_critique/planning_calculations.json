@@ -1,0 +1,57 @@
+{
+  "method": "Planning illustration only: D=paired correct difference in {-1,0,1}; E[D]=delta, Var[D]=q-delta^2; n\u2248(z.975+z.8)^2 Var[D]/delta^2. Not a patient-cluster power calculation or a replacement analysis rule.",
+  "tables": [
+    {
+      "paired_discordance_q": 0.06,
+      "target_difference_delta": 0.02,
+      "approx_independent_pairs_for_80pct_power_two_sided_alpha05": 1170,
+      "illustrative_pairs_with_design_effect_1_5": 1755,
+      "illustrative_pairs_with_design_effect_2": 2340
+    },
+    {
+      "paired_discordance_q": 0.06,
+      "target_difference_delta": 0.03,
+      "approx_independent_pairs_for_80pct_power_two_sided_alpha05": 516,
+      "illustrative_pairs_with_design_effect_1_5": 774,
+      "illustrative_pairs_with_design_effect_2": 1032
+    },
+    {
+      "paired_discordance_q": 0.06,
+      "target_difference_delta": 0.05,
+      "approx_independent_pairs_for_80pct_power_two_sided_alpha05": 181,
+      "illustrative_pairs_with_design_effect_1_5": 272,
+      "illustrative_pairs_with_design_effect_2": 362
+    },
+    {
+      "paired_discordance_q": 0.1,
+      "target_difference_delta": 0.02,
+      "approx_independent_pairs_for_80pct_power_two_sided_alpha05": 1955,
+      "illustrative_pairs_with_design_effect_1_5": 2933,
+      "illustrative_pairs_with_design_effect_2": 3910
+    },
+    {
+      "paired_discordance_q": 0.1,
+      "target_difference_delta": 0.03,
+      "approx_independent_pairs_for_80pct_power_two_sided_alpha05": 865,
+      "illustrative_pairs_with_design_effect_1_5": 1298,
+      "illustrative_pairs_with_design_effect_2": 1730
+    },
+    {
+      "paired_discordance_q": 0.1,
+      "target_difference_delta": 0.05,
+      "approx_independent_pairs_for_80pct_power_two_sided_alpha05": 307,
+      "illustrative_pairs_with_design_effect_1_5": 461,
+      "illustrative_pairs_with_design_effect_2": 614
+    }
+  ],
+  "independent_zero_harm_trials_needed_for_one_sided_95pct_upper_rate_below_0_005": 598,
+  "V6_retained_source_bound_candidate_oracle_ceiling": 233,
+  "V6_same_fixed_auxiliary_fatal_outcomes_ceiling": 232,
+  "V7_retained_candidate_oracle_ceiling_ignoring_auxiliary_failure_and_selection_cost": 234,
+  "V7_same_fixed_auxiliary_fatal_outcomes_ceiling": 233,
+  "V7_minimum_for_current_historical_development_gate": 240,
+  "V7_additional_oracle_opportunities_needed_if_A233": 6,
+  "V7_known_B_budget_stops_fraction_of_entered": 0.30223880597014924,
+  "V7_recorded_mean_team_tokens_ratio_to_single": 1.5930187644620968,
+  "warning": "The aggregate counts are development observations; oracle ceilings are exact only for these retained candidates/phase outcomes, not population/architecture ceilings. Reported token means omit unknown failed usage; ratio is not billing/FLOPs ratio."
+}

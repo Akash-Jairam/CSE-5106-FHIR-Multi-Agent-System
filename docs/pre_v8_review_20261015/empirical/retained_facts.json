@@ -1,0 +1,685 @@
+{
+  "scope": "Retrospective15 purposive all14-wrong cases, generic retained-field/tie checks only; no agent program replay",
+  "persistent37_template_counts": {
+    "Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].": 5,
+    "What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?": 6,
+    "What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?": 9,
+    "What was the [time_filter_exact1] hospital admission type of patient {patient_id}?": 4,
+    "List the [unit_average] [agg_function] volume of {output_name} output that patient {patient_id} had [time_filter_global1].": 1,
+    "What was the total amount of dose of {drug_name} that patient {patient_id} were prescribed [time_filter_global1]?": 1,
+    "When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?": 2,
+    "What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?": 2,
+    "What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?": 3,
+    "What was the dose of {drug_name} that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?": 1,
+    "When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?": 2,
+    "When was the [time_filter_exact1] time that patient {patient_id} had the [sort] value of {lab_name} [time_filter_global1]?": 1
+  },
+  "facts": {
+    "0a8c46b684e72300d29c18aa": {
+      "case_selection": "tied latest prescription set",
+      "artifact_code_retained": true,
+      "A_released": [
+        "Ondansetron",
+        "HYDROmorphone + 0.9% Sodium Chloride",
+        "Glycopyrrolate",
+        "Hyoscyamine",
+        "LORazepam"
+      ],
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 3,
+        "Location": 3,
+        "Medication": 72,
+        "MedicationRequest": 126
+      },
+      "snapshot_artifact_sha256": "c318a76fccfce24a2ff4e2bb3af5d34d813b903c25aac76f7e3ff2392785cb5d"
+    },
+    "0c6cdc444ee911941bfd23f0": {
+      "case_selection": "relative time and medication identity",
+      "artifact_code_retained": true,
+      "A_released": 9,
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Location": 2,
+        "Encounter": 1,
+        "Medication": 12,
+        "MedicationRequest": 653
+      },
+      "snapshot_artifact_sha256": "acad8c943600f1878c749378c90212852f3a6a62d972f2e3184d32346a3bb911"
+    },
+    "1f2e37aaa091d50e833afad1": {
+      "case_selection": "admission type projection",
+      "artifact_code_retained": true,
+      "A_released": "EMERGENCY ROOM",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 6,
+        "Location": 5,
+        "Condition": 2,
+        "Observation": 3
+      },
+      "snapshot_artifact_sha256": "a1d2736ab1d020c3f7195819f24799c842b619531045cc95b38e213014fe08cc",
+      "selected_encounter_projection": {
+        "class": {
+          "code": "EMER",
+          "display": "emergency",
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+        },
+        "admitSource": {
+          "coding": [
+            {
+              "code": "EMERGENCY ROOM",
+              "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-admit-source"
+            }
+          ]
+        }
+      },
+      "exact_reference_label_occurs_in_held_workspace": false
+    },
+    "204b55b1a8a2dbeafa89b76c": {
+      "case_selection": "year aggregation versus empty reference",
+      "artifact_code_retained": true,
+      "A_released": 70,
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 2,
+        "Location": 3,
+        "Observation": 1600
+      },
+      "snapshot_artifact_sha256": "66a30701fafe0746eb547bd5bb34c4c1bcca6dc8d0355072b53a96af15f2db51"
+    },
+    "2ca14c9e3ae55c6d467fa8c1": {
+      "case_selection": "missing medication dose source",
+      "artifact_code_retained": true,
+      "A_released": 380,
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 3,
+        "Location": 3,
+        "Medication": 8,
+        "MedicationRequest": 236,
+        "Observation": 21
+      },
+      "snapshot_artifact_sha256": "66e0c350a3fed0670c379d633a742c0beb8805f2ddc95420064dc537d330b2b1",
+      "dose_availability": {
+        "matched_requests": 14,
+        "known_dose_sum": 380,
+        "requests_without_numeric_dose": 3,
+        "unknown_dose_requests_have_no_dosageInstruction": true
+      }
+    },
+    "2d7404fcfff0b855a4fb2fe9": {
+      "case_selection": "specimen value versus test label",
+      "artifact_code_retained": true,
+      "A_released": "Specimen Type",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 2,
+        "Location": 3,
+        "Specimen": 41,
+        "Observation": 2472
+      },
+      "snapshot_artifact_sha256": "b63a0fa37378f79e11832539ae256d29e70906145948fb86ec92bf8feea215b8",
+      "selected_observations": [
+        {
+          "id": "07ba8449-a285-5f6c-aafa-4d3b665ad3a3",
+          "code": {
+            "coding": [
+              {
+                "code": "52033",
+                "display": "Specimen Type",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-d-labitems"
+              }
+            ]
+          },
+          "effectiveDateTime": "2146-12-15T07:52:00-05:00",
+          "valueString": "ART.",
+          "specimen": {
+            "reference": "Specimen/3c572ced-dd32-5ec8-8c93-fcbedc525986"
+          }
+        }
+      ],
+      "linked_specimens": [
+        {
+          "id": "3c572ced-dd32-5ec8-8c93-fcbedc525986",
+          "type": {
+            "coding": [
+              {
+                "code": "Blood",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-lab-fluid"
+              }
+            ]
+          },
+          "collection": {
+            "collectedDateTime": "2146-12-15T07:52:00-05:00"
+          }
+        }
+      ],
+      "reference_specimen_type_present": [
+        {
+          "id": "3ec9d72d-b2b0-5c4b-9deb-f1733c69e369",
+          "type": {
+            "coding": [
+              {
+                "code": "70091",
+                "display": "MRSA SCREEN",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-spec-type-desc"
+              }
+            ]
+          },
+          "collection": {
+            "collectedDateTime": "2146-12-15T12:39:00-05:00"
+          }
+        },
+        {
+          "id": "aec93ce3-5543-5615-ae61-7a18c174f3c8",
+          "type": {
+            "coding": [
+              {
+                "code": "70091",
+                "display": "MRSA SCREEN",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-spec-type-desc"
+              }
+            ]
+          },
+          "collection": {
+            "collectedDateTime": "2146-12-08T12:00:00-05:00"
+          }
+        }
+      ]
+    },
+    "383586ac765d783e5374a6c0": {
+      "case_selection": "tied earliest prescription set",
+      "artifact_code_retained": true,
+      "A_released": "Simethicone",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 2,
+        "Location": 3,
+        "Medication": 30,
+        "MedicationRequest": 62
+      },
+      "snapshot_artifact_sha256": "31a0b1bc826868b8ea80f012d6ab3009af36253972e12f144b749e5f45f29def",
+      "tie_witness": {
+        "min_validity_start": "2142-05-10T16:00:00-04:00",
+        "requests_at_min": 14,
+        "distinct_names": [
+          "Acetaminophen",
+          "Aluminum-Magnesium Hydrox.-Simethicone",
+          "Nitroglycerin SL",
+          "OxycoDONE (Immediate Release) ",
+          "PNEUMOcoccal 23-valent polysaccharide vaccine",
+          "Potassium Chloride",
+          "Simethicone",
+          "Sodium Chloride 0.9%  Flush",
+          "TraZODone"
+        ],
+        "exact_reference_set_match": true,
+        "distinct_names_n": 9
+      }
+    },
+    "41b9a346811b51fc23501b6f": {
+      "case_selection": "tied earliest route prescription set",
+      "artifact_code_retained": true,
+      "A_released": "Sodium Chloride 0.9%  Flush",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 3,
+        "Location": 3,
+        "Procedure": 3,
+        "Medication": 155,
+        "MedicationRequest": 236
+      },
+      "snapshot_artifact_sha256": "35fcdc65690134abd1ee8f8f9d2eec777a56b4df93d526df27159f9ba54f5d3e",
+      "tie_witness": {
+        "min_validity_start": "2115-10-09T21:00:00-04:00",
+        "requests_at_min": 3,
+        "distinct_names": [
+          "Heparin Flush (10 units/ml)",
+          "Sodium Chloride 0.9%",
+          "Sodium Chloride 0.9%  Flush"
+        ],
+        "exact_reference_set_match": true,
+        "distinct_names_n": 3
+      }
+    },
+    "7866a9173d7aff1bce72d3a6": {
+      "case_selection": "specimen value versus test label",
+      "artifact_code_retained": true,
+      "A_released": "C. difficile PCR",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 2,
+        "Location": 3,
+        "Specimen": 8,
+        "Observation": 14387
+      },
+      "snapshot_artifact_sha256": "2a5e04c7dcbbd0583a50e62093478257e4422aad6b0375db1df63c8e59b44c97",
+      "selected_observations": [
+        {
+          "id": "967f5576-a3ad-5912-876a-27490244608f",
+          "code": {
+            "coding": [
+              {
+                "code": "90221",
+                "display": "C. difficile PCR",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-test"
+              }
+            ]
+          },
+          "effectiveDateTime": "2131-03-09T13:00:00-05:00",
+          "valueString": "Negative for toxigenic C. difficile by the Illumigene DNA amplification assay.            (Reference Range-Negative).  ",
+          "specimen": {
+            "reference": "Specimen/9a2c3eaa-23e5-5cd7-8643-0dc27a5dcd6c"
+          }
+        }
+      ],
+      "linked_specimens": [
+        {
+          "id": "9a2c3eaa-23e5-5cd7-8643-0dc27a5dcd6c",
+          "type": {
+            "coding": [
+              {
+                "code": "70064",
+                "display": "STOOL"
+              }
+            ]
+          },
+          "collection": {
+            "collectedDateTime": "2131-03-09T13:00:00-05:00"
+          }
+        }
+      ],
+      "reference_specimen_type_present": [
+        {
+          "id": "9a2c3eaa-23e5-5cd7-8643-0dc27a5dcd6c",
+          "type": {
+            "coding": [
+              {
+                "code": "70064",
+                "display": "STOOL"
+              }
+            ]
+          },
+          "collection": {
+            "collectedDateTime": "2131-03-09T13:00:00-05:00"
+          }
+        }
+      ]
+    },
+    "967175d0df47b1226680f9bc": {
+      "case_selection": "source encounter-link refusal",
+      "artifact_code_retained": false,
+      "A_released": null,
+      "A_eligible": false,
+      "source_check_issues": null,
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 3,
+        "Location": 2,
+        "Observation": 6059,
+        "Specimen": 8
+      },
+      "snapshot_artifact_sha256": "7eb34264f4bb7c8cbc5c03a4b92e8536bbdfbfeabdcd02e9cc766701233eb469",
+      "organism_parent_edges": [
+        {
+          "child_code": {
+            "coding": [
+              {
+                "code": "80002",
+                "display": "ESCHERICHIA COLI",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-organism"
+              }
+            ]
+          },
+          "child_direct_encounter": null,
+          "parent_encounter": {
+            "reference": "Encounter/187d974e-ab48-53b7-8247-f6598322e566"
+          },
+          "parent_time": "2137-10-15T20:37:00-04:00",
+          "parent_code": {
+            "coding": [
+              {
+                "code": "90039",
+                "display": "URINE CULTURE",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-test"
+              }
+            ]
+          }
+        },
+        {
+          "child_code": {
+            "coding": [
+              {
+                "code": "80053",
+                "display": "ENTEROCOCCUS SP.",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-organism"
+              }
+            ]
+          },
+          "child_direct_encounter": null,
+          "parent_encounter": {
+            "reference": "Encounter/187d974e-ab48-53b7-8247-f6598322e566"
+          },
+          "parent_time": "2137-10-15T20:37:00-04:00",
+          "parent_code": {
+            "coding": [
+              {
+                "code": "90039",
+                "display": "URINE CULTURE",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-test"
+              }
+            ]
+          }
+        },
+        {
+          "child_code": {
+            "coding": [
+              {
+                "code": "80002",
+                "display": "ESCHERICHIA COLI",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-organism"
+              }
+            ]
+          },
+          "child_direct_encounter": null,
+          "parent_encounter": {
+            "reference": "Encounter/187d974e-ab48-53b7-8247-f6598322e566"
+          },
+          "parent_time": "2137-10-15T20:50:00-04:00",
+          "parent_code": {
+            "coding": [
+              {
+                "code": "90201",
+                "display": "Blood Culture, Routine",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-test"
+              }
+            ]
+          }
+        }
+      ],
+      "recorded_final_issues": [
+        "evidence[3] encounter_link: the resource belongs to Encounter/?, not the scoped Encounter/187d974e-ab48-53b7-8247-f6598322e566",
+        "evidence[4] encounter_link: the resource belongs to Encounter/?, not the scoped Encounter/187d974e-ab48-53b7-8247-f6598322e566"
+      ]
+    },
+    "bf8aee434927ad78efbb9c37": {
+      "case_selection": "prescription time convention",
+      "artifact_code_retained": true,
+      "A_released": "2200-09-28T11:00:00-04:00",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Location": 2,
+        "Encounter": 1,
+        "Medication": 19,
+        "MedicationRequest": 123
+      },
+      "snapshot_artifact_sha256": "1fd2683668c8613771296967abb960f91c3777bfb748a720294a01d310d148a8",
+      "latest_held_exact_IV_start_before_assumed_cutoff": "2200-09-28T11:00:00-04:00",
+      "reference_time_at_any_held_request_field": []
+    },
+    "c04f16fa062bc81f8c917962": {
+      "case_selection": "microbiology time/source selection",
+      "artifact_code_retained": true,
+      "A_released": "2155-05-08 14:15:00",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 3,
+        "Location": 3,
+        "Specimen": 12,
+        "Observation": 4399
+      },
+      "snapshot_artifact_sha256": "ee66f2b5d77d2b8c3693c861e40ffc6c90476ceae013174efbd369b0a7f394ba",
+      "earliest_microbiology_observations": [
+        {
+          "code": {
+            "coding": [
+              {
+                "code": "90201",
+                "display": "Blood Culture, Routine",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-test"
+              }
+            ]
+          },
+          "effectiveDateTime": "2155-05-08T14:15:00-04:00",
+          "valueString": "NO GROWTH.  ",
+          "valueCodeableConcept": null
+        },
+        {
+          "code": {
+            "coding": [
+              {
+                "code": "90201",
+                "display": "Blood Culture, Routine",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-test"
+              }
+            ]
+          },
+          "effectiveDateTime": "2155-05-08T14:30:00-04:00",
+          "valueString": "NO GROWTH.  ",
+          "valueCodeableConcept": null
+        },
+        {
+          "code": {
+            "coding": [
+              {
+                "code": "90204",
+                "display": "Anaerobic Bottle Gram Stain",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-test"
+              }
+            ]
+          },
+          "effectiveDateTime": "2155-12-02T17:30:00-05:00",
+          "valueString": null,
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "MSK",
+                "display": "masked",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor"
+              }
+            ]
+          }
+        }
+      ],
+      "exact_reference_time_present_in_test_fields": [
+        {
+          "field": "effectiveDateTime",
+          "code": {
+            "coding": [
+              {
+                "code": "90201",
+                "display": "Blood Culture, Routine",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-test"
+              }
+            ]
+          },
+          "value": "2155-12-03T19:58:00-05:00"
+        }
+      ],
+      "saved_question_assumption": null
+    },
+    "dbadc610a502fc0a6c69d44e": {
+      "case_selection": "admission type projection",
+      "artifact_code_retained": true,
+      "A_released": "PHYSICIAN REFERRAL",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Location": 6,
+        "Encounter": 7,
+        "Observation": 4
+      },
+      "snapshot_artifact_sha256": "9641ffab5e09b581f82863747cfc595ce941d90236a468e90b2614213630c796",
+      "selected_encounter_projection": {
+        "class": {
+          "code": "OBSENC",
+          "display": "observation encounter",
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+        },
+        "admitSource": {
+          "coding": [
+            {
+              "code": "PHYSICIAN REFERRAL",
+              "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-admit-source"
+            }
+          ]
+        }
+      },
+      "exact_reference_label_occurs_in_held_workspace": false
+    },
+    "f6274c47226150acc9cef0e2": {
+      "case_selection": "distinct medication identity",
+      "artifact_code_retained": true,
+      "A_released": 89,
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Location": 8,
+        "Encounter": 9,
+        "MedicationRequest": 267,
+        "Medication": 157
+      },
+      "snapshot_artifact_sha256": "85724e81d2de828717aff3a42c071139c0d2fdb9c3814049eb15a5126d2cf68e"
+    },
+    "f8d725f820917d71a5301983": {
+      "case_selection": "minimum measurement timestamp",
+      "artifact_code_retained": true,
+      "A_released": "2120-01-30T20:00:00-05:00",
+      "A_eligible": true,
+      "source_check_issues": [],
+      "workspace_counts": {
+        "Patient": 1,
+        "Encounter": 2,
+        "Location": 3,
+        "Observation": 1135,
+        "Specimen": 2
+      },
+      "snapshot_artifact_sha256": "951834e79ff7fc98faf2b938c32c8c73a0c91eb820694626e2378ec64242562a",
+      "PTT_minimum_witness": {
+        "n_PTT": 3,
+        "minimum_value": 28.2,
+        "minimum_rows": [
+          {
+            "effectiveDateTime": "2120-01-30T20:00:00-05:00",
+            "issued": "2120-01-30T20:30:00-05:00",
+            "valueQuantity": {
+              "code": "sec",
+              "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-units",
+              "unit": "sec",
+              "value": 28.2
+            }
+          }
+        ]
+      },
+      "reference_time_in_any_held_field": [
+        {
+          "resource_type": "Observation",
+          "field": "effectiveDateTime",
+          "value": "2120-01-31T03:33:00-05:00"
+        },
+        {
+          "resource_type": "Observation",
+          "field": "effectiveDateTime",
+          "value": "2120-01-31T03:33:00-05:00"
+        },
+        {
+          "resource_type": "Observation",
+          "field": "effectiveDateTime",
+          "value": "2120-01-31T03:33:00-05:00"
+        },
+        {
+          "resource_type": "Observation",
+          "field": "effectiveDateTime",
+          "value": "2120-01-31T03:33:00-05:00"
+        },
+        {
+          "resource_type": "Observation",
+          "field": "effectiveDateTime",
+          "value": "2120-01-31T03:33:00-05:00"
+        }
+      ],
+      "nonempty_code_text_observations": 0,
+      "PTT_system_cohort_evidence": [
+        {
+          "code": {
+            "coding": [
+              {
+                "code": "51275",
+                "display": "PTT",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-d-labitems"
+              }
+            ]
+          },
+          "effectiveDateTime": "2120-01-31T03:33:00-05:00",
+          "valueQuantity": {
+            "code": "sec",
+            "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-units",
+            "unit": "sec",
+            "value": 34.6
+          }
+        },
+        {
+          "code": {
+            "coding": [
+              {
+                "code": "51275",
+                "display": "PTT",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-d-labitems"
+              }
+            ]
+          },
+          "effectiveDateTime": "2120-01-30T20:00:00-05:00",
+          "valueQuantity": {
+            "code": "sec",
+            "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-units",
+            "unit": "sec",
+            "value": 28.2
+          }
+        },
+        {
+          "code": {
+            "coding": [
+              {
+                "code": "227466",
+                "display": "PTT",
+                "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-chartevents-d-items"
+              }
+            ]
+          },
+          "effectiveDateTime": "2120-01-31T03:33:00-05:00",
+          "valueQuantity": {
+            "code": "sec",
+            "system": "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-units",
+            "unit": "sec",
+            "value": 34.6
+          }
+        }
+      ]
+    }
+  }
+}

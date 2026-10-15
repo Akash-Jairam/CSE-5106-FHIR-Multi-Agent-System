@@ -1,0 +1,79 @@
+{
+  "retrieved_at_utc": "2026-10-15T17:17:41.243850+00:00",
+  "sources": [
+    {
+      "id": "R1",
+      "title": "Benchmark Test-Time Scaling of General LLM Agents",
+      "url": "https://arxiv.org/html/2602.18998v1",
+      "status": "arXiv v1, primary study; reopened online",
+      "use": "Distinguishes oracle candidate coverage from actual selected-answer accuracy and documents context/verification limitations across agent domains.",
+      "limit": "Its independent trajectories/selection and unified tool environment are not our residual200k/30/30 policy. Point-wise conditional metric is not deployed selected-answer accuracy; no repository reproduction here."
+    },
+    {
+      "id": "R2",
+      "title": "Correlated Errors in Large Language Models",
+      "url": "https://arxiv.org/html/2506.07962v1",
+      "status": "ICML2025 study; reopened primary arXiv version",
+      "use": "Different model or independent request does not guarantee independent errors; reported HELM wrong-answer agreement is conditional on both outputs being wrong.",
+      "limit": "Multiple-choice/model response study, not a measured error correlation for FHIR agents or proof of V7 failure cause."
+    },
+    {
+      "id": "R3",
+      "title": "FineVerify: Scaling Test-Time Compute with Fine-Grained Self-Verification for Agentic Search",
+      "url": "https://arxiv.org/html/2606.00660v1",
+      "status": "arXiv v1; reopened online, algorithm sections2.1\u20132.4",
+      "use": "Shared question-derived checks and candidate evidence search motivate bounded targeted investigation.",
+      "limit": "Multiple candidates, search costs and model judgments differ from this project; no semantic proof, code reproduction, equal-budget transfer or reported gain inherited. Root code-audit caveats are separately attributed, not independently reread here."
+    },
+    {
+      "id": "R4",
+      "title": "Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters",
+      "url": "https://arxiv.org/html/2408.03314v1",
+      "status": "Primary paper v1; reopened online \u00a7\u00a73,5,6",
+      "use": "Compute allocation effectiveness depends on tasks/difficulty and proposal/verifier behavior; cost must include the extra work.",
+      "limit": "Uses specialized MATH models/verifiers.2048-sample difficulty estimates and their omitted assessment costs do not provide an admissible free difficulty router for FHIR."
+    },
+    {
+      "id": "R5",
+      "title": "The McNemar test for binary matched-pairs data: mid-p and asymptotic are better than exact conditional",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/23848987/",
+      "doi": "https://doi.org/10.1186/1471-2288-13-91",
+      "status": "Primary statistical study, abstract reopened online",
+      "use": "Paired binary inference is governed by discordances; sparse outcomes/test choice affect power.",
+      "limit": "No proposal to replace patient-block bootstrap with unclustered McNemar. Planning formula in this memo is an explicit independent-pair variance derivation, not a patient-cluster power guarantee or recommendation from this paper."
+    },
+    {
+      "id": "R6",
+      "title": "On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation",
+      "url": "https://jmlr.org/papers/v11/cawley10a.html",
+      "status": "JMLR2010 primary study; reopened online",
+      "use": "Repeatedly optimizing finite noisy evaluation criteria can bias model/architecture selection even when model weights are not trained.",
+      "limit": "This motivates the workflow distinction; it does not numerically measure how much our current300 has overfit."
+    },
+    {
+      "id": "R7",
+      "title": "Generalization in Adaptive Data Analysis and Holdout Reuse",
+      "url": "https://proceedings.neurips.cc/paper/2015/hash/bad5f33780c42f2588878a9d07405083-Abstract.html",
+      "status": "NeurIPS2015 primary paper; reopened online",
+      "use": "Adaptive ordinary holdout reuse is not independent validation; formal reusable-holdout mechanisms require their stated protections.",
+      "limit": "Our transparent scorer does not implement the paper\u2019s algorithm or inherit its guarantees; reshuffling does not undo exposure."
+    },
+    {
+      "id": "R8",
+      "title": "Do ImageNet Classifiers Generalize to ImageNet?",
+      "url": "https://proceedings.mlr.press/v97/recht19a.html",
+      "status": "ICML2019 primary study; reopened online",
+      "use": "Fresh-test performance changes may reflect distribution difficulty rather than adaptive overfitting alone.",
+      "limit": "Image recognition evidence, not an estimate of FHIR transfer or justification to assume absence of adaptation bias."
+    },
+    {
+      "id": "R9",
+      "title": "Capable language models can outgrow the benefits of collaboration",
+      "url": "https://www.nature.com/articles/s42256-026-01268-y",
+      "status": "Nature Machine Intelligence2026 primary study, source reopened/search-verified",
+      "use": "260 configurations across models/tasks support treating collaboration benefit as conditional on baseline/task/context and measuring actual overhead.",
+      "limit": "Its empirical~45% rule is not a universal causal threshold or permitted router here; controlled ceilings are not equal actual costs/FLOPs. No numerical code reproduction here."
+    }
+  ],
+  "primary_sources_only": true
+}

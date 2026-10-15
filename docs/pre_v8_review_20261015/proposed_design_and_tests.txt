@@ -1,0 +1,293 @@
+Proposed research candidate before V8 — 15 October 2026
+
+Decision: investigate a counterexample-driven verifier before naming or running
+V8. This is a proposal; it has not been implemented or evaluated. The original
+goal remains paused. No benchmark, protected-set evaluation or paid model test
+was launched for this review.
+
+Hypothesis
+
+Some failures persist because repeated full solves share the same interpretation
+of the question. A separate investigator, assigned to find an observable
+counterexample to the actual program rather than answer the whole question
+again, is hypothesized to expose errors in projection, event scope, time ordering, tie handling
+or aggregation. A counterexample can be a new DERIVED observation from already
+held records; it need not be a newly retrieved record. It can then support a
+complete alternative computation. This should create more wrong-A/correct-B
+opportunities than V7's blind replay, with gains exceeding harmful changes and
+auxiliary failures under the same total resource caps.
+
+This is falsifiable in three separate ways:
+  H1: targeted investigation supplies useful corrective alternatives and a
+      positive net gain over its actual primary A on broader development cases.
+  H2: an isolated investigator improves over the same investigation procedure
+      continued in Single's context. Otherwise credit the procedure/evidence,
+      not a multi-agent advantage.
+  H3: the one frozen selected system improves on new question instances in the
+      protected confirmation stratum. Development success cannot establish H3.
+
+H1 is the immediate test. The data do not yet show that an investigator can
+reliably discover these errors. We should reject the candidate if it cannot.
+
+Proposed information flow
+
+1. Run the current capable Single naturally as A. Give it the entire existing
+   200,000-token, 30-tool, 30-SDK-call allowance. No up-front planner, token
+   reservation for another agent, changed starting packet or early handoff.
+   Freeze the actual released answer/error, full program, source check and
+   workspace. Record its accuracy separately from the fresh external Single.
+
+2. Admit an investigator only from actual residual resources. Supply the
+   original question/reference time, actual A program/operation/evidence, a
+   bounded source inventory and a copied workspace with source lineage. Omit
+   A's reasoning history. This is draft-conditioned investigation, NOT blind
+   or statistically independent verification. Missing essential packet fields
+   cause a skip; silent truncation must not change the investigation task.
+   Here a usable program means the program bound to A's ACTUALLY RELEASED final
+   artifact, with matching workspace lineage, successful original-source checks
+   and no fatal accounting state. A retained computed-but-withheld artifact is
+   not a released primary. Skip it in this first mechanism; preserve its actual
+   result/error rather than manufacture a program or bypass a source refusal.
+   All such skipped/ineligible A outcomes remain in the 120-case denominator.
+
+3. Ask for a material question obligation, anchored to its literal wording,
+   and an open tool query/probe that could reveal A violating it. Do not ask
+   merely whether A is correct. The investigator can inspect complete held
+   resources, derive intermediate sets, or retrieve within the same authorized
+   patient. Examples of general probes are comparing the returned projection
+   with the requested attribute, inspecting all tied extrema, or checking
+   per-group operands against a global aggregate. These examples define broad
+   development properties, not benchmark-ID or clinical-concept repair rules.
+
+4. A claimed error must retain the actual observed result and bind it to the
+   question obligation and actual code behavior. If the observation supports a
+   replacement, the investigator writes and executes a complete new program,
+   using normal recoverable tool feedback rather than a one-shot exact-text
+   patch. It must recompute dependent steps, preserve original source values
+   and pass the same execution/source release checks as Single. New retrieval
+   invalidates B's old computation, while immutable A remains available.
+   Use a separate B workspace; never splice source claims from incompatible
+   A/B states or assume a retained preview is the complete population.
+
+5. Keep A on answer agreement or inconclusive investigation. For disagreement,
+   use one fresh, tool-free existing-candidate adjudication with the original
+   question, both complete candidates, original-source results and the actual
+   counterexample observation. Require a question-linked contradiction of A
+   and support for B before switching. The adjudicator remains fallible; host
+   validation proves source/execution lineage, not that the question means
+   what the investigator or adjudicator claims. Never call this semantic proof.
+
+6. Preserve A on known nonfatal auxiliary inability. Unknown provider usage
+   and phase/global budget violations remain fatal under the current rules,
+   even after correct A. Include these losses in end-to-end accuracy. Empty
+   retrieval, a missing field or a failed query does not establish absence.
+   Do not rescue an unreleased computed artifact by bypassing its source check.
+
+The proposed auxiliary envelope is at most 60,000 accounted tokens, 6 actual
+SDK sends and 6 tool invocations, INCLUDING adjudication and execution/source
+checks, and never more than the residual joint 200k/30/30 allowance. Bound
+acquisition/probe steps to at most two tool interactions; allow remaining
+admitted capacity for a complete final computation and normal contract feedback.
+Each external query, execution, initialization or check is charged. A copied
+in-memory workspace is not an unlogged network fetch. Retain physical FHIR
+request/page counts separately from logical tool counts.
+
+These numbers are a proposed bounded screen, not measured feasibility. Before
+freezing an implementation, derive the minimum natural-tool dialogue and
+reserve intact downstream packets, final execution/source checks and the
+adjudication completion. A coarse token remainder is insufficient. Do not infer
+admission or completion rates from V7's different protocol. If this envelope is
+too small, report that failure; do not silently enlarge it or reduce A's budget.
+In particular, two probe turns, final computation/finalization, a full source-
+feedback revision and adjudication can require seven SDK sends. Six does not
+promise every such path. Freeze an explicit path table; reduce optional probes
+when necessary and preserve A on a known refusal. Charge attempted unsuccessful
+paths. Do not hide a seventh send or imply an optional revision always fits.
+
+Why this differs from the tested designs
+
+V3's question-only contract did not lead to an executed repair. V4 exposed an
+advisory plan before solving and bundled other changes. This proposal leaves A
+alone and investigates its actual behavior afterward. V5's critic could not
+retrieve and had one inspection plus an exact patch interface; it released no
+repairs. The proposal allows bounded evidence-seeking interaction and whole
+recomputation. V6/B used a frozen workspace and restrictive generation contract;
+V7/B repeated a full solve without A's program. The proposed B is assigned a
+different task: find and repair a demonstrated violation.
+
+This is an extension of tool-grounded critique, not a novel algorithm established
+by a new version number. Its distinguishing claim must be measured, especially
+because V5 is relevant negative evidence. Do not build a universal query DSL,
+add a question-only planning stage, change models or train a selector in the
+first intervention. Such changes would add unsupported mechanisms and confounds.
+
+Development test before another fixed 300 run
+
+A. Independent specification fixtures, without new patient data or LLM calls:
+   ordering/permutation, strict versus inclusive boundaries, relative dates,
+   tied minima/maxima, set versus scalar projection, per-group versus global
+   aggregation, linked dependencies, units, empty versus unknown, failed tools,
+   large previews and source lineage. Include correct-program controls and
+   cases where a plausible local repair breaks a dependent calculation. Use
+   handwritten expectations or an independently reviewed generator, not the
+   implementation under test as its own oracle. Reserve fresh combinations/seeds
+   until the freeze. Passing establishes engineering behavior only.
+
+B. One prospective mechanism study on 120 questions from the ALREADY EXCLUDED
+   development/pilot patient pools, covering at least 20 patients if metadata
+   availability permits. Propose 30 cases each for lookup/counting, temporal,
+   numerical and other operations; distribute other across durations, paired
+   comparisons and differences. Select exact IDs by a fixed metadata-only rule
+   before model outputs. Validate feasibility and freeze the manifest before
+   execution; do not replace cases after seeing answers. None may come from
+   the protected 1397. These are broader development cases, not an untouched
+   patient/template validation set.
+
+   Run A once per case and fork three predeclared followups from identical
+   immutable A state:
+     W: isolated investigator, A workspace only; derived probes allowed.
+     R: identical isolated investigator, new patient-authorized retrieval allowed.
+     C: same investigation task continued with Single's retained context and
+        the same tool permissions as R.
+   Keep prompts, source semantics, adjudication, auxiliary envelope and fallback
+   constant except the declared information/context intervention. Same-context
+   replay costs count; if it cannot fit, that is a measured architecture cost.
+   Use identical investigation wording and role/priority placement for R/C where
+   possible; disclose necessary differences. R-C otherwise measures the complete
+   context/prompt/cost wrapper, not pure statistical independence. Freeze balanced
+   W/R/C order in time blocks within metadata strata before outputs. Give each
+   followup the same immutable post-A cache snapshot plus its own isolated cache
+   overlay; an arm cannot warm another's cache. Record cache hits and physical
+   source requests. If equivalent isolation cannot be implemented, disclose the
+   limitation before running rather than claim a cache-controlled experiment.
+   Never share auxiliary outputs between arms. A's real usage counts in EVERY
+   policy's aggregate limit and cost report, although physical A inference was
+   paid once. Disclose shared-parent dependence; this is a mechanism experiment,
+   not three independent primary solves or the final whole-system comparison.
+
+   R-W tests acquisition permission's total effect; both can discover new held-
+   record facts. Novel-record counts or permission alone do not establish that
+   newly fetched evidence caused a gain; retain operand/source-difference witnesses.
+   R-C tests context isolation within the procedure. A versus W/R/C measures
+   actual net augmentation. Historical V7 is context, not a matched ablation.
+   If W succeeds while R adds nothing, do not claim new retrieval caused gains.
+   If C matches or beats R, do not claim separated agents caused gains.
+
+   Predeclare one primary mechanism contrast, R minus A; other contrasts are
+   exploratory causal diagnostics, not additional confirmatory significance
+   claims. Complete all scheduled outcomes before examining accuracy. Record
+   this as one substantial controlled study if run; retain negative results.
+
+   Proposed engineering advance gate for R: at least 6 source-bound correct
+   alternatives to wrong A, across at least 3 patients and 2 operation structures;
+   helpful switches minus harmful switches minus correct-A auxiliary fatal
+   losses >=4/120, with harmful switches plus those fatal losses <=2. This is
+   a modest3pp target rounded to 4 cases (3.33pp) plus a 2-case loss allowance, NOT a power test,
+   an estimate of external accuracy, or a guarantee of low harm. Report the
+   balanced-study case mix; this is not a projected3pp full-benchmark effect.
+   Report complete counts and uncertainty even when it passes. Failure rejects this
+   candidate for another 300 run under this envelope; do not tune the gate after
+   seeing the study. A later different candidate requires its own hypothesis.
+
+   If R passes but role isolation lacks evidence, the next claim is a useful
+   investigation procedure; a multi-agent superiority claim remains unearned.
+   Do not automatically promote a favorable exploratory W or C subgroup/arm
+   into a confirmatory winner. Any changed selected policy needs a prospective
+   selection decision and its own frozen whole-system development comparison.
+
+C. Only after those gates, freeze one candidate and run a fresh paired full
+   fixed 300 comparison. Keep all first attempts, including failures. Require
+   Team >239, Team >fresh Single, and Team >its actual A, plus inspect whether
+   improvement is due to the declared mechanism rather than accidental null
+   credits or shared-tool changes. The score gate selects a candidate; the
+   adaptive300 result does not independently validate it. Record exact design,
+   source/runtime, prompts, tools, model/provider, caps, question manifest,
+   invocation policy, all outcomes and decision before starting another design.
+
+For every substantial study report O=wrong-A/correct alternative; H=helpful
+switches; M=harmful switches; F=correct-A auxiliary fatal losses; net=H-M-F.
+Separate released versus computed-withheld alternatives. Report incorrect
+counterexamples, unchanged wrong agreement, tool/source/budget/provider failures,
+admission and coverage, nonempty/empty reference accuracy as descriptive strata,
+actual input/output/cached tokens, sends, tools, physical queries and latency.
+Do not use gold-triggered investigation or an oracle selector at runtime.
+
+Any new schema/convention/helper/executor improvement must reach Single too.
+Use a refreshed control after common changes. Equal ceilings define an
+operational comparison; they do not establish equal actual cost. Report actual
+resources. A later efficiency claim requires a prospectively chosen budget
+frontier with a capable Single continuation control, not post-hoc cost matching
+or forcing Single to waste tokens.
+
+Generalization beyond the 300
+
+1. Broader development and compositional stress. The 120 study adds OTHER
+   operations excluded from the current 300 and new instances of the reused
+   operation families, using already development-exposed patients.
+   Fresh synthetic records and held-back compositions probe invariance to IDs,
+   record order, distractors, ties, linked schemas and time/unit changes. Never
+   advertise these as independent real-patient or clinical validation.
+
+2. One protected new-question confirmation. Preserve the current 1397 question
+   IDs until ONE selected candidate, contemporary Single, direct baseline,
+   source/runtime/provider/scorer/caps and analysis are frozen for all 2931.
+   Finish and audit all 8793 first attempts before any partial confirmation
+   accuracy or case inspection. Monitor operational metadata only. Primary:
+   Team-Single difference on 1397, question-weighted patient-block bootstrap,
+   10,000 replicates, seed 5106; require lower95% bound>0. Also require positive
+   difference on the full 2931 and report every exposure/family/scope stratum.
+   A positive point estimate with an interval crossing zero is inconclusive.
+   A completed full run alone does not establish benefit. If confirmation fails,
+   record it; further tuning spends those cases and needs new protected data.
+
+   Crucial limit:1379 of 1397 questions concern58 already exposed patients; the
+   remaining 18 concern one nominally outcome-unexposed patient. This evaluates
+   new question instances mostly over familiar records, NOT new-patient transfer.
+   Reshuffling the current 94 patients cannot recreate a clean patient holdout.
+
+   Power is not guaranteed. Illustrative paired planning for a 3pp difference
+   and 6–10% discordance needs roughly516–865 independent pairs; with hypothetical
+   variance inflation 2 that becomes1032–1730. These are sensitivity calculations,
+   not patient-cluster power estimates. Before launch, use exposed cluster sizes
+   and paired outcomes for a blinded planning simulation; keep the existing
+   estimand and decision rule. Small true improvements may remain inconclusive.
+
+3. New patients and changed language. A genuine real-patient transfer study
+   needs an independently sourced cohort and enough patient clusters, with
+   access and power planned in advance. New Synthea patients can test structural
+   robustness with generated truth but establish a synthetic claim. FHIRPath-QA
+   offers different questions/paraphrases and compositions on the SAME MIMIC
+   demo patients; it is useful task/language transfer, not an independent cohort.
+   Select and freeze any such test before inspecting its QA/reference outputs.
+
+4. Models and tasks later. Keep the current Luna-only phase. After method
+   selection, freeze generic orchestration and test additional model families
+   against each model's own capable Single, with the same shared adapter and
+   declared resource policies. Schema/tool calling and context requirements are
+   explicit capabilities; no model-ID semantic branches or private thought-format
+   dependency. Separately test an independent domain, for example database QA
+   on a prespecified BIRD subset with an SQL adapter and strong SQL Single.
+   Do not open its test questions/answers or optimize against it now. Schema/
+   adapter changes are disclosed; budget and actual cost are reported per model.
+   No cross-model, cross-task or external-patient performance claim exists yet.
+
+Generic versus domain-specific responsibilities
+
+The reusable method handles immutable candidates, role/context isolation,
+question-linked investigations, evidence-producing tools, bounded recomputation,
+adjudication, fallback and accounting. FHIR types, ownership/reference traversal,
+clinical codes, event-time semantics and benchmark date conventions remain in
+the shared adapter. Literal case IDs, reference SQL, hidden templates, gold
+resource IDs and scorer correctness never enter routing or repair. A missing
+adapter convention or ambiguous label needs a separate common-data review;
+it must not become a special repair for one observed benchmark answer.
+
+Research basis and detailed evidence are in research_review.txt,
+failure_analysis.txt, empirical/ and scientific_critique/. Existing binding
+evaluation documents remain unchanged:
+  ../evaluation_generalization_protocol_20261015.txt
+  ../design_generalization_requirements_20261015.txt
+
+The scientific advance, if demonstrated, would be improved corrective evidence
+and generalization under controlled resources. A new version name or a better
+score on repeatedly adapted cases is not that advance by itself.

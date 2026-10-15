@@ -1,0 +1,763 @@
+{
+  "cohort": {
+    "evaluation_role": "adaptive development; historical legacy held_out label does not restore freshness",
+    "lookup_counting": 92,
+    "numerical_aggregation": 49,
+    "observed_patients": 58,
+    "questions": 300,
+    "temporal_selection": 159
+  },
+  "common_limits": [
+    "Same configuredgpt-6-luna,reasoning_effort none,200k aggregate prompt+completion tokens/30 tools per question unless stated phase subdivision;32k estimated input guard/caller completion cap16384.",
+    "Frozen typed scorer counts retained terminal errors wrong and can credit actual None/empty against empty references; source-validity,semantic correctness and completeness are distinct.",
+    "Every studied Team falls below its contemporary Single. Cross-version differences combine stochastic primary trajectories, policy/interface/allocation changes, shared substrate/accounting changes and provider outcomes.",
+    "Patient-block intervals describe reused development cohort; they do not correct adaptive selection or establish protected/new-patient/model/task generalization.",
+    "No protected confirmation outcome was inspected; no full run or promotion follows these negative results.",
+    "Primary-stage A-only is a retained outcome within that exact Team policy, not another stochastic control or a causal budget ablation.",
+    "Observed call totals are reported authored metadata, not freshly parsed provider journals. model_calls=0 at completion-audit top level describes the checker invocation, not the benchmark workload."
+  ],
+  "kind": "independent_authored_record_normalization",
+  "scope": "Completed original local subset experiment,V2,V3d,V4,V5,V6,V7. Read-only authored records; no raw result bodies/protected QA/config/inference/network/source edits/Git. Deleted V3c formal record is not recreated or scored.",
+  "source_bindings": [
+    {
+      "bytes": 9147,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v2-20261013/design.txt",
+      "sha256": "f7968b9febe88164f1e61f83e15c2381ac22acd4403005f0ea9243f11c850ecf"
+    },
+    {
+      "bytes": 4128,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v2-20261013/outcome.txt",
+      "sha256": "31a55aa3cc883a42167a7a09ae384c86c9d72341f565edba2cd2388608375583"
+    },
+    {
+      "bytes": 12074,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v2-20261013/results.json",
+      "sha256": "f64408a12dd4ae59e6172bf31a50c31374a60326d7a4347198c5ba52656b5dd7"
+    },
+    {
+      "bytes": 7222,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v3d-20261014/design.txt",
+      "sha256": "a38b068fe7915848d8af3d3bc063fa8f4d53978e8e4bfc51213a7b81e8d2309c"
+    },
+    {
+      "bytes": 1924,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v3d-20261014/outcome.json",
+      "sha256": "a70bae4a0dc9fafa687c5e1c8801f605e09ffea60f48ed06ade8b18f49cc4024"
+    },
+    {
+      "bytes": 1895,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v3d-20261014/outcome.txt",
+      "sha256": "9f11412748ff2f6c108efb8d7e926a5de04742a8c4c461f7a7464094fe5a8ce9"
+    },
+    {
+      "bytes": 12192,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v3d-20261014/results.json",
+      "sha256": "0e5a82d399fe0cf393cff73de0fe355556fce79740e32fd8240df36777b15f9c"
+    },
+    {
+      "bytes": 11009,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/design.txt",
+      "sha256": "3f84e85efbadc3a545bcb6894128ecd8ad61ef2075e569ca03e5f544e8a8b35f"
+    },
+    {
+      "bytes": 367508,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/diagnostics_corrected/mechanisms.json",
+      "sha256": "a257f13fe53295183fe40789946d85bbbffe787036d19fc3ab351e28ad764dae"
+    },
+    {
+      "bytes": 2923,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/outcome.json",
+      "sha256": "b324f460015162ca02063526eb2b38a89f5eb36a0bbe28081a23a4995c971c29"
+    },
+    {
+      "bytes": 2592,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/outcome.txt",
+      "sha256": "eb05983e56c4e429873e49db989bc07ce183ac03718aaae618aa196263bb15d6"
+    },
+    {
+      "bytes": 19506,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/results.json",
+      "sha256": "8fcba5188b22d74502c0ed8cc20e0598091e41848c5c90af1966ce2f9332fcd8"
+    },
+    {
+      "bytes": 129888,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/completion_protocol_audit.json",
+      "sha256": "7c80f4a6784fb8e141ad2a8b7b2e93357469789768b55a09631d67696a620289"
+    },
+    {
+      "bytes": 6700,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/design.txt",
+      "sha256": "fdf8b8aa09c60a9bc52d1cba1343b555c0dcbe0d7b37666961bca22425bd69ca"
+    },
+    {
+      "bytes": 10604,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/outcome.json",
+      "sha256": "9ff7d25d2dfcaf00d5260420811c42a4986d77af2c6554b76630b2153baf6af4"
+    },
+    {
+      "bytes": 6278,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/outcome.txt",
+      "sha256": "81b2caa0887fe6bc5463bdc0c352a902d6954d22be7135907f6834e38a774872"
+    },
+    {
+      "bytes": 27786,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/results.json",
+      "sha256": "1aa4ab40423063305e64378ce36ed62ef282b3ac766533fd590ff6eb3f642d4c"
+    },
+    {
+      "bytes": 23310,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/design.txt",
+      "sha256": "2b9068686cdc48f59fa51ca3245ece7bfd71e362cd3278e44623d01a68bd5691"
+    },
+    {
+      "bytes": 2562,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/engineering_diagnosis/engineering_census.json",
+      "sha256": "c7dd55a16a2f73ea3d19dde0b12b2c2fc6a3460da08cbb605049017568ab6bc1"
+    },
+    {
+      "bytes": 8606,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/outcome.txt",
+      "sha256": "e5503e6c5a0c3b4138f8292dab3a014da1d8f0b056b99d0d2d5f9fbc92cb3b91"
+    },
+    {
+      "bytes": 36973,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/results.json",
+      "sha256": "678ed113da6e7b785d7e5ef2ce12dfb4db0c6ae7c11584aeff4a91316542f37c"
+    },
+    {
+      "bytes": 11575,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/design.txt",
+      "sha256": "8a9908b2e3c56aece87791faa993c5a5c910f04c85a483e84e969e2489550bb3"
+    },
+    {
+      "bytes": 8064,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/outcome.txt",
+      "sha256": "f675f7d863424514309036838ca231e19761a71d7e3686726cf99e9e5533b86d"
+    },
+    {
+      "bytes": 11968,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/provider_diagnostics/provider_error_summary.json",
+      "sha256": "55f1380813cae7bb3fedda877a8d66a713dae834706f333d17a226128c47940c"
+    },
+    {
+      "bytes": 6150,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/results.json",
+      "sha256": "29f86f0b49785aba72c735c3536a50520aba373b5ac188f7d507a563f2f225d1"
+    },
+    {
+      "bytes": 6749,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/run-300q-20261012/README.txt",
+      "sha256": "147435ee77477bc67de4b3e3b974152ed7c417d1b92e5bd01e65f3ac96051f23"
+    },
+    {
+      "bytes": 49403,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/run-300q-20261012/investigations/midterm_20261012/runtime_investigation.json",
+      "sha256": "03f23906ed1c3ae8c52199439e360b6713687258d9dd6f21a8f2b510972f74b3"
+    },
+    {
+      "bytes": 7909,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/run-300q-20261012/investigations/midterm_20261012/verification_diagnostics.json",
+      "sha256": "b1810e3e86ef9000cd00d925db4cc7878b5c6c68728fdffec38a5970fbb4d048"
+    },
+    {
+      "bytes": 7300,
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/run-300q-20261012/investigations/midterm_20261012/withholding_policy_audit.json",
+      "sha256": "36237bf85a5cdcc41ca77d917a7846a32857dfad4a71d497ee066f90ab54a5e6"
+    }
+  ],
+  "studies": [
+    {
+      "confounds": [
+        "Original local implementation/control includes modifications and a five-file pilot patch; it is not an exact reproduction of the original paper baseline.",
+        "Unbounded Python observations dominate rejected 32k contexts; global200k does not prevent local input-guard failure.",
+        "The runtime report counts58 guard trials across ALL1400 attempts, not58 ordinary-team rows.",
+        "Citation validity is distinct from semantics/completeness; frozen null/empty credit can count unsupported abstentions.",
+        "Earlier packet-cap selection used development gold-ID recall, disclosed in the snapshot; no claim that held_out answer keys entered inference.",
+        "Incomplete promised development pilot and no blinded human audit/official secondary judge."
+      ],
+      "intended_lever": "Separate resource acquisition, computation and record verification with structured evidence.",
+      "mechanisms": {
+        "draft_correct_available": 189,
+        "independent_missing_calculation_otherwise_correct_drafts_withheld_nonterminal": 19,
+        "ordinary_team_analysis_contract_terminal_errors": 14,
+        "right_to_wrong_including_terminal": 36,
+        "right_to_wrong_nonterminal": 31,
+        "team_nonterminal_withheld_exclusive_reasons": {
+          "budget_prevented_complete_verification": 7,
+          "independent_computation_contract_failure": 23,
+          "other_verifier_semantic_issue": 1
+        },
+        "wrong_to_right_nonterminal": 7
+      },
+      "observed_calls": {
+        "basis": "Authored ordinary_role_usage recorded model_calls, not a new provider-journal audit",
+        "single": 1545,
+        "team_analysis": 1267,
+        "team_retrieval": 1096,
+        "team_sum_derived": 3872,
+        "team_verification": 1509
+      },
+      "outcome": {
+        "beats_contemporary_single": false,
+        "paired_95pct_CI_pp_from_authored_outcome": [
+          -26.4,
+          -14.1
+        ],
+        "questions_per_arm": 300,
+        "recorded_mean_tokens_single": 52143.71333333333,
+        "recorded_mean_tokens_team": 77154.81,
+        "selection_passed": false,
+        "single_aggregate_budget_stops": 8,
+        "single_correct": 223,
+        "single_terminal_errors": 16,
+        "team_aggregate_budget_stops": 30,
+        "team_correct": 162,
+        "team_minus_single_pp": -20.333333333333332,
+        "team_paired_losses": 71,
+        "team_paired_wins": 10,
+        "team_terminal_errors": 42
+      },
+      "primary_caps": {
+        "per_phase_tokens": "not specified in these authored records",
+        "per_phase_tools": "not specified in these authored records",
+        "primary_model_call_cap": "not specified in these authored records"
+      },
+      "primary_policy": "Analysis role after retrieval; modified local Single control is Multi-turn + Retriever + Code, not the unmodified author baseline.",
+      "record_sources": [
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/run-300q-20261012/README.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/run-300q-20261012/investigations/midterm_20261012/runtime_investigation.json",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/run-300q-20261012/investigations/midterm_20261012/verification_diagnostics.json",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/run-300q-20261012/investigations/midterm_20261012/withholding_policy_audit.json",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v2-20261013/results.json"
+      ],
+      "team_caps": {
+        "estimated_input_guard": 32000,
+        "provider_completion_cap": 16384,
+        "tokens": 200000,
+        "tools": 30
+      },
+      "topology": "Fixed retrieval -> analysis -> record-verification contexts; at most one targeted repair; deterministic controller.",
+      "version": "original"
+    },
+    {
+      "confounds": [
+        "System bundle changes both arms: bounded8000-character model-facing replies, validated final artifacts,28000->24000 context compaction, prompt/semantic guide, Medication closure, paired-scope checking.",
+        "V2 gain over the archived team cannot be assigned to team topology; fresh Single also improved223->231.",
+        "Mandatory verifier completeness/validity can withhold a correct draft.",
+        "Post-run cache snapshot is not every private role workspace; optional physical-request logging is asymmetric between arms."
+      ],
+      "intended_lever": "Remove output/format/context failure paths; allow independent executable checking without seeing the draft.",
+      "mechanisms": {
+        "correct_draft_lost": 34,
+        "correct_draft_lost_nonterminal": 34,
+        "credited_without_clean_release": 18,
+        "draft_correct_available": 220,
+        "empty_reference_correct": 38,
+        "incorrect_draft_recovered": 12,
+        "independent_correct_with_wrong_final": 11,
+        "independent_wrong_on_correct_draft": 16,
+        "nonempty_reference_correct": 160
+      },
+      "observed_calls": {
+        "basis": "No aggregate primary/model-call count in the selected authored outcome records; role/tool ceilings must not be substituted for calls."
+      },
+      "outcome": {
+        "beats_contemporary_single": false,
+        "paired_95pct_CI_pp_from_authored_outcome": [
+          -16.1,
+          -6.0
+        ],
+        "questions_per_arm": 300,
+        "recorded_mean_tokens_single": 72658.91,
+        "recorded_mean_tokens_team": 98564.65,
+        "selection_passed": false,
+        "single_aggregate_budget_stops": 16,
+        "single_correct": 231,
+        "single_terminal_errors": 3,
+        "team_aggregate_budget_stops": 32,
+        "team_correct": 198,
+        "team_minus_single_pp": -11.0,
+        "team_paired_losses": 40,
+        "team_paired_wins": 7,
+        "team_terminal_errors": 7
+      },
+      "primary_caps": {
+        "analyst_tool_turns_max": 10,
+        "analyst_tools": 9,
+        "primary_model_call_cap": "not specified in these authored records",
+        "retrieval_tools": 5,
+        "verifier_tools": 11
+      },
+      "primary_policy": "Analyst can supplement retrieval and execute a validated final; contemporary Single receives the shared improved tools/contracts and remains one context with one source revision.",
+      "record_sources": [
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v2-20261013/design.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v2-20261013/outcome.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v2-20261013/results.json"
+      ],
+      "team_caps": {
+        "estimated_input_guard": 32000,
+        "provider_completion_cap": 16384,
+        "tokens": 200000,
+        "tools": 30
+      },
+      "topology": "Retriever -> iterative analyst -> draft-blind independent verifier with its own private retrieval/workspace; at most one repair, then compare to the same frozen valid recomputation.",
+      "version": "V2"
+    },
+    {
+      "auxiliary_caps": {
+        "audit_model_calls": 1,
+        "audit_tokens": 15000,
+        "audit_tools": 0,
+        "contract_model_calls": 1,
+        "contract_tokens": 10000,
+        "contract_tools": 0,
+        "targeted_repair_tokens": 0,
+        "targeted_repair_tools_max": 3
+      },
+      "confounds": [
+        "Contemporary Single is the refreshed shared substrate; Ledger-only first-final/complete-ledger/unresolved-scope restrictions are additional policy differences.",
+        "Five correct-draft losses do not establish audit-caused loss.",
+        "This is a fresh repeat with optional diagnostics after provider-failed prior attempts; no retry/replacement within this run.",
+        "Two Team provider calls failed (read timeout and HTTP500), usage unknown; diagnostic observer changes are disclosed, default transport/retry/settings unchanged."
+      ],
+      "intended_lever": "Keep solving integrated; audit question interpretation without duplicating a whole solve or vetoing valid primary on unsupported auxiliary output.",
+      "mechanisms": {
+        "audits": 283,
+        "correct_drafts_not_credited_final": 5,
+        "null_credits_without_source_valid_release": 6,
+        "source_feedback_harmful": 0,
+        "source_feedback_helpful": 4,
+        "source_feedback_revisions": 19,
+        "source_valid_primary_releases": 283,
+        "targeted_revisions": 0,
+        "wrong_primary_recoveries": 0
+      },
+      "observed_calls": {
+        "paired_provider_attempts": 3744,
+        "provider_successes": 3742,
+        "team_provider_errors": 2
+      },
+      "outcome": {
+        "beats_contemporary_single": false,
+        "paired_95pct_CI_pp_from_authored_outcome": [
+          -5.2,
+          1.1
+        ],
+        "questions_per_arm": 300,
+        "recorded_mean_tokens_single": 70192.07,
+        "recorded_mean_tokens_team": 51692.33,
+        "selection_passed": false,
+        "single_aggregate_budget_stops": 9,
+        "single_correct": 238,
+        "single_terminal_errors": 0,
+        "team_aggregate_budget_stops": 0,
+        "team_correct": 232,
+        "team_minus_single_pp": -2.0,
+        "team_paired_losses": 14,
+        "team_paired_wins": 8,
+        "team_terminal_errors": 2
+      },
+      "primary_caps": {
+        "host_slots_max": 22,
+        "model_calls_max": 20,
+        "model_requested_tools_max": 25,
+        "reserved_source_checks": 2,
+        "tokens": 175000,
+        "tools": 27
+      },
+      "primary_policy": "LedgerSolver takes first valid executed explicit final at full tool-batch boundary; original-source check and one source-feedback revision; complete ledger/unresolved scope gates.",
+      "record_sources": [
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v3d-20261014/design.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v3d-20261014/outcome.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v3d-20261014/outcome.json",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v3d-20261014/results.json"
+      ],
+      "team_caps": {
+        "model_calls_max_derived": 22,
+        "tokens": 200000,
+        "tools": 30
+      },
+      "topology": "Question-only blind contract -> continuous Ledger solver with contract withheld -> answer-withheld static program audit -> narrowly gated host repair.",
+      "version": "V3d"
+    },
+    {
+      "auxiliary_caps": {
+        "planner_model_calls": 1,
+        "planner_tokens": 10000,
+        "planner_tools": 0
+      },
+      "confounds": [
+        "Joint change: visible plan, late-audit removal and190k/30 solver allocation; no isolated planning effect.",
+        "Plan visibility groups have different family mixes; their accuracy association is not causal.",
+        "One Single read timeout, zero Team provider failures; failed usage unknown.",
+        "Corrected diagnostic distinguishes286 source-checked rendered Single releases from284 retained execution ancestries plus2 unavailable; scores unchanged.",
+        "Team aggregate-stop0 does not erase five phase-local refusals."
+      ],
+      "intended_lever": "Improve interpretation before computation while moving the removed late audit allocation into solving.",
+      "mechanisms": {
+        "ignored_plans": 37,
+        "null_credits_without_source_valid_release": 5,
+        "paired_losses_source_valid_wrong": 25,
+        "paired_losses_total": 29,
+        "solver_local_token_refusals": 5,
+        "source_feedback_harmful": 0,
+        "source_feedback_helpful": 2,
+        "source_feedback_revisions": 18,
+        "source_valid_correct": 213,
+        "source_valid_releases": 281,
+        "source_valid_wrong": 68,
+        "validated_exposed_plans": 263
+      },
+      "observed_calls": {
+        "note": "Five excess attempt signals are known pre-provider local refusals; they are not five additional SDK requests.",
+        "paired_provider_attempts": 3481,
+        "planner_retained_model_responses": 300,
+        "single_reported_model_calls_mean": 6.576666666666667,
+        "solver_invocation_attempt_signals": 1213,
+        "solver_retained_model_responses": 1208,
+        "team_reported_model_calls_mean": 5.026666666666666
+      },
+      "outcome": {
+        "beats_contemporary_single": false,
+        "paired_95pct_CI_pp_from_authored_outcome": [
+          -10.7,
+          -3.4
+        ],
+        "questions_per_arm": 300,
+        "recorded_mean_tokens_single": 71758.38,
+        "recorded_mean_tokens_team": 50447.41333333333,
+        "selection_passed": false,
+        "single_aggregate_budget_stops": 11,
+        "single_correct": 239,
+        "single_terminal_errors": 1,
+        "team_aggregate_budget_stops": 0,
+        "team_correct": 218,
+        "team_minus_single_pp": -7.0,
+        "team_paired_losses": 29,
+        "team_paired_wins": 8,
+        "team_terminal_errors": 0
+      },
+      "primary_caps": {
+        "host_slots_max": 22,
+        "model_calls_max": 20,
+        "model_requested_tools_max": 28,
+        "reserved_source_checks": 2,
+        "tokens": 190000,
+        "tools": 30
+      },
+      "primary_policy": "Same Ledger first-final/source-feedback/release gates; solver is conditioned on validated plan advice, not independent of planner.",
+      "record_sources": [
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/design.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/outcome.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/outcome.json",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/results.json",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/diagnostics_corrected/mechanisms.json"
+      ],
+      "team_caps": {
+        "model_calls_max_derived": 21,
+        "tokens": 200000,
+        "tools": 30
+      },
+      "topology": "Question-only anchored advisory planner visible to continuous Ledger solver; no late static audit or targeted repair.",
+      "version": "V4"
+    },
+    {
+      "auxiliary_caps": {
+        "critic_model_calls_max": 2,
+        "critic_tokens": 25000,
+        "critic_tools_max": 3,
+        "first_completion_max": 1800,
+        "first_prompt_estimated_max": 5500,
+        "second_completion_max": 4000
+      },
+      "confounds": [
+        "Critic sees code/records that may reveal answers; rendered-answer withholding is not answer-independent verification.",
+        "Frozen retrieved workspace/probe facts cannot repair missing retrieval or certify semantic interpretation.",
+        "The23 solver-source revisions are not critic repairs; computed-primary and actual-release endpoints differ.",
+        "Six withheld computed-correct candidates are not automatically evidence-valid releases; even crediting all would reach231<237.",
+        "One Single timeout, zero Team provider failures; failed usage unknown."
+      ],
+      "intended_lever": "Use concrete executed probes and localized program repair for interpretation errors that source checks miss.",
+      "mechanisms": {
+        "computed_correct_primaries_withheld": 6,
+        "critic_eligible_primaries": 282,
+        "critic_patches_effective_accepted": 0,
+        "critic_patches_proposed": 1,
+        "critic_stage_harmful": 0,
+        "critic_stage_helpful": 0,
+        "draft_to_computed_primary": {
+          "harmful": 0,
+          "helpful": 5,
+          "neutral": 18
+        },
+        "draft_to_released_final": {
+          "harmful": 5,
+          "helpful": 4,
+          "neutral": 14
+        },
+        "null_credits_outside_source_valid_release": 7,
+        "phase_local_refusals": 3,
+        "solver_source_revisions": 23,
+        "source_valid_wrong_primaries": 64,
+        "wrong_eligible_primary_mechanical_barrier": 15,
+        "wrong_eligible_primary_model_KEEP_UNKNOWN": 49
+      },
+      "observed_calls": {
+        "critic_admitted_invocations_and_retained_replies": 334,
+        "critic_tools": 97,
+        "paired_provider_attempts": 3552
+      },
+      "outcome": {
+        "beats_contemporary_single": false,
+        "paired_95pct_CI_pp_from_authored_outcome": [
+          -8.06,
+          -0.29
+        ],
+        "questions_per_arm": 300,
+        "recorded_mean_tokens_single": 71563.89,
+        "recorded_mean_tokens_team": 51130.08,
+        "selection_passed": false,
+        "single_aggregate_budget_stops": 17,
+        "single_correct": 237,
+        "single_terminal_errors": 1,
+        "team_aggregate_budget_stops": 0,
+        "team_correct": 225,
+        "team_minus_single_pp": -4.0,
+        "team_paired_losses": 22,
+        "team_paired_wins": 10,
+        "team_terminal_errors": 0
+      },
+      "primary_caps": {
+        "host_slots_max": 22,
+        "model_calls_max": 20,
+        "model_requested_tools_max": 25,
+        "reserved_source_checks": 2,
+        "tokens": 175000,
+        "tools": 27
+      },
+      "primary_policy": "Unchanged V3 LedgerSolver;175k/27;20 actual model calls; first-artifact lifecycle and Ledger release gates retained.",
+      "record_sources": [
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/design.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/outcome.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/outcome.json",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/results.json",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/completion_protocol_audit.json"
+      ],
+      "team_caps": {
+        "model_calls_max_derived": 22,
+        "tokens": 200000,
+        "tools": 30
+      },
+      "topology": "Unplanned continuous Ledger solver -> frozen-workspace executable critic; optional one inspection and one code patch/re-execution/source-check.",
+      "version": "V5"
+    },
+    {
+      "auxiliary_caps": {
+        "B_code_characters_max": 6000,
+        "B_completion_max": 4000,
+        "B_generation_calls_max": 1,
+        "candidate_entry_bytes_max": 8000,
+        "declared_tools_max": 3,
+        "implemented_tools_max": 2,
+        "model_calls_max": 2,
+        "selector_calls_max": 1,
+        "selector_completion_max": 1800,
+        "tokens": 25000
+      },
+      "confounds": [
+        "Joint change: actual Single policy replacing Ledger, removed Ledger-only scope vetoes, generation, selector and175k/27 allocation.",
+        "Possible32 Team SDK attempts vs30 control; common token/tool ceilings do not mean equal call ceilings or spending.",
+        "B is independent generation conditional on A-retrieved evidence, not independent retrieval or statistical independence.",
+        "Shared BaseAgent/Azure missing-usage/overshoot fault-path corrections apply to both contemporary arms, making historical comparisons differ in accounting identity.",
+        "Single1/Team5 provider failures with unknown usage; underlying cause unestablished.",
+        "A-only233 is actual175k/27 primary, not a hypothetical full-cap control or causal budget ablation."
+      ],
+      "control_caps": {
+        "natural_model_iterations_max": 30,
+        "tokens": 200000,
+        "tools": 30
+      },
+      "intended_lever": "Natural primary continuation plus answer/code-blind independent executable generation and bounded selection.",
+      "mechanisms": {
+        "A_known_budget_stops": 19,
+        "B_eligible": 37,
+        "B_execution_failures": 138,
+        "B_executions": 218,
+        "B_final_contract_failures": 112,
+        "B_generation_successful_replies": 220,
+        "B_python_exceptions": 26,
+        "Team_aggregate_budget_stops": 0,
+        "Team_exact_None_typed_credits": 31,
+        "actual_A_only_correct": 233,
+        "auxiliary_fatal_correct_A_loss": 1,
+        "computed_correct_A_withheld": 2,
+        "eligible_A_correct": 35,
+        "eligible_A_wrong_B_correct": 0,
+        "eligible_B_correct": 31,
+        "eligible_disagreements": 8,
+        "selected_B": 4,
+        "selected_B_harmful": 1,
+        "selected_B_helpful": 0,
+        "selected_B_neutral": 3,
+        "strict_JSON_agreements": 29,
+        "team_minus_actual_A_only_correct": -2
+      },
+      "observed_calls": {
+        "auxiliary_attempted_sdk_calls": 229,
+        "auxiliary_tools": 256,
+        "guard_auxiliary_reported_invocations": 228,
+        "note": "229 attempted includes the unknown-usage failed generation; do not confuse228 reported invocations with all SDK attempts.",
+        "paired_provider_attempts": 4195,
+        "provider_successes": 4189
+      },
+      "outcome": {
+        "beats_contemporary_single": false,
+        "paired_95pct_CI_pp_from_authored_outcome": [
+          -5.226537769579376,
+          3.184805686328809
+        ],
+        "questions_per_arm": 300,
+        "recorded_mean_tokens_single": 74324.13666666667,
+        "recorded_mean_tokens_team": 72816.36666666667,
+        "selection_passed": false,
+        "single_aggregate_budget_stops": 19,
+        "single_correct": 234,
+        "single_terminal_errors": 1,
+        "team_aggregate_budget_stops": 0,
+        "team_correct": 231,
+        "team_minus_single_pp": -1.0,
+        "team_paired_losses": 18,
+        "team_paired_wins": 15,
+        "team_terminal_errors": 5
+      },
+      "primary_caps": {
+        "model_calls_max": 30,
+        "natural_model_iterations_max": 30,
+        "source_check_slot_reservation": false,
+        "tokens": 175000,
+        "tools_inclusive": 27
+      },
+      "primary_policy": "Composes actual current SingleAgent(max_iterations=30), retains normal post-final continuation/feedback/source checks; no Ledger first-artifact handoff or Ledger-only global metadata veto.",
+      "record_sources": [
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/design.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/outcome.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/results.json",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/engineering_diagnosis/engineering_census.json"
+      ],
+      "team_caps": {
+        "model_calls_max": 32,
+        "tokens": 200000,
+        "tools": 30
+      },
+      "topology": "Actual natural Single A -> one-shot blind B final program on A-frozen records -> optional intact A/B/UNKNOWN selector.",
+      "version": "V6"
+    },
+    {
+      "auxiliary_caps": {
+        "intact_entry_ASCII_JSON_bytes_max_each": 32768,
+        "minimum_B_model_attempts_after_reservation": 2,
+        "minimum_B_tools_after_reservation": 2,
+        "sdk_attempts": "actual residual minus one selector reservation",
+        "selector_completion_max": 2000,
+        "tokens": "actual residual minus intact selector reservation",
+        "tools": "actual residual, including one B-initialization charge"
+      },
+      "confounds": [
+        "Joint change fromV6: full-cap primary, residual allocation, actual iterative independent retrieval/feedback, larger intact entries and stricter requirement-based selection.",
+        "Separate state/acquisition decisions do not imply statistical independence; same model/store/starting-packet algorithm/cache remain.",
+        "Requirements are generated with both entries visible, not a separate candidate-blind rubric; model labels do not certify semantics or completeness.",
+        "Single4/Team6 provider errors; auxiliary failure can erase a correct A. Unknown failed usage remains unknown.",
+        "All300 initial message prefixes match Single/A; this supports policy parity, not native wire identity or an explanation of A233 versus independent Single238.",
+        "Improved B eligibility37->184 is a descriptive cross-version observation, not a causal accuracy effect."
+      ],
+      "control_caps": {
+        "natural_model_iterations_max": 30,
+        "tokens": 200000,
+        "tools": 30
+      },
+      "intended_lever": "Protect full primary and improve B execution/feedback/evidence acquisition; replace only with existing source-bound alternative supported by explicit requirements.",
+      "mechanisms": {
+        "A_known_budget_stops": 13,
+        "A_source_revision_harmful": 2,
+        "A_source_revisions": 5,
+        "B_entered": 268,
+        "B_known_budget_stops": 81,
+        "B_source_bound_eligible": 184,
+        "Single_exact_None_typed_credits": 33,
+        "Team_aggregate_budget_stops": 0,
+        "Team_exact_None_typed_credits": 31,
+        "actual_full_cap_A_only_correct": 233,
+        "additional_corrective_B_excluded_by_eligibility": 0,
+        "all_actual_released_or_error_B_joint": {
+          "A_right_B_wrong": 48,
+          "A_wrong_B_right": 1,
+          "both_correct": 174,
+          "both_wrong": 45
+        },
+        "auxiliary_fatal_correct_A_loss": 1,
+        "auxiliary_fatal_outcomes": 2,
+        "computed_correct_A_withheld": 2,
+        "eligible_disagreements": 32,
+        "eligible_joint": {
+          "A_right_B_right": 160,
+          "A_right_B_wrong": 4,
+          "A_wrong_B_right": 1,
+          "A_wrong_B_wrong": 19
+        },
+        "selected_B": 1,
+        "selected_B_helpful": 1,
+        "selector_preserved_A": 31,
+        "strict_JSON_agreements": 152,
+        "team_minus_actual_A_only_correct": 0,
+        "typed_correct_B_outside_eligibility_all_with_correct_A": 14
+      },
+      "observed_calls": {
+        "paired_provider_attempts": 5342,
+        "provider_errors": 10,
+        "provider_successes": 5332,
+        "selector_raw_responses": 32
+      },
+      "outcome": {
+        "beats_contemporary_single": false,
+        "paired_95pct_CI_pp_from_authored_outcome": [
+          -5.031499303532987,
+          1.5626224529780548
+        ],
+        "questions_per_arm": 300,
+        "recorded_mean_tokens_single": 72180.06,
+        "recorded_mean_tokens_team": 114984.19,
+        "selection_passed": false,
+        "single_aggregate_budget_stops": 12,
+        "single_correct": 238,
+        "single_terminal_errors": 4,
+        "team_aggregate_budget_stops": 0,
+        "team_correct": 233,
+        "team_minus_single_pp": -1.6666666666666667,
+        "team_paired_losses": 12,
+        "team_paired_wins": 7,
+        "team_terminal_errors": 6
+      },
+      "primary_caps": {
+        "natural_model_iterations_max": 30,
+        "sdk_attempts_max": 30,
+        "tokens": 200000,
+        "tools_inclusive": 30
+      },
+      "primary_policy": "Actual original current Single policy with natural30 iterations, normal feedback and release; no reservation/early handoff/extra veto reduces A.",
+      "record_sources": [
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/design.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/outcome.txt",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/results.json",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/provider_diagnostics/provider_error_summary.json"
+      ],
+      "team_caps": {
+        "sdk_attempts": 30,
+        "tokens": 200000,
+        "tools": 30
+      },
+      "topology": "Full natural Single A -> fresh independent-retrieval Single B only on verified residual resources -> optional question-requirement A/B/UNKNOWN selector.",
+      "version": "V7"
+    }
+  ],
+  "terminology": "original means first local proposal experiment; all Single scores are local modified controls, not the original author full-set score. Model calls, retained replies, SDK attempts, loop slots and pre-provider refusals are distinct."
+}

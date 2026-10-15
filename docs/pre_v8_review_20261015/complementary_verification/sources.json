@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-15",
+  "papers": [
+    {
+      "title": "Chain-of-Verification Reduces Hallucination in Large Language Models",
+      "venue": "Findings ACL2024",
+      "published_url": "https://aclanthology.org/2024.findings-acl.212/",
+      "inspected_version_url": "https://arxiv.org/html/2309.11495v2",
+      "sections": [
+        "3",
+        "4",
+        "8"
+      ],
+      "author_code_status": "No author implementation identified; paper prompts inspected, third-party implementations excluded",
+      "author_page_checked": "https://shehzaadzd.github.io/"
+    },
+    {
+      "title": "CRITIC: Large Language Models Can Self-Correct with Tool-Interactive Critiquing",
+      "venue": "ICLR2024",
+      "published_url": "https://openreview.net/forum?id=Sx038qxjek",
+      "inspected_version_url": "https://arxiv.org/html/2305.11738v4",
+      "sections": [
+        "3",
+        "4",
+        "D.2",
+        "D.3",
+        "D.5"
+      ],
+      "author_code_commits": {
+        "microsoft/ProphetNet": "5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53",
+        "ZubinGou/llm-agent-web-tools": "ea119d927f44ea631e843c58ac762c65b7acebf2"
+      }
+    },
+    {
+      "title": "RARR: Researching and Revising What Language Models Say, Using Language Models",
+      "venue": "ACL2023",
+      "published_url": "https://aclanthology.org/2023.acl-long.910/",
+      "inspected_version_url": "https://arxiv.org/html/2210.08726v3",
+      "sections": [
+        "3",
+        "5",
+        "6",
+        "A"
+      ],
+      "author_code_commits": {
+        "anthonywchen/RARR": "51a1a10fe5bada837a368f98cb55288ac5168c9e"
+      }
+    }
+  ],
+  "prior_private_audit": {
+    "path": "/private/tmp/fhir-retrieval-diversity-audit-20261015/memo.txt",
+    "sha256": "285f9d3cd908ec8e30f4a7d2b59e81136cd2eebd106413cf0fb4611795a9580c"
+  },
+  "constraints": {
+    "project_case_content_read": false,
+    "protected_data_read": false,
+    "configuration_read": false,
+    "project_source_mutated": false,
+    "model_or_FHIR_calls": 0,
+    "author_code_executed": false,
+    "new_design_selected": false
+  },
+  "aggregate_provenance": "Parent-supplied completed V7 cohort aggregates only; not independently rescored or read from raw result rows."
+}
