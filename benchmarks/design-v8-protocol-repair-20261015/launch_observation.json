@@ -1,0 +1,22 @@
+{
+  "status": "RUNNING_NO_ACCURACY_ANALYSIS",
+  "observed_utc": "2026-10-15T23:54:47.773215+00:00",
+  "owned_exec_session_id": 29845,
+  "source_commit": "604aad4",
+  "published_prelaunch_freeze_commit": "1869c5a",
+  "pins_sha256": "3cac5e151acd882e40e348d733380a9f354513605349f5f28dc3280c7278bd7b",
+  "study_manifest_sha256": "1694573a0486df16a502bf1c6650061ad10e3a4adf6dd94a115e92065ba75a19",
+  "actual_public_provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "expected_policy_outcomes": 480,
+  "questions": 120,
+  "source_files": 226,
+  "runtime_files": 4,
+  "fresh_study_no_old_outcome_reuse": true,
+  "caffeinate_idle_sleep_assertion_for_owned_command": true,
+  "correctness_examined": false,
+  "required_next_step": "Owned terminal exit plus new all480 deep integrity PASS before any accuracy/gate analysis."
+}
