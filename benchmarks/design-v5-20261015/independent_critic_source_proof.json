@@ -1,0 +1,48 @@
+{
+  "scope": "completed fixed300 only; no confirmation QA/SQL/model/FHIR requests",
+  "completion_guard_sha256": "7c80f4a6784fb8e141ad2a8b7b2e93357469789768b55a09631d67696a620289",
+  "completion_status": "PASS",
+  "owned_audits": 600,
+  "official_results_sha256": "1aa4ab40423063305e64378ce36ed62ef282b3ac766533fd590ff6eb3f642d4c",
+  "source_archive_sha256": "7be53bfddc35c7f146a511fd90594c23a0bf73e625ee065db8c13184b1f6991e",
+  "public_current_archived_manifest_source_matches": {
+    "agent/executable_critic_agent.py": {
+      "current_sha256": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+      "archived_sha256": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+      "frozen_manifest_sha256": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7"
+    },
+    "agent/query_contract_agent.py": {
+      "current_sha256": "e8466ca0b0df4378289357f677af3bf22718d855643245edac9aced3c5de9ae6",
+      "archived_sha256": "e8466ca0b0df4378289357f677af3bf22718d855643245edac9aced3c5de9ae6",
+      "frozen_manifest_sha256": "e8466ca0b0df4378289357f677af3bf22718d855643245edac9aced3c5de9ae6"
+    },
+    "agent/single_agent.py": {
+      "current_sha256": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+      "archived_sha256": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+      "frozen_manifest_sha256": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e"
+    },
+    "tools/python_executor.py": {
+      "current_sha256": "87d701913d1505283ce481720bf9f2780e1759d892680d7f8d373fbe039b6c8f",
+      "archived_sha256": "87d701913d1505283ce481720bf9f2780e1759d892680d7f8d373fbe039b6c8f",
+      "frozen_manifest_sha256": "87d701913d1505283ce481720bf9f2780e1759d892680d7f8d373fbe039b6c8f"
+    },
+    "utils/answer_scorer.py": {
+      "current_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+      "archived_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+      "frozen_manifest_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964"
+    },
+    "manifests/question_families.csv": {
+      "current_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+      "archived_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+      "frozen_manifest_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab"
+    }
+  },
+  "formal_mechanisms_sha256": "e187cfebc4869faf5a9c66e800f597d3c9135805038d92d5790da4951fd42d8f",
+  "formal_mechanisms_rows_sha256": "d858dbc6a707c95148d359ce4c15d838defb9017a22f27e5da77643b7128d13f",
+  "matched_exact_template_critic_rows": 282,
+  "critic_primaries_typed_correct": 218,
+  "critic_primaries_typed_wrong": 64,
+  "responses": 334,
+  "charged_tools": 97,
+  "exploratory_empty_template_annotations": "DISCARDED. Final trajectory_cases/joined/summary/deep_census and both scripts use exact frozen fixed300 templates. No empty-template labels retained in delivered counts."
+}

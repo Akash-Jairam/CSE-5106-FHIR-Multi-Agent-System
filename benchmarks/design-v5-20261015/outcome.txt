@@ -1,0 +1,98 @@
+V5 completed development comparison — 15 October 2026 UTC
+
+Decision: acceptance failed. Preserve V5 as a completed negative result.
+Do not promote it to main or launch the full benchmark with this design.
+
+Team: 225/300 (75.0%); fresh single agent: 237/300 (79.0%).
+Team minus single: -4.0 percentage points, patient-block bootstrap 95% interval
+[-8.06, -0.29] points; 10 paired wins, 22 losses, 215 both correct, 53 both wrong.
+Bootstrap: 10,000 resamples, seed 5106, 58 patients, question-weighted estimate.
+The predeclared gate required team >239 AND team >fresh single; both fail.
+Independent scoring reproduces the complete totals, paired counts and interval.
+V3d team scored 232/300 and V4 team 218/300; historical comparisons are descriptive.
+
+All first attempts are retained. Both workers finished their scheduled 300;
+team exited 0, single exited 1 after saving one SDK timeout failure. No selective
+retry, replacement, partial accuracy inspection or confirmation scoring occurred.
+Root observed both workers terminal by 07:14:42 UTC before invoking the scorer.
+
+The frozen design remains exactly the prelaunch implementation: source commit
+51c505e5854570bb82ded5bd1fc0886dd45d46a2, freeze commit 810a4f6, 161 source files
+and four public runtime files. The exact source/runtime archives, launch commands,
+provider binding, intact-packet coverage check and prospective protocol are here.
+completion_protocol_audit.json verifies every one of the 600 row-owned gzip audits
+and unchanged input/source/runtime identities. No aggregate token/tool overshoot
+was reported. Raw archive allowlist, hashes, members and CRC checks pass.
+
+Critic mechanism
+
+282 source-valid primaries entered the critic; 18 primaries were ineligible.
+There were 334 retained critic model replies and 97 charged critic tool uses.
+One patch was proposed, but its executed result had no substantive effect.
+There were zero accepted critic repairs, no critic-stage accuracy gain or loss,
+and no released answer changed by the critic. Source-valid releases still include
+64 typed-wrong answers. Executed code and source citations did not establish
+the intended interpretation of the question.
+
+The restored mechanism report records 102 first UNKNOWN, 75 first KEEP, nine
+first parsing/schema rejections, 30 unusable probes and 14 failed probes. The
+52 second replies were 27 UNKNOWN, 24 KEEP and one ineffective PATCH. See the
+independent trajectory review for raw-response versus host-accepted distinctions.
+These findings require a substantive verification improvement; fixing interface
+formatting alone is not evidence that the critic can correct semantic errors.
+Of the 64 eligible wrong primaries, 49 ended in model KEEP/UNKNOWN and 15 hit
+mechanical/probe barriers. No rejected correct answer-changing PATCH was found.
+
+Solver source feedback and release gates are separate from critic repair.
+23 solver-source revisions had draft-to-computed-primary effects of five helpful,
+18 neutral and zero harmful. Their draft-to-released-final effects were four
+helpful, 14 neutral and five harmful. Six typed-correct computed primaries were
+later withheld by release checks. Those endpoints must not be conflated, and a
+typed-correct computed answer does not by itself prove valid supporting evidence.
+The original compare report and restored mechanism report preserve both measures.
+
+The independent transition reconciliation verifies every one of the 300 score
+flags and all six withheld paths. All 22 cited field values in those six were
+recorded valid. Three cases lacked a direct encounter field but had a concrete
+reference path from a contributing, patient-owned, scoped parent. Three others
+were vetoed by unused, uncited unlinked metadata while their citations passed.
+These support generic validation limitations; they do not prove full search
+completeness or the entire semantic derivation. Even six additional correct
+releases would yield 231/300, still below the fresh single's 237. The precise
+endpoint definitions and sanitized graph proof are in transition_reconciliation.
+
+Evidence, failures and resource limits
+
+Seven team null answers received empty-reference credit outside a source-valid
+release. Answer accuracy is therefore distinct from evidence-supported accuracy.
+A posthoc diagnostic that removes exact-None answer credits while keeping all
+300 questions gives single 204/300 and team 191/300; this does not replace the
+predeclared typed scorer or its primary result.
+
+The team had zero aggregate budget stops and three phase-local refusals. The
+single agent had 17 aggregate stops. The SDK journal has 3,552 matched requests:
+3,551 successes and one timeout, no unmatched request, and one unknown-usage end.
+The isolated timeout is insufficient to attribute a regional Azure incident.
+Recorded mean token totals are team 51,130.08 and single 71,563.89; the latter
+cannot account for unknown billed usage on its failed request. Observed cost is
+unavailable for both arms, not zero. Recorded median/p95 seconds are team
+12.96/29.49 and single 15.69/37.45; these are descriptive measurements.
+
+Reproduction and provenance
+
+results.json is the unchanged eight-arm compare output; official_scoring_record.json
+binds its command and checksum to the prior completion audit. The independent
+results review recomputes only these saved development questions. The restored
+mechanism helper binds all 600 audits before scoring and distinguishes critic,
+computed-primary, released-final, null-credit and phase-accounting effects.
+raw_archive_manifest.json records the local 609-file completed archive:
+output/archives/executable_critic_v5_300q_completed.zip
+SHA256 3b81e5b9695035b87aca7d4d81edc0c74e7e191c791063f3448afae0ad2a1a67
+The archive remains local; its hashes and reproducible analysis records are saved.
+
+The fixed300 remains adaptive development, even where legacy identities call it
+held_out. This result does not establish new-patient, unseen-template, other-task
+or cross-model generalization. The protected 1,397 question-confirmation IDs
+remain unqueried and unscored. Further work must keep that prospective protocol
+and the portability requirements intact, with a new design freeze before the
+next substantial comparison. No next design has been selected by this record.

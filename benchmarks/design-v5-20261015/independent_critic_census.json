@@ -1,0 +1,168 @@
+{
+  "stage_by_group": {
+    "source_valid_wrong": {
+      "second_unknown": 15,
+      "first_unknown": 19,
+      "probe_unusable": 6,
+      "first_keep": 8,
+      "second_keep": 7,
+      "probe_failed": 3,
+      "first_json_or_schema_rejected": 6
+    },
+    "paired_team_wins": {
+      "second_unknown": 1,
+      "first_unknown": 5,
+      "first_keep": 2,
+      "probe_unusable": 2
+    },
+    "paired_team_losses": {
+      "first_keep": 5,
+      "first_unknown": 6,
+      "second_unknown": 2,
+      "probe_unusable": 2,
+      "not_reached_or_diagnostics_unavailable": 3,
+      "first_json_or_schema_rejected": 2,
+      "probe_failed": 1,
+      "second_keep": 1
+    },
+    "all_critic": {
+      "first_unknown": 102,
+      "second_unknown": 27,
+      "first_keep": 75,
+      "probe_unusable": 30,
+      "first_json_or_schema_rejected": 9,
+      "probe_failed": 14,
+      "second_keep": 24,
+      "no_substantive_effect": 1
+    }
+  },
+  "mechanical_reason_by_group": {
+    "source_valid_wrong": {
+      "ValueError: inspection answer schema invalid": 3,
+      "ValueError: inspection observation schema invalid": 2,
+      "ValueError: inspection failed": 3,
+      "ValueError: anchor quote missing or ambiguous in original channel": 5,
+      "JSONDecodeError: Extra data: line 1 column 1550 (char 1549)": 1,
+      "ValueError: witness source field missing or nonconcrete": 1
+    },
+    "paired_team_wins": {
+      "ValueError: inspection observation schema invalid": 1,
+      "ValueError: inspection answer schema invalid": 1
+    },
+    "paired_team_losses": {
+      "ValueError: inspection answer schema invalid": 1,
+      "ValueError: anchor quote missing or ambiguous in original channel": 1,
+      "ValueError: inspection failed": 1,
+      "JSONDecodeError: Extra data: line 1 column 1550 (char 1549)": 1,
+      "ValueError: witness source field missing or nonconcrete": 1
+    },
+    "all_critic": {
+      "ValueError: inspection observation schema invalid": 15,
+      "ValueError: inspection answer schema invalid": 12,
+      "ValueError: anchor quote missing or ambiguous in original channel": 8,
+      "ValueError: inspection failed": 14,
+      "ValueError: witness source field missing or nonconcrete": 2,
+      "ValueError: replacement has no substantive executed effect": 1,
+      "ValueError: source fact differs from immutable original": 1,
+      "JSONDecodeError: Extra data: line 1 column 1550 (char 1549)": 1
+    }
+  },
+  "coverage": {
+    "source_valid_wrong": {
+      "n": 64,
+      "empty_retrieval_ledger": 5,
+      "empty_complete_types": 5,
+      "missing_current_time": 37
+    },
+    "paired_team_wins": {
+      "n": 10,
+      "empty_retrieval_ledger": 1,
+      "empty_complete_types": 1,
+      "missing_current_time": 4
+    },
+    "paired_team_losses": {
+      "n": 22,
+      "empty_retrieval_ledger": 2,
+      "empty_complete_types": 2,
+      "missing_current_time": 11
+    },
+    "all_critic": {
+      "n": 282,
+      "empty_retrieval_ledger": 24,
+      "empty_complete_types": 24,
+      "missing_current_time": 126
+    }
+  },
+  "probe_subtypes": {
+    "source_valid_wrong": {
+      "facts:empty": 1,
+      "observations:within_range": 2,
+      "facts:over16": 1,
+      "observation:over1024": 2,
+      "runtime:SyntaxError": 2,
+      "anchor:not_original_context": 4,
+      "facts:within_range": 1,
+      "observations:empty": 1,
+      "anchor:wrong_original_channel": 1,
+      "runtime:AttributeError": 1
+    },
+    "paired_team_wins": {
+      "observation:over1024": 1,
+      "facts:empty": 1,
+      "observations:within_range": 1
+    },
+    "paired_team_losses": {
+      "facts:within_range": 1,
+      "observations:empty": 1,
+      "anchor:wrong_original_channel": 1,
+      "runtime:SyntaxError": 1
+    },
+    "all_critic": {
+      "observation:over1024": 15,
+      "facts:empty": 8,
+      "observations:within_range": 10,
+      "facts:over16": 3,
+      "anchor:not_original_context": 5,
+      "runtime:SyntaxError": 10,
+      "runtime:The answer and metadata must contain only finite JSON values": 1,
+      "runtime:AttributeError": 2,
+      "runtime:NameError": 1,
+      "facts:within_range": 1,
+      "observations:empty": 2,
+      "observation:duplicate_name": 1,
+      "anchor:wrong_original_channel": 3
+    }
+  },
+  "unknown_reason_markers": {
+    "source_valid_wrong": {
+      "scope_or_missing_retrieval": 18,
+      "preview_limitation": 14,
+      "ambiguity": 8,
+      "missing_clock": 1
+    },
+    "paired_team_wins": {
+      "scope_or_missing_retrieval": 3,
+      "preview_limitation": 3,
+      "ambiguity": 1
+    },
+    "paired_team_losses": {
+      "scope_or_missing_retrieval": 2,
+      "preview_limitation": 2
+    },
+    "all_critic": {
+      "preview_limitation": 67,
+      "scope_or_missing_retrieval": 80,
+      "ambiguity": 30,
+      "missing_clock": 11
+    }
+  },
+  "packet_tokens": {
+    "min": 2052,
+    "median": 3267.5,
+    "max": 4580
+  },
+  "binding": {
+    "mechanisms_rows_sha256": "d858dbc6a707c95148d359ce4c15d838defb9017a22f27e5da77643b7128d13f",
+    "mechanisms_sha256": "e187cfebc4869faf5a9c66e800f597d3c9135805038d92d5790da4951fd42d8f"
+  }
+}

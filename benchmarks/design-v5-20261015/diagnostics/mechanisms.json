@@ -1,0 +1,119 @@
+{
+  "experiment": "design-v5-20261015",
+  "protocol": "frozen-workspace-executable-critic-v5",
+  "schema_version": 1,
+  "scope": "Completed fixed300 first attempts; adaptive development evidence only.",
+  "summary": {
+    "questions": 300,
+    "correct": 225,
+    "terminal_error": 0,
+    "primary_artifact_present": 297,
+    "primary_is_actual_null": 37,
+    "source_valid_release": 282,
+    "source_valid_typed_wrong_release": 64,
+    "precritic_source_valid_primary": 282,
+    "critic_accepted_repair": 0,
+    "critic_patch_attempted": 1,
+    "critic_stage_primary_credit_lost": 0,
+    "critic_stage_nonrepair_credit_lost": 0,
+    "solver_source_revised": 23,
+    "phase_fatal": 0,
+    "recorded_unknown_provider_usage": 0,
+    "usage_metadata_unavailable": 0,
+    "phase_recorded_error": 3,
+    "phase_local_refusal": 3,
+    "aggregate_budget_stop": 0,
+    "local_refusal_without_aggregate_stop": 3,
+    "reported_global_overshoot": 0,
+    "reported_phase_overshoot": 0,
+    "critic_completion_subcap_overshoot": 0,
+    "actual_answer_is_null": 51,
+    "typed_null_credit": 34,
+    "typed_null_credit_outside_source_valid_release": 7,
+    "empty_reference_credit_outside_source_valid_release": 7,
+    "critic_semantic_repair_effect_counts": {
+      "not_applied": 300
+    },
+    "critic_stage_effect_counts": {
+      "neutral": 282,
+      "not_applied": 18
+    },
+    "solver_source_revision_effect_counts": {
+      "not_applied": 277,
+      "helpful": 5,
+      "neutral": 18
+    },
+    "critic_status_counts": {
+      "primary_preserved": 282,
+      "not_recorded": 18
+    },
+    "critic_stage_counts": {
+      "first_unknown": 102,
+      "second_unknown": 27,
+      "first_keep": 75,
+      "not_reached_or_diagnostics_unavailable": 18,
+      "probe_unusable": 30,
+      "first_json_or_schema_rejected": 9,
+      "probe_failed": 14,
+      "second_keep": 24,
+      "no_substantive_effect": 1
+    },
+    "critic_first_decision_counts": {
+      "UNKNOWN": 102,
+      "INSPECT": 96,
+      "KEEP": 75,
+      "null": 27
+    },
+    "critic_second_decision_counts": {
+      "null": 248,
+      "UNKNOWN": 27,
+      "KEEP": 24,
+      "PATCH": 1
+    },
+    "usage_status_counts": {
+      "recorded_known": 300
+    },
+    "release_policy_counts": {
+      "source_valid_primary_preserved": 282,
+      "primary_failed_execution_or_source_contract": 18
+    },
+    "critic_stage_delta_correct": 0,
+    "accepted_repair_delta_correct": 0,
+    "critic_stage_denominator": 282,
+    "accepted_semantic_repair_denominator": 0,
+    "all_first_attempt_accuracy": 0.75
+  },
+  "official_totals_reconciled": {
+    "ordinary_single_agent": {
+      "questions": 300,
+      "correct": 237,
+      "official_label": "v5_single"
+    },
+    "ordinary_multi_agent": {
+      "questions": 300,
+      "correct": 225,
+      "official_label": "v5_team"
+    }
+  },
+  "completion_status": "PASS",
+  "source_manifest_sha256": "0e6f2ed6c8f5cefd07b68bb022c67ab87219a39a8b5bdd1f3960f4a6cdef9d2c",
+  "scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+  "compare_source_sha256": "607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c",
+  "helper_sha256": "cb7eb53b4236ebfb0a8fe9ac75412fdda13e431e9f7a4c06047280c1d2ff1551",
+  "limits": [
+    "Accepted repair transitions are distinct from total critic-stage effects, which include terminal/accounting losses.",
+    "A missing primary/draft is unavailable; an explicitly retained null artifact is scored as null.",
+    "Source/execution provenance and probe observations do not establish semantic correctness.",
+    "Unknown usage placeholders do not imply zero billing; phase-local refusals differ from provider/accounting failures.",
+    "No Single execution-ancestry classification is attempted; official current-arm totals are reconciled only.",
+    "All600 row-owned audits restore before scorer import; identical content-addressed payloads may share files.",
+    "Current source/identity/raw/report SHA bindings and the pinned unique-artifact count are rechecked.",
+    "No new inference, source re-fetches, or code re-execution occur in this helper."
+  ],
+  "external_bindings": {
+    "completion_report_sha256": "7c80f4a6784fb8e141ad2a8b7b2e93357469789768b55a09631d67696a620289",
+    "official_report_sha256": "1aa4ab40423063305e64378ce36ed62ef282b3ac766533fd590ff6eb3f642d4c",
+    "guard_sha256": "10e7b2b537f529a146695606ca8d89690cfdb3fac8d9b3465d82b5eec6f01f29",
+    "guard_pins_sha256": "38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50"
+  }
+}

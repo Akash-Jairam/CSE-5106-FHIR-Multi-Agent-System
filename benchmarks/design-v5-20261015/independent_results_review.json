@@ -1,0 +1,176 @@
+{
+  "status": "INDEPENDENT_COMPLETED_DEVELOPMENT_RECOMPUTATION",
+  "scope": "Original fixed300 only; no full or protected1397 references loaded",
+  "script_sha256": "2f98b61a214083c05e669c27e76867a511ed685518b31315d33c8a92e2d29e9e",
+  "integrity_report_sha256": "7c80f4a6784fb8e141ad2a8b7b2e93357469789768b55a09631d67696a620289",
+  "guard_sha256": "10e7b2b537f529a146695606ca8d89690cfdb3fac8d9b3465d82b5eec6f01f29",
+  "pins_sha256": "38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50",
+  "source_files_verified": 161,
+  "runtime_files_verified": 4,
+  "raw_files_hashed": 609,
+  "ordered_input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+  "identities": {
+    "single": {
+      "identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "800e1f0df322c86453d205979d734895e8f36ba8ce53369b4695f440a1b16fa3",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_sha256": "4492cba98216866eb9a2d41968445fb651cbacaaddde008ec948abd36b88589e",
+      "identity_sha256": "158c160aa2bedd5dd41b7f8ae9e0011b095686337927dbb74ed0443bd05cdfcb"
+    },
+    "team": {
+      "identity": {
+        "version": 2,
+        "agent_strategy": "multi_agent_v5",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "800e1f0df322c86453d205979d734895e8f36ba8ce53369b4695f440a1b16fa3",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_sha256": "b1f4d84fcc87d4460b84106e38f45069c1ad73e1624ae5faf4cbb05ea9a956b4",
+      "identity_sha256": "3c867feed52919e9bb6d7a5395c92a2ccc14b8aa5927c336b92a26c87b9d44b7"
+    }
+  },
+  "arms": {
+    "single": {
+      "correct": 237,
+      "terminal_errors": 1,
+      "exact_none_answers": 48,
+      "correct_none_answers": 33,
+      "error_answers_that_typed_scorer_alone_would_credit": 0,
+      "n": 300,
+      "accuracy": 0.79,
+      "answer_types": {
+        "boolean": 66,
+        "timestamp": 55,
+        "number": 73,
+        "empty": 42,
+        "set": 17,
+        "category": 47
+      },
+      "families": {
+        "lookup_counting": {
+          "n": 92,
+          "correct": 81,
+          "errors": 0
+        },
+        "temporal_selection": {
+          "n": 159,
+          "correct": 116,
+          "errors": 1
+        },
+        "numerical_aggregation": {
+          "n": 49,
+          "correct": 40,
+          "errors": 0
+        }
+      }
+    },
+    "team": {
+      "correct": 225,
+      "terminal_errors": 0,
+      "exact_none_answers": 51,
+      "correct_none_answers": 34,
+      "error_answers_that_typed_scorer_alone_would_credit": 0,
+      "n": 300,
+      "accuracy": 0.75,
+      "answer_types": {
+        "boolean": 66,
+        "timestamp": 55,
+        "number": 73,
+        "empty": 42,
+        "set": 17,
+        "category": 47
+      },
+      "families": {
+        "lookup_counting": {
+          "n": 92,
+          "correct": 79,
+          "errors": 0
+        },
+        "temporal_selection": {
+          "n": 159,
+          "correct": 112,
+          "errors": 0
+        },
+        "numerical_aggregation": {
+          "n": 49,
+          "correct": 34,
+          "errors": 0
+        }
+      }
+    }
+  },
+  "paired": {
+    "n": 300,
+    "patients": 58,
+    "estimate": -0.04,
+    "ci_low": -0.08059821858449685,
+    "ci_high": -0.002932336951861573,
+    "wins": 10,
+    "losses": 22,
+    "both_correct": 215,
+    "both_wrong": 53,
+    "comparison": "V5 team - contemporary single"
+  },
+  "bootstrap": {
+    "replicates": 10000,
+    "seed": 5106,
+    "unit": "patient clusters",
+    "estimand": "question-weighted mean paired correctness difference"
+  },
+  "gate": {
+    "team_above_historical_single_239": false,
+    "team_above_contemporary_single": false,
+    "pass": false
+  },
+  "null_credit_sensitivity": {
+    "label": "Posthoc exact-None-credit sensitivity only; unchanged typed scorer remains primary, no questions excluded",
+    "single_correct_if_no_exact_None_credit": 204,
+    "team_correct_if_no_exact_None_credit": 191,
+    "paired": {
+      "n": 300,
+      "patients": 58,
+      "estimate": -0.043333333333333335,
+      "ci_low": -0.08394230233465202,
+      "ci_high": -0.005447399756010288
+    }
+  },
+  "limits": [
+    "All300 firsts retained; the one terminal Single failure is wrong regardless of output. Unreported failed usage remains unknown.",
+    "Reference question/answer inputs came only from SHA-bound saved fixed300 rows; no full dataset QA/SQL parsing or protected-case access.",
+    "Exact-None credit follows the unchanged benchmark empty-reference convention; it is not evidence of search completeness/source-supported abstention.",
+    "This is adaptive development selection, not confirmation or patient/model/dataset generalization.",
+    "No source/critic mechanism claim is made from compact revision fields; separate restored analysis is required."
+  ],
+  "actual_model_FHIR_network_private_configuration_calls": 0,
+  "protected_full_confirmation_scoring": false
+}

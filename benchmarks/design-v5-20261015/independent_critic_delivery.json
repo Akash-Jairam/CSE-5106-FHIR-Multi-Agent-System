@@ -1,0 +1,51 @@
+{
+  "status": "COMPLETE",
+  "no_new_experiment": true,
+  "source_scope": "completed exposed fixed300 only",
+  "no_active_source_edits": true,
+  "no_new_models_or_retrieval": true,
+  "exact_template_annotations": true,
+  "discarded_exploration": "Initial empty-template exploratory scoring was discarded and overwritten before formal joins; final report explicitly documents this. Both saved scripts use exact frozen fixed300 family templates.",
+  "files": {
+    "/private/tmp/fhir-v5-critic-diagnosis/independent_diagnosis.md": {
+      "sha256": "53add0c305aee7fc47657825e89de4e77ae79f18d60b6c528eb78e68e985c61d",
+      "bytes": 11509
+    },
+    "/private/tmp/fhir-v5-critic-diagnosis/deep_census.json": {
+      "sha256": "c91025e699899ca80d21352ec602f9036bf4a6ecd9f26486ba3b428bb2f082c5",
+      "bytes": 5104
+    },
+    "/private/tmp/fhir-v5-critic-diagnosis/joined_trajectories.json": {
+      "sha256": "1f87c74afde18cab7c70beca3a3229d66d8e5fb81a081e04423c654075cade6f",
+      "bytes": 6059027
+    },
+    "/private/tmp/fhir-v5-critic-diagnosis/summary.json": {
+      "sha256": "e871380d1b8450fff6953a63b1c1909403340a6be3ce1bd3c1a4d28ace84355e",
+      "bytes": 67355
+    },
+    "/private/tmp/fhir-v5-critic-diagnose.py": {
+      "sha256": "4fc9ba19516196f15b9eea0926f605ed03c1ba4ec4b07194cb4cfef89e187db3",
+      "bytes": 5812
+    },
+    "/private/tmp/fhir-v5-critic-deep-census.py": {
+      "sha256": "ede7f31d771a306241f980add00ccc3f3a6c202b1941c72034bd4a928df07bd4",
+      "bytes": 5796
+    },
+    "/private/tmp/fhir-v5-critic-diagnosis/source_proof.json": {
+      "sha256": "5caac7ad118a9557a19274244f91dbd285fe7a22beaca8db20391394a5a42780",
+      "bytes": 3037
+    }
+  },
+  "headline": {
+    "official_single_correct": 237,
+    "official_team_correct": 225,
+    "source_valid_wrong": 64,
+    "wrong_model_keep_or_unknown": 49,
+    "wrong_mechanical_or_probe_barriers": 15,
+    "paired_team_wins": 10,
+    "paired_team_losses": 22,
+    "critic_accepted_repairs": 0,
+    "rejected_answer_changing_patch": 0,
+    "critic_stage_credit_loss": 0
+  }
+}

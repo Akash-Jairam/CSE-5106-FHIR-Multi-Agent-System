@@ -1,0 +1,395 @@
+{
+  "status": "PASS_ENDPOINT_RECONCILIATION",
+  "scope": "Completed fixed300 V5 only; protected1397/full QA not opened",
+  "helper_sha256": "cc9ff46870b50959d874523db1739b49889b85ae4d39bae27a6a031da55d130f",
+  "completion_report_sha256": "7c80f4a6784fb8e141ad2a8b7b2e93357469789768b55a09631d67696a620289",
+  "official_results_sha256": "1aa4ab40423063305e64378ce36ed62ef282b3ac766533fd590ff6eb3f642d4c",
+  "raw_team_sha256": "b1f4d84fcc87d4460b84106e38f45069c1ad73e1624ae5faf4cbb05ea9a956b4",
+  "manifest_sha256": "0e6f2ed6c8f5cefd07b68bb022c67ab87219a39a8b5bdd1f3960f4a6cdef9d2c",
+  "source_sha256": {
+    "scripts/compare_runs.py": "607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c",
+    "utils/answer_scorer.py": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "agent/executable_critic_agent.py": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+    "agent/query_contract_agent.py": "e8466ca0b0df4378289357f677af3bf22718d855643245edac9aced3c5de9ae6",
+    "agent/single_agent.py": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+    "agent/framework.py": "4ab01c58ec6ab1e39db4633033884ea0cbb0f82301f4e4eded9d4d861dcb12c8",
+    "tools/field_check.py": "53345095c1e489185ff9b280034999c4225748d4c88bc9df939960f3119457c5"
+  },
+  "formal_mechanism_helper_sha256": "cb7eb53b4236ebfb0a8fe9ac75412fdda13e431e9f7a4c06047280c1d2ff1551",
+  "formal_mechanism_summary_sha256": "e187cfebc4869faf5a9c66e800f597d3c9135805038d92d5790da4951fd42d8f",
+  "formal_mechanism_rows_sha256": "d858dbc6a707c95148d359ce4c15d838defb9017a22f27e5da77643b7128d13f",
+  "definitions": {
+    "official": "draft answer -> final released answer over all present draft dicts; generic revised flag is labeled semantic_repairs",
+    "solver_source_effect": "draft answer -> computed primary answer only when solver_source_revised; no source-release assertion",
+    "critic_effect": "accepted executed/source-checked critic replacement; zero in this run"
+  },
+  "counts": {
+    "correct": 225,
+    "drafts": 298,
+    "draft_correct": 224,
+    "primary_artifacts": 297,
+    "primary_correct": 228,
+    "solver_source_revised": 23,
+    "critic_accepted": 0,
+    "wrong_to_right": 4,
+    "right_to_wrong": 5,
+    "semantic_repairs": 23
+  },
+  "draft_shapes": {
+    "answer|evidence|limitation": 298,
+    "NoneType": 2
+  },
+  "externalized_field_sets": {
+    "trace,retrieved_fhir_resources": 300
+  },
+  "all_300_revision_metadata_inline": true,
+  "transition_partition": {
+    "source_revised_23": {
+      "draft_to_primary_helpful": 5,
+      "draft_to_release_helpful": 4,
+      "draft_to_primary_neutral": 18,
+      "draft_to_release_neutral": 14,
+      "draft_to_release_harmful": 5
+    },
+    "not_source_revised_277": {
+      "draft_to_primary_neutral": 274,
+      "draft_to_release_neutral": 275,
+      "draft_to_primary_unavailable": 3,
+      "draft_to_release_unavailable": 2
+    }
+  },
+  "missing_draft_records": [
+    {
+      "question_id": "0a43e2fe814473ab9035db70",
+      "draft_type": "NoneType",
+      "release_typed_correct": true,
+      "released_answer_is_none": true
+    },
+    {
+      "question_id": "cdf6333e8b6736879a871a9a",
+      "draft_type": "NoneType",
+      "release_typed_correct": true,
+      "released_answer_is_none": true
+    }
+  ],
+  "six_computed_correct_primaries_withheld": [
+    {
+      "question_id": "2d7404fcfff0b855a4fb2fe9",
+      "draft_correct": false,
+      "primary_correct": true,
+      "released_correct": false,
+      "solver_source_revised": true,
+      "release_policy": "primary_failed_execution_or_source_contract",
+      "released_answer_is_none": true,
+      "critic_recorded": false,
+      "phase_fatal": false,
+      "recorded_final_check_issue_categories": {
+        "encounter_link": 2
+      },
+      "citation_status_counts": {
+        "valid": 6
+      },
+      "citation_warning_categories": {
+        "encounter_link": 2
+      },
+      "unresolved_scope_count": 0,
+      "unresolved_by_type_and_reason": {},
+      "unresolved_cited_overlap": 0,
+      "unresolved_contributing_overlap": 0,
+      "held_parent_link_witnesses": [
+        {
+          "evidence_index": 2,
+          "child_type": "Specimen",
+          "child_has_direct_encounter": false,
+          "parent_witnesses": [
+            {
+              "resource_type": "Observation",
+              "reference_path": "specimen.reference",
+              "is_cited": true,
+              "is_contributing": true,
+              "direct_encounter_equals_scope": true,
+              "patient_equals_question_patient": true
+            }
+          ]
+        },
+        {
+          "evidence_index": 3,
+          "child_type": "Specimen",
+          "child_has_direct_encounter": false,
+          "parent_witnesses": [
+            {
+              "resource_type": "Observation",
+              "reference_path": "specimen.reference",
+              "is_cited": true,
+              "is_contributing": true,
+              "direct_encounter_equals_scope": true,
+              "patient_equals_question_patient": true
+            }
+          ]
+        }
+      ],
+      "cited_metadata_linkage": [],
+      "audit_reference": {
+        "version": 2,
+        "codec": "json+gzip",
+        "path": "audit/9c6cb4524a96e20c00b278d5bfc1eb57f1014c857d1a5a6618988e8a3d93c930.json.gz",
+        "sha256": "9c6cb4524a96e20c00b278d5bfc1eb57f1014c857d1a5a6618988e8a3d93c930",
+        "fields": [
+          "trace",
+          "retrieved_fhir_resources"
+        ],
+        "question_id": "2d7404fcfff0b855a4fb2fe9"
+      }
+    },
+    {
+      "question_id": "75f06d4831e589b2c6c537f0",
+      "draft_correct": true,
+      "primary_correct": true,
+      "released_correct": false,
+      "solver_source_revised": true,
+      "release_policy": "primary_failed_execution_or_source_contract",
+      "released_answer_is_none": true,
+      "critic_recorded": false,
+      "phase_fatal": false,
+      "recorded_final_check_issue_categories": {
+        "source_scope": 1
+      },
+      "citation_status_counts": {
+        "valid": 2
+      },
+      "citation_warning_categories": {},
+      "unresolved_scope_count": 52,
+      "unresolved_by_type_and_reason": {
+        "Medication:unlinked_metadata": 52
+      },
+      "unresolved_cited_overlap": 0,
+      "unresolved_contributing_overlap": 0,
+      "held_parent_link_witnesses": [],
+      "cited_metadata_linkage": [
+        {
+          "metadata_type": "Medication",
+          "patient_owned_root_count": 5,
+          "has_cited_patient_owned_root": true,
+          "has_contributing_patient_owned_root": true
+        }
+      ],
+      "audit_reference": {
+        "version": 2,
+        "codec": "json+gzip",
+        "path": "audit/b211675b28cfe16c1e99b42962427fa89d9def02a0f136bdf1cc830815c34382.json.gz",
+        "sha256": "b211675b28cfe16c1e99b42962427fa89d9def02a0f136bdf1cc830815c34382",
+        "fields": [
+          "trace",
+          "retrieved_fhir_resources"
+        ],
+        "question_id": "75f06d4831e589b2c6c537f0"
+      }
+    },
+    {
+      "question_id": "8575a4d0318c42ed703a89a1",
+      "draft_correct": true,
+      "primary_correct": true,
+      "released_correct": false,
+      "solver_source_revised": true,
+      "release_policy": "primary_failed_execution_or_source_contract",
+      "released_answer_is_none": true,
+      "critic_recorded": false,
+      "phase_fatal": false,
+      "recorded_final_check_issue_categories": {
+        "source_scope": 1
+      },
+      "citation_status_counts": {
+        "valid": 2
+      },
+      "citation_warning_categories": {},
+      "unresolved_scope_count": 52,
+      "unresolved_by_type_and_reason": {
+        "Medication:unlinked_metadata": 52
+      },
+      "unresolved_cited_overlap": 0,
+      "unresolved_contributing_overlap": 0,
+      "held_parent_link_witnesses": [],
+      "cited_metadata_linkage": [],
+      "audit_reference": {
+        "version": 2,
+        "codec": "json+gzip",
+        "path": "audit/8bcb1d403c2de1c66e813fb0e522533c55a131bec0c758e55d6b6d46f9a79352.json.gz",
+        "sha256": "8bcb1d403c2de1c66e813fb0e522533c55a131bec0c758e55d6b6d46f9a79352",
+        "fields": [
+          "trace",
+          "retrieved_fhir_resources"
+        ],
+        "question_id": "8575a4d0318c42ed703a89a1"
+      }
+    },
+    {
+      "question_id": "b472da76f7e2b4d53f38f131",
+      "draft_correct": true,
+      "primary_correct": true,
+      "released_correct": false,
+      "solver_source_revised": true,
+      "release_policy": "primary_failed_execution_or_source_contract",
+      "released_answer_is_none": true,
+      "critic_recorded": false,
+      "phase_fatal": false,
+      "recorded_final_check_issue_categories": {
+        "source_scope": 1
+      },
+      "citation_status_counts": {
+        "valid": 3
+      },
+      "citation_warning_categories": {},
+      "unresolved_scope_count": 28,
+      "unresolved_by_type_and_reason": {
+        "Location:unlinked_metadata": 28
+      },
+      "unresolved_cited_overlap": 0,
+      "unresolved_contributing_overlap": 0,
+      "held_parent_link_witnesses": [],
+      "cited_metadata_linkage": [
+        {
+          "metadata_type": "Location",
+          "patient_owned_root_count": 1,
+          "has_cited_patient_owned_root": true,
+          "has_contributing_patient_owned_root": true
+        }
+      ],
+      "audit_reference": {
+        "version": 2,
+        "codec": "json+gzip",
+        "path": "audit/a0c4d2ed6acb78066c8469f24242ee47963e2ef6e3e786018b35a8f177943548.json.gz",
+        "sha256": "a0c4d2ed6acb78066c8469f24242ee47963e2ef6e3e786018b35a8f177943548",
+        "fields": [
+          "trace",
+          "retrieved_fhir_resources"
+        ],
+        "question_id": "b472da76f7e2b4d53f38f131"
+      }
+    },
+    {
+      "question_id": "bf1ccb5ac4a847d66be6bc96",
+      "draft_correct": true,
+      "primary_correct": true,
+      "released_correct": false,
+      "solver_source_revised": true,
+      "release_policy": "primary_failed_execution_or_source_contract",
+      "released_answer_is_none": true,
+      "critic_recorded": false,
+      "phase_fatal": false,
+      "recorded_final_check_issue_categories": {
+        "encounter_link": 1
+      },
+      "citation_status_counts": {
+        "valid": 4
+      },
+      "citation_warning_categories": {
+        "encounter_link": 1
+      },
+      "unresolved_scope_count": 0,
+      "unresolved_by_type_and_reason": {},
+      "unresolved_cited_overlap": 0,
+      "unresolved_contributing_overlap": 0,
+      "held_parent_link_witnesses": [
+        {
+          "evidence_index": 0,
+          "child_type": "Observation",
+          "child_has_direct_encounter": false,
+          "parent_witnesses": [
+            {
+              "resource_type": "Observation",
+              "reference_path": "hasMember[0].reference",
+              "is_cited": true,
+              "is_contributing": true,
+              "direct_encounter_equals_scope": true,
+              "patient_equals_question_patient": true
+            }
+          ]
+        }
+      ],
+      "cited_metadata_linkage": [],
+      "audit_reference": {
+        "version": 2,
+        "codec": "json+gzip",
+        "path": "audit/3f06170212d6f2eda95e118448420d8180e60aa857da4ef19bfeea3ca64a941f.json.gz",
+        "sha256": "3f06170212d6f2eda95e118448420d8180e60aa857da4ef19bfeea3ca64a941f",
+        "fields": [
+          "trace",
+          "retrieved_fhir_resources"
+        ],
+        "question_id": "bf1ccb5ac4a847d66be6bc96"
+      }
+    },
+    {
+      "question_id": "d594afe3713d185962186bc5",
+      "draft_correct": true,
+      "primary_correct": true,
+      "released_correct": false,
+      "solver_source_revised": true,
+      "release_policy": "primary_failed_execution_or_source_contract",
+      "released_answer_is_none": true,
+      "critic_recorded": false,
+      "phase_fatal": false,
+      "recorded_final_check_issue_categories": {
+        "encounter_link": 1
+      },
+      "citation_status_counts": {
+        "valid": 5
+      },
+      "citation_warning_categories": {
+        "encounter_link": 1
+      },
+      "unresolved_scope_count": 0,
+      "unresolved_by_type_and_reason": {},
+      "unresolved_cited_overlap": 0,
+      "unresolved_contributing_overlap": 0,
+      "held_parent_link_witnesses": [
+        {
+          "evidence_index": 4,
+          "child_type": "Observation",
+          "child_has_direct_encounter": false,
+          "parent_witnesses": [
+            {
+              "resource_type": "Observation",
+              "reference_path": "hasMember[0].reference",
+              "is_cited": true,
+              "is_contributing": true,
+              "direct_encounter_equals_scope": true,
+              "patient_equals_question_patient": true
+            }
+          ]
+        }
+      ],
+      "cited_metadata_linkage": [],
+      "audit_reference": {
+        "version": 2,
+        "codec": "json+gzip",
+        "path": "audit/2b3bf5edfe2027076b04be26b71047692a8785e864263520f5a4eeae3015f196.json.gz",
+        "sha256": "2b3bf5edfe2027076b04be26b71047692a8785e864263520f5a4eeae3015f196",
+        "fields": [
+          "trace",
+          "retrieved_fhir_resources"
+        ],
+        "question_id": "d594afe3713d185962186bc5"
+      }
+    }
+  ],
+  "prior_independent_delivery": {
+    "independent_verification.json": {
+      "path": "/private/tmp/fhir-v5-independent-score-wrmmao7a/independent_verification.json",
+      "sha256": "9f1e6cb21f96213fae5f5bc24060c07b8ff54fdb2d6fa0aa93ac8f4acff83624"
+    },
+    "verify_development.py": {
+      "path": "/private/tmp/fhir-v5-independent-score-wrmmao7a/verify_development.py",
+      "sha256": "2f98b61a214083c05e669c27e76867a511ed685518b31315d33c8a92e2d29e9e"
+    }
+  },
+  "limits": [
+    "Typed-correct computed answer does not certify complete search or valid semantic derivation. Recorded citation status valid establishes only the checked values, not answer correctness.",
+    "Three missing-direct-encounter citations have held cited/contributing patient-owned parents linking them to the scoped encounter. This is concrete evidence of a flat direct-link gate limitation, not an independent rerun of the full validator.",
+    "Three global unresolved metadata vetoes concern no cited/contributing record; ordinary per-citation checks have no warnings. This is evidence of a broad unrelated-metadata refusal, not permission to use unlinked records or infer complete negative search.",
+    "All six gzip records were independently owner/SHA/CRC restored; all600 had already passed the pinned completion guard. Only six were restored by this explanation script.",
+    "Official transitions are numerically consistent as end-to-end available-draft -> release outcomes; they are unsuitable for attributing critic repairs or isolating solver computed-answer changes. No official report/scorer/source edits."
+  ],
+  "model_FHIR_network_private_configuration_calls": 0
+}

@@ -1,0 +1,13 @@
+{
+  "copied_files": {
+    "/private/tmp/fhir-v5-critic-diagnosis/independent_diagnosis.md": "independent_critic_diagnosis.txt",
+    "/private/tmp/fhir-v5-critic-diagnosis/deep_census.json": "independent_critic_census.json",
+    "/private/tmp/fhir-v5-critic-diagnosis/summary.json": "independent_critic_summary.json",
+    "/private/tmp/fhir-v5-critic-diagnose.py": "independent_critic_diagnosis_source.py",
+    "/private/tmp/fhir-v5-critic-deep-census.py": "independent_critic_census_source.py",
+    "/private/tmp/fhir-v5-critic-diagnosis/source_proof.json": "independent_critic_source_proof.json"
+  },
+  "delivery_metadata_sha256": "75a212274bc8344a5be76775720ae2308e78943ff31c24d2070d75650781c865",
+  "large_joined_trajectories": "Remains local at the path and SHA recorded in delivery metadata; can be regenerated from the archived owned-gzip payloads. No additional inference is required.",
+  "reproduction": "Preserved scripts retain original absolute ROOT/R, RAW/REC and private OUT/O paths. Copy to a fresh temporary directory and adjust path bindings only for relocation; preserve exact-template/scorer/source checks and avoid overwriting frozen reports. Run diagnosis before deep census against the historical source and verified completed raw archive."
+}

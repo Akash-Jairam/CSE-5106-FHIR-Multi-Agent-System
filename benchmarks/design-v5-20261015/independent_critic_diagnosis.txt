@@ -1,0 +1,71 @@
+# Completed V5 critic diagnosis
+
+The zero-repair result is primarily a failure to produce actionable alternative answers, with additional protocol friction. It is not evidence that a final source-check gate rejected a batch of correct repairs: only one PATCH was ever proposed, its execution reproduced an already-correct answer/evidence/ID set exactly, and no critic candidate reached a source check. No concrete host implementation defect was found in these trajectories.
+
+This is post-terminal analysis of the exposed fixed300 only. The externally pinned completion report is PASS for all600 audits; official results are Single237 / Team225. Frozen critic source is e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7. The original source ZIP and six relevant current/archived public source files were checked against the frozen manifest. All300 Team gzip payloads were independently checked for compressed SHA, content SHA and owner before inspection; all334 model replies and97 charged tools reconcile with the completion guard. Scoring annotations use the unchanged frozen scorer with the exact fixed300 templates and match the formal helper on all282 critic-eligible rows. No protected confirmation QA, SQL, new model calls, retrieval or inference-source edits were used.
+
+## The actual funnel
+
+| Step | Count | Meaning |
+|---|---:|---|
+| Team first attempts |300|All retained, including ineligible/null outcomes|
+| Source-eligible primary; critic first call |282|No critic packet coverage skips|
+| First model KEEP / UNKNOWN |75 /102|177 stop before inspection|
+| First model INSPECT intent |104|8 fail exact anchor/channel validation|
+| Other first-response failure |1|Extra JSON data; no inspection|
+| Actual inspections |96|96 of97 tools|
+| Probe runtime failure |14|10 syntax errors,2 AttributeErrors,1 NameError,1 non-finite/non-JSON output|
+| Probe schema/fact rejection |30|15 observation-schema,12 answer-schema,2 missing concrete fields,1 non-identical source object|
+| Valid probes; second model call |52|All available replies retained|
+| Second KEEP / UNKNOWN |24 /27|51 decline to propose a patch|
+| PATCH / full alternate execution |1|True→true, identical evidence/IDs; rejected as no substantive effect|
+| Candidate source checks / released critic repairs |0 /0|Final source acceptance was never the bottleneck|
+
+All282 packets fit intact: first-prompt tokens min2052, median3267.5, max4580, below5500. There were no critic accounting/provider losses, cap violations, hidden/unrecorded critic calls, or critic-stage credit losses. Reported first completions ranged31–869 tokens and second completions44–876, so observed failures are not explained by reaching the1800/4000 completion caps.
+
+Engineering packet fit is different from semantic information coverage. The first packet contains exact original context, executable final code, ledger/completeness, hashes and one sample record per resource kind. It does **not** contain the actual computed primary answer/evidence or its selected-record trace. The critic can inspect the full frozen workspace once, but must first formulate a concrete discrepancy from that sparse view. This creates a substantial information/admission burden. In the129 final UNKNOWN reasons, a nonexclusive text census finds67 mentions of preview/visibility limits and80 of missing scope/completeness/establishment; these are overlapping markers, not independently adjudicated causal categories. Twenty-four packets have empty retrieval ledgers/completeness;126 have no explicit current-time value. Those absences do not themselves prove the primary wrong.
+
+## Where the wrong answers and paired differences went
+
+| Final critic disposition |All282 eligible|64 source-valid typed-wrong|10 Team wins over Single|22 Team losses to Single|
+|---|---:|---:|---:|---:|
+| First UNKNOWN |102|19|5|6|
+| First KEEP |75|8|2|5|
+| First JSON/anchor rejection |9|6|0|2|
+| Probe unusable |30|6|2|2|
+| Probe execution failed |14|3|0|1|
+| Second UNKNOWN |27|15|1|2|
+| Second KEEP |24|7|0|1|
+| No-effect PATCH |1|0|0|0|
+| Critic never reached |18 outside denominator|0|0|3|
+
+Of the64 eligible wrong primaries,49 (76.6%) end in model KEEP/UNKNOWN and15 (23.4%) hit a mechanical/probe barrier. Of22 paired losses,3 are upstream ineligible,14 are model dispositions, and5 are mechanical/probe barriers. All10 paired wins are preserved; two of those also encounter probe-schema rejection. Critic-stage effect is neutral for all282 eligible primaries. The18 ineligible rows, including later withholding of computed-correct primaries, must not be attributed to the critic.
+
+The optimistic ceiling for fixing *all observed first-response/probe barriers alone* is15 additional correct answers, before assuming that a subsequent model would actually propose correct patches, that the source gate would accept them, or that newly enabled edits would avoid harming correct cases. That would require every such wrong case to improve with zero collateral loss just to reach240. Only five of the22 contemporary paired losses fall in this group. Counts therefore do not support calling a schema-only update sufficient. Answer representation errors (for example a list carrying the right numeric content when the frozen scorer expects a scalar) are a different issue from protocol JSON formatting; they can occur among KEEP/UNKNOWN cases too.
+
+## What the host rejected, and what that means
+
+The30 unusable probes are real interface friction. Fifteen produce at least one observation value larger than1024 JSON characters; one also duplicates an observation name. The12 answer-schema rejects include8 empty fact lists,3 lists exceeding16 facts, and one other case with no observations (conditions can overlap). Requiring a positive immutable fact deliberately excludes pure absence/context-only witnesses. That restriction is broader than malformed JSON, and can suppress a relevant inspection even when its summary is informative.
+
+The three fact-validation failures are consistent with the declared contract: two cite absent fields as if they were explicit nulls; another reconstructs a `code` object with an extra `text:null` member that the immutable source does not contain. The eight anchor failures divide into three exact quotes in the wrong original channel and five quotes absent from original question/assumptions, often taken from shared system guidance. These are model/protocol provenance failures, not evidence of the host misreading a valid original anchor.
+
+There is no observed rejected **answer-changing PATCH** that can be called a correct missed repair. Some rejected *inspections* have relevant hypotheses, but no validated alternative answer follows in the saved trajectory. The distinction matters: relaxing their formatting gates changes which counterfactual conversation could happen; it does not turn their current observations into completed repairs.
+
+Representative retained cases, described as mechanisms rather than a case-specific fix list:
+
+|Owned fixed300 ID; gzip path; trace index|Question obligation and observed mechanism|
+|---|---|
+|`2e778bf667b5fbe90f44ef33`; `audit/8a8e8f45356f9a7cad12eba905b1e1818a498c7417d020d090eed73c92c5de10.json.gz`; first19, second23, final-tool25|Medication existence: critic discovers additional matching referenced medications and proposes broader name resolution. Original answer is already true. The alternate still returns true and copies exactly the original evidence/IDs. Host correctly rejects a no-effect change; it is not a missed accuracy gain.|
+|`383586ac765d783e5374a6c0`; `audit/236eba582752ebced413077271987f160e1b5c1596ac606fb11c736998ad7590.json.gz`; first25, probe27|First prescription: critic identifies authored-time versus prescription-start ordering. The executed probe returns62 scoped requests and an8-row comparison, with a1360-character observation; it is rejected at1024. This is a relevant lost inspection, but the saved sample does not establish the full tied-answer set or an executed corrected final.|
+|`7e6b0e29fe9f32760b7fcfc5`; `audit/824a053b950af34e9253434a2119657b7bef74b558443c826154b922a53e2fde.json.gz`; first22|Organism names from a selected test: first program returns one linked finding; critic raises member-role/selection concerns but anchors to shared semantic guidance under `assumptions`, where the quote is absent. No inspection occurs. The critique may be useful, but there is no completed correct proposal to release.|
+|`3e4b52c69a2bdf36e4f03676`; `audit/00bbac9ad22792e8beaf2747de47efe518335fa9822022e41b3723a410adde47.json.gz`; first23|Requested marital-status value: primary returns source code `S`, reference expects `SINGLE`. Critic KEEP praises direct source access and scope. Accurate source provenance does not resolve the requested answer representation.|
+|`a903f7427fcbfe8c1598e7c7`; `audit/dd7ed661e7cd183262b345c545e800c3283cdf4ac021a891b7903cba423b78c1.json.gz`; first34, probe36, second38|Name of last specimen test: critic validates a specimen-linked Observation and keeps `URINE CULTURE`, while reference is `URINE`. This illustrates an unresolved output-entity interpretation despite a valid executed probe, not a source-fact failure.|
+|`bbd3ab3b5e2878e0c7d8dc79`; `audit/5fae6add99bd85472a643d148812272ae916e8527d9ec6048baf22c7d8a8f879.json.gz`; first22, probe24|Maximum lymphocyte value: critic questions the primary's exact label/unit restriction, but its generated inspection has an unmatched brace. No usable witness or replacement is produced, so its plausible concern cannot be counted as a recovered answer.|
+
+## Modest comparison with the contemporary Single policy
+
+V5 preserves a **V3 LedgerSolver** primary, not the exact fresh SingleAgent policy. They share the Single system/semantic guidance and core computation/source checking, but differ before the critic: LedgerSolver has175k/27 (25 model-requested tools plus two host checks),20 real model calls/22 host slots, per-call remaining-budget/finalize guidance, mandatory explicit final execution from the first turn, early host transition once an executed candidate is ready, and scoped/deferred retrieval bookkeeping with unresolved-scope vetoes. Fresh Single has200k/30,30 iterations, a later model continuation after a tool batch, and a prose-final fallback until explicit-final mode has been required. V5 additionally gates the returned primary on explicit artifact/source/scope conditions. These differences are plausible contributors to divergent primaries and withheld answers, but this paired run does not isolate their causal contributions. The critic itself changes neither accuracy nor releases in this completed run.
+
+The broad lesson is to test a mechanism that can obtain and compare substantive candidate behavior under matched resources, rather than infer that a stronger final acceptance rule or a larger JSON tolerance will solve the semantic problem. Future work still needs a frozen development experiment and untouched question-disjoint confirmation; this analysis provides no new-patient/model/task evidence.
+
+Evidence files: `deep_census.json`, `joined_trajectories.json`, `summary.json`; reproduction scripts `/private/tmp/fhir-v5-critic-diagnose.py` and `/private/tmp/fhir-v5-critic-deep-census.py`. Initial empty-template exploratory scoring was discarded; all correctness statements above are checked against exact-template formal rows. Detailed joined files contain only already-exposed fixed300 material and remain private temporary diagnostics.

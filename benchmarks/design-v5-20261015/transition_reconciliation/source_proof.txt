@@ -1,0 +1,167 @@
+scripts/compare_runs.py
+35: def scoring_row(row):
+36:     """Keep first-attempt scoring data without retaining multi-GB raw audits."""
+37:     keys = ("question_id", "patient_fhir_id", "agent_answer", "tokens", "latency", "error", "budget")
+38:     compact = {key: row.get(key) for key in keys}
+39:     revision = row.get("revision")
+40:     if isinstance(revision, dict):
+41:         draft = revision.get("draft")
+42:         compact["revision"] = {"draft": {"answer": draft.get("answer")} if isinstance(draft, dict) else None,
+43:                                "revised": revision.get("revised")}
+44:     history = row.get("attempt_history")
+45:     if history is not None:
+
+scripts/compare_runs.py
+158:         transitions = {"wrong_to_right": 0, "right_to_wrong": 0, "draft_correct": 0,
+159:                        "drafts": 0, "semantic_repairs": 0}
+160:         for qid in sorted(expected):
+161:             row = first_attempt(indexed[qid])
+162:             revision = row.get("revision") or {}
+163:             draft = revision.get("draft")
+164:             if not isinstance(draft, dict):
+165:                 continue
+166:             ref = references[qid]
+167:             draft_correct = score_answer(draft.get("answer"), ref["true_answer"],
+168:                                          ref["question"], ref["template"])["typed_correct"]
+169:             final_correct = next(r["correct"] for r in recs if r["question_id"] == qid)
+170:             transitions["drafts"] += 1
+171:             transitions["draft_correct"] += draft_correct
+172:             transitions["wrong_to_right"] += not draft_correct and bool(final_correct)
+173:             transitions["right_to_wrong"] += bool(draft_correct) and not final_correct
+174:             transitions["semantic_repairs"] += bool(revision.get("revised"))
+
+benchmarks/design-v5-20261015/fhir_v5_critic_mechanisms.py
+63: def artifact(value):
+64:     return isinstance(value,dict) and not value.get('error') and all(k in value for k in
+65:         ('answer','evidence','operation','contributing_ids','limitation'))
+66: 
+67: 
+68: def transition(before,after,applicable=True):
+69:     if not applicable: return 'not_applied'
+70:     if before is None or after is None: return 'unavailable'
+71:     return 'helpful' if not before and after else 'harmful' if before and not after else 'neutral'
+72: 
+
+benchmarks/design-v5-20261015/fhir_v5_critic_mechanisms.py
+131: def row_record(row,score):
+132:     """score(answer) is injected; reference labels never enter the runtime."""
+133:     revision=row.get('revision') if isinstance(row.get('revision'),dict) else {}
+134:     critic=revision.get('critic') if isinstance(revision.get('critic'),dict) else None
+135:     phases=revision.get('phases') if isinstance(revision.get('phases'),list) else []
+136:     phases={p['phase']:p for p in phases if isinstance(p,dict) and isinstance(p.get('phase'),str)}
+137:     primary=revision.get('primary');draft=revision.get('draft');final=revision.get('final')
+138:     def candidate(value,full=False):
+139:         if not isinstance(value,dict) or 'answer' not in value or (full and not artifact(value)):return None
+140:         return bool(score(value['answer'])['typed_correct'])
+141:     final_scored=score(row.get('agent_answer'));terminal=failed(row)
+142:     correct=bool(not terminal and final_scored['typed_correct'])
+143:     primary_correct=candidate(primary,True);draft_correct=candidate(draft)
+144:     policy=revision.get('release_policy');primary_revision=revision.get('primary_revision') or {}
+145:     fatal=any(bool(p.get('fatal')) for p in phases.values())
+146:     tokens=row.get('tokens') if isinstance(row.get('tokens'),dict) else {}
+147:     calls=tokens.get('per_call')
+148:     usage='metadata_unavailable' if not isinstance(calls,list) or not calls else (
+149:         'recorded_known' if all(isinstance(c,dict) and c.get('usage_available') is True for c in calls) else 'recorded_unknown')
+150:     matches=isinstance(final,dict) and all(k in final for k in ('answer','evidence','limitation')) and same(
+151:         {k:final[k] for k in ('answer','evidence','limitation')},
+152:         {'answer':row.get('agent_answer'),'evidence':row.get('evidence'),'limitation':row.get('limitation')})
+153:     source_valid=bool(not terminal and not fatal and usage=='recorded_known' and policy in CLEAN
+154:         and revision.get('final_check_issues')==[] and not revision.get('unresolved_scope') and artifact(final) and matches)
+155:     precritic_valid=bool(artifact(primary) and primary_revision.get('final_check_issues')==[]
+156:         and not revision.get('unresolved_scope') and not phases.get('solver',{}).get('fatal')
+157:         and policy in CLEAN|{'aggregate_accounting_failed'} and 'critic' in phases)
+158:     accepted=bool(source_valid and precritic_valid and policy=='executed_source_checked_critic_proposal'
+159:         and critic and critic.get('status')=='released' and revision.get('critic_revised') is True)
+160:     source_revised=bool(revision.get('solver_source_revised'))
+
+benchmarks/design-v5-20261015/fhir_v5_critic_mechanisms.py
+170:         'draft_present':isinstance(draft,dict) and 'answer' in draft,'draft_typed_correct':draft_correct,
+171:         'primary_artifact_present':artifact(primary),'primary_typed_correct':primary_correct,
+172:         'primary_is_actual_null':artifact(primary) and primary['answer'] is None,
+173:         'final_candidate_typed_correct':candidate(final),'source_valid_release':source_valid,
+174:         'precritic_source_valid_primary':precritic_valid,'release_policy':policy,
+175:         'critic_accepted_repair':accepted,'critic_semantic_repair_effect':transition(primary_correct,correct,accepted),
+176:         'critic_stage_effect':transition(primary_correct,correct,precritic_valid),
+177:         'critic_stage_primary_credit_lost':precritic_valid and primary_correct is True and not correct,
+178:         'critic_stage_nonrepair_credit_lost':precritic_valid and primary_correct is True and not correct and not accepted,
+179:         'solver_source_revised':source_revised,
+180:         'solver_source_revision_effect':transition(draft_correct,primary_correct,source_revised),
+
+agent/executable_critic_agent.py
+504:         result = solver._run(question)
+505:         self.messages.extend(solver.messages)
+506:         phases = [phase.report()]
+507:         workspace = deepcopy(result.get("retrieved_fhir_resources", {}))
+508:         artifact = deepcopy(solver.final_computation)
+509:         primary = solver._computed_candidate(workspace)
+510:         previous = result.get("revision") or {}
+511:         draft = previous.get("draft") or primary
+512:         issues = previous.get("final_check_issues")
+513:         unresolved = deepcopy(solver._scoped_box.scope_failures if solver._scoped_box else {})
+514:         common = {"protocol": PROTOCOL, "primary": primary, "primary_revision": previous,
+515:                   "draft": draft, "phases": phases, "retrieval_ledger": deepcopy(solver.retrieval_ledger),
+516:                   "complete_types": sorted(solver.complete_types()), "unresolved_scope": unresolved,
+517:                   "solver_source_revised": bool(previous.get("revised")), "critic_revised": False,
+518:                   "targeted_revised": False, "check_issues": previous.get("check_issues"),
+519:                   "context_compactions": deepcopy(self.context_compactions)}
+520:         if (phase.fatal or result.get("error") or primary is None or primary.get("error")
+521:                 or issues != [] or unresolved or artifact is None):
+522:             final = {"answer": None, "evidence": [], "limitation": result.get("limitation") or
+523:                      "No source-validated explicit final computation"}
+524:             return {**result, **final, "trace": self.messages, "revision": {**common, "final": final,
+525:                 "revised": bool(previous.get("revised")), "answer_changed": bool(draft and draft.get("answer") is not None),
+526:                 "final_check_issues": issues or [{"type": "execution_contract", "action": final["limitation"]}],
+527:                 "release_policy": "primary_failed_execution_or_source_contract"}}
+
+agent/query_contract_agent.py
+160:                 "tool_calls": self.parent.tool_calls_made - self.start_tools,
+161:                 "errors": list(self.errors), "fatal": self.fatal}
+162: 
+163: 
+164: class ScopedLedgerToolbox(Toolbox):
+165:     """Retain unresolved original records until later source context can bind them.
+166: 
+167:     Recovery retries the unchanged shared patient/time validator against original
+168:     fetched records; it does not infer ownership or dates from auditor claims.
+169:     Known other-patient/future exclusions are outside the requested source scope.
+170:     Unknown ownership/time cannot establish search completeness or absence.
+171:     """
+172:     def __init__(self, *args, **kwargs):
+173:         super().__init__(*args, **kwargs)
+174:         self.originals = {}
+175: 
+176:     def _in_scope(self, records):
+177:         for record in records:
+178:             self.originals[f"{record['resourceType']}/{record['id']}"] = deepcopy(record)
+179:         return self._validate_scope(records)
+180: 
+181:     def _validate_scope(self, records):
+182:         kept, excluded = super()._in_scope(records)
+183:         kept_ids = {f"{record['resourceType']}/{record['id']}" for record in kept}
+184:         # Patient-linked closure can arrive before its ownership roots are held.
+185:         # HTTP completion alone cannot certify that this held metadata is usable.
+186:         for record in records:
+187:             key = f"{record['resourceType']}/{record['id']}"
+188:             if record["resourceType"] in {"Medication", "Location"} and key not in kept_ids:
+189:                 self.scope_failures[key] = "unlinked_metadata"
+190:         return kept, excluded
+
+agent/query_contract_agent.py
+249:         result = super()._check(citations, encounter_id)
+250:         unresolved = self._scoped_box.scope_failures if self._scoped_box else {}
+251:         if unresolved:
+252:             result["issues"].append("source_scope: unresolved patient/time binding for fetched records: " +
+253:                                    "; ".join(f"{key}={reason}" for key, reason in sorted(unresolved.items())))
+254:             result["unresolved_scope"] = deepcopy(unresolved)
+255:         return result
+
+tools/field_check.py
+340: 
+341:     if encounter_id and rtype not in ("Patient", "Medication", "Location"):
+342:         linked = _ref_id(resource.get("encounter") or resource.get("context"))
+343:         parent = _ref_id((get_cited_resource(resources, "Encounter", linked) or {}).get("partOf"))
+344:         if rtype == "Encounter":
+345:             linked, parent = rid, _ref_id(resource.get("partOf"))
+346:         if encounter_id not in (linked, parent):
+347:             result["warnings"].append(f"encounter_link: the resource belongs to Encounter/{linked or '?'}, "
+348:                                       f"not the scoped Encounter/{encounter_id}")

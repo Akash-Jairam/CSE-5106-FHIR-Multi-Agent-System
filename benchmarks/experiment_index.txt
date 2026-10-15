@@ -128,8 +128,24 @@ live interface check had five successful SDK calls and preserved its source-vali
 primary after INSPECT then UNKNOWN; it was not accuracy-scored or separately
 entered as an experiment. Protected confirmation questions remain unqueried.
 Scheduled: fresh single 300 + team 300 first attempts, one worker per arm, gzip.
-Status: RUNNING — paired first attempts launched 15 October ~05:40 UTC after
-reviewed prelaunch PASS and pushed freeze810a4f6. No partial accuracy inspected.
+Status: COMPLETE — acceptance failed. All 300 first attempts per arm retained.
+Paired jobs launched 15 October ~05:40 UTC after reviewed prelaunch PASS and
+pushed freeze810a4f6; both terminal by 07:14:42 UTC. No partial accuracy inspected.
+Team 225/300 (75.0%) versus fresh single 237/300 (79.0%); paired -4.0 pp,
+patient-block 95% interval [-8.06, -0.29], ten wins/22 losses. Independently
+recomputed against all 300 first attempts, including one single SDK timeout.
+All 600 gzip audits, 161 frozen source files and four runtime files verified;
+3,552 matched SDK requests: 3,551 successes and one timeout/unknown usage.
+282 source-valid primaries, 334 critic model replies, 97 critic tools, one
+proposed patch and zero released critic repairs. The critic changed no primary
+answer; 64 source-valid releases were typed wrong. Solver source feedback made
+23 revisions: draft-to-computed-primary effects were five helpful/18 neutral;
+draft-to-released-final effects were four helpful/14 neutral/five harmful.
+Six typed-correct computed primaries were later withheld by release gates.
+These are solver/source-release effects, distinct from critic repair.
+Three team phase-local refusals occurred despite zero aggregate team stops.
+No main promotion or full launch. Exact source, official results, restored
+mechanisms, independent verification and safe archive hashes are recorded.
 Guard pins SHA256 38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50.
 Predeclared development gate: team >239 AND >fresh contemporary single.
 A development win does not establish patient, model or other-task generalization.

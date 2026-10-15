@@ -1,0 +1,98 @@
+{
+  "status": "PASS_ENDPOINT_RECONCILIATION",
+  "counts": {
+    "correct": 225,
+    "drafts": 298,
+    "draft_correct": 224,
+    "primary_artifacts": 297,
+    "primary_correct": 228,
+    "solver_source_revised": 23,
+    "critic_accepted": 0,
+    "wrong_to_right": 4,
+    "right_to_wrong": 5,
+    "semantic_repairs": 23
+  },
+  "partition": {
+    "source_revised_23": {
+      "draft_to_primary_helpful": 5,
+      "draft_to_release_helpful": 4,
+      "draft_to_primary_neutral": 18,
+      "draft_to_release_neutral": 14,
+      "draft_to_release_harmful": 5
+    },
+    "not_source_revised_277": {
+      "draft_to_primary_neutral": 274,
+      "draft_to_release_neutral": 275,
+      "draft_to_primary_unavailable": 3,
+      "draft_to_release_unavailable": 2
+    }
+  },
+  "missing_drafts": [
+    {
+      "question_id": "0a43e2fe814473ab9035db70",
+      "draft_type": "NoneType",
+      "release_typed_correct": true,
+      "released_answer_is_none": true
+    },
+    {
+      "question_id": "cdf6333e8b6736879a871a9a",
+      "draft_type": "NoneType",
+      "release_typed_correct": true,
+      "released_answer_is_none": true
+    }
+  ],
+  "cases": [
+    {
+      "qid": "2d7404fcfff0b855a4fb2fe9",
+      "issues": {
+        "encounter_link": 2
+      },
+      "unresolved": 0
+    },
+    {
+      "qid": "75f06d4831e589b2c6c537f0",
+      "issues": {
+        "source_scope": 1
+      },
+      "unresolved": 52
+    },
+    {
+      "qid": "8575a4d0318c42ed703a89a1",
+      "issues": {
+        "source_scope": 1
+      },
+      "unresolved": 52
+    },
+    {
+      "qid": "b472da76f7e2b4d53f38f131",
+      "issues": {
+        "source_scope": 1
+      },
+      "unresolved": 28
+    },
+    {
+      "qid": "bf1ccb5ac4a847d66be6bc96",
+      "issues": {
+        "encounter_link": 1
+      },
+      "unresolved": 0
+    },
+    {
+      "qid": "d594afe3713d185962186bc5",
+      "issues": {
+        "encounter_link": 1
+      },
+      "unresolved": 0
+    }
+  ],
+  "prior_independent_delivery": {
+    "independent_verification.json": {
+      "path": "/private/tmp/fhir-v5-independent-score-wrmmao7a/independent_verification.json",
+      "sha256": "9f1e6cb21f96213fae5f5bc24060c07b8ff54fdb2d6fa0aa93ac8f4acff83624"
+    },
+    "verify_development.py": {
+      "path": "/private/tmp/fhir-v5-independent-score-wrmmao7a/verify_development.py",
+      "sha256": "2f98b61a214083c05e669c27e76867a511ed685518b31315d33c8a92e2d29e9e"
+    }
+  }
+}

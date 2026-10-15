@@ -1,0 +1,32 @@
+{
+  "kind": "root_owned_process_terminal_observations",
+  "both_owned_jobs_terminal": true,
+  "accuracy_scored": false,
+  "arms": {
+    "ordinary_single_agent": {
+      "session_id": 12235,
+      "exit_code": 1,
+      "observed_utc": "2026-10-15T07:14:42Z",
+      "saved_first_attempts": 300,
+      "terminal_errors": 1
+    },
+    "ordinary_multi_agent": {
+      "session_id": 27660,
+      "exit_code": 0,
+      "observed_before_utc": "2026-10-15T06:56:23Z",
+      "saved_first_attempts": 300,
+      "terminal_errors": 0
+    }
+  },
+  "journal_at_utc": "2026-10-15T07:14:41.872908+00:00",
+  "journal": {
+    "starts": 3552,
+    "completed": 3552,
+    "successes": 3551,
+    "errors": 1,
+    "error_types": {
+      "openai.APITimeoutError": 1
+    }
+  },
+  "policy": "All first attempts retained; no selective retry or replacement. Single nonzero exit reports its saved per-row error after the complete 300 cohort."
+}
