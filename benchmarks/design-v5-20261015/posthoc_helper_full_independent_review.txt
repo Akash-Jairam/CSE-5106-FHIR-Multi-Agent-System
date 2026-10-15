@@ -1,0 +1,26 @@
+V5 completed-run mechanisms helper — full independent read-only review
+2026-10-15. No actual V5 results, scores, patient payloads, private configuration, models/FHIR/network or active runtime source were accessed. Only helper/source metadata, synthetic fixtures and temporary output were used.
+
+Disposition: PASS for post-terminal diagnostic use with the externally pinned real completion guard and official report. The original dedup incompatibility and destination-scope issues were corrected before this disposition.
+
+Final helper /private/tmp/fhir_v5_critic_mechanisms.py SHA256cb7eb53b4236ebfb0a8fe9ac75412fdda13e431e9f7a4c06047280c1d2ff1551
+Final tests /private/tmp/test_fhir_v5_critic_mechanisms.py SHA256081cf081f26ed3d4fb925b6c5fa392402eabfa32f86c76bcb85d60d55a95fcdd
+Updated packet /private/tmp/fhir-v5-mechanisms-revision-9cdcjexk/delivery-v2.json SHA2568338dc61787b4dfe8b05264360bf6236fb0a5be5519ba8713ccb0d480cdcfc8d
+Original source26191721…c532f, original24-test suite and original delivery were copied unchanged with hashes into that revision directory before edits. The original delivery path is historical, not the updated packet.
+
+Verification
+I read the complete helper and synthetic composition tests. Original24tests independently passed in3.928seconds. After the two narrow root-authorized fixes, all29 independently passed in5.315seconds. The author independently reviewed the delta and repeated all29 with before/after source hashes; /private/tmp/fhir-v5-mechanisms-dedup-independent-review.txt SHA25669b537ac63aae36bc20a6a0a17ba40a3f066030f3c23af2521ec96e3e8b1305d. Root separately repeated29. No real main invocation occurred.
+
+Trusted-boundary checks
+The helper requires explicit owned-job terminal confirmation, externally supplied SHA pins for completion proof, reviewed real guard, guard pins and official report, completion-mode integrity PASS,600 first-attempt restorations and matching frozen source/provider/input/cohort bindings. It rechecks the source inventory, all bound source/runtime archives, both ordered300-row arms/identities, raw/audit hashes and every referenced owned gzip through the pinned guard/store before importing the unchanged answer scorer. Official report paths, raw digests and identities must match the current two arms; typed totals are reconciled rather than substituted for the frozen official comparison.
+
+The corrected rule requires600 owned row restorations and a pinned integer unique-artifact count, with the actual reference union equal to that count. It does not demand600 distinct files. The new fixture demonstrates599 shared content-addressed files supporting600 valid row restorations, with an early terminal attempt retained in each arm. An inconsistent count still blocks scorer import.
+
+Diagnostics distinguish accepted critic edits from total critic-stage effects. The latter compare an actually retained precritic source-valid primary to the final outcome, including fatal accounting/provider loss without an accepted edit. Solver-source revisions remain separate. Missing primary/draft is unavailable, while an explicitly retained null is scored as null. Terminal errors override typed null credit. All300 team first attempts remain in the denominator. Source-valid release requires the clean policy, exact displayed three-field binding to the full final, no fatal phase/unknown usage/unresolved scope and final_check_issues=[]. Typed null/empty credit outside that support is reported separately. No Single execution-ancestry inference is attempted, avoiding the earlier three-field/five-field diagnostic mismatch.
+
+The corrected write boundary permits only the exact formal record diagnostics directory or a fresh absolute directory under /private/tmp outside the project root. Raw/source paths, existing paths, '..' escape components and symlink ancestors are rejected before verification reads. The boundary is rechecked before exclusive directory creation; no existing diagnostics or inference file is overwritten. Like ordinary path-based tools it is not an atomic filesystem attestation against a malicious concurrent ancestor swap.
+
+Tests and limitations
+The synthetic600-row composition fixture deliberately supplies a guard API double. It uses the actual public audit_store and unchanged scorer on newly generated synthetic gzip data; it tests this helper's trust-boundary wiring and corruption handling, not a replacement implementation of the real guard. Production must load the root-pinned reviewed real guard and its own source/pin metadata. The real guard has separate source/protocol/restoration tests; this review does not manufacture a live completion proof or prove provider availability.
+
+The helper reads reference fields only for scoring the completed fixed300 and exports no additional question population. It performs no inference, source re-fetch or code re-execution. Diagnostic source/phase facts are retained runtime records, not independent semantic proofs or new clinical verification. Results remain adaptively reused development evidence; they do not spend or establish the1397-question final confirmation stratum. Operational provider losses, accepted repair harms and baseline comparisons must remain distinct; aggregate mechanism associations do not alone prove causality.

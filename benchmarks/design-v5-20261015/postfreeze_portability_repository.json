@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/Zhe-Young/SelfCorrectDecompose",
+  "commit": "44e8634d139276766460dd5ab84ee5c7a3f83540",
+  "inspection": "Static primary-source review only; no execution, installation, model download, benchmark data upload, or data/log inspection.",
+  "source_sha256": {
+    "README.md": "922edbe328c582f6fab04717e61c7196d0ce643bb714e6da183a449b9505236b",
+    "analysis_sampling.py": "b1a6bcde643f770a1e7b0494878513f9acbd9bec0ecb78b93a1c93d9caa4fb74",
+    "analysis_logits.py": "77a8931691cba74b1d7897790974935f26df18eb7bad6d60031d4375c9ea8df7"
+  },
+  "applicability": "The logits evaluator uses probabilities unavailable in our benchmark interface. Existing first-attempt transition counts remain the appropriate descriptive evidence; no change to the running design or acceptance criterion."
+}

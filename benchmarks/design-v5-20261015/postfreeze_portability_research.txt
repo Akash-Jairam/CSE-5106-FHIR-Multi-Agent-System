@@ -1,0 +1,52 @@
+Supplementary portability research, 15 October 2026 UTC
+
+Timing and scope
+These sources were reviewed after V5 source freeze and launch. They did not
+change the running design, budgets, prompts, selection rule or protected cohort.
+This is supplementary interpretation and future evaluation guidance, not a
+retroactive rationale for the frozen intervention. No additional inference or
+cross-model experiment was performed.
+
+Yang et al., ACL 2025, Confidence v.s. Critique
+https://aclanthology.org/2025.acl-long.203/
+https://aclanthology.org/2025.acl-long.203.pdf
+The study separates retention of initially correct answers from correction of
+initially wrong ones, and finds different balances across model families.
+Equation 5 expresses final accuracy as initial accuracy times retention plus
+initial error rate times correction probability. Their prompt and training
+results do not establish that our source-grounded critic will transfer.
+Our inference: portability evaluation should report both transition directions
+alongside overall accuracy, rather than treating more edits as improvement.
+V5's post-terminal diagnostics already separate accepted edits, all critic-stage
+effects including fatal auxiliary failures, and solver source-feedback edits.
+Official first-attempt outcome totals remain authoritative.
+
+Kamoi et al., TACL 2024, critical survey of self-correction
+https://aclanthology.org/2024.tacl-1.78/
+The review distinguishes prompted model feedback from reliable external feedback
+and warns that evaluation conditions can overstate correction benefits.
+Our inference: the executed probe and source checks provide useful external
+observations, but do not supply a reliable oracle for natural-language intent.
+Source-valid repairs can remain wrong. Host provenance checks alone therefore
+cannot justify a generalization claim or an automatic semantic confidence score.
+
+Fu et al., arXiv:2606.05670v1, controlled workflow comparison
+https://arxiv.org/html/2606.05670v1
+The authors compare normalized single and multi-agent workflows across ten
+benchmarks with GPT-4.1; extra coordination generally fails to yield a consistent
+advantage. Their separate external runtime study has different causal limits.
+The paper explicitly describes one-run results and incomplete mechanism control;
+its code release was prospective in the version reviewed. It is evidence for
+careful matched comparisons, not a reproducible replacement for our controller
+or proof that any particular context/verification mechanism causes improvement.
+Our inference: keep model, tools, answer contract, accounting and logging aligned
+and report total costs and failure paths as well as accuracy.
+
+Transfer boundary
+V5's question/program/probe/patch procedure has no question-ID, template-ID,
+answer-key or model-name routing. The current FHIR workspace, citation checks,
+completeness checks and answer interface are task adapters. Transfer to another
+tool-supported QA task would require appropriate adapters and a new frozen
+evaluation. A different model can change parsing, correction, retention and
+resource behavior. The current run establishes neither other-model nor
+other-task gains, even if its development score is favorable.

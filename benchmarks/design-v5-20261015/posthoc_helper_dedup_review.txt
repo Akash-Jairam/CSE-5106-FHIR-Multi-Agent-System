@@ -1,0 +1,15 @@
+Independent narrow review of revised V5 posthoc helper: PASS
+
+Reviewed helper SHA256: cb7eb53b4236ebfb0a8fe9ac75412fdda13e431e9f7a4c06047280c1d2ff1551
+Reviewed tests SHA256: 081cf081f26ed3d4fb925b6c5fa392402eabfa32f86c76bcb85d60d55a95fcdd
+Reviewed delivery SHA256: 8338dc61787b4dfe8b05264360bf6236fb0a5be5519ba8713ccb0d480cdcfc8d
+Narrow patch SHA256: 6d6894ed2c5f880ea459d7ed96e2825277d051e3a9f7e7732db6aaba48a96506
+
+No blocking finding in the deduplication/output-containment changes.
+Deduplication preserves the requirement to restore all 600 question-owned rows and verify 300 completed first attempts per arm. The actual reference union must equal the externally pinned unique-file count; identical valid payloads can share a compressed file. This changes storage accounting, not the scoring denominator or acceptance policy.
+Destinations must be fresh absolute paths without .. or symlink ancestors, either the exact formal diagnostics directory or external /private/tmp space. Raw/source directories and existing destinations are rejected before data reads; containment is checked again before writes. This is ordinary filesystem validation, not an atomic defense against concurrent malicious parent replacement.
+All five added tests reviewed. Independent repeat: 29 tests PASS in 5.069 seconds. Helper, test and delivery hashes asserted before and after execution.
+Test log: /private/tmp/fhir-v5-mechanisms-dedup-independent-tests.log
+Test log SHA256: 88ceb36128c3b02969b330a4c45784dad202ba51e9f94e9de37e25c3affd8a65
+
+Synthetic fixtures only; no actual V5 run/result/score reads, inference, FHIR/config access, runtime edits, or new formal experiment record. Existing post-terminal completion-proof/official-result/scorer-import gates remain intact. The guard API double remains explicitly limited to synthetic composition tests.

@@ -1,0 +1,25 @@
+{
+  "scope": "Posthoc-only temporary helper; no actual V5 results/scoring/inference/source mutations",
+  "original_packet_preserved": "/private/tmp/fhir-v5-mechanisms-revision-9cdcjexk",
+  "original_sha256": {
+    "/private/tmp/fhir_v5_critic_mechanisms.py": "26191721515bbf0093e907acc0c1cde3835efce1c9345dbce263a14e067c532f",
+    "/private/tmp/test_fhir_v5_critic_mechanisms.py": "35ad01ba8f7f50044e4b4d816c1ffb1efa3d07feb676406ddd8993d51c4a24fa",
+    "/private/tmp/fhir_v5_critic_mechanisms_delivery.json": "69d41c468a08ce30a524a11fb7a1962f1182e09f1b0c0c83a3fb0c963e90a341"
+  },
+  "files": {
+    "/private/tmp/fhir_v5_critic_mechanisms.py": "cb7eb53b4236ebfb0a8fe9ac75412fdda13e431e9f7a4c06047280c1d2ff1551",
+    "/private/tmp/test_fhir_v5_critic_mechanisms.py": "081cf081f26ed3d4fb925b6c5fa392402eabfa32f86c76bcb85d60d55a95fcdd"
+  },
+  "patch": {
+    "path": "/private/tmp/fhir-v5-mechanisms-revision-9cdcjexk/dedup_output_containment.patch",
+    "sha256": "6d6894ed2c5f880ea459d7ed96e2825277d051e3a9f7e7732db6aaba48a96506"
+  },
+  "validation": {
+    "tests": 29,
+    "passed": 29,
+    "log": "/private/tmp/fhir-v5-mechanisms-independent-tests-revised.log",
+    "log_sha256": "7b21c4eb33705b269232288ff81163cfea013143eaa6875ecca006dd397738dc"
+  },
+  "destination": "Exact root/benchmarks/design-v5-20261015/diagnostics or a fresh absolute directory under /private/tmp outside root; no symlink ancestors or ..",
+  "change": "Require600 restored row-owned audits; pinned unique reference count may be<600 and must equal actual union. No scoring/acceptance logic changes."
+}
