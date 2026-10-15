@@ -69,6 +69,20 @@ saved errors cannot identify the original DNS/TLS/network/resource cause.
 See outcome.txt/results.json and the complete diagnostic/provenance records.
 Preserve all first attempts; add safe diagnostics before a fresh comparison.
 
+V3d — same semantic design with optional safe provider diagnostics
+Current branch: experiments/query-contract-v3; record: benchmarks/design-v3d-20261014
+Source commit: f00804f; 138 source files frozen before inference.
+All 57 agent/shared runtime source files equal V3c. Default SDK transport,
+request parameters, 60-second timeout, zero SDK retries and existing budgets
+are unchanged. The local adapter adds only a safe start/end/error journal.
+Fifteen offline regressions pass; missing personal setup skips that optional
+test module in public clones. Default-transport observer preflight succeeds
+once with 71 tokens and the same public provider profile; sustained recovery
+remains unproven. Independent prelaunch source/archive/settings audit passes.
+Scheduled: fresh 300 single + fresh 300 team, concurrent one-worker jobs,
+save1/gzip and per-process provider journals in a fresh output directory.
+Status: FROZEN, LAUNCH PENDING. No accuracy result is known.
+
 
 Selection and scoring
 

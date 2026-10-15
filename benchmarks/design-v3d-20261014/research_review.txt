@@ -1,0 +1,57 @@
+Independent read-only review of optional provider diagnostics, 2026-10-14.
+
+Reviewed adapter SHA256:
+41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf
+Reviewed initial eight-test source SHA256:
+12a8ea9f43583c01679f0885fb891f56eb92127e9fbbc7da3c7da0c9ecd0ef72
+
+No concrete blocking defect found in this candidate. The actual SDK default is
+native HTTPX2; make_client keeps numeric timeout60 and max_retries0, and the
+request-building path retains existing argument filtering and caller token cap.
+The journal does not install a replacement transport, close/recreate clients,
+retry failed calls, change usage accounting or alter SDK response conversion.
+
+Exception traversal is bounded to8 nodes with identity cycle detection, explicit
+cause precedence, and unsuppressed context fallback only. Class/MRO labels have
+length/character bounds; numeric codes require exact int. Arbitrary exception
+text, request/response payload, URLs, endpoint and credential values are absent
+from the record-building code. Request IDs are deliberately retained only from
+three named fields/headers and bounded ASCII syntax. Usage values are nonnegative
+exact ints orNone; absent HTTP status isNone, including parsed successful SDK
+completions lacking the raw response. FD collection counts numeric descriptor
+names without reading links or targets and closes each appended JSONL file.
+
+All eight initial offline tests independently pass. They block settings loading,
+DNS resolution and socket connects, use synthetic settings, and patch send on the
+actual native default client. Path mkdir/open logging failures preserve the
+returned result or identity of the original raised exception. Additional direct
+offline checks of cause precedence, suppressed/unsuppressed context and cycles
+also pass. Requested these cases as permanent regressions before packaging.
+
+Coverage limits: the client metadata describes the default _transport, not a
+certificate of which proxy mount handled a particular request. No live failure
+was reproduced. Pool state, historical FD highwater and source/profile bindings
+are not recorded per journal event; root's separate freeze manifests establish
+binding. Logging is best-effort, so missing/incomplete start/end pairs are possible
+and must not be interpreted as successful calls or known usage. Acquisition waits
+are bounded, but filesystem append latency has no deadline. This observer changes
+neither the selected SDK socket timeout nor any retry/transport setting.
+
+Only isolated source/tests were read; no configuration, provider/model, FHIR,
+network calls or actual benchmark scoring occurred. Active source was untouched.
+Final stable packet independently rechecked: fifteen offline tests pass, including
+permanent cause/context/suppression/cycle cases and additional metadata, write,
+descriptor and end-append failure cases. Adapter source is unchanged from review.
+Reconstructed baseline solely from the isolated unified patch and candidate:
+SHA256 matches base_identity.json (2f1c9e82...d0a225d). make_client and install
+function source is byte-identical; request dict and SDK create call ASTs match.
+No active source or credential configuration was read for this parity check.
+
+Final candidate disposition: no blocking issue found; ready for root's explicit
+optional-observer decision and fresh freeze. It remains isolated/unapplied.
+Patch: azure_diagnostic_journal.patch
+SHA256 e7a71ccf944fc1175c64203e33155312472a38c0391974e9996796e3723d4b64
+Final tests SHA256
+2d149c1da9ae229ee6b82b4b980b48af330a5183b9e6995b0997a290e48a1019
+Scope/limits SHA256
+49d53445cd8dff22822abcd4bd5bc65795d7c278097aa68ecb506ccf9fcc1ca3

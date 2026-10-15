@@ -1,0 +1,25 @@
+{
+  "base_commit": "a3d50ac1a727f5b6b1eb789781f026ee267669af",
+  "adapter_baseline_sha256": "2f1c9e82a8f7418bbe7976e3d9e974c0dbc60fbf7082fe68ee5fb0f9fd0a225d",
+  "isolated_directory": "/private/tmp/fhir-azure-diagnostic-journal-oxew8fen",
+  "status": "isolated_optional_diagnostics_not_applied",
+  "tests_passed": 15,
+  "test_suite": "tests.test_azure_diagnostic_journal",
+  "scope": "optional private runtime diagnostic journal only; no active source applied",
+  "environment_flag": "FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR",
+  "sdk_default_transport_preserved": true,
+  "make_client_and_install_byte_identical": true,
+  "request_dict_and_create_ast_identical": true,
+  "timeout_seconds": 60,
+  "sdk_retries": 0,
+  "client_resets_added": 0,
+  "models_network_fhir_config_calls": 0,
+  "artifact_sha256": {
+    ".local-setup/azure_adapter.py": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "tests/test_azure_diagnostic_journal.py": "2d149c1da9ae229ee6b82b4b980b48af330a5183b9e6995b0997a290e48a1019",
+    "adapter_journal.patch": "6bc8b9842675748d356ffd56e6c3c639a11a4cdd6379eae33f6d22cdbce86138",
+    "journal_tests.patch": "41b7737fc572c6cbbeb0a03916d6cc1a88a6c3878b9591bf9d1d5852402262e6",
+    "azure_diagnostic_journal.patch": "e7a71ccf944fc1175c64203e33155312472a38c0391974e9996796e3723d4b64",
+    "journal_model_free_tests.log": "e03dd1261d39ef5a1a6573b21c7147989360c1f1b287102c3911b8e020be9476"
+  }
+}

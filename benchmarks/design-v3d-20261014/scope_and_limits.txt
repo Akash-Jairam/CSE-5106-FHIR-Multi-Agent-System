@@ -1,0 +1,34 @@
+Optional Azure diagnostic journal; prepared only in this temporary directory.
+
+Enable with FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR pointing to a dedicated local
+output directory. Unset/empty leaves journaling dormant. Source make_client and
+install are byte-identical; default SDK transport, existing request dict/create
+call, timeout60, retries0, model output conversion and client reuse are preserved.
+No agent/shared/scorer code changes, resets, fallbacks or retries are added.
+
+Per-process JSONL records have paired start/end events, PID/PPID/session/counter,
+UTC timestamps, elapsed seconds, client/http/default-transport/pool class/MRO,
+SDK package versions and closed flags, descriptor COUNTS only, numeric usage,
+bounded exception class/errno/verify-code/flags, and fixed response ID whitelist:
+x-request-id, x-ms-request-id and apim-request-id. No messages, response content,
+request headers, exception text, tracebacks, configuration, endpoints or keys
+are recorded. Appends use closed handles; logging failures cannot change the
+SDK response or original raised exception. Cycles and suppressed contexts are
+handled. Missing usage/status is null, never asserted zero/HTTP200.
+
+Limits: logging is best effort. Process death can leave an unmatched start or
+partial line; filesystem failure may drop events. Completion records expose
+only SDK _request_id where available; successful HTTP status often is not
+available on the normal parsed SDK object, so remains null. No SDK raw-response
+method or response hook is added to obtain it. The default transport class is
+not proof of a selected proxy/mount route. FD counts are best-effort snapshots,
+not descriptor targets or proof of a leak. This records future failure evidence;
+it cannot recover the discarded causes of the completed V3c run, whose original
+cause remains unknown. Shared architecture and scorer remain unchanged, but
+root must freeze the new adapter/I/O identity before any new substantial run.
+
+Fifteen model-free tests pass using installed AzureOpenAI and its default
+HTTPX2 client with in-memory send/create patches. No socket/DNS/HTTP/model/FHIR
+or configuration calls were made. Tests verify exact request/outcome behavior,
+privacy, cause precedence/suppression/cycles, usage unknowns, closed appends,
+per-process pairing, and logging failures. This candidate is not applied.
