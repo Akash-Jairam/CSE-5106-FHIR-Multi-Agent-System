@@ -1,0 +1,31 @@
+{
+  "status": "PRIVATE_V2_DELIVERY_REQUIRES_ROOT_AND_INDEPENDENT_REVIEW",
+  "synthetic_protocol_tests_passed": 31,
+  "synthetic_lifecycle_tests_passed": 6,
+  "files": {
+    "v7_guard.py": "bf47aa9e9c84735b0a096acbb6d209776473fcb7e81e8cfa2e366576d90e1115",
+    "reviewed_v4_guard.py": "98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8",
+    "test_v7_guard_protocol.py": "db31ccc1b0a5b087588970fc689729295b54a28e1db5db5f390bf4a20945d8ae",
+    "test_v7_guard_lifecycle.py": "f151e53c0ae96511474ec466defdb2324f55b5fb70d3acdd3c6376dbcc44852f",
+    "protocol_tests.log": "6d7df9e24f352e146c1f8981bd3564800ac99c65c59fbe13eb653f9ef4c5d98f",
+    "lifecycle_tests.log": "a91c583dac0e08008e7f5f270516d6d7278ec2b6024401ed21c804fbc2ae3029",
+    "report.txt": "850a5ff7ebfcbddb2045d2ddfc1a8484a86bbdce9242ddca79d867d09a257d9d"
+  },
+  "reviewed_v6_guard_sha256": "49ec8be98372cbeaf9c9ab917d02fdf0bbbdce06471a8a0745a02aae9c485c18",
+  "unchanged_generic_helper_sha256": "98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8",
+  "read_public_v7_source_sha256": {
+    "agent/residual_trajectory_agent.py": "45de6a55d0d890d5d77b94810c7c067c2e34dc557b9e8441217b9dffecdae68e",
+    "agent/residual_trajectory_phase.py": "9e58261aefa65416a619927891dc5c653744e9286d591bf66cc539867afb5272",
+    "docs/design_v7_residual_trajectories_20261015.txt": "6313bcbc575b44cc2a5707eb3abb74de82270c5a3285f75b39ce65b1d303b6a7"
+  },
+  "model_calls": 0,
+  "FHIR_calls": 0,
+  "scoring_performed": false,
+  "actual_benchmark_outputs_read": false,
+  "protected_questions_read": false,
+  "repository_edits": false,
+  "version": 2,
+  "preserved_original_guard_sha256": "e0ba8a58e5f36c7db9e728b418601fccdce01aa52a8a78eb7c2b08c3ecf5db93",
+  "preserved_original_delivery_sha256": "f7c34c8d6b725ba0fa07b8912c126633e6243980553a02bff3534d57b5a3b99e",
+  "narrow_hardening": "four independently reproduced selected-B false positives plus prospective A-only acceptance metadata"
+}

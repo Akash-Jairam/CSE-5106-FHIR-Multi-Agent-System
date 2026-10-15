@@ -1,0 +1,93 @@
+--- original/v7_guard.py
++++ revised/v7_guard.py
+@@ -26,6 +26,8 @@
+ ENTRY_BYTES=32768
+ BOUNDARY_TOKENS=512
+ SELECTOR_COMPLETION=2000
++ACCEPTANCE='Team >239 AND Team >fresh contemporary Single AND Team >actual recorded full-cap A-only; all300 first attempts/errors, no replacements/retries. Missing A reconstruction makes the last gate unavailable and prevents selection.'
++A_ONLY_GATE='Strict positive net auxiliary contribution; actual normalized released A/error and primary fatal state, never computed withheld or fabricated null. All300 reconstructible outcomes required.'
+ ASSURANCE = 'fallible_model_selection_of_executed_source_checked_candidates'
+ FIXED_INPUT_HASH = '25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce'
+ FIXED_DATASET_SHA = 'e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0'
+@@ -187,7 +189,7 @@
+ 
+ 
+ def verify_prospective(prospective,binding):
+-    expected={'model':'gpt-6-luna','fixed_questions_per_arm':300,'workers_per_arm':1,'first_attempt_only':True,
++    expected={'acceptance':ACCEPTANCE,'recorded_A_only_gate':A_ONLY_GATE,'model':'gpt-6-luna','fixed_questions_per_arm':300,'workers_per_arm':1,'first_attempt_only':True,
+       'primary_iterations':30,'primary_tools_inclusive_automatic_checks':True,'reserved_primary_source_checks':0,
+       'full_primary_allowance':[200000,30,30],'alternative_allocation':'actual_residual_less_initialization_and_selector_reservation',
+       'max_team_model_calls':30,'max_control_model_calls':30,'global_caps':[200000,30],
+@@ -336,6 +338,21 @@
+       'workspace_sha256':snapshot['workspace_sha256'],'snapshot_sha256':_aux_fingerprint(snapshot)}
+ 
+ 
++def observed_phase_counts(trace):
++    """Retained natural replies; automatic check requests are host synthesis."""
++    responses=0;tools=0
++    for message in trace:
++        if message.get('role')=='assistant':
++            calls=message.get('tool_calls') or []
++            automatic=(message.get('content') is None and len(calls)==1
++              and calls[0].get('id') in {'automatic_field_check_1','automatic_field_check_2'}
++              and (calls[0].get('function') or {}).get('name')=='check_fields')
++            responses+=not automatic
++        if message.get('role')=='tool':
++            tools+=not str(message.get('content','')).startswith('Not run: the tool-call budget')
++    return responses,tools
++
++
+ def validate_snapshot(snapshot,phase,trace,label):
+     require(isinstance(snapshot,dict) and set(snapshot)=={'version','kind','candidate','phase','released','artifact','workspace',
+       'source_check','usage','binding','workspace_sha256','trace_sha256','tagged_trace_sha256','diagnostics'},'Snapshot envelope differs')
+@@ -371,12 +388,24 @@
+         raw=usage.get('raw_accounting') or {}
+         require(equal(raw.get('total_usage'),totals) and equal(raw.get('call_usage'),calls)
+           and raw.get('tool_calls_made')==phase['natural_tool_calls'],'Nonfatal phase raw ledger differs')
++    observed_sdk,observed_tools=observed_phase_counts(untagged)
++    observed=Counter({f'phase_{label}_retained_natural_model_responses':observed_sdk,
++      f'phase_{label}_retained_charged_tool_replies':observed_tools,
++      f'phase_{label}_charged_minus_observed_model_attempts':phase['model_calls']-observed_sdk,
++      f'phase_{label}_charged_minus_observed_tool_calls':phase['natural_tool_calls']-observed_tools})
+     artifact=snapshot['artifact']
+     require(phase['eligible'] is (artifact is not None),'Snapshot eligibility differs')
+     if artifact is None:
+         require(snapshot['source_check'] is None and snapshot['binding']=={},'Unverified snapshot falsely has binding')
+-        return
++        return observed
+     require(not phase['fatal'] and full_artifact(artifact),'Eligible snapshot fatal or malformed')
++    require(phase['model_calls']==observed_sdk,'Eligible natural phase charged SDK attempts differ from actual retained model responses')
++    require(phase['natural_tool_calls']==observed_tools,'Eligible natural phase charged tools differ from actual retained tool replies')
++    if label=='B':
++        require(all(init.get(k)==1 for k in ('started','charged','completed'))
++          and init.get('kind') in {'get_starting_packet','get_perturbed_starting_packet'}
++          and isinstance(init.get('packet_sha256'),str) and HEX.fullmatch(init['packet_sha256']),
++          'Eligible B lacks actual completed original initialization')
+     require(equal(rendered(artifact),rendered(snapshot['released'])) and not snapshot['released'].get('error'),'Computed but unreleased artifact substituted')
+     released_revision=snapshot['released'].get('revision') or {}
+     require(released_revision.get('final_check_issues')==[] and equal(rendered(released_revision.get('final') or {}),rendered(artifact)), 'Snapshot actual Single release/source result differs')
+@@ -405,6 +434,7 @@
+       'Binding execution does not match actual released artifact/code')
+     require(binding['source_check_tool_call_id'] in {'automatic_field_check_1','automatic_field_check_2'}
+       and equal(json_object(source_function['arguments']).get('citations'),artifact['evidence']),'Binding own automatic source citations differ')
++    return observed
+ 
+ 
+ def validate_selection(value):
+@@ -435,7 +465,7 @@
+     labels=[t['phase'] for t in trace];order={'natural_primary':0,'alternative_initialization':1,'natural_alternative':2,'selection':3}
+     require(labels==sorted(labels,key=order.get),'Outer phase chronology differs')
+     local={label:[t for t in trace if t.get('phase')==phase] for label,phase in [('A','natural_primary'),('B','natural_alternative')]}
+-    for label,phase in zip(('A','B'),phases):validate_snapshot(by[label],phase,local[label],label)
++    for label,phase in zip(('A','B'),phases):counts.update(validate_snapshot(by[label],phase,local[label],label))
+     primary=phases[0];require(equal([primary['token_cap'],primary['tool_cap'],primary['sdk_cap']],[200000,30,30]),'Full A allowance differs')
+     require(equal(revision.get('A_only'),{'available':True,'snapshot_sha256':index['A'],'error':by['A']['released'].get('error'),'source_bound':by['A']['artifact'] is not None}),'Actual A-only identity differs')
+     status=revision.get('status');chosen=revision.get('selected');fatal=revision.get('fatal')
+@@ -498,6 +528,7 @@
+               and calls[0]['prompt']+calls[0]['completion']==diag['tokens'] and raw.get('tool_calls_made')==0,
+               'Nonfatal selector raw usage/completion unreconciled')
+         if selection is not None:
++            require(diag['fatal'] is False and diag['model_calls']==1,'Parsed nonfatal selector response lacks exactly one charged SDK attempt')
+             require(len(selected_messages)==3 and selected_messages[2].get('role')=='assistant' and not selected_messages[2].get('tool_calls'),'Retained selector native tools or missing response')
+             response=selected_messages[2].get('content');require(isinstance(response,str) and len(response)<=16000 and equal(json_object(response),selection),'Selector retained response differs')
+             allowed=validate_selection(selection);require((chosen=='B') is allowed,'Host strict existing-candidate selection differs')

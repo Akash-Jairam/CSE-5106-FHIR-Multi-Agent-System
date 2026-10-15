@@ -1,0 +1,58 @@
+Selection and verification research for a possible successor to V6
+Research timestamp: 2026-10-15 10:52 UTC
+Status: research assessment only; no design selected or implemented.
+
+Scope and access boundary
+Only public primary papers and their linked author repositories were read. No project questions, raw result rows, secret configuration, patient FHIR, or protected confirmation data were read. No model or Azure requests were made. External code was inspected as text, never imported or executed. V6 aggregate counts below were provided by the parent, not recomputed here.
+
+Assessment
+The evidence supports testing a second real tool-using trajectory plus explicit evidence checks as a hypothesis. It does not establish that a residual-budget second agent or a selector will beat Single. V6 had no A-wrong/B-right candidate among its 37 eligible B results, so changing only selection cannot recover a demonstrated missed correct B there. Candidate complementarity and switch precision must be evaluated separately. These are engineering/research inferences, not new benchmark results.
+
+1. FineVerify: explicit requirements and independent verification
+Paper: https://arxiv.org/html/2606.00660v1 (Sections 2, 3.4, 4.1, 4.2; Appendix A)
+Author repository: https://github.com/XuZhao0/fineverify/tree/4d172e30a51946437b7cb4c47617872c3fd346ee
+Pinned commit: 4d172e30a51946437b7cb4c47617872c3fd346ee (2026-06-02)
+
+Paper evidence: The method derives one shared set of checkable conditions from the question, retrieves evidence for each candidate, and assigns supported/not_found/contradicted labels. Strict scoring gives credit only to supported. With four trajectories, average accuracy increases from 59.2 to 67.4 for GPT-5-mini and 71.3 to 76.9 for Gemini-3-flash across four search benchmarks. Missing evidence treated as support performs worse. Selection accuracy is conditioned on at least one correct candidate existing; it is not end-to-end accuracy. Costs include tokens and web search; settings allow 40,000 output tokens per generation/verification. This is positive evidence across two models within search, not evidence for FHIR, other task families, or our simultaneous hard limits.
+
+Important released-code audit:
+- gpt5_mini_fineverify.py:308-463 generates a candidate, then performs a reference-aware extraction/grading call, then verifies. The extracted answer/explanation are verifier inputs; the grade controls abstention/invalid-grade skips. tools.py:904-968 shows the verifier prompt itself receives no reference; tools.py:1183-1209 selects the largest verification score, with first-candidate tie preservation. There is no demonstrated oracle selection. Nevertheless the reference-aware intermediate boundary cannot be copied into our inference path.
+- tools.py:535-565 sends only the question/template to candidate generation. The reference is attached to the saved record after the request, not sent to the proposer.
+- tools.py:996-1117 verifies all conditions in ONE web-enabled model response, not one SDK request per condition, and repeats malformed-count verifications. Native server-side searches can be multiple tools inside that response.
+- gpt5_mini_fineverify.py:521-577 defaults to four rounds, 40k generation/verification outputs, four verification attempts, count tolerance one, and different default proposer/verifier names than the paper's same-model experiments. Treat defaults as released-code behavior, not a reconstruction of the reported experiment.
+- Ordinary four distinct nonempty candidates require four generation, four grading and four verification responses, plus separately precomputed decomposition: 13 SDK calls before retries. The reference-free abstract mechanism needs nine ordinary calls if decomposition plus generation/verification are all fresh. Neither count includes a bound on native internal searches. Per-question joint 200k/30tools/30SDK admission is not implemented in this driver.
+
+Transferable inference: use question-derived obligations and actual retrieved/executed evidence to compare existing candidates; distinguish missing evidence from a contradiction. Do not copy reference-aware preprocessing, arbitrary tolerant output parsing, early-stop-as-proof, or unbounded native tool usage. A tool-free selector reading existing source packets is a cheaper adaptation, not a reproduction of independently searching FineVerify.
+
+2. Scaling Test-time Compute for LLM Agents: useful positive and negative controls
+Paper: https://arxiv.org/html/2506.12928v1 (Sections 3.2-4.4)
+Author repository: https://github.com/OPPO-PersonalAI/OAgents/tree/027f2c4579ee7e7767bfe54c66df48a902d43e98
+Pinned commit: 027f2c4579ee7e7767bfe54c66df48a902d43e98 (2025-10-13)
+
+Paper evidence: In GAIA validation with GPT-4.1, four-trajectory BoN scores 63.03 versus baseline 55.76; list-wise selection exceeds voting and scalar scoring. Routine reflection scores 55.15, frequent/moderate reflection can be worse, and beam search gains little while DVTS equals baseline. Mixed-model Pass@K improves oracle candidate coverage; that table does not demonstrate achieved selection accuracy or same-model transfer. These results discourage interrupting every successful step and do not prove superiority under matched total resources.
+
+Implementation/cost audit: run_gaia_tts.py:114 allows 100 steps per rollout. agents.py:2249-2284 resets each rollout and executes the full loop before list-wise final selection. process_step:2506-2556 also performs a model-based PRM/ORM call when evaluate=True, including BoN with more than one rollout. verify_function.py:27-34,111-137 uses a separate fixed GPT-4.1 client, 2048-token verdict cap, and SDK retries; it returns verdict fields without usage. Final selection is one extra model call at agents.py:2196-2206. The published implementation cannot supply our inclusive accounting or cross-model controller unchanged.
+
+Transferable inference: independent completed trajectories are a cleaner complementarity hypothesis than frequent shared-history critique. Prefer explicit candidate comparison over self-reported scalar confidence only as a hypothesis; its cost and false-switch rate still need measurement.
+
+3. AgentRewardBench: independent evidence against assuming reliable judges
+Paper: https://arxiv.org/html/2504.08942v1 (Sections 3.3-4.3 and 6)
+Author repository: https://github.com/McGill-NLP/agent-reward-bench/tree/05899fcfe52c925978944a23920373b7a9c63740
+Pinned commit: 05899fcfe52c925978944a23920373b7a9c63740 (2026-08-16)
+
+Paper evidence: Experts annotate 1302 trajectories from four agents across five web benchmarks; 196 are development and 1106 test. Across 12 judges, no single model dominates all benchmarks. Reported overall success precision for simplified judges is roughly 61.5-69.8% depending on model/representation; these are success-classification precisions, not pairwise candidate-selection accuracies. Error analysis includes grounding mismatch, missed requirements, and agreement with misleading agent reasoning. Final observations help but do not certify semantics. Rule-based evaluators can also reject valid solutions; that finding does not authorize changing our fixed scorer after results.
+
+Code audit: judge/defaults.py:1-52 exposes task goal, action/reasoning sequence, and final external state in one structured multi-label request. scripts/run_judge.py:168-202 issues a final verdict, with an additional pruned request after BadRequest. This is an offline judging harness, not a jointly budgeted agent controller or a ready FHIR verifier.
+
+Transferable inference: provenance and successful execution should establish what actually happened, while semantic support remains a fallible model judgment. A candidate's explanation must not substitute for external observations. Preserve inconclusive outcomes rather than inventing a third answer.
+
+Generic implications under the proposed joint 200k-token/30-tool/30-SDK ceiling
+These are constraints and falsifiable hypotheses, not a selected design:
+1. Let A's actual known consumption be (tA,uA,cA). Residual capacity is componentwise (200000-tA,30-uA,30-cA). If any indispensable next-stage bundle cannot fit with its finish reservation, preserve the released A. Giving A its full natural limits leaves zero auxiliary capacity on some questions; papers with extra full rollouts do not remove that limitation.
+2. Charge every second-agent request, retrieval, Python execution, source check, compaction, feedback turn, and selector to the SAME ledger. Reserve selector prompt/completion and indispensable tool costs BEFORE starting B. Do not reserve by reducing A's limits if the stated hypothesis is full-A preservation. Unknown admitted provider usage cannot be treated as free or quietly repaired by falling back.
+3. Fresh B should get the original question/context and the same documented tool contract, its own workspace/history and actual execution feedback. Do not expose A's answer, program, rationale, retrieved workspace or judge verdict while claiming independent retrieval. Same-model stochastic trajectories remain correlated; independent context is not statistical independence.
+4. Requirements must come from the original task and shared tool semantics, not benchmark IDs, reference answers, observed failure templates, or model-specific routing. Any tool-contract clarification should be shared with the contemporaneous Single control.
+5. To test the mechanism, separately record B eligibility/completion, A-wrong/B-right coverage, selector helpful/harmful/neutral switches, agreement and unresolved outcomes, residual resource starvation, and all errors. Evaluate the actual released A prefix as a diagnostic; only a newly frozen end-to-end paired experiment establishes improvement. Retain the existing once-only untouched-question confirmation protocol; none of these sources establishes patient/task/model transfer for this project.
+
+Reproducibility
+code_pins.json contains the exact SHA-256, URL, byte count and fixed commit for every downloaded source file. Only selected public source text was downloaded, not datasets or trajectories. Repository HEAD pins are the versions inspected on 2026-10-15, not assertions that those commits exactly reproduce a paper's reported runs. No external source code was run.

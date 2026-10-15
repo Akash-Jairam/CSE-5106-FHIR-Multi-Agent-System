@@ -1,0 +1,97 @@
+{
+  "status": "PASS_LIVE_RESERVED_DEVELOPMENT_INTERFACE",
+  "recorded_utc": "2026-10-15T11:20:16.285702+00:00",
+  "source_commit": "127d351129fde6cafe7c7559fd8fca8fe9455a57",
+  "questions": 1,
+  "previously_queried_reserved_development_input": true,
+  "reference_answer_supplied": false,
+  "accuracy_scored": false,
+  "protected_confirmation_overlap": 0,
+  "experiment_journal_entry_created": false,
+  "strategy": "multi_agent_v7",
+  "protocol": "full-single-residual-trajectories-v7",
+  "terminal_error": false,
+  "result_status": "agreement_preserved",
+  "selected": "A",
+  "source_bound_candidates": {
+    "A": true,
+    "B": true
+  },
+  "phases": [
+    {
+      "phase": "natural_primary",
+      "token_cap": 200000,
+      "tool_cap": 30,
+      "sdk_cap": 30,
+      "tokens": 27602,
+      "tool_calls": 4,
+      "natural_tool_calls": 4,
+      "model_calls": 4,
+      "fatal": false,
+      "usage_known": true,
+      "eligible": true,
+      "initialization": {
+        "started": null,
+        "completed": null,
+        "charged": 0
+      },
+      "known_local_budget_stop": false
+    },
+    {
+      "phase": "natural_alternative",
+      "token_cap": 132839,
+      "tool_cap": 25,
+      "sdk_cap": 25,
+      "tokens": 20936,
+      "tool_calls": 4,
+      "natural_tool_calls": 3,
+      "model_calls": 3,
+      "fatal": false,
+      "usage_known": true,
+      "eligible": true,
+      "initialization": {
+        "started": 1,
+        "completed": 1,
+        "charged": 1
+      },
+      "known_local_budget_stop": false
+    }
+  ],
+  "usage": {
+    "prompt": 47378,
+    "completion": 1160,
+    "total": 48538,
+    "cost": null,
+    "llm_calls": 7
+  },
+  "all_call_usages_available": true,
+  "budget": {
+    "max_total_tokens": 200000,
+    "max_tool_calls": 30,
+    "tool_calls_run": 8,
+    "stopped": null
+  },
+  "audit_restored": true,
+  "both_candidate_snapshot_hashes_verified": true,
+  "original_execution_and_source_bindings_verified_without_replay": true,
+  "sdk_starts": 7,
+  "sdk_ends": 7,
+  "sdk_outcomes": {
+    "success": 7
+  },
+  "provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "result_sha256": "412c08c644369835c39cd0f4e66aaf8e909dffaf7ae16590886b7b03fab381a0",
+  "run_identity_sha256": "deab78798b71163b3cfb8a074a69c008417444097d061ffbdd6323888307b0e1",
+  "input_sha256": "e704a2cad00e220fdfa7300ae52929f28a1cfdec31aba20bc48364020204c669",
+  "input_split_sha256": "d36f844472f4daefbe41e451f16e364ac01d9cf7837d532931e05b7fb958b8f9",
+  "source_sha256": {
+    "agent/residual_trajectory_agent.py": "45de6a55d0d890d5d77b94810c7c067c2e34dc557b9e8441217b9dffecdae68e",
+    "agent/residual_trajectory_phase.py": "9e58261aefa65416a619927891dc5c653744e9286d591bf66cc539867afb5272",
+    "agent/single_agent.py": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+    "agent/base_agent.py": "e566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77"
+  }
+}

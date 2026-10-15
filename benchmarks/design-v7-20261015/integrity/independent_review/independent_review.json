@@ -1,0 +1,52 @@
+{
+  "disposition": "PASS within narrow private guard review scope; no remaining concrete blocker",
+  "guard_packet": "/private/tmp/fhir-v7-prospective-integrity-v2-20261015",
+  "guard_sha256": "bf47aa9e9c84735b0a096acbb6d209776473fcb7e81e8cfa2e366576d90e1115",
+  "delivery_sha256": "62d830dd59e763aaf116725890c93e5491904a8368509c231cb05ea3725034e6",
+  "all_packet_delivery_hashes_verified": true,
+  "reviewed_generic_helper_sha256": "98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8",
+  "original_packet_unchanged": true,
+  "original_guard_sha256": "e0ba8a58e5f36c7db9e728b418601fccdce01aa52a8a78eb7c2b08c3ecf5db93",
+  "independent_regressions": {
+    "passed": 8,
+    "failures": 0,
+    "log_sha256": "bcc95edd5099132a8642aace0839bba711bb199804ad526ada4a7adb2cee148f",
+    "script_sha256": "93da8d0402f3234c79e343c417c39a5fefc94aadb28e3b740197cfe91dac8724",
+    "command": "python3 -I /private/tmp/fhir-v7-guard-independent-lznj5wy2/independent_guard_tests.py --packet /private/tmp/fhir-v7-prospective-integrity-v2-20261015 --guard-sha bf47aa9e9c84735b0a096acbb6d209776473fcb7e81e8cfa2e366576d90e1115",
+    "original_findings": "Four self-consistent malformed selected-B audit records were accepted on the original guard. All four are now rejected. These were guard validation gaps, not observed runtime outcomes."
+  },
+  "closed_findings": [
+    "Eligible B now requires original starting-packet started/charged/completed all1, recognized original function kind and finite SHA shape",
+    "Parsed nonfatal selector response now requires exactly1 charged model attempt",
+    "Eligible natural phases now reconcile charged tools with actual retained tool replies, excluding cap-refused Not-run replies",
+    "Eligible natural phases now reconcile admitted model attempts with natural assistant responses, excluding synthetic automatic source-check requests"
+  ],
+  "positive_failure_semantics": [
+    "Clean selected B with separate owned workspaces still passes",
+    "Ineligible B known-usage admitted failure without a third model response remains retained; signed charged-minus-observed model gap1 is reported",
+    "Ineligible B charged tool handler failure without a tool reply remains retained; signed charged-minus-observed tool gap1 is reported",
+    "Ineligible B failure before original initialization permits started/charged/completed/model/tool counts0, preserving A"
+  ],
+  "static_review": [
+    "External SHA-pinned record metadata/source inventory binds exact source set and counts; source ZIP/design/input/split hashes checked",
+    "Four public runtime source hashes/ZIP and expected public provider binding checked by guard; no credential contents needed",
+    "Exact owned gzip restoration/inline preservation and fixed300 paired identities are retained through unchanged reviewed storage utility",
+    "Actual owned terminal assertion plus externally hashed two-job attestation and complete600 first attempts are required before completion/archive",
+    "Both natural Single snapshots bind released render3 to own current final execution/code/workspace and later original check; computed-withheld candidate cannot certify selection",
+    "Intact A/B selector entries, contexts, hashes, ASCII-byte caps, declared reservation arithmetic, selection response and existing-choice rule are validated",
+    "New A-only acceptance metadata is frozen; guard performs no scoring or promotion"
+  ],
+  "limits": [
+    "This review used only synthetic fixtures/private helper bytes; it did not read actual182-source record/pins, actual saved attempts, questions, answers, SQL, protected confirmation, private configuration or provider settings. Root must run actual prelaunch/initial/completion checks separately.",
+    "Prompt-bound arithmetic is checked from retained estimates; this guard does not independently retokenize or prove exact SDK tokenizer/framing overhead.",
+    "Eligible B initialization charge is strictly proven against retained lifecycle metadata/trace. Discarded/error/fatal B paths retain signed diagnostic gaps; this review does not strengthen them into equality or prove every interrupted operation independently.",
+    "SDK invocation attempts, retained responses and safe provider journal sends are distinct evidence on failed paths; no invented equality or zero billing is inferred.",
+    "Programs/source checks and selector requirement statuses do not establish semantic correctness, search completeness, benchmark accuracy or generalization.",
+    "Passing integrity does not select the candidate or authorize full generation. Acceptance remains the prospective comparison/A-only gate after600 terminal first attempts."
+  ],
+  "model_calls": 0,
+  "FHIR_calls": 0,
+  "scoring_performed": false,
+  "actual_data_read": false,
+  "repository_edits": false
+}

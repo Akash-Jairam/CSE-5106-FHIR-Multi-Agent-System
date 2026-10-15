@@ -1,0 +1,58 @@
+{
+  "disposition": "PASS within focused offline review scope; no concrete blocker found",
+  "protocol": "full-single-residual-trajectories-v7",
+  "source_sha256": {
+    "agent/residual_trajectory_agent.py": "45de6a55d0d890d5d77b94810c7c067c2e34dc557b9e8441217b9dffecdae68e",
+    "agent/residual_trajectory_phase.py": "9e58261aefa65416a619927891dc5c653744e9286d591bf66cc539867afb5272"
+  },
+  "fixture_and_reference_sha256": {
+    "tests/test_residual_trajectory_core.py": "f6c5d0f0ce9fb27d6fffeffcb809a9405c4b4b4258d129b5bcc3834d46fe8b1d",
+    "tests/test_continuous_primary.py": "67de0f5436677dd7af9c6d20c9444be7d9854b6113808d8d2116144b0788f53e",
+    "agent/single_agent.py": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+    "agent/base_agent.py": "e566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77",
+    "agent/continuous_primary.py": "f3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963",
+    "agent/output_schema.py": "daba54d1a63237f7961bce70c89bc064b03708818f6aaa704a958b02bb7b13a6",
+    "utils/core_utils.py": "e0fa62f8d5093b275a9100ce618c94b03722982d1acd6295f666ab5509c126d0"
+  },
+  "tests": {
+    "private_independent_tests": 14,
+    "passed": 14,
+    "failures": 0,
+    "log": "independent_tests.log",
+    "command": ".venv/bin/python -IB /private/tmp/fhir-v7-independent-boundaries-fi3cmzhr/independent_boundaries.py",
+    "implementation_tests_incidentally_discovered_on_initial_run": 21,
+    "initial_combined_run_passed": 35,
+    "explanation": "The initial unittest discovery also collected an imported TestCase class. Import was changed to a module; the final focused log contains only the14 independent tests."
+  },
+  "coverage": [
+    "Exact A27+B2+selector1 SDK boundary; A28 skips B without initialization",
+    "Residual tools3 => initialization1 plus native B2, aggregate5 with A2",
+    "Exact selector reservation skip and positive B allowance with no admissible first prompt",
+    "Actual invalid B context before packet observer => zero initialization/tool/SDK charge",
+    "Actual Single B first and revised computed answers both source-withheld => never selectable",
+    "Exact canonical ASCII A entry32768 versus32769; escaped Unicode measured in bytes",
+    "Oversized B candidate retained in audit while fallback preserves A and B usage",
+    "Selected B honest limitation retained in both packet and release",
+    "Unsupported/tied/UNKNOWN/A selector outcomes preserve A; selector native tools rejected after retained known usage",
+    "Unknown usage/cost marker retained; duplicate ledger merge rejected without double adoption",
+    "Malformed admitted selector cached/prompt/completion per-call values => fatal, cost unknown, retained attempt"
+  ],
+  "static_review": [
+    "Unchanged actual Single A loop, full caps and natural source feedback",
+    "Fresh B original-packet globals observer and phase-qualified trace ownership",
+    "Released-result execution/workspace/original source-check binding",
+    "Post-provider selector update/adoption quarantine checked before nonfatal response parser fallback",
+    "Intact canonical packet reservation and no selector compaction"
+  ],
+  "shared_source_equality": {
+    "count": 42,
+    "all_equal_to_HEAD": true,
+    "proof": "shared_source_proof.json"
+  },
+  "limitations": [
+    "Purely synthetic observations; no accuracy, provider availability or full-run integrity claim.",
+    "Provider/tool boundaries mocked in this independent suite; root separately owns actual native SDK encoder/Python worker/original checker/gzip integration and A request-prefix parity tests.",
+    "The selector requirements and statuses remain fallible model judgments; parser checks do not establish semantic completeness or truth.",
+    "No actual questions/results/gold/SQL/protected confirmation data, private Settings/configuration, model/FHIR/network calls, active source edits, branch changes or launch occurred."
+  ]
+}

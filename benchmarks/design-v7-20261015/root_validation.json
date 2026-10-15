@@ -1,0 +1,52 @@
+{
+  "status": "PASS_OFFLINE_AND_LIVE_INTERFACE_NOT_SUBSET_ACCURACY",
+  "source_commit": "d19d13c99569f227c96855b536249dfe8927ebd9",
+  "inference_implementation_commit": "127d351129fde6cafe7c7559fd8fca8fe9455a57",
+  "groups": [
+    {
+      "group": "implementation",
+      "tests": 21,
+      "source": "engineering/implementation_delivery.json"
+    },
+    {
+      "group": "independent_real_loop_nativeSDK_worker_gzip_plus_cost_regression",
+      "tests": 13,
+      "source": "root_final_source_validation.json",
+      "overlap": "Includes one implementation cost-overflow regression; other12 are root independent tests."
+    },
+    {
+      "group": "independent_adversarial_boundaries",
+      "tests": 14,
+      "source": "independent_engineering/independent_review.json"
+    }
+  ],
+  "live_interface": {
+    "questions": 1,
+    "SDK_successes": 7,
+    "accuracy_scored": false,
+    "protected_overlap": 0,
+    "source": "live_development_interface.json"
+  },
+  "shared_inference_files_unchanged": 42,
+  "public_runtime_files_unchanged": 4,
+  "post_test_change": "Only prospective design documentation adds Team>A-only gate before any subset; inference source unchanged.",
+  "initial_fixture_development": "Root corrected synthetic repeated native-call IDs and aggregate-vs-local budget assertion; final13 passed. No benchmark data patched.",
+  "research_private_intermediates": "Aggregate metrics/scripts preserved; private per-case row-size/counter files referenced by original research delivery stay local.",
+  "provider_status_limit": "Seven live successes establish this interface observation, not region-wide or sustained Azure health.",
+  "no_protected_questions_queried_or_scored": true,
+  "no_substantial_experiment_launched_yet": true,
+  "integrity_guard": {
+    "guard_sha256": "bf47aa9e9c84735b0a096acbb6d209776473fcb7e81e8cfa2e366576d90e1115",
+    "packet_delivery_sha256": "62d830dd59e763aaf116725890c93e5491904a8368509c231cb05ea3725034e6",
+    "own_synthetic_protocol_tests": 31,
+    "own_synthetic_lifecycle_tests": 6,
+    "review": "Independent synthetic negative-probe review is recorded separately before launch.",
+    "engineering_interface_replay": "integrity/live_interface_guard_replay.json",
+    "hardening": "Four independently reproduced structural-checker acceptance gaps fixed before subset launch. No inference source change.",
+    "limits": "Retained replies and charged attempts may differ on ineligible, failed, or fatal paths; these signed gaps remain diagnostics. This does not prove provider-internal accounting or exhaustive search.",
+    "independent_review": "integrity/independent_review/independent_review.json",
+    "independent_tests": 8,
+    "prelaunch": "prelaunch_integrity.json",
+    "root_freeze_review": "root_freeze_review.json"
+  }
+}

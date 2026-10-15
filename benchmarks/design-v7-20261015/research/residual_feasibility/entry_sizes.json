@@ -1,0 +1,266 @@
+{
+  "method": "Exact serialized byte sizes only; no generated/reference answer values inspected or retained. Team recorded175k/27 A only; cannot claim full-cap A future distribution. A-entry size reproduces existing V6 structural schema with fixed-width placeholder source SHA; hashes do not affect length. No question/context or selector-system tokens included.",
+  "groups": {
+    "source_bound": {
+      "n": 272,
+      "metrics": {
+        "released_rendered_bytes": {
+          "n": 272,
+          "min": 49,
+          "p25": 206,
+          "median": 368,
+          "p75": 586,
+          "p90": 915,
+          "p95": 2006,
+          "max": 45032
+        },
+        "program_chars": {
+          "n": 272,
+          "min": 255,
+          "p25": 902,
+          "median": 1231,
+          "p75": 1568,
+          "p90": 1987,
+          "p95": 2210,
+          "max": 2923
+        },
+        "program_utf8_bytes": {
+          "n": 272,
+          "min": 255,
+          "p25": 902,
+          "median": 1231,
+          "p75": 1568,
+          "p90": 1987,
+          "p95": 2210,
+          "max": 2923
+        },
+        "five_field_artifact_ASCII_JSON_bytes": {
+          "n": 272,
+          "min": 219,
+          "p25": 479,
+          "median": 736,
+          "p75": 1146,
+          "p90": 2635,
+          "p95": 4907,
+          "max": 51764
+        },
+        "V6_shaped_A_entry_ASCII_JSON_bytes": {
+          "n": 272,
+          "min": 1025,
+          "p25": 1998,
+          "median": 2518,
+          "p75": 3393,
+          "p90": 4631,
+          "p95": 6872,
+          "max": 53775
+        },
+        "evidence_citations": {
+          "n": 272,
+          "min": 0,
+          "p25": 1,
+          "median": 2,
+          "p75": 4,
+          "p90": 6,
+          "p95": 14,
+          "max": 294
+        },
+        "contributing_ID_count": {
+          "n": 272,
+          "min": 0,
+          "p25": 1,
+          "median": 2,
+          "p75": 3,
+          "p90": 22,
+          "p95": 43,
+          "max": 267
+        },
+        "workspace_record_count": {
+          "n": 272,
+          "min": 5,
+          "p25": 63,
+          "median": 971,
+          "p75": 4406,
+          "p90": 14424,
+          "p95": 28207,
+          "max": 48588
+        }
+      }
+    },
+    "nonfatal_ineligible": {
+      "n": 24,
+      "metrics": {
+        "released_rendered_bytes": {
+          "n": 24,
+          "min": 143,
+          "p25": 143,
+          "median": 143,
+          "p75": 143,
+          "p90": 900,
+          "p95": 917,
+          "max": 957
+        },
+        "program_chars": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "program_utf8_bytes": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "five_field_artifact_ASCII_JSON_bytes": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "V6_shaped_A_entry_ASCII_JSON_bytes": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "evidence_citations": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "contributing_ID_count": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "workspace_record_count": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        }
+      }
+    },
+    "fatal": {
+      "n": 4,
+      "metrics": {
+        "released_rendered_bytes": {
+          "n": 4,
+          "min": 52,
+          "p25": 52,
+          "median": 52,
+          "p75": 52,
+          "p90": 291,
+          "p95": 291,
+          "max": 291
+        },
+        "program_chars": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "program_utf8_bytes": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "five_field_artifact_ASCII_JSON_bytes": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "V6_shaped_A_entry_ASCII_JSON_bytes": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "evidence_citations": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "contributing_ID_count": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        },
+        "workspace_record_count": {
+          "n": 0,
+          "min": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "max": null
+        }
+      }
+    }
+  },
+  "bound_A_entry_threshold_counts": {
+    "over_8000": 13,
+    "over_16000": 3,
+    "over_32000": 1,
+    "over_64000": 0
+  }
+}

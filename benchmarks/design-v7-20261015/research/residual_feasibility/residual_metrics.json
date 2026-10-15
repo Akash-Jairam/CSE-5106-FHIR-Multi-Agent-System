@@ -1,0 +1,927 @@
+{
+  "method": "Only canonical token/tool/SDK counters and stored primary diagnostics inspected; no question/answer/reference fields accessed. Quantiles use nearest rank; known residuals exclude unknown usage. Team A had175k/27 caps, so its residuals are observed arithmetic, not a counterfactual full-cap natural A. Fresh Single control had200k/30/30 and directly measures full-policy consumption; it is a different stochastic trajectory and its source eligibility is not inferred here. Residual thresholds and repeated-own-cost screen are budget possibilities only, never predicted completed Bs.",
+  "arms": {
+    "ordinary_multi_agent": {
+      "all": {
+        "n": 300,
+        "known_usage": 296,
+        "unknown_usage_excluded_from_residual_admission": 4,
+        "budget_stops": {
+          "none": 281,
+          "token": 19
+        },
+        "actual_reported": {
+          "tokens_reported": {
+            "n": 300,
+            "min": 0,
+            "p10": 23149,
+            "p25": 35288,
+            "median": 60292,
+            "p75": 88715,
+            "p90": 150743,
+            "p95": 160110,
+            "max": 172465,
+            "mean": 69229.75333333333
+          },
+          "tools": {
+            "n": 300,
+            "min": 0,
+            "p10": 4,
+            "p25": 5,
+            "median": 6,
+            "p75": 7,
+            "p90": 10,
+            "p95": 12,
+            "max": 19,
+            "mean": 6.443333333333333
+          },
+          "sdk_attempts": {
+            "n": 300,
+            "min": 1,
+            "p10": 4,
+            "p25": 5,
+            "median": 6,
+            "p75": 7,
+            "p90": 10,
+            "p95": 11,
+            "max": 19,
+            "mean": 6.43
+          }
+        },
+        "known_residual": {
+          "residual_tokens": {
+            "n": 296,
+            "min": 27535,
+            "p10": 47989,
+            "p25": 110537,
+            "median": 139505,
+            "p75": 164429,
+            "p90": 176728,
+            "p95": 181742,
+            "max": 190414,
+            "mean": 129904.28378378379
+          },
+          "residual_tools": {
+            "n": 296,
+            "min": 11,
+            "p10": 20,
+            "p25": 22,
+            "median": 24,
+            "p75": 25,
+            "p90": 26,
+            "p95": 26,
+            "max": 28,
+            "mean": 23.47972972972973
+          },
+          "residual_sdk": {
+            "n": 296,
+            "min": 11,
+            "p10": 20,
+            "p25": 22,
+            "median": 24,
+            "p75": 25,
+            "p90": 26,
+            "p95": 26,
+            "max": 28,
+            "mean": 23.506756756756758
+          }
+        },
+        "residual_threshold_counts_not_sufficiency": {
+          "tokens_ge_25000": 296,
+          "tokens_ge_50000": 265,
+          "tokens_ge_100000": 237,
+          "tokens_ge_150000": 114
+        },
+        "tool_residual_thresholds": {
+          "ge_2": 296,
+          "ge_3": 296,
+          "ge_5": 296,
+          "ge_10": 296,
+          "ge_15": 292,
+          "ge_20": 271
+        },
+        "sdk_residual_thresholds": {
+          "ge_2": 296,
+          "ge_3": 296,
+          "ge_5": 296,
+          "ge_10": 296,
+          "ge_15": 293,
+          "ge_20": 272
+        },
+        "joint_residual_thresholds": {
+          "T25000_U2_C2": 296,
+          "T25000_U3_C3": 296,
+          "T50000_U5_C5": 265,
+          "T100000_U10_C10": 237
+        },
+        "same_observed_A_cost_second_solve_plus_one_selector_SDK_screen_only": 237
+      },
+      "groups": {
+        "bound_with_limitation": {
+          "n": 30,
+          "known_usage": 30,
+          "unknown_usage_excluded_from_residual_admission": 0,
+          "budget_stops": {
+            "none": 30
+          },
+          "actual_reported": {
+            "tokens_reported": {
+              "n": 30,
+              "min": 16340,
+              "p10": 23201,
+              "p25": 32929,
+              "median": 51546,
+              "p75": 75702,
+              "p90": 100975,
+              "p95": 145717,
+              "max": 159049,
+              "mean": 61552.46666666667
+            },
+            "tools": {
+              "n": 30,
+              "min": 3,
+              "p10": 4,
+              "p25": 5,
+              "median": 6,
+              "p75": 8,
+              "p90": 10,
+              "p95": 12,
+              "max": 12,
+              "mean": 6.3
+            },
+            "sdk_attempts": {
+              "n": 30,
+              "min": 3,
+              "p10": 4,
+              "p25": 5,
+              "median": 6,
+              "p75": 8,
+              "p90": 10,
+              "p95": 12,
+              "max": 12,
+              "mean": 6.3
+            }
+          },
+          "known_residual": {
+            "residual_tokens": {
+              "n": 30,
+              "min": 40951,
+              "p10": 95451,
+              "p25": 124298,
+              "median": 142769,
+              "p75": 167071,
+              "p90": 170667,
+              "p95": 177069,
+              "max": 183660,
+              "mean": 138447.53333333333
+            },
+            "residual_tools": {
+              "n": 30,
+              "min": 18,
+              "p10": 19,
+              "p25": 22,
+              "median": 24,
+              "p75": 25,
+              "p90": 26,
+              "p95": 26,
+              "max": 27,
+              "mean": 23.7
+            },
+            "residual_sdk": {
+              "n": 30,
+              "min": 18,
+              "p10": 19,
+              "p25": 22,
+              "median": 24,
+              "p75": 25,
+              "p90": 26,
+              "p95": 26,
+              "max": 27,
+              "mean": 23.7
+            }
+          },
+          "residual_threshold_counts_not_sufficiency": {
+            "tokens_ge_25000": 30,
+            "tokens_ge_50000": 29,
+            "tokens_ge_100000": 26,
+            "tokens_ge_150000": 12
+          },
+          "tool_residual_thresholds": {
+            "ge_2": 30,
+            "ge_3": 30,
+            "ge_5": 30,
+            "ge_10": 30,
+            "ge_15": 30,
+            "ge_20": 27
+          },
+          "sdk_residual_thresholds": {
+            "ge_2": 30,
+            "ge_3": 30,
+            "ge_5": 30,
+            "ge_10": 30,
+            "ge_15": 30,
+            "ge_20": 27
+          },
+          "joint_residual_thresholds": {
+            "T25000_U2_C2": 30,
+            "T25000_U3_C3": 30,
+            "T50000_U5_C5": 29,
+            "T100000_U10_C10": 26
+          },
+          "same_observed_A_cost_second_solve_plus_one_selector_SDK_screen_only": 26
+        },
+        "bound_without_limitation": {
+          "n": 242,
+          "known_usage": 242,
+          "unknown_usage_excluded_from_residual_admission": 0,
+          "budget_stops": {
+            "none": 242
+          },
+          "actual_reported": {
+            "tokens_reported": {
+              "n": 242,
+              "min": 9586,
+              "p10": 23234,
+              "p25": 34248,
+              "median": 59729,
+              "p75": 80796,
+              "p90": 114470,
+              "p95": 137199,
+              "max": 167897,
+              "mean": 63156.652892561986
+            },
+            "tools": {
+              "n": 242,
+              "min": 2,
+              "p10": 4,
+              "p25": 5,
+              "median": 6,
+              "p75": 7,
+              "p90": 9,
+              "p95": 10,
+              "max": 16,
+              "mean": 6.074380165289257
+            },
+            "sdk_attempts": {
+              "n": 242,
+              "min": 2,
+              "p10": 4,
+              "p25": 5,
+              "median": 6,
+              "p75": 7,
+              "p90": 9,
+              "p95": 10,
+              "max": 15,
+              "mean": 6.041322314049586
+            }
+          },
+          "known_residual": {
+            "residual_tokens": {
+              "n": 242,
+              "min": 32103,
+              "p10": 85530,
+              "p25": 119204,
+              "median": 140016,
+              "p75": 165752,
+              "p90": 176766,
+              "p95": 181883,
+              "max": 190414,
+              "mean": 136843.34710743802
+            },
+            "residual_tools": {
+              "n": 242,
+              "min": 14,
+              "p10": 21,
+              "p25": 23,
+              "median": 24,
+              "p75": 25,
+              "p90": 26,
+              "p95": 26,
+              "max": 28,
+              "mean": 23.925619834710744
+            },
+            "residual_sdk": {
+              "n": 242,
+              "min": 15,
+              "p10": 21,
+              "p25": 23,
+              "median": 24,
+              "p75": 25,
+              "p90": 26,
+              "p95": 26,
+              "max": 28,
+              "mean": 23.958677685950413
+            }
+          },
+          "residual_threshold_counts_not_sufficiency": {
+            "tokens_ge_25000": 242,
+            "tokens_ge_50000": 234,
+            "tokens_ge_100000": 209,
+            "tokens_ge_150000": 101
+          },
+          "tool_residual_thresholds": {
+            "ge_2": 242,
+            "ge_3": 242,
+            "ge_5": 242,
+            "ge_10": 242,
+            "ge_15": 241,
+            "ge_20": 232
+          },
+          "sdk_residual_thresholds": {
+            "ge_2": 242,
+            "ge_3": 242,
+            "ge_5": 242,
+            "ge_10": 242,
+            "ge_15": 242,
+            "ge_20": 233
+          },
+          "joint_residual_thresholds": {
+            "T25000_U2_C2": 242,
+            "T25000_U3_C3": 242,
+            "T50000_U5_C5": 234,
+            "T100000_U10_C10": 209
+          },
+          "same_observed_A_cost_second_solve_plus_one_selector_SDK_screen_only": 209
+        },
+        "fatal_or_unknown": {
+          "n": 4,
+          "known_usage": 0,
+          "unknown_usage_excluded_from_residual_admission": 4,
+          "budget_stops": {
+            "none": 4
+          },
+          "actual_reported": {
+            "tokens_reported": {
+              "n": 4,
+              "min": 0,
+              "p10": 0,
+              "p25": 0,
+              "median": 0,
+              "p75": 9652,
+              "p90": 10942,
+              "p95": 10942,
+              "max": 10942,
+              "mean": 5148.5
+            },
+            "tools": {
+              "n": 4,
+              "min": 0,
+              "p10": 0,
+              "p25": 0,
+              "median": 0,
+              "p75": 1,
+              "p90": 2,
+              "p95": 2,
+              "max": 2,
+              "mean": 0.75
+            },
+            "sdk_attempts": {
+              "n": 4,
+              "min": 1,
+              "p10": 1,
+              "p25": 1,
+              "median": 1,
+              "p75": 2,
+              "p90": 3,
+              "p95": 3,
+              "max": 3,
+              "mean": 1.75
+            }
+          },
+          "known_residual": {
+            "residual_tokens": {
+              "n": 0,
+              "min": null,
+              "p10": null,
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null,
+              "p95": null,
+              "max": null,
+              "mean": null
+            },
+            "residual_tools": {
+              "n": 0,
+              "min": null,
+              "p10": null,
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null,
+              "p95": null,
+              "max": null,
+              "mean": null
+            },
+            "residual_sdk": {
+              "n": 0,
+              "min": null,
+              "p10": null,
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null,
+              "p95": null,
+              "max": null,
+              "mean": null
+            }
+          },
+          "residual_threshold_counts_not_sufficiency": {
+            "tokens_ge_25000": 0,
+            "tokens_ge_50000": 0,
+            "tokens_ge_100000": 0,
+            "tokens_ge_150000": 0
+          },
+          "tool_residual_thresholds": {
+            "ge_2": 0,
+            "ge_3": 0,
+            "ge_5": 0,
+            "ge_10": 0,
+            "ge_15": 0,
+            "ge_20": 0
+          },
+          "sdk_residual_thresholds": {
+            "ge_2": 0,
+            "ge_3": 0,
+            "ge_5": 0,
+            "ge_10": 0,
+            "ge_15": 0,
+            "ge_20": 0
+          },
+          "joint_residual_thresholds": {
+            "T25000_U2_C2": 0,
+            "T25000_U3_C3": 0,
+            "T50000_U5_C5": 0,
+            "T100000_U10_C10": 0
+          },
+          "same_observed_A_cost_second_solve_plus_one_selector_SDK_screen_only": 0
+        },
+        "nonfatal_binding_ineligible": {
+          "n": 24,
+          "known_usage": 24,
+          "unknown_usage_excluded_from_residual_admission": 0,
+          "budget_stops": {
+            "token": 19,
+            "none": 5
+          },
+          "actual_reported": {
+            "tokens_reported": {
+              "n": 24,
+              "min": 43026,
+              "p10": 150743,
+              "p25": 154099,
+              "median": 159942,
+              "p75": 163066,
+              "p90": 166916,
+              "p95": 169759,
+              "max": 172465,
+              "mean": 150743.66666666666
+            },
+            "tools": {
+              "n": 24,
+              "min": 8,
+              "p10": 9,
+              "p25": 10,
+              "median": 10,
+              "p75": 12,
+              "p90": 16,
+              "p95": 16,
+              "max": 19,
+              "mean": 11.291666666666666
+            },
+            "sdk_attempts": {
+              "n": 24,
+              "min": 8,
+              "p10": 9,
+              "p25": 10,
+              "median": 10,
+              "p75": 12,
+              "p90": 16,
+              "p95": 16,
+              "max": 19,
+              "mean": 11.291666666666666
+            }
+          },
+          "known_residual": {
+            "residual_tokens": {
+              "n": 24,
+              "min": 27535,
+              "p10": 33084,
+              "p25": 35458,
+              "median": 39890,
+              "p75": 45831,
+              "p90": 49257,
+              "p95": 149843,
+              "max": 156974,
+              "mean": 49256.333333333336
+            },
+            "residual_tools": {
+              "n": 24,
+              "min": 11,
+              "p10": 14,
+              "p25": 18,
+              "median": 19,
+              "p75": 20,
+              "p90": 21,
+              "p95": 21,
+              "max": 22,
+              "mean": 18.708333333333332
+            },
+            "residual_sdk": {
+              "n": 24,
+              "min": 11,
+              "p10": 14,
+              "p25": 18,
+              "median": 19,
+              "p75": 20,
+              "p90": 21,
+              "p95": 21,
+              "max": 22,
+              "mean": 18.708333333333332
+            }
+          },
+          "residual_threshold_counts_not_sufficiency": {
+            "tokens_ge_25000": 24,
+            "tokens_ge_50000": 2,
+            "tokens_ge_100000": 2,
+            "tokens_ge_150000": 1
+          },
+          "tool_residual_thresholds": {
+            "ge_2": 24,
+            "ge_3": 24,
+            "ge_5": 24,
+            "ge_10": 24,
+            "ge_15": 21,
+            "ge_20": 12
+          },
+          "sdk_residual_thresholds": {
+            "ge_2": 24,
+            "ge_3": 24,
+            "ge_5": 24,
+            "ge_10": 24,
+            "ge_15": 21,
+            "ge_20": 12
+          },
+          "joint_residual_thresholds": {
+            "T25000_U2_C2": 24,
+            "T25000_U3_C3": 24,
+            "T50000_U5_C5": 2,
+            "T100000_U10_C10": 2
+          },
+          "same_observed_A_cost_second_solve_plus_one_selector_SDK_screen_only": 2
+        }
+      }
+    },
+    "ordinary_single_agent": {
+      "all": {
+        "n": 300,
+        "known_usage": 299,
+        "unknown_usage_excluded_from_residual_admission": 1,
+        "budget_stops": {
+          "none": 281,
+          "token": 19
+        },
+        "actual_reported": {
+          "tokens_reported": {
+            "n": 300,
+            "min": 7852,
+            "p10": 23192,
+            "p25": 35042,
+            "median": 61999,
+            "p75": 92359,
+            "p90": 154240,
+            "p95": 183668,
+            "max": 195444,
+            "mean": 74324.13666666667
+          },
+          "tools": {
+            "n": 300,
+            "min": 2,
+            "p10": 4,
+            "p25": 5,
+            "median": 6,
+            "p75": 8,
+            "p90": 11,
+            "p95": 13,
+            "max": 21,
+            "mean": 6.796666666666667
+          },
+          "sdk_attempts": {
+            "n": 300,
+            "min": 2,
+            "p10": 4,
+            "p25": 5,
+            "median": 6,
+            "p75": 8,
+            "p90": 11,
+            "p95": 13,
+            "max": 21,
+            "mean": 6.79
+          }
+        },
+        "known_residual": {
+          "residual_tokens": {
+            "n": 299,
+            "min": 4556,
+            "p10": 42597,
+            "p25": 107383,
+            "median": 137901,
+            "p75": 164871,
+            "p90": 176612,
+            "p95": 181513,
+            "max": 192148,
+            "mean": 125489.73244147157
+          },
+          "residual_tools": {
+            "n": 299,
+            "min": 9,
+            "p10": 19,
+            "p25": 22,
+            "median": 24,
+            "p75": 25,
+            "p90": 26,
+            "p95": 27,
+            "max": 28,
+            "mean": 23.190635451505017
+          },
+          "residual_sdk": {
+            "n": 299,
+            "min": 9,
+            "p10": 19,
+            "p25": 22,
+            "median": 24,
+            "p75": 25,
+            "p90": 26,
+            "p95": 27,
+            "max": 28,
+            "mean": 23.20066889632107
+          }
+        },
+        "residual_threshold_counts_not_sufficiency": {
+          "tokens_ge_25000": 273,
+          "tokens_ge_50000": 267,
+          "tokens_ge_100000": 228,
+          "tokens_ge_150000": 111
+        },
+        "tool_residual_thresholds": {
+          "ge_2": 299,
+          "ge_3": 299,
+          "ge_5": 299,
+          "ge_10": 297,
+          "ge_15": 294,
+          "ge_20": 260
+        },
+        "sdk_residual_thresholds": {
+          "ge_2": 299,
+          "ge_3": 299,
+          "ge_5": 299,
+          "ge_10": 297,
+          "ge_15": 294,
+          "ge_20": 260
+        },
+        "joint_residual_thresholds": {
+          "T25000_U2_C2": 273,
+          "T25000_U3_C3": 273,
+          "T50000_U5_C5": 267,
+          "T100000_U10_C10": 228
+        },
+        "same_observed_A_cost_second_solve_plus_one_selector_SDK_screen_only": 228
+      },
+      "groups": {
+        "released_no_error": {
+          "n": 299,
+          "known_usage": 299,
+          "unknown_usage_excluded_from_residual_admission": 0,
+          "budget_stops": {
+            "none": 280,
+            "token": 19
+          },
+          "actual_reported": {
+            "tokens_reported": {
+              "n": 299,
+              "min": 7852,
+              "p10": 23388,
+              "p25": 35129,
+              "median": 62099,
+              "p75": 92617,
+              "p90": 157403,
+              "p95": 185280,
+              "max": 195444,
+              "mean": 74510.26755852843
+            },
+            "tools": {
+              "n": 299,
+              "min": 2,
+              "p10": 4,
+              "p25": 5,
+              "median": 6,
+              "p75": 8,
+              "p90": 11,
+              "p95": 13,
+              "max": 21,
+              "mean": 6.809364548494983
+            },
+            "sdk_attempts": {
+              "n": 299,
+              "min": 2,
+              "p10": 4,
+              "p25": 5,
+              "median": 6,
+              "p75": 8,
+              "p90": 11,
+              "p95": 13,
+              "max": 21,
+              "mean": 6.79933110367893
+            }
+          },
+          "known_residual": {
+            "residual_tokens": {
+              "n": 299,
+              "min": 4556,
+              "p10": 42597,
+              "p25": 107383,
+              "median": 137901,
+              "p75": 164871,
+              "p90": 176612,
+              "p95": 181513,
+              "max": 192148,
+              "mean": 125489.73244147157
+            },
+            "residual_tools": {
+              "n": 299,
+              "min": 9,
+              "p10": 19,
+              "p25": 22,
+              "median": 24,
+              "p75": 25,
+              "p90": 26,
+              "p95": 27,
+              "max": 28,
+              "mean": 23.190635451505017
+            },
+            "residual_sdk": {
+              "n": 299,
+              "min": 9,
+              "p10": 19,
+              "p25": 22,
+              "median": 24,
+              "p75": 25,
+              "p90": 26,
+              "p95": 27,
+              "max": 28,
+              "mean": 23.20066889632107
+            }
+          },
+          "residual_threshold_counts_not_sufficiency": {
+            "tokens_ge_25000": 273,
+            "tokens_ge_50000": 267,
+            "tokens_ge_100000": 228,
+            "tokens_ge_150000": 111
+          },
+          "tool_residual_thresholds": {
+            "ge_2": 299,
+            "ge_3": 299,
+            "ge_5": 299,
+            "ge_10": 297,
+            "ge_15": 294,
+            "ge_20": 260
+          },
+          "sdk_residual_thresholds": {
+            "ge_2": 299,
+            "ge_3": 299,
+            "ge_5": 299,
+            "ge_10": 297,
+            "ge_15": 294,
+            "ge_20": 260
+          },
+          "joint_residual_thresholds": {
+            "T25000_U2_C2": 273,
+            "T25000_U3_C3": 273,
+            "T50000_U5_C5": 267,
+            "T100000_U10_C10": 228
+          },
+          "same_observed_A_cost_second_solve_plus_one_selector_SDK_screen_only": 228
+        },
+        "terminal_error": {
+          "n": 1,
+          "known_usage": 0,
+          "unknown_usage_excluded_from_residual_admission": 1,
+          "budget_stops": {
+            "none": 1
+          },
+          "actual_reported": {
+            "tokens_reported": {
+              "n": 1,
+              "min": 18671,
+              "p10": 18671,
+              "p25": 18671,
+              "median": 18671,
+              "p75": 18671,
+              "p90": 18671,
+              "p95": 18671,
+              "max": 18671,
+              "mean": 18671.0
+            },
+            "tools": {
+              "n": 1,
+              "min": 3,
+              "p10": 3,
+              "p25": 3,
+              "median": 3,
+              "p75": 3,
+              "p90": 3,
+              "p95": 3,
+              "max": 3,
+              "mean": 3.0
+            },
+            "sdk_attempts": {
+              "n": 1,
+              "min": 4,
+              "p10": 4,
+              "p25": 4,
+              "median": 4,
+              "p75": 4,
+              "p90": 4,
+              "p95": 4,
+              "max": 4,
+              "mean": 4.0
+            }
+          },
+          "known_residual": {
+            "residual_tokens": {
+              "n": 0,
+              "min": null,
+              "p10": null,
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null,
+              "p95": null,
+              "max": null,
+              "mean": null
+            },
+            "residual_tools": {
+              "n": 0,
+              "min": null,
+              "p10": null,
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null,
+              "p95": null,
+              "max": null,
+              "mean": null
+            },
+            "residual_sdk": {
+              "n": 0,
+              "min": null,
+              "p10": null,
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null,
+              "p95": null,
+              "max": null,
+              "mean": null
+            }
+          },
+          "residual_threshold_counts_not_sufficiency": {
+            "tokens_ge_25000": 0,
+            "tokens_ge_50000": 0,
+            "tokens_ge_100000": 0,
+            "tokens_ge_150000": 0
+          },
+          "tool_residual_thresholds": {
+            "ge_2": 0,
+            "ge_3": 0,
+            "ge_5": 0,
+            "ge_10": 0,
+            "ge_15": 0,
+            "ge_20": 0
+          },
+          "sdk_residual_thresholds": {
+            "ge_2": 0,
+            "ge_3": 0,
+            "ge_5": 0,
+            "ge_10": 0,
+            "ge_15": 0,
+            "ge_20": 0
+          },
+          "joint_residual_thresholds": {
+            "T25000_U2_C2": 0,
+            "T25000_U3_C3": 0,
+            "T50000_U5_C5": 0,
+            "T100000_U10_C10": 0
+          },
+          "same_observed_A_cost_second_solve_plus_one_selector_SDK_screen_only": 0
+        }
+      }
+    }
+  },
+  "completion_report_sha256": "ba7a383078218c39c45ec4b485414b1adb248d14cd6e73fe83afd28bcb9d92fd",
+  "raw_arm_sha256": {
+    "ordinary_multi_agent": "dd685d9a19afc4d408168cd4ff0d8d2c23f15457528738abce9ec231bc67a428",
+    "ordinary_single_agent": "1837c14caafe3559923faf3b72aa54b54eb75934ba3d865afbae3c27f143938a"
+  },
+  "no_scoring_or_reference_access": true
+}

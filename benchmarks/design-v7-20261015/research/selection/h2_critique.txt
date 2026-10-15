@@ -1,0 +1,29 @@
+H2 research/design critique — 2026-10-15
+Status: critique only; no design selected, no project data read, no source mutations or model requests.
+
+Judgment
+H2 is coherent: a complete natural Single A establishes the preserved result, and a fresh B can explore different retrieval/computation only when real residual resources permit it. It directly addresses V6's shared-workspace complementarity limitation. The literature does not establish that B will be sufficiently independent, sufficiently funded, or correctly selected under these caps.
+
+Selector choice
+Leaving V6's selector unchanged gives the cleanest diagnostic of the B change, but retains its coarse semantic comparison. For a practical next milestone I favor a small explicit shared-requirement comparison inside the same one tool-free response, rather than adding a planner, numeric confidence, multiple judges, or a second verification loop. FineVerify supports explicit conditions and missing-evidence distinctions; AgentRewardBench supplies the counterargument that such judgments remain fallible. This is a cheaper adaptation, not independently searching verification.
+
+Use the same task-derived requirements for both candidates. Separate actual observations/execution from candidate explanations. For each material requirement record supported/not_found/contradicted with pointers to evidence actually present in the packet; if the packet cannot establish a claim, report not_found. Select existing B only when concrete evidence identifies an A defect and B resolves it without a material unresolved requirement. A's missing metadata, more cautious wording, a limitation, or a shorter rationale is not by itself a defect establishing B's correctness. UNKNOWN, ties, malformed replies and inadequate context preserve A. Exact finite typed JSON agreement preserves the entire released A. Do not promote a computed-but-unreleased candidate.
+
+One-response requirements are not an independent precommitted rubric: the selector sees candidates while deriving requirements and can invent favorable criteria, misread evidence, or be persuaded by code length. Record this as a joint B+selector intervention; a successful end-to-end result cannot isolate which component caused the gain. A later ablation would be needed for that causal claim, not for honestly labeling the tested architecture.
+
+A eligibility
+Allow any nonfatal A if missing provenance is explicitly represented as missing, not fabricated or silently completed. This preserves the original fallback behavior and avoids making the architecture depend on a particular model always returning the five-field artifact. Require actual B release/execution/source eligibility before B can replace A. Prose/ineligible A cannot be compared using an invented program or source record; when its factual claim cannot be evaluated from available observations, retain A. An eligible-A-only gate is simpler, but unnecessarily excludes possible improvements to otherwise nonfatal A failures and should be documented as that narrower hypothesis if chosen. Fatal/unknown-usage A must not enter the auxiliary stage.
+
+Reservations and accounting
+After A, compute true residual tokens/tools/SDK requests; do not reduce A to reserve auxiliary resources. Before admitting B, reserve one complete selector request, its completion, and any indispensable B finish/source-check operations. Bound the possible B packet up front so the future selector prompt can fit intact; if an actual candidate exceeds that eligibility bound, skip selection and preserve A rather than truncate essential evidence. Charge B feedback, retrieval, execution, checks, compaction and selection to the same ledger. A normal known-usage B budget stop is different from a provider request whose admitted usage is unknown; do not turn the latter into a free fallback. If A consumes the 30th SDK/tool allowance or leaves too few tokens for the whole useful bundle, B does not run.
+
+Main unresolved risks
+Full A may leave too little capacity exactly on the difficult questions where a second trajectory is useful. Fresh context reduces direct anchoring but same model, guide, retrieval system and source checker can still share omissions. A/B artifacts and source summaries may omit the information needed to resolve absence, scope, temporal semantics or arithmetic; successful retrieval-request metadata proves a request happened, not complete coverage. A tool-free judge cannot acquire missing evidence. Longer intact packets also increase cost and persuasion surface.
+
+Keep mechanism accounting separate: B completion/eligibility and residual starvation; A-wrong/B-right candidate coverage; helpful/harmful/neutral switches; unknown outcomes and errors. Good B coverage with poor switching suggests selection failure; zero complementary correct B means selector improvements alone have no observed opportunity. None of this establishes transfer beyond the present model/task, and the existing once-only confirmation protocol remains necessary.
+
+Primary research supporting this critique
+https://arxiv.org/html/2606.00660v1
+https://arxiv.org/html/2504.08942v1
+https://arxiv.org/html/2506.12928v1
+Exact author-repository source pins and limitations: assessment.txt and code_pins.json in this directory.

@@ -1,0 +1,8 @@
+Independent review of revised private V7 guard: PASS within stated scope.
+Guard bf47aa9e9c84735b0a096acbb6d209776473fcb7e81e8cfa2e366576d90e1115; packet delivery62d830dd59e763aaf116725890c93e5491904a8368509c231cb05ea3725034e6. All packet file hashes verified. Reviewed V4 generic helper remains byte-identical98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8.
+
+8 independent synthetic regressions pass. Original4 accepted malformed selected-B audit records now reject; clean B and3 legitimate discarded-B countergap/zero-initialization cases still pass. Signed gap counters are explicitly asserted. Original packet, probe and four findings remain preserved. No active/runtime source was changed.
+
+Eligible natural phases require complete response/tool evidence; eligible B also requires original init started/charged/completed1, function kind and packet SHA shape. Discarded/error/fatal paths keep reported signed gaps rather than treating them as new inference failures. This does not independently prove every interrupted initialization charge. Prompt reservation arithmetic is checked from retained estimates, not independently retokenized. Source citations and fallible selector statuses remain provenance/decision records, not semantic truth.
+
+No real data, results, labels, protected questions, config/settings, model/FHIR/network calls or scoring were used. Actual182-source freeze, runtime4, pins and eventual600 saved attempts remain root-owned checks; this private review alone is not a prelaunch or completion PASS for actual data and is not candidate acceptance.

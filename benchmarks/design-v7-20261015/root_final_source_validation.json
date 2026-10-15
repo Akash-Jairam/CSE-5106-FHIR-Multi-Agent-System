@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "utc": "2026-10-15T11:15:45.134417+00:00",
+  "exit_code": 0,
+  "source_before_after_unchanged": true,
+  "source_sha256": {
+    "agent/residual_trajectory_agent.py": "45de6a55d0d890d5d77b94810c7c067c2e34dc557b9e8441217b9dffecdae68e",
+    "agent/residual_trajectory_phase.py": "9e58261aefa65416a619927891dc5c653744e9286d591bf66cc539867afb5272",
+    "tests/test_residual_trajectory_core.py": "f6c5d0f0ce9fb27d6fffeffcb809a9405c4b4b4258d129b5bcc3834d46fe8b1d",
+    "tests/test_residual_trajectory_parity.py": "21779a45b6ae3881ef61b7222a0b8ef146b4a72171226a428501ea8341ae8935",
+    "tests/test_residual_trajectory_transport.py": "fa77c7457aa6e096c1bb90a7e05e8222dedf3434b744deca629e4e79027d7e52",
+    "run_agent.py": "03f15500f2ac2b6be1919157ab20f26aff592c246a98c4935461a40612c81e86",
+    "scripts/run_experiments.py": "056a34dff306e162e2798f2a9658a6967495b18363afda99f45a347c6da735f0",
+    "docs/design_v7_residual_trajectories_20261015.txt": "6313bcbc575b44cc2a5707eb3abb74de82270c5a3285f75b39ce65b1d303b6a7"
+  },
+  "tests": 13,
+  "argv": [
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_residual_trajectory_parity",
+    "tests.test_residual_trajectory_transport",
+    "tests.test_residual_trajectory_core.V7CoreTests.test_finite_phase_cost_sum_overflow_is_fatal_and_audit_stays_JSON",
+    "-v"
+  ],
+  "log_sha256": "a281ed3f8255fee2ca6b48d74721daefe9c49062bc83bb9dd5488ffde481e946",
+  "actual_models_network_FHIR": false,
+  "scope": "12 independent actualSingle-parity and nativeSDKmock/real-worker/ownedgzip checks plus final cost-overflow quarantine regression; synthetic fixtures only, configuration loading mocked."
+}

@@ -1,0 +1,47 @@
+{
+  "acceptance": "Team >239 AND Team >fresh contemporary Single AND Team >actual recorded full-cap A-only; all300 first attempts/errors, no replacements/retries. Missing A reconstruction makes the last gate unavailable and prevents selection.",
+  "minimum_team_correct": 240,
+  "recorded_A_only_gate": "Strict positive net auxiliary contribution; actual normalized released A/error and primary fatal state, never computed withheld or fabricated null. All300 reconstructible outcomes required.",
+  "model": "gpt-6-luna",
+  "fixed_questions_per_arm": 300,
+  "workers_per_arm": 1,
+  "first_attempt_only": true,
+  "expected_public_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "primary_iterations": 30,
+  "primary_tools_inclusive_automatic_checks": true,
+  "reserved_primary_source_checks": 0,
+  "full_primary_allowance": [
+    200000,
+    30,
+    30
+  ],
+  "alternative_allocation": "actual_residual_less_initialization_and_selector_reservation",
+  "max_team_model_calls": 30,
+  "max_control_model_calls": 30,
+  "global_caps": [
+    200000,
+    30
+  ],
+  "estimated_input_guard": 32000,
+  "bounds": {
+    "candidate_entry_bytes": 32768,
+    "selector_boundary_tokens": 512,
+    "selector_completion": 2000,
+    "selector_response_chars": 16000
+  },
+  "alternative_initialization_tool_charge": 1,
+  "minimum_residual_tools": 3,
+  "minimum_residual_sdk_attempts": 3,
+  "comparison_method": "Unchanged typed scorer; all scheduled first attempts/errors;10000 question-weighted patient-block bootstrap draws seed5106. Adaptive fixed300 development only.",
+  "same_prefix_diagnostic": "Team vs actual full-cap A-only reconstructed from each owned snapshot; phase help/harm, complementary B, selection and auxiliary fatal losses distinct. Not another stochastic control or causal allocation ablation.",
+  "generalization_protocol": "docs/evaluation_generalization_protocol_20261015.txt",
+  "final_confirmation_manifest_sha256": "6c0410ae9fc581bf5cf6918f95d4d97407a8eb4b19d488cba6815937a1bbf965",
+  "inference_gold_access": false,
+  "partial_accuracy_inspection": false,
+  "semantic_assurance": "Execution and original-source fields bound; requirement judgments/selection remain fallible and source/retrieval traces do not prove exhaustive search.",
+  "future_full_run": "Only after all development gates: once-only frozen2931x3, all8793terminal before scoring, prespecified1397 question-confirmation; unchanged primary confirmation rule. No patient/model/task transfer claim."
+}

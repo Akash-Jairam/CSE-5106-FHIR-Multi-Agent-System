@@ -1,0 +1,257 @@
+{
+  "scope": "All existing tracked Python sources under agent/tools/utils versus current HEAD; new untracked/additive V7 modules excluded from this equality set. No ignored runtime/config inspection.",
+  "files": [
+    {
+      "path": "agent/__init__.py",
+      "head_sha256": "c1cb3fedaccb3c808fbcfb102780b2f2ea1b27b5d6240cad71d37f66c0d518be",
+      "current_sha256": "c1cb3fedaccb3c808fbcfb102780b2f2ea1b27b5d6240cad71d37f66c0d518be",
+      "equal": true
+    },
+    {
+      "path": "agent/analysis_agent.py",
+      "head_sha256": "113a74110c0b925a8cc5f57dc6e2fe6da99f5b258c241d27f3a0b933a3232adc",
+      "current_sha256": "113a74110c0b925a8cc5f57dc6e2fe6da99f5b258c241d27f3a0b933a3232adc",
+      "equal": true
+    },
+    {
+      "path": "agent/base_agent.py",
+      "head_sha256": "e566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77",
+      "current_sha256": "e566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77",
+      "equal": true
+    },
+    {
+      "path": "agent/continuous_primary.py",
+      "head_sha256": "f3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963",
+      "current_sha256": "f3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963",
+      "equal": true
+    },
+    {
+      "path": "agent/controller.py",
+      "head_sha256": "8d230c5d01f78652dc6179dc73472f000b32f84723c0827eb57a72edb5626977",
+      "current_sha256": "8d230c5d01f78652dc6179dc73472f000b32f84723c0827eb57a72edb5626977",
+      "equal": true
+    },
+    {
+      "path": "agent/direct_llm_agent.py",
+      "head_sha256": "c8164f57a9efa48a6cee0d0733e040e464b2577729ef3a3063b5c10e4a37beee",
+      "current_sha256": "c8164f57a9efa48a6cee0d0733e040e464b2577729ef3a3063b5c10e4a37beee",
+      "equal": true
+    },
+    {
+      "path": "agent/ehr_semantics.py",
+      "head_sha256": "2c6a12e0c2e5428b028c22b3d017bbabd8bc479b874d32facca98612d7055fe4",
+      "current_sha256": "2c6a12e0c2e5428b028c22b3d017bbabd8bc479b874d32facca98612d7055fe4",
+      "equal": true
+    },
+    {
+      "path": "agent/executable_critic_agent.py",
+      "head_sha256": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+      "current_sha256": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+      "equal": true
+    },
+    {
+      "path": "agent/framework.py",
+      "head_sha256": "4ab01c58ec6ab1e39db4633033884ea0cbb0f82301f4e4eded9d4d861dcb12c8",
+      "current_sha256": "4ab01c58ec6ab1e39db4633033884ea0cbb0f82301f4e4eded9d4d861dcb12c8",
+      "equal": true
+    },
+    {
+      "path": "agent/independent_recompute_agent.py",
+      "head_sha256": "facb15e3d3b5bdce4e8dd70f1c367dbe05f03786f7910893393e1f9feba9068e",
+      "current_sha256": "facb15e3d3b5bdce4e8dd70f1c367dbe05f03786f7910893393e1f9feba9068e",
+      "equal": true
+    },
+    {
+      "path": "agent/independent_recompute_aux.py",
+      "head_sha256": "f6659d5de56841068666f50c83d9bf3673e180b21c97fe08cedbfca4f1a8fdd6",
+      "current_sha256": "f6659d5de56841068666f50c83d9bf3673e180b21c97fe08cedbfca4f1a8fdd6",
+      "equal": true
+    },
+    {
+      "path": "agent/multi_agent.py",
+      "head_sha256": "ee799be8aef44605834abc0a9c9692edf360daef905de15e4e1fc2eecd3b36c3",
+      "current_sha256": "ee799be8aef44605834abc0a9c9692edf360daef905de15e4e1fc2eecd3b36c3",
+      "equal": true
+    },
+    {
+      "path": "agent/multi_turn_code_resource_agent.py",
+      "head_sha256": "938a57c1664309e9673c5011c7f1d76b22a5e1d63380322ba6ca34e74e0645e6",
+      "current_sha256": "938a57c1664309e9673c5011c7f1d76b22a5e1d63380322ba6ca34e74e0645e6",
+      "equal": true
+    },
+    {
+      "path": "agent/multi_turn_code_resource_v2_agent.py",
+      "head_sha256": "00e1999c5a1330643f0bc5d8f7512e5bb78d9b672b7a7760db35f3be2b0157dc",
+      "current_sha256": "00e1999c5a1330643f0bc5d8f7512e5bb78d9b672b7a7760db35f3be2b0157dc",
+      "equal": true
+    },
+    {
+      "path": "agent/multi_turn_resource_agent.py",
+      "head_sha256": "91cd84a7e2cf906e13aceb23975ecf5d98b52d23cba4c667e107e1b8a7caa357",
+      "current_sha256": "91cd84a7e2cf906e13aceb23975ecf5d98b52d23cba4c667e107e1b8a7caa357",
+      "equal": true
+    },
+    {
+      "path": "agent/output_schema.py",
+      "head_sha256": "daba54d1a63237f7961bce70c89bc064b03708818f6aaa704a958b02bb7b13a6",
+      "current_sha256": "daba54d1a63237f7961bce70c89bc064b03708818f6aaa704a958b02bb7b13a6",
+      "equal": true
+    },
+    {
+      "path": "agent/plan_conditioned_agent.py",
+      "head_sha256": "2acc639a092eed1b1f6e7221292c3695dcfebbbc300115ff5abaff0ef65e5aac",
+      "current_sha256": "2acc639a092eed1b1f6e7221292c3695dcfebbbc300115ff5abaff0ef65e5aac",
+      "equal": true
+    },
+    {
+      "path": "agent/query_contract_agent.py",
+      "head_sha256": "e8466ca0b0df4378289357f677af3bf22718d855643245edac9aced3c5de9ae6",
+      "current_sha256": "e8466ca0b0df4378289357f677af3bf22718d855643245edac9aced3c5de9ae6",
+      "equal": true
+    },
+    {
+      "path": "agent/retrieval_agent.py",
+      "head_sha256": "bd477172c265ec988bbabf78e39da1a3b9336389d2ba4c859bfc975db0f30e0c",
+      "current_sha256": "bd477172c265ec988bbabf78e39da1a3b9336389d2ba4c859bfc975db0f30e0c",
+      "equal": true
+    },
+    {
+      "path": "agent/single_agent.py",
+      "head_sha256": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+      "current_sha256": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+      "equal": true
+    },
+    {
+      "path": "agent/single_turn_code_resource_agent.py",
+      "head_sha256": "48cc8abea9fbf0c4e07eb08954f95c3ad4e6dcccadfc1b8d305a5eda7a162b8a",
+      "current_sha256": "48cc8abea9fbf0c4e07eb08954f95c3ad4e6dcccadfc1b8d305a5eda7a162b8a",
+      "equal": true
+    },
+    {
+      "path": "agent/single_turn_request_agent.py",
+      "head_sha256": "bc4891e4b4dcbfd484e27429bcc4413f3554a34ea3cd827d2228ca010617fa07",
+      "current_sha256": "bc4891e4b4dcbfd484e27429bcc4413f3554a34ea3cd827d2228ca010617fa07",
+      "equal": true
+    },
+    {
+      "path": "agent/single_turn_resource_agent.py",
+      "head_sha256": "b559844b1eff503098d17d85e77d17cfd4b97a9483012cc3236ed30490b345b9",
+      "current_sha256": "b559844b1eff503098d17d85e77d17cfd4b97a9483012cc3236ed30490b345b9",
+      "equal": true
+    },
+    {
+      "path": "agent/verification_agent.py",
+      "head_sha256": "d46a60dea90f80ad63455f8d2122ad5ac87938af542e6be6510fa0dbf7ec67fb",
+      "current_sha256": "d46a60dea90f80ad63455f8d2122ad5ac87938af542e6be6510fa0dbf7ec67fb",
+      "equal": true
+    },
+    {
+      "path": "tools/__init__.py",
+      "head_sha256": "20fd87e431de62093c1d56815c02a125be8fa1b819bf4b056a8805ae9a2d3496",
+      "current_sha256": "20fd87e431de62093c1d56815c02a125be8fa1b819bf4b056a8805ae9a2d3496",
+      "equal": true
+    },
+    {
+      "path": "tools/cache.py",
+      "head_sha256": "c53aee7aafe497f66674200375d641d7bcc9301b82e2b15db17b08bd380dc8a9",
+      "current_sha256": "c53aee7aafe497f66674200375d641d7bcc9301b82e2b15db17b08bd380dc8a9",
+      "equal": true
+    },
+    {
+      "path": "tools/field_check.py",
+      "head_sha256": "53345095c1e489185ff9b280034999c4225748d4c88bc9df939960f3119457c5",
+      "current_sha256": "53345095c1e489185ff9b280034999c4225748d4c88bc9df939960f3119457c5",
+      "equal": true
+    },
+    {
+      "path": "tools/perturbation.py",
+      "head_sha256": "4b676901a511247f3b14851ab867b0949e32fb0de17b280a49cb7d24dd54c0b3",
+      "current_sha256": "4b676901a511247f3b14851ab867b0949e32fb0de17b280a49cb7d24dd54c0b3",
+      "equal": true
+    },
+    {
+      "path": "tools/python_executor.py",
+      "head_sha256": "87d701913d1505283ce481720bf9f2780e1759d892680d7f8d373fbe039b6c8f",
+      "current_sha256": "87d701913d1505283ce481720bf9f2780e1759d892680d7f8d373fbe039b6c8f",
+      "equal": true
+    },
+    {
+      "path": "tools/python_worker.py",
+      "head_sha256": "fd1384f568c9af65e5a7411f1a056598c9f0a635b3c4bedb6263ebc69d3a37c3",
+      "current_sha256": "fd1384f568c9af65e5a7411f1a056598c9f0a635b3c4bedb6263ebc69d3a37c3",
+      "equal": true
+    },
+    {
+      "path": "tools/registry.py",
+      "head_sha256": "0a7fdaf3627517d6e5d3a30ee727ea84eaa5cb43803391434a60a95eb2929dfb",
+      "current_sha256": "0a7fdaf3627517d6e5d3a30ee727ea84eaa5cb43803391434a60a95eb2929dfb",
+      "equal": true
+    },
+    {
+      "path": "tools/request_tools.py",
+      "head_sha256": "36a4eb8d65f2360f53e5319f817cd2bdc40509824941860073d76feb464256d7",
+      "current_sha256": "36a4eb8d65f2360f53e5319f817cd2bdc40509824941860073d76feb464256d7",
+      "equal": true
+    },
+    {
+      "path": "tools/resource_tools.py",
+      "head_sha256": "ed5319a217eeb6c439deb386dbe84e9319082854c5bcfe3e7072d60bd12a568d",
+      "current_sha256": "ed5319a217eeb6c439deb386dbe84e9319082854c5bcfe3e7072d60bd12a568d",
+      "equal": true
+    },
+    {
+      "path": "tools/starting_packet.py",
+      "head_sha256": "96d6547bc5ce41647d9e38bc360c8e49de76d1df2d5c1c72e2e1efefac997d63",
+      "current_sha256": "96d6547bc5ce41647d9e38bc360c8e49de76d1df2d5c1c72e2e1efefac997d63",
+      "equal": true
+    },
+    {
+      "path": "utils/__init__.py",
+      "head_sha256": "3f063771d803b5a83817d462997c729cb84ac9d7e704178eb18cb2bf4c68dc9d",
+      "current_sha256": "3f063771d803b5a83817d462997c729cb84ac9d7e704178eb18cb2bf4c68dc9d",
+      "equal": true
+    },
+    {
+      "path": "utils/answer_scorer.py",
+      "head_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+      "current_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+      "equal": true
+    },
+    {
+      "path": "utils/core_utils.py",
+      "head_sha256": "e0fa62f8d5093b275a9100ce618c94b03722982d1acd6295f666ab5509c126d0",
+      "current_sha256": "e0fa62f8d5093b275a9100ce618c94b03722982d1acd6295f666ab5509c126d0",
+      "equal": true
+    },
+    {
+      "path": "utils/evidence_scorer.py",
+      "head_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+      "current_sha256": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+      "equal": true
+    },
+    {
+      "path": "utils/fhir_utils.py",
+      "head_sha256": "a559915d6033c2eedd69a95f10eccf82956ce83e63e410aac5c3a2f15a1dd92a",
+      "current_sha256": "a559915d6033c2eedd69a95f10eccf82956ce83e63e410aac5c3a2f15a1dd92a",
+      "equal": true
+    },
+    {
+      "path": "utils/metrics_utils.py",
+      "head_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063",
+      "current_sha256": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063",
+      "equal": true
+    },
+    {
+      "path": "utils/model_config.py",
+      "head_sha256": "b178e25086e68be738fefe1f0f5cc6f0a449b171aa1e0fd14540a34a6d39846c",
+      "current_sha256": "b178e25086e68be738fefe1f0f5cc6f0a449b171aa1e0fd14540a34a6d39846c",
+      "equal": true
+    },
+    {
+      "path": "utils/sql_to_fhir_utils.py",
+      "head_sha256": "f26d0efe8c32f6420744bcccbadf2cfe2a13dec7327a5fc54f4ebd0b88973498",
+      "current_sha256": "f26d0efe8c32f6420744bcccbadf2cfe2a13dec7327a5fc54f4ebd0b88973498",
+      "equal": true
+    }
+  ]
+}

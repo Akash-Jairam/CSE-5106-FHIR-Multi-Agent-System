@@ -1,0 +1,57 @@
+{
+  "status": "FROZEN_READONLY_ASSESSMENT_NO_IMPLEMENTATION",
+  "recommendation": "H2 reasonable next prospective engineering test, not predicted win",
+  "source_projection": "/private/tmp/fhir-v6-conditional-integration-v3-321ju7iu/base",
+  "frozen_source_sha256": {
+    "agent/base_agent.py": "e566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77",
+    "agent/single_agent.py": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+    "agent/continuous_primary.py": "f3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963",
+    "agent/independent_recompute_aux.py": "f6659d5de56841068666f50c83d9bf3673e180b21c97fe08cedbfca4f1a8fdd6",
+    "agent/independent_recompute_agent.py": "facb15e3d3b5bdce4e8dd70f1c367dbe05f03786f7910893393e1f9feba9068e",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "tools/starting_packet.py": "96d6547bc5ce41647d9e38bc360c8e49de76d1df2d5c1c72e2e1efefac997d63",
+    "tools/cache.py": "c53aee7aafe497f66674200375d641d7bcc9301b82e2b15db17b08bd380dc8a9",
+    "utils/core_utils.py": "e0fa62f8d5093b275a9100ce618c94b03722982d1acd6295f666ab5509c126d0",
+    ".local-setup/azure_adapter.py": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8"
+  },
+  "research_assessment": {
+    "path": "/private/tmp/fhir-v6-followup-hypotheses-20261015/assessment.txt",
+    "sha256": "ddeedc5c5687a802f82fd69cb179edfb384058e3f36d773b2817c47da7bed77e"
+  },
+  "frozen_manifest_sha256": "7c1263a60c0c2a51cc009d8a4925d5a4e773c113d3af0476a6b058407114a8a2",
+  "artifacts": {
+    "assessment.txt": {
+      "sha256": "fb7b24e41144560324bbd5936cbfebf46b0cc8bd48632900618fd1429e87128d",
+      "bytes": 12146
+    },
+    "entry_sizes.json": {
+      "sha256": "a54bd631bf1aa886d2d1edb5b44032cd3a1a34de0f28dc4123ea0b12e9d78c28",
+      "bytes": 6170
+    },
+    "entry_sizes.py": {
+      "sha256": "50c17994ab0669e2fe81b324376bba12f6a59ddb797ac964a49dfa6dc2c7dc65",
+      "bytes": 4001
+    },
+    "private_entry_sizes_rows.json": {
+      "sha256": "a08fbd7884a8222aebeb009da92571075ef09abfa11135bf0efcfc5cfd528056",
+      "bytes": 104740
+    },
+    "private_residual_rows.json": {
+      "sha256": "f61849c2d6bcf875dcaa4382a6cd9cbd45cd61e430fbb5225ee928915c938027",
+      "bytes": 203136
+    },
+    "residual_metrics.json": {
+      "sha256": "7362e6fa848192a88513f1c0655570cf99e7b888c29cb78eaa97c2e3dd8a303f",
+      "bytes": 25297
+    },
+    "residual_metrics.py": {
+      "sha256": "ceb0a22540e130fcdf548aca3f719415220aae91454a5efd2a92096f3ececce3",
+      "bytes": 5071
+    }
+  },
+  "no_new_scoring": true,
+  "no_question_reference_inspection": true,
+  "no_program_replay": true,
+  "model_network_FHIR_calls": 0,
+  "active_source_mutations": 0
+}
