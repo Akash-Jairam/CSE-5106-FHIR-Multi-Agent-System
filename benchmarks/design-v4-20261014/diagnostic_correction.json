@@ -1,0 +1,55 @@
+{
+  "status": "COMPLETED_POSTHOC_CORRECTION_ONLY",
+  "old_report_local_backup": "/private/tmp/fhir-v4-superseded-diagnostics-5j8utyna",
+  "old_helper_sha256": "cd26072933950ee2edcc01574af7c2850d1764528883889a402c6aa9c4c1d69c",
+  "new_helper": {
+    "path": "/private/tmp/fhir_v4_large_run_diagnostics_corrected.py",
+    "sha256": "b8987eb0c7befb84c0a41ac5998a3f6ad970a598117b5ce1dbb635f11ca51240"
+  },
+  "tests": {
+    "path": "/private/tmp/test_fhir_v4_large_run_diagnostics_corrected.py",
+    "sha256": "d67432a007e4f9feaac50f5029ef5762bf1195343a29cc1976794b5dbfbbccb8",
+    "synthetic_passed": 34,
+    "independent_passed": 34,
+    "independent_log_sha256": "6e4d868ae38effa28b9b96b906b9dfd5e4ddadccbe710c20f5680c64a7c5cc16"
+  },
+  "outputs": {
+    "mechanisms.json": {
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/diagnostics_corrected/mechanisms.json",
+      "sha256": "a257f13fe53295183fe40789946d85bbbffe787036d19fc3ab351e28ad764dae"
+    },
+    "mechanisms_rows.json": {
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/diagnostics_corrected/mechanisms_rows.json",
+      "sha256": "8308ab7958094688fe6d38386c5628eadac156312d9a41b471d06497f02e66ca"
+    },
+    "mechanisms.csv": {
+      "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v4-20261014/diagnostics_corrected/mechanisms.csv",
+      "sha256": "67d13883f5c94152bb60b4ebce328ffde5e8f4dc8678db02df6e391ca7545369"
+    }
+  },
+  "completion_report_sha256": "610e1e56fbea170cbc39ea09c2972674f89b3d17d12f429fe9dc84c0380aa642",
+  "official_results_sha256": "8fcba5188b22d74502c0ed8cc20e0598091e41848c5c90af1966ce2f9332fcd8",
+  "official_scores_unchanged": {
+    "single": 239,
+    "team": 218
+  },
+  "classification": {
+    "ordinary_single_agent": {
+      "source_checked_rendered_release": 286,
+      "source_valid_release": 284,
+      "source_valid_release_support_unavailable": 2,
+      "source_valid_correct_release": 236,
+      "credited_without_source_valid_release": 1,
+      "credited_with_source_release_support_unavailable": 2
+    },
+    "ordinary_multi_agent": {
+      "source_checked_rendered_release": 281,
+      "source_valid_release": 281,
+      "source_valid_release_support_unavailable": 0,
+      "source_valid_correct_release": 213,
+      "credited_without_source_valid_release": 5,
+      "credited_with_source_release_support_unavailable": 0
+    }
+  },
+  "proof_limit": "Single source_checked_rendered_release proves rendered answer/evidence/limitation match a recorded clean source check. Explicit execution-backed source_valid_release additionally requires current full worker-final reply and matching later automatic check; unavailable ancestry is null/N/A. Two actual N/A rows used only inspect/auto, never explicit final. No inference/source/scorer changes."
+}

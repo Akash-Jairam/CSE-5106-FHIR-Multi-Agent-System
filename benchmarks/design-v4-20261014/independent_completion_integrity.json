@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "scope": "Independent read-only complete cohort/raw inventory/gzip CRC, uncompressed SHA, ownership and exact finite-JSON runtime restoration; no scoring or clinical validation",
+  "completion_report_sha256": "610e1e56fbea170cbc39ea09c2972674f89b3d17d12f429fe9dc84c0380aa642",
+  "completed_first_attempts": 600,
+  "verified_raw_file_digests": 609,
+  "owned_gzip_restorations": 600,
+  "unique_artifacts": 600,
+  "restored_bytes": 2020818540,
+  "ordered_cohorts_match": true,
+  "arms": {
+    "ordinary_single_agent": {
+      "completed_first_attempts": 300,
+      "terminal_errors": 1,
+      "result_sha256": "9df96cb3d842853731ce321b3da4603aa8c186d02a9023aa5bb5e705fcff1177"
+    },
+    "ordinary_multi_agent": {
+      "completed_first_attempts": 300,
+      "terminal_errors": 0,
+      "result_sha256": "dd2ef04dd3e99e84629a83cd393153970e451a468bb682bbe1bee8ada080f51e"
+    }
+  },
+  "model_calls": 0,
+  "network_calls": 0,
+  "scoring_performed": false,
+  "helper_sha256": "207af82895c1bdc927404ef2ed5c80d68102e3be1def8eb46c758598c0cca365"
+}

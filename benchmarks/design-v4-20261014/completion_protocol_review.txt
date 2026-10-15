@@ -1,0 +1,40 @@
+Independent offline/read-only V4 completion helper review
+15 October 2026 UTC
+
+Disposition: no concrete fatal completion/archive boundary defect found.
+All24 synthetic tests independently passed. Main was not invoked on any actual
+run; no live result, configuration, model, FHIR or network access in this review.
+
+Reviewed helper SHA256: 98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8
+Reviewed tests SHA256: a21c2c0d4cdff8ace94436316c6b6f8e81c4768a48a4ece3b1a1a3cd4fd8059e
+
+Verified: each complete ordered300 arm is required before output; all600 first
+attempts, including terminal errors, retain audit ownership. Independent gzip
+CRC/SHA/payload owner checks plus exact finite-JSON restoration/display binding
+preserve bool/number/null distinctions. Source142/runtime4 archives and actual
+public binding are checked. Archive inventories derive only from seven base
+files, referenced content-addressed audits and schema/filename-owned journals.
+Fresh/exclusive destinations protect inference/source/raw files; partial unsafe
+journal bytes prevent archive while preserving the completion report. Missing
+journal pairs remain explicitly incomplete evidence. No scoring is performed.
+V4 checks distinguish retained-plan visibility from actual solver exposure when
+a fatal planner stops before solving; planner/solver phase caps, plan hash/context,
+invocation signals, host boundaries and source-check slots are reported.
+
+Nonblocking scope caveats sent to author: plan_validated_and_hashed checks retained
+READY/hash/context but does not itself rerun the complete quote/span/schema parser;
+that validation relies on the frozen runtime. frozen_provenance reads the
+prospective protocol's expected binding but does not itself compare all its other
+caps/call fields; these were independently verified by the formal prelaunch audit.
+Reported invocation/tool/overshoot anomalies are retained counters, not clinical
+acceptance. Root still must verify finished owned processes and interpret the
+complete results; integrity PASS alone is not protocol-compliance/accuracy PASS.
+
+Final narrow delta review: independent26-test synthetic suite passes. The new
+verify_prospective_protocol checks exact finite-JSON equality for model,300/arm,
+1worker,first-attempt,global/phase caps,20/22 lifecycle,28+2 tools,32k guard,
+minimum239 and binding, and the completion report hashes that protocol. Parser
+normalization reliance is explicitly disclosed. Both earlier caveats addressed.
+Final helper SHA256: 98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8
+Final tests SHA256: a21c2c0d4cdff8ace94436316c6b6f8e81c4768a48a4ece3b1a1a3cd4fd8059e
+No additional blocker found; no actual run main was invoked.

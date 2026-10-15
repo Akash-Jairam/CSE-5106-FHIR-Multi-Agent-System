@@ -1,0 +1,46 @@
+V4 trajectory assessment (completed cohort only)
+
+Independently rescored all 900 first attempts through the unchanged public-file
+scorer: V4 single 239/300, V4 team 218/300, V3d team 232/300. Raw digests and ordered
+IDs match the reviewed records. Selected exact gzip audits were restored without
+printing patient resources. Runtime/config/model/FHIR/network remained untouched.
+
+The main regression is clean but wrong answers: V4 has 281 source-valid releases,
+213 correct and 68 typed-wrong. Its 19 refusals include five empty-reference null
+credits outside clean release. Versus fresh single, 25 of 29 paired losses are
+source-valid wrong; three are scope refusals and one lacks a valid computation.
+Versus V3d team, 23 of 26 regressions are source-valid wrong; V4 gains 12 questions,
+all source-valid. Temporal-selection questions contribute 20/29 single losses
+and 19/26 V3d regressions. Source-gate loosening cannot explain most lost points.
+
+Refusals comprise 14 unresolved-scope, three encounter-link, and two execution-
+contract cases. V3d refused 17; 13 overlap, six are newly refused by V4, and four
+old refusals disappear. Nineteen V4 refusals end with 0/1/2 host boundaries in
+2/3/14 cases and at most 17 solver-invocation signals. Eleven last successful
+worker calculations are typed-correct, but that does not validate their scope.
+No refusal exhausts the 20-invocation cap. Five phase-local token refusals occur
+even though aggregate budget.stopped is false. Two affect fresh-single losses;
+one is an execution-contract failure and one is an unresolved-scope revision.
+PhaseHost's restoration of the parent stop flag explains this diagnostic split.
+
+Plan-visible outcomes are 192/263 (73.0%); ignored plans are 26/37 (70.3%). These
+are not randomized groups: 29/37 ignored plans are numerical aggregation, while
+only 20/263 visible plans are. Visible temporal outcomes are 98/152, versus 5/7
+ignored; visible numerical outcomes are 18/20, versus 20/29 ignored. Neither the
+aggregate association nor these small selected subgroups establish causal value.
+
+Generic levers: prioritize question interpretation and temporal selection before
+adding more solver budget or relaxing source checks. Any next critic should
+inspect the actual executed computation and its question obligations, since a
+textually anchored advisory plan and source citations can accompany wrong intent.
+Improve dependency-closure retrieval and bounded source-repair context separately:
+repeated unlinked metadata and long histories can consume prompt budget without
+resolving source ownership. Preserve the fixed common cap and source requirements;
+measure these mechanisms independently instead of treating rejected typed-correct
+candidates as valid answers. These are design hypotheses, not per-question rules.
+
+Representative generic cases and all aggregate tables are in the companion JSON.
+Corrected Single diagnostics now distinguish 286 source-checked rendered releases
+from 284 explicitly execution-backed releases and two N/A execution ancestries.
+The correction leaves this assessment's team classifications and all three
+independently verified official scores unchanged.

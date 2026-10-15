@@ -1,0 +1,2297 @@
+{
+  "scope": "Completed 300 first attempts in each of three arms; all final scores independently recomputed with frozen public typed scorer. Selected exact audit trajectories restored. No patient resource content emitted.",
+  "scores": {
+    "ordinary_single_agent": 239,
+    "ordinary_multi_agent": 218,
+    "v3d": 232
+  },
+  "raw_hashes": {
+    "ordinary_single_agent": "9df96cb3d842853731ce321b3da4603aa8c186d02a9023aa5bb5e705fcff1177",
+    "ordinary_multi_agent": "dd2ef04dd3e99e84629a83cd393153970e451a468bb682bbe1bee8ada080f51e",
+    "v3d": "89d7cb53378aa14847c703a00a7695c0ba2d6c26c581700da66e49a52a505940"
+  },
+  "cohort_counts": {
+    "ordinary_single_agent": 300,
+    "ordinary_multi_agent": 300,
+    "v3d": 300
+  },
+  "all_v4_team": {
+    "n": 300,
+    "correct": 218,
+    "source_valid_releases": 281,
+    "source_valid_typed_wrong": 68,
+    "source_refusals": 19,
+    "null_credit_outside_clean_release": 5,
+    "family_counts": {
+      "lookup_counting": 92,
+      "temporal_selection": 159,
+      "numerical_aggregation": 49
+    },
+    "plan_status_counts": {
+      "visible_valid_hash": 263,
+      "ignored_error": 33,
+      "ignored_unknown": 4
+    }
+  },
+  "fresh_single_paired_losses": {
+    "n": 29,
+    "correct": 0,
+    "source_valid_releases": 25,
+    "source_valid_typed_wrong": 25,
+    "source_refusals": 4,
+    "null_credit_outside_clean_release": 0,
+    "family_counts": {
+      "lookup_counting": 5,
+      "temporal_selection": 20,
+      "numerical_aggregation": 4
+    },
+    "plan_status_counts": {
+      "visible_valid_hash": 24,
+      "ignored_error": 5
+    }
+  },
+  "v3d_correct_v4_wrong": {
+    "n": 26,
+    "correct": 0,
+    "source_valid_releases": 23,
+    "source_valid_typed_wrong": 23,
+    "source_refusals": 3,
+    "null_credit_outside_clean_release": 0,
+    "family_counts": {
+      "lookup_counting": 3,
+      "temporal_selection": 19,
+      "numerical_aggregation": 4
+    },
+    "plan_status_counts": {
+      "visible_valid_hash": 21,
+      "ignored_error": 5
+    }
+  },
+  "v4_correct_v3d_wrong": {
+    "n": 12,
+    "correct": 12,
+    "source_valid_releases": 12,
+    "source_valid_typed_wrong": 0,
+    "source_refusals": 0,
+    "null_credit_outside_clean_release": 0,
+    "family_counts": {
+      "temporal_selection": 6,
+      "numerical_aggregation": 5,
+      "lookup_counting": 1
+    },
+    "plan_status_counts": {
+      "visible_valid_hash": 10,
+      "ignored_error": 2
+    }
+  },
+  "plan_status_association": {
+    "ignored_error": {
+      "n": 33,
+      "correct": 23,
+      "source_valid_releases": 32,
+      "source_valid_typed_wrong": 10,
+      "source_refusals": 1,
+      "null_credit_outside_clean_release": 1,
+      "family_counts": {
+        "numerical_aggregation": 26,
+        "temporal_selection": 7
+      },
+      "plan_status_counts": {
+        "ignored_error": 33
+      }
+    },
+    "ignored_unknown": {
+      "n": 4,
+      "correct": 3,
+      "source_valid_releases": 4,
+      "source_valid_typed_wrong": 1,
+      "source_refusals": 0,
+      "null_credit_outside_clean_release": 0,
+      "family_counts": {
+        "lookup_counting": 1,
+        "numerical_aggregation": 3
+      },
+      "plan_status_counts": {
+        "ignored_unknown": 4
+      }
+    },
+    "visible_valid_hash": {
+      "n": 263,
+      "correct": 192,
+      "source_valid_releases": 245,
+      "source_valid_typed_wrong": 57,
+      "source_refusals": 18,
+      "null_credit_outside_clean_release": 4,
+      "family_counts": {
+        "lookup_counting": 91,
+        "temporal_selection": 152,
+        "numerical_aggregation": 20
+      },
+      "plan_status_counts": {
+        "visible_valid_hash": 263
+      }
+    }
+  },
+  "source_refusal_trajectory": {
+    "questions": 19,
+    "final_issue_kinds": {
+      "source_scope": 14,
+      "execution_contract": 2,
+      "evidence[*] encounter_link": 6
+    },
+    "invocation_attempt_counts": {
+      "8": 1,
+      "9": 3,
+      "10": 3,
+      "6": 3,
+      "5": 5,
+      "11": 3,
+      "17": 1
+    },
+    "boundary_counts": {
+      "2": 14,
+      "1": 3,
+      "0": 2
+    },
+    "python_error_types": {
+      "unclassified_worker_error": 5,
+      "final_contract": 1
+    },
+    "last_successful_final_typed_correct": 11,
+    "budget_stops": 0,
+    "scope_reasons_question_counts": {
+      "unlinked_metadata": 11,
+      "unknown_time": 4
+    },
+    "local_token_refusals": 5
+  },
+  "trajectory_details": [
+    {
+      "question_id": "00b98d0bf4d50497625b257e",
+      "family": "lookup_counting",
+      "answer_kind": "boolean",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 4,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "start",
+        "status",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "bool",
+        "get",
+        "lower",
+        "split",
+        "start",
+        "str"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 5,
+      "tool_calls": 5
+    },
+    {
+      "question_id": "05a9aa5bb494b962444ac354",
+      "family": "temporal_selection",
+      "answer_kind": "number",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 4,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 1,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "add",
+        "any",
+        "append",
+        "casefold",
+        "endswith",
+        "get",
+        "norm",
+        "set",
+        "sort",
+        "split",
+        "startswith",
+        "str",
+        "strip"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 5,
+      "tool_calls": 5
+    },
+    {
+      "question_id": "05ffeff678368c17b77078d6",
+      "family": "temporal_selection",
+      "answer_kind": "timestamp",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 2,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "end",
+        "period",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "endswith",
+        "get",
+        "replace",
+        "sort",
+        "str"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 3,
+      "tool_calls": 3
+    },
+    {
+      "question_id": "0c6cdc444ee911941bfd23f0",
+      "family": "lookup_counting",
+      "answer_kind": "number",
+      "fresh_single_correct": false,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unlinked_metadata": 227
+      },
+      "solver_invocation_attempts": 8,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 4,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start"
+      ],
+      "last_final_code_functions": [
+        "append",
+        "datetime",
+        "fromisoformat",
+        "get",
+        "len",
+        "parse",
+        "replace",
+        "set",
+        "str"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 9,
+      "tool_calls": 10
+    },
+    {
+      "question_id": "14540374a9d0b9528a6d94fe",
+      "family": "numerical_aggregation",
+      "answer_kind": "number",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "ignored_error",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 12,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 7,
+        "final": 2
+      },
+      "python_error_types": {
+        "final_contract": 1
+      },
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "casefold",
+        "enumerate",
+        "get",
+        "norm",
+        "split",
+        "startswith",
+        "str",
+        "strip",
+        "sum"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 13,
+      "tool_calls": 13
+    },
+    {
+      "question_id": "1d1103ae4c20715e6f0ae678",
+      "family": "numerical_aggregation",
+      "answer_kind": "empty",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": true,
+      "source_valid_release": false,
+      "plan_status": "ignored_error",
+      "draft_correct": true,
+      "primary_correct": true,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unlinked_metadata": 52
+      },
+      "solver_invocation_attempts": 9,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 5,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start",
+        "unit",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "append",
+        "enumerate",
+        "fromkeys",
+        "get",
+        "isinstance",
+        "join",
+        "list",
+        "lower",
+        "med_text",
+        "split",
+        "str",
+        "strip",
+        "sum"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 10,
+      "tool_calls": 11
+    },
+    {
+      "question_id": "28cf75715d1cf3411a84ca65",
+      "family": "temporal_selection",
+      "answer_kind": "empty",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": true,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": true,
+      "primary_correct": true,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unlinked_metadata": 59
+      },
+      "solver_invocation_attempts": 10,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 3,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [],
+      "last_final_code_functions": [
+        "get"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 11,
+      "tool_calls": 12
+    },
+    {
+      "question_id": "2ecf6ed7b588701c5b61916c",
+      "family": "numerical_aggregation",
+      "answer_kind": "number",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 5,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "encounter",
+        "period",
+        "start",
+        "unit",
+        "value",
+        "valueQuantity"
+      ],
+      "last_final_code_functions": [
+        "add",
+        "any",
+        "append",
+        "casefold",
+        "endswith",
+        "extend",
+        "fromkeys",
+        "get",
+        "isinstance",
+        "list",
+        "set",
+        "sort",
+        "split",
+        "str",
+        "strip",
+        "sum"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 6,
+      "tool_calls": 6
+    },
+    {
+      "question_id": "390c4f9e4e7b5c353eff9da7",
+      "family": "temporal_selection",
+      "answer_kind": "number",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "ignored_error",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 9,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 6,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "get",
+        "sort"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 10,
+      "tool_calls": 10
+    },
+    {
+      "question_id": "3ca5f7f58238739a39418242",
+      "family": "temporal_selection",
+      "answer_kind": "timestamp",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 3,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 1,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "dt",
+        "fromisoformat",
+        "get",
+        "replace",
+        "sort",
+        "strftime"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 4,
+      "tool_calls": 4
+    },
+    {
+      "question_id": "44fca1429144bd57023476d8",
+      "family": "temporal_selection",
+      "answer_kind": "timestamp",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 1,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [],
+      "last_final_code_functions": [
+        "get"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 2,
+      "tool_calls": 2
+    },
+    {
+      "question_id": "461ed0b2f30a1fe2a7aca6e3",
+      "family": "lookup_counting",
+      "answer_kind": "boolean",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 2,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "end",
+        "period",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "bool",
+        "endswith",
+        "fromkeys",
+        "get",
+        "isinstance",
+        "list",
+        "split",
+        "str"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 3,
+      "tool_calls": 3
+    },
+    {
+      "question_id": "63e4dddc1461b7b4506f3036",
+      "family": "temporal_selection",
+      "answer_kind": "number",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 4,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 1,
+        "final": 2
+      },
+      "python_error_types": {
+        "final_contract": 1
+      },
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "encounter",
+        "end",
+        "period",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "endswith",
+        "get",
+        "max",
+        "next",
+        "sort",
+        "split",
+        "str"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 5,
+      "tool_calls": 6
+    },
+    {
+      "question_id": "65f468deef71db0042d17c04",
+      "family": "numerical_aggregation",
+      "answer_kind": "set",
+      "fresh_single_correct": false,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "ignored_error",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 5,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 1,
+        "final": 2
+      },
+      "python_error_types": {
+        "unclassified_worker_error": 1
+      },
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "encounter",
+        "end",
+        "period",
+        "start",
+        "value",
+        "valueQuantity"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "endswith",
+        "float",
+        "fromkeys",
+        "get",
+        "list",
+        "max",
+        "removeprefix",
+        "sorted"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 6,
+      "tool_calls": 6
+    },
+    {
+      "question_id": "6a8ea90422439952b0b95d0a",
+      "family": "lookup_counting",
+      "answer_kind": "number",
+      "fresh_single_correct": false,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unlinked_metadata": 31
+      },
+      "solver_invocation_attempts": 9,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 5,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "add",
+        "append",
+        "fromisoformat",
+        "fromkeys",
+        "get",
+        "join",
+        "leaf_ids",
+        "len",
+        "list",
+        "replace",
+        "set",
+        "sorted",
+        "split",
+        "startswith",
+        "wall"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 10,
+      "tool_calls": 11
+    },
+    {
+      "question_id": "6c0364360a42833597617b98",
+      "family": "temporal_selection",
+      "answer_kind": "category",
+      "fresh_single_correct": false,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": true,
+      "primary_correct": null,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unknown_time": 1
+      },
+      "solver_invocation_attempts": 10,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {
+        "source_scope": 1
+      },
+      "python_mode_requests": {
+        "inspect": 5,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "casefold",
+        "fromkeys",
+        "get",
+        "has_display",
+        "list",
+        "sort",
+        "spec_sputum",
+        "split",
+        "str",
+        "strip"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": true,
+      "budget_stopped": false,
+      "model_calls": 10,
+      "tool_calls": 10
+    },
+    {
+      "question_id": "6dc27e0c371f7e5dd9d2a981",
+      "family": "temporal_selection",
+      "answer_kind": "timestamp",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 4,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "encounter",
+        "end",
+        "period",
+        "start",
+        "value",
+        "valueQuantity"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "concept",
+        "endswith",
+        "fromkeys",
+        "get",
+        "isinstance",
+        "list",
+        "sort",
+        "str",
+        "sub",
+        "wall"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 5,
+      "tool_calls": 6
+    },
+    {
+      "question_id": "75cb3e513ae45223b3f00a57",
+      "family": "temporal_selection",
+      "answer_kind": "timestamp",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 2,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "end",
+        "period",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "endswith",
+        "get",
+        "sort",
+        "str"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 3,
+      "tool_calls": 3
+    },
+    {
+      "question_id": "75f06d4831e589b2c6c537f0",
+      "family": "temporal_selection",
+      "answer_kind": "category",
+      "fresh_single_correct": true,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": true,
+      "primary_correct": true,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unlinked_metadata": 52
+      },
+      "solver_invocation_attempts": 6,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "append",
+        "get",
+        "sort"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 7,
+      "tool_calls": 8
+    },
+    {
+      "question_id": "77b6bd619a1302c0e9f16e66",
+      "family": "temporal_selection",
+      "answer_kind": "set",
+      "fresh_single_correct": false,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unlinked_metadata": 227
+      },
+      "solver_invocation_attempts": 5,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 1,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "append",
+        "casefold",
+        "endswith",
+        "get",
+        "next",
+        "sort",
+        "split",
+        "str",
+        "strip"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 6,
+      "tool_calls": 7
+    },
+    {
+      "question_id": "7d5fe035bb44c9237b17dfe5",
+      "family": "lookup_counting",
+      "answer_kind": "boolean",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": null,
+      "primary_correct": null,
+      "final_issue_kinds": [
+        "execution_contract"
+      ],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 11,
+      "host_source_boundaries": 0,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 5,
+        "final": 2
+      },
+      "python_error_types": {
+        "unclassified_worker_error": 1,
+        "final_contract": 1
+      },
+      "last_successful_final_reply_present": false,
+      "last_successful_final_answer_typed_correct": null,
+      "last_final_code_field_names": [],
+      "last_final_code_functions": [],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 11,
+      "tool_calls": 10
+    },
+    {
+      "question_id": "7e0d52249e45d956b457e7f7",
+      "family": "temporal_selection",
+      "answer_kind": "number",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 3,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 1,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "encounter",
+        "end",
+        "period",
+        "start",
+        "unit",
+        "value",
+        "valueQuantity"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "endswith",
+        "fromisoformat",
+        "fromkeys",
+        "get",
+        "list",
+        "replace",
+        "sort",
+        "str",
+        "wall"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 4,
+      "tool_calls": 5
+    },
+    {
+      "question_id": "7e6b0e29fe9f32760b7fcfc5",
+      "family": "temporal_selection",
+      "answer_kind": "set",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 4,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "casefold",
+        "code_labels",
+        "fromkeys",
+        "get",
+        "list",
+        "next",
+        "norm",
+        "sort",
+        "specimen_labels",
+        "split",
+        "str",
+        "strip"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 5,
+      "tool_calls": 5
+    },
+    {
+      "question_id": "8575a4d0318c42ed703a89a1",
+      "family": "lookup_counting",
+      "answer_kind": "boolean",
+      "fresh_single_correct": true,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": true,
+      "primary_correct": true,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unlinked_metadata": 52
+      },
+      "solver_invocation_attempts": 10,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "evidence[*] bad_path": 4,
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 5,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "effectiveDateTime",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "bool",
+        "casefold",
+        "get",
+        "join",
+        "match_labels",
+        "norm",
+        "split",
+        "str",
+        "strip",
+        "timely"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 11,
+      "tool_calls": 12
+    },
+    {
+      "question_id": "967175d0df47b1226680f9bc",
+      "family": "temporal_selection",
+      "answer_kind": "set",
+      "fresh_single_correct": false,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [
+        "evidence[*] encounter_link"
+      ],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 5,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "evidence[*] encounter_link": 2
+      },
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "encounter",
+        "end",
+        "period",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "casefold",
+        "endswith",
+        "enumerate",
+        "get",
+        "max",
+        "sort",
+        "split",
+        "str",
+        "strip"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 6,
+      "tool_calls": 8
+    },
+    {
+      "question_id": "a903f7427fcbfe8c1598e7c7",
+      "family": "temporal_selection",
+      "answer_kind": "category",
+      "fresh_single_correct": false,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unknown_time": 1
+      },
+      "solver_invocation_attempts": 5,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "get",
+        "next",
+        "sort",
+        "upper"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 6,
+      "tool_calls": 8
+    },
+    {
+      "question_id": "b472da76f7e2b4d53f38f131",
+      "family": "temporal_selection",
+      "answer_kind": "category",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": true,
+      "primary_correct": null,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unlinked_metadata": 28
+      },
+      "solver_invocation_attempts": 11,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {
+        "source_scope": 1
+      },
+      "python_mode_requests": {
+        "inspect": 5,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [
+        "end",
+        "period",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "endswith",
+        "get",
+        "len",
+        "max",
+        "sorted",
+        "split",
+        "str"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": true,
+      "budget_stopped": false,
+      "model_calls": 11,
+      "tool_calls": 11
+    },
+    {
+      "question_id": "b710f2ea6d630a9c88a40fc2",
+      "family": "temporal_selection",
+      "answer_kind": "empty",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": true,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": true,
+      "primary_correct": true,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unlinked_metadata": 37
+      },
+      "solver_invocation_attempts": 6,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 1,
+        "final": 3
+      },
+      "python_error_types": {
+        "unclassified_worker_error": 1
+      },
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start"
+      ],
+      "last_final_code_functions": [
+        "append",
+        "get",
+        "sort"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 7,
+      "tool_calls": 8
+    },
+    {
+      "question_id": "b8e9b90e80a785175600b2ff",
+      "family": "temporal_selection",
+      "answer_kind": "number",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "ignored_error",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 5,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 3,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "encounter"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "casefold",
+        "extend",
+        "get",
+        "norm",
+        "str",
+        "strip"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 6,
+      "tool_calls": 6
+    },
+    {
+      "question_id": "bf1ccb5ac4a847d66be6bc96",
+      "family": "temporal_selection",
+      "answer_kind": "category",
+      "fresh_single_correct": false,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": true,
+      "primary_correct": true,
+      "final_issue_kinds": [
+        "evidence[*] encounter_link",
+        "evidence[*] encounter_link",
+        "evidence[*] encounter_link"
+      ],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 5,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "evidence[*] encounter_link": 4
+      },
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "encounter",
+        "period",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "casefold",
+        "displays",
+        "endswith",
+        "get",
+        "join",
+        "next",
+        "ref",
+        "sort",
+        "split",
+        "str",
+        "strip"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 6,
+      "tool_calls": 9
+    },
+    {
+      "question_id": "c3edbb8f5bd0cfd4858c41be",
+      "family": "temporal_selection",
+      "answer_kind": "empty",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": true,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": true,
+      "primary_correct": true,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unknown_time": 1
+      },
+      "solver_invocation_attempts": 9,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 5,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "get",
+        "lower",
+        "next",
+        "norm",
+        "sort",
+        "split",
+        "startswith",
+        "str",
+        "strip"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 10,
+      "tool_calls": 11
+    },
+    {
+      "question_id": "c8a2241d70df2c163edad761",
+      "family": "temporal_selection",
+      "answer_kind": "number",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 4,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "unit",
+        "value",
+        "valueQuantity"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "get",
+        "lower",
+        "sort",
+        "str",
+        "strip"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 5,
+      "tool_calls": 5
+    },
+    {
+      "question_id": "d594afe3713d185962186bc5",
+      "family": "temporal_selection",
+      "answer_kind": "category",
+      "fresh_single_correct": false,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": true,
+      "primary_correct": true,
+      "final_issue_kinds": [
+        "evidence[*] encounter_link",
+        "evidence[*] encounter_link"
+      ],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 5,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "evidence[*] encounter_link": 3
+      },
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 2
+      },
+      "python_error_types": {
+        "unclassified_worker_error": 1
+      },
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "encounter",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "endswith",
+        "get",
+        "join",
+        "lower",
+        "next",
+        "sort",
+        "str",
+        "strip"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 6,
+      "tool_calls": 9
+    },
+    {
+      "question_id": "d6121ad75765bc51dceaf4c9",
+      "family": "temporal_selection",
+      "answer_kind": "timestamp",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 2,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "end",
+        "period",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "datetime",
+        "dt",
+        "endswith",
+        "fromisoformat",
+        "get",
+        "replace",
+        "sort",
+        "str"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 3,
+      "tool_calls": 3
+    },
+    {
+      "question_id": "e198cf387b6b22216a593d12",
+      "family": "numerical_aggregation",
+      "answer_kind": "empty",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": true,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": true,
+      "primary_correct": null,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unknown_time": 31,
+        "unlinked_metadata": 31
+      },
+      "solver_invocation_attempts": 17,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {
+        "source_scope": 1
+      },
+      "python_mode_requests": {
+        "inspect": 3,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": true,
+      "last_final_code_field_names": [],
+      "last_final_code_functions": [],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": true,
+      "budget_stopped": false,
+      "model_calls": 17,
+      "tool_calls": 17
+    },
+    {
+      "question_id": "e65595aa4d0b66d5c6625a99",
+      "family": "temporal_selection",
+      "answer_kind": "timestamp",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 2,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "end",
+        "period",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "endswith",
+        "get",
+        "next",
+        "replace",
+        "sort",
+        "str"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 3,
+      "tool_calls": 3
+    },
+    {
+      "question_id": "eb20ba71a6257201e3668689",
+      "family": "temporal_selection",
+      "answer_kind": "number",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 4,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "unit",
+        "value",
+        "valueQuantity"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "get",
+        "lower",
+        "sort",
+        "str"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 5,
+      "tool_calls": 5
+    },
+    {
+      "question_id": "edcb877560f680ecc90bffc6",
+      "family": "temporal_selection",
+      "answer_kind": "number",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 3,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 1,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "value",
+        "valueQuantity"
+      ],
+      "last_final_code_functions": [
+        "append",
+        "datetime",
+        "fromisoformat",
+        "get",
+        "replace",
+        "sort",
+        "str",
+        "wall"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 4,
+      "tool_calls": 4
+    },
+    {
+      "question_id": "ef005db9fac61254bdbabbe7",
+      "family": "temporal_selection",
+      "answer_kind": "category",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 5,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 1
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "append",
+        "endswith",
+        "get",
+        "max",
+        "next",
+        "split"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 6,
+      "tool_calls": 6
+    },
+    {
+      "question_id": "f224a6e013d318ebe61083f8",
+      "family": "temporal_selection",
+      "answer_kind": "set",
+      "fresh_single_correct": false,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [
+        "source_scope"
+      ],
+      "unresolved_scope_reasons": {
+        "unlinked_metadata": 227
+      },
+      "solver_invocation_attempts": 6,
+      "host_source_boundaries": 2,
+      "source_check_issue_kinds": {
+        "source_scope": 2
+      },
+      "python_mode_requests": {
+        "inspect": 2,
+        "final": 2
+      },
+      "python_error_types": {},
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "dispenseRequest",
+        "start",
+        "value"
+      ],
+      "last_final_code_functions": [
+        "append",
+        "endswith",
+        "enumerate",
+        "get",
+        "len",
+        "next",
+        "sort",
+        "split",
+        "startswith"
+      ],
+      "source_revision_attempted": true,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 7,
+      "tool_calls": 8
+    },
+    {
+      "question_id": "f517e3cce89ac464b8a1e6e1",
+      "family": "numerical_aggregation",
+      "answer_kind": "set",
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "v4_correct": false,
+      "source_valid_release": true,
+      "plan_status": "ignored_error",
+      "draft_correct": false,
+      "primary_correct": false,
+      "final_issue_kinds": [],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 4,
+      "host_source_boundaries": 1,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 1,
+        "final": 2
+      },
+      "python_error_types": {
+        "final_contract": 1
+      },
+      "last_successful_final_reply_present": true,
+      "last_successful_final_answer_typed_correct": false,
+      "last_final_code_field_names": [
+        "effectiveDateTime",
+        "value",
+        "valueQuantity"
+      ],
+      "last_final_code_functions": [
+        "any",
+        "append",
+        "defaultdict",
+        "extend",
+        "fromkeys",
+        "get",
+        "list",
+        "sorted"
+      ],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 5,
+      "tool_calls": 5
+    },
+    {
+      "question_id": "f6014eac249a07ee280d9634",
+      "family": "temporal_selection",
+      "answer_kind": "category",
+      "fresh_single_correct": false,
+      "v3d_correct": false,
+      "v4_correct": false,
+      "source_valid_release": false,
+      "plan_status": "visible_valid_hash",
+      "draft_correct": null,
+      "primary_correct": null,
+      "final_issue_kinds": [
+        "execution_contract"
+      ],
+      "unresolved_scope_reasons": {},
+      "solver_invocation_attempts": 11,
+      "host_source_boundaries": 0,
+      "source_check_issue_kinds": {},
+      "python_mode_requests": {
+        "inspect": 7,
+        "final": 2
+      },
+      "python_error_types": {
+        "unclassified_worker_error": 2
+      },
+      "last_successful_final_reply_present": false,
+      "last_successful_final_answer_typed_correct": null,
+      "last_final_code_field_names": [],
+      "last_final_code_functions": [],
+      "source_revision_attempted": false,
+      "primary_revision_error_present": false,
+      "budget_stopped": false,
+      "model_calls": 11,
+      "tool_calls": 12
+    }
+  ],
+  "caveats": [
+    "Visible/ignored plan groups are selected by parse/availability outcomes, not randomized controls.",
+    "Typed correctness of a rejected candidate does not validate its sources and does not justify bypassing the release gate.",
+    "V3d/V4 comparison bundles advice visibility, removing late audit, and reallocating solver budget; stochastic effects are not isolated.",
+    "Plan semantics are reviewed separately by the parent; these mechanism summaries do not prove a causal plan effect."
+  ],
+  "within_family_plan_association": {
+    "lookup_counting": {
+      "True": {
+        "questions": 91,
+        "v4_correct": 76,
+        "fresh_single_correct": 81,
+        "v3d_correct": 78
+      },
+      "False": {
+        "questions": 1,
+        "v4_correct": 1,
+        "fresh_single_correct": 0,
+        "v3d_correct": 1
+      }
+    },
+    "temporal_selection": {
+      "True": {
+        "questions": 152,
+        "v4_correct": 98,
+        "fresh_single_correct": 112,
+        "v3d_correct": 109
+      },
+      "False": {
+        "questions": 7,
+        "v4_correct": 5,
+        "fresh_single_correct": 7,
+        "v3d_correct": 7
+      }
+    },
+    "numerical_aggregation": {
+      "True": {
+        "questions": 20,
+        "v4_correct": 18,
+        "fresh_single_correct": 17,
+        "v3d_correct": 16
+      },
+      "False": {
+        "questions": 29,
+        "v4_correct": 20,
+        "fresh_single_correct": 22,
+        "v3d_correct": 21
+      }
+    }
+  },
+  "source_refusal_overlap": {
+    "v3d_refusals": 17,
+    "v4_refusals": 19,
+    "both_refused": 13,
+    "v4_new_refusals": 6
+  },
+  "local_token_refusals": [
+    {
+      "question_id": "6c0364360a42833597617b98",
+      "correct": false,
+      "fresh_single_correct": false,
+      "v3d_correct": true,
+      "source_valid_release": false,
+      "aggregate_budget_stopped": false,
+      "token_usage": 167720,
+      "model_calls": 10
+    },
+    {
+      "question_id": "7d5fe035bb44c9237b17dfe5",
+      "correct": false,
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "source_valid_release": false,
+      "aggregate_budget_stopped": false,
+      "token_usage": 171510,
+      "model_calls": 11
+    },
+    {
+      "question_id": "b472da76f7e2b4d53f38f131",
+      "correct": false,
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "source_valid_release": false,
+      "aggregate_budget_stopped": false,
+      "token_usage": 173980,
+      "model_calls": 11
+    },
+    {
+      "question_id": "e198cf387b6b22216a593d12",
+      "correct": true,
+      "fresh_single_correct": true,
+      "v3d_correct": true,
+      "source_valid_release": false,
+      "aggregate_budget_stopped": false,
+      "token_usage": 175425,
+      "model_calls": 17
+    },
+    {
+      "question_id": "f6014eac249a07ee280d9634",
+      "correct": false,
+      "fresh_single_correct": false,
+      "v3d_correct": false,
+      "source_valid_release": false,
+      "aggregate_budget_stopped": false,
+      "token_usage": 186010,
+      "model_calls": 11
+    }
+  ],
+  "representative_generic_cases": [
+    {
+      "question_id": "75f06d4831e589b2c6c537f0",
+      "finding": "Correct medication-category calculation retained, but repeated source checks refused unresolved linked-metadata ownership/time scope. No execution error or budget stop; both V3d and V4 miss while fresh single succeeds."
+    },
+    {
+      "question_id": "8575a4d0318c42ed703a89a1",
+      "finding": "Correct boolean computation retained after evidence-path correction; unresolved linked-metadata scope still blocks release. Both team variants miss while fresh single succeeds."
+    },
+    {
+      "question_id": "7d5fe035bb44c9237b17dfe5",
+      "finding": "Boolean query never produces a valid full final after worker/final-contract failures. A later phase-local token refusal stops continuation despite no top-level budget flag; V3d and fresh single succeed."
+    },
+    {
+      "question_id": "b472da76f7e2b4d53f38f131",
+      "finding": "Temporal category query has a typed-correct draft but unresolved linked metadata triggers revision; local token refusal prevents a new valid final. V3d and fresh single succeed."
+    },
+    {
+      "question_id": "05a9aa5bb494b962444ac354",
+      "finding": "V4 returns a source-validated temporal-selection answer that the unchanged typed scorer rejects; V3d was correct. Successful execution and source checks did not establish correct interpretation or selection.",
+      "plan_status": "visible_valid_hash",
+      "code_field_names": [
+        "dispenseRequest",
+        "start",
+        "value"
+      ]
+    },
+    {
+      "question_id": "05ffeff678368c17b77078d6",
+      "finding": "V4 returns a source-validated temporal-selection answer that the unchanged typed scorer rejects; V3d was correct. Successful execution and source checks did not establish correct interpretation or selection.",
+      "plan_status": "visible_valid_hash",
+      "code_field_names": [
+        "end",
+        "period",
+        "start",
+        "value"
+      ]
+    }
+  ],
+  "single_corrected_reporting_context": {
+    "source_checked_rendered_releases": 286,
+    "explicit_execution_backed_releases": 284,
+    "execution_ancestry_na": 2,
+    "source": "Root-confirmed fresh diagnostics_corrected; team classifications and official scores unchanged"
+  }
+}

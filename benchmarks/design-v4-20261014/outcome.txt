@@ -1,0 +1,43 @@
+V4 completed comparison — acceptance failed
+
+Team 218/300 (72.7%) versus fresh single 239/300 (79.7%). Team minus single
+is -7.0 percentage points, with a patient-block 95% interval [-10.7, -3.4]
+and eight wins versus 29 losses. Against the prior V3 team (232/300), V4
+loses 4.7 points: 12 wins versus 26 losses, interval [-8.4, -1.1]. Both
+predeclared gates fail. V4 is not promoted; no full benchmark is launched.
+
+All 600 first attempts and gzip traces passed exact finite-JSON restoration,
+CRC/SHA, ownership and source/input/identity/budget verification. All 142
+frozen files and four reviewed public provider sources remained unchanged.
+The journal contains 3,481 fully paired calls: 3,480 successes and one
+single-agent read timeout. There are zero team provider errors and no HTTP
+408 errors. No retries or replacements were used. Failed-call usage is unknown.
+
+No aggregate cap violation was reported. Single records 11 aggregate budget
+stops. Team records zero aggregate stops but five solver phase-local token
+refusals; the phase host restores the parent stop flag. Therefore zero aggregate
+stops does not mean absence of budget constraints. No refusal exhausts the
+20-invocation solver cap.
+
+The solver saw 263 validated plans; 37 were ignored under the declared
+interface. Team's 281 source-valid releases contain 213 typed-correct and
+68 typed-wrong answers. Five null credits lack a clean source-valid release.
+Eighteen source-feedback revisions helped two answers and harmed none.
+Among 29 losses to fresh single, 25 are source-valid wrong answers. Plan
+visibility groups differ substantially in family mix, so their accuracy
+association does not isolate a planning effect.
+
+Corrected posthoc diagnostics distinguish Single's 286 source-checked rendered
+releases from 284 with retained execution ancestry and two N/A ancestries.
+The correction changes no score or runtime behavior; see diagnostic_correction.
+Official scores and all 15 paired comparisons were independently reproduced.
+
+This treatment bundles plan exposure, audit removal and allocation. It does
+not isolate a causal planning effect. The result contradicts the expected
+aggregate benefit under these settings. Research for a subsequent design
+starts from stronger V3 and requires another exact pre-run freeze.
+
+The fixed 300 questions are reused development data, not a fresh test set.
+After the user's subsequent generalization concern, evaluation methodology
+is being amended prospectively. This does not change V4's predeclared gate
+or reinterpret its completed negative result as confirmatory evidence.

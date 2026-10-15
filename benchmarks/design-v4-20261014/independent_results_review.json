@@ -1,0 +1,68 @@
+{
+  "status": "PASS_OFFICIAL_RESULTS_REPRODUCED",
+  "results_sha256": "8fcba5188b22d74502c0ed8cc20e0598091e41848c5c90af1966ce2f9332fcd8",
+  "completion_report_sha256": "610e1e56fbea170cbc39ea09c2972674f89b3d17d12f429fe9dc84c0380aa642",
+  "question_ids": 300,
+  "patients": 58,
+  "all_six_arms_complete_first_attempts": true,
+  "all_accuracy_family_intervals_and_15_pair_intervals_exact": true,
+  "arms": {
+    "archive_single": {
+      "correct": 223,
+      "n": 300,
+      "terminal_errors": 16,
+      "budget_stops": 8,
+      "result_sha256": "295f291b28cc3ca67f46799bd621b20a5d6a071be9d33e6590e9fac5b4377478"
+    },
+    "refreshed_single": {
+      "correct": 231,
+      "n": 300,
+      "terminal_errors": 3,
+      "budget_stops": 16,
+      "result_sha256": "6010afe99ca9c6b90e52ee3f359e64a3ab9ccf331a826bb8e1de306b2d0ee873"
+    },
+    "v3d_single": {
+      "correct": 238,
+      "n": 300,
+      "terminal_errors": 0,
+      "budget_stops": 9,
+      "result_sha256": "b25288e96eacfabb26a37cf4c2ceeec51a28863b4dbf774f8b046303ec849d07"
+    },
+    "v3d_team": {
+      "correct": 232,
+      "n": 300,
+      "terminal_errors": 2,
+      "budget_stops": 0,
+      "result_sha256": "89d7cb53378aa14847c703a00a7695c0ba2d6c26c581700da66e49a52a505940"
+    },
+    "v4_single": {
+      "correct": 239,
+      "n": 300,
+      "terminal_errors": 1,
+      "budget_stops": 11,
+      "result_sha256": "9df96cb3d842853731ce321b3da4603aa8c186d02a9023aa5bb5e705fcff1177"
+    },
+    "v4_team": {
+      "correct": 218,
+      "n": 300,
+      "terminal_errors": 0,
+      "budget_stops": 0,
+      "result_sha256": "dd2ef04dd3e99e84629a83cd393153970e451a468bb682bbe1bee8ada080f51e"
+    }
+  },
+  "acceptance": {
+    "team_correct": 218,
+    "historical_best_single": 238,
+    "fresh_single_correct": 239,
+    "minimum_predeclared": 239,
+    "team_exceeds_238": false,
+    "team_exceeds_fresh_single": false,
+    "accepted": false
+  },
+  "limits": [
+    "Typed scoring does not adjudicate clinical/source correctness. Reused subset results are exploratory. Known timeout failure counts incorrect, with unknown failed usage retained."
+  ],
+  "scoring_performed": true,
+  "model_calls": 0,
+  "network_calls": 0
+}

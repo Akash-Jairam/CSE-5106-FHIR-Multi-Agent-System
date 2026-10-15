@@ -1,0 +1,85 @@
+{
+  "recorded_at_utc": "2026-10-15T04:51:48.636416+00:00",
+  "status": "complete_usable_comparison_acceptance_not_met",
+  "source_commit": "a64adaf497a2c7bbbc39c9aaec0830fcbfda6d43",
+  "architecture": "Question-only anchored advisory plan visible to continuous solver; no late static audit;10k/190k phase allocation",
+  "questions_per_arm": 300,
+  "patient_clusters": 58,
+  "correct": {
+    "archive_single": 223,
+    "refreshed_single": 231,
+    "v3d_single": 238,
+    "v3d_team": 232,
+    "v4_single": 239,
+    "v4_team": 218
+  },
+  "fresh_paired_comparison": {
+    "comparison": "v4_team - v4_single",
+    "wins": 8,
+    "losses": 29,
+    "n": 300,
+    "patients": 58,
+    "estimate": -0.07,
+    "ci_low": -0.10726676742366995,
+    "ci_high": -0.03421826133222599
+  },
+  "previous_team_comparison": {
+    "comparison": "v4_team - v3d_team",
+    "wins": 12,
+    "losses": 26,
+    "n": 300,
+    "patients": 58,
+    "estimate": -0.04666666666666667,
+    "ci_low": -0.08389261744966443,
+    "ci_high": -0.010525395656974617
+  },
+  "acceptance": {
+    "rule": "team >238 AND team >new single239",
+    "passed": false
+  },
+  "protocol_audit": "PASS",
+  "verified_first_attempts": 600,
+  "verified_owned_gzip_audits": 600,
+  "frozen_source_files": 142,
+  "provider": {
+    "calls": 3481,
+    "successes": 3480,
+    "single_read_timeouts": 1,
+    "team_failures": 0,
+    "http408": 0,
+    "retries": 0,
+    "failed_call_usage": "unknown; retained as failed first attempt"
+  },
+  "plan": {
+    "validated_and_exposed": 263,
+    "ignored": 37,
+    "validated_rate": 0.8766666666666667,
+    "source_valid_releases": 281,
+    "source_valid_correct_releases": 213,
+    "null_credits_without_source_valid_release": 5,
+    "source_feedback_revisions": 18,
+    "source_feedback_helped": 2,
+    "source_feedback_harmed": 0
+  },
+  "next_action": "Do not promote V4 or start full; research a grounded corrective design from stronger V3 base.",
+  "limits": [
+    "The treatment bundles plan exposure, audit removal and allocation; effects are not isolated.",
+    "Textual quote provenance and source-valid execution do not establish correct question interpretation.",
+    "Reused fixed cohort is exploratory; final counts retain all errors and null credits."
+  ],
+  "budget_diagnostics": {
+    "single_aggregate_stops": 11,
+    "team_aggregate_stops": 0,
+    "team_phase_local_token_refusals": 5,
+    "interpretation": "Phase-local refusals remain material despite parent aggregate stop flag being restored."
+  },
+  "diagnostics": {
+    "canonical_directory": "diagnostics_corrected",
+    "correction": "diagnostic_correction.json",
+    "source_checked_rendered_single": 286,
+    "execution_source_bound_single": 284,
+    "single_execution_ancestry_unavailable": 2,
+    "official_scores_changed": false
+  },
+  "evaluation_role": "Exploratory reused development cohort; later prospective generalization protocol must govern confirmation."
+}

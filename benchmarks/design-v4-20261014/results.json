@@ -1,0 +1,618 @@
+{
+  "cohort": "held_out",
+  "selection_warning": "Fixed subset is reused for architecture development; gains on it are exploratory.",
+  "questions": 300,
+  "patients": 58,
+  "question_ids_sha256": "0d477b2bc214c678dd6d33f142a03a5bc4d3d55e1ae8fa73817e84443e60a2d4",
+  "dataset_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+  "families_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+  "scoring": "Unchanged typed scorer; first attempts, terminal errors incorrect; patient-block bootstrap",
+  "identities": {
+    "archive_single": {
+      "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/midterm_20261012_full_v1/ordinary_single_agent.json",
+      "result_sha256": "295f291b28cc3ca67f46799bd621b20a5d6a071be9d33e6590e9fac5b4377478",
+      "identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "f1076723fc34b911c4fd2dec9eb8d9689122bb418445df86cbe7f272e58f1276",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null
+      }
+    },
+    "refreshed_single": {
+      "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/verified_team_v2_300q/ordinary_single_agent.json",
+      "result_sha256": "6010afe99ca9c6b90e52ee3f359e64a3ab9ccf331a826bb8e1de306b2d0ee873",
+      "identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "651af308b30a6fb1077ca3cccdbb3efe4c378d34c93a34b085355096d6b637c4",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null
+      }
+    },
+    "v3d_single": {
+      "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_single_agent.json",
+      "result_sha256": "b25288e96eacfabb26a37cf4c2ceeec51a28863b4dbf774f8b046303ec849d07",
+      "identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "208a88f0727213df44b4c74d873037d74a939f710b8787128202d254c5da29a9",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      }
+    },
+    "v3d_team": {
+      "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_multi_agent.json",
+      "result_sha256": "89d7cb53378aa14847c703a00a7695c0ba2d6c26c581700da66e49a52a505940",
+      "identity": {
+        "version": 2,
+        "agent_strategy": "multi_agent_v3",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "208a88f0727213df44b4c74d873037d74a939f710b8787128202d254c5da29a9",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      }
+    },
+    "v4_single": {
+      "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/plan_conditioned_v4_300q/ordinary_single_agent.json",
+      "result_sha256": "9df96cb3d842853731ce321b3da4603aa8c186d02a9023aa5bb5e705fcff1177",
+      "identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "467b013395c3f573429509d4c65b1e56414fc69b1c8e9ec18e63d854ba7def84",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      }
+    },
+    "v4_team": {
+      "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/plan_conditioned_v4_300q/ordinary_multi_agent.json",
+      "result_sha256": "dd2ef04dd3e99e84629a83cd393153970e451a468bb682bbe1bee8ada080f51e",
+      "identity": {
+        "version": 2,
+        "agent_strategy": "multi_agent_v4",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "467b013395c3f573429509d4c65b1e56414fc69b1c8e9ec18e63d854ba7def84",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      }
+    }
+  },
+  "arms": {
+    "archive_single": {
+      "accuracy": {
+        "all": {
+          "correct": 223,
+          "n": 300,
+          "patients": 58,
+          "estimate": 0.7433333333333333,
+          "ci_low": 0.6959454164195543,
+          "ci_high": 0.7885928200582499
+        },
+        "lookup_counting": {
+          "correct": 74,
+          "n": 92,
+          "patients": 52,
+          "estimate": 0.8043478260869565,
+          "ci_low": 0.7204193548387098,
+          "ci_high": 0.8809523809523809
+        },
+        "numerical_aggregation": {
+          "correct": 34,
+          "n": 49,
+          "patients": 28,
+          "estimate": 0.6938775510204082,
+          "ci_low": 0.5319148936170213,
+          "ci_high": 0.8301886792452831
+        },
+        "temporal_selection": {
+          "correct": 115,
+          "n": 159,
+          "patients": 52,
+          "estimate": 0.7232704402515723,
+          "ci_low": 0.6516811372148451,
+          "ci_high": 0.7928994082840237
+        }
+      },
+      "terminal_errors": 16,
+      "budget_stops": 8,
+      "mean_tokens": 52143.71333333333,
+      "observed_cost": null,
+      "latency": {
+        "n": 300,
+        "median": 11.400500000000001,
+        "p95": 33.03725000000001
+      },
+      "transitions": {
+        "wrong_to_right": 1,
+        "right_to_wrong": 10,
+        "draft_correct": 231,
+        "drafts": 284,
+        "semantic_repairs": 26
+      }
+    },
+    "refreshed_single": {
+      "accuracy": {
+        "all": {
+          "correct": 231,
+          "n": 300,
+          "patients": 58,
+          "estimate": 0.77,
+          "ci_low": 0.7214285714285714,
+          "ci_high": 0.8152202317830631
+        },
+        "lookup_counting": {
+          "correct": 80,
+          "n": 92,
+          "patients": 52,
+          "estimate": 0.8695652173913043,
+          "ci_low": 0.7951807228915663,
+          "ci_high": 0.9320524708192428
+        },
+        "numerical_aggregation": {
+          "correct": 36,
+          "n": 49,
+          "patients": 28,
+          "estimate": 0.7346938775510204,
+          "ci_low": 0.575,
+          "ci_high": 0.8653846153846154
+        },
+        "temporal_selection": {
+          "correct": 115,
+          "n": 159,
+          "patients": 52,
+          "estimate": 0.7232704402515723,
+          "ci_low": 0.6527756986027945,
+          "ci_high": 0.7905444688874921
+        }
+      },
+      "terminal_errors": 3,
+      "budget_stops": 16,
+      "mean_tokens": 72658.91,
+      "observed_cost": null,
+      "latency": {
+        "n": 300,
+        "median": 17.7085,
+        "p95": 62.976000000000006
+      },
+      "transitions": {
+        "wrong_to_right": 0,
+        "right_to_wrong": 2,
+        "draft_correct": 228,
+        "drafts": 283,
+        "semantic_repairs": 2
+      }
+    },
+    "v3d_single": {
+      "accuracy": {
+        "all": {
+          "correct": 238,
+          "n": 300,
+          "patients": 58,
+          "estimate": 0.7933333333333333,
+          "ci_low": 0.7428541790160048,
+          "ci_high": 0.8391824617814633
+        },
+        "lookup_counting": {
+          "correct": 81,
+          "n": 92,
+          "patients": 52,
+          "estimate": 0.8804347826086957,
+          "ci_low": 0.8089887640449438,
+          "ci_high": 0.94
+        },
+        "numerical_aggregation": {
+          "correct": 40,
+          "n": 49,
+          "patients": 28,
+          "estimate": 0.8163265306122449,
+          "ci_low": 0.6842105263157895,
+          "ci_high": 0.9166666666666666
+        },
+        "temporal_selection": {
+          "correct": 117,
+          "n": 159,
+          "patients": 52,
+          "estimate": 0.7358490566037735,
+          "ci_low": 0.6666666666666666,
+          "ci_high": 0.8013256373038192
+        }
+      },
+      "terminal_errors": 0,
+      "budget_stops": 9,
+      "mean_tokens": 70192.07,
+      "observed_cost": null,
+      "latency": {
+        "n": 300,
+        "median": 15.874500000000001,
+        "p95": 34.63950000000002
+      },
+      "transitions": {
+        "wrong_to_right": 1,
+        "right_to_wrong": 3,
+        "draft_correct": 238,
+        "drafts": 293,
+        "semantic_repairs": 5
+      }
+    },
+    "v3d_team": {
+      "accuracy": {
+        "all": {
+          "correct": 232,
+          "n": 300,
+          "patients": 58,
+          "estimate": 0.7733333333333333,
+          "ci_low": 0.7201331058020478,
+          "ci_high": 0.820810189979477
+        },
+        "lookup_counting": {
+          "correct": 79,
+          "n": 92,
+          "patients": 52,
+          "estimate": 0.8586956521739131,
+          "ci_low": 0.7840909090909091,
+          "ci_high": 0.9222222222222223
+        },
+        "numerical_aggregation": {
+          "correct": 37,
+          "n": 49,
+          "patients": 28,
+          "estimate": 0.7551020408163265,
+          "ci_low": 0.6110772357723581,
+          "ci_high": 0.8727272727272727
+        },
+        "temporal_selection": {
+          "correct": 116,
+          "n": 159,
+          "patients": 52,
+          "estimate": 0.7295597484276729,
+          "ci_low": 0.6586826347305389,
+          "ci_high": 0.7962990685296074
+        }
+      },
+      "terminal_errors": 2,
+      "budget_stops": 0,
+      "mean_tokens": 51692.33,
+      "observed_cost": null,
+      "latency": {
+        "n": 300,
+        "median": 15.1395,
+        "p95": 35.588100000000004
+      },
+      "transitions": {
+        "wrong_to_right": 4,
+        "right_to_wrong": 5,
+        "draft_correct": 231,
+        "drafts": 296,
+        "semantic_repairs": 19
+      }
+    },
+    "v4_single": {
+      "accuracy": {
+        "all": {
+          "correct": 239,
+          "n": 300,
+          "patients": 58,
+          "estimate": 0.7966666666666666,
+          "ci_low": 0.7447533849129594,
+          "ci_high": 0.841912080553871
+        },
+        "lookup_counting": {
+          "correct": 81,
+          "n": 92,
+          "patients": 52,
+          "estimate": 0.8804347826086957,
+          "ci_low": 0.8089887640449438,
+          "ci_high": 0.94
+        },
+        "numerical_aggregation": {
+          "correct": 39,
+          "n": 49,
+          "patients": 28,
+          "estimate": 0.7959183673469388,
+          "ci_low": 0.6590909090909091,
+          "ci_high": 0.9
+        },
+        "temporal_selection": {
+          "correct": 119,
+          "n": 159,
+          "patients": 52,
+          "estimate": 0.7484276729559748,
+          "ci_low": 0.6783216783216783,
+          "ci_high": 0.8106548856548856
+        }
+      },
+      "terminal_errors": 1,
+      "budget_stops": 11,
+      "mean_tokens": 71758.38,
+      "observed_cost": null,
+      "latency": {
+        "n": 300,
+        "median": 16.0115,
+        "p95": 38.34085
+      },
+      "transitions": {
+        "wrong_to_right": 1,
+        "right_to_wrong": 2,
+        "draft_correct": 239,
+        "drafts": 288,
+        "semantic_repairs": 4
+      }
+    },
+    "v4_team": {
+      "accuracy": {
+        "all": {
+          "correct": 218,
+          "n": 300,
+          "patients": 58,
+          "estimate": 0.7266666666666667,
+          "ci_low": 0.6715315291575535,
+          "ci_high": 0.775974025974026
+        },
+        "lookup_counting": {
+          "correct": 77,
+          "n": 92,
+          "patients": 52,
+          "estimate": 0.8369565217391305,
+          "ci_low": 0.7530864197530864,
+          "ci_high": 0.9081632653061225
+        },
+        "numerical_aggregation": {
+          "correct": 38,
+          "n": 49,
+          "patients": 28,
+          "estimate": 0.7755102040816326,
+          "ci_low": 0.6382495164410062,
+          "ci_high": 0.8888888888888888
+        },
+        "temporal_selection": {
+          "correct": 103,
+          "n": 159,
+          "patients": 52,
+          "estimate": 0.6477987421383647,
+          "ci_low": 0.5723270440251572,
+          "ci_high": 0.7196981760277938
+        }
+      },
+      "terminal_errors": 0,
+      "budget_stops": 0,
+      "mean_tokens": 50447.41333333333,
+      "observed_cost": null,
+      "latency": {
+        "n": 300,
+        "median": 14.0685,
+        "p95": 32.0081
+      },
+      "transitions": {
+        "wrong_to_right": 2,
+        "right_to_wrong": 6,
+        "draft_correct": 222,
+        "drafts": 298,
+        "semantic_repairs": 18
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "comparison": "refreshed_single - archive_single",
+      "wins": 21,
+      "losses": 13,
+      "n": 300,
+      "patients": 58,
+      "estimate": 0.02666666666666667,
+      "ci_low": -0.0121580547112462,
+      "ci_high": 0.06666666666666667
+    },
+    {
+      "comparison": "v3d_single - archive_single",
+      "wins": 24,
+      "losses": 9,
+      "n": 300,
+      "patients": 58,
+      "estimate": 0.05,
+      "ci_low": 0.016500293121417417,
+      "ci_high": 0.08394160583941605
+    },
+    {
+      "comparison": "v3d_single - refreshed_single",
+      "wins": 14,
+      "losses": 7,
+      "n": 300,
+      "patients": 58,
+      "estimate": 0.023333333333333334,
+      "ci_low": -0.011155560835173406,
+      "ci_high": 0.056105610561056105
+    },
+    {
+      "comparison": "v3d_team - archive_single",
+      "wins": 25,
+      "losses": 16,
+      "n": 300,
+      "patients": 58,
+      "estimate": 0.03,
+      "ci_low": -0.014598540145985401,
+      "ci_high": 0.07801418439716312
+    },
+    {
+      "comparison": "v3d_team - refreshed_single",
+      "wins": 15,
+      "losses": 14,
+      "n": 300,
+      "patients": 58,
+      "estimate": 0.0033333333333333335,
+      "ci_low": -0.033112582781456956,
+      "ci_high": 0.03932630318659053
+    },
+    {
+      "comparison": "v3d_team - v3d_single",
+      "wins": 8,
+      "losses": 14,
+      "n": 300,
+      "patients": 58,
+      "estimate": -0.02,
+      "ci_low": -0.0515879416282642,
+      "ci_high": 0.010948905109489052
+    },
+    {
+      "comparison": "v4_single - archive_single",
+      "wins": 24,
+      "losses": 8,
+      "n": 300,
+      "patients": 58,
+      "estimate": 0.05333333333333334,
+      "ci_low": 0.011192989513399554,
+      "ci_high": 0.0969533282968186
+    },
+    {
+      "comparison": "v4_single - refreshed_single",
+      "wins": 14,
+      "losses": 6,
+      "n": 300,
+      "patients": 58,
+      "estimate": 0.02666666666666667,
+      "ci_low": -0.0035464147800408847,
+      "ci_high": 0.05572755417956656
+    },
+    {
+      "comparison": "v4_single - v3d_single",
+      "wins": 7,
+      "losses": 6,
+      "n": 300,
+      "patients": 58,
+      "estimate": 0.0033333333333333335,
+      "ci_low": -0.026060151198405355,
+      "ci_high": 0.031447090645203846
+    },
+    {
+      "comparison": "v4_single - v3d_team",
+      "wins": 12,
+      "losses": 5,
+      "n": 300,
+      "patients": 58,
+      "estimate": 0.023333333333333334,
+      "ci_low": 0.003066555121769854,
+      "ci_high": 0.045584262073623774
+    },
+    {
+      "comparison": "v4_team - archive_single",
+      "wins": 25,
+      "losses": 30,
+      "n": 300,
+      "patients": 58,
+      "estimate": -0.016666666666666666,
+      "ci_low": -0.06415189954105048,
+      "ci_high": 0.027777777777777776
+    },
+    {
+      "comparison": "v4_team - refreshed_single",
+      "wins": 13,
+      "losses": 26,
+      "n": 300,
+      "patients": 58,
+      "estimate": -0.043333333333333335,
+      "ci_low": -0.08888888888888889,
+      "ci_high": -0.003675467914438517
+    },
+    {
+      "comparison": "v4_team - v3d_single",
+      "wins": 8,
+      "losses": 28,
+      "n": 300,
+      "patients": 58,
+      "estimate": -0.06666666666666667,
+      "ci_low": -0.10492154111118196,
+      "ci_high": -0.031744634473507734
+    },
+    {
+      "comparison": "v4_team - v3d_team",
+      "wins": 12,
+      "losses": 26,
+      "n": 300,
+      "patients": 58,
+      "estimate": -0.04666666666666667,
+      "ci_low": -0.08389261744966443,
+      "ci_high": -0.010525395656974617
+    },
+    {
+      "comparison": "v4_team - v4_single",
+      "wins": 8,
+      "losses": 29,
+      "n": 300,
+      "patients": 58,
+      "estimate": -0.07,
+      "ci_low": -0.10726676742366995,
+      "ci_high": -0.03421826133222599
+    }
+  ]
+}

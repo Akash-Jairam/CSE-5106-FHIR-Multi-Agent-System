@@ -1,0 +1,20 @@
+Posthoc diagnostic correction; official scores and runtime unchanged
+
+Use diagnostics_corrected/. The earlier unpublished posthoc helper incorrectly
+required the five-field executed artifact in Single's three-field rendered final.
+It therefore misclassified Single's source support. Corrected analysis restores
+retained tool replies and matches the automatic source check to the current final.
+
+Single has 286 source-checked rendered releases: 284 with retained execution and
+source-check ancestry and two with execution ancestry unavailable (N/A). Of 239
+correct answers, 236 are execution/source-bound, two have unavailable execution
+proof and one null credit falls outside a clean release. Team remains 281 clean
+source-valid releases, 213 correct and 68 wrong, plus five null credits outside
+clean release. The official single 239 and team 218 scores did not change.
+
+The corrected helper passed 34 synthetic regressions and independent review.
+Exact tested source/test snapshots and the independent test log are retained;
+the test snapshot records its original absolute temporary paths. The correction
+JSON binds the old/new helper and report hashes. Superseded internal reports are
+retained only in ignored output/local_azure/v4_posthoc_diagnostics_superseded/.
+No source, scorer, prompts, provider settings or first attempts were changed.
