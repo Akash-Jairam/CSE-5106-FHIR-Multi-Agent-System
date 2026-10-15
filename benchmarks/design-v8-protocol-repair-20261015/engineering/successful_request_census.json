@@ -1,0 +1,44 @@
+{
+  "classification_rule": "Any non-tool role before every native call in the preceding assistant block has one matching tool reply is malformed; orphan/duplicate replies checked independently. No message content is required.",
+  "excluded_fresh_toolfree_judge_requests": 8,
+  "failing_role_projection": [
+    "system",
+    "user",
+    "assistant(native call)",
+    "tool",
+    "user",
+    "assistant(native call)",
+    "USER while native reply pending",
+    "tool",
+    "optional user feedback"
+  ],
+  "http400": {
+    "all_R_investigation_call_ordinal": 3,
+    "malformed_pending_native_tool_block": 3,
+    "requests": 3
+  },
+  "kind": "sanitized_request_structure_census",
+  "known_usage_prefix_mismatches": 0,
+  "limitations": [
+    "Saved/reconstructed investigator prefix census, not every provider request kind.",
+    "Exact provider error body/code/parameter was not retained.",
+    "No correctness or patient-content inference.",
+    "All current source/protocol changes require independent freeze and a new first-attempt cohort."
+  ],
+  "other_investigator_errors": {
+    "malformed_pending_native_tool_block": 0,
+    "requests": 2
+  },
+  "request_contents_or_ids_included": false,
+  "scope": "Previously performed authorized operational projection of saved investigator request prefixes in the stopped original V8 study; persisted from the recorded aggregate observation, without a new raw-data scan.",
+  "successful_investigator_requests": {
+    "malformed_pending_native_tool_block": 0,
+    "per_mode": {
+      "C": 25,
+      "R": 125,
+      "W": 126
+    },
+    "requests": 276
+  },
+  "unavailable_request_prefixes": 0
+}

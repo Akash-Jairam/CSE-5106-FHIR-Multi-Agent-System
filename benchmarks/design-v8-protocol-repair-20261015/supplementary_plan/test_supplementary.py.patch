@@ -1,0 +1,54 @@
+--- original/test_supplementary.py
++++ protocol_repair/test_supplementary.py
+@@ -91,7 +91,7 @@
+     records,restored,manifest,scorer,official=fixtures()
+     root=Path(tmp)/'synthetic-root';root.mkdir();output=root/'raw';output.mkdir();record=root/'record';record.mkdir()
+     (root/'scripts').mkdir();(root/'scripts/v8_study_integrity.py').write_text('# Synthetic guard identity only\n')
+-    (root/'manifests').mkdir();save(root/'manifests/v8_mechanism_120_20261015.json',manifest)
++    (root/'manifests').mkdir();save(root/'manifests/v8_mechanism_120_protocol_repair_20261015.json',manifest)
+     save(record/'manifest.json',{'synthetic':True})
+     save(output/'study_outcomes.json',records)
+     save(output/'study_state.json',{'phase':'generation_complete','saved_policy_outcomes':480,
+@@ -110,7 +110,8 @@
+         'questions':120,'accuracy_scored':False,'owned_terminal_attestation_sha256':args.terminal_sha256,
+         'pins_sha256':args.pins_sha256,'guard_sha256':digest(root/'scripts/v8_study_integrity.py'),
+         'source_manifest_sha256':digest(record/'manifest.json'),
+-        'study_manifest_sha256':digest(root/'manifests/v8_mechanism_120_20261015.json')}
++        'study_manifest_path':'manifests/v8_mechanism_120_protocol_repair_20261015.json',
++        'study_manifest_sha256':digest(root/'manifests/v8_mechanism_120_protocol_repair_20261015.json')}
+     def repin():
+         args.terminal_sha256=digest(terminal);proof['owned_terminal_attestation_sha256']=args.terminal_sha256
+         proof['raw_sha256']={name:digest(output/name) for name in ('study_outcomes.json','study_state.json','study_identity.json')}
+@@ -118,7 +119,11 @@
+     repin()
+     audits={(r['question_id'],r['study_arm']):r for r in restored}
+     store=SimpleNamespace(restore_result_audit=lambda row,*a,**kw:deepcopy(audits[row['question_id'],row['study_arm']]))
+-    guard=SimpleNamespace(provenance=Mock(return_value=({'output_directory':str(output)},manifest,{},{})),
++    study_name='manifests/v8_mechanism_120_protocol_repair_20261015.json'
++    sources={study_name:digest(root/study_name)}
++    guard=SimpleNamespace(provenance=Mock(return_value=({'output_directory':str(output),
++            'source_sha256':sources},manifest,{},{})),
++        bound_study_manifest=Mock(return_value=(study_name,root/study_name,{'study_manifest':study_name})),
+         owned=lambda directory,name:Path(directory)/name,
+         shared=lambda:SimpleNamespace(B=SimpleNamespace(load_public_store=lambda root:store)))
+     return args,guard,proof,repin,scorer
+@@ -209,7 +214,7 @@
+             self.assertEqual(guard.provenance.call_count,2)
+ 
+     def test_pinned_completion_and_current_raw_failures_precede_scorer_import(self):
+-        for mutation in ('report_fail','engineering','terminal_bool_exit','raw_drift','479','duplicate','development','external_pin'):
++        for mutation in ('report_fail','engineering','terminal_bool_exit','raw_drift','479','duplicate','development','external_pin','old_manifest_path','missing_manifest_path'):
+             with self.subTest(mutation=mutation),tempfile.TemporaryDirectory() as tmp:
+                 args,guard,proof,repin,scorer=gate_fixture(tmp);loader=Mock(return_value=scorer)
+                 if mutation=='report_fail':proof['status']='FAIL';repin()
+@@ -224,6 +229,10 @@
+                     else:value[-1]=deepcopy(value[0])
+                     save(args.study_output/'study_outcomes.json',value);repin()
+                 elif mutation=='development':save(args.study_output/'study_identity.json',{'development_interface_only':True});repin()
++                elif mutation=='old_manifest_path':
++                    proof['study_manifest_path']='manifests/v8_mechanism_120_20261015.json';repin()
++                elif mutation=='missing_manifest_path':
++                    proof.pop('study_manifest_path');repin()
+                 else:args.official_analysis.write_text(args.official_analysis.read_text()+'\n')
+                 with self.assertRaises(ValueError):supp.run(args,guard_loader=lambda _:guard,scorer_loader=loader)
+                 loader.assert_not_called();self.assertFalse(args.destination.exists())

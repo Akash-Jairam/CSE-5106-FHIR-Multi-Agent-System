@@ -217,14 +217,21 @@ establish new-patient, other-task, or cross-model generalization.
 
 V8 — counterexample investigator, prospective broader-development screen
 Branch: experiments/counterexample-investigator-v8; record: benchmarks/design-v8-20261015
-Status: RUNNING; root-owned process launched15 October2026 at~21:30UTC after
-published prelaunch freeze246a5da. No accuracy inspected. Implementation
+Status: ABORTED ENGINEERING — UNSCORED. Root stopped the owned process at
+22:52:03UTC, exit143, with77 complete cases/308 of480 policy outcomes saved.
+No accuracy, case-correctness analysis or advancement gate was evaluated before the stop.
+The process launched15 October2026 at~21:30UTC after published freeze246a5da. Implementation
 commit634ee39, integrity commitc5db956;
 224 public source files/four public runtime files and exact120/order/gates frozen.
 Prelaunch integrity pins SHAe959159980a9e45cb8a0e37f6723dc39410a61b09826dd32e2882b68f04121b1.
 Root prelaunch PASS;36 investigator and18 integrity tests pass. Research/failure
 packet commit567f015. See launch_observation.json for the exact owned session and
-source/runtime/provider identity. No V8 accuracy or advancement decision yet.
+source/runtime/provider identity. See aborted_engineering.json and
+owned_terminal_abort.json for the superseding terminal status. Three HTTP400 R
+requests split native tool replies with witness USER feedback;0/276 successful
+investigator requests had that structure. Three separate read timeouts occurred.
+Original pinned metadata/archive bytes are retained. This incomplete run must
+never be resumed, combined with a later run, or scored as complete.
 Full natural Single A remains unchanged at200k/30tools/30SDK. W/R/C followups seek
 an actual question-linked counterexample and recompute a complete candidate,
 within residual resources and an additional60k/6tools/6SDK envelope includingjudge.
@@ -236,4 +243,7 @@ Primary R-A gate: O>=6 across>=3patients/>=2operation structures, H-M-F>=4,
 M+F<=2. W/R/C contrasts diagnose context/permissions/cost, not independent samples.
 Only a pass advances R to a frozen fresh fixed300 comparison; no W/C substitution
 or threshold retuning. Protected1397 stays unused until one accepted whole-system
-candidate and the once-only full2931x3 protocol. No V8 accuracy claim yet.
+candidate and the once-only full2931x3 protocol. No completed V8 benchmark accuracy claim exists.
+The protocol-order repair retains this V8 architecture/branch, caps and gates.
+A separate source freeze will use120 fresh development IDs, seed5109, excluding
+all120 old scheduled IDs, fixed300 and protected1397. That study is not yet run.

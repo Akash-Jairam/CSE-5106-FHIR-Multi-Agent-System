@@ -1,0 +1,73 @@
+{
+  "kind": "V8_native_message_order_repair_only",
+  "new_architecture_version": false,
+  "unchanged_module_level_AST": true,
+  "unchanged_class_methods_except_run": [
+    "__init__",
+    "_aggregate_error",
+    "_merge_aux",
+    "_release",
+    "run_from_primary",
+    "run_primary"
+  ],
+  "witness_validation_remains_before_native_dispatch": true,
+  "no_tool_feedback_is_immediate": true,
+  "tool_feedback_is_after_all_native_replies": true,
+  "model_or_FHIR_calls": 0,
+  "live_accuracy_or_case_reads": false,
+  "git_mutations": false,
+  "test_results": {
+    "original_tests": 36,
+    "new_tests": 5,
+    "total": 41,
+    "green_runtime_seconds": 4.154,
+    "red_targeted_tests": 4,
+    "red_walker_tests_passed": 2,
+    "red_invalid_order_subtest_failures": 4,
+    "normal_sandbox_worker_failure": "returncode71; does not constitute protocol reproduction",
+    "test_command": "env -u FHIR_LOCAL_AZURE_CONFIG PYTHONPATH=. .venv/bin/python -m unittest tests.test_fhir_v8_investigator -v",
+    "requires_outer_sandbox_escalation_for_nested_OS_worker": true
+  },
+  "files": {
+    "agent/counterexample_investigator_agent.py": {
+      "sha256": "2356c844a38e22a0e133a821a41cdaedfb58b25b5afd71c6ee68f6f454c1368a",
+      "bytes": 36790
+    },
+    "tests/test_fhir_v8_investigator.py": {
+      "sha256": "d7680bc4203adcef57286a29790161171069cb7f466a398b26c248efc9558ddb",
+      "bytes": 63059
+    },
+    "output/development/v8_protocol_repair_20261015/before_counterexample_investigator_agent.py": {
+      "sha256": "3155c5adec26a4bad43a9d18554b6aff01b74e795e1bc9355bc63a0556ac8100",
+      "bytes": 36379
+    },
+    "output/development/v8_protocol_repair_20261015/before_test_fhir_v8_investigator.py": {
+      "sha256": "5ebed82a966e8fd57dbf4fc11c431fa3c9ff95cc1af369f3a7071a242e10b91b",
+      "bytes": 53656
+    },
+    "output/development/v8_protocol_repair_20261015/counterexample_investigator_agent.patch": {
+      "sha256": "1ecd3950da2d08d02fe6a709f4080545cdfd2e748c5942b5a5c1abcb30cdbf69",
+      "bytes": 2531
+    },
+    "output/development/v8_protocol_repair_20261015/test_fhir_v8_investigator.patch": {
+      "sha256": "f8da2790d48ac9086a18409919be92d85467c11c0d0e68710d3ed985e5ce0f7f",
+      "bytes": 13022
+    },
+    "output/development/v8_protocol_repair_20261015/red_protocol_tests.log": {
+      "sha256": "4952f59fd913da2cabf78845cbdb2bce0fa27f26dc237fe6c47e300b34728960",
+      "bytes": 7360
+    },
+    "output/development/v8_protocol_repair_20261015/green_tests.log": {
+      "sha256": "2804755418c00057be74c6289562c318687268aa57d7b17a4864c0f31efa067b",
+      "bytes": 8551
+    },
+    "output/development/v8_protocol_repair_20261015/baseline_tests.log": {
+      "sha256": "d86fe9d527e0b2d3cfb2ff04b9249ad82496a9a3cf6fc2f72cc6c6364b9b9e0d",
+      "bytes": 52539
+    },
+    "output/development/v8_protocol_repair_20261015/green_tests_initial.log": {
+      "sha256": "5ff83d39a5343ad09596ba64ab5cfeb4344bc205043d47359c43ec5cd68c7e40",
+      "bytes": 9327
+    }
+  }
+}

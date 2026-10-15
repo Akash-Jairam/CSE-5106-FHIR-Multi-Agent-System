@@ -76,7 +76,8 @@ def _patient_round_robin(candidates, quota, seed, stratum):
     return chosen
 
 
-def select_manifest(question_metadata, family_metadata, split, exposure, seed=SEED):
+def select_manifest(question_metadata, family_metadata, split, exposure, seed=SEED,
+                    excluded_study_ids=()):
     """Pure ID/patient/family selection; inputs must not contain QA/reference data."""
     metadata = {row['question_id']: row['patient_fhir_id'] for row in question_metadata}
     if len(metadata) != len(question_metadata):
@@ -96,8 +97,11 @@ def select_manifest(question_metadata, family_metadata, split, exposure, seed=SE
     permitted = partitions[0] | partitions[1]
     if {qid for qid, patient in metadata.items() if patient in permitted_patients} != permitted:
         raise ValueError('Reserved-patient pool does not match the frozen exposure strata')
+    excluded_study_ids = set(excluded_study_ids)
+    if not excluded_study_ids <= permitted:
+        raise ValueError('Previous-study exclusions must belong to the reserved development pool')
     pools = defaultdict(list)
-    for qid in sorted(permitted):
+    for qid in sorted(permitted - excluded_study_ids):
         row = family[qid]
         group = row['excluded_reason'] if row['family'] == 'out_of_scope' else row['family']
         if group in QUOTAS:
@@ -127,7 +131,7 @@ def select_manifest(question_metadata, family_metadata, split, exposure, seed=SE
     patients = len({row['patient_fhir_id'] for row in cases})
     if patients < 20:
         raise ValueError('Metadata selection did not cover the required20 patients')
-    return {'schema_version': 1, 'status': 'PROSPECTIVE_METADATA_ONLY_NOT_RUN',
+    result = {'schema_version': 1, 'status': 'PROSPECTIVE_METADATA_ONLY_NOT_RUN',
             'seed': seed, 'selection': 'SHA256-ranked patient round-robin within fixed operation quotas; no QA/reference/SQL selection',
             'order': '20 six-case time blocks, cycling four broad strata; all six W/R/C permutations once per block',
             'policy': deepcopy(POLICY), 'questions': 120, 'patients': patients,
@@ -136,6 +140,10 @@ def select_manifest(question_metadata, family_metadata, split, exposure, seed=SE
             'followup_order_counts': dict(Counter(''.join(row['followup_order']) for row in cases)),
             'excluded_fixed300': len(partitions[2]), 'excluded_confirmation': len(partitions[3]),
             'cases': cases}
+    if excluded_study_ids:
+        result['excluded_previous_study_questions'] = len(excluded_study_ids)
+        result['selection'] += '; previous-study IDs excluded before ranking'
+    return result
 
 
 def read_selection_inputs(dataset, families, split, exposure):
@@ -641,6 +649,8 @@ def main(argv=None):
     selection.add_argument('--exposure', default=str(ROOT / 'manifests/final_evaluation_strata_20261015.json'))
     selection.add_argument('--manifest', default=str(DEFAULT_MANIFEST))
     selection.add_argument('--seed', type=int, default=SEED)
+    selection.add_argument('--exclude-manifest', action='append', default=[],
+                           help='Prior metadata-only study manifest under manifests/; exclude every scheduled ID before ranking')
     for name in ('plan', 'execute'):
         p = commands.add_parser(name)
         p.add_argument('--manifest', default=str(DEFAULT_MANIFEST))
@@ -658,9 +668,23 @@ def main(argv=None):
     analysis.add_argument('--terminal-confirmed', action='store_true')
     args = parser.parse_args(argv)
     if args.command == 'select':
-        manifest = select_manifest(*read_selection_inputs(args.dataset, args.families, args.split, args.exposure), args.seed)
+        exclusions, previous = set(), []
+        for value in args.exclude_manifest:
+            prior = Path(value).resolve()
+            if not prior.is_relative_to(ROOT / 'manifests') or prior.suffix != '.json':
+                raise ValueError('Previous study manifests must be JSON metadata under manifests/')
+            prior_manifest = load(prior)
+            prior_cases = validate_manifest(prior_manifest)
+            exclusions.update(row['question_id'] for row in prior_cases)
+            previous.append({'path': str(prior.relative_to(ROOT)), 'sha256': digest(prior),
+                             'scheduled_questions': len(prior_cases)})
+        manifest = select_manifest(*read_selection_inputs(args.dataset, args.families, args.split, args.exposure),
+                                   args.seed, excluded_study_ids=exclusions)
         manifest['source_sha256'] = {str(Path(path).resolve().relative_to(ROOT)): digest(path)
                                      for path in (args.dataset, args.families, args.split, args.exposure)}
+        if previous:
+            manifest['excluded_study_manifests'] = previous
+            manifest['source_sha256'].update({row['path']: row['sha256'] for row in previous})
         path = Path(args.manifest)
         if path.exists():
             raise ValueError('Refusing to replace a frozen study manifest')

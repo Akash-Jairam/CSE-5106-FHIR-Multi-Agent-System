@@ -1,0 +1,17 @@
+{
+  "kind": "v8_protocol_repair_independent_delivery",
+  "files_sha256": {
+    "independent_review.json": "22bcb99579ee8569f4d9a35fbc235547221f14994e24cad0e1717c74956330b6",
+    "manifest_binding_tests.log": "a39a51668bc04cd2c988c248a7952c6457a7054bb50c450a88c712b7e8952edb",
+    "old_frozen_record_preservation.json": "17949009b44f3f2d4d4c109c8f390833f248b57e78cb14222440c7c137bb6f50",
+    "refreeze_notes.txt": "644be7c6846820939b440ecda65e1efb36fe5c924da227473db3dc4fe5b88f76",
+    "test_v8_study_integrity.patch": "cdb6c6746682d494e7b6d67f9e6aa72d0ca4c2fa895e6fe3d534035b7ece4a26",
+    "v8_study_integrity.patch": "03e4726e9aa2cdfd9138fe9ed17fe1f352431c5c47f5fb5065fe37ed86845b3d"
+  },
+  "source_changed_only": [
+    "scripts/v8_study_integrity.py",
+    "tests/test_v8_study_integrity.py"
+  ],
+  "old_pinned_metadata_and_source_archive_preserved": true,
+  "scoring_or_model_or_FHIR_calls": false
+}

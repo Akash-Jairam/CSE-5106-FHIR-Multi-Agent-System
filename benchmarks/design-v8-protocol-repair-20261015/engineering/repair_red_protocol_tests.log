@@ -1,0 +1,84 @@
+test_walker_accepts_complete_multi_call_block_before_feedback (tests.test_fhir_v8_investigator.NativeMessageProtocolTests.test_walker_accepts_complete_multi_call_block_before_feedback) ... ok
+test_walker_rejects_interleaving_missing_or_duplicate_native_replies (tests.test_fhir_v8_investigator.NativeMessageProtocolTests.test_walker_rejects_interleaving_missing_or_duplicate_native_replies) ... ok
+test_accepted_witness_with_probe_replies_before_next_investigator_send (tests.test_fhir_v8_investigator.InvestigatorCoreIndependentTests.test_accepted_witness_with_probe_replies_before_next_investigator_send) ... 
+  test_accepted_witness_with_probe_replies_before_next_investigator_send (tests.test_fhir_v8_investigator.InvestigatorCoreIndependentTests.test_accepted_witness_with_probe_replies_before_next_investigator_send) (mode='W') ... FAIL
+  test_accepted_witness_with_probe_replies_before_next_investigator_send (tests.test_fhir_v8_investigator.InvestigatorCoreIndependentTests.test_accepted_witness_with_probe_replies_before_next_investigator_send) (mode='R') ... FAIL
+  test_accepted_witness_with_probe_replies_before_next_investigator_send (tests.test_fhir_v8_investigator.InvestigatorCoreIndependentTests.test_accepted_witness_with_probe_replies_before_next_investigator_send) (mode='C') ... FAIL
+test_rejected_witness_with_probe_replies_before_repaired_witness_send (tests.test_fhir_v8_investigator.InvestigatorCoreIndependentTests.test_rejected_witness_with_probe_replies_before_repaired_witness_send) ... FAIL
+
+======================================================================
+FAIL: test_accepted_witness_with_probe_replies_before_next_investigator_send (tests.test_fhir_v8_investigator.InvestigatorCoreIndependentTests.test_accepted_witness_with_probe_replies_before_next_investigator_send) (mode='W')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/tests/test_fhir_v8_investigator.py", line 397, in test_accepted_witness_with_probe_replies_before_next_investigator_send
+    result,requests,_,executions,source_reads,_=self.exercise(case,script,mode=mode)
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/tests/test_fhir_v8_investigator.py", line 380, in exercise
+    self.assertEqual(protocol_failures,[], 'Invalid native protocol at mocked model-send boundary')
+AssertionError: Lists differ: ["message 6: user before replies for ['witness-probe']"] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+"message 6: user before replies for ['witness-probe']"
+
+- ["message 6: user before replies for ['witness-probe']"]
++ [] : Invalid native protocol at mocked model-send boundary
+
+======================================================================
+FAIL: test_accepted_witness_with_probe_replies_before_next_investigator_send (tests.test_fhir_v8_investigator.InvestigatorCoreIndependentTests.test_accepted_witness_with_probe_replies_before_next_investigator_send) (mode='R')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/tests/test_fhir_v8_investigator.py", line 397, in test_accepted_witness_with_probe_replies_before_next_investigator_send
+    result,requests,_,executions,source_reads,_=self.exercise(case,script,mode=mode)
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/tests/test_fhir_v8_investigator.py", line 380, in exercise
+    self.assertEqual(protocol_failures,[], 'Invalid native protocol at mocked model-send boundary')
+AssertionError: Lists differ: ["message 6: user before replies for ['witness-probe']"] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+"message 6: user before replies for ['witness-probe']"
+
+- ["message 6: user before replies for ['witness-probe']"]
++ [] : Invalid native protocol at mocked model-send boundary
+
+======================================================================
+FAIL: test_accepted_witness_with_probe_replies_before_next_investigator_send (tests.test_fhir_v8_investigator.InvestigatorCoreIndependentTests.test_accepted_witness_with_probe_replies_before_next_investigator_send) (mode='C')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/tests/test_fhir_v8_investigator.py", line 397, in test_accepted_witness_with_probe_replies_before_next_investigator_send
+    result,requests,_,executions,source_reads,_=self.exercise(case,script,mode=mode)
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/tests/test_fhir_v8_investigator.py", line 380, in exercise
+    self.assertEqual(protocol_failures,[], 'Invalid native protocol at mocked model-send boundary')
+AssertionError: Lists differ: ["message 12: user before replies for ['witness-probe']"] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+"message 12: user before replies for ['witness-probe']"
+
+- ["message 12: user before replies for ['witness-probe']"]
++ [] : Invalid native protocol at mocked model-send boundary
+
+======================================================================
+FAIL: test_rejected_witness_with_probe_replies_before_repaired_witness_send (tests.test_fhir_v8_investigator.InvestigatorCoreIndependentTests.test_rejected_witness_with_probe_replies_before_repaired_witness_send)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/tests/test_fhir_v8_investigator.py", line 417, in test_rejected_witness_with_probe_replies_before_repaired_witness_send
+    result,requests,_,_,_,_=self.exercise(case,script)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/tests/test_fhir_v8_investigator.py", line 380, in exercise
+    self.assertEqual(protocol_failures,[], 'Invalid native protocol at mocked model-send boundary')
+AssertionError: Lists differ: ["message 6: user before replies for ['rejected-witness-probe']"] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+"message 6: user before replies for ['rejected-witness-probe']"
+
+- ["message 6: user before replies for ['rejected-witness-probe']"]
++ [] : Invalid native protocol at mocked model-send boundary
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.344s
+
+FAILED (failures=4)

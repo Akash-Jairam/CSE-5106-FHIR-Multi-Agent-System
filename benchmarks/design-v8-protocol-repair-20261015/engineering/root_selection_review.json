@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "source_sha256": {
+    "scripts/v8_mechanism_study.py": "b7e250c79c4f6f233d010d509138ff606c7a3922a70aaa5cbc41b9e15a43d38a",
+    "tests/test_v8_study_selection.py": "8cd5be72b1a6278a93c42acb6080b35210529ba68b66a319f68d2db19782baa8"
+  },
+  "synthetic_selection_tests_passed": 4,
+  "observed_test_command": "FHIR_LOCAL_AZURE_CONFIG='' FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR='' LITELLM_LOCAL_MODEL_COST_MAP=True .venv/bin/python -IB -m unittest discover -s tests -p test_v8_study_selection.py -v",
+  "observed_exit_code": 0,
+  "selection_seed": 5109,
+  "fresh_manifest_sha256": "1694573a0486df16a502bf1c6650061ad10e3a4adf6dd94a115e92065ba75a19",
+  "questions": 120,
+  "patients": 35,
+  "excluded_old_scheduled120": 120,
+  "fixed300_overlap": 0,
+  "protected1397_overlap": 0,
+  "prior_real_interface_overlap": 0,
+  "all_six_followup_permutations_per_block": true,
+  "policy_unchanged": true,
+  "cohort_and_repair_fixed_before_later_informal_diagnostic": true,
+  "qa_or_reference_selection": false
+}

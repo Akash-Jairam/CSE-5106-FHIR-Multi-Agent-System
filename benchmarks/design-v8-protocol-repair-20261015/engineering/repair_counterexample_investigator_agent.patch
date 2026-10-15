@@ -1,0 +1,36 @@
+--- a/agent/counterexample_investigator_agent.py
++++ b/agent/counterexample_investigator_agent.py
+@@ -335,16 +335,19 @@
+                 local._append_message(response)
+                 content = message_dict(response).get('content')
+                 witness_received = False
++                witness_feedback = None
+                 if isinstance(content, str) and content.strip():
+                     try:
+                         witness = witness_object(content, observations, question, context, a)
+                         witness_received = True
+-                        local._append_message({'role': 'user', 'content': 'Witness lineage recorded; this does not prove its semantics.'})
++                        witness_feedback = {'role': 'user', 'content': 'Witness lineage recorded; this does not prove its semantics.'}
+                     except (ValueError, TypeError, KeyError) as exc:
+-                        local._append_message({'role': 'user', 'content':
+-                            'No witness admitted (' + type(exc).__name__ + '). Use the exact metadata schema and a prior real observation.'})
++                        witness_feedback = {'role': 'user', 'content':
++                            'No witness admitted (' + type(exc).__name__ + '). Use the exact metadata schema and a prior real observation.'}
+                 calls = getattr(response, 'tool_calls', None) or []
+                 if not calls:
++                    if witness_feedback is not None:
++                        local._append_message(witness_feedback)
+                     computed = local._computed_candidate(workspace)
+                     clean_released_b = (isinstance(computed, dict) and not computed.get('error')
+                         and (released.get('revision') or {}).get('final_check_issues') == []
+@@ -425,6 +428,10 @@
+                             local._invalidate_computation('Inspection mutated the copied workspace')
+                         observations.append(observation)
+                         new_observations.append(observation)
++                # Native replies must complete the assistant's entire tool-call
++                # block before any witness or observation USER feedback.
++                if witness_feedback is not None:
++                    local._append_message(witness_feedback)
+                 for observation in new_observations:
+                     local._append_message({'role': 'user', 'content': json_text({
+                         'observation_id': observation['observation_id'],

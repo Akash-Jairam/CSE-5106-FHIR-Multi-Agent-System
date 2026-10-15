@@ -141,6 +141,61 @@ def known_usage(prompt=100, completion=80, *, known=True):
             "prompt":prompt,"completion":completion,"cached":0,"usage_available":known}]}
 
 
+def assert_native_message_protocol(messages):
+    """Independent send-boundary spec: finish every native block before prose.
+
+    This deliberately does not reuse agent message helpers or witness logic.
+    Matching replies may be in any order, but every call needs exactly one reply.
+    """
+    pending = set()
+    for index, raw in enumerate(messages):
+        message = raw if isinstance(raw, dict) else raw.model_dump()
+        role = message.get('role')
+        if pending and role != 'tool':
+            raise AssertionError(f'message {index}: {role} before replies for {sorted(pending)}')
+        if role == 'tool':
+            identifier = message.get('tool_call_id')
+            if identifier not in pending:
+                raise AssertionError(f'message {index}: orphan or duplicate tool reply {identifier!r}')
+            pending.remove(identifier)
+            continue
+        calls = message.get('tool_calls') or []
+        if calls and role != 'assistant':
+            raise AssertionError(f'message {index}: native calls outside assistant')
+        for raw_call in calls:
+            call = raw_call if isinstance(raw_call, dict) else raw_call.model_dump()
+            identifier = call.get('id')
+            if not isinstance(identifier, str) or not identifier or identifier in pending:
+                raise AssertionError(f'message {index}: missing or duplicate native call ID')
+            pending.add(identifier)
+    if pending:
+        raise AssertionError(f'missing native replies for {sorted(pending)}')
+
+
+class NativeMessageProtocolTests(unittest.TestCase):
+    def test_walker_accepts_complete_multi_call_block_before_feedback(self):
+        calls = [native_tool('answer=1', identifier=identifier).tool_calls[0]
+                 for identifier in ('first', 'second')]
+        assert_native_message_protocol([NativeMessage('witness', calls=calls),
+            {'role':'tool', 'tool_call_id':'second', 'content':'known failure'},
+            {'role':'tool', 'tool_call_id':'first', 'content':'success'},
+            {'role':'user', 'content':'Witness lineage recorded'}])
+
+    def test_walker_rejects_interleaving_missing_or_duplicate_native_replies(self):
+        assistant = native_tool('answer=1', identifier='pending')
+        reply = {'role':'tool', 'tool_call_id':'pending', 'content':'success'}
+        other = native_tool('answer=2', identifier='other')
+        bad = [[assistant, {'role':'user', 'content':'early witness feedback'}, reply],
+               [assistant, NativeMessage('early assistant feedback'), reply],
+               [assistant], [reply], [assistant, reply, deepcopy(reply)],
+               [assistant, {'role':'tool', 'tool_call_id':'unmatched', 'content':'bad'}],
+               [NativeMessage(calls=[*assistant.tool_calls, *other.tool_calls]), reply],
+               [NativeMessage(calls=[*assistant.tool_calls, *assistant.tool_calls])]]
+        for messages in bad:
+            with self.subTest(messages=messages), self.assertRaises(AssertionError):
+                assert_native_message_protocol(messages)
+
+
 class InvestigatorSpecificationFixtures(unittest.TestCase):
     def test_handwritten_expectations_use_actual_isolated_worker(self):
         execute = real_tool("execute_python_code")
@@ -257,10 +312,11 @@ def adjudication(case, *, choice="B", a_status="contradicted", b_status="support
 class InvestigatorCoreIndependentTests(unittest.TestCase):
     def exercise(self, case, auxiliary, *, mode="R", primary_code=None, bills=None,
                  input_data=None, checker=None, envelope_change=None, retrieval=None,
-                 primary_replies=None, real_tokenizer=False):
+                 primary_replies=None, real_tokenizer=False, handler_error_ids=()):
         from agent.counterexample_investigator_agent import CounterexampleInvestigatorAgent
+        from agent.single_agent import SingleAgent
         from tools.field_check import check_fields
-        requests=[]; executions=[]; source_reads=[]; fetches=[]
+        requests=[]; executions=[]; source_reads=[]; fetches=[]; protocol_failures=[]
         primary=primary_replies if primary_replies is not None else [
             native_tool(primary_code or case.wrong_code,identifier="A-final"),
             NativeMessage('{"answer":999,"evidence":[],"limitation":null}')]
@@ -288,6 +344,11 @@ class InvestigatorCoreIndependentTests(unittest.TestCase):
                 return forbidden
             return real_tool(name)
         def provider(**kwargs):
+            try:
+                assert_native_message_protocol(kwargs['messages'])
+            except AssertionError as exc:
+                protocol_failures.append(str(exc))
+                raise
             requests.append(deepcopy(kwargs))
             try:response=next(responses)
             except StopIteration as exc:raise AssertionError('Unexpected extra model request') from exc
@@ -308,6 +369,13 @@ class InvestigatorCoreIndependentTests(unittest.TestCase):
             stack.enter_context(patch('agent.single_agent.get_starting_packet',side_effect=lambda *_a,**_kw:{'text':'Complete synthetic held records','resources':deepcopy(case.resources)}))
             stack.enter_context(patch('tools.field_check.fetch_from_store',side_effect=source_fetch))
             stack.enter_context(patch('agent.multi_turn_code_resource_agent.get_tool',side_effect=dispatch))
+            if handler_error_ids:
+                original_handler=SingleAgent._handle_tool_call
+                def handler(agent,call,workspace):
+                    if call.id in handler_error_ids:
+                        raise RuntimeError('Synthetic native handler failure')
+                    return original_handler(agent,call,workspace)
+                stack.enter_context(patch.object(SingleAgent,'_handle_tool_call',handler))
             if checker is not None:stack.enter_context(patch('agent.single_agent.check_fields',side_effect=checker))
             primary_agent=CounterexampleInvestigatorAgent('synthetic-v8',mode=mode)
             primary_agent.set_budget(max_total_tokens=200000,max_tool_calls=30)
@@ -317,6 +385,8 @@ class InvestigatorCoreIndependentTests(unittest.TestCase):
             followup=CounterexampleInvestigatorAgent('synthetic-v8',mode=mode)
             followup.set_budget(max_total_tokens=200000,max_tool_calls=30)
             result=followup.run_from_primary(question,envelope,mode=mode)
+        self.assertEqual(protocol_failures,[], 'Invalid native protocol at mocked model-send boundary')
+        assert_native_message_protocol(result['trace'])
         if envelope_change is None:self.assertEqual(envelope,before,'Auxiliary mutated the immutable A envelope')
         return result,requests,envelope,executions,source_reads,fetches
 
@@ -324,6 +394,78 @@ class InvestigatorCoreIndependentTests(unittest.TestCase):
         return [native_tool(case.probe_code,mode='inspect',identifier='probe'),
                 with_claim(native_tool(candidate or case.correct_code,identifier='B-final'),claim or counterexample_claim(case)),
                 judge or adjudication(case)]
+
+    def test_accepted_witness_with_probe_replies_before_next_investigator_send(self):
+        case=next(semantic_cases())
+        script=[native_tool(case.probe_code,mode='inspect',identifier='first-observation'),
+                with_claim(native_tool(case.probe_code,mode='inspect',identifier='witness-probe'),
+                           counterexample_claim(case)),
+                native_tool(case.correct_code,identifier='B-after-witness-probe'),adjudication(case)]
+        for mode in ('W','R','C'):
+            with self.subTest(mode=mode):
+                result,requests,_,executions,source_reads,_=self.exercise(case,script,mode=mode)
+                self.assertIsNone(result['error'])
+                self.assertEqual(result['answer'],case.expected_correct)
+                self.assertEqual(len(requests),6)
+                self.assertEqual(len(executions),4)
+                self.assertEqual(len(source_reads),2)
+                messages=requests[4]['messages']
+                reply=next(i for i,m in enumerate(messages)
+                    if isinstance(m,dict) and m.get('tool_call_id')=='witness-probe')
+                self.assertEqual(messages[reply+1]['content'],
+                    'Witness lineage recorded; this does not prove its semantics.')
+                self.assertTrue(result['revision']['witness'])
+
+    def test_rejected_witness_with_probe_replies_before_repaired_witness_send(self):
+        case=next(semantic_cases())
+        script=[native_tool(case.probe_code,mode='inspect',identifier='first-observation'),
+                with_claim(native_tool(case.probe_code,mode='inspect',identifier='rejected-witness-probe'),
+                           counterexample_claim(case,observation_id='observation_not_received')),
+                with_claim(native_tool(case.correct_code,identifier='B-with-valid-witness'),
+                           counterexample_claim(case)),adjudication(case)]
+        result,requests,_,_,_,_=self.exercise(case,script)
+        self.assertIsNone(result['error'])
+        self.assertEqual(result['answer'],case.expected_correct)
+        self.assertEqual(len(requests),6)
+        messages=requests[4]['messages']
+        reply=next(i for i,m in enumerate(messages)
+            if isinstance(m,dict) and m.get('tool_call_id')=='rejected-witness-probe')
+        self.assertTrue(messages[reply+1]['content'].startswith('No witness admitted (ValueError).'))
+        self.assertEqual(result['revision']['witness']['observation_id'],'observation_1')
+
+    def test_multi_call_witness_feedback_waits_for_success_failure_and_refusal_replies(self):
+        case=next(semantic_cases())
+        for valid in (True,False):
+            with self.subTest(witness_admitted=valid):
+                calls=[native_tool(case.probe_code,mode='inspect',identifier='batch-probe').tool_calls[0],
+                       native_tool(case.correct_code,identifier='handler-raises').tool_calls[0],
+                       native_tool('',name='fhir_request_get',identifier='batch-refused').tool_calls[0]]
+                claim=counterexample_claim(case,observation_id='observation_1' if valid else 'unreceived')
+                batch=NativeMessage(json.dumps(claim),calls=calls)
+                result,requests,_,executions,source_reads,fetches=self.exercise(case,
+                    [native_tool(case.probe_code,mode='inspect',identifier='first-observation'),batch],
+                    handler_error_ids=('handler-raises',))
+                self.assertIsNone(result['error'])
+                self.assertEqual(result['answer'],case.expected_wrong)
+                self.assertEqual(len(requests),4)
+                self.assertEqual(len(executions),3)  # A final plus two successful probes
+                self.assertEqual(len(source_reads),1)  # no eligible B to source-check
+                self.assertEqual(fetches,[])
+                self.assertEqual(result['budget']['tool_calls_run'],5)  # refused call uncharged
+                trace=result['trace']
+                assert_native_message_protocol(trace)
+                first=next(i for i,m in enumerate(trace) if m.get('tool_call_id')=='batch-probe')
+                replies=trace[first:first+3]
+                self.assertEqual([m['role'] for m in replies],['tool']*3)
+                self.assertEqual([m['tool_call_id'] for m in replies],
+                                 ['batch-probe','handler-raises','batch-refused'])
+                self.assertIn('Native tool raised RuntimeError',replies[1]['content'])
+                self.assertIn('Not run: V8 admission:',replies[2]['content'])
+                feedback=trace[first+3]
+                self.assertEqual(feedback['role'],'user')
+                self.assertTrue(feedback['content'].startswith(
+                    'Witness lineage recorded;' if valid else 'No witness admitted (ValueError).'))
+                self.assertEqual(result['revision']['witness'] is not None,valid)
 
     def test_counterexamples_recompute_complete_candidates_through_actual_core(self):
         for case in semantic_cases():
@@ -584,6 +726,13 @@ class InvestigatorCoreIndependentTests(unittest.TestCase):
         self.assertEqual(len(executions),3)  # A final, probe, B final
         self.assertEqual(len(source_reads),2)
         self.assertEqual(result['budget']['tool_calls_run'],5)
+        messages=[m if isinstance(m,dict) else m.model_dump() for m in requests[4]['messages']]
+        witness_index=next(i for i,m in enumerate(messages)
+            if m.get('role')=='assistant'
+            and m.get('content')==json.dumps(counterexample_claim(case)))
+        self.assertEqual(messages[witness_index+1]['content'],
+                         'Witness lineage recorded; this does not prove its semantics.')
+        self.assertIn('Now execute the COMPLETE alternative program',messages[witness_index+2]['content'])
 
     def test_JSON_only_witness_after_source_clean_B_requires_no_reexecution(self):
         case=next(semantic_cases())

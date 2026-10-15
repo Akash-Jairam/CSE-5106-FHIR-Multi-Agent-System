@@ -14,7 +14,7 @@ import hashlib
 import importlib.util
 import json
 import math
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,6 +34,7 @@ FIELDS = ('answer', 'evidence', 'operation', 'contributing_ids', 'limitation')
 RENDERED = ('answer', 'evidence', 'limitation')
 PROTOCOL = 'full-single-counterexample-investigator-v8'
 MODES = ('A', 'W', 'R', 'C')
+LEGACY_STUDY_MANIFEST = 'manifests/v8_mechanism_120_20261015.json'
 HEX = re.compile(r'^[a-f0-9]{64}$')
 
 
@@ -511,17 +512,52 @@ def validate_journals(output_dir, physical_calls, fatal_physical=False):
             'limits': 'Fatal paths retain pre-send/admitted accounting gaps; no unknown usage is zero billing.'}
 
 
+def bound_study_manifest(root, record, sources, pins=None):
+    """The pinned prospective protocol, never a CLI override, names selection.
+
+    The original prospective protocol already declares study_manifest and its
+    SHA. New pins additionally carry that path; old pins without a path remain
+    valid only for the original filename. No old archive is rewritten.
+    """
+    root, record = Path(root).resolve(), Path(record).resolve()
+    prospective = load(record/'prospective_protocol.json')
+    name = prospective.get('study_manifest')
+    require(isinstance(name, str), 'Prospective study manifest path malformed')
+    if 'study_manifest_path' in prospective:
+        require(prospective['study_manifest_path'] == name, 'Ambiguous prospective study manifest aliases')
+    relative = PurePosixPath(name)
+    require(not relative.is_absolute() and len(relative.parts) >= 2
+            and relative.parts[0] == 'manifests' and relative.suffix == '.json'
+            and '..' not in relative.parts and '\\' not in name
+            and relative.as_posix() == name, 'Study manifest must be confined under repo/manifests')
+    path = root
+    for part in relative.parts:
+        path /= part
+        require(not path.is_symlink(), 'Study manifest has a symlinked path')
+    require(path.is_file() and path.resolve().is_relative_to(root/'manifests'),
+            'Prospective study manifest missing/outside repo/manifests')
+    require(isinstance(sources, dict) and name in sources and sha(path) == sources[name],
+            'Prospective study manifest is not exactly source-pinned')
+    require(prospective.get('study_manifest_sha256') == sha(path), 'Prospective study manifest SHA differs')
+    if pins is not None:
+        require(pins.get('study_manifest_path', LEGACY_STUDY_MANIFEST) == name
+                and pins.get('study_manifest_sha256') == sha(path), 'Pinned prospective study manifest differs')
+    return name, path, prospective
+
+
 def prepare_pins(root, record, destination):
     root, record, destination = Path(root).resolve(), Path(record).resolve(), Path(destination)
     require(not destination.exists(), 'Pins destination must be fresh')
     manifest = load(record/'manifest.json')
     require(REQUIRED <= set(manifest['source_sha256']), 'Study source inventory incomplete')
+    study_name, study_path, _ = bound_study_manifest(root, record, manifest['source_sha256'])
+    require(manifest.get('study_manifest_sha256') == sha(study_path), 'Record study manifest SHA differs')
     value = {'version': 1, 'status': 'REQUIRES_ROOT_REVIEW_BEFORE_LAUNCH',
              'guard_sha256': sha(Path(__file__)), 'shared_guard_sha256': SHARED_SHA, 'reviewed_base_sha256': BASE_SHA,
              'metadata_sha256': {name: sha(record/name) for name in META},
              'source_inventory_sha256': fingerprint(manifest['source_sha256']),
              'source_file_count': len(manifest['source_sha256']),
-             'study_manifest_sha256': sha(root/'manifests/v8_mechanism_120_20261015.json')}
+             'study_manifest_path': study_name, 'study_manifest_sha256': sha(study_path)}
     destination.parent.mkdir(parents=True, exist_ok=True)
     with destination.open('x') as stream:
         stream.write(json.dumps(value, indent=2)+'\n')
@@ -543,14 +579,13 @@ def provenance(root, record, pins_path, pins_sha):
         require(sha(helper.public_path(root, name)) == value, 'Frozen public source differs: '+name)
     helper.B.source_zip(record/'source.zip', sources, manifest['source_archive_sha256'])
     require(sha(record/'design.txt') == manifest['design_sha256'], 'Frozen design differs')
-    study_path = root/'manifests/v8_mechanism_120_20261015.json'
+    _, study_path, prospective = bound_study_manifest(root, record, sources, pins)
     require(sha(study_path) == pins.get('study_manifest_sha256') == manifest.get('study_manifest_sha256'), 'Frozen study selection differs')
     study = load(study_path)
     for name, value in study['source_sha256'].items():
         require(sha(helper.public_path(root, name)) == value, 'Study input metadata hash differs')
     require(study['policy']['aggregate'] == {'tokens': 200000, 'tools': 30, 'sdk_attempts': 30}
             and study['policy']['auxiliary'] == {'tokens': 60000, 'tools': 6, 'sdk_attempts': 6, 'probes': 2}, 'Prospective policy caps differ')
-    prospective = load(record/'prospective_protocol.json')
     require(equal(prospective.get('study_policy'), study['policy']), 'Prospective study policy differs')
     runtime = load(record/'runtime_adapter_manifest.json')
     require(set(runtime['source_sha256']) == RUNTIME, 'Public runtime inventory differs')
@@ -584,9 +619,10 @@ def run_check(root, record, pins_path, pins_sha, output, terminal_path, terminal
     require(isinstance(rows, list) and len(rows) == expected and state.get('saved_policy_outcomes') == expected
             and state.get('expected_policy_outcomes') == expected and state.get('correctness_scored') is False,
             'All declared first outcomes must be terminal before integrity analysis')
+    study_name, study_path, _ = bound_study_manifest(root, record, manifest['source_sha256'], load(pins_path))
     require(state.get('phase') in ({'development_interface_complete'} if engineering else {'generation_complete', 'generation_complete_with_errors'}), 'Generation not complete')
     require(identity.get('development_interface_only') is engineering and identity.get('expected_policy_outcomes') == expected
-            and identity.get('manifest_sha256') == sha(root/'manifests/v8_mechanism_120_20261015.json')
+            and identity.get('manifest_sha256') == sha(study_path)
             and identity.get('model') == manifest['model'] and equal(identity.get('policy'), study['policy'])
             and equal(identity.get('freeze', {}).get('public_provider_binding'), binding), 'Actual study identity differs')
     frozen = identity.get('freeze') or {}
@@ -636,7 +672,7 @@ def run_check(root, record, pins_path, pins_sha, output, terminal_path, terminal
              'owned_terminal_attestation_sha256': terminal_sha, 'pins_sha256': pins_sha,
              'guard_sha256': sha(Path(__file__)), 'source_manifest_sha256': sha(record/'manifest.json'),
              'source_files': len(manifest['source_sha256']), 'runtime_files': len(runtime['source_sha256']),
-             'study_manifest_sha256': sha(root/'manifests/v8_mechanism_120_20261015.json'),
+             'study_manifest_path': study_name, 'study_manifest_sha256': sha(study_path),
              'counts': dict(counts), 'physical_provider': journals, 'raw_sha256': files,
              'archive_allowlist': sorted(n for n in files if not n.startswith('case_cache/')),
              'limits': ['Execution/source-field/retained-accounting provenance is not semantic correctness.',

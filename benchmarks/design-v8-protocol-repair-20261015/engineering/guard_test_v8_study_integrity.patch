@@ -1,0 +1,153 @@
+--- old-frozen/tests/test_v8_study_integrity.py
++++ current/tests/test_v8_study_integrity.py
+@@ -14,6 +14,7 @@
+ import tempfile
+ import unittest
+ from unittest.mock import Mock,patch
++from types import SimpleNamespace
+ 
+ from scripts import audit_store as store
+ from scripts import v8_study_integrity as guard
+@@ -389,3 +390,142 @@
+                                 hashlib.sha256(terminal.read_bytes()).hexdigest(),root/'report.json')
+             cases.assert_not_called();journals.assert_not_called()
+             self.assertFalse((root/'report.json').exists())
++
++
++class ManifestBindingIndependentTests(unittest.TestCase):
++    """Only the manifest-path lifecycle; policy/audit checks stay tested above."""
++    NEW = 'manifests/v8_mechanism_120_protocol_repair_20261015.json'
++
++    def fixture(self, root, name=NEW):
++        root=Path(root);record=root/'record';record.mkdir()
++        sources={}
++        for relative in guard.REQUIRED:
++            path=root/relative;path.parent.mkdir(parents=True,exist_ok=True)
++            path.write_text('synthetic public source '+relative)
++            sources[relative]=guard.sha(path)
++        cases=[{'question_id':'synthetic-'+str(i),'followup_order':['W','R','C']} for i in range(120)]
++        policy={'aggregate':{'tokens':200000,'tools':30,'sdk_attempts':30},
++                'auxiliary':{'tokens':60000,'tools':6,'sdk_attempts':6,'probes':2}}
++        study={'source_sha256':{},'policy':policy,'cases':cases}
++        path=root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(study))
++        sources[name]=guard.sha(path)
++        prospective={'study_manifest':name,'study_manifest_sha256':guard.sha(path),'study_policy':policy}
++        (record/'prospective_protocol.json').write_text(json.dumps(prospective))
++        runtime={}
++        for relative in guard.RUNTIME:
++            target=root/relative;target.parent.mkdir(parents=True,exist_ok=True)
++            target.write_text('synthetic public runtime '+relative);runtime[relative]=guard.sha(target)
++        binding={'provider_profile_sha256':'0'*64,
++                 'adapter_sha256':runtime['.local-setup/azure_adapter.py'],
++                 'bootstrap_sha256':runtime['.local-setup/sitecustomize.py']}
++        (record/'runtime_adapter_manifest.json').write_text(json.dumps({'source_sha256':runtime,'archive_sha256':'1'*64}))
++        (record/'expected_public_binding.json').write_text(json.dumps(binding))
++        (record/'launch_commands.json').write_text('{}')
++        (record/'design.txt').write_text('Synthetic design record; no inference')
++        manifest={'model':'synthetic','output_directory':str(root/'raw'),
++                  'source_sha256':sources,'study_manifest_sha256':guard.sha(path),
++                  'source_archive_sha256':'2'*64,'design_sha256':guard.sha(record/'design.txt')}
++        (record/'manifest.json').write_text(json.dumps(manifest))
++        helper=SimpleNamespace(actual_source_inventory=lambda _root:set(sources),
++            public_path=lambda _root,relative:Path(_root)/relative,
++            B=SimpleNamespace(source_zip=Mock(),load_public_store=Mock(return_value=object())))
++        return record,sources,prospective,manifest,study,runtime,binding,helper
++
++    def test_distinct_prospective_selection_is_pinned_and_verified_without_old_filename(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            root=Path(temporary);record,sources,_,_,study,_,_,helper=self.fixture(root)
++            self.assertFalse((root/guard.LEGACY_STUDY_MANIFEST).exists())
++            pins_path=root/'pins.json';pins=guard.prepare_pins(root,record,pins_path)
++            self.assertEqual(pins['study_manifest_path'],self.NEW)
++            self.assertEqual(pins['study_manifest_sha256'],sources[self.NEW])
++            with patch.object(guard,'shared',return_value=helper):
++                actual=guard.provenance(root,record,pins_path,guard.sha(pins_path))
++            self.assertEqual(actual[1],study)
++            self.assertEqual(helper.B.source_zip.call_count,2)
++
++    def test_original_prospective_key_and_legacy_pin_path_remain_compatible(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            root=Path(temporary);record,sources,_,_,_,_,_,helper=self.fixture(root,guard.LEGACY_STUDY_MANIFEST)
++            pins_path=root/'pins.json';pins=guard.prepare_pins(root,record,pins_path)
++            del pins['study_manifest_path'];pins_path.write_text(json.dumps(pins))
++            with patch.object(guard,'shared',return_value=helper):
++                guard.provenance(root,record,pins_path,guard.sha(pins_path))
++            self.assertEqual(guard.bound_study_manifest(root,record,sources,pins)[0],guard.LEGACY_STUDY_MANIFEST)
++
++    def test_missing_or_mismatched_pin_path_cannot_select_distinct_manifest(self):
++        for changed in ({'study_manifest_path':guard.LEGACY_STUDY_MANIFEST},
++                        {'study_manifest_sha256':'f'*64},{'study_manifest_path':None}):
++            with self.subTest(changed=changed),tempfile.TemporaryDirectory() as temporary:
++                root=Path(temporary);record,sources,_,_,_,_,_,_=self.fixture(root)
++                pins={'study_manifest_path':self.NEW,'study_manifest_sha256':sources[self.NEW],**changed}
++                with self.assertRaises(ValueError):guard.bound_study_manifest(root,record,sources,pins)
++        with tempfile.TemporaryDirectory() as temporary:
++            root=Path(temporary);record,sources,_,_,_,_,_,_=self.fixture(root)
++            with self.assertRaises(ValueError):
++                guard.bound_study_manifest(root,record,sources,{'study_manifest_sha256':sources[self.NEW]})
++
++    def test_unsafe_missing_or_ambiguous_prospective_path_fails_before_pin_creation(self):
++        variants=[{'study_manifest':'../outside.json'},{'study_manifest':'/tmp/outside.json'},
++                  {'study_manifest':'docs/selection.json'},{'study_manifest':'manifests/../outside.json'},
++                  {'study_manifest':'manifests//selection.json'},{'study_manifest':'manifests/selection.txt'},
++                  {'study_manifest':None},{'study_manifest_path':guard.LEGACY_STUDY_MANIFEST},
++                  {'study_manifest_sha256':'f'*64}]
++        for changed in variants:
++            with self.subTest(changed=changed),tempfile.TemporaryDirectory() as temporary:
++                root=Path(temporary);record,_,prospective,_,_,_,_,_=self.fixture(root)
++                (record/'prospective_protocol.json').write_text(json.dumps({**prospective,**changed}))
++                with self.assertRaises(ValueError):guard.prepare_pins(root,record,root/'pins.json')
++                self.assertFalse((root/'pins.json').exists())
++
++    def test_source_pin_removal_change_or_symlink_is_rejected(self):
++        for mutation in ('missing','changed','symlink'):
++            with self.subTest(mutation=mutation),tempfile.TemporaryDirectory() as temporary:
++                root=Path(temporary);record,sources,_,_,_,_,_,_=self.fixture(root)
++                if mutation=='missing':del sources[self.NEW]
++                elif mutation=='changed':sources[self.NEW]='f'*64
++                else:
++                    target=root/self.NEW;other=root/'elsewhere.json';target.rename(other);target.symlink_to(other)
++                with self.assertRaises(ValueError):guard.bound_study_manifest(root,record,sources)
++
++    def test_record_digest_or_pinned_protocol_change_fails_closed(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            root=Path(temporary);record,_,prospective,manifest,_,_,_,helper=self.fixture(root)
++            pins_path=root/'pins.json';guard.prepare_pins(root,record,pins_path)
++            (record/'prospective_protocol.json').write_text(json.dumps({**prospective,'study_manifest':guard.LEGACY_STUDY_MANIFEST}))
++            with patch.object(guard,'shared',return_value=helper),self.assertRaisesRegex(ValueError,'Frozen record metadata'):
++                guard.provenance(root,record,pins_path,guard.sha(pins_path))
++            (record/'prospective_protocol.json').write_text(json.dumps(prospective))
++            (record/'manifest.json').write_text(json.dumps({**manifest,'study_manifest_sha256':'f'*64}))
++            with self.assertRaisesRegex(ValueError,'Record study manifest SHA'):
++                guard.prepare_pins(root,record,root/'new-pins.json')
++
++    def test_completion_identity_and_report_use_the_prospective_distinct_manifest(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            root=Path(temporary);record,_,_,manifest,study,runtime,binding,helper=self.fixture(root)
++            pins_path=root/'pins.json';guard.prepare_pins(root,record,pins_path)
++            output=root/'raw';output.mkdir();cases=study['cases']
++            identity={'development_interface_only':False,'expected_policy_outcomes':480,
++                'manifest_sha256':guard.sha(root/self.NEW),'model':manifest['model'],'policy':study['policy'],
++                'runtime_case_metadata':cases,'freeze':{'public_provider_binding':binding,
++                'source_sha256':manifest['source_sha256'],'runtime_sha256':runtime,
++                'freeze_manifest_sha256':guard.sha(record/'manifest.json')}}
++            (output/'study_identity.json').write_text(json.dumps(identity))
++            (output/'study_state.json').write_text(json.dumps({'saved_policy_outcomes':480,
++                'expected_policy_outcomes':480,'correctness_scored':False,'phase':'generation_complete'}))
++            (output/'study_outcomes.json').write_text(json.dumps([{'question_id':case['question_id'],'study_arm':mode}
++                for case in cases for mode in ('A',*case['followup_order'])]))
++            terminal=root/'terminal.json';terminal.write_text(json.dumps(TerminalGateIndependentTests().terminal(output)))
++            proof={'counts':{},'physical_calls':[],'files':{},'fatal_physical':False}
++            with patch.object(guard,'shared',return_value=helper), \
++                    patch.object(guard,'verify_case',return_value=proof) as verify, \
++                    patch.object(guard,'validate_journals',return_value={'journals':[]}):
++                result=guard.run_check(root,record,pins_path,guard.sha(pins_path),output,
++                    terminal,guard.sha(terminal),root/'completion.json')
++                self.assertEqual(verify.call_count,120)
++                self.assertEqual(result['study_manifest_path'],self.NEW)
++                self.assertEqual(result['study_manifest_sha256'],guard.sha(root/self.NEW))
++                (output/'study_identity.json').write_text(json.dumps({**identity,'manifest_sha256':'f'*64}))
++                with self.assertRaisesRegex(ValueError,'Actual study identity'):
++                    guard.run_check(root,record,pins_path,guard.sha(pins_path),output,
++                        terminal,guard.sha(terminal),root/'rejected.json')
++                self.assertFalse((root/'rejected.json').exists())

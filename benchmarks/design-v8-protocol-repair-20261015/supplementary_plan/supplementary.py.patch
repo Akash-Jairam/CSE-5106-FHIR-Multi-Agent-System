@@ -1,0 +1,15 @@
+--- original/supplementary.py
++++ protocol_repair/supplementary.py
+@@ -137,8 +137,11 @@
+     require(sha(guard_path) == proof.get('guard_sha256'), 'Frozen guard source differs')
+     guard = (guard_loader or (lambda path: module_from_file(path, 'v8_supplement_integrity')))(guard_path)
+     source, manifest, runtime, binding = guard.provenance(root, record, Path(args.pins), args.pins_sha256)
++    study_name, study_path, _ = guard.bound_study_manifest(
++        root, record, source['source_sha256'], load(args.pins))
+     require(sha(record/'manifest.json') == proof.get('source_manifest_sha256')
+-            and sha(root/'manifests/v8_mechanism_120_20261015.json') == proof.get('study_manifest_sha256')
++            and proof.get('study_manifest_path') == study_name
++            and sha(study_path) == proof.get('study_manifest_sha256')
+             and Path(source['output_directory']).resolve() == output, 'Integrity record/input/output binding differs')
+     snapshots = proof.get('raw_sha256')
+     require(isinstance(snapshots, dict) and {'study_outcomes.json', 'study_state.json', 'study_identity.json'} <= set(snapshots),

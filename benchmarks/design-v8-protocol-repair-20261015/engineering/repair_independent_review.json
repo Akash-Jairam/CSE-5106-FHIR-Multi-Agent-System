@@ -1,0 +1,41 @@
+{
+  "findings": [],
+  "independent_tests": {
+    "count": 8,
+    "failed": 0,
+    "log_sha256": "60cdeac54d65d73430b5101374c55a30722c73e7f5e8b3b1e7a2d0aa162d876f",
+    "passed": 8,
+    "scope": [
+      "independent send-boundary walker positive/negative",
+      "accepted witness plus native inspect in W/R/C",
+      "rejected witness plus native inspect and correction",
+      "three-call batch success/handler failure/unadvertised refusal with accepted and rejected witness",
+      "three existing JSON-only continuation/cap scenarios"
+    ]
+  },
+  "limits": [
+    "Synthetic scripted responses establish protocol ordering, not model repair efficacy or semantic accuracy.",
+    "The actual rejected provider response body/code/param was not retained; operational census shows association and malformed request structure, not the exact Azure error message.",
+    "No actual study contents/results were read or scored during this review.",
+    "Global tool-call ID uniqueness across completed blocks is intentionally not imposed."
+  ],
+  "network_model_FHIR_calls": 0,
+  "owner_evidence": {
+    "all_41_tests_pass": "green_tests.log",
+    "owner_delivery_sha256": "c95ba76b38c60186910faa5857bb32d46caa084a4ad129a2a319bb0877dcc629",
+    "red_reproduction": "red_protocol_tests.log"
+  },
+  "repair_patch_sha256": "1ecd3950da2d08d02fe6a709f4080545cdfd2e748c5942b5a5c1abcb30cdbf69",
+  "repo_source_edited_by_reviewer": false,
+  "source_inspection": {
+    "all_original_prompts_caps_budget_tools_lineage_judge_and_worker_AST_unchanged": true,
+    "feedback_waits_for_all_native_replies": true,
+    "no_call_feedback_remains_immediate": true,
+    "only_run_AST_changes": true,
+    "witness_validated_against_prior_observations_before_dispatch": true
+  },
+  "source_sha256": "2356c844a38e22a0e133a821a41cdaedfb58b25b5afd71c6ee68f6f454c1368a",
+  "status": "PASS_NARROW_READ_ONLY_REVIEW",
+  "test_patch_sha256": "f8da2790d48ac9086a18409919be92d85467c11c0d0e68710d3ed985e5ce0f7f",
+  "tests_sha256": "d7680bc4203adcef57286a29790161171069cb7f466a398b26c248efc9558ddb"
+}

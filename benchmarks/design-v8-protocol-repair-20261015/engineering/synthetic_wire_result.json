@@ -1,0 +1,37 @@
+{
+  "status": "SYNTHETIC_WIRE_ACCEPTED",
+  "model": "gpt-6-luna",
+  "sdk_request_limit": 1,
+  "completion_cap": 64,
+  "roles": [
+    "system",
+    "user",
+    "assistant",
+    "tool",
+    "user"
+  ],
+  "assistant_had_content_and_native_call": true,
+  "matching_tool_reply_precedes_feedback": true,
+  "usage": {
+    "prompt_tokens": 227,
+    "completion_tokens": 4,
+    "total_tokens": 231,
+    "cached_prompt_tokens": 0,
+    "cost": null,
+    "llm_calls": 1,
+    "per_call": [
+      {
+        "prompt": 227,
+        "completion": 4,
+        "cached": 0,
+        "usage_available": true
+      }
+    ]
+  },
+  "provider_error_present": false,
+  "response_present": true,
+  "benchmark_questions": 0,
+  "FHIR_calls": 0,
+  "accuracy_scored": false,
+  "scope": "Azure acceptance of the repaired synthetic wire shape; not production investigator discovery or accuracy evidence."
+}

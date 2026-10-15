@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "status": "ABORTED_ENGINEERING_UNSCORED",
+  "terminal_proof_sha256": "6b30cea71c42c1575c3123f968115547ad40e06dd5a91ff0d9c3b471d52f47a1",
+  "reason": "V8 inserted witness user feedback inside a pending native tool reply block; request-protocol defect confirmed from source and role-only operational projections before any scoring.",
+  "frozen_source_files": 224,
+  "original_five_pinned_metadata_files_and_source_archive_verified_unchanged": true,
+  "original_integrity_pins_sha256": "e959159980a9e45cb8a0e37f6723dc39410a61b09826dd32e2882b68f04121b1",
+  "provider_errors": {
+    "read_timeouts": 3,
+    "http400_bad_request": 3,
+    "azure_exact_rejection_body": "not retained; request-order cause strongly supported, not quoted as Azure text"
+  },
+  "operational_census": {
+    "http400_requests_with_interleaving": 3,
+    "http400_requests_examined": 3,
+    "successful_investigator_requests_with_interleaving": 0,
+    "successful_investigator_requests_examined": 276,
+    "snapshot_scope": "bounded operational projection before stop; no question/answer/reference/SQL inspection"
+  },
+  "provider_journal_at_stop": {
+    "start_events": 786,
+    "end_events": 786,
+    "unended_counters": [],
+    "unended_usage_if_present": "unknown, never zero"
+  },
+  "local_raw_checksum_inventory": "output/development/v8_protocol_repair_20261015/aborted_raw_checksums.json",
+  "local_raw_checksum_inventory_sha256": "cc1da38d4d74ff35a37a8029e4de681197e3865972129250094029d8a4ae75ee",
+  "accuracy_result": null,
+  "advancement_result": null,
+  "incomplete_run_must_not_be_scored": true,
+  "continuation": "Protocol repair on same V8 branch, unchanged architecture/gates/caps, separate source freeze and fresh120 development questions excluding every old scheduled120 ID; never merge/retry/replace these attempts.",
+  "official_chat_tool_flow_reference": "https://developers.openai.com/api/docs/guides/function-calling?api-mode=chat",
+  "official_reference_limit": "The example demonstrates assistant then matching tool outputs then next request; exact Azure rejection body is unavailable.",
+  "accuracy_result_scope": "No completed480-policy benchmark result; stopped-before-scoring attestation is historical."
+}

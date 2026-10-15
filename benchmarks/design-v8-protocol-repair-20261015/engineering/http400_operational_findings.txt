@@ -1,0 +1,62 @@
+V8 HTTP400 operational investigation — one bounded live snapshot, no scoring
+
+All three supplied HTTP400 counters (222,574,685) map to R investigation request3.
+The saved physical A-once-plus-suffix prefix reconciles sequentially with safe
+provider journal usage:726 calls,720 known-usage pairs,6 unknown entries,0 numeric
+or ordering mismatches. This supports sequence-based phase attribution under the
+frozen one-worker runner. The ledger has no request ID, so it is not an explicit
+request-ID join. No process was polled, stopped, restarted or messaged.
+
+Observed HTTP400 durations are0.242567125,0.163744958,0.199439209seconds. Each is
+openai.BadRequestError with SDK token usage unreported. Requested auxiliary output
+cap is4096 in all three; retained prompt estimates are6528,6498,5893. Unknown usage
+is not a claim of zero billed usage. These three errors are a distinct class from
+the separately reported ReadTimeouts; no Azure-region or incident inference made.
+
+Concrete request-construction defect:
+All three retained R audit structures have assistant(native tool_calls) at index5,
+USER at index6 while that native call is pending, then its tool reply at index7.
+The two earlier messages form a valid assistant/tool pair. There are no reused
+native IDs or orphan replies in these structures. The intervening user feedback
+splits the assistant/tool response block and is a request-validation defect.
+
+Exact frozen source anchors:
+agent/counterexample_investigator_agent.py335 appends the assistant response.
+Lines338–345 parse content and append witness accepted/rejected USER feedback.
+Line346 only then reads that response's native tool_calls; lines365–416 dispatch
+and append its tool replies. Thus a response containing both content and tools
+creates assistant(tool_calls) -> user -> tool before the next request at329.
+The prompt explicitly permits content accompanied by native calls.
+
+For R, model_messages and audit messages start from the same isolated system/task
+at296–297. SingleAgent._append_message221–228 changes only bounded tool content
+for the model, preserving role/tool-call order. V8 bounded_call169–171 passes this
+model_messages list directly without compaction, and azure_adapter256–272 forwards
+messages to chat.completions.create. Therefore the invalid role order is not just
+an audit display artifact. No question, program, answer, reference, SQL or message
+content was inspected or printed; only roles, field/key names and accounting/error
+paths were projected. No source mutation, new inference/FHIR call or live-data
+test was performed.
+
+Provider error reason availability:
+The safe journal deliberately omits response body code/param/message (adapter155–176).
+The launch log contains the three HTTP400 request lines but no body code/param.
+The target A/B released.error fields have no retained original rejection text.
+bounded_call186–207 retains provider_failed/provider_error_present and generic
+stop/accounting state, discarding the returned SDK error string. Consequently
+code,param,type and exact Azure rejection text are unavailable here. The source
+defect and all-three operational alignment strongly support request construction
+as the cause, but the exact server-side rejection reason cannot be quoted/proven.
+
+Narrow future correction, after the current source hold ends: defer accepted or
+rejected witness USER feedback until every native tool call in that assistant
+response has received its tool reply. Content-only witness continuation can still
+receive immediate feedback. Test the mixed content+native-call branch with a
+tool-block sequence validator. This is a recommendation only; no patch applied.
+
+Evidence:
+operational_report.json preserves the first redacted snapshot.
+operational_report_with_structure.json adds role-only order and public-source SHAs.
+extract_operational.py is the reproducible, standard-library-only allowlist
+projection. It is intentionally not a monitor and has not been scheduled.
+These notes contain no correctness, case interpretation or completion claim.

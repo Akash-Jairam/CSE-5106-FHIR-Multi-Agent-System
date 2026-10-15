@@ -1,0 +1,46 @@
+{
+  "change": "Replace one hardcoded original manifest SHA comparison with the pinned guard bound_study_manifest API and exact completion-proof path/SHA reconciliation. Only gate_and_load changes in helper AST.",
+  "current_guard_observed_sha256_not_final_freeze": "4c2a99aaa28220865384141f4fa4112b9043c0c05b121109fffe568fd2318aa3",
+  "files_sha256": {
+    "README.txt": "0b86961082097904dae38f11e0c11e42d0e94c7a2bf95df52e469e5cca565b1a",
+    "original_formal_plan_hashes.json": "b68c8a7baa7c6dfdeef8c12f20bcaaedc9f521ae28465f7278ddfd840d524c60",
+    "supplementary.py": "80bd530ceff19b1e17440e2fca4e255b45f6fd3f8b7201b0db96629d3afd27a0",
+    "supplementary.py.patch": "9cb98a44aebf9d36a445cabe1a7a8deb325b4044f03018752c1142b6156c358b",
+    "synthetic_tests.log": "8249f92483ee911d4dcef9ce1dbf39e19e96f8b85dfa266d38d41c3dedfa694c",
+    "test_supplementary.py": "fc5f739f5b48485c0997eb6377d79556d9e573e4b8fdd0c7b720f25e62f36c02",
+    "test_supplementary.py.patch": "c8b40de811a130f5d202e0eee49b89807fc4f960f3f3788084eb1e380bd96673"
+  },
+  "formal_record": "benchmarks/design-v8-protocol-repair-20261015",
+  "limitations": [
+    "The final guard/source/pins freeze remains root-owned; observed guard SHA is evidence of API compatibility, not a final freeze.",
+    "Only synthetic480 fixtures were analyzed; actual repaired study has not been analyzed.",
+    "The old original six-file formal supplementary plan remains byte-identical."
+  ],
+  "original_formal_plan_unchanged_files": {
+    "benchmarks/design-v8-20261015/supplementary_plan/README.txt": "524beb9a33d24e9e9b5c6d40e1f8a67ea81861c8f074747d4324a6367d611c83",
+    "benchmarks/design-v8-20261015/supplementary_plan/delivery.json": "d5236b8f4858ff6c5381660c4d3fc1f7dade326d8d4800277ad506de5135ec1d",
+    "benchmarks/design-v8-20261015/supplementary_plan/root_review.json": "a2191f220bea156ee68e148c3a84acd94dc9fc1b4cf46f203aca58f7c2e0d648",
+    "benchmarks/design-v8-20261015/supplementary_plan/supplementary.py": "1a49009ae10982ab15fe75895481bb1bd9d59cdbaf696252e1483e6fbf8e6394",
+    "benchmarks/design-v8-20261015/supplementary_plan/synthetic_tests.log": "cd56efdc7c9f46096864e6119178bb24ac38d3a0ea5d65b58838f08c92d14e17",
+    "benchmarks/design-v8-20261015/supplementary_plan/test_supplementary.py": "b2e2b23d9e5e1ffc00ed32986efd361326c5a4bbb2bc564280f1ea480cf6c8ac"
+  },
+  "prospective_study_manifest": "manifests/v8_mechanism_120_protocol_repair_20261015.json",
+  "source_helper_sha256": "1a49009ae10982ab15fe75895481bb1bd9d59cdbaf696252e1483e6fbf8e6394",
+  "status": "READY_PROSPECTIVE_SUPPLEMENTARY_COPY_ONLY",
+  "tests": {
+    "additional_subcases": [
+      "completion proof names old manifest: rejects before scorer/output",
+      "completion proof omits manifest path: rejects before scorer/output"
+    ],
+    "command": "python3 -IB output/research/v8_protocol_repair_postterminal_20261015/test_supplementary.py",
+    "passed": 9,
+    "seconds": 0.255,
+    "synthetic_groups": 9
+  },
+  "unchanged": {
+    "all_other_helper_AST": true,
+    "all_terminal_pins_official_analysis_data_cost_accuracy_gates": true,
+    "no_actual_study_analysis": true,
+    "no_scorer_model_FHIR_network_config_or_Git_calls": true
+  }
+}
