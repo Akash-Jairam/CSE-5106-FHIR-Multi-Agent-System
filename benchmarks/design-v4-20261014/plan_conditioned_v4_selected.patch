@@ -1,0 +1,886 @@
+diff --git a/agent/plan_conditioned_agent.py b/agent/plan_conditioned_agent.py
+new file mode 100644
+index 0000000..c2d663e
+--- /dev/null
++++ b/agent/plan_conditioned_agent.py
+@@ -0,0 +1,222 @@
++"""Selected candidate for paired experiment, not a production default.
++
++No late model audit, second answer computation, or plan-driven tool restriction.
++Source/execution gates, deferred scope, and SDK host-boundary conversion are
++inherited from the frozen V3 module. This additive strategy is selected for
++the next paired experiment; its accuracy has not been benchmarked.
++"""
++from copy import deepcopy
++import json
++
++from .base_agent import BaseAgent
++from .controller import FixedController
++from .ehr_semantics import SEMANTIC_GUIDANCE
++from .framework import Role, Toolbox
++from .query_contract_agent import LedgerSolver, PhaseHost, fingerprint
++
++PHASE_CAPS = {"planner": (10_000, 0), "solver": (190_000, 30)}
++PROTOCOL = "plan-conditioned-v4"
++OPERATORS = frozenset({"population", "filter", "reference", "time_window",
++                      "order", "select", "project", "aggregate", "combine",
++                      "multiplicity", "units", "output"})
++
++PLAN_PROMPT = """Derive a compact advisory plan for the original patient question.
++You see only the original question/context and shared conventions: no solver
++answer, code, patient records, selections or prior interpretation. Do not compute
++or predict an answer, output executable code, select resource IDs, or request tools.
++Preserve each operand's population, concept and reference dependencies, exact
++predicates/connectives, temporal anchor/field/endpoints, ordering and rank,
++requested output field/unit, multiplicity and meaning of empty or missing data.
++Use the original question and shared guide. Distinguish explicit requirements
++from tentative field mappings. Never add normal clinical ranges, forced joins,
++deduplication, non-null filtering or fallback field substitutions. An empty
++result is not an error; missing scope or failed retrieval does not establish zero.
++Keep separate operands separate. Retain ordering before projecting its value.
++Unknown mappings remain unknown, not invented instructions.
++
++Return one JSON object:
++{"status":"READY|UNKNOWN","steps":[{"id":"p1","operator":"population|filter|reference|time_window|order|select|project|aggregate|combine|multiplicity|units|output",
++"inputs":[],"quote":"exact original question substring","span":[0,1],
++"requirement":"one concise obligation or explicitly tentative mapping"}],
++"unknowns":["unresolved mapping or assumption"]}.
++Inputs refer only to earlier step IDs. Every step quotes a unique exact substring
++of the original question; the host checks provenance, not semantic correctness.
++Use UNKNOWN and no steps if you cannot offer anchored advice. Do not emit answer,
++code, SQL, resources, selected IDs, template IDs or benchmark annotations. Keep
++the reply under 2,000 tokens. The solver may reject unsupported advice; this plan
++cannot restrict tools or determine the final answer.
++""" + SEMANTIC_GUIDANCE
++
++ADVICE_PROMPT = """ADVISORY QUESTION PLAN, derived before any solver draft or records.
++The original question and shared conventions remain authoritative. This plan
++can be wrong. Use it as a checklist, and correct or ignore unsupported mappings
++rather than forcing the data to fit. It changes neither your available tools nor
++the execution/source contract. Do not treat a plan as evidence of completeness,
++an answer, or permission to rewrite a valid empty result. Keep exact source values
++and units in citations. Preserve event identity and order until selection, then
++project only the requested output. Explain interpretation deviations briefly
++in your existing operation/limitation fields; do not add unrequested output.
++Frozen advisory plan JSON:
++"""
++
++
++def parse_plan(content, question):
++    """Strict, bounded question-only interface; unique quotes normalize spans.
++
++    Exact anchoring proves textual provenance, not correct clinical semantics.
++    Invalid/unknown plans are ignored as a whole; no partial guessed plan leaks
++    into the solver and no malformed-plan veto affects a source-valid result.
++    """
++    if not isinstance(content, str) or len(content) > 16_000:
++        return None, "advisory plan is not bounded text"
++    try:
++        plan = json.loads(content)
++        json.dumps(plan, allow_nan=False)
++    except (ValueError, TypeError, RecursionError):
++        return None, "advisory plan is not finite JSON"
++    if not isinstance(plan, dict) or set(plan) != {"status", "steps", "unknowns"}:
++        return None, "advisory plan schema requires status, steps and unknowns only"
++    if not isinstance(plan["status"], str) or plan["status"] not in {"READY", "UNKNOWN"}:
++        return None, "advisory plan status is invalid"
++    unknowns = plan["unknowns"]
++    if (not isinstance(unknowns, list) or len(unknowns) > 16
++            or any(not isinstance(item, str) or not item.strip() or len(item) > 800 for item in unknowns)):
++        return None, "advisory plan unknowns are invalid"
++    if plan["status"] == "UNKNOWN":
++        return None, "planner declared UNKNOWN; advice ignored"
++    if not isinstance(plan["steps"], list) or not 1 <= len(plan["steps"]) <= 16:
++        return None, "advisory plan needs 1-16 anchored steps"
++    normalized, previous_ids = [], set()
++    for step in plan["steps"]:
++        if (not isinstance(step, dict) or set(step) != {"id", "operator", "inputs", "quote", "span", "requirement"}
++                or not isinstance(step["id"], str) or not step["id"].strip()
++                or len(step["id"]) > 32 or step["id"] in previous_ids
++                or not isinstance(step["operator"], str) or step["operator"] not in OPERATORS):
++            return None, "advisory step identity/operator is invalid"
++        inputs = step["inputs"]
++        if (not isinstance(inputs, list) or len(inputs) > 16
++                or any(not isinstance(item, str) or item not in previous_ids for item in inputs)
++                or len(set(inputs)) != len(inputs)):
++            return None, "advisory step inputs must refer uniquely to earlier steps"
++        quote, span, requirement = step["quote"], step["span"], step["requirement"]
++        if (not isinstance(quote, str) or not quote.strip() or len(quote) > 2_000
++                or not isinstance(span, list) or len(span) != 2
++                or any(type(value) is not int for value in span)
++                or not isinstance(requirement, str) or not requirement.strip() or len(requirement) > 800):
++            return None, "advisory step quote/span/requirement is invalid"
++        # Search each possible start, including overlapping repeated substrings.
++        starts = [index for index in range(len(question)) if question.startswith(quote, index)]
++        if len(starts) != 1:
++            return None, "advisory step quote is missing or ambiguous in the original question"
++        derived_span = [starts[0], starts[0] + len(quote)]
++        normalized.append({**deepcopy(step), "span": derived_span,
++                           "supplied_span": deepcopy(span),
++                           "span_normalization": "unchanged" if span == derived_span else "host_unique_quote"})
++        previous_ids.add(step["id"])
++    return {"status": "READY", "steps": normalized, "unknowns": deepcopy(unknowns)}, None
++
++
++class V4PhaseHost(PhaseHost):
++    """Reuse the verified aggregate accountant with V4's two local caps."""
++    def __init__(self, parent, name):
++        if name not in PHASE_CAPS:
++            raise ValueError("V4 permits only planner and solver phases")
++        super().__init__(parent, "contract" if name == "planner" else "solver")
++        self.name = name
++        self.token_cap, self.tool_cap = PHASE_CAPS[name]
++
++
++class PlanLedgerSolver(LedgerSolver):
++    """Existing V3 lifecycle/gates with optional visible advisory context."""
++    def __init__(self, parent, phase, plan=None):
++        super().__init__(parent, phase)
++        # Twenty real solver invocations may require two separate no-model
++        # boundaries: the first source check and the corrected final check.
++        # The inherited _actual_calls guard still caps real invocations at 20.
++        self.max_iterations = 22
++        self.system_msg = deepcopy(self.system_msg)
++        if plan is not None:
++            self.system_msg[0]["content"] += "\n\n" + ADVICE_PROMPT + json.dumps(plan, allow_nan=False)
++
++
++class PlanConditionedAgent(BaseAgent):
++    def _run(self, question):
++        context = FixedController.question_context(question)
++        phases, plan, plan_error = [], None, None
++        planner = V4PhaseHost(self, "planner")
++        role = Role("advisory_question_plan", PLAN_PROMPT, Toolbox(()), planner,
++                    max_turns=1, max_tool_calls=0)
++        result = role.run(json.dumps(context))
++        if result.error:
++            plan_error = result.error
++        else:
++            plan, plan_error = parse_plan(result.content, context["question"])
++        phases.append(planner.report())
++        plan_hash = fingerprint(plan) if plan is not None else None
++        common = {"protocol": PROTOCOL, "plan": plan, "plan_error": plan_error,
++                  "plan_sha256": plan_hash, "plan_visible": plan is not None,
++                  "phases": phases, "targeted_revised": False}
++        if planner.fatal:
++            return {"answer": None, "evidence": [], "limitation": "Aggregate usage could not be verified",
++                    "error": result.error or "Planner aggregate accounting failed", "trace": self.messages,
++                    "revision": {**common, "draft": None,
++                        "final": {"answer": None, "evidence": [], "limitation": "Aggregate usage could not be verified"},
++                        "revised": False, "solver_source_revised": False,
++                        "final_check_issues": [{"type": "accounting", "action": "Planner aggregate usage unverified"}],
++                        "release_policy": "aggregate_accounting_failed"}}
++        phase = V4PhaseHost(self, "solver")
++        solver = PlanLedgerSolver(self, phase, plan=plan)
++        result = solver._run(question)
++        self.messages.extend(solver.messages)
++        phases.append(phase.report())
++        workspace = deepcopy(result.get("retrieved_fhir_resources", {}))
++        primary = solver._computed_candidate(workspace)
++        revision = result.get("revision") or {}
++        draft = revision.get("draft") or primary
++        issues = revision.get("final_check_issues")
++        common.update({"primary": primary, "primary_revision": result.get("revision"),
++                       "draft": draft, "solver_source_revised": bool(revision.get("revised")),
++                       "revised": bool(revision.get("revised")), "check_issues": revision.get("check_issues"),
++                       "retrieval_ledger": deepcopy(solver.retrieval_ledger),
++                       "complete_types": sorted(solver.complete_types()),
++                       "unresolved_scope": deepcopy(solver._scoped_box.scope_failures if solver._scoped_box else {}),
++                       "context_compactions": deepcopy(self.context_compactions)})
++        if (phase.fatal or result.get("error") or primary is None or primary.get("error") or issues != []):
++            limitation = result.get("limitation") or "No source-validated explicit final computation"
++            final = {"answer": None, "evidence": [], "limitation": limitation}
++            return {**result, **final, "trace": self.messages,
++                    "revision": {**common, "final": final,
++                        "answer_changed": bool(draft is not None and draft.get("answer") is not None),
++                        "final_check_issues": issues if issues else [{"type": "execution_contract",
++                            "action": "No source-validated explicit final"}],
++                        "release_policy": "primary_failed_execution_or_source_contract"}}
++        self.last_llm_error = None  # nonfatal plan availability/format errors are retained above
++        return {"answer": primary["answer"], "evidence": primary["evidence"],
++                "limitation": primary["limitation"], "trace": self.messages,
++                "retrieved_fhir_resources": workspace,
++                "revision": {**common, "final": primary,
++                    "answer_changed": draft["answer"] != primary["answer"], "final_check_issues": [],
++                    "release_policy": "source_valid_primary_preserved"}}
++
++
++def run_v4_job(args_tuple):
++    """Normal budgeted worker path, including lossless audit storage before IPC."""
++    from utils import run_agent_safe
++    import tools.cache as cache_module
++    input_data, strategy, model, verbose, base_url, enable_cache, *rest = args_tuple
++    if strategy != "multi_agent_v4":
++        raise ValueError("V4 worker received a different strategy")
++    cache_module.CACHE_ENABLED = enable_cache
++    agent = PlanConditionedAgent(model, verbose=verbose, base_url=base_url)
++    agent.set_budget(**((rest[0] if rest else None) or {}))
++    agent.set_perturbation(rest[1] if len(rest) > 1 else None)
++    include_full_audit = bool(rest[2]) if len(rest) > 2 else False
++    audit_context = rest[3] if len(rest) > 3 else None
++    if include_full_audit:
++        output = run_agent_safe(agent, input_data, include_full_audit=True)
++        if audit_context is not None:
++            from scripts.audit_store import externalize_result_audit
++            output = externalize_result_audit(output, audit_context["output_dir"],
++                                               question_id=audit_context["question_id"])
++        return output
++    return run_agent_safe(agent, input_data)
+diff --git a/docs/design-v4-plan-conditioned.txt b/docs/design-v4-plan-conditioned.txt
+new file mode 100644
+index 0000000..9c12763
+--- /dev/null
++++ b/docs/design-v4-plan-conditioned.txt
+@@ -0,0 +1,59 @@
++V4 selected candidate: question-only advisory planning followed by continuous solving
++Prepared 15 October 2026 from source 906327dee1823178e3ac6319061f7d9ee5d2e01f.
++Selected for the next paired experiment after completed V3d results. This packet
++contains offline engineering only: no V4 model/FHIR calls, pilot, substantial
++benchmark, production promotion or formal run record. Existing defaults remain unchanged.
++
++Completed evidence motivating selection
++V3d scored team 232/300 against concurrent single 238/300; all first attempts,
++including two team provider failures, were retained. The team exceeded archived
++223 and refreshed 231 but failed the contemporaneous acceptance gate. Its 14
++paired losses comprised nine semantically wrong but source-valid primaries,
++three source-scope refusals and two provider errors; all eight wins were valid
++primaries. No paired loss stopped on budget, and the late audit produced no
++targeted repair action. These observations motivate better interpretation
++before solving, not a claim that removing source gates would improve accuracy.
++The reused fixed cohort is exploratory. V4 remains untested for accuracy.
++
++Motivation and distinct hypotheses
++DIN-SQL's author driver feeds schema links and predicted subquestions into SQL generation; MAC-SQL retains question/schema/evidence while debugging execution. A direct FHIR planner (SaludAI) injects catalog planning into an existing tool loop. We transfer a question-only advisory handoff rather than their benchmark examples, gold schema, annotation hints, empty-result-as-error, permanent tool hiding, or incomplete-pagination assumptions.
++This bundles three changes relative to V3.2: plan advice visible to the solver, removal of the mandatory late static audit/targeted repair, and more solver allocation. A future aggregate gain cannot be assigned solely to advisory planning. Fewer required model phases may affect provider reliability independently of semantic correctness. Sources do not establish equal-budget FHIR improvement.
++
++Protocol
++Same configured gpt-6-luna; aggregate 200,000 input/output tokens and 30 executed tools.
++Planner: 10,000 total tokens, 0 tools, one model pass. Original question/context plus unchanged shared semantic guide only; no draft, Python program, packet, patient resources, selected IDs or gold fields.
++Solver: 190,000 total tokens, 30 tools comprising 28 model-requested tools and 2 reserved automatic source checks; at most 20 actual model calls. Every original retrieval/code/check tool remains available. The unchanged V3 LedgerSolver consumes the first valid explicit final at the full tool-batch boundary, checks original sources, and permits one existing source-feedback correction. No model audit, whole-answer recomputation, vote, host semantic patch or final synthesis is required.
++Global and local caps both apply; unused planner allocation does not enlarge solver's 190k local ceiling. The existing parent model/accountant and PhaseHost policy cap completions before transport. Unknown provider usage and reported cap overshoot remain fatal. Local planner refusal, format or tool-request failures, and failures with verified usage, produce ignored advice and preserved diagnostics, then let the solver proceed under its remaining caps. Provider failures with unknown usage terminate the attempt before any solver call; absent usage is never treated as known zero.
++
++Plan interface and visibility
++One finite JSON object with status READY/UNKNOWN, at most 16 steps, and at most 16 unknowns. A step contains unique ID, one declared operator, references to earlier IDs, an exact question quote, supplied span, and concise requirement/tentative mapping. Every quoted substring must occur uniquely in the original question; host derives actual [start,end) and records supplied span and normalization. A missing quote or more than one possible occurrence of that quote in the question, including overlapping repetitions, ignores the whole plan. Different steps may have distinct uniquely anchored quotes whose spans overlap. Forward/cyclic dependencies, unexpected top-level/step fields, malformed/unbounded text or UNKNOWN status also ignore the whole plan. There is no partial guessed plan.
++Question provenance is not semantic truth. Requirements are advice, not deterministic constraints. The planner cannot change tools, retrieval filters, fields, joins, null policies or release gates in host code. Solver system context explicitly keeps original question/shared conventions authoritative and permits rejected/unsupported advice. The original question/context and packet still enter the unchanged SingleAgent trajectory. Freeze/hash validated advice before the first real solver call, retain raw role trace and validated/ignored plan diagnostics. No per-question known outcome routing or gold answers/SQL/template IDs are supplied.
++
++Clinical meaning and remaining risks
++A useful plan separates each operand's population/filter/window/order/selection from final projection, records requested units/fields and event versus value multiplicity, and keeps missing population, selected missing value and incomplete retrieval distinct. Repeat measurements remain distinct unless asked otherwise. Numeric totals, rate and dose are different concepts; cite exact source values even when a computed answer transforms units.
++Neither CQL conventions nor catalog hints override benchmark/question semantics. CQL Count(empty)=0 differs from Sum/Avg(empty)=null, and query return may deduplicate by default; importing those defaults blindly is unsafe. Date precision/timezone semantics and Observation clinical time versus issued version time need explicit interpretation. Existing shared guidance and source checks remain unchanged.
++The solver is conditioned on the plan, so it is not independent of the planner's interpretation. A wrong but textually anchored plan can anchor a wrong executed answer; no late intent audit attempts to repair it. Source validation demonstrates retrieved fields/ownership/time scope, not global correctness of question interpretation. The conservative future-only Medication linkage abstention and first-final lifecycle tradeoff inherited from V3 remain.
++
++Implementation boundaries
++New agent/plan_conditioned_agent.py imports unchanged V3 LedgerSolver and PhaseHost; V4PhaseHost overrides only local phase caps/names. PlanLedgerSolver copies its own system context and appends validated advisory JSON. It retains the current V3 limit of 22 host loop slots so 20 real solver invocations plus up to two no-model source-check boundaries fit. This is not a new lifecycle change relative to the current base. The inherited 20-call guard and source checks remain unchanged; the disclosed V4 local allocation is 190,000 tokens and 30 tools. V3 HostBoundaryMessage API/audit mapping fix is inherited unchanged, including source-feedback continuation.
++Additive multi_agent_v4 dispatch in run_agent.py mirrors normal run_agent_safe and optional gzip-before-IPC behavior. Subset/full runners add it only as an allowed explicit --team_strategy choice. Existing choices/defaults and shared SingleAgent/helper/source checker/SDK provider/scorer files stay byte-identical to base 906327d, except the three explicitly additive dispatch/choice edits. The shared SingleAgent, helper, semantic-guide, source-validation and SDK/observer files remain byte-identical. No provider retry, timeout, concurrency or routing changes.
++Common revision fields preserve initial solver source draft, released final, actual source issues, source-only revised/answer_changed diagnostics, nested primary_revision, phase accounting, plan/hash/visibility/error, retrieval ledger/current completeness/unresolved scope, and release policy. Successful release has final_check_issues=[]; failure releases null with actual source/execution issues. Plan errors cannot manufacture a release.
++
++Planned comparison and acceptance
++The formal run record must freeze the complete fixed 300-question cohort and a new contemporaneous single control before launch. Root's selected acceptance gate requires team correctness strictly greater than the best observed single control, 238/300, AND strictly greater than the new contemporaneous single count. Thus 239/300 is the minimum possible passing team count, and a stronger new single requires more. Include every first attempt and count terminal failures incorrect; no selective replay, success-only denominator or per-question runtime routing. The formal record will bind commands, concurrency, public provider profile, source and inputs. This preparation creates no formal run record and does not start a trial.
++
++Validation planned/performed
++Offline regressions cover interface/accounting/runner boundaries. One legacy AzureOpenAI HTTP MockTransport worker/source-feedback/gzip case and one actual SDK default-client HTTPX2 send-mocked case preserve the same wire/source-feedback/storage assertions. A separate pure boundary test checks API/audit normalization and nested gzip restoration. Added focused lifecycle cases verify that a final on solver call 20 after an initial source rejection receives its second source check, while a never-final solver still invokes the model only 20 times. The remaining checks reuse inherited V3, strict-final, budget and I/O boundaries. Network/model/store are mocked; the sandbox worker executes synthetic resources only. An additional default-client HTTPX2 synthetic case verifies the installed SDK request encoder and default-client plumbing with send mocked; it does not test network or pool behavior. Explicit regressions distinguish uniquely anchored overlapping steps and fatal unknown-usage transport errors. This verifies transport/interface/accounting, not accuracy or provider availability. Exact test evidence and source hashes are recorded in delivery_metadata.json before a substantial run. No formal journal entry is created for this development preparation; root will freeze a separate exact design before any substantial run.
++
++Primary sources (research only)
++DIN-SQL, NeurIPS2023: https://arxiv.org/abs/2304.11015
++Author driver pinned0474801616130413b024fd008b016a190684649e:
++https://github.com/MohammadrezaPourreza/Few-shot-NL2SQL-with-prompting/blob/0474801616130413b024fd008b016a190684649e/DIN-SQL.py
++MAC-SQL, COLING2025: https://aclanthology.org/2025.coling-main.36/
++Author agents/const/controller pinned31a9df5e0d520be4769be57a4b9022e5e34a14f4:
++https://github.com/wbbeyourself/MAC-SQL/tree/31a9df5e0d520be4769be57a4b9022e5e34a14f4/core
++SaludAI author code pinnedd7b10d20b580fb126afc8f8b69772c9706c5bef7:
++https://github.com/saludai-labs/saludai/tree/d7b10d20b580fb126afc8f8b69772c9706c5bef7/packages/saludai-agent/src/saludai_agent
++HL7 clinical semantics: https://cql.hl7.org/09-b-cqlreference.html
++FHIRR4 search: https://hl7.org/fhir/R4/search.html
++Detailed inspected code/source caveats are in /private/tmp/fhir-plan-research/plan_conditioned_addendum_20261014.txt and clinical_query_semantics.txt.
+diff --git a/run_agent.py b/run_agent.py
+index 7c93fda..4927620 100644
+--- a/run_agent.py
++++ b/run_agent.py
+@@ -27,11 +27,14 @@ CONDITIONS = ("intact", "omitted")
+ 
+ 
+ def dispatch_agent_job(args_tuple):
+-    """Additive V3 dispatch through the common budget and audit job contract."""
+-    if args_tuple[1] != "multi_agent_v3":
+-        return run_agent_with_input(args_tuple)
+-    from agent.query_contract_agent import run_v3_job
+-    return run_v3_job(args_tuple)
++    """Additive candidate dispatch through the common budget/audit job contract."""
++    if args_tuple[1] == "multi_agent_v3":
++        from agent.query_contract_agent import run_v3_job
++        return run_v3_job(args_tuple)
++    if args_tuple[1] == "multi_agent_v4":
++        from agent.plan_conditioned_agent import run_v4_job
++        return run_v4_job(args_tuple)
++    return run_agent_with_input(args_tuple)
+ 
+ 
+ def _boolean(value):
+@@ -55,7 +58,7 @@ def build_parser():
+     parser.add_argument("--agent_strategy", required=True, choices=[
+         "single_turn_request", "single_turn_resource", "single_turn_code_resource",
+         "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2",
+-        "direct_llm", "single_agent", "multi_agent", "multi_agent_v3",
++        "direct_llm", "single_agent", "multi_agent", "multi_agent_v3", "multi_agent_v4",
+     ])
+     parser.add_argument("--add_patient_fhir_id", type=_boolean, nargs="?", const=True, default=True)
+     parser.add_argument("--num_processes", type=int, default=-1)
+diff --git a/scripts/full_benchmark.py b/scripts/full_benchmark.py
+index 8e51c89..71a97b3 100644
+--- a/scripts/full_benchmark.py
++++ b/scripts/full_benchmark.py
+@@ -479,7 +479,7 @@ def build_parser():
+     parser.add_argument("--input", type=Path, default=ROOT / "final_dataset/questions_answers_sql_fhir.csv")
+     parser.add_argument("--families", type=Path, default=ROOT / "manifests/question_families.csv")
+     parser.add_argument("--model", default="gpt-6-luna")
+-    parser.add_argument("--team_strategy", choices=("multi_agent", "multi_agent_v3"), default="multi_agent")
++    parser.add_argument("--team_strategy", choices=("multi_agent", "multi_agent_v3", "multi_agent_v4"), default="multi_agent")
+     parser.add_argument("--max_total_tokens", type=int, default=200000)
+     parser.add_argument("--max_tool_calls", type=int, default=30)
+     parser.add_argument("--num_processes", type=int, default=2)
+diff --git a/scripts/run_experiments.py b/scripts/run_experiments.py
+index 0468d51..01df7be 100644
+--- a/scripts/run_experiments.py
++++ b/scripts/run_experiments.py
+@@ -76,7 +76,7 @@ def build_parser():
+                         help="One base model shared by every system; default: $MODEL, then MODEL in config.yml, "
+                              "then gpt-6-luna")
+     parser.add_argument("--base_url", default=None)
+-    parser.add_argument("--team_strategy", choices=["multi_agent", "multi_agent_v3"], default="multi_agent",
++    parser.add_argument("--team_strategy", choices=["multi_agent", "multi_agent_v3", "multi_agent_v4"], default="multi_agent",
+                         help="Team implementation; arm names stay stable while run identity records the actual strategy")
+     parser.add_argument("--max_total_tokens", type=int, default=None, help="Per-question ceiling for every system")
+     parser.add_argument("--max_tool_calls", type=int, default=None, help="Per-question ceiling for every system")
+diff --git a/tests/test_plan_conditioned_agent.py b/tests/test_plan_conditioned_agent.py
+new file mode 100644
+index 0000000..285ecba
+--- /dev/null
++++ b/tests/test_plan_conditioned_agent.py
+@@ -0,0 +1,331 @@
++"""V4 selected-candidate interface/accounting: mock model/store, real sandbox checks."""
++from copy import deepcopy
++import json
++from types import SimpleNamespace
++import unittest
++from unittest.mock import patch
++
++from agent.plan_conditioned_agent import (
++    PlanConditionedAgent, PlanLedgerSolver, V4PhaseHost, PHASE_CAPS, parse_plan,
++)
++from tests import test_query_contract_agent as query_fixture
++from tests.test_query_contract_agent import (
++    FixtureMessage, BARE, QUESTION, CODE,
++    fetch, final_call, reply,
++)
++
++
++def plan(question=BARE, quote="greater than 70"):
++    start = question.index(quote)
++    return {"status": "READY", "steps": [{"id": "p1", "operator": "filter", "inputs": [],
++             "quote": quote, "span": [start, start + len(quote)],
++             "requirement": "strictly greater than 70"}], "unknowns": []}
++
++
++class PlanInterfaceTests(unittest.TestCase):
++    def test_unique_quote_normalizes_span_and_freezes_original(self):
++        raw = plan()
++        raw["steps"][0]["span"] = [0, 1]
++        parsed, error = parse_plan(json.dumps(raw), BARE)
++        self.assertIsNone(error)
++        step = parsed["steps"][0]
++        self.assertEqual(step["span"], [BARE.index("greater than 70"), BARE.index("greater than 70")+15])
++        self.assertEqual(step["supplied_span"], [0, 1])
++        self.assertEqual(step["span_normalization"], "host_unique_quote")
++        self.assertEqual(raw["steps"][0]["span"], [0, 1])
++
++    def test_missing_or_multiple_occurrences_including_overlapping_repetitions_are_ignored(self):
++        for text in ["How many weights greater than 70 or heights greater than 70?", "missing", "aaa"]:
++            raw = plan()
++            if text == "aaa":
++                raw["steps"][0]["quote"] = "aa"
++            result, error = parse_plan(json.dumps(raw), text)
++            self.assertIsNone(result)
++            self.assertIn("missing or ambiguous", error)
++
++    def test_distinct_uniquely_anchored_steps_may_overlap(self):
++        raw = plan()
++        quote = "greater than 70"
++        raw["steps"].append({"id":"p2","operator":"project","inputs":["p1"],
++            "quote":"70","span":[BARE.index("70"),BARE.index("70")+2],
++            "requirement":"Keep the cited threshold unchanged."})
++        parsed, error = parse_plan(json.dumps(raw), BARE)
++        self.assertIsNone(error)
++        self.assertEqual(len(parsed["steps"]),2)
++        self.assertLess(parsed["steps"][1]["span"][0],parsed["steps"][0]["span"][1])
++
++    def test_invalid_unknown_or_answer_bearing_plan_is_ignored(self):
++        bad = [None, "not json", "null"]
++        for key, value in [("status", []), ("status", "UNKNOWN"), ("answer", 5), ("code", "answer=5")]:
++            raw = plan()
++            raw[key] = value
++            bad.append(json.dumps(raw))
++        raw = plan()
++        raw["steps"][0]["operator"] = []
++        bad.append(json.dumps(raw))
++        raw = plan()
++        raw["steps"][0]["inputs"] = ["p1"]
++        bad.append(json.dumps(raw))
++        raw = plan()
++        raw["unknowns"] = [float("nan")]
++        bad.append(json.dumps(raw))
++        for text in bad:
++            with self.subTest(text=text):
++                result, error = parse_plan(text, BARE)
++                self.assertIsNone(result)
++                self.assertTrue(error)
++
++    def test_deep_json_is_ignored_without_aborting_the_solver(self):
++        nested = '{"status":"READY","steps":[],"unknowns":' + '[' * 1200 + '0' + ']' * 1200 + '}'
++        result, error = parse_plan(nested, BARE)
++        self.assertIsNone(result)
++        self.assertTrue(error)
++        # Dependency runtimes can replace the JSON decoder. Exercise the
++        # explicit recursion failure path as well as the actual nested input.
++        with patch("agent.plan_conditioned_agent.json.loads", side_effect=RecursionError("deep JSON")):
++            result, error = parse_plan(nested, BARE)
++        self.assertIsNone(result)
++        self.assertIn("finite JSON", error)
++
++
++class PlanPipelineTests(unittest.TestCase):
++    def setUp(self):
++        self.fixture = query_fixture.QueryContractIntegrationTests()
++        self.fixture.setUp()
++        self.addCleanup(self.fixture.doCleanups)
++        self.requests = []
++
++    def run_agent(self, responses, question=QUESTION, tokens=200000, tools=30):
++        pending = iter(responses)
++        def llm(**kwargs):
++            self.requests.append(deepcopy(kwargs))
++            item = next(pending)
++            if isinstance(item, tuple):
++                return item
++            usage = {"prompt_tokens": 100, "completion_tokens": 50, "total_tokens": 150,
++                     "llm_calls": 1, "cost": 0,
++                     "per_call": [{"prompt": 100, "completion": 50, "usage_available": True}]}
++            return FixtureMessage(**vars(item)), None, usage
++        with patch("agent.base_agent.safe_llm_call", side_effect=llm):
++            host = PlanConditionedAgent("test-model")
++            host.set_budget(max_total_tokens=tokens, max_tool_calls=tools)
++            result = host.run(question)
++        return host, result
++
++    def test_plan_question_only_visible_first_solver_call_all_tools_no_audit(self):
++        host, output = self.run_agent([reply(json.dumps(plan())), fetch(), final_call()])
++        initial = json.dumps(self.requests[0]["messages"], default=lambda obj: vars(obj))
++        self.assertIn(BARE, initial)
++        self.assertNotIn(CODE, initial)
++        self.assertNotIn("Observation/o1", initial)
++        self.assertIsNone(self.requests[0]["tools"])
++        solver_input = self.requests[1]["messages"][0]["content"]
++        self.assertIn("Frozen advisory plan JSON", solver_input)
++        self.assertIn("strictly greater than 70", solver_input)
++        self.assertIn(BARE, self.requests[1]["messages"][1]["content"])
++        names = {tool["function"]["name"] for tool in self.requests[1]["tools"]}
++        self.assertTrue({"get_resources_by_patient_fhir_id", "get_resources_by_resource_id",
++                         "execute_python_code", "check_fields"}.issubset(names))
++        self.assertEqual(output["answer"], 2)  # Advice cannot impose a model repair.
++        self.assertEqual(host.total_usage["llm_calls"], 3)
++        self.assertEqual(host.tool_calls_made, 3)
++        self.assertEqual([item["phase"] for item in output["revision"]["phases"]], ["planner", "solver"])
++        self.assertEqual([(item["token_cap"], item["tool_cap"]) for item in output["revision"]["phases"]],
++                         [(10000, 0), (190000, 30)])
++        self.assertEqual(output["revision"]["final_check_issues"], [])
++        self.assertFalse(output["revision"]["targeted_revised"])
++
++    def test_format_unknown_and_known_usage_failure_do_not_veto_primary(self):
++        nested = '{"status":"READY","steps":[],"unknowns":' + '[' * 1200 + '0' + ']' * 1200 + '}'
++        for first in [reply("malformed"), reply(nested), reply(json.dumps({"status":"UNKNOWN","steps":[],"unknowns":[]})),
++                      (None, "injected failure with verified usage", {"prompt_tokens":100,"completion_tokens":50,
++                       "total_tokens":150,"llm_calls":1,"cost":0,
++                       "per_call":[{"prompt":100,"completion":50,"usage_available":True}]})]:
++            self.requests.clear()
++            _, output = self.run_agent([first, fetch(), final_call()])
++            self.assertEqual(output["answer"], 2)
++            self.assertIsNone(output["error"])
++            self.assertFalse(output["revision"]["plan_visible"])
++            self.assertNotIn("Frozen advisory plan JSON", self.requests[1]["messages"][0]["content"])
++            self.assertTrue(output["revision"]["plan_error"])
++
++    def test_unverified_planner_usage_stops_before_any_solver_call(self):
++        usage = {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2,
++                 "llm_calls": 1, "per_call": [{"usage_available": False}]}
++        _, output = self.run_agent([(reply(json.dumps(plan())), None, usage)])
++        self.assertIsNone(output["answer"])
++        self.assertEqual(len(self.requests), 1)
++        self.assertEqual(output["revision"]["release_policy"], "aggregate_accounting_failed")
++
++    def test_provider_error_with_unknown_usage_is_fatal_before_solver(self):
++        # Zero accounted tokens here are placeholders, not known zero usage.
++        usage = {"prompt_tokens":0,"completion_tokens":0,"total_tokens":0,
++                 "llm_calls":1,"cost":None,"per_call":[{"usage_available":False}]}
++        host, output = self.run_agent([(None,"injected transport timeout",usage)])
++        self.assertEqual(len(self.requests),1)
++        self.assertIsNone(output["answer"])
++        self.assertTrue(output["error"])
++        self.assertEqual(output["revision"]["release_policy"],"aggregate_accounting_failed")
++        self.assertTrue(output["revision"]["phases"][0]["fatal"])
++        self.assertFalse(output["revision"]["plan_visible"])
++        self.assertEqual(host.total_usage["llm_calls"],1)
++
++    def test_planner_tools_never_run_and_are_not_exposed_as_advice(self):
++        _, output = self.run_agent([fetch("forbidden-plan-tool"), fetch(), final_call()])
++        self.assertEqual(output["answer"], 2)
++        self.assertFalse(output["revision"]["plan_visible"])
++        self.assertIn("requested tools", output["revision"]["plan_error"])
++        self.assertEqual(output["budget"]["tool_calls_run"], 3)
++
++    def test_source_feedback_is_only_revision_and_failures_still_block(self):
++        bad = CODE + "\nevidence[0]['value'] = 999\n"
++        _, fixed = self.run_agent([reply(json.dumps(plan())), fetch(), final_call(bad), final_call()])
++        self.assertEqual(fixed["answer"], 2)
++        self.assertTrue(fixed["revision"]["solver_source_revised"])
++        self.assertEqual(fixed["revision"]["final_check_issues"], [])
++        self.requests.clear()
++        _, failed = self.run_agent([reply(json.dumps(plan())), fetch(), final_call(bad), final_call(bad)])
++        self.assertIsNone(failed["answer"])
++        self.assertTrue(failed["revision"]["final_check_issues"])
++        self.assertEqual(failed["revision"]["release_policy"], "primary_failed_execution_or_source_contract")
++
++    def test_twentieth_solver_call_final_after_source_rejection_gets_second_check(self):
++        from agent.query_contract_agent import HostBoundaryMessage
++        bad = CODE + "\nevidence[0]['value'] = 999\n"
++        responses = [reply(json.dumps(plan())), fetch(), final_call(bad)]
++        responses += [reply("Continue reasoning before the corrected calculation.")] * 17
++        responses += [final_call()]
++        host, output = self.run_agent(responses)
++        self.assertEqual(output["answer"], 2)
++        self.assertEqual(len(self.requests), 21)  # one planner plus20 solver calls
++        self.assertEqual(host.total_usage["llm_calls"], 21)
++        self.assertEqual(host.tool_calls_made, 5)
++        self.assertEqual(output["revision"]["final_check_issues"], [])
++        self.assertTrue(output["revision"]["solver_source_revised"])
++        boundaries = [item for item in output["trace"] if isinstance(item, dict)
++                      and item.get("content") == HostBoundaryMessage.content]
++        self.assertEqual(len(boundaries), 2)
++        checks = [item for item in output["trace"] if isinstance(item, dict)
++                  and item.get("role") == "tool" and item.get("name") == "check_fields"]
++        self.assertEqual(len(checks), 2)
++
++    def test_extra_host_slot_never_adds_a_twenty_first_solver_invocation(self):
++        responses = [reply(json.dumps(plan()))] + [reply("No computation yet.")] * 20
++        host, output = self.run_agent(responses)
++        self.assertIsNone(output["answer"])
++        self.assertEqual(len(self.requests), 21)  # one planner plus20 solver calls
++        self.assertEqual(host.total_usage["llm_calls"], 21)
++        self.assertEqual(host.tool_calls_made, 0)
++        self.assertIn("20 model-call", output["error"])
++        self.assertEqual(output["revision"]["release_policy"], "primary_failed_execution_or_source_contract")
++
++    def test_positive_and_empty_results_with_unresolved_source_are_blocked(self):
++        from tests.test_query_contract_agent import STORE
++        self.fixture.store = [deepcopy(STORE[1]), deepcopy(STORE[0])]
++        self.fixture.store[1].pop("effectiveDateTime", None)
++        self.fixture.store[1].pop("issued", None)
++        for code in [CODE, CODE.replace(">= 70", "> 100")]:
++            self.requests.clear()
++            _, output = self.run_agent([reply(json.dumps(plan())), fetch(), final_call(code), final_call(code)])
++            self.assertIsNone(output["answer"])
++            self.assertIn("Observation/o1", output["revision"]["unresolved_scope"])
++            self.assertTrue(output["revision"]["final_check_issues"])
++
++    def test_same_batch_retrieval_and_early_prose_do_not_bypass_final(self):
++        batch = final_call()
++        batch.tool_calls += fetch("later-fetch").tool_calls
++        early = reply('{"answer":999,"evidence":[],"limitation":null}')
++        _, output = self.run_agent([reply(json.dumps(plan())), early, fetch(), batch, final_call()])
++        self.assertEqual(output["answer"], 2)
++        self.assertEqual(len(self.requests), 5)
++        self.assertTrue(any("No valid final computation" in item.get("content", "")
++                            for item in output["trace"] if isinstance(item, dict)))
++
++
++class PlanBudgetTests(unittest.TestCase):
++    def make_host(self):
++        with patch("agent.base_agent.setup_api_keys"):
++            host = PlanConditionedAgent("test-model")
++        host.set_budget(max_total_tokens=200000, max_tool_calls=30)
++        return host
++
++    def test_solver_reserves_two_source_calls_from_30_without_changing_v3(self):
++        host = self.make_host()
++        with patch("agent.base_agent.setup_api_keys"):
++            solver = PlanLedgerSolver(host, V4PhaseHost(host, "solver"))
++        for _ in range(28):
++            self.assertTrue(solver._solver_take_tool_call())
++        self.assertFalse(solver._solver_take_tool_call())
++        solver._source_check_active = True
++        self.assertTrue(solver._solver_take_tool_call())
++        self.assertTrue(solver._solver_take_tool_call())
++        self.assertFalse(solver._solver_take_tool_call())
++        self.assertEqual(host.tool_calls_made, 30)
++        from agent.query_contract_agent import PHASE_CAPS as v3_caps
++        self.assertEqual(v3_caps["solver"], (175000, 27))
++
++    def test_planner_local_refusal_restores_global_and_solver_reserve(self):
++        host = self.make_host()
++        planner = V4PhaseHost(host, "planner")
++        host.total_usage["total_tokens"] = 9999
++        with patch("agent.base_agent.safe_llm_call") as provider:
++            _, error, _ = planner._llm_call([{"role":"user","content":"next prompt"}])
++        provider.assert_not_called()
++        self.assertIn("Budget exceeded", error)
++        self.assertEqual(host.max_total_tokens, 200000)
++        self.assertIsNone(host.last_llm_error)
++        solver = V4PhaseHost(host, "solver")
++        with patch("agent.base_agent.safe_llm_call", return_value=(reply("{}"),None,None)) as provider:
++            solver._llm_call([{"role":"user","content":"short prompt"}])
++        self.assertGreater(provider.call_args.kwargs["max_completion_tokens"], 189000)
++        self.assertEqual(host.max_total_tokens, 200000)
++
++    def test_unknown_usage_and_phase_overshoot_remain_fatal(self):
++        for usage in [
++            {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2,
++             "per_call": [{"usage_available": False}]},
++            {"prompt_tokens": 100, "completion_tokens": 9901, "total_tokens": 10001,
++             "per_call": [{"usage_available": True}]}]:
++            host = self.make_host()
++            phase = V4PhaseHost(host, "planner")
++            with patch("agent.base_agent.safe_llm_call", return_value=(reply("{}"),None,usage)):
++                phase._llm_call([{"role":"user","content":"short prompt"}])
++            self.assertTrue(phase.fatal)
++            self.assertEqual(host.max_total_tokens, 200000)
++
++
++class PlanEntryTests(unittest.TestCase):
++    def test_explicit_runner_flags_forward_v4_and_gzip_without_changing_control(self):
++        from pathlib import Path
++        from scripts.run_experiments import Arm, runner_argv
++        from scripts.full_benchmark import arm_command
++        import run_agent
++        args = SimpleNamespace(team_strategy="multi_agent_v4", model="same-model", input="synthetic.csv",
++            output_dir="/private/tmp/v4-output", split_manifest="frozen.json", split="dev",
++            num_processes=1, save_interval=1, base_url=None, max_total_tokens=200000,
++            max_tool_calls=30, limit=300, verbose=False, audit_storage="gzip")
++        argv = runner_argv(Arm("ordinary", "multi_agent"), args)
++        parsed = run_agent.build_parser().parse_args(argv)
++        self.assertEqual(parsed.agent_strategy, "multi_agent_v4")
++        self.assertEqual(parsed.audit_storage, "gzip")
++        control = runner_argv(Arm("ordinary", "single_agent"), args)
++        self.assertEqual(control[control.index("--agent_strategy") + 1], "single_agent")
++        args.input, args.output_dir = Path(args.input), Path(args.output_dir)
++        command = arm_command("multi_agent", args)
++        self.assertEqual(command[command.index("--agent_strategy") + 1], "multi_agent_v4")
++        self.assertEqual(command[command.index("--audit_storage") + 1], "gzip")
++
++    def test_v3_dispatch_and_legacy_job_forwarding_are_unchanged(self):
++        import run_agent
++        job = ("question", "multi_agent_v3", "same-model", False, None, False, {}, None)
++        with patch("agent.query_contract_agent.run_v3_job", return_value="v3") as worker:
++            self.assertEqual(run_agent.dispatch_agent_job(job), "v3")
++        worker.assert_called_once_with(job)
++        job = ("question", "single_agent", "same-model", False, None, False, {}, None)
++        with patch("run_agent.run_agent_with_input", return_value="single") as worker:
++            self.assertEqual(run_agent.dispatch_agent_job(job), "single")
++        worker.assert_called_once_with(job)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_v4_transport.py b/tests/test_v4_transport.py
+new file mode 100644
+index 0000000..e19efc2
+--- /dev/null
++++ b/tests/test_v4_transport.py
+@@ -0,0 +1,191 @@
++"""V4 actual SDK JSON encoding and worker audit round trip, with network mocked."""
++from copy import deepcopy
++import json
++from pathlib import Path
++import tempfile
++import unittest
++from unittest.mock import patch
++
++import httpx
++import litellm
++from openai import AzureOpenAI
++
++import run_agent as runner
++from agent.plan_conditioned_agent import PlanLedgerSolver
++from agent.controller import FixedController
++from agent.query_contract_agent import HostBoundaryMessage
++from scripts.audit_store import externalize_result_audit, restore_result_audit
++from tests import test_query_contract_agent as query_fixture
++from tests.test_query_contract_agent import (
++    BARE, FixtureMessage, QUESTION, CODE, fetch, final_call, reply,
++)
++from utils import core_utils
++
++
++def advisory_plan():
++    quote = "greater than 70"
++    start = BARE.index(quote)
++    return {"status": "READY", "steps": [
++        {"id": "p1", "operator": "filter", "inputs": [], "quote": quote,
++         "span": [start, start + len(quote)], "requirement": "strictly greater than 70"}
++    ], "unknowns": []}
++
++
++class V4TransportTests(unittest.TestCase):
++    def test_boundary_is_plain_api_mapping_with_lossless_nested_audit(self):
++        # The inherited append path needs only the two histories for this host
++        # message. No model or credential setup is needed for the pure boundary.
++        solver = PlanLedgerSolver.__new__(PlanLedgerSolver)
++        solver.messages, solver.model_messages = [], []
++        boundary = HostBoundaryMessage()
++        solver._append_message(boundary)
++        self.assertEqual(solver.model_messages, [boundary.model_dump()])
++        self.assertEqual(solver.messages, [boundary.to_dict()])
++        self.assertEqual(type(solver.model_messages[0]), dict)
++        self.assertNotIn("model_call", solver.model_messages[0])
++        self.assertNotIn("phase", solver.model_messages[0])
++        json.dumps({"messages": solver.model_messages}, allow_nan=False)
++        nested = {"trace": deepcopy(solver.messages), "latency": 1,
++                  "revision": {"messages": deepcopy(solver.messages),
++                               "primary_revision": {"messages": deepcopy(solver.messages),
++                                                    "nested_trace": [deepcopy(solver.messages)]}}}
++        with tempfile.TemporaryDirectory() as directory:
++            compact = externalize_result_audit(nested, directory, question_id="synthetic-v4")
++            json.dumps(compact, allow_nan=False)
++            restored = restore_result_audit(compact, directory, question_id="synthetic-v4")
++        self.assertEqual(restored, nested)
++        self.assertFalse(restored["revision"]["primary_revision"]["messages"][0]["model_call"])
++        self.assertEqual(restored["revision"]["primary_revision"]["messages"][0]["phase"], "solver_boundary")
++
++    def test_actual_sdk_advice_source_feedback_dispatch_and_worker_gzip(self):
++        self._exercise_actual_sdk(native_default=False)
++
++    def test_native_default_httpx2_sdk_source_feedback_and_worker_gzip(self):
++        self._exercise_actual_sdk(native_default=True)
++
++    def _exercise_actual_sdk(self, native_default):
++        fixture = query_fixture.QueryContractIntegrationTests()
++        fixture.setUp()
++        self.addCleanup(fixture.doCleanups)
++        wrong = CODE.replace("'value': r['valueQuantity']['value']", "'value': 999")
++        responses = iter([
++            reply(json.dumps(advisory_plan())), fetch(),
++            final_call(wrong, "wrong-citation"), final_call(CODE, "corrected-citation"),
++        ])
++        requests = []
++
++        wire = httpx
++        if native_default:
++            try:
++                import httpx2 as wire
++            except ImportError:
++                self.skipTest("Installed SDK native HTTPX2 dependency is unavailable")
++
++        def handle(request, **_kwargs):
++            body = json.loads(request.content)
++            requests.append(body)
++            response = FixtureMessage(**vars(next(responses))).model_dump()
++            return wire.Response(200, request=request, json={
++                "id": "offline-v4-response", "object": "chat.completion", "created": 0,
++                "model": "gpt-6-luna", "choices": [{"index": 0, "message": response,
++                    "finish_reason": "tool_calls" if response.get("tool_calls") else "stop"}],
++                "usage": {"prompt_tokens": 100, "completion_tokens": 50, "total_tokens": 150},
++            })
++
++        settings = {"azure_endpoint":"https://offline-fixture.invalid",
++                    "api_version":"2024-12-01-preview",
++                    "api_key":"non-secret-unit-test-placeholder",
++                    "timeout":60.0,"max_retries":0}
++        if native_default:
++            # Construct the actual SDK default client without http_client or a
++            # replacement transport. Intercept its send in memory; no sockets,
++            # HTTPX2 pool behavior, network or provider availability are tested.
++            client = AzureOpenAI(**settings)
++            self.assertIsInstance(client._client, wire.Client)
++            self.assertIsInstance(client._client._transport, wire.HTTPTransport)
++            self.assertIn("httpx2.Client", [c.__module__+"."+c.__qualname__
++                                          for c in type(client._client).__mro__])
++            self.assertEqual(type(client._client).__module__+"."+type(client._client).__name__,
++                             "openai._base_client.SyncHttpxClientWrapper")
++            send = patch.object(client._client,"send",side_effect=handle)
++            send.start()
++            self.addCleanup(send.stop)
++        else:
++            http_client = httpx.Client(transport=httpx.MockTransport(handle))
++            self.addCleanup(http_client.close)
++            client = AzureOpenAI(**settings,http_client=http_client)
++        self.addCleanup(client.close)
++        self.assertEqual(client.max_retries,0)
++
++        def sdk_completion(**kwargs):
++            # Pass actual histories unchanged to the SDK JSON encoder. A
++            # model_dump fallback here would conceal a boundary transport bug.
++            parameters = {"model": "offline-deployment", "messages": kwargs["messages"],
++                          "max_completion_tokens": min(kwargs.get("max_completion_tokens", 16384), 16384),
++                          "reasoning_effort":"none"}
++            if kwargs.get("tools"):
++                parameters["tools"] = kwargs["tools"]
++            response = client.chat.completions.create(**parameters)
++            return litellm.ModelResponse(**response.model_dump(exclude_none=True))
++
++        with tempfile.TemporaryDirectory() as directory, \
++                patch.object(core_utils.litellm, "completion", side_effect=sdk_completion):
++            job = runner.prepare_multiprocessing_inputs(
++                [QUESTION], "multi_agent_v4", "gpt-6-luna", False, None, False,
++                {"max_total_tokens": 200000, "max_tool_calls": 30},
++                include_full_audit=True,
++                audit_contexts=[{"output_dir": directory, "question_id": "synthetic-v4"}],
++            )[0]
++            compact = runner.dispatch_agent_job(job)
++            json.dumps(compact, allow_nan=False)
++            restored = restore_result_audit(compact, directory, question_id="synthetic-v4")
++            json.dumps(restored, allow_nan=False)
++            self.assertTrue((Path(directory) / compact["audit_artifacts"]["path"]).is_file())
++
++        self.assertIsNone(restored["error"], restored.get("error"))
++        self.assertEqual(restored["agent_answer"], 2)
++        self.assertEqual(len(requests), 4)
++        self.assertEqual(restored["tokens"]["llm_calls"], 4)
++        self.assertEqual(restored["budget"]["tool_calls_run"], 5)
++        primary_revision = restored["revision"]["primary_revision"]
++        self.assertEqual(primary_revision["final_check_issues"], [])
++        self.assertTrue(primary_revision["revised"])
++        self.assertIsNone(primary_revision["revision_error"])
++
++        self.assertFalse(requests[0].get("tools"))
++        planner_input = "\n".join(message.get("content") or "" for message in requests[0]["messages"])
++        self.assertNotIn(CODE, planner_input)
++        self.assertNotIn(wrong, planner_input)
++        self.assertNotIn('"o1"', planner_input)
++        self.assertNotIn('"o2"', planner_input)
++        planner_context = json.loads([message["content"] for message in requests[0]["messages"]
++                                      if message.get("role") == "user"][0])
++        self.assertEqual(planner_context, FixedController.question_context(QUESTION))
++        first_solver_input = "\n".join(message.get("content") or "" for message in requests[1]["messages"])
++        self.assertIn("strictly greater than 70", first_solver_input)
++        self.assertIn("p1", first_solver_input)
++        self.assertIn(BARE, first_solver_input)
++        expected_tools = {"get_resources_by_patient_fhir_id", "get_resources_by_resource_id",
++                          "execute_python_code", "check_fields"}
++        for request in requests[1:]:
++            self.assertEqual({tool["function"]["name"] for tool in request["tools"]}, expected_tools)
++            self.assertTrue(all(type(message) is dict for message in request["messages"]))
++        self.assertTrue(all(request["reasoning_effort"]=="none" and request["max_completion_tokens"]<=16384
++                            for request in requests))
++
++        wire_boundaries = [message for message in requests[3]["messages"]
++                           if message.get("content") == HostBoundaryMessage.content]
++        self.assertEqual(wire_boundaries, [HostBoundaryMessage().model_dump()])
++        feedback = [message for message in restored["trace"]
++                    if message.get("role") == "user"
++                    and isinstance(message.get("content"), str)
++                    and message["content"].startswith("The field check found problems")]
++        self.assertEqual(len(feedback), 1)
++        audit_boundaries = [message for message in restored["trace"]
++                            if message.get("phase") == "solver_boundary"]
++        self.assertEqual(len(audit_boundaries), 2)
++        self.assertTrue(all(message["model_call"] is False for message in audit_boundaries))
++
++
++if __name__ == "__main__":
++    unittest.main()

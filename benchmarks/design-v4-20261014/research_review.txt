@@ -1,0 +1,73 @@
+Independent read-only V4 selected-packet review
+15 October 2026 UTC
+
+Disposition: no concrete protocol/runtime blocker found in the reviewed selected
+candidate. This is interface/accounting evidence; V4 accuracy is untested. No
+model/FHIR/network call, credential read or active-checkout edit was made.
+
+Reviewed source base: 906327dee1823178e3ac6319061f7d9ee5d2e01f.
+V4 module SHA256: 2acc639a092eed1b1f6e7221292c3695dcfebbbc300115ff5abaff0ef65e5aac
+Inherited V3 module SHA256: e8466ca0b0df4378289357f677af3bf22718d855643245edac9aced3c5de9ae6
+Shared parity report: research_shared_parity.json
+Report SHA256: 9e341b4d0307d29de3238bb4c857735a7575e7cc23e23f61ff379aed38ccc4bb
+All 41 checked existing files match this base byte-for-byte: all tracked Python
+under agent/tools/utils, the public config/client/evaluation modules, and audit
+storage. The three runner edits are additive V4 dispatch/choice changes. Single,
+V3, helpers, semantic guidance, execution/source gates and typed scorer are not
+changed. The provider adapter/observer is outside this patch.
+
+Independent verification: the actual repo Python with bundled public dependency
+directory ran unittest tests.test_plan_conditioned_agent tests.test_v4_transport:
+23 tests, zero failures/errors. The synthetic sandbox worker was allowed to run;
+model/store/network and credential setup were mocked. No production inference.
+
+Verified boundaries
+- One draft-blind question/context/shared-guide planner; no answer, code,
+  resources, selected IDs or gold in its actual input. Zero planner tools.
+- Valid bounded anchored JSON is copied into the solver's first system context.
+  Unique-quote span normalization preserves the supplied span; repeated quotes,
+  including overlapping occurrences, invalidate the whole plan. Distinct valid
+  steps may overlap. UNKNOWN/malformed/tool-request advice is ignored wholesale.
+  Anchors prove provenance, not semantic correctness; free-text requirements
+  remain model advice, not host-enforced semantic facts.
+- Original question/tools remain visible. No plan-driven field, join, retrieval,
+  empty-result or tool restriction is implemented. One continuous solver; no
+  audit, duplicate solution, vote or host semantic repair.
+- Caps are planner10,000/0 and solver190,000/30, aggregate200,000/30. Solver permits
+  28 requested tools plus two reserved automatic source checks. Unknown provider
+  usage and reported overshoot stay fatal; known local advisory failure cannot
+  veto a valid primary. Temporary phase limits restore the aggregate limit.
+- Inherited 20 actual solver calls and 22 host slots fit a final on call20 after
+  one source rejection. A never-final solver invokes exactly20 real calls.
+  Explicit final execution, full-tool-batch invalidation, one source-feedback
+  correction, positive/empty unresolved-scope rejection and final source checks
+  remain enforced. Source failures are retained in release diagnostics.
+- Normal dispatch -> run_agent_safe -> gzip-before-IPC -> restore path works.
+  Nested audit host boundaries remain annotated dictionaries; SDK histories use
+  plain API mappings. Source-feedback continuation performs a second final check.
+- The added native SDK case constructs the real default HTTPX2 client without
+  a replacement transport, then mocks send. It verifies actual SDK request JSON
+  encoding/client plumbing and source-feedback history, not sockets, pool
+  recovery, Azure availability, observer output or performance. The legacy
+  HTTPX MockTransport case and pure nested-storage boundary also pass.
+
+Research/selection assessment
+The completed V3d pattern supports testing early advisory interpretation: nine
+paired losses were source-valid wrong interpretations, while its283 valid late
+audits proposed no material repair. No paired loss was locally token-limited.
+Thus allocation increase and audit removal are bundled hypotheses, not a proven
+resource cure or evidence of harmful audit replacements. Advice can anchor a
+wrong interpretation; one V3d blind contract already had a wrong calendar bound.
+The inherited conservative source refusals and first-final tradeoff remain.
+No per-question outcome routing, relaxed source gate or gold-derived instruction
+is introduced. Root's exact predeclared formal record must govern acceptance:
+team >238 and >new contemporaneous single, all300 first attempts each, minimum239.
+Default promotion/full launch remains conditional on that completed comparison.
+
+Final packet cross-check
+Stable seven-file patch: plan_conditioned_v4_selected.patch
+SHA256: ba08a7b5ebca64ddba7f6a707d7de83f1332638dacc12a33c486b2f5397b798c
+Runtime/tests are unchanged from the independent23-test review. Final doc now
+explicitly records T>238 and >new contemporaneous single, minimum239/300.
+Final docs SHA256: 3f84e85efbadc3a545bcb6894128ecd8ad61ef2075e569ca03e5f544e8a8b35f
+No additional issue found in the final docs-only delta.

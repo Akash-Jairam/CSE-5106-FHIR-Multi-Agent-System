@@ -1,0 +1,91 @@
+{
+  "status": "selected_for_next_paired_experiment_not_applied_not_benchmarked",
+  "base_commit": "906327dee1823178e3ac6319061f7d9ee5d2e01f",
+  "source_root": "/private/tmp/fhir-v4-selected-rebase-p2h_bj37/source",
+  "patch": "/private/tmp/fhir-v4-selected-rebase-p2h_bj37/plan_conditioned_v4_selected.patch",
+  "patch_sha256": "ba08a7b5ebca64ddba7f6a707d7de83f1332638dacc12a33c486b2f5397b798c",
+  "seven_changed_paths": [
+    "agent/plan_conditioned_agent.py",
+    "docs/design-v4-plan-conditioned.txt",
+    "run_agent.py",
+    "scripts/full_benchmark.py",
+    "scripts/run_experiments.py",
+    "tests/test_plan_conditioned_agent.py",
+    "tests/test_v4_transport.py"
+  ],
+  "files": {
+    "agent/plan_conditioned_agent.py": "2acc639a092eed1b1f6e7221292c3695dcfebbbc300115ff5abaff0ef65e5aac",
+    "docs/design-v4-plan-conditioned.txt": "3f84e85efbadc3a545bcb6894128ecd8ad61ef2075e569ca03e5f544e8a8b35f",
+    "run_agent.py": "b3881fef19fc4954dbd65dd33e411cb3944b0a37938667907bb33fa90e8a22dc",
+    "scripts/full_benchmark.py": "31c1b6e3a27eb2699be0196a579592cccf7265f62bb5d5a5c0da4f86b170d830",
+    "scripts/run_experiments.py": "c752adf21b71931950d37cd47744269ea2f5ad5048ab6d5dbbba9e83be321dbd",
+    "tests/test_plan_conditioned_agent.py": "d59bfe4c254f8770a1b0a8f8945d4ac35dabc2ab2b75c4c07273217f9c908313",
+    "tests/test_v4_transport.py": "19568d2de7821a9a90e043ccec9fd56eaf094888015b60afdce977355ad56031"
+  },
+  "protocol": "plan-conditioned-v4",
+  "active_apply_check_passed": true,
+  "proof": "/private/tmp/fhir-v4-selected-rebase-p2h_bj37/shared_source_proof.json",
+  "proof_sha256": "d1b5cc0a58fd21f06d2747914a8225b900417b03e129ba1dd068d0d9ebaaad7e",
+  "existing_public_files_compared": 117,
+  "frozen_runtime_files_equal": 54,
+  "frozen_runtime_files_total": 57,
+  "only_existing_differences": [
+    "run_agent.py",
+    "scripts/full_benchmark.py",
+    "scripts/run_experiments.py"
+  ],
+  "local_runtime4_all_equal": true,
+  "caps": {
+    "aggregate_tokens": 200000,
+    "aggregate_tools": 30,
+    "planner_tokens": 10000,
+    "planner_tools": 0,
+    "solver_tokens": 190000,
+    "solver_tools": 30,
+    "ordinary_requested_solver_tools": 28,
+    "automatic_source_checks_reserved": 2,
+    "solver_model_calls": 20,
+    "solver_host_loop_slots": 22
+  },
+  "lifecycle_change_against_current_base": false,
+  "unknown_provider_usage_fatal": true,
+  "planner_advice_authority": "advisory_only_original_question_shared_semantics_and_all_source_gates_unchanged",
+  "tests": {
+    "focused_count": 23,
+    "passed": true,
+    "log": "/private/tmp/fhir-v4-selected-rebase-p2h_bj37/focused_offline_tests.log",
+    "log_sha256": "074a75f84fb01d4b805d2b1be70b1f1db18060e8c33f98ff7d7d8291f1e4a59a",
+    "modules": [
+      "tests.test_plan_conditioned_agent",
+      "tests.test_v4_transport"
+    ],
+    "added_regressions": [
+      "distinct_uniquely_anchored_steps_may_overlap",
+      "provider_error_with_unknown_usage_fatal_before_solver",
+      "native_default_httpx2_sdk_source_feedback_and_worker_gzip"
+    ],
+    "legacy_transport_fixture_retained": true,
+    "native_fixture": "Actual SDK-created default HTTPX2 client, only send patched in memory; tests serialization/source-feedback/gzip, not socket/pool behavior or provider availability.",
+    "network_and_private_config_reads_actively_denied": true,
+    "runner": "/private/tmp/run_selected_v4_offline_tests.py",
+    "runner_sha256": "b5d626ea6a63b024cfff43340eae8ab80489f5e845efe5ee47586e87643eea38"
+  },
+  "acceptance": "All 300 first attempts; team >238 AND team >new contemporaneous single; minimum 239. The formal record remains root responsibility.",
+  "no_formal_run_record": true,
+  "no_inference_or_network_or_fhir_calls": true,
+  "no_active_source_edits": true,
+  "independent_review": {
+    "status": "no_concrete_blocker",
+    "review": "/private/tmp/fhir-v4-selected-rebase-p2h_bj37/research_review.txt",
+    "review_sha256": "27ebb277d906f91a075f05214b4cdca14517ffc680152296324a1849f579b792",
+    "focused_tests_independently_passed": 23,
+    "research_shared_parity": "/private/tmp/fhir-v4-selected-rebase-p2h_bj37/research_shared_parity.json",
+    "static_child_review": "Selected labels, quote semantics and fatal accounting are correct; 139 existing public files checked, only 3 additive driver differences; 4 local public runtime files match V3d; no gold or per-question runtime routing."
+  },
+  "source_and_patch_final": true,
+  "public_provider_binding_expected": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  }
+}

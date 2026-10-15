@@ -1,0 +1,36 @@
+{
+  "acceptance": "team > 238 AND team > fresh contemporaneous single; all300 firsts, no retries/replacements",
+  "minimum_team_correct": 239,
+  "model": "gpt-6-luna",
+  "fixed_questions_per_arm": 300,
+  "workers_per_arm": 1,
+  "first_attempt_only": true,
+  "expected_public_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "phase_caps": {
+    "planner": [
+      10000,
+      0
+    ],
+    "solver": [
+      190000,
+      30
+    ]
+  },
+  "solver_requested_tools": 28,
+  "reserved_counted_source_checks": 2,
+  "max_real_solver_calls": 20,
+  "max_host_slots": 22,
+  "global_caps": [
+    200000,
+    30
+  ],
+  "estimated_input_guard": 32000,
+  "root_tests_passed": 64,
+  "independent_focused_tests_passed": 23,
+  "engineering_interface_check": "One development-split question passed real plan visibility, source validation and gzip restoration with4successfulSDKcalls; no accuracy selection from this check. Raw development output is local only.",
+  "comparison_method": "Unchanged typed scorer; terminal errors incorrect;10000 patient-block bootstrap draws seed5106; reused-cohort exploratory limits."
+}

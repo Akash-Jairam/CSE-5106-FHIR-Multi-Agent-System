@@ -1,0 +1,87 @@
+test_planner_local_refusal_restores_global_and_solver_reserve (tests.test_plan_conditioned_agent.PlanBudgetTests.test_planner_local_refusal_restores_global_and_solver_reserve) ... ok
+test_solver_reserves_two_source_calls_from_30_without_changing_v3 (tests.test_plan_conditioned_agent.PlanBudgetTests.test_solver_reserves_two_source_calls_from_30_without_changing_v3) ... ok
+test_unknown_usage_and_phase_overshoot_remain_fatal (tests.test_plan_conditioned_agent.PlanBudgetTests.test_unknown_usage_and_phase_overshoot_remain_fatal) ... ok
+test_explicit_runner_flags_forward_v4_and_gzip_without_changing_control (tests.test_plan_conditioned_agent.PlanEntryTests.test_explicit_runner_flags_forward_v4_and_gzip_without_changing_control) ... ok
+test_v3_dispatch_and_legacy_job_forwarding_are_unchanged (tests.test_plan_conditioned_agent.PlanEntryTests.test_v3_dispatch_and_legacy_job_forwarding_are_unchanged) ... ok
+test_deep_json_is_ignored_without_aborting_the_solver (tests.test_plan_conditioned_agent.PlanInterfaceTests.test_deep_json_is_ignored_without_aborting_the_solver) ... ok
+test_distinct_uniquely_anchored_steps_may_overlap (tests.test_plan_conditioned_agent.PlanInterfaceTests.test_distinct_uniquely_anchored_steps_may_overlap) ... ok
+test_invalid_unknown_or_answer_bearing_plan_is_ignored (tests.test_plan_conditioned_agent.PlanInterfaceTests.test_invalid_unknown_or_answer_bearing_plan_is_ignored) ... ok
+test_missing_or_multiple_occurrences_including_overlapping_repetitions_are_ignored (tests.test_plan_conditioned_agent.PlanInterfaceTests.test_missing_or_multiple_occurrences_including_overlapping_repetitions_are_ignored) ... ok
+test_unique_quote_normalizes_span_and_freezes_original (tests.test_plan_conditioned_agent.PlanInterfaceTests.test_unique_quote_normalizes_span_and_freezes_original) ... ok
+test_extra_host_slot_never_adds_a_twenty_first_solver_invocation (tests.test_plan_conditioned_agent.PlanPipelineTests.test_extra_host_slot_never_adds_a_twenty_first_solver_invocation) ... ok
+test_format_unknown_and_known_usage_failure_do_not_veto_primary (tests.test_plan_conditioned_agent.PlanPipelineTests.test_format_unknown_and_known_usage_failure_do_not_veto_primary) ... ok
+test_plan_question_only_visible_first_solver_call_all_tools_no_audit (tests.test_plan_conditioned_agent.PlanPipelineTests.test_plan_question_only_visible_first_solver_call_all_tools_no_audit) ... ok
+test_planner_tools_never_run_and_are_not_exposed_as_advice (tests.test_plan_conditioned_agent.PlanPipelineTests.test_planner_tools_never_run_and_are_not_exposed_as_advice) ... ok
+test_positive_and_empty_results_with_unresolved_source_are_blocked (tests.test_plan_conditioned_agent.PlanPipelineTests.test_positive_and_empty_results_with_unresolved_source_are_blocked) ... ok
+test_provider_error_with_unknown_usage_is_fatal_before_solver (tests.test_plan_conditioned_agent.PlanPipelineTests.test_provider_error_with_unknown_usage_is_fatal_before_solver) ... ok
+test_same_batch_retrieval_and_early_prose_do_not_bypass_final (tests.test_plan_conditioned_agent.PlanPipelineTests.test_same_batch_retrieval_and_early_prose_do_not_bypass_final) ... ok
+test_source_feedback_is_only_revision_and_failures_still_block (tests.test_plan_conditioned_agent.PlanPipelineTests.test_source_feedback_is_only_revision_and_failures_still_block) ... ok
+test_twentieth_solver_call_final_after_source_rejection_gets_second_check (tests.test_plan_conditioned_agent.PlanPipelineTests.test_twentieth_solver_call_final_after_source_rejection_gets_second_check) ... ok
+test_unverified_planner_usage_stops_before_any_solver_call (tests.test_plan_conditioned_agent.PlanPipelineTests.test_unverified_planner_usage_stops_before_any_solver_call) ... ok
+test_actual_sdk_advice_source_feedback_dispatch_and_worker_gzip (tests.test_v4_transport.V4TransportTests.test_actual_sdk_advice_source_feedback_dispatch_and_worker_gzip) ... ok
+test_boundary_is_plain_api_mapping_with_lossless_nested_audit (tests.test_v4_transport.V4TransportTests.test_boundary_is_plain_api_mapping_with_lossless_nested_audit) ... ok
+test_native_default_httpx2_sdk_source_feedback_and_worker_gzip (tests.test_v4_transport.V4TransportTests.test_native_default_httpx2_sdk_source_feedback_and_worker_gzip) ... ok
+test_cache_entries_are_written_atomically (tests.test_phase3_orchestration.CacheTests.test_cache_entries_are_written_atomically) ... ok
+test_arm_selection (tests.test_phase3_orchestration.ExperimentTests.test_arm_selection) ... ok
+test_every_arm_shares_model_budget_and_cache (tests.test_phase3_orchestration.ExperimentTests.test_every_arm_shares_model_budget_and_cache) ... ok
+test_run_continues_after_a_failed_arm_and_reports_incomplete (tests.test_phase3_orchestration.ExperimentTests.test_run_continues_after_a_failed_arm_and_reports_incomplete) ... ok
+test_status_counts_done_failed_and_stale_files (tests.test_phase3_orchestration.ExperimentTests.test_status_counts_done_failed_and_stale_files) ... ok
+test_the_full_plan_is_900_ordinary_200_recovery_and_300_variability_runs (tests.test_phase3_orchestration.ExperimentTests.test_the_full_plan_is_900_ordinary_200_recovery_and_300_variability_runs) ... ok
+test_every_frozen_perturbation_matches_the_context_agents_receive (tests.test_phase3_orchestration.FrozenContextTests.test_every_frozen_perturbation_matches_the_context_agents_receive) ... ok
+test_every_packet_loader_honours_the_perturbation (tests.test_phase3_orchestration.PerturbedPacketTests.test_every_packet_loader_honours_the_perturbation) ... ok
+test_multi_agent_strategy_builds_the_three_roles (tests.test_phase3_orchestration.PerturbedPacketTests.test_multi_agent_strategy_builds_the_three_roles) ... ok
+test_perturbation_must_be_a_frozen_specification (tests.test_phase3_orchestration.PerturbedPacketTests.test_perturbation_must_be_a_frozen_specification) ... ok
+test_worker_passes_the_perturbation_to_the_agent (tests.test_phase3_orchestration.PerturbedPacketTests.test_worker_passes_the_perturbation_to_the_agent) ... ok
+test_all_attempted_errors_are_analyzable_but_retryable (tests.test_phase3_orchestration.ResultAccountingTests.test_all_attempted_errors_are_analyzable_but_retryable) ... ok
+test_full_run_requires_explicit_shared_ceilings_before_execution (tests.test_phase3_orchestration.ResultAccountingTests.test_full_run_requires_explicit_shared_ceilings_before_execution) ... ok
+test_saved_rows_are_validated_before_resume_or_pairing (tests.test_phase3_orchestration.ResultAccountingTests.test_saved_rows_are_validated_before_resume_or_pairing) ... ok
+test_condition_and_manifest_are_part_of_the_resume_identity (tests.test_phase3_orchestration.RunnerTests.test_condition_and_manifest_are_part_of_the_resume_identity) ... ok
+test_omitted_runs_get_their_specification_and_intact_runs_none (tests.test_phase3_orchestration.RunnerTests.test_omitted_runs_get_their_specification_and_intact_runs_none) ...   0%|          | 0/2 [00:00<?, ?it/s]100%|██████████| 2/2 [00:00<00:00, 5949.37it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]100%|██████████| 2/2 [00:00<00:00, 19599.55it/s]
+ok
+test_perturbation_options_are_validated (tests.test_phase3_orchestration.RunnerTests.test_perturbation_options_are_validated) ... ok
+test_perturbed_questions_keep_split_order_before_the_limit (tests.test_phase3_orchestration.RunnerTests.test_perturbed_questions_keep_split_order_before_the_limit) ... ok
+test_all_three_commands_share_full_cohort_model_budget_cache_and_workers (tests.test_full_benchmark.FullBenchmarkTests.test_all_three_commands_share_full_cohort_model_budget_cache_and_workers) ... ok
+test_existing_state_identity_or_results_never_resume_silently (tests.test_full_benchmark.FullBenchmarkTests.test_existing_state_identity_or_results_never_resume_silently) ... ok
+test_gzip_health_requires_owned_existing_artifacts (tests.test_full_benchmark.FullBenchmarkTests.test_gzip_health_requires_owned_existing_artifacts) ... ok
+test_public_manifest_binds_all_arm_identities_and_comparison (tests.test_full_benchmark.FullBenchmarkTests.test_public_manifest_binds_all_arm_identities_and_comparison) ... ok
+test_retry_or_identity_mismatch_requires_attention (tests.test_full_benchmark.FullBenchmarkTests.test_retry_or_identity_mismatch_requires_attention) ... ok
+test_streamed_array_handles_chunk_boundaries_and_rejects_corruption (tests.test_full_benchmark.FullBenchmarkTests.test_streamed_array_handles_chunk_boundaries_and_rejects_corruption) ... ok
+test_supervisor_starts_each_arm_once_and_analyzes_terminal_errors_without_retry (tests.test_full_benchmark.FullBenchmarkTests.test_supervisor_starts_each_arm_once_and_analyzes_terminal_errors_without_retry) ... ok
+test_terminal_errors_remain_completed_first_attempts_and_cost_unknown (tests.test_full_benchmark.FullBenchmarkTests.test_terminal_errors_remain_completed_first_attempts_and_cost_unknown) ... ok
+test_v3_gzip_manifest_pins_actual_team_and_shared_storage_settings (tests.test_full_benchmark.FullBenchmarkTests.test_v3_gzip_manifest_pins_actual_team_and_shared_storage_settings) ... ok
+test_wrong_size_or_duplicate_dataset_is_rejected (tests.test_full_benchmark.FullBenchmarkTests.test_wrong_size_or_duplicate_dataset_is_rejected) ... ok
+test_complete_driver_gzip_and_inline_have_identical_scoring_and_execution_fields (tests.test_driver_audit_io.DriverAuditIOTests.test_complete_driver_gzip_and_inline_have_identical_scoring_and_execution_fields) ... Completed questions: 0; remaining: 1
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 385.19it/s]
+Saved 1 completed questions to /var/folders/y7/vbk7nwh106l4y1hvyn298nc80000gn/T/tmp5qe1pubo/inline.json
+Saved 1 completed questions to /var/folders/y7/vbk7nwh106l4y1hvyn298nc80000gn/T/tmp5qe1pubo/inline.json
+Usage over 1 attempts: 12 tokens (10 prompt, 2 completion), 1 model calls; cost unavailable for one or more attempts
+  Repeated prompt tokens: 0; cached prompt tokens: 0
+  Tool calls executed: 1; attempts stopped by a ceiling: 0
+Completed questions: 0; remaining: 1
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 209.82it/s]
+ok
+test_externalization_happens_before_dataframe_storage_and_exact_roundtrip (tests.test_driver_audit_io.DriverAuditIOTests.test_externalization_happens_before_dataframe_storage_and_exact_roundtrip) ... ok
+test_failed_attempt_history_keeps_both_immutable_artifacts_on_resume (tests.test_driver_audit_io.DriverAuditIOTests.test_failed_attempt_history_keeps_both_immutable_artifacts_on_resume) ... ok
+test_full_resources_are_transient_only_when_requested (tests.test_driver_audit_io.DriverAuditIOTests.test_full_resources_are_transient_only_when_requested) ... ok
+test_inline_default_and_gzip_identity_are_explicit (tests.test_driver_audit_io.DriverAuditIOTests.test_inline_default_and_gzip_identity_are_explicit) ... ok
+test_missing_or_corrupt_audit_refuses_resume_before_any_model_call (tests.test_driver_audit_io.DriverAuditIOTests.test_missing_or_corrupt_audit_refuses_resume_before_any_model_call) ... ok
+test_multiple_compact_attempts_do_not_accumulate_raw_audits_in_dataframe (tests.test_driver_audit_io.DriverAuditIOTests.test_multiple_compact_attempts_do_not_accumulate_raw_audits_in_dataframe) ... ok
+test_result_array_validation_streams_instead_of_reloading_the_whole_file (tests.test_driver_audit_io.DriverAuditIOTests.test_result_array_validation_streams_instead_of_reloading_the_whole_file) ... ok
+test_subset_launcher_forwards_explicit_storage_to_each_selected_arm (tests.test_driver_audit_io.DriverAuditIOTests.test_subset_launcher_forwards_explicit_storage_to_each_selected_arm) ... ok
+test_subset_team_strategy_and_gzip_flags_are_independent (tests.test_driver_audit_io.DriverAuditIOTests.test_subset_team_strategy_and_gzip_flags_are_independent) ... ok
+test_v3_worker_dispatch_externalizes_before_ipc_with_common_execution_contract (tests.test_driver_audit_io.DriverAuditIOTests.test_v3_worker_dispatch_externalizes_before_ipc_with_common_execution_contract) ... ok
+test_worker_capture_flag_changes_only_transport_not_model_creation_or_budget (tests.test_driver_audit_io.DriverAuditIOTests.test_worker_capture_flag_changes_only_transport_not_model_creation_or_budget) ... ok
+test_worker_externalizes_before_ipc_and_parent_dataframe_accumulation (tests.test_driver_audit_io.DriverAuditIOTests.test_worker_externalizes_before_ipc_and_parent_dataframe_accumulation) ... ok
+
+----------------------------------------------------------------------
+Ran 64 tests in 2.611s
+
+OK
+Saved 1 completed questions to /var/folders/y7/vbk7nwh106l4y1hvyn298nc80000gn/T/tmp5qe1pubo/gzip.json
+Saved 1 completed questions to /var/folders/y7/vbk7nwh106l4y1hvyn298nc80000gn/T/tmp5qe1pubo/gzip.json
+Usage over 1 attempts: 12 tokens (10 prompt, 2 completion), 1 model calls; cost unavailable for one or more attempts
+  Repeated prompt tokens: 0; cached prompt tokens: 0
+  Tool calls executed: 1; attempts stopped by a ceiling: 0
+Saved 1 completed questions to /var/folders/y7/vbk7nwh106l4y1hvyn298nc80000gn/T/tmp28y319gy/results.json
+Saved 1 completed questions to /var/folders/y7/vbk7nwh106l4y1hvyn298nc80000gn/T/tmpk65eb2s5/results.json

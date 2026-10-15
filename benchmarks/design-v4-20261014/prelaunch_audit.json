@@ -1,0 +1,170 @@
+{
+  "status": "PASS",
+  "scope": "Read-only prelaunch provenance/interface audit; no scoring, configuration or model/FHIR/network calls",
+  "started_utc": "2026-10-15T03:06:50.831648+00:00",
+  "finished_utc": "2026-10-15T03:06:51.972002+00:00",
+  "helper_sha256": "635717e2189d3d371e9fd7dd0bedc92d287a76f3c2ece4ac3b4c3aaae6a4b18d",
+  "frozen_source_files_verified": 142,
+  "source_archive_sha256": "b6a6bed1a630e96378dea9a9f5a785ac90d1b1231b54e906feb29d88fff275a2",
+  "source_commit": "a64adaf497a2c7bbbc39c9aaec0830fcbfda6d43",
+  "source_zip_member_hashes_crc_verified": true,
+  "git_source_members_verified": 135,
+  "non_git_sources_verified_by_manifest_archive_and_current_bytes": [
+    "AGENTS.md",
+    "docs/audit/audit_questions.py",
+    "docs/experiment_protocol.md",
+    "docs/implementation_plan.md",
+    "docs/model_choices.md",
+    "docs/question_taxonomy.md",
+    "docs/repository_audit.md"
+  ],
+  "design_dataset_split_hashes_verified": true,
+  "runtime_sources_and_exact4_archive_members_verified": true,
+  "runtime_archive_sha256": "d9c2db180f44a6794d7426f882c447aa4447fececda136c2ab935a743b2a2352",
+  "public_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "binding_matches_development_and_v3d": true,
+  "exact_ordered_questions_per_arm": 300,
+  "ordered_question_ids_sha256": "0d477b2bc214c678dd6d33f142a03a5bc4d3d55e1ae8fa73817e84443e60a2d4",
+  "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+  "inputs_match_completed_v3d": true,
+  "model_input_strings_equal_and_no_reference_answer_projection": true,
+  "current_code_hash": "467b013395c3f573429509d4c65b1e56414fc69b1c8e9ec18e63d854ba7def84",
+  "prospective_run_identities": {
+    "single": {
+      "version": 2,
+      "agent_strategy": "single_agent",
+      "model": "gpt-6-luna",
+      "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "max_total_tokens": 200000,
+      "max_tool_calls": 30,
+      "add_patient_fhir_id": true,
+      "enable_cache": true,
+      "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+      "code_hash": "467b013395c3f573429509d4c65b1e56414fc69b1c8e9ec18e63d854ba7def84",
+      "split": "held_out",
+      "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+      "condition": null,
+      "perturbations_hash": null,
+      "subset_hash": null,
+      "repeat": null,
+      "audit_storage": "gzip",
+      "audit_artifact_schema": 2
+    },
+    "team": {
+      "version": 2,
+      "agent_strategy": "multi_agent_v4",
+      "model": "gpt-6-luna",
+      "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "max_total_tokens": 200000,
+      "max_tool_calls": 30,
+      "add_patient_fhir_id": true,
+      "enable_cache": true,
+      "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+      "code_hash": "467b013395c3f573429509d4c65b1e56414fc69b1c8e9ec18e63d854ba7def84",
+      "split": "held_out",
+      "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+      "condition": null,
+      "perturbations_hash": null,
+      "subset_hash": null,
+      "repeat": null,
+      "audit_storage": "gzip",
+      "audit_artifact_schema": 2
+    }
+  },
+  "runner_generated_argv": {
+    "single": [
+      "--agent_strategy",
+      "single_agent",
+      "--model",
+      "gpt-6-luna",
+      "--input",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/final_dataset/questions_answers_sql_fhir.csv",
+      "--output",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/plan_conditioned_v4_300q/ordinary_single_agent.json",
+      "--split_manifest",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/manifests/split.json",
+      "--split",
+      "held_out",
+      "--enable_cache",
+      "true",
+      "--num_processes",
+      "1",
+      "--save_interval",
+      "1",
+      "--audit_storage",
+      "gzip",
+      "--max_total_tokens",
+      "200000",
+      "--max_tool_calls",
+      "30",
+      "--quiet"
+    ],
+    "team": [
+      "--agent_strategy",
+      "multi_agent_v4",
+      "--model",
+      "gpt-6-luna",
+      "--input",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/final_dataset/questions_answers_sql_fhir.csv",
+      "--output",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/plan_conditioned_v4_300q/ordinary_multi_agent.json",
+      "--split_manifest",
+      "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/manifests/split.json",
+      "--split",
+      "held_out",
+      "--enable_cache",
+      "true",
+      "--num_processes",
+      "1",
+      "--save_interval",
+      "1",
+      "--audit_storage",
+      "gzip",
+      "--max_total_tokens",
+      "200000",
+      "--max_tool_calls",
+      "30",
+      "--quiet"
+    ]
+  },
+  "explicit_concurrent_one_worker_commands_verified": true,
+  "global_caps": [
+    200000,
+    30
+  ],
+  "phase_caps": {
+    "planner": [
+      10000,
+      0
+    ],
+    "solver": [
+      190000,
+      30
+    ]
+  },
+  "source_check_reservation": [
+    28,
+    2
+  ],
+  "solver_calls_host_slots": [
+    20,
+    22
+  ],
+  "request_ceiling_timeout_retries_effort_public_provenance": [
+    16384,
+    60,
+    0,
+    1,
+    "none"
+  ],
+  "formal_output_absent_before_and_after_audit": true,
+  "limitations": [
+    "Expected binding is matched to public bindings; private settings were not loaded. Root must verify newly emitted formal binding after single bootstrap and before team launch.",
+    "Concurrency is a two-command launch declaration, not observed running-process evidence; the manifest joined command string is descriptive.",
+    "This is a point-in-time source/metadata observation, not an atomic runtime attestation or provider-availability guarantee."
+  ]
+}

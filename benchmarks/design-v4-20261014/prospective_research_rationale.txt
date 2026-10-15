@@ -1,0 +1,64 @@
+V4 prospective design rationale — prepared before V4 inference
+15 October2026 UTC. Root selected experiments/plan-conditioned-v4 from906327d.
+This /tmp memo changes no source or existing records and reports no V4 result.
+
+Why this next experiment
+The completed V3d team scored232/300 versus fresh single238/300 (8 paired wins,
+14 losses; -2pp, patient-block95%CI[-5.16,+1.09]pp). Nine paired losses were
+source-valid wrong primaries: three calendar windows, three medication-reference/
+dose mappings, and three concept/projection/microbiology interpretations. The
+remaining five losses were three source-scope refusals and two provider failures.
+All eight paired wins came from unmodified source-valid primaries.
+
+V3d's283 static audits produced no material repair and zero targeted execution,
+while consuming1.258M recorded tokens. Nineteen source-feedback revisions helped
+four and harmed none; preserve that source/execution correction path. No paired
+loss was locally token-limited. Therefore the principal hypothesis is that useful
+semantic advice must reach the continuous solver before it commits to a query;
+audit removal saves a phase without observed answer-level benefit. A larger local
+solver allocation is a bundled secondary hypothesis, not a diagnosed cure.
+
+Exact treatment to freeze
+One question/context/shared-guide-only advisory planner:10k tokens, zero tools,
+no answer/code/resources/selectedIDs/gold. Its bounded anchored JSON plan reaches
+the solver from the first actual call; original question and guide remain
+authoritative. The planner cannot filter tools, force fields/joins/empties or
+veto a valid final. Invalid/UNKNOWN advice is ignored and recorded.
+One continuous existing LedgerSolver:190k tokens,30 executed tools comprising
+28 model-requested slots plus two counted source checks; at most20 real solver
+calls and22 host slots. Preserve strict executed final/full-batch readiness,
+existing one source-feedback correction, deferred scope/completeness/source
+gates, same shared guide and fatal unknown-usage/overshoot policies. No late
+static model audit, duplicate whole solve, vote or targeted semantic patch.
+Aggregate stays200k/30. Same gpt-6-luna, current Azure/nativeSDK/observer/public
+profile, timeout/retries/request cap, cache, fixed300 ordering and scorer.
+
+This tests plan exposure, audit removal and local allocation together. It cannot
+attribute a gain solely to planning or more roles. Advice can anchor a wrong
+answer: one V3d blind contract itself gave wrong previous-year bounds. Existing
+V3 source refusals may persist; do not weaken gates to recover gold-matching
+primaries. Planner quote/schema acceptance, ignored advice, source-valid versus
+null credit, source revision transitions and actual per-phase usage are required
+outcomes. Paired losses informed this generic choice only; no per-question
+guidance, template/gold inputs or runtime routes may be added.
+
+Predeclared comparison
+Run all300 first attempts in EACH of two new simultaneous one-worker arms with
+save1/gzip and the unchanged observer. Acceptance requires T>238, the best
+completed prior single, AND T>new contemporaneous single (minimum239/300).
+Retain errors and unknown usage; no selective replay or success-only acceptance.
+Report paired patient-block95%CI (10,000 draws, seed5106) and exposure limits.
+Only a completed accepted winner can be selected onmain and advance to full.
+
+Primary-source mechanism, already inspected
+DIN-SQL feeds predicted schema links/subquestions into generation:
+https://github.com/MohammadrezaPourreza/Few-shot-NL2SQL-with-prompting/blob/0474801616130413b024fd008b016a190684649e/DIN-SQL.py
+MAC-SQL retains decomposition/context and execution feedback; its gold-schema and
+empty/None-as-error behavior are not transferred:
+https://aclanthology.org/2025.coling-main.36/
+https://github.com/wbbeyourself/MAC-SQL/tree/31a9df5e0d520be4769be57a4b9022e5e34a14f4/core
+CodeAct supports a continuous executable/debug trajectory:
+https://arxiv.org/abs/2402.01030 and https://github.com/xingyaoww/code-act
+These sources motivate the intervention; none establishes equal-budget FHIR gains.
+Detailed completed-run evidence remains in /private/tmp/fhir-v3d-mechanism-review/
+refinement_decision.txt; no V3c formal record is recreated.

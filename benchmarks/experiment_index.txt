@@ -67,11 +67,28 @@ revision occurred. Full results, mechanisms and exact archives are recorded.
 A further research-backed refinement is required before a full launch.
 
 
+V4 — advisory question plan visible before continuous solving
+Branch: experiments/plan-conditioned-v4; record: benchmarks/design-v4-20261014
+Source commit a64adaf; 142 source files frozen before the large run.
+Same shared solver/source gates/tools/scorer and four public provider sources.
+Planner10k/0 tools -> solver190k/30 tools (28 requested+2 source checks),
+aggregate200k/30;20 real solver calls/22 host slots. No late static audit.
+Advice remains nonbinding; malformed/UNKNOWN plans ignored, unknown usage fatal.
+The treatment bundles plan visibility, audit removal and local allocation.
+Research rationale and exact source/runtime/command/protocol archives recorded.
+64 root offline tests and 23 independent focused tests pass.
+Scheduled: new concurrent single+team300 first attempts,1worker/arm,save1/gzip.
+Status: FROZEN, independent prelaunch audit PASS; large run not yet started.
+Predeclared gate: team >238 (best completed prior single) AND >new single.
+The fixed300 is reused for development; any gain remains exploratory.
+
+
 Selection and scoring
 
-Main remains unchanged until a team exceeds 223/300 archived single,
-231/300 refreshed single and the complete contemporaneous single. All experiments use the same fixed question IDs and
-typed scorer. Terminal errors remain incorrect; empty references can credit
+Main remains unchanged until a completed team passes its predeclared gate.
+V3 required beating archived223, refreshed231 and its contemporary control;
+V4 requires beating the best completed prior single238 and its new control.
+All experiments use the same fixed question IDs and typed scorer. Terminal errors remain incorrect; empty references can credit
 unverified null. Repeated fixed-cohort selection is exploratory development,
 not fresh held-out proof. Small development checks have no experiment entries.
 A selected design will receive a separate real full 2,931-question three-arm

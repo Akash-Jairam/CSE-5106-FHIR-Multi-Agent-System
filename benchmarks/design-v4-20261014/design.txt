@@ -1,0 +1,59 @@
+V4 selected candidate: question-only advisory planning followed by continuous solving
+Prepared 15 October 2026 from source 906327dee1823178e3ac6319061f7d9ee5d2e01f.
+Selected for the next paired experiment after completed V3d results. This packet
+contains offline engineering only: no V4 model/FHIR calls, pilot, substantial
+benchmark, production promotion or formal run record. Existing defaults remain unchanged.
+
+Completed evidence motivating selection
+V3d scored team 232/300 against concurrent single 238/300; all first attempts,
+including two team provider failures, were retained. The team exceeded archived
+223 and refreshed 231 but failed the contemporaneous acceptance gate. Its 14
+paired losses comprised nine semantically wrong but source-valid primaries,
+three source-scope refusals and two provider errors; all eight wins were valid
+primaries. No paired loss stopped on budget, and the late audit produced no
+targeted repair action. These observations motivate better interpretation
+before solving, not a claim that removing source gates would improve accuracy.
+The reused fixed cohort is exploratory. V4 remains untested for accuracy.
+
+Motivation and distinct hypotheses
+DIN-SQL's author driver feeds schema links and predicted subquestions into SQL generation; MAC-SQL retains question/schema/evidence while debugging execution. A direct FHIR planner (SaludAI) injects catalog planning into an existing tool loop. We transfer a question-only advisory handoff rather than their benchmark examples, gold schema, annotation hints, empty-result-as-error, permanent tool hiding, or incomplete-pagination assumptions.
+This bundles three changes relative to V3.2: plan advice visible to the solver, removal of the mandatory late static audit/targeted repair, and more solver allocation. A future aggregate gain cannot be assigned solely to advisory planning. Fewer required model phases may affect provider reliability independently of semantic correctness. Sources do not establish equal-budget FHIR improvement.
+
+Protocol
+Same configured gpt-6-luna; aggregate 200,000 input/output tokens and 30 executed tools.
+Planner: 10,000 total tokens, 0 tools, one model pass. Original question/context plus unchanged shared semantic guide only; no draft, Python program, packet, patient resources, selected IDs or gold fields.
+Solver: 190,000 total tokens, 30 tools comprising 28 model-requested tools and 2 reserved automatic source checks; at most 20 actual model calls. Every original retrieval/code/check tool remains available. The unchanged V3 LedgerSolver consumes the first valid explicit final at the full tool-batch boundary, checks original sources, and permits one existing source-feedback correction. No model audit, whole-answer recomputation, vote, host semantic patch or final synthesis is required.
+Global and local caps both apply; unused planner allocation does not enlarge solver's 190k local ceiling. The existing parent model/accountant and PhaseHost policy cap completions before transport. Unknown provider usage and reported cap overshoot remain fatal. Local planner refusal, format or tool-request failures, and failures with verified usage, produce ignored advice and preserved diagnostics, then let the solver proceed under its remaining caps. Provider failures with unknown usage terminate the attempt before any solver call; absent usage is never treated as known zero.
+
+Plan interface and visibility
+One finite JSON object with status READY/UNKNOWN, at most 16 steps, and at most 16 unknowns. A step contains unique ID, one declared operator, references to earlier IDs, an exact question quote, supplied span, and concise requirement/tentative mapping. Every quoted substring must occur uniquely in the original question; host derives actual [start,end) and records supplied span and normalization. A missing quote or more than one possible occurrence of that quote in the question, including overlapping repetitions, ignores the whole plan. Different steps may have distinct uniquely anchored quotes whose spans overlap. Forward/cyclic dependencies, unexpected top-level/step fields, malformed/unbounded text or UNKNOWN status also ignore the whole plan. There is no partial guessed plan.
+Question provenance is not semantic truth. Requirements are advice, not deterministic constraints. The planner cannot change tools, retrieval filters, fields, joins, null policies or release gates in host code. Solver system context explicitly keeps original question/shared conventions authoritative and permits rejected/unsupported advice. The original question/context and packet still enter the unchanged SingleAgent trajectory. Freeze/hash validated advice before the first real solver call, retain raw role trace and validated/ignored plan diagnostics. No per-question known outcome routing or gold answers/SQL/template IDs are supplied.
+
+Clinical meaning and remaining risks
+A useful plan separates each operand's population/filter/window/order/selection from final projection, records requested units/fields and event versus value multiplicity, and keeps missing population, selected missing value and incomplete retrieval distinct. Repeat measurements remain distinct unless asked otherwise. Numeric totals, rate and dose are different concepts; cite exact source values even when a computed answer transforms units.
+Neither CQL conventions nor catalog hints override benchmark/question semantics. CQL Count(empty)=0 differs from Sum/Avg(empty)=null, and query return may deduplicate by default; importing those defaults blindly is unsafe. Date precision/timezone semantics and Observation clinical time versus issued version time need explicit interpretation. Existing shared guidance and source checks remain unchanged.
+The solver is conditioned on the plan, so it is not independent of the planner's interpretation. A wrong but textually anchored plan can anchor a wrong executed answer; no late intent audit attempts to repair it. Source validation demonstrates retrieved fields/ownership/time scope, not global correctness of question interpretation. The conservative future-only Medication linkage abstention and first-final lifecycle tradeoff inherited from V3 remain.
+
+Implementation boundaries
+New agent/plan_conditioned_agent.py imports unchanged V3 LedgerSolver and PhaseHost; V4PhaseHost overrides only local phase caps/names. PlanLedgerSolver copies its own system context and appends validated advisory JSON. It retains the current V3 limit of 22 host loop slots so 20 real solver invocations plus up to two no-model source-check boundaries fit. This is not a new lifecycle change relative to the current base. The inherited 20-call guard and source checks remain unchanged; the disclosed V4 local allocation is 190,000 tokens and 30 tools. V3 HostBoundaryMessage API/audit mapping fix is inherited unchanged, including source-feedback continuation.
+Additive multi_agent_v4 dispatch in run_agent.py mirrors normal run_agent_safe and optional gzip-before-IPC behavior. Subset/full runners add it only as an allowed explicit --team_strategy choice. Existing choices/defaults and shared SingleAgent/helper/source checker/SDK provider/scorer files stay byte-identical to base 906327d, except the three explicitly additive dispatch/choice edits. The shared SingleAgent, helper, semantic-guide, source-validation and SDK/observer files remain byte-identical. No provider retry, timeout, concurrency or routing changes.
+Common revision fields preserve initial solver source draft, released final, actual source issues, source-only revised/answer_changed diagnostics, nested primary_revision, phase accounting, plan/hash/visibility/error, retrieval ledger/current completeness/unresolved scope, and release policy. Successful release has final_check_issues=[]; failure releases null with actual source/execution issues. Plan errors cannot manufacture a release.
+
+Planned comparison and acceptance
+The formal run record must freeze the complete fixed 300-question cohort and a new contemporaneous single control before launch. Root's selected acceptance gate requires team correctness strictly greater than the best observed single control, 238/300, AND strictly greater than the new contemporaneous single count. Thus 239/300 is the minimum possible passing team count, and a stronger new single requires more. Include every first attempt and count terminal failures incorrect; no selective replay, success-only denominator or per-question runtime routing. The formal record will bind commands, concurrency, public provider profile, source and inputs. This preparation creates no formal run record and does not start a trial.
+
+Validation planned/performed
+Offline regressions cover interface/accounting/runner boundaries. One legacy AzureOpenAI HTTP MockTransport worker/source-feedback/gzip case and one actual SDK default-client HTTPX2 send-mocked case preserve the same wire/source-feedback/storage assertions. A separate pure boundary test checks API/audit normalization and nested gzip restoration. Added focused lifecycle cases verify that a final on solver call 20 after an initial source rejection receives its second source check, while a never-final solver still invokes the model only 20 times. The remaining checks reuse inherited V3, strict-final, budget and I/O boundaries. Network/model/store are mocked; the sandbox worker executes synthetic resources only. An additional default-client HTTPX2 synthetic case verifies the installed SDK request encoder and default-client plumbing with send mocked; it does not test network or pool behavior. Explicit regressions distinguish uniquely anchored overlapping steps and fatal unknown-usage transport errors. This verifies transport/interface/accounting, not accuracy or provider availability. Exact test evidence and source hashes are recorded in delivery_metadata.json before a substantial run. No formal journal entry is created for this development preparation; root will freeze a separate exact design before any substantial run.
+
+Primary sources (research only)
+DIN-SQL, NeurIPS2023: https://arxiv.org/abs/2304.11015
+Author driver pinned0474801616130413b024fd008b016a190684649e:
+https://github.com/MohammadrezaPourreza/Few-shot-NL2SQL-with-prompting/blob/0474801616130413b024fd008b016a190684649e/DIN-SQL.py
+MAC-SQL, COLING2025: https://aclanthology.org/2025.coling-main.36/
+Author agents/const/controller pinned31a9df5e0d520be4769be57a4b9022e5e34a14f4:
+https://github.com/wbbeyourself/MAC-SQL/tree/31a9df5e0d520be4769be57a4b9022e5e34a14f4/core
+SaludAI author code pinnedd7b10d20b580fb126afc8f8b69772c9706c5bef7:
+https://github.com/saludai-labs/saludai/tree/d7b10d20b580fb126afc8f8b69772c9706c5bef7/packages/saludai-agent/src/saludai_agent
+HL7 clinical semantics: https://cql.hl7.org/09-b-cqlreference.html
+FHIRR4 search: https://hl7.org/fhir/R4/search.html
+Detailed inspected code/source caveats are in /private/tmp/fhir-plan-research/plan_conditioned_addendum_20261014.txt and clinical_query_semantics.txt.
