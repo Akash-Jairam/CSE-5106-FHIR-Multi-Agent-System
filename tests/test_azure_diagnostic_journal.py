@@ -16,8 +16,11 @@ from unittest.mock import Mock, patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
+ADAPTER_PATH = ROOT / ".local-setup/azure_adapter.py"
+if not ADAPTER_PATH.is_file():
+    raise unittest.SkipTest("Optional personal Azure adapter is unavailable")
 spec = importlib.util.spec_from_file_location(
-    "local_diagnostic_test_adapter", ROOT / ".local-setup/azure_adapter.py")
+    "local_diagnostic_test_adapter", ADAPTER_PATH)
 adapter = importlib.util.module_from_spec(spec)
 with patch.dict(sys.modules, {spec.name: adapter}):
     spec.loader.exec_module(adapter)
