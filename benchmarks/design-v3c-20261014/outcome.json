@@ -28,11 +28,12 @@
     }
   },
   "http408": 0,
-  "cause_attribution": "unknown; saved generic errors lack exception causes and process resource state",
+  "cause_attribution": "User reports Wi-Fi/VPN changed at matching interval; local network interruption is leading explanation. Exact underlying SDK cause was not retained and remains unverified.",
   "all_first_attempts_retained": true,
   "source_files_verified": 136,
   "owned_gzip_audits_verified": 600,
   "main_promoted": false,
   "full_benchmark_started": false,
-  "next_action": "fresh V3 comparison with optional safe provider diagnostics; same semantics/request policy; no selective retry"
+  "next_action": "fresh V3 comparison with optional safe provider diagnostics; same semantics/request policy; no selective retry",
+  "supplemental_evidence": "user_reported_network_change.json"
 }
