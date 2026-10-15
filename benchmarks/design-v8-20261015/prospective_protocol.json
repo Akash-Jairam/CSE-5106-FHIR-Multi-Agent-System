@@ -1,0 +1,47 @@
+{
+  "status": "PROSPECTIVE_BEFORE_SUBSTANTIAL_INFERENCE",
+  "study_policy": {
+    "protocol": "counterexample-investigator-mechanism-v8",
+    "primary": {
+      "tokens": 200000,
+      "tools": 30,
+      "sdk_attempts": 30
+    },
+    "aggregate": {
+      "tokens": 200000,
+      "tools": 30,
+      "sdk_attempts": 30
+    },
+    "auxiliary": {
+      "tokens": 60000,
+      "tools": 6,
+      "sdk_attempts": 6,
+      "probes": 2
+    },
+    "primary_contrast": "R - A",
+    "advance_gate": {
+      "O_min": 6,
+      "net_min": 4,
+      "harm_plus_fatal_max": 2,
+      "corrective_patients_min": 3,
+      "corrective_operations_min": 2
+    },
+    "operation_structure_definition": "Six metadata operation_group values used for prospective quotas; never posthoc case labels or runtime routing",
+    "cache": "cold_private_A_then_identical_physical_copies_no_hardlinks",
+    "workers": 1,
+    "retries": 0,
+    "scope": "Broader development; no protected or adaptive300 IDs; not independent patient/template confirmation"
+  },
+  "study_manifest": "manifests/v8_mechanism_120_20261015.json",
+  "study_manifest_sha256": "d37c4042b31ad0e5c84fa4afeacd1455e86c5a3f5ea61a425cf8b40dfc92107e",
+  "expected_policy_outcomes": 480,
+  "physical_primary_runs": 120,
+  "physical_followup_runs": 360,
+  "one_physical_primary_per_case": true,
+  "scoring": "Unchanged typed scorer with original question_families.csv template; terminal errors wrong; references recorder-side only. No accuracy before all480 terminal and integrity PASS.",
+  "primary_contrast": "R-A",
+  "other_contrasts": "W/R/C context/permission/cost diagnostics, shared-parent dependent",
+  "protected_confirmation": "1397 unchanged; no protected question/reference/SQL access or scoring in this study.",
+  "resource_claim": "Equal aggregate ceilings; actual use differs. No efficiency or semantic-proof claim.",
+  "advancement": "Only fixed R gate may advance this design to a frozen fresh fixed300 comparison. No threshold retuning or posthoc W/C substitution."
+}
