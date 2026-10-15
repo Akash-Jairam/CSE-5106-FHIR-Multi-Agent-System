@@ -78,7 +78,8 @@ The treatment bundles plan visibility, audit removal and local allocation.
 Research rationale and exact source/runtime/command/protocol archives recorded.
 64 root offline tests and 23 independent focused tests pass.
 Scheduled: new concurrent single+team300 first attempts,1worker/arm,save1/gzip.
-Status: FROZEN, independent prelaunch audit PASS; large run not yet started.
+Status: RUNNING. Freeze commit f4ca343; both actual workers launched and verified.
+Actual Azure public binding matches the frozen record; initial requests succeed.
 Predeclared gate: team >238 (best completed prior single) AND >new single.
 The fixed300 is reused for development; any gain remains exploratory.
 
