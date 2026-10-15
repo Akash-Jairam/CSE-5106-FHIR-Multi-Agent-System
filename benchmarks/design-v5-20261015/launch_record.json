@@ -1,0 +1,24 @@
+{
+  "status": "RUNNING_NO_ACCURACY_INSPECTED",
+  "observed_utc": "2026-10-15T05:40:43.044148+00:00",
+  "freeze_commit": "810a4f6",
+  "runtime_source_commit": "51c505e5854570bb82ded5bd1fc0886dd45d46a2",
+  "owned_exec_sessions": {
+    "single": 12235,
+    "team": 27660
+  },
+  "expected_code_hash": "800e1f0df322c86453d205979d734895e8f36ba8ce53369b4695f440a1b16fa3",
+  "pins_sha256": "38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50",
+  "prelaunch_report_sha256": "795efb5aae832356e2c032bbefde2e69fab994055df250ec0a0f69bfecb8a271",
+  "identities": {
+    "ordinary_single_agent.json.run.json": {
+      "sha256": "158c160aa2bedd5dd41b7f8ae9e0011b095686337927dbb74ed0443bd05cdfcb"
+    },
+    "ordinary_multi_agent.json.run.json": {
+      "sha256": "3c867feed52919e9bb6d7a5395c92a2ccc14b8aa5927c336b92a26c87b9d44b7"
+    }
+  },
+  "terminal_oracle": "Both owned exec sessions must return exit status before completion assertion.",
+  "first_attempts_preserved": true,
+  "accuracy_scored": false
+}
