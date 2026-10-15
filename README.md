@@ -280,6 +280,10 @@ python scripts/run_experiments.py revisions --max_total_tokens 200000 --max_tool
 
 Rerunning `run` resumes from the saved results and retries failed questions. Use `--split pilot --limit 2 --arms ordinary` for a smoke run, and `--arms` to run a subset. See [the Phase 3 notes](docs/phase3_experiments.md).
 
+### Results so far
+
+Seven team designs (V2–V7, on `experiments/*` branches) were compared with a fresh single-agent control on the same 300 held-out questions with gpt-6-luna; none beat it (best −1.0 pts, 95 % CI [−5.2, +3.2], at ~1.6× tokens). A root-cause audit found that 82 % of the errors shared by every design are unstated benchmark conventions, which a same-model verifier cannot detect. The consolidated table, taxonomy, decision memo, the final prespecified design (`--team_strategy multi_agent_v8`, deterministic convention checks + one routed repair, optional `--verifier_model`) and its frozen gate are in [`docs/diagnosis_v8/report.md`](docs/diagnosis_v8/report.md); launch commands are in [`docs/diagnosis_v8/launch.md`](docs/diagnosis_v8/launch.md).
+
 Generated Python runs with copied retrieved resources, no repository credentials or network, and a real deadline. It requires `sandbox-exec` on macOS or `bubblewrap` (`bwrap`) on Linux and fails closed without a supported sandbox. See [the review and verification notes](docs/phase1_review.md).
 
 To use open-source models locally with vLLM, start the vLLM server and set base_url to `http://localhost:<port>/v1`.

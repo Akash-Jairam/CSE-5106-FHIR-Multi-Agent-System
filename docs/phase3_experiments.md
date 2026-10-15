@@ -47,6 +47,16 @@ held-out run.
 with the retrieval, analysis, and verification roles. It is registered as
 the `multi_agent` strategy in `run_agent.py`.
 
+`--team_strategy` swaps the implementation behind the `ordinary_multi_agent`
+and `recovery_multi_agent_*` arm names while the run identity records the
+actual strategy: `multi_agent_v3` (query contract + static audit,
+`agent/query_contract_agent.py`) and `multi_agent_v8` (V3 plus deterministic
+convention checks and one routed repair, `agent/convention_verified_agent.py`).
+With `multi_agent_v8`, `--verifier_model` runs only the static program audit
+on another model (passed to workers as `$VERIFIER_MODEL`). Runs with different
+team strategies or verifier models must use different `--output_dir`s. See
+[`docs/diagnosis_v8/launch.md`](diagnosis_v8/launch.md).
+
 ### The omitted condition
 
 With `--perturbations manifests/perturbations.json --condition omitted`,
