@@ -1,0 +1,39 @@
+{
+  "status": "PROSPECTIVE_POSTTERMINAL_SEQUENCE_NOT_EXECUTED",
+  "recorded_at_utc": "2026-10-15T11:38:55.294040+00:00",
+  "required_order": [
+    "Observe actual terminal exits of both owned sessions; all600 saved firsts, no accuracy yet.",
+    "Record owned_jobs_completion.json with exact observed exits/timestamps/counts and accuracy_scored=false; root externally SHA-pin it.",
+    "Run final frozen guard completion with pinned attestation and eea97 pins; independently restore/verify600 and write allowlisted completed ZIP. Preserve exact completion-report SHA.",
+    "Only after completion PASS, execute the unchanged official compare command below once. Then externally SHA-pin comparison.json.",
+    "Execute independently reviewed/self-SHA-pinned posthoc helper after all proof bindings; reconcile official totals and actualA-only threegate.",
+    "Record and push completed design results, including negative results. No main/full promotion unless allthreegatespass."
+  ],
+  "owned_sessions": {
+    "single": 71866,
+    "team": 20418
+  },
+  "completion_report": "benchmarks/design-v7-20261015/completion_integrity.json",
+  "owned_terminal_attestation": "benchmarks/design-v7-20261015/owned_jobs_completion.json",
+  "archive": "output/archives/residual_trajectories_v7_300q_completed.zip",
+  "guard_sha256": "bf47aa9e9c84735b0a096acbb6d209776473fcb7e81e8cfa2e366576d90e1115",
+  "pins_sha256": "eea97f39b4a7cfa58fb363c4f4bd92990c1c7484ba4ac0e0171fbed1c6e60827",
+  "official_compare_argv": [
+    ".venv/bin/python",
+    "-B",
+    "scripts/compare_runs.py",
+    "--arm",
+    "v7_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/residual_trajectories_v7_300q/ordinary_single_agent.json",
+    "--arm",
+    "v7_team=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/residual_trajectories_v7_300q/ordinary_multi_agent.json",
+    "--split",
+    "held_out",
+    "--bootstrap",
+    "10000",
+    "--output",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/comparison.json"
+  ],
+  "compare_source_sha256": "607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c",
+  "accuracy_scoring_executed": false,
+  "protected_confirmation_unused": true
+}

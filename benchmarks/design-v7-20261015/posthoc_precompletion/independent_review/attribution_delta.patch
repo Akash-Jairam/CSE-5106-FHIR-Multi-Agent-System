@@ -1,0 +1,21 @@
+--- superseded/v7_posthoc.py
++++ reviewed/v7_posthoc.py
+@@ -114,7 +114,7 @@
+         source_second_check=source['second_automatic_check_observed'],draft_correct=draft_correct,
+         computed_final_typed_correct=computed_correct,
+         source_revision_effect=transition(draft_correct,result['correct'],source['revised']),
+-        source_withholding_lost_credit=bool(computed_correct is True and not result['correct'] and source['final_issues']))
++        source_withholding_lost_credit=bool(not terminal and computed_correct is True and not result['correct'] and source['final_issues']))
+     return result
+ 
+ 
+@@ -128,7 +128,8 @@
+         exact=same(facts['snapshots']['A']['released']['answer'],facts['snapshots']['B']['released']['answer'])
+     selected_B=facts['selected']=='B' and facts['status']=='selected_B' and not facts['fatal']
+     aux_entered='B' in facts['snapshots'] or any(p.get('phase') in ('natural_alternative','selection') for p in facts['phases'])
+-    aux_fatal=any(p.get('fatal') is True for p in facts['phases'] if p.get('phase')!='natural_primary')
++    aux_fatal=(facts['fatal'] and facts['status'] in ('fatal_alternative','fatal_selection')) or any(
++        p.get('fatal') is True for p in facts['phases'] if p.get('phase')!='natural_primary')
+     return {'question_id':row.get('question_id'),'correct':correct,'terminal_error':failed(row),
+         'reference_answer_kind':typed.get('answer_type'),'A':a,'B':b,'status':facts['status'],
+         'selected_B':selected_B,'selector_choice':(facts.get('selection') or {}).get('choice'),

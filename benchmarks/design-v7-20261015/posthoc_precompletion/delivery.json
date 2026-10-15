@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "status": "FROZEN_FOR_INDEPENDENT_REVIEW_NOT_EXECUTED_ON_REAL_RESULTS",
+  "supersedes_delivery_sha256": "842421334a080598cd05ee10c1abafa644f4db5d1fdec953dfe8ca862698f3e5",
+  "helper_sha256": "4e3c460fba42855715ebef94d064b9f8c9cca827d94122042ce113dc29d3a6d4",
+  "tests": 23,
+  "actual_results_read": false,
+  "actual_scoring_performed": false,
+  "files": {
+    "SCOPE.txt": {
+      "sha256": "f3be29c762b0f333e4e1af7a51eefd1e42429fcc5516230e2d74730521cc6a4d",
+      "bytes": 5521
+    },
+    "fixtures/answer_scorer.py": {
+      "sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+      "bytes": 23221
+    },
+    "fixtures/audit_store.py": {
+      "sha256": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+      "bytes": 9998
+    },
+    "fixtures/compare_runs.py": {
+      "sha256": "607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c",
+      "bytes": 16169
+    },
+    "fixtures/public_source_sha256.json": {
+      "sha256": "7fe294b1b0b50d868c23e47a9f1ff421ced65b7feb2b15fddb8693734605099c",
+      "bytes": 292
+    },
+    "test_v7_posthoc.py": {
+      "sha256": "362c49e76018cd3d839fceae9b89558691f21fdfa5cb527629f3634d0832c033",
+      "bytes": 19128
+    },
+    "tests.log": {
+      "sha256": "1f6ddeca669a0d129a88b3f36279a467cba258783e52373ab093efa6d3f95ee3",
+      "bytes": 3705
+    },
+    "v7_posthoc.py": {
+      "sha256": "4e3c460fba42855715ebef94d064b9f8c9cca827d94122042ce113dc29d3a6d4",
+      "bytes": 25724
+    }
+  }
+}

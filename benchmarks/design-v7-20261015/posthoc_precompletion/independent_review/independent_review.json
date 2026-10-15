@@ -1,0 +1,59 @@
+{
+  "disposition": "PASS within narrow prospective analysis-only review scope; no remaining concrete blocker",
+  "helper_sha256": "4e3c460fba42855715ebef94d064b9f8c9cca827d94122042ce113dc29d3a6d4",
+  "packet_delivery_sha256": "849b915fdaabd0e358977938d055f7bcb7297c0e81fc7633753ebe346847c728",
+  "all_packet_file_hashes_and_sizes_verified": true,
+  "original_packet_preserved_sha256": "842421334a080598cd05ee10c1abafa644f4db5d1fdec953dfe8ca862698f3e5",
+  "tests": {
+    "supplied_synthetic_passed": 23,
+    "independent_synthetic_passed": 8,
+    "total_passed": 31,
+    "supplied_log_sha256": "d9d929b690f46593cc8c2d88716d6b432a3c96c07699066675f357c31aa5b22c",
+    "independent_log_sha256": "b5fd9320c3a6cb3eb58f83182db08a52b1a4f9acb958c39e0ca5df75731ea1fd",
+    "independent_script_sha256": "18322e64ecd1d10265ffd0c569c7a7abb561f18401aca937775721117f93f509",
+    "independent_command": ".venv/bin/python -IB /private/tmp/fhir-v7-posthoc-independent-4qt3po48/independent_tests.py"
+  },
+  "reviewed_core": [
+    "A-only uses actual normalized released A with own original error, never computed revision.final; primary phase/controller fatal is incorrect even for typed null",
+    "Late auxiliary fatal preserves valid earlier A counterfactual; frozen-A mutation and missing released metadata remain unavailable",
+    "All300 actual A outcomes must be reconstructible for strict Team>239 AND Team>fresh Single AND Team>actual A-only; no filtered denominator or favorable subgroup",
+    "A/B source feedback/completed revisions are distinct from selected-B effect and whole post-A stage effect",
+    "Whole-cohort current arm typed totals and all300 terminal errors reconcile with externally pinned unchanged official report",
+    "Externally pinned600 deep integrity proof is reused; only Team300 gzip audits are restored again for snapshot/trace ownership; ordinary Single raw rows remain in scoring denominator",
+    "All source/runtime/ZIP/proof/raw/official/identity/metadata bindings and Team reconstruction precede pure scorer import; bytes rechecked before final fresh output",
+    "No protected1397/full-QA parse, source program replay, inference modules, credential/config loads or network calls"
+  ],
+  "verified_attribution_corrections": [
+    "source_withholding_lost_credit requires an actual nonfatal, nonterminal phase release; fatal/error overlap remains visible through separate issue/computed/error fields",
+    "auxiliary_fatal also includes top-level fatal_alternative/fatal_selection even without a phase-local fatal flag; this does not retroactively invalidate A"
+  ],
+  "additional_independent_cases": [
+    "Unchanged real typed scorer preserves ordinary known-budget null credit with no source certificate",
+    "Primary top-level fatal null cannot receive A-only credit",
+    "Late controller-only auxiliary fatal on typed-correct A null records correct-A loss, without null credit for terminal Team",
+    "Fatal/known-error and source-issue overlap cannot be claimed standalone source withholding",
+    "Nonerror computed-correct withheld candidate is not a released answer or completed source revision",
+    "Missing actual released error key makes A unavailable, never fabricated null",
+    "Proof/pins/owned attestation drift after verification rejects before scorer import",
+    "Template/raw byte drift after scorer admission blocks publication"
+  ],
+  "pure_frozen_sources": {
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "utils/answer_scorer.py": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+    "scripts/compare_runs.py": "607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c"
+  },
+  "limits": [
+    "Synthetic evidence only; no actual V7 outputs, question/reference labels, protected confirmation, configuration or model/FHIR/network calls were used.",
+    "Caller-provided terminal and literal SHA evidence, source/pin timing and non-atomic OS state remain root-owned attestations; the helper cannot establish process terminality itself.",
+    "The600 CRC proof is trusted through external SHA/current byte bindings; this helper intentionally restores Team300 only and does not rerun all600 deep checks.",
+    "Source validity and selector requirements remain fallible provenance/model judgments, not semantic correctness or complete retrieval guarantees.",
+    "A-only is the recorded full-cap natural Single sample, not a hypothetical control or causal cap ablation; a separate contemporary Single remains required.",
+    "The adaptive fixed300 development gate is not a generalization/significance claim; protected final confirmation protocol is unchanged.",
+    "No actual acceptance/promotion/full launch is inferred from this private engineering PASS."
+  ],
+  "active_source_changes": false,
+  "actual_results_read": false,
+  "actual_scoring_performed": false,
+  "model_calls": 0,
+  "FHIR_calls": 0
+}
