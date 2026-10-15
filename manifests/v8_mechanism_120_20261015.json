@@ -1,0 +1,1873 @@
+{
+  "schema_version": 1,
+  "status": "PROSPECTIVE_METADATA_ONLY_NOT_RUN",
+  "seed": 5108,
+  "selection": "SHA256-ranked patient round-robin within fixed operation quotas; no QA/reference/SQL selection",
+  "order": "20 six-case time blocks, cycling four broad strata; all six W/R/C permutations once per block",
+  "policy": {
+    "protocol": "counterexample-investigator-mechanism-v8",
+    "primary": {
+      "tokens": 200000,
+      "tools": 30,
+      "sdk_attempts": 30
+    },
+    "aggregate": {
+      "tokens": 200000,
+      "tools": 30,
+      "sdk_attempts": 30
+    },
+    "auxiliary": {
+      "tokens": 60000,
+      "tools": 6,
+      "sdk_attempts": 6,
+      "probes": 2
+    },
+    "primary_contrast": "R - A",
+    "advance_gate": {
+      "O_min": 6,
+      "net_min": 4,
+      "harm_plus_fatal_max": 2,
+      "corrective_patients_min": 3,
+      "corrective_operations_min": 2
+    },
+    "operation_structure_definition": "Six metadata operation_group values used for prospective quotas; never posthoc case labels or runtime routing",
+    "cache": "cold_private_A_then_identical_physical_copies_no_hardlinks",
+    "workers": 1,
+    "retries": 0,
+    "scope": "Broader development; no protected or adaptive300 IDs; not independent patient/template confirmation"
+  },
+  "questions": 120,
+  "patients": 35,
+  "family_counts": {
+    "lookup_counting": 30,
+    "temporal_selection": 30,
+    "numerical_aggregation": 30,
+    "other": 30
+  },
+  "operation_counts": {
+    "lookup_counting": 30,
+    "temporal_selection": 30,
+    "numerical_aggregation": 30,
+    "duration": 10,
+    "paired_comparison": 10,
+    "paired_difference": 10
+  },
+  "followup_order_counts": {
+    "CWR": 20,
+    "RCW": 20,
+    "RWC": 20,
+    "WRC": 20,
+    "WCR": 20,
+    "CRW": 20
+  },
+  "excluded_fixed300": 300,
+  "excluded_confirmation": 1397,
+  "cases": [
+    {
+      "question_id": "cc1b03b3dc9e12a0e0841326",
+      "patient_fhir_id": "c0d83ad6-0b65-5fd6-b241-f50cf552232c",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T012",
+      "case_index": 1,
+      "time_block": 1,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "d91a86b3f19888f5557a404a",
+      "patient_fhir_id": "8d7b633e-0f92-5448-a56d-36c69210e860",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T016",
+      "case_index": 2,
+      "time_block": 1,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "729c62dcfd9ac11a32a56161",
+      "patient_fhir_id": "1cf9e585-806c-513b-80af-4ca565a28231",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T009",
+      "case_index": 3,
+      "time_block": 1,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "0a966abcccedcc3a0964e05e",
+      "patient_fhir_id": "e635f2dd-aaec-5fef-a100-b9dfb523cbb6",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T019",
+      "case_index": 4,
+      "time_block": 1,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "d6ab8927156136206a55d8a8",
+      "patient_fhir_id": "4365e125-c049-525a-9459-16d5e6947ad2",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T010",
+      "case_index": 5,
+      "time_block": 1,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "25a3fc060e58489fa5108651",
+      "patient_fhir_id": "bbad4581-d089-54a7-b7a0-8d986c5fb5ec",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T012",
+      "case_index": 6,
+      "time_block": 1,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "4bcd1b55582a8d4b902af134",
+      "patient_fhir_id": "72d56b49-a7ee-5b9a-a679-25d1c836d3c3",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T052",
+      "case_index": 7,
+      "time_block": 2,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "39cc7a512a66650e91459e27",
+      "patient_fhir_id": "3886cafb-65f4-5789-9213-64678a202f82",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T064",
+      "case_index": 8,
+      "time_block": 2,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "8bfea1a0b78f2e98d30ee271",
+      "patient_fhir_id": "4c48ec6f-716c-5bfd-8cee-b9a6b7c6c765",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T062",
+      "case_index": 9,
+      "time_block": 2,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "1770a690d77ad9ec94532a67",
+      "patient_fhir_id": "bbad4581-d089-54a7-b7a0-8d986c5fb5ec",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T043",
+      "case_index": 10,
+      "time_block": 2,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "11e5506de71d3706a53ac1ab",
+      "patient_fhir_id": "5f3dcdb5-bd27-58f5-b990-859b6bcc2d73",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T055",
+      "case_index": 11,
+      "time_block": 2,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "c68bc6d51b04677c09432ee6",
+      "patient_fhir_id": "568cb149-804c-59e8-bdf5-816e8151cd22",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T053",
+      "case_index": 12,
+      "time_block": 2,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "26b5659defc710e97b8055d7",
+      "patient_fhir_id": "8d7b633e-0f92-5448-a56d-36c69210e860",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T057",
+      "case_index": 13,
+      "time_block": 3,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "c002c7dd1abbdad1014192e2",
+      "patient_fhir_id": "23069939-0c4c-517b-a3ec-baae0d4e3988",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T041",
+      "case_index": 14,
+      "time_block": 3,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "ad2310914d9164e853dba7ed",
+      "patient_fhir_id": "94abdf17-f13a-5eae-aac0-eca407bbfadd",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T058",
+      "case_index": 15,
+      "time_block": 3,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "6012b1badcebf4d12139de0e",
+      "patient_fhir_id": "c3412a5f-f8b9-57d2-9c70-53e3e40c91f0",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T057",
+      "case_index": 16,
+      "time_block": 3,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "6b93b67bb974684b413b3c6a",
+      "patient_fhir_id": "dd2bf984-33c3-5874-8f68-84113327877e",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T057",
+      "case_index": 17,
+      "time_block": 3,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "7329fbf5056c86af263e9033",
+      "patient_fhir_id": "7d61fb4e-dc5e-5b1b-a7a6-1d96a3818546",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T058",
+      "case_index": 18,
+      "time_block": 3,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "9d5b103ab75bc4e5ec507f0a",
+      "patient_fhir_id": "94abdf17-f13a-5eae-aac0-eca407bbfadd",
+      "metadata_family": "out_of_scope",
+      "operation_group": "duration",
+      "template_id": "T044",
+      "case_index": 19,
+      "time_block": 4,
+      "study_family": "other",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "df6d9f1646fc387c7952ce10",
+      "patient_fhir_id": "51d2190c-cc46-56c5-b2ea-363895cbea75",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_comparison",
+      "template_id": "T028",
+      "case_index": 20,
+      "time_block": 4,
+      "study_family": "other",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "97d26f029a5f2f8e475529e6",
+      "patient_fhir_id": "c3412a5f-f8b9-57d2-9c70-53e3e40c91f0",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_difference",
+      "template_id": "T037",
+      "case_index": 21,
+      "time_block": 4,
+      "study_family": "other",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "3ec7578f9e5421f0bb600bba",
+      "patient_fhir_id": "a6e7e991-6801-5425-b435-4ca6b7decfcc",
+      "metadata_family": "out_of_scope",
+      "operation_group": "duration",
+      "template_id": "T044",
+      "case_index": 22,
+      "time_block": 4,
+      "study_family": "other",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "eb588610d7a73daedf0f76c1",
+      "patient_fhir_id": "a6e7e991-6801-5425-b435-4ca6b7decfcc",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_comparison",
+      "template_id": "T028",
+      "case_index": 23,
+      "time_block": 4,
+      "study_family": "other",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "cf07a721765b700935e376f5",
+      "patient_fhir_id": "e635f2dd-aaec-5fef-a100-b9dfb523cbb6",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_difference",
+      "template_id": "T035",
+      "case_index": 24,
+      "time_block": 4,
+      "study_family": "other",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "848f58c164e2f0878c1c9ce1",
+      "patient_fhir_id": "568cb149-804c-59e8-bdf5-816e8151cd22",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T016",
+      "case_index": 25,
+      "time_block": 5,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "78784fbf49277b83517b9dba",
+      "patient_fhir_id": "de33a447-3c7f-541d-be72-a744dadcbbac",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T012",
+      "case_index": 26,
+      "time_block": 5,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "8576dc17a71fd1f052b49898",
+      "patient_fhir_id": "dd2bf984-33c3-5874-8f68-84113327877e",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T020",
+      "case_index": 27,
+      "time_block": 5,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "4b10d0fec2f23acab915e3f3",
+      "patient_fhir_id": "b410dd44-7d65-56f9-974f-2751e8aa80e2",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T005",
+      "case_index": 28,
+      "time_block": 5,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "5d31a8336f838e5062d60d2d",
+      "patient_fhir_id": "5f3dcdb5-bd27-58f5-b990-859b6bcc2d73",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T017",
+      "case_index": 29,
+      "time_block": 5,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "c6e32087897377afc707821c",
+      "patient_fhir_id": "13df78e7-150e-5eb7-be5f-5f62b2baee87",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T010",
+      "case_index": 30,
+      "time_block": 5,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "16a44e61297946c6928ab617",
+      "patient_fhir_id": "de33a447-3c7f-541d-be72-a744dadcbbac",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T054",
+      "case_index": 31,
+      "time_block": 6,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "dcc6094fae5bc1bb4de3c989",
+      "patient_fhir_id": "8d7b633e-0f92-5448-a56d-36c69210e860",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T069",
+      "case_index": 32,
+      "time_block": 6,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "2ddc53c4a796889b9c40ca78",
+      "patient_fhir_id": "94abdf17-f13a-5eae-aac0-eca407bbfadd",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T051",
+      "case_index": 33,
+      "time_block": 6,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "f3ecb8116711437750ac3fb5",
+      "patient_fhir_id": "8adbf3e4-47ff-561e-b1b6-746ee32e056d",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T073",
+      "case_index": 34,
+      "time_block": 6,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "94c416e60fecdda4973a6173",
+      "patient_fhir_id": "1cf9e585-806c-513b-80af-4ca565a28231",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T022",
+      "case_index": 35,
+      "time_block": 6,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "e95fcfa72f1c014d79280732",
+      "patient_fhir_id": "c0d83ad6-0b65-5fd6-b241-f50cf552232c",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T050",
+      "case_index": 36,
+      "time_block": 6,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "6460cd5a26ffc1b6bcc56a55",
+      "patient_fhir_id": "5f3dcdb5-bd27-58f5-b990-859b6bcc2d73",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T056",
+      "case_index": 37,
+      "time_block": 7,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "c0faf3e95f2c2000bdda5a2e",
+      "patient_fhir_id": "d378a59b-aa80-5bc5-812a-7d59b26e7df4",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T031",
+      "case_index": 38,
+      "time_block": 7,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "d653fc27e70a4eedd39bd936",
+      "patient_fhir_id": "a6e7e991-6801-5425-b435-4ca6b7decfcc",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T056",
+      "case_index": 39,
+      "time_block": 7,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "1b7a372bc73c1b3e5e13c41d",
+      "patient_fhir_id": "4c48ec6f-716c-5bfd-8cee-b9a6b7c6c765",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T058",
+      "case_index": 40,
+      "time_block": 7,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "5c2b95425f850cf9aee654aa",
+      "patient_fhir_id": "8adbf3e4-47ff-561e-b1b6-746ee32e056d",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T030",
+      "case_index": 41,
+      "time_block": 7,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "b9c136c1e1d19649caabdeb4",
+      "patient_fhir_id": "4365e125-c049-525a-9459-16d5e6947ad2",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T032",
+      "case_index": 42,
+      "time_block": 7,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "5852e743e53e91715cff50d3",
+      "patient_fhir_id": "28dcf33b-0c52-587f-83ad-2a3270976719",
+      "metadata_family": "out_of_scope",
+      "operation_group": "duration",
+      "template_id": "T044",
+      "case_index": 43,
+      "time_block": 8,
+      "study_family": "other",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "95b245de3db0ff301118f6ef",
+      "patient_fhir_id": "4c9069e4-486b-53a6-8a49-b8520d49ef7e",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_comparison",
+      "template_id": "T028",
+      "case_index": 44,
+      "time_block": 8,
+      "study_family": "other",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "71e9ec4174f7ac09f0636302",
+      "patient_fhir_id": "c0d83ad6-0b65-5fd6-b241-f50cf552232c",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_difference",
+      "template_id": "T037",
+      "case_index": 45,
+      "time_block": 8,
+      "study_family": "other",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "2985a08b2d895846538fee43",
+      "patient_fhir_id": "de33a447-3c7f-541d-be72-a744dadcbbac",
+      "metadata_family": "out_of_scope",
+      "operation_group": "duration",
+      "template_id": "T044",
+      "case_index": 46,
+      "time_block": 8,
+      "study_family": "other",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "10a09034b24ebc5ea1fcd470",
+      "patient_fhir_id": "fa5fbf9c-23e3-5ef3-9cfb-24d20a950314",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_comparison",
+      "template_id": "T028",
+      "case_index": 47,
+      "time_block": 8,
+      "study_family": "other",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "350e7b3e88e232febb94440c",
+      "patient_fhir_id": "4c48ec6f-716c-5bfd-8cee-b9a6b7c6c765",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_difference",
+      "template_id": "T036",
+      "case_index": 48,
+      "time_block": 8,
+      "study_family": "other",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "4d21ff0e9b82a46ea21db1c1",
+      "patient_fhir_id": "a2605b15-4f1b-5839-b4ce-fb7a6bc1005f",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T016",
+      "case_index": 49,
+      "time_block": 9,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "11b773ce5f673720f4ff1cd9",
+      "patient_fhir_id": "51d2190c-cc46-56c5-b2ea-363895cbea75",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T020",
+      "case_index": 50,
+      "time_block": 9,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "72f9afe9d7752f2079ec4df1",
+      "patient_fhir_id": "7d61fb4e-dc5e-5b1b-a7a6-1d96a3818546",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T001",
+      "case_index": 51,
+      "time_block": 9,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "5ad1c0bd8c724486755abcd6",
+      "patient_fhir_id": "72d56b49-a7ee-5b9a-a679-25d1c836d3c3",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T000",
+      "case_index": 52,
+      "time_block": 9,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "6b3c9e4d732df9f3eda20c41",
+      "patient_fhir_id": "c3412a5f-f8b9-57d2-9c70-53e3e40c91f0",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T009",
+      "case_index": 53,
+      "time_block": 9,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "d331061cc248eb79de709879",
+      "patient_fhir_id": "1ab119a5-aac8-5002-9d2f-b8ff69623387",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T018",
+      "case_index": 54,
+      "time_block": 9,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "69d6df3a555ac16f922234f9",
+      "patient_fhir_id": "bc2a74ce-4069-5983-9423-1c175f7854d9",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T054",
+      "case_index": 55,
+      "time_block": 10,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "f4efae356977c3e6db1d472e",
+      "patient_fhir_id": "837b0984-f3bf-5076-baf5-b727decb4bea",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T052",
+      "case_index": 56,
+      "time_block": 10,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "b6b5724cdad99c96a0d0a001",
+      "patient_fhir_id": "7d61fb4e-dc5e-5b1b-a7a6-1d96a3818546",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T059",
+      "case_index": 57,
+      "time_block": 10,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "a0e105397fe459f9ad540eef",
+      "patient_fhir_id": "22a3e422-663a-561c-b305-a0c04bf42235",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T050",
+      "case_index": 58,
+      "time_block": 10,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "99ec0658e0c4b37ac1798c46",
+      "patient_fhir_id": "13df78e7-150e-5eb7-be5f-5f62b2baee87",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T062",
+      "case_index": 59,
+      "time_block": 10,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "7cee0315da660d7678b612e3",
+      "patient_fhir_id": "e635f2dd-aaec-5fef-a100-b9dfb523cbb6",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T071",
+      "case_index": 60,
+      "time_block": 10,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "1479c9147e64755116efc852",
+      "patient_fhir_id": "28dcf33b-0c52-587f-83ad-2a3270976719",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T056",
+      "case_index": 61,
+      "time_block": 11,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "2dc6aa9a4ecdf77dc85c452e",
+      "patient_fhir_id": "bbad4581-d089-54a7-b7a0-8d986c5fb5ec",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T031",
+      "case_index": 62,
+      "time_block": 11,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "5a5f7cbc98a80e1a4f6e3b31",
+      "patient_fhir_id": "568cb149-804c-59e8-bdf5-816e8151cd22",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T056",
+      "case_index": 63,
+      "time_block": 11,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "e88b565b3eebfa84d07aba21",
+      "patient_fhir_id": "1cf9e585-806c-513b-80af-4ca565a28231",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T056",
+      "case_index": 64,
+      "time_block": 11,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "facfba9ab5edcbd30634f5b1",
+      "patient_fhir_id": "bc2a74ce-4069-5983-9423-1c175f7854d9",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T041",
+      "case_index": 65,
+      "time_block": 11,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "3f66ff390a54bf2f82dedd51",
+      "patient_fhir_id": "1ab119a5-aac8-5002-9d2f-b8ff69623387",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T040",
+      "case_index": 66,
+      "time_block": 11,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "ef3f743b0397c2df00366c56",
+      "patient_fhir_id": "4c48ec6f-716c-5bfd-8cee-b9a6b7c6c765",
+      "metadata_family": "out_of_scope",
+      "operation_group": "duration",
+      "template_id": "T044",
+      "case_index": 67,
+      "time_block": 12,
+      "study_family": "other",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "6b48b47dea05709d8dddd909",
+      "patient_fhir_id": "1ab119a5-aac8-5002-9d2f-b8ff69623387",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_comparison",
+      "template_id": "T028",
+      "case_index": 68,
+      "time_block": 12,
+      "study_family": "other",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "150dcba6b064df151fc6eaf3",
+      "patient_fhir_id": "568cb149-804c-59e8-bdf5-816e8151cd22",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_difference",
+      "template_id": "T036",
+      "case_index": 69,
+      "time_block": 12,
+      "study_family": "other",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "b2f05f5bfed93860e52c33a1",
+      "patient_fhir_id": "7ec7078a-0593-5a99-9862-ebbff47fd1c5",
+      "metadata_family": "out_of_scope",
+      "operation_group": "duration",
+      "template_id": "T044",
+      "case_index": 70,
+      "time_block": 12,
+      "study_family": "other",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "a7913ace036061bcf8f67934",
+      "patient_fhir_id": "837b0984-f3bf-5076-baf5-b727decb4bea",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_comparison",
+      "template_id": "T028",
+      "case_index": 71,
+      "time_block": 12,
+      "study_family": "other",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "cd5489d01e1749510fc86424",
+      "patient_fhir_id": "22a3e422-663a-561c-b305-a0c04bf42235",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_difference",
+      "template_id": "T035",
+      "case_index": 72,
+      "time_block": 12,
+      "study_family": "other",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "7d5c2f5180cb8edef4ee7d95",
+      "patient_fhir_id": "d378a59b-aa80-5bc5-812a-7d59b26e7df4",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T002",
+      "case_index": 73,
+      "time_block": 13,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "08ae61222ba27e2b2592fc0d",
+      "patient_fhir_id": "a6e7e991-6801-5425-b435-4ca6b7decfcc",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T012",
+      "case_index": 74,
+      "time_block": 13,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "9b8533703ff8eab23578f84c",
+      "patient_fhir_id": "52462b6a-9b39-5460-9ee6-1a2d7a20394e",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T016",
+      "case_index": 75,
+      "time_block": 13,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "b72b79de6cb86da03d64e09c",
+      "patient_fhir_id": "7ec7078a-0593-5a99-9862-ebbff47fd1c5",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T018",
+      "case_index": 76,
+      "time_block": 13,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "2ca6827b5997d6850fe15912",
+      "patient_fhir_id": "94abdf17-f13a-5eae-aac0-eca407bbfadd",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T019",
+      "case_index": 77,
+      "time_block": 13,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "b47161883d5f7a57232f66b9",
+      "patient_fhir_id": "fa5fbf9c-23e3-5ef3-9cfb-24d20a950314",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T016",
+      "case_index": 78,
+      "time_block": 13,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "a88028190c05dd2074203820",
+      "patient_fhir_id": "a2605b15-4f1b-5839-b4ce-fb7a6bc1005f",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T059",
+      "case_index": 79,
+      "time_block": 14,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "6ed7efd8318499e011227c1c",
+      "patient_fhir_id": "b410dd44-7d65-56f9-974f-2751e8aa80e2",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T073",
+      "case_index": 80,
+      "time_block": 14,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "7101ce2540d2798377dc1ae1",
+      "patient_fhir_id": "dd2bf984-33c3-5874-8f68-84113327877e",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T064",
+      "case_index": 81,
+      "time_block": 14,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "0664f9448edc539d0cb228a4",
+      "patient_fhir_id": "1ab119a5-aac8-5002-9d2f-b8ff69623387",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T043",
+      "case_index": 82,
+      "time_block": 14,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "2ada7dac8b465ec817534276",
+      "patient_fhir_id": "d378a59b-aa80-5bc5-812a-7d59b26e7df4",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T050",
+      "case_index": 83,
+      "time_block": 14,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "72be988adaa416d79f2d4060",
+      "patient_fhir_id": "51d2190c-cc46-56c5-b2ea-363895cbea75",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T049",
+      "case_index": 84,
+      "time_block": 14,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "a291e9eb06fbda894cbb7a33",
+      "patient_fhir_id": "72d56b49-a7ee-5b9a-a679-25d1c836d3c3",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T040",
+      "case_index": 85,
+      "time_block": 15,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "9ab8b4d1a143e09289a29059",
+      "patient_fhir_id": "e635f2dd-aaec-5fef-a100-b9dfb523cbb6",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T040",
+      "case_index": 86,
+      "time_block": 15,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "e1dd13daac1ecaf666f55bc2",
+      "patient_fhir_id": "7ec7078a-0593-5a99-9862-ebbff47fd1c5",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T040",
+      "case_index": 87,
+      "time_block": 15,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "003276cc7c1bc688813d5aca",
+      "patient_fhir_id": "cb70e6ae-90b1-562b-8ab0-467c65d18d5e",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T058",
+      "case_index": 88,
+      "time_block": 15,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "081ba7feccd490013f102984",
+      "patient_fhir_id": "4c9069e4-486b-53a6-8a49-b8520d49ef7e",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T056",
+      "case_index": 89,
+      "time_block": 15,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "dea9a4a3b6415cd9f853cbe4",
+      "patient_fhir_id": "3886cafb-65f4-5789-9213-64678a202f82",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T056",
+      "case_index": 90,
+      "time_block": 15,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "8174f666b42de86d7c8231a4",
+      "patient_fhir_id": "a2605b15-4f1b-5839-b4ce-fb7a6bc1005f",
+      "metadata_family": "out_of_scope",
+      "operation_group": "duration",
+      "template_id": "T044",
+      "case_index": 91,
+      "time_block": 16,
+      "study_family": "other",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "d4b6c0167cad9291a4e1dbec",
+      "patient_fhir_id": "94abdf17-f13a-5eae-aac0-eca407bbfadd",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_comparison",
+      "template_id": "T028",
+      "case_index": 92,
+      "time_block": 16,
+      "study_family": "other",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "8cfda20a9826789d8b58747a",
+      "patient_fhir_id": "bbad4581-d089-54a7-b7a0-8d986c5fb5ec",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_difference",
+      "template_id": "T037",
+      "case_index": 93,
+      "time_block": 16,
+      "study_family": "other",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "715cc33a6ffeecdcb8a10831",
+      "patient_fhir_id": "aeda7084-be35-510e-b171-f00596aed99f",
+      "metadata_family": "out_of_scope",
+      "operation_group": "duration",
+      "template_id": "T044",
+      "case_index": 94,
+      "time_block": 16,
+      "study_family": "other",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "df5a3dc1bac62f8679a50e44",
+      "patient_fhir_id": "bc2a74ce-4069-5983-9423-1c175f7854d9",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_comparison",
+      "template_id": "T028",
+      "case_index": 95,
+      "time_block": 16,
+      "study_family": "other",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "613a190f2257871bd0c6a395",
+      "patient_fhir_id": "7ec7078a-0593-5a99-9862-ebbff47fd1c5",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_difference",
+      "template_id": "T036",
+      "case_index": 96,
+      "time_block": 16,
+      "study_family": "other",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "4f7a1d19e6fadf0e7b619491",
+      "patient_fhir_id": "cb70e6ae-90b1-562b-8ab0-467c65d18d5e",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T012",
+      "case_index": 97,
+      "time_block": 17,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "2d6aa3feeed3bfeb72da5fb2",
+      "patient_fhir_id": "3886cafb-65f4-5789-9213-64678a202f82",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T038",
+      "case_index": 98,
+      "time_block": 17,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "4b635ac1325eaf0dd75988d5",
+      "patient_fhir_id": "4c9069e4-486b-53a6-8a49-b8520d49ef7e",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T010",
+      "case_index": 99,
+      "time_block": 17,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "8f44537ed71e3c69bfd87f37",
+      "patient_fhir_id": "4c48ec6f-716c-5bfd-8cee-b9a6b7c6c765",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T020",
+      "case_index": 100,
+      "time_block": 17,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "dab078420665e61aa6883a1d",
+      "patient_fhir_id": "22a3e422-663a-561c-b305-a0c04bf42235",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T011",
+      "case_index": 101,
+      "time_block": 17,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "2374026e2104232fe78b6141",
+      "patient_fhir_id": "837b0984-f3bf-5076-baf5-b727decb4bea",
+      "metadata_family": "lookup_counting",
+      "operation_group": "lookup_counting",
+      "template_id": "T017",
+      "case_index": 102,
+      "time_block": 17,
+      "study_family": "lookup_counting",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "c0a87bdad4a3ac34d3210642",
+      "patient_fhir_id": "52462b6a-9b39-5460-9ee6-1a2d7a20394e",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T047",
+      "case_index": 103,
+      "time_block": 18,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "885642fd5ea14ba51403e397",
+      "patient_fhir_id": "4c9069e4-486b-53a6-8a49-b8520d49ef7e",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T064",
+      "case_index": 104,
+      "time_block": 18,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "3e53f449eb365ab960c6aa59",
+      "patient_fhir_id": "28dcf33b-0c52-587f-83ad-2a3270976719",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T054",
+      "case_index": 105,
+      "time_block": 18,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "0a36ca6e9f221dc69fc7f8de",
+      "patient_fhir_id": "a6e7e991-6801-5425-b435-4ca6b7decfcc",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T022",
+      "case_index": 106,
+      "time_block": 18,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "666412cc886fa97817ea1d59",
+      "patient_fhir_id": "4365e125-c049-525a-9459-16d5e6947ad2",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T049",
+      "case_index": 107,
+      "time_block": 18,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "65a61f863c5c62e515fe477a",
+      "patient_fhir_id": "aeda7084-be35-510e-b171-f00596aed99f",
+      "metadata_family": "temporal_selection",
+      "operation_group": "temporal_selection",
+      "template_id": "T049",
+      "case_index": 108,
+      "time_block": 18,
+      "study_family": "temporal_selection",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "9fd9c725dd075244d0eab9a8",
+      "patient_fhir_id": "aeda7084-be35-510e-b171-f00596aed99f",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T040",
+      "case_index": 109,
+      "time_block": 19,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "fa56e6f995ce65468f6bac6a",
+      "patient_fhir_id": "a2605b15-4f1b-5839-b4ce-fb7a6bc1005f",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T056",
+      "case_index": 110,
+      "time_block": 19,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "6971ce16d647c323dc5a6150",
+      "patient_fhir_id": "52462b6a-9b39-5460-9ee6-1a2d7a20394e",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T041",
+      "case_index": 111,
+      "time_block": 19,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    },
+    {
+      "question_id": "9c3f5b2ff13b604dcdc88353",
+      "patient_fhir_id": "51d2190c-cc46-56c5-b2ea-363895cbea75",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T057",
+      "case_index": 112,
+      "time_block": 19,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "abd48dc45ba90022382e02c9",
+      "patient_fhir_id": "22a3e422-663a-561c-b305-a0c04bf42235",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T032",
+      "case_index": 113,
+      "time_block": 19,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "2c5b0c8baa3288cd5ae25871",
+      "patient_fhir_id": "c0d83ad6-0b65-5fd6-b241-f50cf552232c",
+      "metadata_family": "numerical_aggregation",
+      "operation_group": "numerical_aggregation",
+      "template_id": "T033",
+      "case_index": 114,
+      "time_block": 19,
+      "study_family": "numerical_aggregation",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "cf5d62cfdfa23393641e93c8",
+      "patient_fhir_id": "5f3dcdb5-bd27-58f5-b990-859b6bcc2d73",
+      "metadata_family": "out_of_scope",
+      "operation_group": "duration",
+      "template_id": "T044",
+      "case_index": 115,
+      "time_block": 20,
+      "study_family": "other",
+      "followup_order": [
+        "C",
+        "W",
+        "R"
+      ]
+    },
+    {
+      "question_id": "207e6d0a6a9b812afab27ac7",
+      "patient_fhir_id": "5f3dcdb5-bd27-58f5-b990-859b6bcc2d73",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_comparison",
+      "template_id": "T028",
+      "case_index": 116,
+      "time_block": 20,
+      "study_family": "other",
+      "followup_order": [
+        "C",
+        "R",
+        "W"
+      ]
+    },
+    {
+      "question_id": "6e592987e710b1b2fcd180e0",
+      "patient_fhir_id": "51d2190c-cc46-56c5-b2ea-363895cbea75",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_difference",
+      "template_id": "T035",
+      "case_index": 117,
+      "time_block": 20,
+      "study_family": "other",
+      "followup_order": [
+        "R",
+        "C",
+        "W"
+      ]
+    },
+    {
+      "question_id": "171cf2d1223b4c0cf47224a0",
+      "patient_fhir_id": "568cb149-804c-59e8-bdf5-816e8151cd22",
+      "metadata_family": "out_of_scope",
+      "operation_group": "duration",
+      "template_id": "T044",
+      "case_index": 118,
+      "time_block": 20,
+      "study_family": "other",
+      "followup_order": [
+        "R",
+        "W",
+        "C"
+      ]
+    },
+    {
+      "question_id": "5f192a749e3dc5e91eff2fd7",
+      "patient_fhir_id": "8d7b633e-0f92-5448-a56d-36c69210e860",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_comparison",
+      "template_id": "T028",
+      "case_index": 119,
+      "time_block": 20,
+      "study_family": "other",
+      "followup_order": [
+        "W",
+        "R",
+        "C"
+      ]
+    },
+    {
+      "question_id": "887f1892fedc575d080e8217",
+      "patient_fhir_id": "23069939-0c4c-517b-a3ec-baae0d4e3988",
+      "metadata_family": "out_of_scope",
+      "operation_group": "paired_difference",
+      "template_id": "T037",
+      "case_index": 120,
+      "time_block": 20,
+      "study_family": "other",
+      "followup_order": [
+        "W",
+        "C",
+        "R"
+      ]
+    }
+  ],
+  "source_sha256": {
+    "final_dataset/questions_answers_sql_fhir.csv": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+    "manifests/question_families.csv": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+    "manifests/split.json": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+    "manifests/final_evaluation_strata_20261015.json": "6c0410ae9fc581bf5cf6918f95d4d97407a8eb4b19d488cba6815937a1bbf965"
+  }
+}

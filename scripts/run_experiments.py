@@ -76,7 +76,7 @@ def build_parser():
                         help="One base model shared by every system; default: $MODEL, then MODEL in config.yml, "
                              "then gpt-6-luna")
     parser.add_argument("--base_url", default=None)
-    parser.add_argument("--team_strategy", choices=["multi_agent", "multi_agent_v3", "multi_agent_v4", "multi_agent_v5", "multi_agent_v6", "multi_agent_v7"], default="multi_agent",
+    parser.add_argument("--team_strategy", choices=["multi_agent", "multi_agent_v3", "multi_agent_v4", "multi_agent_v5", "multi_agent_v6", "multi_agent_v7", "multi_agent_v8"], default="multi_agent",
                         help="Team implementation; arm names stay stable while run identity records the actual strategy")
     parser.add_argument("--max_total_tokens", type=int, default=None, help="Per-question ceiling for every system")
     parser.add_argument("--max_tool_calls", type=int, default=None, help="Per-question ceiling for every system")
