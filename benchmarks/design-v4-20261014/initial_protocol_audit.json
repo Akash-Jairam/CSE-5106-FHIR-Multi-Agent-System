@@ -1,0 +1,363 @@
+{
+  "status": "PASS",
+  "scope": "Initial saved-file and journal snapshots; operational/provenance only, no scoring/ranking/completion claim",
+  "started_utc": "2026-10-15T03:11:21.995578+00:00",
+  "finished_utc": "2026-10-15T03:11:22.462175+00:00",
+  "helper_sha256": "1b1c162a3f11d2454a277f4889449c8d690c795a30b03189172c839d9f77cabf",
+  "dependencies": {
+    "prelaunch_audit_source.py": "635717e2189d3d371e9fd7dd0bedc92d287a76f3c2ece4ac3b4c3aaae6a4b18d",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf"
+  },
+  "frozen_source_files_verified": 142,
+  "source_archive_verified": true,
+  "runtime_sources_and_exact4_archive_verified": true,
+  "design_dataset_split_verified": true,
+  "actual_provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "actual_identities_equal_prelaunch": true,
+  "same_exact_ordered300_inputs_each": true,
+  "global_caps": [
+    200000,
+    30
+  ],
+  "phase_caps": {
+    "planner": [
+      10000,
+      0
+    ],
+    "solver": [
+      190000,
+      30
+    ]
+  },
+  "no_late_audit_or_targeted_phase_observed": true,
+  "validated_plans_observed_in_solver_context": 9,
+  "no_model_host_boundaries_observed": 9,
+  "independently_verified_uncompressed_artifact_bytes": 11891969,
+  "arms": {
+    "ordinary_single_agent": {
+      "scheduled_rows": 300,
+      "saved_first_attempts_checked": 9,
+      "gzip_owner_sha_crc_lossless_restorations": 9,
+      "terminal_errors": 0,
+      "unknown_usage_calls": 0,
+      "reported_overshoots": 0,
+      "phase_fatals": 0,
+      "phase_counts": {},
+      "plan_visibility": {},
+      "release_policies": {},
+      "raw_snapshot_sha256": "d632d96cf5c116ed0ae12568f016b2b7f319266a8c5c00d29b3e952fbf513cd3",
+      "raw_snapshot_bytes": 743955,
+      "snapshot_observed_utc": "2026-10-15T03:11:22.357254+00:00",
+      "team_operational_metadata": []
+    },
+    "ordinary_multi_agent": {
+      "scheduled_rows": 300,
+      "saved_first_attempts_checked": 9,
+      "gzip_owner_sha_crc_lossless_restorations": 9,
+      "terminal_errors": 0,
+      "unknown_usage_calls": 0,
+      "reported_overshoots": 0,
+      "phase_fatals": 0,
+      "phase_counts": {
+        "planner": 9,
+        "solver": 9
+      },
+      "plan_visibility": {
+        "True": 9
+      },
+      "release_policies": {
+        "source_valid_primary_preserved": 9
+      },
+      "raw_snapshot_sha256": "3743f352b255c8134a4b4bf4492a1fa7e5b76a59bdd757d6da146f8cf4ea1d3b",
+      "raw_snapshot_bytes": 938588,
+      "snapshot_observed_utc": "2026-10-15T03:11:22.454390+00:00",
+      "team_operational_metadata": [
+        {
+          "question_id": "00b98d0bf4d50497625b257e",
+          "audit_sha256": "7032e10b22737b180f7e3dc35a7b7d8d66ee7ee674a5bd25f586d94e6884921a",
+          "plan_sha256": "f3e7e9b5bb946884b4af35ac9ef2e91cd15f930eb52eca262707823d4b21126a",
+          "plan_visible": true,
+          "llm_calls": 5,
+          "phases": [
+            {
+              "phase": "planner",
+              "tokens": 1773,
+              "tool_calls": 0,
+              "token_cap": 10000,
+              "tool_cap": 0,
+              "fatal": false
+            },
+            {
+              "phase": "solver",
+              "tokens": 48937,
+              "tool_calls": 5,
+              "token_cap": 190000,
+              "tool_cap": 30,
+              "fatal": false
+            }
+          ]
+        },
+        {
+          "question_id": "00beff4406c2ee10ac9621fe",
+          "audit_sha256": "b4c99c0c2405ed9aac80d1c342353c5e54692a82d0bef40f2f25f922a28107a2",
+          "plan_sha256": "18f9b6651feda5521038c6993e1a51b443e21975d68a85a426f395cb288de330",
+          "plan_visible": true,
+          "llm_calls": 5,
+          "phases": [
+            {
+              "phase": "planner",
+              "tokens": 1885,
+              "tool_calls": 0,
+              "token_cap": 10000,
+              "tool_cap": 0,
+              "fatal": false
+            },
+            {
+              "phase": "solver",
+              "tokens": 71808,
+              "tool_calls": 7,
+              "token_cap": 190000,
+              "tool_cap": 30,
+              "fatal": false
+            }
+          ]
+        },
+        {
+          "question_id": "014255e2a1eb9d957a380379",
+          "audit_sha256": "342c586762db5a97bb9e96d4749c44e88d286fb12ad0524c74b1e737e3bbe90a",
+          "plan_sha256": "ca339bf9989a5d98ae6a379f6ae5431da821363b0e73015e635ad8af60b1eef4",
+          "plan_visible": true,
+          "llm_calls": 4,
+          "phases": [
+            {
+              "phase": "planner",
+              "tokens": 1758,
+              "tool_calls": 0,
+              "token_cap": 10000,
+              "tool_cap": 0,
+              "fatal": false
+            },
+            {
+              "phase": "solver",
+              "tokens": 17658,
+              "tool_calls": 4,
+              "token_cap": 190000,
+              "tool_cap": 30,
+              "fatal": false
+            }
+          ]
+        },
+        {
+          "question_id": "015be3d8662ca93c5c0bab0b",
+          "audit_sha256": "854fb46085abda06473d429f6cc9d4a379f422fe65240a048308212b2e05d715",
+          "plan_sha256": "3be1a13e1fe0fc2e2c9e584c8f6ff9359b32fbb3664a697f0fab0c0fb5651737",
+          "plan_visible": true,
+          "llm_calls": 4,
+          "phases": [
+            {
+              "phase": "planner",
+              "tokens": 1664,
+              "tool_calls": 0,
+              "token_cap": 10000,
+              "tool_cap": 0,
+              "fatal": false
+            },
+            {
+              "phase": "solver",
+              "tokens": 24593,
+              "tool_calls": 5,
+              "token_cap": 190000,
+              "tool_cap": 30,
+              "fatal": false
+            }
+          ]
+        },
+        {
+          "question_id": "0186746594c1cf90e38d4ffd",
+          "audit_sha256": "0a63e43cc7d8a6038eabaa9b90e3d5ff7918e4d86a67d47a8109bf8ff1f4fb65",
+          "plan_sha256": "44011ddc99ca9b064b6a8c23d3aba4176a3665d406f14d06ee058e77243945de",
+          "plan_visible": true,
+          "llm_calls": 4,
+          "phases": [
+            {
+              "phase": "planner",
+              "tokens": 1793,
+              "tool_calls": 0,
+              "token_cap": 10000,
+              "tool_cap": 0,
+              "fatal": false
+            },
+            {
+              "phase": "solver",
+              "tokens": 39095,
+              "tool_calls": 4,
+              "token_cap": 190000,
+              "tool_cap": 30,
+              "fatal": false
+            }
+          ]
+        },
+        {
+          "question_id": "01bb1845215fb7cc77678534",
+          "audit_sha256": "dc29f70b2cae2e2734b7be6b7e9f6be7c64daf2eecb1b372606c55995aaeb04e",
+          "plan_sha256": "c7686ba33e404452a6f2461b3f7fee55159cc69fd03ba4f2a23b1cabd78a7918",
+          "plan_visible": true,
+          "llm_calls": 4,
+          "phases": [
+            {
+              "phase": "planner",
+              "tokens": 1746,
+              "tool_calls": 0,
+              "token_cap": 10000,
+              "tool_cap": 0,
+              "fatal": false
+            },
+            {
+              "phase": "solver",
+              "tokens": 31304,
+              "tool_calls": 4,
+              "token_cap": 190000,
+              "tool_cap": 30,
+              "fatal": false
+            }
+          ]
+        },
+        {
+          "question_id": "02a069698a803a8419fa294c",
+          "audit_sha256": "5b89e0f5458dc30d41cd02a1205aa51690c8756894ae270ef917b4e7ed61784a",
+          "plan_sha256": "1db5f616e191e98ed040da68b98a55e37930a6b111c4443323fd049961eeac6b",
+          "plan_visible": true,
+          "llm_calls": 8,
+          "phases": [
+            {
+              "phase": "planner",
+              "tokens": 1728,
+              "tool_calls": 0,
+              "token_cap": 10000,
+              "tool_cap": 0,
+              "fatal": false
+            },
+            {
+              "phase": "solver",
+              "tokens": 109901,
+              "tool_calls": 8,
+              "token_cap": 190000,
+              "tool_cap": 30,
+              "fatal": false
+            }
+          ]
+        },
+        {
+          "question_id": "05a9aa5bb494b962444ac354",
+          "audit_sha256": "148ec0c81c19b5a36f5ff052da06a570d9ce4ef8926daba3914b980d45f3b469",
+          "plan_sha256": "2060a4894c9cae70b69ede0ed876105053eafddc50062de45cdbb2c779c4220c",
+          "plan_visible": true,
+          "llm_calls": 5,
+          "phases": [
+            {
+              "phase": "planner",
+              "tokens": 1850,
+              "tool_calls": 0,
+              "token_cap": 10000,
+              "tool_cap": 0,
+              "fatal": false
+            },
+            {
+              "phase": "solver",
+              "tokens": 54048,
+              "tool_calls": 5,
+              "token_cap": 190000,
+              "tool_cap": 30,
+              "fatal": false
+            }
+          ]
+        },
+        {
+          "question_id": "05ffeff678368c17b77078d6",
+          "audit_sha256": "0bbf6cad3b7d8a7533798aa942a76d7772ade6d5e3b1118260a681c5bf7f41a9",
+          "plan_sha256": "68c5c9a82bbaf0baa53daafdc7df495a27e36623e7cd49a46e7b5e6a7db583ba",
+          "plan_visible": true,
+          "llm_calls": 3,
+          "phases": [
+            {
+              "phase": "planner",
+              "tokens": 1718,
+              "tool_calls": 0,
+              "token_cap": 10000,
+              "tool_cap": 0,
+              "fatal": false
+            },
+            {
+              "phase": "solver",
+              "tokens": 10203,
+              "tool_calls": 3,
+              "token_cap": 190000,
+              "tool_cap": 30,
+              "fatal": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "journals": [
+    {
+      "file": "azure-diagnostics-2038-03ffd41d32294ff68d991cadb3756628.jsonl",
+      "sha256": "8973d2bcc8655709355f621ce0fd74117dc29a0dc7712029ed6a2f7d5c7c4447",
+      "bytes": 164430,
+      "counts": {
+        "start": 67,
+        "end": 66,
+        "success": 66
+      },
+      "matched_pairs": 66,
+      "unmatched_latest_starts": 1,
+      "older_unmatched_starts_unknown_not_proven_inflight": 0,
+      "trailing_partial_bytes": 0,
+      "native_default_httpx2_ends": 66,
+      "transport_metadata_unavailable_ends": 0,
+      "unknown_usage_ends": 0,
+      "fd_count_min": 9,
+      "fd_count_max": 10,
+      "snapshot_observed_utc": "2026-10-15T03:11:22.456692+00:00"
+    },
+    {
+      "file": "azure-diagnostics-2088-ce15e402a4ac42d58ccf85c075cb13a7.jsonl",
+      "sha256": "444a3043c54235765096ad75e7c526230b3f22b5445ccd98db3b4a5a50872e3f",
+      "bytes": 151922,
+      "counts": {
+        "start": 62,
+        "end": 61,
+        "success": 61
+      },
+      "matched_pairs": 61,
+      "unmatched_latest_starts": 1,
+      "older_unmatched_starts_unknown_not_proven_inflight": 0,
+      "trailing_partial_bytes": 0,
+      "native_default_httpx2_ends": 61,
+      "transport_metadata_unavailable_ends": 0,
+      "unknown_usage_ends": 0,
+      "fd_count_min": 9,
+      "fd_count_max": 10,
+      "snapshot_observed_utc": "2026-10-15T03:11:22.458609+00:00"
+    }
+  ],
+  "journal_event_totals": {
+    "start": 129,
+    "end": 127,
+    "success": 127
+  },
+  "anomalies": [],
+  "limits": [
+    "Each raw result and journal was read once; snapshots occur at different times while owned runs continue.",
+    "All completed attempts present in those two raw snapshots were checked; later saves are outside this report.",
+    "Latest unmatched starts and partial journal tails may be in-flight; older unmatched starts remain unknown logging evidence.",
+    "A public default transport class does not identify the selected proxy/network route; successful status may remain unknown.",
+    "Usage/status missing from best-effort journals remains unknown. No per-row accuracy or reference comparison was performed.",
+    "Source/owner/time checks and advice provenance do not establish question semantics or forecast benchmark accuracy."
+  ]
+}
