@@ -1,0 +1,33 @@
+Independent read-only scientific review — prospective evaluation/generalization amendment
+2026-10-15. No inference, new answer/program/question inspection, scoring, private configuration, runtime edits or external patient-data transmission.
+
+Reviewed source identities
+- docs/evaluation_generalization_protocol_20261015.txt SHA2563271d910d6966d01c402cd43238caad775690b5d67722ac77b8893ca0c74c567
+- docs/design_generalization_requirements_20261015.txt SHA2567325c85b99f25b159f62760405c1147f521bfb998aa7b98f18f47a938ef53045
+- manifests/final_evaluation_strata_20261015.json SHA256cbfeabc9e731168a96da98a2b00569a34ba4716d3d538f23327a0724a965d920
+
+Disposition: no scientific blocker in the proposed scope/claim boundaries.
+
+Independent metadata checks
+Pandas usecols was restricted to question_id/patient_fhir_id and question_id/family. The four manifest partitions are unique, mutually disjoint and cover all2931 input IDs exactly:1174 development-patient questions/32patients,60pilot/3patients,300adaptive/58patients,1397confirmation/59patients. Nested confirmation1184in-scope and213other are contained correctly. Family counts independently match380lookup/count,639temporal,165numerical,213other. The nominal-new-patient view is18questions/1patient. All seven declared source SHA256 values match current public files, including the opaque full dataset digest. I did not independently reread47 historical outputs or reproduce the321-attempt exposure audit in this review; those counts rely on the separately bound root audit, not on this partition calculation.
+
+What is accurately stated
+- Fixed300 is adaptive development, with a win serving selection rather than confirmatory proof.
+-1397 is an audited question/outcome-unexposed stratum integrated once into a frozen full2931 run. Its1379 questions on already exposed patients do not establish a new-patient cohort.
+- One nominally outcome-unexposed patient cannot support a population bootstrap or a powered clinical-generalization claim; availability preflight is disclosed.
+- Prior template inspection prevents an untouched-template claim. No new random partition erases prior exposure.
+- A failed/inconclusive confirmation is not reused for a fresh claim after retuning. Full completion and benchmark benefit are distinct.
+- Model-independent interfaces are design requirements; cross-model/cross-task performance remains future/unmeasured.
+- FHIRPath-QA uses the same MIMIC-IV-FHIR demo; Synthea would support a synthetic structural test, not real-patient transportability.
+- Exact JSON/quotes/execution/citations establish limited properties, not semantic oracle truth. Genericity constraints exclude benchmark-ID/answer-kind shortcuts.
+
+Two recommended clarifications before the eventual final freeze
+1. The final analysis plan should specify a question-weighted paired estimand and exact bootstrap algorithm. Resample patient IDs retaining all paired questions and all planned repetitions; recompute total paired credit divided by total question instances. If three repetitions are planned, average the paired result across all predeclared repeats rather than pick a best repeat. A mean of patient means changes the estimand. Current documents correctly require freezing analysis/repetitions later, so this is not a blocker to development.
+2. State explicitly that the patient-block interval is conditional on this cohort/task-template distribution and the assumed cluster sampling model. It accounts for within-patient dependence but not unknown cross-template dependence, prior adaptive selection, inaccessible pretraining exposure or external-site shift. “Question-disjoint” should continue to mean disjoint audited question IDs/outcomes, not guaranteed uninspected wording/templates or independent patient records. The manifest already carries this key limitation.
+
+Primary-source accuracy
+Cawley/Talbot2010 and Dwork2015 support selection/adaptation concerns; neither guarantees an unbiased reused-set result here. The cited Davis et al. JAMIA article does discuss same-patient aggregation leakage (online2023, January2024 issue); applying this to analyst/agent architecture selection is explicitly labelled an inference, which is appropriate. Recht2019 supports avoiding automatic attribution of fresh-set drops to adaptation. Those sources do not prove that this architecture generalizes, and the documents do not claim that they do.
+https://jmlr.org/papers/v11/cawley10a.html
+https://arxiv.org/abs/1506.02629
+https://pmc.ncbi.nlm.nih.gov/articles/PMC10746313/
+https://proceedings.mlr.press/v97/recht19a.html

@@ -1,0 +1,120 @@
+Executable critique / repair: primary-source verification
+Reviewed: 2026-10-14. Read-only research for the FHIR architecture decision.
+No model/provider/FHIR calls, no active repository changes, and no patient or benchmark payload was sent to web services. Sources below are original papers, author/lab pages, and official author repositories. Proposed protocol is our inference, not an empirically validated result.
+
+Decision
+An executable disagreement is useful evidence, but it does not establish which program implements the natural-language question. None of the inspected methods supplies a deployable, infallible semantic oracle for this FHIR benchmark. The strongest transferable delta is a bounded, primary-preserving review over real execution traces and a small whitelist of independently grounded semantic constraints. A free-form critic that invents expected patient answers or ranks two whole programs merely relocates the same semantic error.
+
+1. CRITIC (Gou et al., ICLR 2024)
+First submitted 2023-05-19; final arXiv v4 2024-02-21.
+Paper: https://arxiv.org/html/2305.11738v4
+Official code linked by paper: https://github.com/microsoft/ProphetNet/tree/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC
+Pinned repository commit: 5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53 (2024-04-28).
+
+Paper evidence (Algorithm 1; Sections 4.4, D.2.2):
+The algorithm verifies with tool feedback, then revises; a critique declaring correctness is an early stopping condition. CRITIC* is explicitly oracle-routed to initially wrong samples, whereas ordinary CRITIC corrects all samples. In GSM8K's 1,319 cases, four rounds fixed 32.2% of initially wrong programs, but damaged 41 initially correct programs: 95.7% retention, a 4.3% loss among initially correct outputs. The 14.3% figure in its error table is the share of final errors attributable to wrong correction, not the fraction of all answers damaged. Thus external execution feedback can improve overall accuracy while harming valid primaries. These are math-program results, not FHIR transfer estimates.
+
+Actual program loop:
+https://github.com/microsoft/ProphetNet/blob/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC/src/program/critic.py
+- Default max_iter=4; the for-loop runs all four rounds.
+- Prompt = question + previous Python + interpreter report + numeric execution output when use_tool=True. Gold answer is printed/evaluated later; it is not included in the critic prompt and does not control repair routing.
+- One call generates critique (max_tokens=500); a second generates a whole replacement program (max_tokens=400); safe_execute evaluates it.
+- If a prior prediction is None, the next round falls back to the latest non-None program. Identical code reuses the previous result, but does not break the loop.
+- This program implementation has no early-stop-on-correct branch, despite the general paper algorithm.
+- No supplied expected-output tests validate semantic correctness here. Execution proves what the program did, not whether it answered the question.
+
+Transfer judgment:
+Use interpreter reports and explicit observed outputs; do not import CRITIC* gains or imply that its program loop protects correct primaries. Whole rewrites and repeated speculative criticism are costly and can erase good behavior.
+
+2. Teaching Large Language Models to Self-Debug (Chen et al., ICLR 2024)
+First submitted 2023-04-11; inspected arXiv v2 2023-10-05.
+Paper: https://arxiv.org/pdf/2304.05128v2
+No official author implementation was verified in the paper/author search; do not label third-party implementations official.
+
+Paper evidence (Sections 2–3, Table 2, Appendix G.5, PDF page 76 / printed page 76):
+Generation is followed by explanation and correctness feedback. When provided unit tests exist, actual execution supplies feedback; Spider has no provided semantic tests, so its explanation-based feedback still relies on model judgment. The table's Spider gains are model-dependent: Codex 81.3 to 84.1, GPT-4 73.2 to 73.6; do not generalize the larger abstract gain to every model.
+Appendix G.5 has a concrete preservation rule for the MBPP chat setup. After a candidate passes the one problem-provided unit test, allow one further correction attempt; use the replacement only if it also passes that test, otherwise retain the original, then stop. This protects a known test property, not all correctness. Its expected result comes from the task-provided test; we have no analogous expected-patient-answer oracle at inference time.
+
+Transfer judgment:
+Preserve already established properties and stop after a bounded attempt. Executing self-generated tests does not give them the reliability of the paper's provided tests.
+
+3. CHESS (Talaei et al.)
+First submitted 2024-05-27; inspected v3 2024-11-25.
+Paper: https://arxiv.org/html/2405.16755v3
+Author lab authenticates repository: https://ldr.stanford.edu/research/
+Official repository commit: 3d6e835f858d26885d21d4bc0215aeecf855efbe (2024-11-13).
+Paper Sections 3.1 and 3.3: Candidate Generator executes and revises syntax-error or empty-result queries. Unit Tester generates natural-language tests highlighting differences among candidates, then calls an LLM to judge each candidate against each test. Resource-constrained configuration omits Unit Tester and generates one candidate. This is not executable semantic unit testing.
+
+Execution status source:
+https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/src/database_utils/execution.py
+get_execution_status returns EMPTY_RESULT for None or []; exceptions become SYNTACTICALLY_INCORRECT. Code that would classify zero count, None cells, or all-None rows is commented out, so do not claim those are active failure rules.
+
+Revision source:
+https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/src/workflow/agents/candidate_generator/tool_kit/revise.py
+Revise marks every status other than SYNTACTICALLY_CORRECT as need_fixing, asks the LLM for a refined SQL query, and otherwise copies the old query. Therefore empty-result repair is active; the distinction above matters. FHIR may legitimately return empty/null/zero, so this trigger must not be copied.
+
+Test generation sources:
+https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/src/workflow/agents/unit_tester/tool_kit/generate_unit_test.py
+https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/templates/template_generate_unit_tests.txt
+Generation is skipped for one candidate or one execution-result cluster. Otherwise candidates and observed results are shown to the model; tests are strings describing SQL logic, selected to promote candidates the model thinks correct. A hardcoded extra string asks that only the best answer pass. These are semantic opinions, not independent executable counterexamples.
+
+Test evaluation source:
+https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/src/workflow/agents/unit_tester/tool_kit/evaluate.py
+Each test causes an LLM request over all candidates. Its passed/failed scores are summed; ties favor the largest execution cluster, then the first candidate. Matching observed results or winning natural-language tests is not a proof of equivalence or correctness.
+
+Budget evidence:
+https://github.com/ShayanTalaei/CHESS/blob/3d6e835f858d26885d21d4bc0215aeecf855efbe/run/configs/CHESS_IR_CG_UT.yaml
+The supplied configuration samples 10 candidates from each of two generators and asks for 20 tests, plus the hardcoded best-answer test. This is not a free fixed-budget bolt-on.
+
+4. CHASE-SQL (Pourreza et al., ICLR 2025)
+First submitted 2024-10-02.
+Paper: https://arxiv.org/html/2410.01943v1
+Query fixer uses syntax-error / empty-result feedback, at most beta=3 attempts. Final selection is a separately fine-tuned binary selector comparing both orderings of candidate pairs. Table 4 evaluates selection over 21 candidates; this performance does not describe one extra same-model critic within our budget.
+The selector's training procedure includes generating candidates with ground-truth SQL hints when a training instance lacks correct candidates. That is disclosed training supervision, not evidence that an untrained runtime selector has an oracle. Avoid importing its gains as a same-model prompt-only architecture result.
+Official lab page links the paper but no CHASE-SQL code: https://ldr.stanford.edu/research/
+Verified first-author public supplement: https://github.com/MohammadrezaPourreza/CHASE-SQL-REBUTTAL
+Its inspected tree contains README plus analysis figures, no implementation. I did not verify an official executable implementation. Search results naming VineetV2/chase-sql, kungfuai/chase-sql, and meteor041/CHASE explicitly identify reproductions; excluded from mechanism claims.
+
+5. Revisit Self-Debugging with Self-Generated Tests (Chen et al., ACL 2025)
+Preprint 2025-01-22; final conference July 2025.
+Primary final paper: https://aclanthology.org/2025.acl-long.881.pdf
+Paper Section 3.2 finds post-execution self-debugging with generated tests can reduce performance even for GPT-4o and Claude 3.5 Sonnet on HumanEval; detailed feedback can worsen results. A wrong generated expected value makes correct code appear defective. The proposed in-execution alternative exposes intermediate states while withholding generated expected values / pass-fail labels from repair. The authors also distinguish published methods' public/hidden oracle use from true self-generated-test feedback. This directly supports trace inspection over treating LLM-generated expected answers as truth. It remains model reasoning over program states, not formal verification; evidence comes from self-contained Python tasks. No official implementation was verified from the final paper.
+
+6. SHARE (Qu et al., ACL 2025)
+First preprint 2025-05-31.
+Paper: https://arxiv.org/html/2506.00391v1
+Official repo linked by paper: https://github.com/quge2023/SHARE/tree/a3c76f4bde46c8820fd79809213e3822a52aa7c3
+Commit a3c76f4bde46c8820fd79809213e3822a52aa7c3 (2025-11-03).
+SHARE decomposes SQL into action trajectories and uses three trained SLM assistants for schema and logic repair. Appendix C.4 mixes verified-to-identical trajectories into training at a 4:1 erroneous-to-identity ratio, reducing reported overcorrection from 15.52% (MAGIC) to 11.20%. This is useful evidence that correction should explicitly learn/preserve no-change behavior; it is not a no-training prompt result.
+
+Training validation code:
+https://github.com/quge2023/SHARE/blob/a3c76f4bde46c8820fd79809213e3822a52aa7c3/src/train/sr_validation.py
+Its trajectory round-trip validation compares execution of reconstructed SQL with original SQL; mismatches additionally ask an LLM about equivalence. Preserving original SQL behavior establishes representation fidelity, not whether the original SQL matches the natural-language question. Training/evaluation gold use cannot become a runtime FHIR verifier.
+
+7. SQLDriller (Yang et al., SIGMOD June 2025)
+Primary paper: https://ipads.se.sjtu.edu.cn/zh/publications/SQLDriller.pdf
+Publisher DOI: https://doi.org/10.1145/3725271
+Author page authenticates source: https://yicun0720.github.io/yicun/
+Official repo commit: 651401923af77db68f7f32b060f57da1b8e1e444 (2025-12-15).
+The paper uses SQL equivalence/counterexample machinery and LLM natural-language execution over generated small databases. Its error analysis attributes remaining false fixes to inaccurate LLM NL execution. Of manually correct mappings, it retains 309/317 Spider and 218/228 BIRD cases, damaging 2.5% and 4.4%, respectively. Thus generated SQL disagreement does not resolve semantic truth. These are dataset-repair samples, not this FHIR benchmark.
+
+Actual preservation / oracle boundary:
+https://github.com/SJTU-IPADS/SQLDriller/blob/651401923af77db68f7f32b060f57da1b8e1e444/dataset_refine.py
+Lines 19–49 ask GPT to infer expected NL results on each counterexample table, sampling five NL executions when there are at most five counterexamples and majority-voting them; otherwise one. Lines 148–149 keep the original if no counterexample exists. Lines 155–175 score candidates against those GPT-inferred results; a candidate must strictly beat the original score to replace it. This is a conservative tie policy, but GPT-inferred expected results remain a fallible oracle.
+https://github.com/SJTU-IPADS/SQLDriller/blob/651401923af77db68f7f32b060f57da1b8e1e444/inference_optimize.py
+The inference selector also uses generated counterexamples and the same LLM-NL execution helper. It is not merely executing two candidate SQLs and mechanically knowing the right side.
+
+Concrete bounded protocol (proposal; not implemented)
+A. Keep one primary, freeze its program/artifact/ledger and actual execution digest after normal source checks. Review may never mutate the saved primary in place. Preserve existing hard source/completeness guards.
+B. Same base model throughout. Fixed prospective caps: primary 160,000 tokens / 22 total tools; critic 20,000 / 4; repair 20,000 / 4 = 200,000 / 30 globally. Code executions, reference retrievals, and final source validations all consume those tool allocations. No parallel full solutions, best-of-N pool, learned selector, hidden oracle, free model call, or uncharged diagnostic execution. If reservation harms primary quality, that is a measured architecture cost.
+C. Critic gets question, public semantic guide, frozen primary code, compact actual execution trace, available source paths, and remaining budget. Its only output is PASS, UNKNOWN, or one proposed local defect with an exact question quote, code location, source field/reference path, and one small bounded probe. It must not supply an invented patient answer / scalar expected value. A plausible critique alone grants no rewrite.
+D. A host-owned allowlist validates the claimed operation and executes checks on actual frozen/fetched source records. Probe generation can locate evidence; it cannot define the truth criterion. The three useful generic families are:
+  1. Time: for a deliberately narrow, independently parsed phrase grammar (such as complete prior calendar month/year), recompute endpoints from the supplied clock using tested host calendar operations; compare the actual code predicate / trace with that interval. Record timestamp field, inclusivity, and before/after candidate IDs. Unsupported phrase, uncertain anchor/field, or incomplete trace -> UNKNOWN. A model-written alternate date is not proof. This would require new trusted constraint support, not arbitrary assertion code.
+  2. References: inspect actual selected/root resource references. If a referenced target has a required label/code/value and is absent from the primary's resolved trace, return that resource ID + path + real value as a witness of omitted source resolution. Mechanically prove the path and omission. Whether the label satisfies the requested clinical concept remains a separate semantic judgment; if not independently grounded, preserve primary and expose the witness only as nonbinding advice. Do not require joins when inline fields already suffice.
+  3. Rank/projection: where a trusted question operator explicitly means choose first/last event then project field, recompute rank over the complete qualified population before projection and compare selected event IDs. Null payload remains null; no dropping missing projection values before rank unless requested. A counterexample is a real earlier/later eligible ID hidden by a non-null filter, not an imagined expected scalar. Uncertain tie/population qualification or trace completeness -> UNKNOWN.
+E. Permit one minimal AST/typed-operation patch only when the host can verify the supported constraint, unchanged surrounding selection, and concrete violation. Re-execute; require source validation, the refuting check now passing, and all prior established checks preserved. Fail/UNKNOWN/no repair/insufficient budget -> return frozen primary. A provider or global unknown-usage failure keeps existing fatal accounting behavior; do not silently convert it to critic abstention.
+F. Independent candidate disagreement, empty results, different formatted units, natural-language FAIL votes, or matching generated databases alone do not authorize replacement. If question grounding cannot be verified, the design is advisory and should be described that way.
+G. Record every meaningful run's frozen prompts, rule/compiler version and source hash, caps, exact subset, primary outcome, claim/probe, actual trace witness, accepted/rejected patch, final outcome, source/accounting failures, and harm/help counts. Evaluate all fixed questions without labels in inference. The added review must earn its budget in paired results.
+
+Main implementation risk / honest scope
+Current V3's local AST repair is already conservative and reportedly generated no repair proposals. Adding arbitrary generated tests would not solve this; it would introduce an unvalidated expected-result oracle. A credible next delta is either (i) add mechanically grounded trace/constraint support for the narrow cases above and measure reach, or (ii) acknowledge that the critic remains advisory and let the ongoing solver use bounded observed counterevidence, accepting that this lacks a preserve-correct guarantee. No inspected source proves that widening a critic's authority is safe or that the proposed bounded protocol will outperform the single agent. Time/reference/projection witnesses can identify observed defects; they do not establish global query correctness.

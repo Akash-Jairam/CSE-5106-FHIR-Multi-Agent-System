@@ -1,0 +1,150 @@
+Prospective evaluation amendment: adaptation, confirmation and portability
+15 October 2026 UTC; applies to subsequent designs, not V4's historical gate.
+
+Why the evaluation changes
+
+The fixed 300 questions have repeatedly informed architecture selection and
+failure analysis. They now serve as development validation. A further win there
+is useful for selecting a candidate but cannot independently establish new-QA
+generalization. Repeating a run or computing a confidence interval does not undo
+the information used to choose the design. This concern applies to prompt and
+controller selection even without updating model weights.
+
+The metadata-only exposure audit found 94 patients in the released 2,931
+questions. Documented prior development reserves 32 patients; the pilot uses
+three more; the adaptively reused 300 cover 58 more. Only one nominally
+QA-outcome-unexposed patient remains, with 18 questions, 16 in proposal scope.
+That patient was included in an availability preflight. One patient cannot
+provide a useful population-level patient-generalization test. Repartitioning
+the same release cannot restore a substantial untouched patient holdout.
+
+The audit examined 47 extant historical result files/identities, including
+copied archived result files and the V4 development interface check: 321 unique attempted
+question IDs across 62 patients. Recorded earlier human/agent development
+exposure is broader than those saved run IDs, so all 32 development patients
+remain excluded from confirmation. This is an audited workflow history, not
+proof that public data were inaccessible or absent from model pretraining.
+
+Metadata-only prospective manifest
+
+manifests/final_evaluation_strata_20261015.json binds exact IDs, source hashes,
+and the exposure audit. Its four disjoint strata cover all 2,931 questions:
+
+  Reserved development patients       1,174 questions
+  Reserved pilot patients                60 questions
+  Adaptively reused questions           300 questions
+  Question-disjoint confirmation      1,397 questions
+
+The confirmation stratum includes 380 lookup/count, 639 temporal, 165 numerical
+and 213 other questions. Its nested in-scope view has 1,184 questions. Of the
+1,397 questions, 1,379 concern 58 already exposed patients and 18 concern the
+single nominally outcome-unexposed patient. This tests new question instances
+mostly on familiar patient records; it is not patient-disjoint validation.
+
+Templates absent from the known attempted IDs may be described as such. Earlier
+development inspected template language, so they are not an untouched-template
+test. Patient, question, template, model and dataset generalization are distinct.
+The audit and manifest were prepared without reading new question text, answers,
+SQL or patient values for sampling. No new subset was run or scored.
+
+Development and selection
+
+Continue substantive architecture comparisons on the existing fixed 300 with
+a fresh capable single agent using the same model, shared tools, scorer,
+provider policy and aggregate caps. The next candidate's development gate is
+strictly more correct answers than both the best completed single (currently
+239/300) and its fresh contemporary single. Record every substantial frozen
+design and all scheduled first attempts, including negative completed results.
+This gate selects a candidate; it is not a confirmatory statistical claim.
+
+Use reserved development/pilot patients for live interface checks and broader
+development coverage; all their questions are excluded from confirmation.
+Use specification-based synthetic fixtures to vary source records and task
+structure. Do not query or inspect confirmation cases during design refinement.
+Before final launch, cross-check new run/exposure metadata against the frozen
+confirmation IDs. Any newly exposed confirmation cases require explicit
+accounting before launch; do not silently keep the original clean-set label.
+
+One final freeze and one confirmation
+
+After development selection, freeze ONE candidate and the contemporary single
+control, exact source/runtime/provider identities, all 2,931 input IDs, tools,
+shared conventions, model settings, aggregate caps, scorer, exposure manifest
+digest, analysis code and decision rules. The original three-arm full benchmark
+still runs on all 2,931 questions. Its saved full outputs provide confirmation;
+we do not spend another fresh 300-question set on each successive design.
+
+No partial scoring or case inspection of the confirmation stratum is allowed.
+Monitor operational metadata only until the full paired arms are terminal and
+first-attempt/source/audit integrity checks pass. Keep failures incorrect in
+end-to-end accuracy. Never replace a failed question or select the best of
+multiple attempts. Operational recovery must preserve the declared attempt
+policy and disclose what executed; a provider failure is not evidence of a
+semantic design defect or permission to choose a favorable rerun.
+
+The primary confirmatory comparison is team minus contemporary single on the
+prespecified 1,397 question IDs. Report the paired accuracy difference and a
+95% patient-block bootstrap interval using 10,000 replicates and seed 5106.
+The estimand is question-weighted accuracy: resample complete patient clusters,
+then divide total paired correct-answer difference by total questions in that
+resample. It is not an equal-weight mean of patient accuracies. The scheduled
+study has one first attempt per question/arm. Any future declared repetitions
+must stay bundled with their question and patient, with no best-attempt choice.
+A positive estimate with an interval crossing zero is inconclusive evidence
+of improvement. A claim of supported improvement requires a positive lower
+bound. Also report the overall 2,931 result; the goal of broad benchmark benefit
+requires team accuracy above single on that full release. Keep these results
+separate so gains on reused questions cannot hide failure on new questions.
+
+Report all four exposure strata and nested in-scope/other views regardless of
+direction. Family/subtype analyses and the single-patient diagnostic are
+descriptive; do not select a favorable subgroup to replace the primary result.
+Do not calculate a population patient-bootstrap interval from one patient.
+Report source/execution support, correction help/harm, terminal failures,
+budget refusals, tokens, tools and latency alongside answer accuracy.
+The interval is conditional on this cohort and template distribution; patient
+blocking does not remove selection bias, establish template independence, or
+account for every possible dependency shared across linguistic templates.
+
+If confirmation does not support benefit, record the negative or inconclusive
+result. Do not keep refining against the same confirmation outcomes and call
+later improvements held-out evidence. Using those outcomes for refinement makes
+them development data; another confirmatory claim then requires independently
+protected new data and another prospective protocol. Preregistering another
+analysis of the spent cases does not restore their original status. Starting or
+completing the full run is not by itself evidence that generalization succeeded.
+
+Portability and limits
+
+The current study uses gpt-6-luna only. Keep role protocols, uncertainty/fallback
+behavior, tool accounting and correction logic independent of model identity.
+Keep FHIR conventions in shared domain adapters. Avoid benchmark-ID routes,
+answer caches, reference-program inference or hard-coded repairs for observed
+questions. The companion design_generalization_requirements_20261015.txt sets
+these implementation constraints.
+
+A later cross-model study must freeze the method before testing additional
+model families against their own capable single-agent controls. A cross-task
+study needs independent QA data with explicit adapters and comparable controls.
+Neither ability is established by the present model's results. FHIRPath-QA uses
+the same MIMIC-IV-FHIR demo and is therefore a possible new question/task source,
+not an independent patient cohort. A new Synthea cohort could test structural
+robustness but would support a synthetic-data claim. A substantial real-patient
+external-validity claim requires additional independently sourced patients.
+
+Research basis and interpretation
+
+Cawley and Talbot show that optimizing a finite model-selection criterion can
+bias the apparent comparison. Dwork et al. study protected adaptive holdouts;
+our openly inspected ordinary scores do not implement their mechanism or inherit
+its guarantees. Davis et al. discuss patient overlap in healthcare ML; applying
+that concern to human/agent QA adaptation is our methodological inference.
+Recht et al. show that fresh-set drops can also reflect distribution differences,
+so neither overfitting nor successful transfer should be presumed without data.
+
+https://jmlr.org/papers/v11/cawley10a.html
+https://arxiv.org/abs/1506.02629
+https://pmc.ncbi.nlm.nih.gov/articles/PMC10746313/
+https://proceedings.mlr.press/v97/recht19a.html
+https://github.com/mooshifrew/fhirpath-qa
+https://synthetichealth.github.io/synthea/

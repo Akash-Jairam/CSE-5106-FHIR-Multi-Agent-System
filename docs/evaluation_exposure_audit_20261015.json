@@ -1,0 +1,170 @@
+{
+  "status": "METADATA_AUDIT_COMPLETE_NO_NEW_SPLIT_CREATED",
+  "scope": "Only qid/patient IDs, existing family labels, split/exposure metadata and input construction code. No unseen question/reference/SQL contents accessed for selection; no split created, scored or run.",
+  "source_sha256": {
+    "manifests/split.json": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+    "manifests/development_exposure.json": "b56e95cd4429559abe2789214bc3cff700556f0fbfa0cd3247ab36e93c47e902",
+    "manifests/question_families.csv": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+    "final_dataset/questions_answers_sql_fhir.csv": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+    "scripts/build_split.py": "b0d591d7f303a32467ebf08e50f2dbc968b36795a0bca43a60d747e770c10ec5",
+    "run_agent.py": "b3881fef19fc4954dbd65dd33e411cb3944b0a37938667907bb33fa90e8a22dc",
+    "utils/core_utils.py": "e0fa62f8d5093b275a9100ce618c94b03722982d1acd6295f666ab5509c126d0"
+  },
+  "dataset": {
+    "questions": 2931,
+    "patients": 94,
+    "in_scope_questions": 2472,
+    "out_of_scope_questions": 459,
+    "family_counts": {
+      "temporal_selection": 1311,
+      "lookup_counting": 756,
+      "numerical_aggregation": 405,
+      "out_of_scope": 459
+    }
+  },
+  "current_split_metadata": {
+    "pilot": {
+      "selected_questions": 20,
+      "declared_patient_pool": 3,
+      "actual_selected_patients": 3,
+      "all_questions_in_patient_pool": 60,
+      "in_scope_questions_in_patient_pool": 49,
+      "unselected_patient_pool_members": 0,
+      "selected_family_counts": {
+        "lookup_counting": 6,
+        "numerical_aggregation": 3,
+        "temporal_selection": 11
+      }
+    },
+    "dev": {
+      "selected_questions": 50,
+      "declared_patient_pool": 32,
+      "actual_selected_patients": 26,
+      "all_questions_in_patient_pool": 1174,
+      "in_scope_questions_in_patient_pool": 939,
+      "unselected_patient_pool_members": 6,
+      "selected_family_counts": {
+        "lookup_counting": 15,
+        "numerical_aggregation": 8,
+        "temporal_selection": 27
+      }
+    },
+    "held_out": {
+      "selected_questions": 300,
+      "declared_patient_pool": 59,
+      "actual_selected_patients": 58,
+      "all_questions_in_patient_pool": 1697,
+      "in_scope_questions_in_patient_pool": 1484,
+      "unselected_patient_pool_members": 1,
+      "selected_family_counts": {
+        "lookup_counting": 92,
+        "numerical_aggregation": 49,
+        "temporal_selection": 159
+      }
+    }
+  },
+  "conservative_known_exposed_patient_accounting": {
+    "documented_prior_development_patients": 32,
+    "current_pilot_patients": 3,
+    "current_adaptively_reused_300_patients": 58,
+    "union": 93,
+    "remaining_nominal": 1,
+    "remaining_candidates": [
+      {
+        "patient_fhir_id": "63bce7d4-9224-5d5d-ab3c-2967424deb0d",
+        "subject_id": 10022281,
+        "all_questions": 18,
+        "in_scope_questions": 16,
+        "family_counts": {
+          "lookup_counting": 5,
+          "temporal_selection": 10,
+          "out_of_scope": 2,
+          "numerical_aggregation": 1
+        }
+      }
+    ]
+  },
+  "important_distinction": "The 59-patient held_out pool is not 59 untouched patients: its 300 sampled questions expose58. The six dev-pool patients omitted from sampled dev50 are already explicitly documented prior exposures. 94 minus58 is an invalid pristine count.",
+  "roles": {
+    "fixed_300": "Adaptive architecture-selection/development validation. Preserve paired first-attempt comparisons and generic failure diagnosis, but stop calling it final held-out generalization evidence.",
+    "existing_dev_50_and_pilot_20": "Implementation/interface and generic method development on reserved patients. Existing prior-exposure32 dev patients remain development even if absent from sampled50.",
+    "nominal_remaining_one_patient": "If historical metadata confirms no exposure, retain all18 questions (16 in scope) as a small untouched patient-disjoint diagnostic only. One patient cannot support an independent population generalization estimate or patient-cluster bootstrap interval.",
+    "final_2931": "One frozen first-attempt complete-release benchmark after selection, report overall and predeclared in-scope2472/out-of-scope459 and exposure strata. It overlaps every development pool and cannot be described as a wholly untouched patient-generalization test."
+  },
+  "recommendation": "A statistically meaningful untouched patient-disjoint confirmation set cannot be recovered by reshuffling this94-patient release. Obtain additional independent patients/dataset for that claim. Within current data, distinguish a once-only question-disjoint confirmation on uninspected remaining questions from patient-disjoint confirmation; it is the former even on new question IDs.",
+  "leakage_controls": [
+    "Do not reclaim unused question IDs from exposed patients as untouched patients.",
+    "Before inspecting any new outputs, freeze candidate and fresh single controls, provider/source/profile hashes, exact patient/qid manifest, family strata, first-attempt policy and acceptance/statistical analysis.",
+    "Select only from IDs/patient/family metadata; do not use references, SQL, answer-kind labels, outcomes or model-visible patient values for sampling.",
+    "Separate blind run storage from development analysis. No partial scoring or per-case inspection; run both complete paired arms before unsealing once.",
+    "If confirmation informs a prompt, method, threshold or selection choice, relabel it development immediately; no optional rerun with replacements.",
+    "An automated availability/hash-only preflight does not by itself show answer/model exposure, but cannot prove no undocumented human/model access. Base-model pretraining contamination is unmeasured.",
+    "Agent input construction uses question+patientFHIRID+assumption only; source true_answer/SQL are not added to the model request by curate_input_dataset. Keep inference stages unable to load scorer/references."
+  ],
+  "historical_output_crosscheck": {
+    "report": "/private/tmp/fhir-metadata-exposure-audit.json",
+    "sha256": "6f3d22ae5e2fbec2dfc086d43dc391893168f82280a4e913956fb1b0bf7431a1",
+    "files": 47,
+    "attempted_rows_including_copied_runs": 4236,
+    "unique_attempted_questions": 321,
+    "unique_attempted_patients": 62,
+    "candidate_attempted_hits": 0,
+    "candidate_scheduled_hits": 0,
+    "candidate_full_patient_preflight": "Availability/packet checks0modelcalls; candidate included. Not pristine from all data-access, but no recorded project QA/model/answer exposure.",
+    "limits": [
+      "Copied archived outputs contribute duplicate attempted rows; unique qid/patient unions remove duplication.",
+      "This metadata-only scan covers extant standard result files with run identities under output, .local-setup, and original benchmark snapshot; untracked external temporary runs, deleted logs, or undocumented manual inspection cannot be ruled out.",
+      "The sole nominal patient candidate was FHIR-availability checked and packet-prepared; it cannot be called untouched under an any-data-access definition.",
+      "Questions remaining for already-exposed patients are question-disjoint only, not patient-disjoint confirmation."
+    ]
+  },
+  "remaining_question_disjoint_confirmation_candidate_pool": {
+    "status": "Candidate pool only; no random subset created or scored",
+    "questions": 1397,
+    "patients": 59,
+    "in_scope_questions": 1184,
+    "family_counts": {
+      "lookup_counting": 380,
+      "temporal_selection": 639,
+      "out_of_scope": 213,
+      "numerical_aggregation": 165
+    },
+    "templates": 74,
+    "template_count_among_known321": 51,
+    "novel_template_ids_vs_known321": 23,
+    "questions_on_novel_templates_vs_known321": 254,
+    "novel_template_question_family_counts": {
+      "out_of_scope": 213,
+      "lookup_counting": 26,
+      "numerical_aggregation": 2,
+      "temporal_selection": 13
+    },
+    "patient_scope": "58 patients already exposed by adaptive300 plus1 outcome-unexposed availability-preflight patient; not a new patient-disjoint confirmation cohort",
+    "question_id_set_sha256": "5f82e67b788ce82c9b49f8d577a9ab550848b7894f6ec0bbfcb85b509c08e29c"
+  },
+  "metadata_exposure_ledger": {
+    "path": "/private/tmp/fhir_qa_exposure_metadata_20261015.json",
+    "sha256": "410f5a9d8859b3fa662d9d946e1a1b23107cb11394cff87725131155755ff608"
+  },
+  "original_metadata_splits": {
+    "train": {
+      "questions": 2098,
+      "patients": 94
+    },
+    "valid": {
+      "questions": 424,
+      "patients": 91
+    },
+    "test": {
+      "questions": 409,
+      "patients": 90
+    },
+    "patient_intersections": {
+      "train_test": 90,
+      "train_valid": 91,
+      "valid_test": 87
+    },
+    "interpretation": "Original labels are not patient-disjoint; originaltest is not an untouched patient cohort."
+  },
+  "portability_design_goal": "Use model-neutral artifact/witness interfaces and general operators; predeclare later independent model/QA benchmarks separately. No cross-model or external-QA result follows from current FHIR subset."
+}

@@ -1,0 +1,99 @@
+Generalization requirements for subsequent designs
+Recorded prospectively after the completed V4 comparison, 15 October 2026 UTC.
+
+The objective is a reusable multi-agent QA method. A gain on the repeatedly
+inspected 300 questions is an architecture-development signal. It cannot by
+itself establish generalization to new questions, patients, tasks, or models.
+The user's current instruction keeps experiments on gpt-6-luna while requiring
+the design to remain portable. Cross-model and cross-task performance are
+unmeasured until separately tested; research motivation is not empirical proof.
+
+Architecture constraints
+
+1. The controller must not route by benchmark question ID, patient ID, template
+   ID, gold answer, reference SQL, precomputed correctness, or model identity.
+   Do not add a special repair rule merely to recover an observed lost point.
+   A diagnosed failure may motivate a general hypothesis and development test.
+
+2. Separate reusable orchestration from domain adapters. The reusable method
+   handles role isolation, evidence-producing tool use, explicit uncertainty,
+   bounded revision, source validation, and accounting. FHIR resource schemas,
+   joins, deidentification/time conventions, and clinical terminology belong
+   to the shared FHIR adapter. They must not be advertised as universal QA rules.
+   Improvements to common tools or conventions also apply to the single agent
+   and require a fresh controlled comparison.
+
+3. Use explicit, bounded role inputs and outputs, with host validation and a
+   documented fallback for malformed or unavailable auxiliary output. A valid
+   primary must not be vetoed by an inconclusive auxiliary model judgment.
+   Unknown provider usage and global budget violations remain fatal. Record
+   attempted corrections and harmful revisions, not only successful repairs.
+
+4. Every claimed correction needs observable evidence: the question obligation,
+   the actual computation or selection that violates it, and the tool/source
+   result supporting the replacement. JSON validity, exact textual quotations,
+   executable code and correct citations each establish limited properties;
+   none independently proves that the question was interpreted correctly.
+   Keep those assurance limits explicit rather than calling a critic an oracle.
+
+5. Keep model selection outside the inference policy. Model/deployment IDs are
+   configuration. Do not rely on a specific model's private reasoning format,
+   hidden confidence, thought tokens, or undocumented response fields. Preserve
+   the provider adapter for accounting and transport. Count all role context,
+   completions and tools within the common aggregate ceilings. Equal token
+   ceilings do not imply equal cost or computation across future models.
+
+6. Use development tests that vary task structure and source contents: event
+   order, empty versus missing data, irrelevant records, linked dependencies,
+   absolute/relative dates, units, and failed tools. Derive expectations from
+   independent synthetic fixtures or specifications, not memorized benchmark
+   answers. These tests establish engineering properties, not benchmark accuracy.
+
+Evaluation constraints
+
+7. Preserve every completed substantial design comparison, including V4's
+   negative result. Keep infrastructure-only failed attempts local as requested.
+   Do not change historical frozen designs or rename reused data as untouched.
+   Select architecture on development data only, then freeze one candidate,
+   the contemporary single control, scorer, inputs, tools, budgets and analysis.
+
+8. Audit prior exposure before naming any confirmation set. Reserve genuinely
+   unused questions for a once-only frozen comparison and disclose patient and
+   template overlap. A patient-disjoint population claim requires enough new
+   patients; a new random split cannot erase earlier exposure. Never inspect
+   partial confirmation accuracy to decide whether to continue or modify code.
+
+9. Report answer accuracy, source/execution support, correction help/harm,
+   failures and actual resource use separately. Report paired uncertainty with
+   patient clustering for this repeated-patient dataset. Such intervals do not
+   remove adaptive selection bias or establish external validity. Predeclare
+   exposure and family strata before the final benchmark.
+
+10. After selecting the method on the current model, a later portability study
+    should freeze the orchestration and compare team versus a capable single
+    agent on additional model families and an independent QA dataset. Keep
+    domain adapters and model capability requirements explicit. Rewriting the
+    method for every test model or inspecting each test until a win changes the
+    research question and consumes those tests as development evidence.
+
+Evidence basis
+
+Cawley and Talbot (JMLR 2010) demonstrate selection bias from optimizing noisy
+model-selection criteria; no weight training is needed for architecture choices
+to overfit their evaluation criterion:
+https://jmlr.org/papers/v11/cawley10a.html
+
+Dwork et al. (NeurIPS 2015) study adaptive holdout reuse and protective mechanisms.
+Our transparent ordinary scorer is not a reusable-holdout mechanism and carries
+none of its guarantees:
+https://arxiv.org/abs/1506.02629
+
+Davis et al. (JAMIA 2024) discuss aggregation-based patient overlap in clinical
+ML. The application here is an inference for QA evaluation and human/agent
+architecture adaptation, not a claim that these agents were weight-trained:
+https://pmc.ncbi.nlm.nih.gov/articles/PMC10746313/
+
+Recht et al. (ICML 2019) show why a fresh-set performance drop must not be
+automatically attributed to adaptive overfitting: distribution differences can
+also cause it. We must measure generalization rather than assume either cause:
+https://proceedings.mlr.press/v97/recht19a.html

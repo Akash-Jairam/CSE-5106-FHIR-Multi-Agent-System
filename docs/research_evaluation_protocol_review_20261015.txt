@@ -1,0 +1,58 @@
+Exposure-aware final evaluation protocol — recommendation for decision
+2026-10-15. Research and metadata audit only. No inference/FHIR calls, private configuration, unseen answer/program inspection, active source edits, or new score analysis.
+
+Decision
+The repeatedly inspected fixed300 is development evidence now. Continue selecting a general mechanism on that development set, then select ONE final checkpoint before observing any additional correctness outcomes. Preserve the original full2931 goal: make a prespecified exposure-stratified component of that once-frozen full run the confirmation, rather than spend another fresh300 for every architecture. A fresh contemporaneous control handles run/provider variation; it does not remove adaptive selection on the fixed300.
+
+Actual capacity, rather than nominal split names
+The local metadata audit used only question_id/patient_fhir_id and existing family/template IDs/table names. It read public split/development-exposure/run-identity metadata; it did not open unseen questions, answers, SQL, reference programs, gold resource IDs or patient payloads. Whole-file hashing was opaque. Its report is /private/tmp/fhir-exposure-metadata-audit.json (SHA256 52da13e43f1e39bd3198697ab3253b67e23f3a2dcff014bce61d1be874206c82).
+
+There are2931 questions/94 patients. The chosen dev50, pilot20 and fixed300 comprise370 distinct questions on87 selected patients. That selected-question count understates exposure: all32 documented prior-development patients were already exposed even though only26 appear in selected dev50. Add all3 pilot patients and58 actual fixed300 patients:93/94 patients are known exposed, covering2913 questions. Six unselected development patients cannot be reclaimed as test patients. At most ONE candidate patient with18 questions remains; this is not yet certified pristine and is not a powered new-patient evaluation.
+
+Outside selected370 are2561 questions:2543 on known exposed patients and18 on the last candidate. Root's narrower useful pool is1397 held-pool questions outside fixed300 and all35 dev/pilot patients:1379 on58 exposed fixed300 patients plus18 on the candidate patient. These are candidate outcome-unseen questions, contingent on the historical input-QID audit; they are not1397 independent patients. Existing outputs from the earlier project and all development prompts/examples must enter that audit. The original train/validation/test labels are not patient-disjoint (the original training partition spans all94 patients).
+
+Question/template exposure must be recorded separately. Existing taxonomy IDs show76 template IDs in the full corpus and54 in selected370;523 questions use the other22 IDs. This does NOT certify fresh templates. Earlier full out-of-scope question/template inspections informed paired-scope engineering, and other full-schema/template metadata were inspected. A task can be outcome-unseen while its wording, schema or template family has influenced design. Operational counts/hashes, resource-cache warming and schema reads are a different exposure type from correctness/program inspection; do not silently equate all of them, or pretend an incomplete access log proves no exposure.
+
+Recommended manifest before final selection is tested
+1. Seal the exposure ledger using IDs only, with at least: prior correctness/answer/reference-program exposure; prior inference input; direct question inspection; shared template/schema inspection; patient-resource/operational exposure; and unknown history. Never open unseen answer/program/text fields to decide a favorable split. The1397 pool is provisional until that reconciliation; uncertain items stay explicitly uncertain.
+2. Freeze one candidate, the current refreshed SingleAgent control, all prompts/domain guides/tools/source gates, scorer/typed credit/null rules, exact model/deployment, public runtime binding, SDK/default transport, provider timeout/retries,200k/30 accounting, worker/cache behavior, input order, repetitions, and analysis code. Preserve failed calls/unknown-usage fatal policy. No historical best-control substitution after seeing the new result.
+3. Predeclare descriptive development performance; full2931 finite-corpus performance; and confirmation on the sealed, previously unscored question stratum. Within that stratum separately identify known-exposed patients and the at-most18 candidate-patient questions. The patient-only subset is a descriptive case study, not a new-patient superiority test. Do not claim unseen-template independence from ID absence alone.
+4. Predeclare a superiority criterion rather than stopping at the first point win. For a claim of improvement beyond the observed finite cases, a recommended stronger confirmation gate is positive paired mean difference AND a prespecified95% paired patient-block interval with lower bound above0 on the outcome-unseen stratum. Report full2931 delta too. The historical fixed300 thresholds are development-selection criteria, not a second confirmatory population. Root must choose the exact gate before opening any new correctness outcome; this memo does not retroactively assign a gate to completed runs.
+5. If the project requires three full repetitions, freeze that count now. Complete all planned system/repetition arms before scoring any. Average each question's paired correctness difference across planned repetitions, then compute the question-weighted mean; never select the best team repeat or worst control. Run count does not multiply the number of independent patients.
+
+Monitoring and failure rules
+During the sealed run inspect only completion counts, process/provider health, source hashes, caps/accounting, public identity and audit transport integrity. No partial accuracy, family scores, new-case answers, programs, plans or semantic traces until all predeclared arms are terminal and the completed-data guard passes. Keep all first attempts including timeout/connection/runtime failures in the denominator. Operational aborts or whole-run repeats must be defined using health/integrity conditions independent of correctness; do not selectively replay failed/wrong questions. A behavior-changing fix creates a new candidate. Archive the failed/aborted record; do not quietly merge outputs across source versions.
+
+If confirmation fails
+Record the negative result and its operational/semantic mechanisms. The confirmation stratum is then spent for this selection question. It may become development for later work, but do not retune and repeatedly call it confirmation until a win appears. Either report that superiority did not confirm, or obtain a genuinely new independently sourced population/task for the next confirmatory claim. A fresh seed, CV rotation, renamed split, different bootstrap or another frozen run on the same exposed cases cannot undo the original adaptation.
+
+Uncertainty and claims
+For the question-weighted paired effect, bootstrap patient IDs with replacement and retain all paired questions and complete repetition bundles for each sampled patient; recompute the ratio of total paired credit to total questions each replicate. Prespecify count/seed (e.g. the existing10000/5106) and interval rule. A patient-equal mean is a different secondary estimand. Report paired wins/losses/ties, denominator, patient count, per-run results, provider failures and source-valid release rate. Patient-block uncertainty addresses within-patient dependence under assumed independent/representative clusters; it does not correct adaptive model selection, template-crossed dependence, unknown training contamination, or a single candidate-patient cluster. For the fixed finite2931 recorded outputs the score itself is exact; an interval concerns extrapolation/run-population assumptions.
+
+Generalization scope and model portability
+The outcome-unseen stratum is useful prospective task-instance evidence conditional on an extensively adapted94-patient demo cohort. It cannot establish new-hospital/new-patient clinical generalization. FHIRPath-QA is useful for different executable questions/templates but its author README uses the same MIMIC-IV-FHIR demo2.1.0, so it is NOT independent patient data. Synthea supplies separate synthetic patients and structural stress cases, not real clinical transfer evidence. A different real cohort/site with a sealed independent task set is required for the stronger patient/site claim; that is additional research, not a reason to discard the original full benchmark.
+
+Keep the architecture model-independent in its runtime contracts: original question/context, executable candidate, bounded tool observations, JSON repair proposal, deterministic validation and accounting. FHIR semantics belong in the existing adapter/guide, not question-ID, template-ID or answer-kind branches. Do not run another model now. After architecture selection, a future prespecified transfer check should freeze the same controller/witness schema/prompts and task partitions, use a new model through the same adapter, disclose necessary API/schema differences, and finish all planned arms before inspection. Interface compatibility is not evidence of cross-model performance; current evidence is single-model only.
+
+Why these decisions follow from primary research
+Dwork et al. (STOC/NeurIPS2015) treat stopping and analyst choices after holdout responses as adaptive analysis; privacy/reusable-holdout guarantees require restricted access from the start and assumptions not satisfied by our exact-score/failure-trace history. Cawley/Talbot (JMLR2010) show finite-sample model-selection criteria can themselves be overfit. A code freeze now protects future comparisons but cannot restore old information.
+https://arxiv.org/abs/1411.2664
+https://arxiv.org/html/1506.02629v2
+https://jmlr.org/papers/v11/cawley10a.html
+
+Rajkomar et al. (npj Digital Medicine2018) kept EHR test patients hidden until final evaluation; Harutyunyan et al.'s official benchmark code partitions patient folders/episodes together. This supports patient grouping and the distinction between a new question and a new patient, without implying that our agent was gradient-trained on these records.
+https://pmc.ncbi.nlm.nih.gov/articles/PMC6550175/
+https://github.com/YerevaNN/mimic3-benchmarks/blob/ea0314c7cbd369f62e2237ace6f683740f867e3a/mimic3benchmark/scripts/split_train_and_test.py
+
+Finegan-Dollak et al. (ACL2018) distinguish question from query-structure splits. A patient split and a template split address different generalization questions. Recht et al. (ICML2019) found fresh-test drops without attributing them to adaptivity; a confirmation drop here would not by itself prove overfitting rather than task/operational shift. Report the mechanisms instead of assigning a single cause.
+https://aclanthology.org/P18-1033/
+https://proceedings.mlr.press/v97/recht19a.html
+
+Field/Welsh (JRSSB2007) analyze clustered bootstrap assumptions; this supports accounting for patient dependence, not a universal guarantee for crossed templates or adaptively selected systems.
+https://doi.org/10.1111/j.1467-9868.2007.00593.x
+
+Public external-data provenance:
+https://github.com/mooshifrew/fhirpath-qa#setup-fhir-server--patient-bundles
+https://synthetichealth.github.io/synthea/
+
+Detailed independently researched source notes: /private/tmp/fhir-adaptive-evaluation-primary-sources.txt (SHA25685833266e1d1e70df0633f9cccae4ef23cc8dc18147d1aacfaebfbfd372396f4).

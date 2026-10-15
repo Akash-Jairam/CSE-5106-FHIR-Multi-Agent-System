@@ -1,0 +1,109 @@
+Adaptive evaluation and patient-disjoint confirmation: primary-source notes
+Reviewed 2026-10-14. Research only; no model/FHIR/config calls, active source edits, or inspection of unseen question text, answers, programs, or patient payloads.
+Local overlap/exposure counts and the exact final protocol are intentionally left to parent. Recommendations below are methodological inferences, not claims that this repository currently satisfies the assumptions.
+
+Main consequence
+Repeatedly designing against the fixed300 makes it a development set. A contemporaneous single-agent rerun addresses provider/run variability; it does not erase selection on those questions. The complete2931 benchmark remains worth running and reporting, while an untouched patient-group subset can provide a separate prospective confirmation if any such subset remains. If every patient has already influenced design, a new within-corpus split cannot create patient-disjoint confirmation.
+
+Primary sources
+
+1. Dwork, Feldman, Hardt, Pitassi, Reingold, Roth: Preserving Statistical Validity in Adaptive Data Analysis.
+First submitted 2014-11-10; STOC2015.
+https://arxiv.org/abs/1411.2664
+Author publication page: https://dwork.seas.harvard.edu/publications/preserving-statistical-validity-adaptive-data-analysis
+The problem is adaptively choosing analyses after inspecting earlier answers on the same data; familiar fixed-procedure guarantees do not automatically apply. Their positive results use coordinated randomized mechanisms inspired by differential privacy. This is not a theorem that arbitrary repeated empirical test accuracies remain valid. Inference: prompts, controller choices and repair rules chosen from failure analyses are model selection even without gradient training.
+
+2. Same authors: Generalization in Adaptive Data Analysis and Holdout Reuse.
+First submitted 2015-06-08; inspected v2 2015-09-25; NeurIPS2015.
+https://arxiv.org/html/1506.02629v2
+Conference paper: https://proceedings.neurips.cc/paper_files/paper/2015/file/bad5f33780c42f2588878a9d07405083-Paper.pdf
+Sections1–1.1 explicitly include holdout-based stopping conditions and analyst-in-loop choices as adaptive reuse. Holdout access is restricted through the mechanism; Thresholdout limits information using randomized threshold/noise and an overfitting budget. The stated generalization guarantees use i.i.d. samples. A patient cluster is the plausible independent unit here, not every question or repeated run. Inference: merely switching to aggregate scores or hiding item labels now is not an implementation of reusable holdout and cannot retroactively protect information already released. No practical sample-size guarantee for this dataset follows from citing the paper alone.
+
+3. Same authors: The reusable holdout: Preserving validity in adaptive data analysis.
+Science349(6248),636–638, published2015-08-07.
+https://doi.org/10.1126/science.aaa9375
+Primary abstract: https://pubmed.ncbi.nlm.nih.gov/26250683/
+The result addresses safe reuse through privacy-based access control, rather than assuming conventional holdout reuse is harmless. This is a distinct publication explaining the same research program; do not count it as independent empirical replication. Inference: introducing Thresholdout after exact scores and failure traces have been exposed would not repair the previous selection history. A fresh sealed confirmation set is simpler and more defensible for the remaining one/few architecture decisions.
+
+4. Blum and Hardt: The Ladder: A Reliable Leaderboard for Machine Learning Competitions.
+ICML2015, PMLR37:1006–1014.
+https://proceedings.mlr.press/v37/blum15.html
+https://proceedings.mlr.press/v37/blum15.pdf
+The ladder releases an updated rounded score only when improvement exceeds a specified margin; otherwise it retains the previous estimate. Its target is leaderboard accuracy under adaptive submissions. The mechanism and information limits matter. Inference: reporting every exact score and stopping at the first point win is not Ladder, and “only one bit: did it win?” still reveals adaptive information unless managed by a valid prespecified mechanism. Neither paper justifies inventing an ad-hoc threshold for this small clustered set.
+
+5. Nosek, Ebersole, DeHaven, Mellor: The preregistration revolution.
+PNAS115(11):2600–2606, published online2018-03-12.
+https://doi.org/10.1073/pnas.1708274114
+The original methods/perspective article distinguishes predictions specified before observing outcomes from postdictions developed after observation. Preregistration clarifies that boundary; it is not a guarantee of good design or a prohibition on transparent exploration. Inference: freeze a dated manifest now for an actually unobserved confirmation population, including exclusions, comparison, denominator, repetition count, thresholds and analysis. Record deviations. A new preregistration cannot recategorize an already tuned fixed300 result as prospective.
+
+6. Rajkomar et al.: Scalable and accurate deep learning with electronic health records.
+npj Digital Medicine1:18, published2018-05-08.
+https://pmc.ncbi.nlm.nih.gov/articles/PMC6550175/
+Methods / Model evaluation: split patients80% development,10% validation,10% test; keep test unused and hidden until final evaluation; report test accuracy and bootstrap confidence intervals. The study uses a FHIR representation and multiple predictions/admissions per patient, making its grouping choice directly relevant. It treats the two hospitals as separate datasets and does not establish cross-hospital transportability merely by using the same architecture at both. Inference: group by patient before selecting evaluation questions; “new question” for a previously inspected patient is weaker than “new patient.” This analogy concerns adaptive architecture design, not a claim that our inference-time agent was trained on patient records.
+
+7. Harutyunyan et al.: Multitask learning and benchmarking with clinical time series data.
+Scientific Data6:96, published2019-06-17.
+https://doi.org/10.1038/s41597-019-0103-9
+Official benchmark implementation inspected at commit ea0314c7cbd369f62e2237ace6f683740f867e3a:
+https://github.com/YerevaNN/mimic3-benchmarks/blob/ea0314c7cbd369f62e2237ace6f683740f867e3a/mimic3benchmark/scripts/split_train_and_test.py
+The code assigns subject folders to train/test from a fixed patient list and explicitly asserts no patient intersection.
+https://github.com/YerevaNN/mimic3-benchmarks/blob/ea0314c7cbd369f62e2237ace6f683740f867e3a/mimic3models/split_train_val.py
+Validation is also selected using patient IDs, retaining all episodes for a patient together.
+https://github.com/YerevaNN/mimic3-benchmarks/blob/ea0314c7cbd369f62e2237ace6f683740f867e3a/README.md
+README specifies the same split across tasks and notes that many samples for one patient can overfit. These are original clinical prediction benchmarks, not a direct protocol for this QA dataset.
+
+8. Finegan-Dollak et al.: Improving Text-to-SQL Evaluation Methodology.
+ACL2018,351–360; preprint2018-06-23.
+https://aclanthology.org/P18-1033/
+https://aclanthology.org/P18-1033.pdf
+Section5 contrasts question splits with query splits: anonymize entity values, keep identical query structures together, and assign complete groups to one partition. Question splits mainly measure new phrasing/entities when query templates recur; performance drops under query splits. Inference: patient-disjoint validation does not demonstrate unseen query-template generalization. If authoritative template/family IDs already exist as metadata, audit their overlap without opening unseen text/programs; otherwise explicitly mark template independence unverified. Do not inspect unseen gold programs to construct a favorable split after selection.
+
+9. Zech et al.: Variable generalization performance of a deep learning model to detect pneumonia in chest radiographs.
+PLOS Medicine15(11):e1002683,2018-11-06.
+https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1002683
+NIH/MSH were partitioned by patient into fixed70/10/20 groups; another institution was held for external evaluation. Internal performance exceeded external in3/5 natural comparisons, and models identified hospital system. Inference: even pristine patient-held-out results from this FHIR dataset support within-dataset generalization under its schema/coding/templates; they do not establish new-hospital, new-schema, real-world clinical reliability.
+
+10. Field and Welsh: Bootstrapping clustered data.
+JRSS SeriesB69(3):369–390,June2007.
+https://doi.org/10.1111/j.1467-9868.2007.00593.x
+Author-institution publication record: https://researchportalplus.anu.edu.au/en/publications/bootstrapping-clustered-data/
+The original article studies how cluster dependence and modelling assumptions affect bootstrap validity; cluster resampling has consistency properties under specified transformation/random-effect models. It does not universally certify arbitrary dependent benchmarks.
+Bouwmeester et al.: Internal validation of risk models in clustered data: a comparison of bootstrap schemes.
+American Journal of Epidemiology177(11):1209–1217,2013-06-01; online2013-05-09.
+https://pubmed.ncbi.nlm.nih.gov/23660796/
+Its original simulation/empirical study shows ordinary bootstrap assumptions fail with clustering and compares patient-, cluster-, and two-stage resampling. These support accounting for patient dependence; their specific concordance/calibration results are not a theorem for this QA metric.
+
+11. Collins et al.: TRIPOD+AI.
+BMJ385:e078378,2024-04-16.
+https://doi.org/10.1136/bmj-2023-078378
+Official detailed checklist:
+https://www.tripod-statement.org/wp-content/uploads/2024/04/TRIPODAI-Supplement.pdf
+Item12a asks how data were used/partitioned, reasons for partitioning, sample-size adequacy and confirmation of no leakage between tuning and test data. This is an original consensus reporting standard, not evidence that compliance removes selection bias.
+
+Feasible protocol preserving the complete2931 goal (proposed, exact sizes/gates parent-owned)
+
+A. Exposure ledger before further inference
+Classify the fixed300 and any other questions whose outcomes, programs, resources or failure summaries affected design as development. Conservatively mark their patients exposed for patient-held-out claims. Record exposure uncertainty instead of assuming a file is pristine because it is currently named “test.” Do not open unseen text/answers/programs while auditing ID/patient/split/schema metadata. Previous unobserved author benchmark exposure to the base model is generally unknown; our split cannot prove absence of pretraining contamination.
+
+B. Seal confirmation groups
+From patient IDs that have not affected development, choose a deterministic patient-disjoint confirmation manifest before seeing outputs. Use all remaining untouched groups when practical, or prespecify disjoint confirmation/reserve tranches using metadata only. Do not tune the split for estimated difficulty or outcome. Entire patients belong to one category. Report patient counts, question counts, family/template overlap metadata and any missing identifiers. If no unexposed patients remain, describe the full benchmark as a selected-model benchmark evaluation; a fresh patient-generalization claim needs external/new data.
+
+C. Freeze candidate and comparison
+Select one candidate using development only. Commit/hash its code, prompts, public runtime/config binding, model deployment/version, semantic guide, scorer, input manifest, cap200k/30, worker/cache/retry settings and all planned repetitions. Freeze the contemporaneous single-agent control too. Prespecify effect estimand, superiority criterion, uncertainty method, denominators, terminal-error handling and allowed operational aborts. A point win and a lower-confidence-bound-above-zero claim are different criteria; choose before confirmation. Do not revise acceptance after seeing confirmation.
+
+D. Integrate with full2931
+The full run can evaluate every question with the frozen architecture, including development cases, and still report the standard complete benchmark score. Separately report untouched patient-group confirmation and exposed-patient/development results. Do not combine them and call the total an untouched test. Confirmation may be an explicitly sealed component of the full run, or completed first with a frozen continuation plan; preserve the same architecture for the complete run. If confirmation fails and design changes, that confirmation population becomes development for the next candidate. A new seed/run on it is not a new holdout.
+
+E. Checkpoints and failures
+During sealed confirmation, monitor process health, counts, hashes, accounting, completion and provider errors; do not inspect correctness scores, per-question traces, answer/program fields, family accuracies or partial paired deltas. Prespecify operational abort/resume conditions unrelated to observed wins/losses. Any behavior-changing fix after task-dependent failures creates a new candidate; do not merge pre/post-fix outputs as one confirmation. Retain all planned first attempts and prescribed error scoring; report operational failures separately, rather than dropping them to improve accuracy. If repeated interim score checks or early efficacy/futility stopping are required, use a genuinely prespecified valid sequential design; ordinary final-sample bootstrap CIs are not automatically valid after optional stopping.
+
+F. Three repetitions and paired patient-cluster uncertainty
+Three runs reduce/describe inference variability, not three times as many independent patients. Evaluate team/control on the same question IDs and planned repetition structure; do not pick the best team repetition or worst control. For question-weighted benchmark effect, first average each question's paired correctness difference over planned repetitions, then average over questions. Resample patient IDs with replacement, retaining all that patient's questions and both systems' complete repetition bundles; recompute the same question-weighted ratio in each bootstrap replicate. Predeclare bootstrap method/count/seed. Patient-equal means are a different estimand and can be a prespecified secondary result, not substituted after seeing outcomes. Report raw wins/losses, point delta, interval, cluster count and per-run outcomes.
+
+Limits: one-way patient bootstrap assumes patient clusters are sufficiently independent/representative. Shared templates introduce crossed dependence and can limit claims; a patient-cluster interval is conditional on the task/template distribution and does not demonstrate unseen-template or external-site superiority. Few clusters give unstable intervals. It also does not correct adaptive model selection on the development300. On the complete finite2931 corpus, observed accuracy is an exact descriptive score for recorded outputs; a sampling interval concerns extrapolation to an assumed population, not uncertainty about already observed labels.
+
+What touched evaluation can still establish
+- Exact recorded performance and first-attempt operational reliability on those cases.
+- Reproducibility / run variability for a fixed frozen design.
+- Useful development diagnoses and comparisons, with adaptive history disclosed.
+It cannot alone certify an unbiased final model-selection gain, unobserved-patient/template performance, or clinical deployment benefit. No score-peeking threshold, bootstrap, renewed random seed, renamed split, or timestamped registration retroactively makes the touched data pristine.
