@@ -1,0 +1,59 @@
+Independent V5 operational guard review: PASS within reviewed scope
+
+Reviewed packet: /private/tmp/fhir-v5-integrity-jr5w_9sp
+Final wrapper SHA256:
+10e7b2b537f529a146695606ca8d89690cfdb3fac8d9b3465d82b5eec6f01f29
+Focused test SHA256:
+c831e74d0e199db74b17db928dc5e99ae98795b165ebc78fe34b664ac3370235
+Unchanged reviewed base SHA256:
+98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8
+Candidate executable_critic_agent.py SHA256:
+e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7
+
+Independent verification
+- 22 focused V5 synthetic tests passed on final wrapper bytes.
+- 3 packaged synthetic lifecycle tests passed on final wrapper bytes.
+- 26 tests for the exact unchanged reviewed base passed independently.
+- Separate original lifecycle suite also passed; path below. This is duplicate
+  lifecycle coverage, not an additional benchmark or independent dataset.
+- No actual result file, scorer, unseen reference, model, FHIR, network,
+  credential/configuration value, or active source edit was involved.
+
+Reviewed fixes
+- Released repair binds actual finite JSON first/proposal responses, bounded
+  schemas and chronological response/inspect/response/final/source-check stages.
+- Invalid or absent citation-result status cannot claim a clean repair.
+- Current explicit primary execution is bound to its later matching clean
+  automatic check; retrieval, noninspect computation and failed checks invalidate
+  stale execution. Packet code binds that current execution.
+- Single's ordered contributor union/dedup and critic's contributor dedup follow
+  executed runtime behavior while raw audit/execution objects remain unchanged.
+- Ordinary citations retain executed source-check compatibility; strict source
+  equality remains specific to V5 probe facts and witnesses.
+- Clean releases require initial packet/per-call evidence and obey recorded
+  solver/model/tool limits. Unknown usage remains fatal. Known-usage auxiliary
+  response absence may preserve the exact primary and is reported as a retained
+  response gap; it is not credited as a released repair or a verified SDK send.
+- Terminal errors and missing terminal protocol metadata remain completed first
+  attempts, with explicit diagnostic gaps; they are not removed from cohorts.
+
+Lifecycle review
+External pin digest binds metadata and dynamic frozen inventory before launch.
+Prelaunch requires absent output; initial inspection captures saved snapshots.
+Completion requires external root terminal confirmation and 300 ordered, unique,
+first-attempt rows in each arm, compatible identities, exact gzip restoration,
+source/runtime ZIPs and public profile. Archive creation is exclusive and uses an
+exact allowlist with byte-for-byte member verification. This is operational
+integrity evidence, not accuracy, semantic proof, or process-terminal proof.
+
+Original independent generated-record suite:
+/private/tmp/test_fhir_v5_guard_lifecycle.py
+SHA256 de6e1cbf798c69d49b8af5a7b6e6edcf38c4ff25091406c5c8d5064caa3d4df9
+It generates 300 rows per arm, 600 unique owned audit payloads and two provider
+journals; checks all three externalized fields and a 609-member exact archive;
+rejects partial cohorts, retry history, corrupt gzip, late source additions,
+changed pinned metadata, reused destinations and output-presence prelaunch.
+
+No remaining concrete blocker was found in the reviewed corrections. Root must
+prespecify the final pin digest and supervise the actual jobs; this review did
+not launch a run or certify any actual benchmark outcome.

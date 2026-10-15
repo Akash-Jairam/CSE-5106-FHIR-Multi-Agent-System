@@ -1,0 +1,42 @@
+{
+  "acceptance": "team >239 AND team >fresh contemporary single; all300 first attempts, no replacements/retries",
+  "minimum_team_correct": 240,
+  "model": "gpt-6-luna",
+  "fixed_questions_per_arm": 300,
+  "workers_per_arm": 1,
+  "first_attempt_only": true,
+  "expected_public_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "phase_caps": {
+    "solver": [
+      175000,
+      27
+    ],
+    "critic": [
+      25000,
+      3
+    ]
+  },
+  "solver_requested_tools": 25,
+  "reserved_counted_source_checks": 2,
+  "max_real_solver_calls": 20,
+  "max_host_slots": 22,
+  "max_critic_invocations": 2,
+  "global_caps": [
+    200000,
+    30
+  ],
+  "estimated_input_guard": 32000,
+  "root_tests_passed": 163,
+  "independent_model_free_tests_passed": 117,
+  "engineering_interface_check": "One reserved dev question, five live SDK successes, INSPECT then UNKNOWN, source-valid primary retained, zero phase errors, gzip restored; no accuracy selection.",
+  "comparison_method": "Unchanged typed scorer; all first attempts including errors;10000 question-weighted patient-block bootstrap replicates seed5106; fixed300 reused development data.",
+  "generalization_protocol": "docs/evaluation_generalization_protocol_20261015.txt",
+  "final_confirmation_manifest_sha256": "6c0410ae9fc581bf5cf6918f95d4d97407a8eb4b19d488cba6815937a1bbf965",
+  "inference_gold_access": false,
+  "semantic_assurance": "Fallible critic; host validates lineage/execution/source facts, not natural-language truth.",
+  "future_full_run": "One frozen final2931; report prespecified1397 question-confirmation cases separately; no new-patient/model/task gain claimed now."
+}

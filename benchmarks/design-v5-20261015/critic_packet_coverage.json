@@ -1,0 +1,81 @@
+{
+  "purpose": "score-blind engineering packet sizing, completed/exposed V3d only",
+  "input_rows": 300,
+  "eligible_packets": 283,
+  "counts": {
+    "fits": 283,
+    "primary_not_source_valid": 17
+  },
+  "first_prompt_token_percentiles": {
+    "0": 2090,
+    "25": 3031,
+    "50": 3246,
+    "75": 3576,
+    "90": 3883,
+    "95": 4014,
+    "100": 4594
+  },
+  "component_token_percentiles": {
+    "system": {
+      "0": 1446,
+      "25": 1446,
+      "50": 1446,
+      "75": 1446,
+      "90": 1446,
+      "95": 1446,
+      "100": 1446
+    },
+    "context": {
+      "0": 88,
+      "25": 120,
+      "50": 135,
+      "75": 152,
+      "90": 162,
+      "95": 167,
+      "100": 191
+    },
+    "code": {
+      "0": 70,
+      "25": 279,
+      "50": 350,
+      "75": 459,
+      "90": 592,
+      "95": 644,
+      "100": 980
+    },
+    "ledger": {
+      "0": 7,
+      "25": 140,
+      "50": 144,
+      "75": 274,
+      "90": 408,
+      "95": 418,
+      "100": 1142
+    },
+    "preview": {
+      "0": 136,
+      "25": 868,
+      "50": 1001,
+      "75": 1175,
+      "90": 1308,
+      "95": 1391,
+      "100": 1582
+    }
+  },
+  "limits": {
+    "first_prompt_tokens": 5500,
+    "first_completion": 1800,
+    "second_completion": 4000,
+    "first_response_tokens": 2500,
+    "probe_tokens": 1500,
+    "first_chars": 12000,
+    "second_chars": 24000,
+    "inspect_chars": 6000,
+    "region_chars": 8000,
+    "program_chars": 32000
+  },
+  "agent_sha256": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+  "no_model_calls": true,
+  "no_scoring_or_correctness_selection": true,
+  "no_unseen_question_inputs": true
+}

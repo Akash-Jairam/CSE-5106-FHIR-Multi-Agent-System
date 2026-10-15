@@ -1,0 +1,82 @@
+{
+  "concurrent": true,
+  "workers_per_arm": 1,
+  "commands": {
+    "single": {
+      "arm": "ordinary_single_agent",
+      "argv": [
+        "caffeinate",
+        "-i",
+        ".venv/bin/python",
+        ".local-setup/phase3.py",
+        "run",
+        "--project-root",
+        ".",
+        "--model",
+        "gpt-6-luna",
+        "--max_total_tokens",
+        "200000",
+        "--max_tool_calls",
+        "30",
+        "--num_processes",
+        "1",
+        "--save_interval",
+        "1",
+        "--output_dir",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q",
+        "--split",
+        "held_out",
+        "--team_strategy",
+        "multi_agent_v5",
+        "--audit_storage",
+        "gzip",
+        "--arms",
+        "ordinary_single_agent"
+      ],
+      "environment": {
+        "FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/provider-events"
+      },
+      "log": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/run_single.log",
+      "pty": true,
+      "shell_command": "FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR='/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/provider-events' caffeinate -i .venv/bin/python .local-setup/phase3.py run --project-root . --model gpt-6-luna --max_total_tokens 200000 --max_tool_calls 30 --num_processes 1 --save_interval 1 --output_dir '/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q' --split held_out --team_strategy multi_agent_v5 --audit_storage gzip --arms ordinary_single_agent > '/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/run_single.log' 2>&1"
+    },
+    "team": {
+      "arm": "ordinary_multi_agent",
+      "argv": [
+        "caffeinate",
+        "-i",
+        ".venv/bin/python",
+        ".local-setup/phase3.py",
+        "run",
+        "--project-root",
+        ".",
+        "--model",
+        "gpt-6-luna",
+        "--max_total_tokens",
+        "200000",
+        "--max_tool_calls",
+        "30",
+        "--num_processes",
+        "1",
+        "--save_interval",
+        "1",
+        "--output_dir",
+        "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q",
+        "--split",
+        "held_out",
+        "--team_strategy",
+        "multi_agent_v5",
+        "--audit_storage",
+        "gzip",
+        "--arms",
+        "ordinary_multi_agent"
+      ],
+      "environment": {
+        "FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/provider-events"
+      },
+      "log": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/run_team.log",
+      "pty": true,
+      "shell_command": "FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR='/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/provider-events' caffeinate -i .venv/bin/python .local-setup/phase3.py run --project-root . --model gpt-6-luna --max_total_tokens 200000 --max_tool_calls 30 --num_processes 1 --save_interval 1 --output_dir '/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q' --split held_out --team_strategy multi_agent_v5 --audit_storage gzip --arms ordinary_multi_agent > '/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/executable_critic_v5_300q/run_team.log' 2>&1"
+    }
+  }
+}

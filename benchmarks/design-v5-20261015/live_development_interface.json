@@ -1,0 +1,29 @@
+{
+  "status": "PASS_LIVE_RESERVED_DEVELOPMENT_INTERFACE",
+  "source_commit": "51c505e",
+  "agent_sha256": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+  "questions": 1,
+  "protected_confirmation_overlap": 0,
+  "strategy": "multi_agent_v5",
+  "protocol": "frozen-workspace-executable-critic-v5",
+  "source_issues": 0,
+  "critic_status": "primary_preserved",
+  "critic_model_invocations": 2,
+  "critic_tools": 1,
+  "tokens": 30674,
+  "tools": 5,
+  "audit_restored": true,
+  "provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "accuracy_scored": false,
+  "experiment_journal_entry_created": false,
+  "sdk_starts": 5,
+  "sdk_ends": 5,
+  "sdk_successes": 5,
+  "critic_first_decision": "INSPECT",
+  "critic_second_decision": "UNKNOWN",
+  "phase_errors": 0
+}

@@ -1,0 +1,113 @@
+V5 candidate: bounded executable critique after the continuous solver
+Development candidate; accuracy has not yet been benchmarked.
+
+Hypothesis
+
+A critic that inspects the actual computation may correct interpretation errors
+that pass citation checks. It may also damage a correct answer. The experiment
+tests the net effect and records both helpful and harmful changes. Research
+motivates this mechanism; it does not establish that this implementation works.
+
+The completed V3 team scored 232/300 against single 238/300. Its static audit
+made no material repair. V4's advisory plan preceded solving; the completed
+team scored 218/300 against fresh single 239/300. Most paired losses had valid
+source citations but wrong typed answers. Those observations motivate examining
+executed computations rather than adding another interpretation before solving.
+V4 changed several components together, so it does not isolate a planning effect.
+
+What the candidate does
+
+1. Run the unchanged V3 continuous LedgerSolver with 175,000 aggregate tokens
+   and 27 tools: at most 25 requested tools plus two counted source checks.
+   It retains its 20 model-invocation limit, 22 host slots, explicit executed
+   final, whole-batch readiness and existing source-feedback correction.
+   No preliminary contract or advisory plan is supplied.
+
+2. Continue only if that primary passed the existing execution/source gates.
+   Freeze its program, workspace, context and retrieval ledger. The critic sees
+   the original question/context, intact code, source inventory previews and
+   completeness facts. The rendered answer and operation prose are withheld;
+   code and records may still reveal values, so this is not answer-independent
+   verification. Missing evidence cannot be repaired through new retrieval.
+
+3. Give the critic one call to return KEEP, UNKNOWN or one focused Python
+   inspection. An exact question/context quotation must have a unique occurrence;
+   the host derives its span. The inspection runs on a separate copy of the
+   frozen records. Its bounded facts must match actual source IDs, paths and
+   values. Its observations are executed probe outputs, not semantic oracles.
+
+4. After a successful inspection, allow one final critic call. It can preserve
+   the primary or propose one bounded replacement of a unique code region,
+   anchored to the same question clause and supported by inspected facts.
+   The host executes the entire patched program once in final mode, then checks
+   the resulting citations against the original sources with the original
+   patient/time context. No prose answer, additional solve, retry or synthesis
+   can replace those executions.
+
+5. Release the alternate only if every declared lineage, execution and source
+   check succeeds and the proposal has an observable effect. Same contributing
+   records are allowed for projection, grouping or arithmetic corrections.
+   Observable change does not prove improvement. Any nonfatal auxiliary
+   inability preserves the valid primary. Unknown or malformed provider usage
+   and declared accounting overshoots remain fatal for the whole attempt.
+
+Budget and bounded interfaces
+
+The critic receives 25,000 tokens and at most three tools: one inspection, one
+replacement final execution and one original-source check. It makes at most
+two model invocations, with no implicit role-framework synthesis. The complete
+team remains within 200,000 tokens and 30 tools. Unused phase allowances do not
+enlarge another phase. Each call includes repeated input and output costs.
+
+The first full prompt must fit 5,500 estimated tokens. The first response is
+limited to a requested 1,800 completion tokens; the second to 4,000. The host
+reserves both calls before starting and checks the actual second prompt again.
+An oversized intact program or essential ledger causes a documented skip,
+not silent truncation. Source previews are bounded and cannot establish
+completeness. Inspection output has a 1,500-token limit.
+
+The exact JSON schemas, string limits, token reservations and rejection rules
+are in docs/design-v5-executable-critic.txt. Exact prompts and release behavior
+are in agent/executable_critic_agent.py. Both belong in the pre-run source
+snapshot. This overview does not supersede those executable interface details.
+
+Generality and assurance
+
+The controller uses question/context, an executable artifact, immutable source
+handles, factual inspection, a bounded patch and uncertainty. It has no routing
+by question ID, patient ID, template, answer kind, model identity or known
+failure category. FHIR schemas, scope checks and conventions remain shared
+domain components; their bytes stay unchanged in this treatment.
+
+The host establishes provenance and execution/source properties. It does not
+prove that a natural-language obligation or proposed repair is correct. Positive
+source facts are required in this first candidate; context-only discrepancies
+without such facts return UNKNOWN. A corrected empty answer is allowed under
+the existing candidate-specific empty policy. Valid empty answers are not an
+automatic reason to revise. Cross-model and other-QA gains remain untested.
+
+Experiment and decision
+
+After engineering validation, freeze exact source/runtime/settings and run a
+fresh single plus V5 team on the same 300 development questions. All scheduled
+first attempts count, including errors. The development gate is team greater
+than both 239/300, the best completed prior single, and its fresh contemporary
+single. Preserve the precritic primary and every proposal/rejection so helpful,
+harmful and neutral critic changes can be measured after completion.
+
+These 300 questions are adaptive development validation. A selected checkpoint
+then freezes once before the full 2,931-question benchmark. The prespecified
+1,397 question-confirmation cases are reported separately; most share patients
+with development. Follow docs/evaluation_generalization_protocol_20261015.txt
+and manifests/final_evaluation_strata_20261015.json. No patient-generalization,
+cross-model or other-task superiority is claimed from a development win.
+
+Research rationale and limitations
+
+See docs/research_executable_critic_20261015.txt and its primary-source notes.
+CRITIC motivates tool-grounded critique but uses more revision work and can
+harm correct answers. SQLDriller illustrates that counterexamples distinguish
+programs while a fallible language oracle still chooses the intended meaning.
+Self-generated-test research warns that invented expected outputs can mislead
+repair. V5 therefore treats probes as factual observations, preserves the
+original candidate and measures harmful revisions under the common budget.

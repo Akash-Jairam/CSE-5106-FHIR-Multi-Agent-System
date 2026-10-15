@@ -1,0 +1,26 @@
+{
+  "status": "READY_FOR_ROOT_REVIEW_AND_PRESPECIFICATION",
+  "runtime_commit": "51c505e5854570bb82ded5bd1fc0886dd45d46a2",
+  "critic_module_sha256": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+  "files": {
+    "v5_guard.py": "10e7b2b537f529a146695606ca8d89690cfdb3fac8d9b3465d82b5eec6f01f29",
+    "reviewed_v4_guard.py": "98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8",
+    "guard_pins.json": "38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50",
+    "test_v5_guard.py": "c831e74d0e199db74b17db928dc5e99ae98795b165ebc78fe34b664ac3370235",
+    "test_reviewed_base.py": "57f598f1785a3acd79ff4834a9fdedaad1352a4f49b006a1fb870d249bac0c8c",
+    "test_lifecycle.py": "331db9d81c098fceff1b5d3aa2379e69d5cf5b66507db98d15cb2487e5c7c9ca",
+    "fixture_audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "prelaunch_integrity.json": "f657f5afc93d997046a89f16a443ac30fcb90882433cd579cc2e0c0ee8f9caca",
+    "USAGE.txt": "eaf4b2078e4ebe44f843d5395e2eeaebfc6600bb4996438004cf46bd912a84cd"
+  },
+  "synthetic_tests": {
+    "v5": 22,
+    "reviewed_base": 26,
+    "lifecycle": 3,
+    "total": 51
+  },
+  "actual_prelaunch": "PASS;161 frozen source files,4 public provider files,output absent",
+  "models": 0,
+  "network_calls": 0,
+  "scoring": false
+}

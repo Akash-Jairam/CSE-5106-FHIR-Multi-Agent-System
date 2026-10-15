@@ -1,0 +1,50 @@
+V5 independent stable-code and transport review
+2026-10-15. Read-only isolated implementation review, synthetic offline tests and mocked SDK sends only. No actual models/FHIR network, private configuration reads, new confirmation content, active runtime edits or accuracy-based pilot.
+
+Disposition: PASS for the selected engineering/protocol boundary. No remaining concrete blocker found. This is not a claim that the critic's semantic judgments are correct, that it improves accuracy, or that Azure is available.
+
+Exact approved packet
+Base d0ccaaa923ebcf9c65d74812e33f929dc376205c
+Isolated source /private/tmp/fhir-v5-critic-implementation-1uhqxv2n
+Module agent/executable_critic_agent.py SHA256e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7
+Patch /private/tmp/fhir-v5-executable-critic-v3.patch SHA256717f6335d788c64fd4fed868d27f428062088d35e1d7eea4bfbd9831ad7006a5
+Manifest /private/tmp/fhir-v5-executable-critic-delivery-v3.json SHA2564b5683649a57d839ce703a51f52fd48d032a7881d0c4cbc0d64aa06289851942
+Detailed protocol SHA2561421acb765ba74b5626d4b47bac54f89bb43f41749cf359874e498954133e3b0
+All six delivered file hashes and all four bound artifact hashes independently matched.38 tracked pre-existing agent/tools/utils Python modules independently byte-match the original repository's base commit; this includes SingleAgent, LedgerSolver, shared semantic guide, tools and scorer. The only existing-source changes in the patch are additive V5 dispatch/choice entries in three drivers; defaults and shared runtime behavior remain unchanged.
+
+Independent verification
+117 offline tests passed in4.524seconds:45V5 interface/accounting/source tests plus unchanged V3, driver/audit and full-benchmark tests. The reviewer asserted the exact module SHA before and after that run. Log /private/tmp/fhir-v5-independent-final-tests.log SHA25618e4e1c9ac7bfcf71dced5e9a24d7c72bec2985c6a9352da27b854cbbebbc4d8.
+
+The independent native SDK harness passed again on the same e66f module. It creates AzureOpenAI's DEFAULT HTTPX2 client/transport, intercepts send in memory, and passes ordinary histories unchanged through the actual SDK JSON encoder. It exercises normal dispatch/run_v5_job/run_agent_safe, an intentionally bad synthetic primary citation, ordinary source-feedback continuation, two critic JSON replies, actual sandbox inspect/final execution, actual mocked-store source checking, gzip externalization and exact restoration. Five SDK requests, eight counted tools, two critic calls/three critic tools, requested critic completion caps1800/4000, clean final source check. This is the worker-function path, not a multiprocessing scheduling or network-pool/provider-availability test. No sockets were used.
+Harness /private/tmp/fhir-v5-independent-native-sdk.py SHA2565d9de6bab1d9428ed683f72b0b753c90844d1acbbb11d2fd0c0a85c8195295c6
+Report /private/tmp/fhir-v5-independent-native-sdk-report.json SHA2563e7d4fa9e7560d71c2496fa16ed5c9a41a3ed00c97b69adb4055e1482d50d80b
+Log /private/tmp/fhir-v5-independent-native-sdk-final.log SHA2560ceb53197c53756750f915cea3c089bb19a6fd25d072ece50003c8ed3400287d
+Shared proof /private/tmp/fhir-v5-independent-shared-source-proof.json SHA25660a6d08ab8a7ec449362b1e1888d685dd6c02941c76a13b7d000031b17d13e86
+
+Reviewed runtime properties
+- Primary is unchanged V3 continuous LedgerSolver175k/27tools,25requested+2source checks,20actualcalls/22host slots. No preliminary plan/contract. Critic25k/3tools, at most2actual model calls, no implicit synthesis/retrieval/repair retry. Global200k/30.
+- The two-call reservation is21865tokens at maximum5500-token first input; actual second input is rechecked. Temporary token ceilings restore in finally. All model inputs/outputs, sandbox executions and original-source checks count. Completion subcap reports1801/4001 are now fatal even below aggregate ceilings.
+- A valid original artifact/workspace is frozen before critique; copied probes/candidates cannot mutate the original. Missing primary execution/source support or unresolved scope prevents critique/rescue. Known auxiliary parse/coverage/budget/probe/candidate/check inability preserves primary; unknown admitted-call usage, escaped model invocation, malformed accounting or overshoot remains fatal.
+- Original-question/context quotes must be unique, with host-derived spans. Immutable source facts match exact typed JSON fields; second-stage witnesses bind the actual returned probe values. Missing source facts/context-only allegations remain UNKNOWN. Whole intact code/essential ledger must fit; explicit source previews are not completeness claims.
+- A generic exact old/new text region is spliced into actual code and the entire candidate executes once in final mode. Same-ID grouping/projection changes are allowed; an operation-prose-only change is rejected. Behavioral change is not labelled semantic improvement.
+- Candidate-specific empty handling uses the new artifact. There is no prefer-nonempty branch. Raw/global checker errors, contradictory error envelopes, missing results, invalid/warning citations, unresolved scope or candidate limitation preserve primary. Clean primary fallback does not inherit auxiliary check issues as final_check_issues.
+- Original and alternate, probe, proposal, source results and usage remain recorded. Solver-source and critic revision flags are separate; typed helpful/harmful labels must be computed only post-completion. Null score credit and clean source/execution release remain distinct diagnostics.
+- No benchmark-ID, patient-ID, template-ID, answer-kind or model-family decision routes were introduced. Patient ID in the unchanged FHIR ownership adapter is ordinary task context. No shared guide change or special clock-repair branch. Other-task portability remains an architectural hypothesis: this implementation still uses the existing FHIR source adapter, whose semantics do not become universal QA rules.
+
+Findings corrected before this approval
+1. Packet/serialization/tokenizer preparation was initially outside auxiliary fallback; now protected and regression-tested.
+2. Escaped exceptions after admitting a model call could avoid accounting fatality; now counted as unavailable/fatal.
+3. Contradictory raw checker error envelopes could be accepted alongside valid rows; now fail closed.
+4. A reported completion1801 above requested1800 could survive because aggregate reserve was not exceeded; both completion subcaps now checked explicitly.
+5. A known per-call cached='bad' caused an uncaught shared output-formatter TypeError and lost the result envelope. Optional cached/cost/aggregate/per-call malformed fields now produce safe unavailable canonical records and fatal accounting while preserving valid recorded numeric increments. Shared formatter is unchanged.
+An intermediate source-hash mismatch prevented one synthetic harness attempt from running; it was correctly rejected before SDK construction. The successful final harness binds only e66f bytes. Initial default-sandbox failures occurred before primary execution; the authorized real-worker tests above passed under sandbox escalation.
+
+Assurance limits
+The host validates executable/source lineage and bounded work. Probe observations can be model-written literal computations; they are not necessarily original-program traces, independent tests, causal proof or natural-language truth. A bounded text patch can have broad semantic effects and can harm a correct answer. The protocol honestly labels released alternates fallible_model_semantics_not_global_proof; helpful/harmful correction analysis and prospective once-only question-level confirmation remain necessary. Packet-fit283/283 is score-blind capacity evidence from completed eligible V3d artifacts, not an accuracy result or guaranteed future coverage.
+
+Exact native-harness invocation (cwd is the isolated root above)
+env FHIR_LOCAL_AZURE_CONFIG='' MODEL='gpt-6-luna' LITELLM_LOCAL_MODEL_COST_MAP=True PYTHONPATH='/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase2-dependencies:/private/tmp/fhir-v5-critic-implementation-1uhqxv2n' '/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python' /private/tmp/fhir-v5-independent-native-sdk.py > /private/tmp/fhir-v5-independent-native-sdk-final.log 2>&1
+
+The equivalent independent unit command uses the same environment/interpreter with:
+-m unittest tests.test_executable_critic_agent tests.test_query_contract_agent tests.test_driver_audit_io tests.test_full_benchmark -v
+The recorded actual review invocation additionally wrapped unittest loading/running in a before/after SHA256 assertion, visible as REVIEWED_AGENT_SHA256 in the final log. No API bootstrap/sitecustomize path was added to PYTHONPATH. Sandbox escalation authorized the isolated local worker only.

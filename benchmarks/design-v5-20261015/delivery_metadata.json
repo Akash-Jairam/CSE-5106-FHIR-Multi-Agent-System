@@ -1,0 +1,29 @@
+{
+  "base_commit": "d0ccaaa923ebcf9c65d74812e33f929dc376205c",
+  "isolated_directory": "/private/tmp/fhir-v5-critic-implementation-1uhqxv2n",
+  "files": {
+    "agent/executable_critic_agent.py": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+    "tests/test_executable_critic_agent.py": "795dd7f0f41595ce3dbe8ae2ac228def79571a5d592d3d2457780a0f09cc5b6e",
+    "docs/design-v5-executable-critic.txt": "1421acb765ba74b5626d4b47bac54f89bb43f41749cf359874e498954133e3b0",
+    "run_agent.py": "126d75f8d009790b43ecb49f8930ad39e1dc48b5904044eff941de65b37fd350",
+    "scripts/run_experiments.py": "ccff60f39357f921da231511165ee80fae408df9b20087509ecd51d84e370b4f",
+    "scripts/full_benchmark.py": "68afbdfe59891cb20198dc4958a1c32e055b3d3983f90aa26db4d33a8aa155b1"
+  },
+  "artifacts": {
+    "/private/tmp/fhir-v5-executable-critic-v3.patch": "717f6335d788c64fd4fed868d27f428062088d35e1d7eea4bfbd9831ad7006a5",
+    "/private/tmp/fhir-v5-critic-tests-v3.log": "3ef4d09e85528ec2ab5dcb40354e847b3c25016ccb42ee81e487f9605f3db7b7",
+    "/private/tmp/fhir-v5-critic-coverage.py": "315da5a1612607d10d2135e5d08ce9e249c5c94d9e3549551c28e84b6b832fad",
+    "/private/tmp/fhir-v5-critic-coverage-v3.json": "8290140d759fc2bf61173336d00ab40b7810edd701853225d3c53dbc410c6465"
+  },
+  "tests": "117 passed: V5 focused45 + unchanged V3/driver-audit/full-benchmark synthetic suites",
+  "test_command": "FHIR_LOCAL_AZURE_CONFIG='' MODEL='gpt-6-luna' LITELLM_LOCAL_MODEL_COST_MAP=True PYTHONPATH='<repo>/.local-setup/phase2-dependencies:.' <repo>/.venv/bin/python -m unittest tests.test_executable_critic_agent tests.test_query_contract_agent tests.test_driver_audit_io tests.test_full_benchmark -v",
+  "notes": [
+    "No active repository mutation",
+    "No real model or FHIR calls",
+    "No new unseen QA/gold/reference program inspection",
+    "An attempted broader phase3 orchestration run lacked deliberately uncopied dataset/manifests; it is excluded from the final 117-pass claim.",
+    "Positive-source facts are a predeclared coverage limit; context-only discrepancies remain UNKNOWN."
+  ],
+  "supersedes_patch_sha256": "bb138dbe3f9b5b07ac911e50b4cf1f2488f666577643f946d265d7faf5cc9eae",
+  "revision": "v3: complete canonical usage/formatter boundary, including optional cached counts, cost, aggregate shapes and safe unavailable placeholders"
+}

@@ -1,0 +1,18 @@
+{
+  "agent_sha256": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+  "status": "PASS",
+  "scope": "model-free native default HTTPX2 SDK send mocked; no sockets/provider/configuration",
+  "sdk_calls": 5,
+  "tools": 8,
+  "critic_tools": 3,
+  "critic_calls": 2,
+  "critic_completion_caps": [
+    1800,
+    4000
+  ],
+  "release_policy": "executed_source_checked_critic_proposal",
+  "source_feedback": true,
+  "gzip_roundtrip": true,
+  "default_client": "openai._base_client.SyncHttpxClientWrapper",
+  "default_transport": "httpx2.HTTPTransport"
+}

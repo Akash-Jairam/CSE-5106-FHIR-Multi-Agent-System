@@ -1,0 +1,38 @@
+{
+  "status": "PRELAUNCH_PASS",
+  "mode": "prelaunch",
+  "recorded_at_utc": "2026-10-15T05:39:34.147594+00:00",
+  "protocol": "frozen-workspace-executable-critic-v5",
+  "manifest_sha256": "0e6f2ed6c8f5cefd07b68bb022c67ab87219a39a8b5bdd1f3960f4a6cdef9d2c",
+  "source_inventory_sha256": "1001be9c643771778f0fd7cd8abf671a8c90f296e8329bcfa73bc85dc434d48a",
+  "frozen_source_files_verified": 161,
+  "runtime_adapter_files_verified": 4,
+  "pins_sha256": "38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50",
+  "guard_sha256": "10e7b2b537f529a146695606ca8d89690cfdb3fac8d9b3465d82b5eec6f01f29",
+  "reviewed_base_sha256": "98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8",
+  "source_archive_sha256": "7be53bfddc35c7f146a511fd90594c23a0bf73e625ee065db8c13184b1f6991e",
+  "design_sha256": "fdf8b8aa09c60a9bc52d1cba1343b555c0dcbe0d7b37666961bca22425bd69ca",
+  "dataset_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+  "split_sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+  "code_hash": "800e1f0df322c86453d205979d734895e8f36ba8ce53369b4695f440a1b16fa3",
+  "provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "model_calls": 0,
+  "network_calls": 0,
+  "scoring_performed": false,
+  "caller_asserted_owned_jobs_terminal": null,
+  "limits": [
+    "Critic invocations, retained model replies and SDK journal events are distinct evidence; no equality is inferred on failed/fatal paths.",
+    "Text anchors, exact probe facts, executed code and recorded clean citations do not establish semantic/clinical correctness.",
+    "Ordinary source citations bind exact retained check results; the guard does not refetch records or substitute stricter equality for the frozen checker semantics.",
+    "Unavailable usage remains unknown; failures and phase overshoots are retained outcomes, not deleted questions.",
+    "Initial files/journals are individually captured snapshots, not a simultaneous state; unmatched latest starts can be in flight.",
+    "Completion terminality is an external root process-supervision assertion; this helper validates complete saved cohorts and provenance.",
+    "No critic code is rerun and no source records are refetched. Mechanical artifact/witness checks use retained immutable data only.",
+    "A coverage skip or malformed auxiliary judgment may preserve the exact valid primary; it does not establish that a semantic review happened.",
+    "The fixed300 remains adaptive development validation, not confirmation of generalization."
+  ]
+}

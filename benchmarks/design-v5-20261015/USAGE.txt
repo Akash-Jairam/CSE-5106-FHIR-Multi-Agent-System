@@ -1,0 +1,85 @@
+V5 model-free integrity guard packet
+
+Runtime remains frozen at source commit 51c505e5854570bb82ded5bd1fc0886dd45d46a2.
+Final critic module SHA-256:
+e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7
+
+Guard files (copy together without editing, under benchmarks/design-v5-20261015):
+  v5_guard.py
+  reviewed_v4_guard.py
+  guard_pins.json
+Root must review and commit/prespecify the literal guard_pins SHA before launch:
+  38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50
+The pins were prepared while the selected output directory was absent. They bind
+161 exact source entries by file map digest and bind exact SHA-256 values for:
+manifest.json, runtime_adapter_manifest.json, expected_public_binding.json,
+prospective_protocol.json. The guard additionally checks every actual file, both
+source ZIPs, design, ordered fixed cohort and input hashes. A later verification
+never learns expected hashes from changed current bytes.
+
+Current reviewed prelaunch proof: prelaunch_integrity.json, PRELAUNCH_PASS,
+161 source files + four unchanged public provider files. Output absent, no
+model/FHIR/network/config loads/scoring. The older files prefixed real_prelaunch
+or prelaunch_pins_for_review are superseded temporary checks, not launch pins.
+
+Use the repository .venv Python, -I; working directory is the repository.
+Model-free environment may set FHIR_LOCAL_AZURE_CONFIG='' to prevent optional
+local bootstrap activation. The guard itself never imports bootstrap or agents.
+All report/archive destinations must be fresh and noncolliding. Example commands
+use a relative formal record path because CWD is the repository:
+
+FHIR_LOCAL_AZURE_CONFIG='' .venv/bin/python -I benchmarks/design-v5-20261015/v5_guard.py --mode prelaunch --root . --record benchmarks/design-v5-20261015 --pins benchmarks/design-v5-20261015/guard_pins.json --pins_sha256 38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50 --report benchmarks/design-v5-20261015/prelaunch_integrity.json
+
+After each arm has at least one completed saved first attempt:
+FHIR_LOCAL_AZURE_CONFIG='' .venv/bin/python -I benchmarks/design-v5-20261015/v5_guard.py --mode initial --root . --record benchmarks/design-v5-20261015 --pins benchmarks/design-v5-20261015/guard_pins.json --pins_sha256 38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50 --report benchmarks/design-v5-20261015/initial_protocol_audit.json
+
+ONLY after root proves both owned jobs exited; this flag records that external
+assertion and is not independent process-supervision proof:
+FHIR_LOCAL_AZURE_CONFIG='' .venv/bin/python -I benchmarks/design-v5-20261015/v5_guard.py --mode completion --owned_jobs_finished --root . --record benchmarks/design-v5-20261015 --pins benchmarks/design-v5-20261015/guard_pins.json --pins_sha256 38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50 --report benchmarks/design-v5-20261015/completion_protocol_audit.json
+
+After successful integrity verification, a new completion invocation can archive:
+FHIR_LOCAL_AZURE_CONFIG='' .venv/bin/python -I benchmarks/design-v5-20261015/v5_guard.py --mode completion --owned_jobs_finished --root . --record benchmarks/design-v5-20261015 --pins benchmarks/design-v5-20261015/guard_pins.json --pins_sha256 38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50 --report benchmarks/design-v5-20261015/raw_archive_manifest.json --archive output/archives/executable_critic_v5_300q_completed.zip
+
+Archive allowlist: .local-provider.json; run_single.log; run_team.log; two top-level
+result JSONs and their .run.json identities; every referenced safe audit/*.json.gz;
+owned, schema-validated provider-events/azure-diagnostics-<pid>-<session>.jsonl.
+No recursive output ZIP, config, credentials, cache, pickle, unrelated debug files
+or unvalidated partial journal tails. With 600 unique audits and two journals,
+there are 609 members. Content-addressed identical audits may legitimately dedup;
+all 600 row owners/restorations are still checked. A partial journal tail prevents
+archive; unmatched starts are reported, not called successful requests.
+
+What successful paths establish
+- Actual explicit final, current primary artifact, later clean automatic source
+  check; retrieval/new noninspect computation/failed auto-check invalidate it.
+- Runtime-normalized contributor IDs (Single cited-ID union + ordered dedup;
+  critic ordered dedup) while exact raw audit/tool envelopes remain untouched.
+- Frozen critic context/code/workspace packet hashes, actual response-to-retained
+  judgment equality, bounded schema, exact observed facts/witnesses and local AST
+  replacement. Accepted repair requires two responses, three ordered charged host
+  tools, exact alternate execution and clean citation/result binding.
+- Canonical known per-call evidence and no clean cap overrun. Ordinary source
+  citations use the frozen checker's semantics, not stricter probe equality.
+
+What failures/limits establish
+- All 300 first attempts per arm are required; terminal failures and abstentions
+  remain in the denominator and gzip audit. No implicit retry or history accepted.
+- Unknown usage is unknown; accounting-failed critic cannot preserve primary.
+  Reported overshoots/fatal phases remain legitimate recorded terminal outcomes.
+- Admitted critic invocations, retained replies and journal-observed sends are
+  different. Known-usage auxiliary failure may preserve valid primary with a
+  response gap. Only accepted repair requires exact two response records.
+- A retained source-valid null is distinguished from failed/refused null. No
+  answer-key comparison, correctness inference or acceptance scoring occurs.
+- Source/witness checks do not certify semantic correctness or completeness of
+  search; no critic code is rerun and no live sources are re-fetched.
+- Initial results/journals are captured snapshots; current unmatched starts can be
+  in flight. Completion requires external process-terminal confirmation plus600
+  complete saved first attempts. The fixed300 is adaptive development validation,
+  not the frozen final question-confirmation cohort.
+
+Synthetic tests (no actual output or unseen answer/SQL reads):
+python3 -I -S test_v5_guard.py                  # 22 V5 mechanics/compatibility
+python3 -I -S test_reviewed_base.py             # 26 reviewed V4 foundation checks
+<repo>/.venv/bin/python -I test_lifecycle.py    # 3 generated600-row lifecycle tests
+The fixture audit_store is a public-source byte copy used only by synthetic tests.

@@ -1,0 +1,12 @@
+{
+  "root_model_free_tests_passed": 163,
+  "source_commit": "51c505e",
+  "agent_sha256": "e66f7b3af92a63fd80c92f00a4bae357dc01cdf5b1d11c2f5d3ef51f3ddb42c7",
+  "selected_delivery_sha256": "4b5683649a57d839ce703a51f52fd48d032a7881d0c4cbc0d64aa06289851942",
+  "real_development_questions": 1,
+  "development_accuracy_scored": false,
+  "confirmation_cases_queried": 0,
+  "live_sdk_successes": 5,
+  "live_sdk_failures": 0,
+  "test_command": "FHIR_LOCAL_AZURE_CONFIG='' MODEL='gpt-6-luna' LITELLM_LOCAL_MODEL_COST_MAP=True PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python -m unittest tests.test_executable_critic_agent tests.test_query_contract_agent tests.test_driver_audit_io tests.test_full_benchmark tests.test_phase3_orchestration tests.test_full_evaluation_strata -v"
+}

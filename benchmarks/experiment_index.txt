@@ -112,3 +112,23 @@ Only one nominally outcome-unexposed patient remains, with 18 questions. No
 useful new-patient population claim can be recovered by repartitioning this data.
 Cross-model and other-QA portability are design goals, not current results.
 No new confirmation subset has been queried or scored.
+
+V5 — bounded executable critique of a frozen primary computation
+Branch: experiments/executable-critic-v5; record: benchmarks/design-v5-20261015
+Source commit 51c505e; 161 source files frozen before inference.
+Unchanged V3 solver 175k/27 tools, followed by critic 25k/3 tools:
+one frozen-workspace inspect, one patched final execution, one original-source
+check. At most two critic model invocations. Aggregate 200k/30; no retrieval,
+upfront plan, static audit, hidden synthesis or benchmark-specific repair grammar.
+Nonfatal auxiliary inability preserves the valid primary; unknown/malformed usage
+and declared overshoots are fatal. Semantic interpretation remains fallible.
+163 root and 117 independent model-free tests passed, plus exact native SDK
+serialization/source-feedback/gzip checks with mocked sends. One reserved-dev
+live interface check had five successful SDK calls and preserved its source-valid
+primary after INSPECT then UNKNOWN; it was not accuracy-scored or separately
+entered as an experiment. Protected confirmation questions remain unqueried.
+Scheduled: fresh single 300 + team 300 first attempts, one worker per arm, gzip.
+Status: FROZEN — reviewed prelaunch integrity PASS; not yet started.
+Guard pins SHA256 38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50.
+Predeclared development gate: team >239 AND >fresh contemporary single.
+A development win does not establish patient, model or other-task generalization.
