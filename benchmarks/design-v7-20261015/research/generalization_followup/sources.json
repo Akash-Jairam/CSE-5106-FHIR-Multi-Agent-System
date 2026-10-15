@@ -1,0 +1,61 @@
+{
+  "scope": "Research-only online primary-paper recheck and explicit reuse of prior author-code audits; no project run data or numerical replication.",
+  "papers": [
+    {
+      "name": "AgentScaling",
+      "paper": "https://arxiv.org/html/2512.08296v3",
+      "published_article": "https://www.nature.com/articles/s42256-026-01268-y",
+      "author_repository": "https://github.com/ybkim95/agent-scaling",
+      "commit": "8673d6a8d5a764a07b08e4283492380d80257223",
+      "code_review_this_turn": "Prior pinned audit reused; current author README viewed online, exact-commit web fetch unavailable."
+    },
+    {
+      "name": "CorrelatedErrors",
+      "paper": "https://arxiv.org/html/2506.07962v1",
+      "author_repository": "https://github.com/nikhgarg/llm_correlated_errors_public",
+      "commit": "30a2c0aa88af3f428f1f7034538373d24c209176",
+      "code_review_this_turn": "Prior pinned audit reused; current author repository viewed online, exact-commit web fetch unavailable."
+    },
+    {
+      "name": "ATTS_GeneralAgentBench",
+      "paper": "https://arxiv.org/html/2602.18998v1",
+      "author_repository": "https://github.com/cxcscmu/General-AgentBench",
+      "commit": "35f5c027c31ddcb3366b28674c6cb2957460c0e2",
+      "code_review_this_turn": "Prior exact-commit runner/prompt audit reused from pinned assessment; current author repository viewed online, exact-commit web fetch unavailable."
+    },
+    {
+      "name": "FineVerify",
+      "paper": "https://arxiv.org/html/2606.00660v1",
+      "author_repository": "https://github.com/XuZhao0/fineverify",
+      "commit": "4d172e30a51946437b7cb4c47617872c3fd346ee",
+      "code_review_this_turn": "Retained exact pinned author source text reread at tools.py895-925/1180-1211 and gpt5_mini_fineverify.py304-380; verified retained SHA against prior source manifest."
+    }
+  ],
+  "reused_audit_files": {
+    "/private/tmp/fhir-v6-followup-hypotheses-20261015/assessment.txt": "ddeedc5c5687a802f82fd69cb179edfb384058e3f36d773b2817c47da7bed77e",
+    "/private/tmp/fhir-v6-followup-hypotheses-20261015/code_pins.json": "77db92b3f75717eca646a670aca17af41332c997115b6c92f44deee265970dbb",
+    "/private/tmp/fhir-selection-research-20261015/assessment.txt": "a035312e32d71e028f71f89b67f94afc74a091223e1a31da165eab547a049942",
+    "/private/tmp/fhir-selection-research-20261015/h2_critique.txt": "fbe1855b0466a6757a13ec35ebdfd002c17ffb08e5f3cf51d14f90b0c9d2d816",
+    "/private/tmp/fhir-selection-research-20261015/code_pins.json": "9d438fd0eeca44ae5786f4d55dc67cba07fc47c70b45cf827460e152c545278d"
+  },
+  "reread_code_files": [
+    {
+      "repo": "XuZhao0/fineverify",
+      "commit": "4d172e30a51946437b7cb4c47617872c3fd346ee",
+      "path": "tools.py",
+      "url": "https://raw.githubusercontent.com/XuZhao0/fineverify/4d172e30a51946437b7cb4c47617872c3fd346ee/tools.py",
+      "sha256": "004c793dfe2fb0ae0bfa3022e618bdf5e61dad6941171ea5f26609d80c51bfff",
+      "bytes": 69922,
+      "retained_path": "/private/tmp/fhir-selection-research-20261015/source/XuZhao0__fineverify/tools.py"
+    },
+    {
+      "repo": "XuZhao0/fineverify",
+      "commit": "4d172e30a51946437b7cb4c47617872c3fd346ee",
+      "path": "gpt5_mini_fineverify.py",
+      "url": "https://raw.githubusercontent.com/XuZhao0/fineverify/4d172e30a51946437b7cb4c47617872c3fd346ee/gpt5_mini_fineverify.py",
+      "sha256": "15eb82eb296669c0ab74e0a1e3ac68d682db3e1662c4e88940d800e477407217",
+      "bytes": 26229,
+      "retained_path": "/private/tmp/fhir-selection-research-20261015/source/XuZhao0__fineverify/gpt5_mini_fineverify.py"
+    }
+  ]
+}
