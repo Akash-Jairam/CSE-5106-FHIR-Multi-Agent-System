@@ -1,0 +1,193 @@
+{
+  "status": "COMPLETED_DEVELOPMENT_NEGATIVE_NO_PROMOTION",
+  "protocol": "full-single-residual-trajectories-v7",
+  "recorded_at_utc": "2026-10-15T14:54:37.495217+00:00",
+  "model": "gpt-6-luna",
+  "first_attempts_per_arm": 300,
+  "replacement_attempts": 0,
+  "fresh_single_correct": 238,
+  "team_correct": 233,
+  "actual_full_cap_A_only_correct": 233,
+  "development_acceptance": {
+    "prior_best_single": 239,
+    "fresh_single_correct": 238,
+    "team_correct": 233,
+    "A_only_available": 300,
+    "A_only_unavailable": 0,
+    "A_only_correct_all300": 233,
+    "A_only_correct_observed": 233,
+    "A_only_full300_correct_bounds": [
+      233,
+      233
+    ],
+    "team_beats_prior_best": false,
+    "team_beats_fresh_single": false,
+    "team_beats_actual_A_only": false,
+    "passed": false,
+    "status": "evaluated_all300",
+    "rule": "Strict integer Team>239 AND Team>freshSingle AND Team>actual full-cap recorded A-only, all300 first attempts."
+  },
+  "paired_difference": {
+    "comparison": "v7_team - v7_single",
+    "wins": 7,
+    "losses": 12,
+    "n": 300,
+    "patients": 58,
+    "estimate": -0.016666666666666666,
+    "ci_low": -0.05031499303532987,
+    "ci_high": 0.015626224529780547
+  },
+  "mechanisms": {
+    "questions": 300,
+    "development_acceptance": {
+      "prior_best_single": 239,
+      "fresh_single_correct": 238,
+      "team_correct": 233,
+      "A_only_available": 300,
+      "A_only_unavailable": 0,
+      "A_only_correct_all300": 233,
+      "A_only_correct_observed": 233,
+      "A_only_full300_correct_bounds": [
+        233,
+        233
+      ],
+      "team_beats_prior_best": false,
+      "team_beats_fresh_single": false,
+      "team_beats_actual_A_only": false,
+      "passed": false,
+      "status": "evaluated_all300",
+      "rule": "Strict integer Team>239 AND Team>freshSingle AND Team>actual full-cap recorded A-only, all300 first attempts."
+    },
+    "all_A_available_denominator": 300,
+    "all_A_to_team_net_correct": 0,
+    "A_B_source_bound_joint_correctness": {
+      "A_right_B_right": 160,
+      "A_wrong_B_wrong": 19,
+      "A_right_B_wrong": 4,
+      "A_wrong_B_right": 1
+    },
+    "A_B_source_bound_joint_denominator": 184,
+    "terminal_error": 6,
+    "selected_B": 1,
+    "auxiliary_entered": 268,
+    "auxiliary_fatal": 2,
+    "auxiliary_fatal_correct_A_loss": 1,
+    "team_exact_null_credit": 31,
+    "A_exact_null_credit": 31,
+    "status": {
+      "B_ineligible": 82,
+      "agreement_preserved": 152,
+      "selector_preserved_A": 31,
+      "residual_coverage_skip": 23,
+      "fatal_alternative": 2,
+      "A_entry_coverage_skip": 5,
+      "fatal_primary": 4,
+      "selected_B": 1
+    },
+    "selector_choice": {
+      "None": 268,
+      "A": 26,
+      "UNKNOWN": 4,
+      "B": 2
+    },
+    "released_B_effect": {
+      "not_applied": 299,
+      "helpful": 1
+    },
+    "all_post_A_effect": {
+      "neutral": 298,
+      "helpful": 1,
+      "harmful": 1
+    },
+    "exact_JSON_answer_agreement": {
+      "None": 116,
+      "True": 152,
+      "False": 32
+    },
+    "A": {
+      "available": 300,
+      "correct": 233,
+      "error": 4,
+      "fatal": 4,
+      "source_bound": 278,
+      "source_revised": 5,
+      "source_feedback_requested": 6,
+      "source_second_check": 5,
+      "source_withholding_lost_credit": 2,
+      "known_budget_stop": 13,
+      "source_revision_effect": {
+        "not_applied": 295,
+        "neutral": 3,
+        "harmful": 2
+      },
+      "unknown_invocations": 4
+    },
+    "B": {
+      "available": 268,
+      "correct": 175,
+      "error": 2,
+      "fatal": 2,
+      "source_bound": 184,
+      "source_revised": 3,
+      "source_feedback_requested": 3,
+      "source_second_check": 3,
+      "source_withholding_lost_credit": 0,
+      "known_budget_stop": 81,
+      "source_revision_effect": {
+        "not_applied": 265,
+        "neutral": 3,
+        "unavailable": 32
+      },
+      "unknown_invocations": 2
+    },
+    "unknown_usage_invocations": 6
+  },
+  "all_available_B_joint_actual_released_correctness": {
+    "A_right_B_wrong": 48,
+    "A_right_B_right": 174,
+    "A_wrong_B_wrong": 45,
+    "A_wrong_B_right": 1
+  },
+  "parity_sanity": {
+    "matched_pairs": 300,
+    "initial_message_prefix_exact_equal": 300,
+    "initial_system_message_subset_exact_equal": 300,
+    "initial_user_message_subset_exact_equal": 300,
+    "original_question_context_exact_equal": 300,
+    "Single_control_any_context_compaction": 2,
+    "A_any_context_compaction": 2
+  },
+  "official_reported_mean_tokens": {
+    "single": 72180.06,
+    "team": 114984.19,
+    "limit": "Failed admitted usage is unknown; these reported fields are not complete token/billing accounting."
+  },
+  "official_observed_cost": {
+    "single": null,
+    "team": null
+  },
+  "optimistic_team_all_six_errors_correct_bound": 239,
+  "bound_limit": "Not adjusted accuracy or a recovery estimate; even this arithmetic bound fails strict >239.",
+  "protected_confirmation_unused": true,
+  "main_promoted": false,
+  "full_run_launched": false,
+  "evidence_sha256": {
+    "completion_integrity.json": "a27e383569198753c326b41e4fc7537387c66ee2593d47f0d97dbccb48b38202",
+    "comparison.json": "2ef2ae8342ade4d77352f424fda9ff5087eefac718eb06dd07ceedf8bb27fe0e",
+    "owned_jobs_completion.json": "3c6682a2c760933cd56fa3101af7c7232a13ef2679dc2b269c97af2fd692b2a9",
+    "diagnostics/mechanisms.json": "33bdffa295f85c67ed6a3ab15edb83eb699766b475c9535f2f0e0cd762a77df5",
+    "diagnostics/mechanisms_rows.json": "a43a753ee0855791eff2cd6369213aa9ab2eec71f61f1f8b21f84d0221df3ee7"
+  },
+  "raw_archive": {
+    "path": "output/archives/residual_trajectories_v7_300q_completed.zip",
+    "sha256": "d0d20063d3c70395af58fb834dbda64dea94ea5adc6d53c99f3ea3812553ada2",
+    "bytes": 357318126,
+    "members": 609,
+    "committed": false
+  },
+  "independent_review_deliveries": {
+    "independent_completion_verification": "d3224dba396629ce1d623f6f894403124a99f6602d228168a8b7b69a23a34bee",
+    "independent_mechanism_verification": "b81c6b2e8c2b2923a1c475b0c41bd328878bafcfbaf99caa37f26d0e7683c906",
+    "provider_diagnostics": "408f70489e8bebb4ec41d90e540c343c4619895025cc3ce66696756815eef7a1"
+  }
+}

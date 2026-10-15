@@ -1,0 +1,144 @@
+{
+  "experiment": "design-v7-20261015",
+  "protocol": "full-single-residual-trajectories-v7",
+  "schema_version": 1,
+  "summary": {
+    "questions": 300,
+    "development_acceptance": {
+      "prior_best_single": 239,
+      "fresh_single_correct": 238,
+      "team_correct": 233,
+      "A_only_available": 300,
+      "A_only_unavailable": 0,
+      "A_only_correct_all300": 233,
+      "A_only_correct_observed": 233,
+      "A_only_full300_correct_bounds": [
+        233,
+        233
+      ],
+      "team_beats_prior_best": false,
+      "team_beats_fresh_single": false,
+      "team_beats_actual_A_only": false,
+      "passed": false,
+      "status": "evaluated_all300",
+      "rule": "Strict integer Team>239 AND Team>freshSingle AND Team>actual full-cap recorded A-only, all300 first attempts."
+    },
+    "all_A_available_denominator": 300,
+    "all_A_to_team_net_correct": 0,
+    "A_B_source_bound_joint_correctness": {
+      "A_right_B_right": 160,
+      "A_wrong_B_wrong": 19,
+      "A_right_B_wrong": 4,
+      "A_wrong_B_right": 1
+    },
+    "A_B_source_bound_joint_denominator": 184,
+    "terminal_error": 6,
+    "selected_B": 1,
+    "auxiliary_entered": 268,
+    "auxiliary_fatal": 2,
+    "auxiliary_fatal_correct_A_loss": 1,
+    "team_exact_null_credit": 31,
+    "A_exact_null_credit": 31,
+    "status": {
+      "B_ineligible": 82,
+      "agreement_preserved": 152,
+      "selector_preserved_A": 31,
+      "residual_coverage_skip": 23,
+      "fatal_alternative": 2,
+      "A_entry_coverage_skip": 5,
+      "fatal_primary": 4,
+      "selected_B": 1
+    },
+    "selector_choice": {
+      "None": 268,
+      "A": 26,
+      "UNKNOWN": 4,
+      "B": 2
+    },
+    "released_B_effect": {
+      "not_applied": 299,
+      "helpful": 1
+    },
+    "all_post_A_effect": {
+      "neutral": 298,
+      "helpful": 1,
+      "harmful": 1
+    },
+    "exact_JSON_answer_agreement": {
+      "None": 116,
+      "True": 152,
+      "False": 32
+    },
+    "A": {
+      "available": 300,
+      "correct": 233,
+      "error": 4,
+      "fatal": 4,
+      "source_bound": 278,
+      "source_revised": 5,
+      "source_feedback_requested": 6,
+      "source_second_check": 5,
+      "source_withholding_lost_credit": 2,
+      "known_budget_stop": 13,
+      "source_revision_effect": {
+        "not_applied": 295,
+        "neutral": 3,
+        "harmful": 2
+      },
+      "unknown_invocations": 4
+    },
+    "B": {
+      "available": 268,
+      "correct": 175,
+      "error": 2,
+      "fatal": 2,
+      "source_bound": 184,
+      "source_revised": 3,
+      "source_feedback_requested": 3,
+      "source_second_check": 3,
+      "source_withholding_lost_credit": 0,
+      "known_budget_stop": 81,
+      "source_revision_effect": {
+        "not_applied": 265,
+        "neutral": 3,
+        "unavailable": 32
+      },
+      "unknown_invocations": 2
+    },
+    "unknown_usage_invocations": 6
+  },
+  "official_totals_reconciled": {
+    "ordinary_single_agent": {
+      "correct": 238,
+      "n": 300,
+      "official_label": "v7_single"
+    },
+    "ordinary_multi_agent": {
+      "correct": 233,
+      "n": 300,
+      "official_label": "v7_team"
+    }
+  },
+  "completion_status": "PASS",
+  "scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+  "compare_source_sha256": "607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c",
+  "scope": "All completed fixed300 first attempts; saved references only; no full-QA parsing or confirmation scoring.",
+  "limits": [
+    "A-only is actual full-cap natural Single with its own normalized release/error/phasefatal state, before auxiliary failures.",
+    "Missing A remains unavailable and blocks acceptance; no null substitution or excluded denominator.",
+    "Source feedback effects are draft-to-actual-phase-release descriptions, including source withholding; not generic outer revised attribution.",
+    "Actual selected-B effects, eligible complementarity, strictJSON agreement, typed correctness and fatal auxiliary losses are distinct.",
+    "Source/check/selector claims are fallible and do not prove semantic correctness or complete retrieval.",
+    "The adaptive three-condition development gate adds no CI/significance/generalization claim; full confirmation protocol is unchanged.",
+    "Externally pinned completion proof supplies deep600 restoration; this helper restores only necessary Team300 audits, with all raw bytes pinned.",
+    "Terminality/pin timing remain root attestations; byte rechecks are not atomic OS attestation."
+  ],
+  "external_bindings": {
+    "helper_sha256": "4e3c460fba42855715ebef94d064b9f8c9cca827d94122042ce113dc29d3a6d4",
+    "completion_report_sha256": "a27e383569198753c326b41e4fc7537387c66ee2593d47f0d97dbccb48b38202",
+    "official_report_sha256": "2ef2ae8342ade4d77352f424fda9ff5087eefac718eb06dd07ceedf8bb27fe0e",
+    "guard_sha256": "bf47aa9e9c84735b0a096acbb6d209776473fcb7e81e8cfa2e366576d90e1115",
+    "guard_pins_sha256": "eea97f39b4a7cfa58fb363c4f4bd92990c1c7484ba4ac0e0171fbed1c6e60827",
+    "owned_jobs_attestation_sha256": "3c6682a2c760933cd56fa3101af7c7232a13ef2679dc2b269c97af2fd692b2a9"
+  }
+}

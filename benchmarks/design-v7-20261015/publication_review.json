@@ -1,0 +1,36 @@
+{
+  "status": "ONE_NARROW_WORDING_CORRECTION_RECOMMENDED",
+  "scope": "Read-only authored V7 completed record against prior independent score verification and formal aggregate mechanism review; no rescoring or raw data/config access",
+  "reviewed_current_sha256": {
+    "outcome.txt": "528aa562f9819a3b590f91398b137df100c13bb4ae18fbe514a3c88ecd3599ab",
+    "results.json": "29f86f0b49785aba72c735c3536a50520aba373b5ac188f7d507a563f2f225d1",
+    "analysis_execution.json": "73134cad9b26b3d698e51cb41573fbaab61db0d963825e6eb789a7543126b12c",
+    "completion_publication_manifest.json": "7b29f71f3fa8c2c092ded9e2986a59cb6c19b99fea6d5d95af84fbf1935ba77a",
+    "diagnostics/mechanisms.json": "33bdffa295f85c67ed6a3ab15edb83eb699766b475c9535f2f0e0cd762a77df5",
+    "independent_mechanism_verification/review.json": "a461199ddf323591e9779478b59c751890764940b75a60454dce37d0ece0ed57"
+  },
+  "experiment_index_sha256": "6e921eba0aeea5a3ef8be775ad2a0a04be233669cba85645328155c98f249cd3",
+  "verified_claims": [
+    "Single238/300, Team233/300, actual A-only233/300;7wins12losses,58-patient seed5106 bootstrap exactly matches prior independent verification.",
+    "All three strict prospective gates fail; all300 A available; no promotion/full launch or protected1397 spending.",
+    "The sole A-wrong/B-correct B exists in both all268 released/error B and eligible184 tables; actual selectedB helps once and one auxiliary fatal correct-A loss cancels it.",
+    "All10 provider errors are9 read-timeout chains plus1 HTTP408, not10 HTTP408; unknown usage/cause and FD snapshot limits remain explicit.",
+    "Initial audit-message prefix parity is explicitly distinguished from native SDK wire identity and from causal explanation of A/Single gap.",
+    "Primary local and aggregate budget stops, source revisions, exact JSON agreement, typed correctness, null credit and generalization limitations are kept distinct.",
+    "Raw archive is recorded local/uncommitted; authored aggregate reports do not claim it was published."
+  ],
+  "recommended_correction": {
+    "paths": [
+      "outcome.txt: Mechanisms paragraph after all268 joint table",
+      "benchmarks/experiment_index.txt: V7 filtering sentence"
+    ],
+    "issue": "Unqualified correct released alternative can be read as no typed-correct B excluded by eligibility; totals show175 all-B correct versus161 eligible-B correct, so14 correct B are outside eligibility, all on already-correct A.",
+    "replace_with": "No additional A-wrong/B-correct released alternative was excluded by eligibility.",
+    "effect": "Clarifies zero lost corrective gain without claiming zero excluded correct B; does not change any score or gate."
+  },
+  "no_other_material_issue_found": true,
+  "limits": [
+    "No broad CRC/hash rerun, tests/scoring repeat, source edits or raw/protected/config inspection.",
+    "Publication manifest must be regenerated after root prose edits as root already plans."
+  ]
+}

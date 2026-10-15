@@ -1,0 +1,24 @@
+{
+  "schema": "root-owned-jobs-completion-v1",
+  "both_owned_jobs_terminal": true,
+  "accuracy_scored": false,
+  "observation": "Both exact owned execution handles directly returned integer terminal exit codes. Timestamps record root observation, not inferred file completion.",
+  "first_attempts_only": true,
+  "replacement_attempts": 0,
+  "jobs": [
+    {
+      "arm": "single",
+      "owned_session_id": 71866,
+      "exit_code": 1,
+      "observed_terminal_utc": "2026-10-15T13:23:36+00:00",
+      "saved_first_attempts": 300
+    },
+    {
+      "arm": "team",
+      "owned_session_id": 20418,
+      "exit_code": 1,
+      "observed_terminal_utc": "2026-10-15T14:38:44+00:00",
+      "saved_first_attempts": 300
+    }
+  ]
+}

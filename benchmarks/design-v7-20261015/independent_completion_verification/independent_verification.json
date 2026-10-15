@@ -1,0 +1,72 @@
+{
+  "status": "INDEPENDENT_FIXED300_VERIFICATION_PASS",
+  "all300_first_attempts_and_errors_retained": true,
+  "arms": {
+    "v7_single": {
+      "result_sha256": "70696eb875745f9d904e1985584ee0fe91ea7aa5b50d9ae82cafafdc042cef32",
+      "identity_sha256": "998120dca5b83eab0a23a868b36a703d02f34ee7c95765794070067337b937f4",
+      "n": 300,
+      "correct": 238,
+      "terminal_errors": 4,
+      "all_terminal_errors_incorrect": true,
+      "nonerror_exact_null_credits": 33,
+      "terminal_rows_that_would_match_if_error_ignored": 0
+    },
+    "v7_team": {
+      "result_sha256": "f2b387dffe2bf49d24b3d8ed502460f212acb89e16f1aa9bf9b1f7e78d577d40",
+      "identity_sha256": "8d0b35870c67320b17933cb6a8330fd566fbc45744c2072da97cba02a0a5687c",
+      "n": 300,
+      "correct": 233,
+      "terminal_errors": 6,
+      "all_terminal_errors_incorrect": true,
+      "nonerror_exact_null_credits": 31,
+      "terminal_rows_that_would_match_if_error_ignored": 1
+    }
+  },
+  "paired": {
+    "comparison": "v7_team - v7_single",
+    "n": 300,
+    "patients": 58,
+    "wins": 7,
+    "losses": 12,
+    "estimate": -0.016666666666666666,
+    "ci_low": -0.05031499303532987,
+    "ci_high": 0.015626224529780547,
+    "bootstrap_replicates": 10000,
+    "seed": 5106
+  },
+  "gates": {
+    "team_beats_prior239": false,
+    "team_beats_fresh_single": false,
+    "A_only_gate": "Not recomputed here; root separately runs reviewed posthoc. All three conjuncts are required.",
+    "selection_possible": false
+  },
+  "completion_report_sha256": "a27e383569198753c326b41e4fc7537387c66ee2593d47f0d97dbccb48b38202",
+  "owned_attestation_sha256": "3c6682a2c760933cd56fa3101af7c7232a13ef2679dc2b269c97af2fd692b2a9",
+  "official_report_sha256": "2ef2ae8342ade4d77352f424fda9ff5087eefac718eb06dd07ceedf8bb27fe0e",
+  "pins_sha256": "eea97f39b4a7cfa58fb363c4f4bd92990c1c7484ba4ac0e0171fbed1c6e60827",
+  "source_files_rehashed": 182,
+  "public_runtime_files_rehashed": 4,
+  "source_sha256": {
+    "utils/answer_scorer.py": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+    "scripts/compare_runs.py": "607ba1b473bd1de87c95793b0a67819a02921e9c12d1b74780059cd95538192c",
+    "scripts/experiment_stats.py": "ee7cbdb3778412f94ff450c2c5a0a5b909585751b32556ad11f9977c231a9620",
+    "scripts/analysis.py": "657d768912f429d0b528e11ec2b1e26c12c5bcd9012738927b5371514f0df647",
+    "scripts/variability.py": "71f09254623be968a08f40cd7224899f1c6a09b107e01c9aba9244b64d68f2d3"
+  },
+  "cohort_sha256": "0d477b2bc214c678dd6d33f142a03a5bc4d3d55e1ae8fa73817e84443e60a2d4",
+  "seed_path": "Separate default_rng(5106) for each pair;10000 multinomial patient-cluster weight draws; question-weighted ratio; percentile95%CI, exactly unchanged compare path.",
+  "limits": [
+    "Fixed300 is adaptive development, not protected confirmation or generalization evidence.",
+    "Normal nonerror null/empty-reference credit follows unchanged typed scorer; terminal errors are always wrong, even if their raw answer would match.",
+    "Source/gzip proof600 is reused; no programs or deep CRCs were rerun here.",
+    "No broader QA CSV was opened or hashed. References/question text used solely from the two authorized completed saved300 cohorts; family templates only for those IDs.",
+    "Actual A-only/selection mechanisms are not inferred from compact raw revision data and are left to reviewed posthoc."
+  ],
+  "model_calls": 0,
+  "FHIR_calls": 0,
+  "network_calls": 0,
+  "config_values_read": false,
+  "protected_scores_computed": false,
+  "repository_edits": false
+}

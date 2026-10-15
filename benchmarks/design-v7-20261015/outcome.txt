@@ -1,0 +1,129 @@
+V7 completed development comparison — acceptance failed
+15 October 2026 UTC
+
+Disposition
+Team scored 233/300 (77.67%), fresh Single 238/300 (79.33%), and actual recorded
+full-cap A-only 233/300. Team minus Single is -1.67 percentage points: 7 wins,
+12 losses, with a question-weighted 58-patient bootstrap 95% interval
+[-5.031499303532987, +1.5626224529780547] percentage points
+(10000 draws, seed 5106). This interval does not establish reliable superiority
+or harm. All three prospective strict gates fail: Team > 239, Team > fresh Single,
+and Team > actual A-only. All 300 A outcomes were reconstructible; no missing A
+was substituted with null or removed. There is no main promotion or full run.
+The protected 1397-question confirmation remains unused.
+
+Exact tested design
+Protocol full-single-residual-trajectories-v7. Implementation commit
+127d351129fde6cafe7c7559fd8fca8fe9455a57; prospective third-gate commit
+d19d13c99569f227c96855b536249dfe8927ebd9; pushed pre-inference freeze50c100b.
+The frozen record archives 182 public inference/source files and four unchanged
+public runtime files. The 42 original agent/tools/utils files remain identical
+to V6; the actual original Single implementation is invoked as primary A.
+
+A receives its whole natural 200000-token/30-inclusive-tool/30-model-attempt
+allowance, original prompt, guide, starting packet and real execution feedback.
+No auxiliary reservation or early handoff reduces A. Its actual normalized
+release/error is frozen. Only actual residual resources permit a fresh Single
+B with its own retrieved starting packet, workspace and tool feedback. B sees
+the original question/context and guide, but no A answer, program, workspace
+or trajectory. Its extra initialization costs one aggregate host-tool call.
+The aggregate team ceilings remain 200000 tokens, 30 tools and 30 SDK attempts.
+
+Intact released/source-bound candidate entries are limited to 32768 canonical
+ASCII-JSON bytes. Exact finite-JSON answer agreement preserves whole A.
+Disagreement permits one tool-free A/B/UNKNOWN selector over intact candidates,
+source-check evidence and unchanged semantic guidance. Switching requires B,
+every listed B requirement supported, and at least one contradicted A
+requirement. The model-generated statuses are fallible; criteria generated
+while seeing both entries are not a separate candidate-blind rubric.
+Nonfatal inability retains A. Admitted unknown usage or actual overshoot is
+fatal even after a valid A. The original design/protocol/source pins remain
+unchanged; later analysis does not rewrite the tested policy.
+
+Completion
+Both owned jobs saved 300 first attempts and exited 1 because retained errors
+make arm_status incomplete. Root observed Single 71866 terminal at 13:23:36 UTC
+and Team 20418 at 14:38:44 UTC. These are observed exits, not inferred file counts.
+No retries, resumes or replacement attempts occurred. The root terminal
+attestation preceded all accuracy scoring. Frozen guard bf47 passed all 600
+owned gzip restorations, CRC/SHA/source/runtime/input/protocol checks and
+produced the allowlisted 609-member 357318126-byte archive. All 5342 SDK
+starts/ends matched:5332 successes, 10 errors, no pending or partial events.
+
+Provider and resource observations
+Single retained 4 errors and Team 6; all score incorrect. Nine client read
+timeouts lasted 60.004–60.020 seconds; one actual HTTP 408 arrived after 44.802 s.
+Every error's next same-worker request succeeded. FD snapshots were 9–10.
+Failed usage remains unknown; no Azure-region/incident or network cause is
+established. Settings stayed at the frozen60 s deadline/zero SDK retries.
+Crediting every Team error would only reach 239, still below the required 240.
+That is an optimistic arithmetic bound, not corrected accuracy or recovery.
+
+The official reported mean_tokens fields are 72180.06 Single and 114984.19
+Team; failed admitted usage prevents complete token/billing conclusions.
+Both observed_cost values are null. Single has 12 aggregate budget stops.
+Team's aggregate stop flag is 0, while A has 13 and B 81 local known stops;
+these scopes must not be confused.
+
+Mechanisms
+The actual team equals A 233 plus one helpful B selection minus one auxiliary
+failure losing a correct A. There are 2 auxiliary fatal outcomes, with only
+one such lost A credit. There is no net auxiliary gain in this run.
+
+B was entered 268 times and produced 184 source-bound eligible candidates,
+versus 37 in the historically different V6 run. Better interface eligibility
+does not establish useful answer diversity. Among the 184 eligible pairs:
+160 both correct, 19 both wrong, 4 A-correct/B-wrong and 1 A-wrong/B-correct.
+Across ALL 268 actual released/error B outcomes:174 both correct, 45 both wrong,
+48 A-correct/B-wrong and the same single A-wrong/B-correct case. No additional
+A-wrong/B-correct released alternative was excluded by eligibility, limitation
+or a known budget stop. Fourteen typed-correct B outcomes were outside the
+eligible pool, all paired with already-correct A. Retained computed-final diagnostics likewise reveal no additional
+typed-correct B final withheld from actual credit; intermediate/hypothetical
+programs were not exhaustively audited.
+
+There are 152 strict JSON agreements and 32 eligible disagreements. The selector
+preserved A 31 times and switched once, capturing the sole eligible correction.
+Its raw choices were A 26, UNKNOWN 4, B 2; one B choice failed the release criteria.
+Final outcomes also include 82 B-ineligible, 23 residual-coverage skips, 5 A-entry
+coverage skips, 4 fatal primaries and 2 fatal alternatives. These disjoint
+statuses sum 300. A had 5 source-feedback revisions:3 neutral and 2 harmful
+relative to actual phase release;2 computed-correct A values were withheld.
+B's 3 source-feedback revisions were neutral. Source binding and clean checks
+do not establish search completeness or semantic correctness.
+
+Actual nonerror None outputs earn 33 Single and 31 Team typed credits under the
+unchanged scorer; A also earns 31. This is not proof of justified absence.
+The official generic transitions fields do not understand V7's snapshot
+schema and are not used as V7 revision-effect measurements.
+
+Independent checks and interpretation
+Independent scoring exactly reproduced all totals, wins/losses and bootstrap.
+A separate retained-audit review reconstructed every actual A outcome,
+reproduced the A/B tables and stage effects, and found identical initial
+audit-message prefixes for all 300 Single/A pairs. Model/settings sidecars
+match except strategy. This supports intended policy parity, without proving
+native request wire identity or explaining the five-answer A/Single gap.
+Both arms have 2 questions with recorded context compaction.
+
+The evidence points to limited complementary candidate supply under this
+policy. The selector captured the one available correction; loosening its
+switch condition alone supplies no additional correct B in these observations.
+Future research may test targeted neutral verification questions and fresh
+evidence acquisition rather than another blind whole solve. No next design is
+selected here. Whole-cohort mechanisms and external research must motivate a
+new prospective design, with all calls and failure paths charged.
+
+The repeated 300 questions remain adaptive development. This negative result
+makes no new-patient, other-task, cross-model or protected-confirmation claim.
+The one-time 1397/whole 2931 confirmation protocol is unchanged and unspent.
+
+Evidence
+comparison.json is the unchanged official report; results.json summarizes the
+gate and bindings. diagnostics/ holds the pre-reviewed posthoc; independent
+completion and mechanism verification directories preserve scripts/reviews.
+provider_diagnostics/ contains only safe aggregate request metadata. The
+original freeze/launch/plan pending labels remain historical snapshots.
+analysis_execution.json records actual execution order. Raw audits remain
+local and ignored; the archive SHA is
+d0d20063d3c70395af58fb834dbda64dea94ea5adc6d53c99f3ea3812553ada2.

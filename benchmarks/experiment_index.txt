@@ -199,8 +199,16 @@ Shared original42 agent/tools/utils files remain byte-identical to V6.
 Research rationale, author-code pins, limits, focused offline/native-worker
 checks, one unscored live development interface, independent boundary review,
 and prelaunch source/runtime/audit guard checks are preserved in the record.
-Status: RUNNING — freeze50c100b was pushed before both owned jobs launched.
-No V7 subset accuracy has been inspected; no partial scoring or replacements.
+Status: COMPLETED NEGATIVE — all 600 first attempts passed final integrity.
+Team 233/300 vs fresh Single 238/300; actual full-cap A-only 233/300.
+Paired delta -1.67 pp, 95% patient-bootstrap CI [-5.03, +1.56] pp; 7 wins/12 losses.
+One helpful B selection was canceled by one auxiliary fatal correct-A loss.
+Only one of all 268 actual B outcomes corrected a wrong A; eligibility excluded
+no additional A-wrong/B-correct released alternative. Fourteen correct B outside
+eligibility overlapped already-correct A. Initial audit prefixes match all 300.
+The original pre-inference freeze 50c100b and launch history are preserved.
+No promotion or full run; protected 1397 remains unused. See outcome.txt,
+comparison.json, diagnostics/, and independent verification records.
 Predeclared gate: Team>239 AND>fresh Single AND>actual full-cap A-only, with
 all300 A outcomes reconstructible. First attempts/errors retained; no retries.
 This is adaptive development. A pass selects only the once-only full2931x3

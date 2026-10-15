@@ -1,0 +1,178 @@
+{
+  "cohort": "held_out",
+  "selection_warning": "Fixed subset is reused for architecture development; gains on it are exploratory.",
+  "questions": 300,
+  "patients": 58,
+  "question_ids_sha256": "0d477b2bc214c678dd6d33f142a03a5bc4d3d55e1ae8fa73817e84443e60a2d4",
+  "dataset_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+  "families_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+  "scoring": "Unchanged typed scorer; first attempts, terminal errors incorrect; patient-block bootstrap",
+  "identities": {
+    "v7_single": {
+      "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/residual_trajectories_v7_300q/ordinary_single_agent.json",
+      "result_sha256": "70696eb875745f9d904e1985584ee0fe91ea7aa5b50d9ae82cafafdc042cef32",
+      "identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "c9332a04069cfc43161c08d95c08a28edb7bfe0c76450bbe6a114c5bff607c3e",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      }
+    },
+    "v7_team": {
+      "result_path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/residual_trajectories_v7_300q/ordinary_multi_agent.json",
+      "result_sha256": "f2b387dffe2bf49d24b3d8ed502460f212acb89e16f1aa9bf9b1f7e78d577d40",
+      "identity": {
+        "version": 2,
+        "agent_strategy": "multi_agent_v7",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "c9332a04069cfc43161c08d95c08a28edb7bfe0c76450bbe6a114c5bff607c3e",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      }
+    }
+  },
+  "arms": {
+    "v7_single": {
+      "accuracy": {
+        "all": {
+          "correct": 238,
+          "n": 300,
+          "patients": 58,
+          "estimate": 0.7933333333333333,
+          "ci_low": 0.7421546588737777,
+          "ci_high": 0.8390100831248145
+        },
+        "lookup_counting": {
+          "correct": 80,
+          "n": 92,
+          "patients": 52,
+          "estimate": 0.8695652173913043,
+          "ci_low": 0.7931034482758621,
+          "ci_high": 0.9347826086956522
+        },
+        "numerical_aggregation": {
+          "correct": 39,
+          "n": 49,
+          "patients": 28,
+          "estimate": 0.7959183673469388,
+          "ci_low": 0.6744186046511628,
+          "ci_high": 0.8979591836734694
+        },
+        "temporal_selection": {
+          "correct": 119,
+          "n": 159,
+          "patients": 52,
+          "estimate": 0.7484276729559748,
+          "ci_low": 0.6794871794871795,
+          "ci_high": 0.8135593220338984
+        }
+      },
+      "terminal_errors": 4,
+      "budget_stops": 12,
+      "mean_tokens": 72180.06,
+      "observed_cost": null,
+      "latency": {
+        "n": 300,
+        "median": 18.115499999999997,
+        "p95": 39.381400000000006
+      },
+      "transitions": {
+        "wrong_to_right": 2,
+        "right_to_wrong": 1,
+        "draft_correct": 235,
+        "drafts": 285,
+        "semantic_repairs": 4
+      }
+    },
+    "v7_team": {
+      "accuracy": {
+        "all": {
+          "correct": 233,
+          "n": 300,
+          "patients": 58,
+          "estimate": 0.7766666666666666,
+          "ci_low": 0.7222222222222222,
+          "ci_high": 0.8250018221574343
+        },
+        "lookup_counting": {
+          "correct": 77,
+          "n": 92,
+          "patients": 52,
+          "estimate": 0.8369565217391305,
+          "ci_low": 0.7613636363636364,
+          "ci_high": 0.9042553191489362
+        },
+        "numerical_aggregation": {
+          "correct": 39,
+          "n": 49,
+          "patients": 28,
+          "estimate": 0.7959183673469388,
+          "ci_low": 0.6888888888888889,
+          "ci_high": 0.8928571428571429
+        },
+        "temporal_selection": {
+          "correct": 117,
+          "n": 159,
+          "patients": 52,
+          "estimate": 0.7358490566037735,
+          "ci_low": 0.6619718309859155,
+          "ci_high": 0.8
+        }
+      },
+      "terminal_errors": 6,
+      "budget_stops": 0,
+      "mean_tokens": 114984.19,
+      "observed_cost": null,
+      "latency": {
+        "n": 300,
+        "median": 34.298,
+        "p95": 54.353950000000026
+      },
+      "transitions": {
+        "wrong_to_right": 0,
+        "right_to_wrong": 0,
+        "draft_correct": 0,
+        "drafts": 0,
+        "semantic_repairs": 0
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "comparison": "v7_team - v7_single",
+      "wins": 7,
+      "losses": 12,
+      "n": 300,
+      "patients": 58,
+      "estimate": -0.016666666666666666,
+      "ci_low": -0.05031499303532987,
+      "ci_high": 0.015626224529780547
+    }
+  ]
+}

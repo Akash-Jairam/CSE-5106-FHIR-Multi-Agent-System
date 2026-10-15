@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "scope": "Completed V7 safe provider-event metadata aggregation only",
+  "files_sha256": {
+    "aggregate_provider_errors.py": "809615a93c1b380e1c331be962291d7f1e434b3b94df2232ecebbe27e42702c7",
+    "provider_error_summary.json": "55f1380813cae7bb3fedda877a8d66a713dae834706f333d17a226128c47940c",
+    "review.txt": "d45d0f953078df90379e00a4436d7ff3e9be7ac2aacfc9d4be6ec9f36911d83b"
+  },
+  "input_journal_sha256": {
+    "worker_1": "5791b246b3f4ae214eb328010aea315f3c94c7e54b42b2e658513fa51a3f231c",
+    "worker_2": "8ec135acb9b67b59706fa373379c08cdb940f3dabee68041efa80c43d10db63e"
+  },
+  "public_adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+  "model_calls": 0,
+  "source_edits": false,
+  "config_values_read": false,
+  "result_or_payload_reads": false,
+  "reproduction": "Run aggregate_provider_errors.py with standard-library Python -IB in a fresh copy of this packet whose provider_error_summary.json does not yet exist; output creation is exclusive."
+}

@@ -1,0 +1,103 @@
+{
+  "status": "PASS_INDEPENDENT_ACTUAL_A_AND_B_MECHANISMS",
+  "recorded_at_utc": "2026-10-15T14:49:38.574298+00:00",
+  "completion_report_sha256": "a27e383569198753c326b41e4fc7537387c66ee2593d47f0d97dbccb48b38202",
+  "official_report_sha256": "2ef2ae8342ade4d77352f424fda9ff5087eefac718eb06dd07ceedf8bb27fe0e",
+  "scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+  "script_sha256": "a3b7efdc382c334241107d34ac3bb5df5ff37b7dbcb43b68d9e30eed452cd014",
+  "raw_pins": {
+    "ordinary_single_agent": {
+      "result_sha256": "70696eb875745f9d904e1985584ee0fe91ea7aa5b50d9ae82cafafdc042cef32",
+      "identity_sha256": "998120dca5b83eab0a23a868b36a703d02f34ee7c95765794070067337b937f4"
+    },
+    "ordinary_multi_agent": {
+      "result_sha256": "f2b387dffe2bf49d24b3d8ed502460f212acb89e16f1aa9bf9b1f7e78d577d40",
+      "identity_sha256": "8d0b35870c67320b17933cb6a8330fd566fbc45744c2072da97cba02a0a5687c"
+    }
+  },
+  "actual_audit_restorations_for_mechanisms_and_parity": 600,
+  "totals": {
+    "single_correct": 238,
+    "team_correct": 233,
+    "A_available": 300,
+    "A_correct": 233,
+    "A_fatal": 4,
+    "A_source_bound": 278,
+    "A_known_budget_stop": 13,
+    "auxiliary_fatal": 2,
+    "auxiliary_fatal_correct_A_loss": 1,
+    "B_entered": 268,
+    "B_available": 268,
+    "B_correct": 175,
+    "B_source_bound": 184,
+    "B_known_budget_stop": 81,
+    "B_fatal": 2
+  },
+  "all_post_A_effect": {
+    "neutral": 298,
+    "helpful": 1,
+    "harmful": 1
+  },
+  "selected_B_effect": {
+    "helpful": 1
+  },
+  "status_counts": {
+    "B_ineligible": 82,
+    "agreement_preserved": 152,
+    "selector_preserved_A": 31,
+    "residual_coverage_skip": 23,
+    "fatal_alternative": 2,
+    "A_entry_coverage_skip": 5,
+    "fatal_primary": 4,
+    "selected_B": 1
+  },
+  "all_available_B_joint_actual_released_correctness": {
+    "A_right_B_wrong": 48,
+    "A_right_B_right": 174,
+    "A_wrong_B_wrong": 45,
+    "A_wrong_B_right": 1
+  },
+  "source_bound_B_joint_actual_released_correctness": {
+    "A_right_B_right": 160,
+    "A_wrong_B_wrong": 19,
+    "A_right_B_wrong": 4,
+    "A_wrong_B_right": 1
+  },
+  "A_wrong_actual_released_B_correct_unbound_overlapping_flags": {},
+  "A_wrong_actual_released_B_correct_unbound_skip_reasons": {},
+  "computed_unreleased_B_diagnostics_separate_from_actual_credit": {
+    "B_computed_final_available": 185,
+    "B_computed_final_typed_correct": 161,
+    "B_computed_correct_not_actual_released_credit": 0,
+    "A_wrong_B_computed_correct_not_actual_released_credit": 0,
+    "A_wrong_B_computed_correct_unbound": 0,
+    "A_wrong_B_computed_correct_unbound_known_budget_stop": 0,
+    "A_wrong_B_computed_correct_unbound_explicit_limitation": 0,
+    "B_computed_correct_not_released_with_final_source_issues": 0
+  },
+  "initial_trace_message_parity": {
+    "matched_pairs": 300,
+    "initial_message_prefix_exact_equal": 300,
+    "initial_system_message_subset_exact_equal": 300,
+    "initial_user_message_subset_exact_equal": 300,
+    "original_question_context_exact_equal": 300,
+    "Single_control_any_context_compaction": 2,
+    "A_any_context_compaction": 2
+  },
+  "initial_trace_message_differing_field_counts": {},
+  "sidecar_model_settings_exact_equal": true,
+  "limits": [
+    "A-only uses all300 ACTUAL normalized released/error outcomes with primary-fatal wrong; no computed candidate substitution.",
+    "B all-available counterfactuals are actual released/error scores; source-bound pool is separately conditioned. Null typed credit is not proof of justified abstention or semantic correctness.",
+    "Computed-final diagnostics refer to retained draft metadata only and never add released credit or prove a feasible eligible correction.",
+    "Initial audit-message equality is a policy-prefix sanity check, not SDK wire attestation. Model/native tool schema actual first-request objects are not separately retained; same source hashes/settings cannot establish their on-wire byte identity.",
+    "Context compaction can change actual model input relative to lossless audit messages; no request replay or retokenization was performed.",
+    "A233 vs independently sampled Single238 does not identify a causal primary deficit or its cause. Legacy compare revised/transition fields are not used as V7 mechanism measures.",
+    "All data are completed adaptive fixed300 only; no full QA/SQL CSV or protected1397 content read/scored; no source/runtime changes, models/FHIR/network or process interaction."
+  ],
+  "full_QA_CSV_read": false,
+  "protected_QA_read": false,
+  "model_calls": 0,
+  "FHIR_calls": 0,
+  "source_runtime_changes": false
+}

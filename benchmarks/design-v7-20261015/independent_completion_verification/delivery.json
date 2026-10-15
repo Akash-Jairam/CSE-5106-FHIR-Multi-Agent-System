@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "scope": "Independent completed V7 fixed300 scoring and exact paired bootstrap only",
+  "directory": "/private/tmp/fhir-v7-independent-score-7nutt4n6",
+  "files_sha256": {
+    "verify_development.py": "f91b41abaf5527138235078f6a98fa352331743d6b911be7a5acc33802c6790c",
+    "independent_verification.json": "f8a453dbd188c7c98fd3718fbc2dd9b34736febe74794838eff81374e3b10128",
+    "review.txt": "c46874749329c3c776d04e5536bf06fcdcac1704c7deb2bbf1d1d6e96526b004"
+  },
+  "command": "FHIR_LOCAL_AZURE_CONFIG='' FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR='' .venv/bin/python -IB /private/tmp/fhir-v7-independent-score-7nutt4n6/verify_development.py",
+  "completion_report_sha256": "a27e383569198753c326b41e4fc7537387c66ee2593d47f0d97dbccb48b38202",
+  "official_report_sha256": "2ef2ae8342ade4d77352f424fda9ff5087eefac718eb06dd07ceedf8bb27fe0e",
+  "no_protected_or_full_scoring": true
+}

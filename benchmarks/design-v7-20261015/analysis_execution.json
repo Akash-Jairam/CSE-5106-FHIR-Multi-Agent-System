@@ -1,0 +1,53 @@
+{
+  "status": "COMPLETED_IN_REQUIRED_ORDER",
+  "recorded_at_utc": "2026-10-15T14:54:37.623891+00:00",
+  "order": [
+    "Actual owned terminal exits and300saved per arm",
+    "Root terminal attestation accuracy_scored=false",
+    "Frozen guard completionPASS and609-member archive",
+    "Unchanged official comparison",
+    "Pre-reviewed self-pinned posthoc",
+    "Independent scoring/bootstrap and actualA/B review"
+  ],
+  "processes": {
+    "completion_guard": {
+      "owned_session_id": 64303,
+      "exit_code": 0
+    },
+    "official_compare": {
+      "owned_session_id": 76409,
+      "exit_code": 0
+    },
+    "posthoc": {
+      "owned_session_id": 72609,
+      "exit_code": 0
+    }
+  },
+  "official_compare_argv": [
+    ".venv/bin/python",
+    "-B",
+    "scripts/compare_runs.py",
+    "--arm",
+    "v7_single=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/residual_trajectories_v7_300q/ordinary_single_agent.json",
+    "--arm",
+    "v7_team=/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/residual_trajectories_v7_300q/ordinary_multi_agent.json",
+    "--split",
+    "held_out",
+    "--bootstrap",
+    "10000",
+    "--output",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/comparison.json"
+  ],
+  "posthoc_helper_sha256": "4e3c460fba42855715ebef94d064b9f8c9cca827d94122042ce113dc29d3a6d4",
+  "proof_bindings": {
+    "completion_integrity.json": "a27e383569198753c326b41e4fc7537387c66ee2593d47f0d97dbccb48b38202",
+    "comparison.json": "2ef2ae8342ade4d77352f424fda9ff5087eefac718eb06dd07ceedf8bb27fe0e",
+    "owned_jobs_completion.json": "3c6682a2c760933cd56fa3101af7c7232a13ef2679dc2b269c97af2fd692b2a9",
+    "diagnostics/mechanisms.json": "33bdffa295f85c67ed6a3ab15edb83eb699766b475c9535f2f0e0cd762a77df5",
+    "diagnostics/mechanisms_rows.json": "a43a753ee0855791eff2cd6369213aa9ab2eec71f61f1f8b21f84d0221df3ee7"
+  },
+  "posthoc_invocation_note": "An initial helper invocation rejected a relative diagnostics destination at destination() before verification/analysis; only the output path was corrected to its absolute path. No helper or inference source changed, no question run was repeated.",
+  "historical_snapshot_note": "Frozen manifest/protocol/launch/postterminal-plan pending/not-yet-scored labels remain their original temporal snapshots. This completion record supplies the later disposition.",
+  "model_calls_during_analysis": 0,
+  "protected_confirmation_scored": false
+}

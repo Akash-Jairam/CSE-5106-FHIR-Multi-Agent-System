@@ -1,0 +1,365 @@
+{
+  "status": "SAFE_PROVIDER_METADATA_SUMMARY_PASS",
+  "scope": "Completed V7 two anonymous worker journals only; no raw results, request payloads or question data",
+  "starts": 5342,
+  "ends": 5342,
+  "successes": 5332,
+  "errors": 10,
+  "by_exception_chain_and_status": [
+    {
+      "exception_chain": [
+        "openai.APIStatusError"
+      ],
+      "http_status": 408,
+      "duration_seconds": {
+        "n": 1,
+        "min": 44.80155116698006,
+        "max": 44.80155116698006,
+        "mean": 44.80155116698006
+      }
+    },
+    {
+      "exception_chain": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "http_status": null,
+      "duration_seconds": {
+        "n": 9,
+        "min": 60.00406129201292,
+        "max": 60.02030712499982,
+        "mean": 60.00702274533493
+      }
+    }
+  ],
+  "fd_range_all_events": [
+    9,
+    10
+  ],
+  "all_errors_have_later_same_worker_success": true,
+  "workers": [
+    {
+      "worker": "worker_1",
+      "journal_sha256": "5791b246b3f4ae214eb328010aea315f3c94c7e54b42b2e658513fa51a3f231c",
+      "starts": 1991,
+      "ends": 1991,
+      "successes": 1987,
+      "errors": 4,
+      "fd_range_all_events": [
+        9,
+        10
+      ],
+      "first_observed_start_utc": "2026-10-15T11:36:41.229731+00:00",
+      "last_observed_end_utc": "2026-10-15T13:22:44.020645+00:00",
+      "last_success_start_utc": "2026-10-15T13:22:39.911199+00:00",
+      "last_success_end_utc": "2026-10-15T13:22:44.020645+00:00",
+      "final_observed_outcome": "success",
+      "unmatched_starts_at_end": 0,
+      "unmatched_ends": 0,
+      "counters_contiguous_from_one": true,
+      "synchronous_nonoverlapping_requests": true,
+      "all_errors_have_later_same_worker_success": true
+    },
+    {
+      "worker": "worker_2",
+      "journal_sha256": "8ec135acb9b67b59706fa373379c08cdb940f3dabee68041efa80c43d10db63e",
+      "starts": 3351,
+      "ends": 3351,
+      "successes": 3345,
+      "errors": 6,
+      "fd_range_all_events": [
+        9,
+        10
+      ],
+      "first_observed_start_utc": "2026-10-15T11:36:41.463124+00:00",
+      "last_observed_end_utc": "2026-10-15T14:38:41.465464+00:00",
+      "last_success_start_utc": "2026-10-15T14:38:37.426022+00:00",
+      "last_success_end_utc": "2026-10-15T14:38:41.465464+00:00",
+      "final_observed_outcome": "success",
+      "unmatched_starts_at_end": 0,
+      "unmatched_ends": 0,
+      "counters_contiguous_from_one": true,
+      "synchronous_nonoverlapping_requests": true,
+      "all_errors_have_later_same_worker_success": true
+    }
+  ],
+  "error_recovery_metadata": [
+    {
+      "worker": "worker_1",
+      "worker_error_index": 1,
+      "exception_chain": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "http_status": null,
+      "duration_seconds": 60.00610837500426,
+      "observed_exception_flags": [
+        "read",
+        "timeout"
+      ],
+      "usage_reported": {
+        "cached_prompt_tokens": false,
+        "completion_tokens": false,
+        "prompt_tokens": false,
+        "total_tokens": false
+      },
+      "same_worker_later_success": true,
+      "first_later_success_start_seconds_after_error_end": 0.209721,
+      "first_later_success_end_seconds_after_error_end": 2.158406,
+      "first_later_success_duration_seconds": 1.9487134579976555,
+      "intervening_attempts": 0,
+      "fd_at_error_end": 9
+    },
+    {
+      "worker": "worker_1",
+      "worker_error_index": 2,
+      "exception_chain": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "http_status": null,
+      "duration_seconds": 60.00494770798832,
+      "observed_exception_flags": [
+        "read",
+        "timeout"
+      ],
+      "usage_reported": {
+        "cached_prompt_tokens": false,
+        "completion_tokens": false,
+        "prompt_tokens": false,
+        "total_tokens": false
+      },
+      "same_worker_later_success": true,
+      "first_later_success_start_seconds_after_error_end": 1.883371,
+      "first_later_success_end_seconds_after_error_end": 3.775968,
+      "first_later_success_duration_seconds": 1.8926230829965789,
+      "intervening_attempts": 0,
+      "fd_at_error_end": 9
+    },
+    {
+      "worker": "worker_1",
+      "worker_error_index": 3,
+      "exception_chain": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "http_status": null,
+      "duration_seconds": 60.00406129201292,
+      "observed_exception_flags": [
+        "read",
+        "timeout"
+      ],
+      "usage_reported": {
+        "cached_prompt_tokens": false,
+        "completion_tokens": false,
+        "prompt_tokens": false,
+        "total_tokens": false
+      },
+      "same_worker_later_success": true,
+      "first_later_success_start_seconds_after_error_end": 0.665932,
+      "first_later_success_end_seconds_after_error_end": 1.92499,
+      "first_later_success_duration_seconds": 1.259066458005691,
+      "intervening_attempts": 0,
+      "fd_at_error_end": 9
+    },
+    {
+      "worker": "worker_1",
+      "worker_error_index": 4,
+      "exception_chain": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "http_status": null,
+      "duration_seconds": 60.006039875006536,
+      "observed_exception_flags": [
+        "read",
+        "timeout"
+      ],
+      "usage_reported": {
+        "cached_prompt_tokens": false,
+        "completion_tokens": false,
+        "prompt_tokens": false,
+        "total_tokens": false
+      },
+      "same_worker_later_success": true,
+      "first_later_success_start_seconds_after_error_end": 0.71673,
+      "first_later_success_end_seconds_after_error_end": 3.489818,
+      "first_later_success_duration_seconds": 2.773119833000237,
+      "intervening_attempts": 0,
+      "fd_at_error_end": 9
+    },
+    {
+      "worker": "worker_2",
+      "worker_error_index": 1,
+      "exception_chain": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "http_status": null,
+      "duration_seconds": 60.00518779200502,
+      "observed_exception_flags": [
+        "read",
+        "timeout"
+      ],
+      "usage_reported": {
+        "cached_prompt_tokens": false,
+        "completion_tokens": false,
+        "prompt_tokens": false,
+        "total_tokens": false
+      },
+      "same_worker_later_success": true,
+      "first_later_success_start_seconds_after_error_end": 0.418249,
+      "first_later_success_end_seconds_after_error_end": 2.324923,
+      "first_later_success_duration_seconds": 1.9066812919918448,
+      "intervening_attempts": 0,
+      "fd_at_error_end": 9
+    },
+    {
+      "worker": "worker_2",
+      "worker_error_index": 2,
+      "exception_chain": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "http_status": null,
+      "duration_seconds": 60.00523641600739,
+      "observed_exception_flags": [
+        "read",
+        "timeout"
+      ],
+      "usage_reported": {
+        "cached_prompt_tokens": false,
+        "completion_tokens": false,
+        "prompt_tokens": false,
+        "total_tokens": false
+      },
+      "same_worker_later_success": true,
+      "first_later_success_start_seconds_after_error_end": 1.002515,
+      "first_later_success_end_seconds_after_error_end": 2.977806,
+      "first_later_success_duration_seconds": 1.9753172500059009,
+      "intervening_attempts": 0,
+      "fd_at_error_end": 9
+    },
+    {
+      "worker": "worker_2",
+      "worker_error_index": 3,
+      "exception_chain": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "http_status": null,
+      "duration_seconds": 60.00428679099423,
+      "observed_exception_flags": [
+        "read",
+        "timeout"
+      ],
+      "usage_reported": {
+        "cached_prompt_tokens": false,
+        "completion_tokens": false,
+        "prompt_tokens": false,
+        "total_tokens": false
+      },
+      "same_worker_later_success": true,
+      "first_later_success_start_seconds_after_error_end": 0.986411,
+      "first_later_success_end_seconds_after_error_end": 2.810663,
+      "first_later_success_duration_seconds": 1.8242793330282439,
+      "intervening_attempts": 0,
+      "fd_at_error_end": 9
+    },
+    {
+      "worker": "worker_2",
+      "worker_error_index": 4,
+      "exception_chain": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "http_status": null,
+      "duration_seconds": 60.02030712499982,
+      "observed_exception_flags": [
+        "read",
+        "timeout"
+      ],
+      "usage_reported": {
+        "cached_prompt_tokens": false,
+        "completion_tokens": false,
+        "prompt_tokens": false,
+        "total_tokens": false
+      },
+      "same_worker_later_success": true,
+      "first_later_success_start_seconds_after_error_end": 1.991699,
+      "first_later_success_end_seconds_after_error_end": 3.723734,
+      "first_later_success_duration_seconds": 1.732061375019839,
+      "intervening_attempts": 0,
+      "fd_at_error_end": 9
+    },
+    {
+      "worker": "worker_2",
+      "worker_error_index": 5,
+      "exception_chain": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "http_status": null,
+      "duration_seconds": 60.00702933399589,
+      "observed_exception_flags": [
+        "read",
+        "timeout"
+      ],
+      "usage_reported": {
+        "cached_prompt_tokens": false,
+        "completion_tokens": false,
+        "prompt_tokens": false,
+        "total_tokens": false
+      },
+      "same_worker_later_success": true,
+      "first_later_success_start_seconds_after_error_end": 1.412252,
+      "first_later_success_end_seconds_after_error_end": 3.790304,
+      "first_later_success_duration_seconds": 2.3780797499930486,
+      "intervening_attempts": 0,
+      "fd_at_error_end": 9
+    },
+    {
+      "worker": "worker_2",
+      "worker_error_index": 6,
+      "exception_chain": [
+        "openai.APIStatusError"
+      ],
+      "http_status": 408,
+      "duration_seconds": 44.80155116698006,
+      "observed_exception_flags": [],
+      "usage_reported": {
+        "cached_prompt_tokens": false,
+        "completion_tokens": false,
+        "prompt_tokens": false,
+        "total_tokens": false
+      },
+      "same_worker_later_success": true,
+      "first_later_success_start_seconds_after_error_end": 0.89683,
+      "first_later_success_end_seconds_after_error_end": 2.435291,
+      "first_later_success_duration_seconds": 1.5384737919957843,
+      "intervening_attempts": 0,
+      "fd_at_error_end": 10
+    }
+  ],
+  "public_adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+  "limits": [
+    "Worker labels are anonymous and are not attributed to benchmark arm from these journals alone.",
+    "The journal records SDK-call starts/ends, not OS process startup/exit. First counter1 and final paired end establish observed journal boundary closure; terminal process evidence is separate.",
+    "The first later success may be another phase or question, not a retry of the failed request. These are recovery observations, not retry claims.",
+    "No HTTP status means no recorded HTTP response status; it does not establish which network/service component caused the error.",
+    "Timeout/status and subsequent success do not establish Azure region, incident causality or incident resolution.",
+    "Absent usage on failed calls remains unknown, never zero billing.",
+    "File-descriptor counts are snapshots at event boundaries, not proof of no transient resource spike or leak.",
+    "No model calls, network/FHIR, config values, result/payload/question/log reads, process changes or duplicate audit restorations."
+  ]
+}
