@@ -28,10 +28,13 @@ CONDITIONS = ("intact", "omitted")
 
 def dispatch_agent_job(args_tuple):
     """Additive V3 dispatch through the common budget and audit job contract."""
-    if args_tuple[1] != "multi_agent_v3":
-        return run_agent_with_input(args_tuple)
-    from agent.query_contract_agent import run_v3_job
-    return run_v3_job(args_tuple)
+    if args_tuple[1] == "multi_agent_v3":
+        from agent.query_contract_agent import run_v3_job
+        return run_v3_job(args_tuple)
+    if args_tuple[1] == "multi_agent_v8":
+        from agent.convention_verified_agent import run_v8_job
+        return run_v8_job(args_tuple)
+    return run_agent_with_input(args_tuple)
 
 
 def _boolean(value):
@@ -55,8 +58,10 @@ def build_parser():
     parser.add_argument("--agent_strategy", required=True, choices=[
         "single_turn_request", "single_turn_resource", "single_turn_code_resource",
         "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2",
-        "direct_llm", "single_agent", "multi_agent", "multi_agent_v3",
+        "direct_llm", "single_agent", "multi_agent", "multi_agent_v3", "multi_agent_v8",
     ])
+    parser.add_argument("--verifier_model", default=None,
+                        help="multi_agent_v8 only: run the static program audit on this model (heterogeneous verifier)")
     parser.add_argument("--add_patient_fhir_id", type=_boolean, nargs="?", const=True, default=True)
     parser.add_argument("--num_processes", type=int, default=-1)
     parser.add_argument("--save_interval", type=int, default=10)
@@ -263,6 +268,7 @@ def run_identity(args, inputs):
         "repeat": getattr(args, "repeat", None),
         "audit_storage": getattr(args, "audit_storage", "inline"),
         "audit_artifact_schema": 2 if getattr(args, "audit_storage", "inline") == "gzip" else None,
+        **({"verifier_model": args.verifier_model} if getattr(args, "verifier_model", None) else {}),
     }
 
 
@@ -392,6 +398,10 @@ def main(argv=None):
         parser.error("--split_manifest and --split must be supplied together")
     if bool(args.perturbations) != bool(args.condition):
         parser.error("--perturbations and --condition must be supplied together")
+    if args.verifier_model:
+        if args.agent_strategy != "multi_agent_v8":
+            parser.error("--verifier_model applies only to multi_agent_v8")
+        os.environ["VERIFIER_MODEL"] = args.verifier_model  # reaches worker processes
     if args.perturbations and args.split != "held_out":
         parser.error("Perturbations are frozen on held-out questions; use --split held_out")
     if args.subset and (args.perturbations or not args.split):

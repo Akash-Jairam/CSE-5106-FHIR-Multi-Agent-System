@@ -563,8 +563,18 @@ def patched_program(code, audit, contract, question):
 
 class QueryContractAgent(BaseAgent):
     """Production candidate strategy; keeps V2/single strategies unchanged."""
+    protocol = PROTOCOL
+
     def __init__(self, model, verbose=False, base_url=None):
         super().__init__(model, verbose=verbose, base_url=base_url)
+
+    def _run_audit(self, audit_role, packet):
+        """One static audit model call; subclasses may run it on another model."""
+        return audit_role.run(json.dumps(packet, default=str))
+
+    def _post_release(self, released, policy, context, solver, primary_result, phases):
+        """Hook after the V3 release decision: (released, policy, revision extension)."""
+        return released, policy, {}
 
     def _trace_tool(self, phase, name, arguments, output, identifier):
         self.messages.append({"role": "assistant", "content": None, "phase": phase,
@@ -729,7 +739,7 @@ class QueryContractAgent(BaseAgent):
                 or source_issues != []):
             return {**primary_result, "answer": None, "evidence": [],
                 "limitation": primary_result.get("limitation") or "No source-validated explicit final computation",
-                "trace": self.messages, "revision": {"protocol": PROTOCOL,
+                "trace": self.messages, "revision": {"protocol": self.protocol,
                 "primary": primary, "primary_revision": primary_result.get("revision"),
                 "draft": original_draft, "final": {"answer": None, "evidence": [],
                     "limitation": primary_result.get("limitation") or "No source-validated explicit final computation"},
@@ -757,7 +767,7 @@ class QueryContractAgent(BaseAgent):
             # Code is kept intact; bound only raw data previews, not the audited program.
             packet["inventory_preview"] = json.loads(_reply(inventory))
             try:
-                result = audit_role.run(json.dumps(packet, default=str))
+                result = self._run_audit(audit_role, packet)
                 if not result.error:
                     audit, audit_error = parse_audit(result.content, contract)
                 else:
@@ -768,7 +778,7 @@ class QueryContractAgent(BaseAgent):
             phases.append(phase.report())
             if phase.fatal:
                 return {"answer": None, "evidence": [], "limitation": "Aggregate usage could not be verified",
-                        "revision": {"protocol": PROTOCOL, "primary": primary, "phases": phases}}
+                        "revision": {"protocol": self.protocol, "primary": primary, "phases": phases}}
             if audit is not None:
                 try:
                     patch, patch_error = patched_program(artifact["code"], audit, contract, context["question"])
@@ -788,10 +798,12 @@ class QueryContractAgent(BaseAgent):
                     proof = {"status": "not_run", "reason": patch_error}
         elif contract is not None:
             audit_error = "program exceeds 24,000-character audit cap; primary preserved"
+        released, policy, extension = self._post_release(released, policy, context, solver, primary_result, phases)
+        workspace = deepcopy(primary_result.get("retrieved_fhir_resources", workspace))
         self.last_llm_error = None  # nonfatal auxiliary errors remain in the revision audit
         return {"answer": released["answer"], "evidence": released["evidence"], "limitation": released["limitation"],
                 "trace": self.messages, "retrieved_fhir_resources": workspace,
-                "revision": {"protocol": PROTOCOL, "draft": original_draft, "primary": primary, "final": released,
+                "revision": {**extension, "protocol": self.protocol, "draft": original_draft, "primary": primary, "final": released,
                     "revised": bool(primary_revision.get("revised")) or released is not primary,
                     "answer_changed": released["answer"] != original_draft["answer"],
                     "check_issues": primary_revision.get("check_issues"),

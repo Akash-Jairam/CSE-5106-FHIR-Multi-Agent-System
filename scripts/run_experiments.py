@@ -76,8 +76,10 @@ def build_parser():
                         help="One base model shared by every system; default: $MODEL, then MODEL in config.yml, "
                              "then gpt-6-luna")
     parser.add_argument("--base_url", default=None)
-    parser.add_argument("--team_strategy", choices=["multi_agent", "multi_agent_v3"], default="multi_agent",
+    parser.add_argument("--team_strategy", choices=["multi_agent", "multi_agent_v3", "multi_agent_v8"], default="multi_agent",
                         help="Team implementation; arm names stay stable while run identity records the actual strategy")
+    parser.add_argument("--verifier_model", default=None,
+                        help="multi_agent_v8 only: run the team's program audit on this model (heterogeneous verifier arm)")
     parser.add_argument("--max_total_tokens", type=int, default=None, help="Per-question ceiling for every system")
     parser.add_argument("--max_tool_calls", type=int, default=None, help="Per-question ceiling for every system")
     parser.add_argument("--arms", nargs="+", default=None,
@@ -137,6 +139,8 @@ def runner_argv(arm, args):
             argv += [f"--{key}", str(getattr(args, key))]
     if arm.condition:
         argv += ["--perturbations", args.perturbations, "--condition", arm.condition]
+    if strategy == "multi_agent_v8" and getattr(args, "verifier_model", None):
+        argv += ["--verifier_model", args.verifier_model]
     if arm.repeat:
         argv += ["--subset", args.subset, "--repeat", str(arm.repeat)]
     return argv + ([] if args.verbose else ["--quiet"])
