@@ -1,0 +1,19 @@
+{
+  "reviewed_base_sha256": "98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8",
+  "derived_from_v5_guard_sha256": "10e7b2b537f529a146695606ca8d89690cfdb3fac8d9b3465d82b5eec6f01f29",
+  "unchanged_function_AST_names": [
+    "actual_source_inventory",
+    "canonical_artifact",
+    "context_from_row",
+    "fingerprint",
+    "full_artifact",
+    "load",
+    "main",
+    "public_path",
+    "rendered",
+    "sha_text",
+    "validate_citations",
+    "verify_restored"
+  ],
+  "v6_delta": "V6 literals/policies +phase/accounting +actual A/B artifact/selector checks +launch command metadata pin; original restore/path/journal/archive machinery reused; no inference/scorer changes"
+}

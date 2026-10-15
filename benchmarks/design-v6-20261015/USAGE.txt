@@ -1,0 +1,43 @@
+V6 temporary integrity guard. No inference, scoring, source mutation or credential/bootstrap imports.
+
+Files to copy together into benchmarks/design-v6-20261015 after review:
+  v6_guard.py
+  reviewed_v4_guard.py (exact previously reviewed base, SHA98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8)
+Optional formal evidence: two synthetic test files, tests.log, this file and delivery.json.
+
+The root must create/prespecify pins BEFORE launch and retain their literal SHA outside the mutable run output. Pins bind the helper, reviewed base, exact176-source mapping/count/digest, and SHA of FIVE metadata files: manifest.json, runtime_adapter_manifest.json, expected_public_binding.json, prospective_protocol.json, launch_commands.json. Creating pins is not approval. A complete prelaunch PASS must precede launch; output must be absent. The helper never accepts a fresh posthoc current-source hash in place of the externally pinned inventory.
+
+Exact CLI from repository root (these are instructions, not executed launch commands):
+.venv/bin/python -I benchmarks/design-v6-20261015/v6_guard.py --mode pins --root . --record benchmarks/design-v6-20261015 --pins benchmarks/design-v6-20261015/guard_pins.json
+# Root reviews the pins, computes/records literal PIN_SHA, then:
+.venv/bin/python -I benchmarks/design-v6-20261015/v6_guard.py --mode prelaunch --root . --record benchmarks/design-v6-20261015 --pins benchmarks/design-v6-20261015/guard_pins.json --pins_sha256 PIN_SHA --report benchmarks/design-v6-20261015/prelaunch_protocol_audit.json
+# Only after launch, a saved snapshot without scoring:
+.venv/bin/python -I benchmarks/design-v6-20261015/v6_guard.py --mode initial --root . --record benchmarks/design-v6-20261015 --pins benchmarks/design-v6-20261015/guard_pins.json --pins_sha256 PIN_SHA --report benchmarks/design-v6-20261015/initial_protocol_audit.json
+# Only AFTER BOTH root-owned jobs are actually terminal and all600 first attempts saved:
+.venv/bin/python -I benchmarks/design-v6-20261015/v6_guard.py --mode completion --root . --record benchmarks/design-v6-20261015 --pins benchmarks/design-v6-20261015/guard_pins.json --pins_sha256 PIN_SHA --owned_jobs_finished --report benchmarks/design-v6-20261015/completion_protocol_audit.json
+# Optional exact allowlisted archive is the same completion invocation with a fresh report destination plus:
+--archive output/archives/independent_recomputation_v6_300q.zip
+Never rerun into an existing report/archive destination. Root may audit first then create an archive with a second fresh report; preserve both reports. Comparison is a separate root action only after completion/integrity disposition. This guard does not import a scorer or start comparison.
+
+Declared commands must match the V5 launch schema with exactly two concurrent one-worker/save1 arms, held_out fixed300, model gpt-6-luna, multi_agent_v6, gzip, global200k/30, safe owned provider-events environment and per-arm logs. Worker count/save interval are proven as DECLARED frozen commands only; actual runtime process supervision/terminality comes from root, not result identity. No automatic question retries/replacement histories are accepted.
+
+V6 prospective schema (extra explanatory fields allowed):
+model=gpt-6-luna; fixed_questions_per_arm=300; workers_per_arm=1; first_attempt_only=true;
+phase_caps={primary:[175000,27], independent_recompute:[25000,3]}; primary_iterations=30;
+primary_tools_inclusive_automatic_checks=true; reserved_primary_source_checks=0;
+max_auxiliary_invocations=2; max_team_model_calls=32; max_control_model_calls=30;
+global_caps=[200000,30]; estimated_input_guard=32000; minimum_team_correct=240;
+expected_public_binding=<exact reviewed three hashes>.
+The 32 versus30 potential model-call distinction is explicit. No25+2 source reservation is claimed.
+
+Public runtime is exactly four credential-free source files in runtime_adapter_sources.zip (not runtime_adapter.zip). The adapter is SHA5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8; public profile remains493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c. No config.yml/config backups/key values are read. The fresh common Base/bridge accounting fix must be in both frozen control/team source/runtime; no additional runtime change is needed for this guard.
+
+Completion checks: both exact ordered300 cohorts/identities and opaque saved input hash; no attempt history; all600 complete first attempts including errors; owner/path/SHA/CRC restore by independent gzip reader and frozen public audit_store restorer; exact finite-JSON restoration/inline binding; all source/runtime ZIPs/current files/design/pins unchanged before and after; safe native SDK journal schema, pairing/causes/actual default transport; complete raw inventory hashes. Fatal/unknown usage, overshoots and early missing phase records are retained and counted. A terminal missing phase-accounting sum is reported, not silently converted into zero. Any declared fatal/unknown outcome must carry an explicit terminal error. Initial unmatched starts are expected in-flight observations. Complete journal gaps produce PASS_WITH_JOURNAL_LIMITATIONS and require root disposition; unparsed journal tails block archive.
+
+Protocol-specific checks are deliberately mechanical: actual continuous A is preserved on ineligibility/prose/source refusal; clean executed A binds actual final worker reply, final program/workspace and automatic original-source check; selected B binds actual final worker output, original check, intact A/B selector packet and actual tool-free selection. Nonfatal invocation counters reconcile; controller invocations, retained responses and actual journal SDK sends remain distinct, especially on fatal/error paths. Successful worker envelopes require mode=final and no contradictory error/error_type. Source envelopes use the frozen auxiliary allowed top-level schema. Ordinary source status/warning checks are used; no new source associations, code execution, refetch, semantic oracle, answer key, complete-search proof or accuracy claim is introduced.
+
+Archive allowlist: seven base members (two result JSONs, two identity sidecars, two logs, public binding), only referenced owned audit/*.json.gz members, and safe owned provider-events/*.jsonl. With600 unique audit files and two journals this is609 members; content dedup or different legitimate journal counts are reported explicitly, not assumed. No recursive whole-output ZIP; config/cache/pickle/unreferenced debug files are excluded.
+
+Tests (all synthetic, no real output access):
+.venv/bin/python -I -m unittest discover -s /private/tmp/fhir-v6-integrity-bfjeklza -p 'test_v6_guard*.py' -v
+The lifecycle test copies the public scripts/audit_store.py as a fixture into synthetic roots; it never loads runtime agents/config. Retain its source freeze if reproducing elsewhere.

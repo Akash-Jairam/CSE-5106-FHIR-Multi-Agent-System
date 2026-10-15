@@ -1,0 +1,63 @@
+{
+  "status": "PASS_LIVE_CLARIFIED_DEVELOPMENT_INTERFACE",
+  "questions": 1,
+  "previous_reserved_development_question_reused": true,
+  "protected_confirmation_overlap": 0,
+  "accuracy_scored": false,
+  "experiment_journal_entry_created": false,
+  "primary_eligible": true,
+  "primary_skip_reason": null,
+  "primary_calls": 4,
+  "primary_tools": 4,
+  "aux_status": "agreement_preserved",
+  "aux_reason": "exact typed answer agreement; retain original A",
+  "B_eligible": true,
+  "B_execution_error": null,
+  "B_entry_bytes": 4172,
+  "B_source_issues": [],
+  "aux_model_calls": 1,
+  "aux_tools": 2,
+  "selector_admitted": false,
+  "two_call_token_reservation": 19910,
+  "aux_phase": {
+    "phase": "independent_recompute",
+    "token_cap": 25000,
+    "tool_cap": 3,
+    "model_call_cap": 2,
+    "tokens": 3431,
+    "tool_calls": 2,
+    "model_calls": 1,
+    "errors": [],
+    "fatal": false
+  },
+  "usage": {
+    "prompt_tokens": 32454,
+    "completion_tokens": 1413,
+    "total_tokens": 33867,
+    "cost": null,
+    "llm_calls": 5
+  },
+  "budget": {
+    "max_total_tokens": 200000,
+    "max_tool_calls": 30,
+    "tool_calls_run": 6,
+    "stopped": null
+  },
+  "audit_restored": true,
+  "sdk_starts": 5,
+  "sdk_ends": 5,
+  "sdk_outcomes": {
+    "success": 5
+  },
+  "provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "source_sha256": {
+    "agent/continuous_primary.py": "f3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963",
+    "agent/independent_recompute_aux.py": "f6659d5de56841068666f50c83d9bf3673e180b21c97fe08cedbfca4f1a8fdd6",
+    "agent/independent_recompute_agent.py": "facb15e3d3b5bdce4e8dd70f1c367dbe05f03786f7910893393e1f9feba9068e",
+    "agent/base_agent.py": "e566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77"
+  }
+}

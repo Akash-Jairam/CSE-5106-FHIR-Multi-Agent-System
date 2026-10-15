@@ -1,5 +1,5 @@
 Substantial experiment journal
-Updated 14 October 2026
+Updated 15 October 2026
 
 Original fixed-300 pipeline
 Branch: runs/300q-20261012; preserved archive: benchmarks/run-300q-20261012
@@ -149,3 +149,28 @@ mechanisms, independent verification and safe archive hashes are recorded.
 Guard pins SHA256 38b75204e50cbb2c0e7f929daf931f4ffa37ad6df4002cb566812eb01e1e7b50.
 Predeclared development gate: team >239 AND >fresh contemporary single.
 A development win does not establish patient, model or other-task generalization.
+
+V6 — continuous Single primary and independent recomputation
+Branch: experiments/independent-recomputation-v6; record: benchmarks/design-v6-20261015
+Source commit 33b2d9d87db48fd38abba28803b4116ee8aca59c; 176 public source files frozen.
+Primary is the actual natural SingleAgent policy: 175k tokens/27 inclusive tools,
+30 model iterations, with no first-artifact handoff or Ledger-only release veto.
+Auxiliary 25k/3 tools/2 calls: one answer/code-blind final computation on the same
+held workspace, one original source check, then A/B/UNKNOWN selection only when
+answers disagree. The implemented extra path uses two tools; unused third slot
+is not a hidden probe. Possible team32 versus control30 model calls is disclosed
+under common aggregate200k/30 ceilings. Shared source checker remains unchanged.
+Shared Base/SDK fault-path fixes preserve missing usage as unavailable and mark
+unknown/overshot accounting as terminal in both fresh arms; valid-call options
+are unchanged. Four public runtime sources are frozen separately, without keys.
+252 root offline tests passed before a prompt-only clarification; 26 native/
+worker integration tests pass on final bytes; 96 independent earlier tests and
+a hash-bound prompt-diff review passed. Three reserved dev questions plus one
+interface recheck produced27 successful SDK calls, no protected overlap or
+accuracy scoring. These are engineering checks, not separate experiments.
+Status: FROZEN — PRELAUNCH PASS; ready for fresh600 inference, no V6 accuracy result.
+Scheduled: fresh Single300 + Team300 first attempts, concurrent one worker/arm,
+save1/gzip/native diagnostics. No partial scoring or selective replacement.
+Strict development gate: Team >239 AND >fresh contemporary Single. A pass only
+selects a method for the once-only full2931 three-arm run and prespecified1397
+question-confirmation assessment. Model/task/patient transfer remains unmeasured.

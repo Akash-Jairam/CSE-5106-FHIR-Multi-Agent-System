@@ -1,0 +1,39 @@
+{
+  "status": "READY_FOR_ROOT_PRESPECIFICATION_AFTER_INDEPENDENT_REVIEW",
+  "guard_sha256": "49ec8be98372cbeaf9c9ab917d02fdf0bbbdce06471a8a0745a02aae9c485c18",
+  "files": {
+    "v6_guard.py": "49ec8be98372cbeaf9c9ab917d02fdf0bbbdce06471a8a0745a02aae9c485c18",
+    "reviewed_v4_guard.py": "98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8",
+    "test_v6_guard_protocol.py": "57abdd81c70009458c6f8ed302e2d1c8498ed111bdd946495f384951237610bc",
+    "test_v6_guard_lifecycle.py": "8ea9d4f1b3f8fee6080756738c9db43e15919949d1787a4dcfd2784c13b46eb6",
+    "tests.log": "9a8e5ef3f2efde3a05d76b04461d71ff804d1eae409fcd681e016f03cf0822c2",
+    "USAGE.txt": "71d2ae16af8107a055bc9b4aec0d2d5ef3b67d96329f957d579a9c0e8022880c",
+    "reuse_proof.json": "e68f14cf5f07a853689ebc72d0be4abad8576eeca6039f3f4bc47b2dee8302cf",
+    "read_only_formal_metadata_check.json": "d479a633e0c07686f15737ecf504bc81940a39095a3da6bc604ac6dd5635f3ba"
+  },
+  "test_command": ".venv/bin/python -I -m unittest discover -s /private/tmp/fhir-v6-integrity-bfjeklza -p \"test_v6_guard*.py\" -v",
+  "tests_passed": 30,
+  "test_seconds": 1.075,
+  "test_scope": "Only synthetic fixtures; all 600 owner/SHA/CRC restorations, 609-member safe archive, metadata/launch/pin failures, phase/artifact/fatal/accounting consistency. No real output reads or scoring.",
+  "read_only_formal_check": {
+    "status": "READ_ONLY_METADATA_SOURCE_CHECK_PASS",
+    "source_files": 176,
+    "runtime_files": 4,
+    "source_commit": "33b2d9d87db48fd38abba28803b4116ee8aca59c",
+    "manifest_sha256": "7c1263a60c0c2a51cc009d8a4925d5a4e773c113d3af0476a6b058407114a8a2",
+    "launch_commands_sha256": "13b9331a068b3c54a593ee22fbd978baa61952ff813134990fdb69c02d9340be",
+    "guard_sha256": "49ec8be98372cbeaf9c9ab917d02fdf0bbbdce06471a8a0745a02aae9c485c18",
+    "output_absent": true,
+    "pins_created": false,
+    "source_zip_exact": true,
+    "runtime_zip_exact": true,
+    "opaque_dataset_hash_only": true,
+    "actual_QA_or_results_scored": false,
+    "model_FHIR_network_configuration_calls": 0,
+    "scope": "Read-only metadata/source crosscheck. Root must copy reviewed helpers, externally prespecify pins and run official prelaunch mode."
+  },
+  "external_pins_required_before_launch": true,
+  "active_runtime_source_edits": false,
+  "runtime_changes_needed": "None. Existing reviewed V6 shared accounting fix/new5423 adapter and all three candidate modules must be in the fresh freeze;176-source/read-only check passed.",
+  "pending": "Independent stable-hash review. Root creates pins and official prelaunch report; no launch performed by this helper author."
+}

@@ -1,0 +1,24 @@
+Independent V6 subset-integrity review — PASS, 2026-10-15
+
+Exact helper /private/tmp/fhir-v6-integrity-bfjeklza/v6_guard.py SHA49ec8be98372cbeaf9c9ab917d02fdf0bbbdce06471a8a0745a02aae9c485c18. Pinned reviewed_v4_guard.py remains98d272f8ed8e42914b5ed1776908cf6e25e209e5726d5386b4c168a270a499e8. No remaining concrete blocker found within this subset operational/provenance scope.
+
+Read-only binding: actual primaryf3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963; clarified auxiliaryf6659d5de56841068666f50c83d9bf3673e180b21c97fe08cedbfca4f1a8fdd6; compositionfacb15e3d3b5bdce4e8dd70f1c367dbe05f03786f7910893393e1f9feba9068e; Basee566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77; public adapter5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8. Public formal manifest176 entries binds these source bytes. Read only manifest/prospective/launch/provider metadata, not actual dataset, results, gold or configs.
+
+Narrow adaptation verified: V6 actual strategy and protocol; natural Single30 primary175k/27 inclusive tools; optional auxiliary25k/3/2calls; declared team32 vs control30 model-call ceiling; aggregate200k/30; exact public adapter/provider pins; five record-metadata pins including launch_commands; exact safe-journal launch argv/environment. Dynamic source inventory/ZIP and inherited owner/CRC/SHA restoration remain explicit. Ineligible/prose A is preserved as an actual outcome without an executed-source-valid claim; unknown billing/fatal states require terminal failure rather than clean null credit.
+
+Reproduced malformed-audit gaps in initial guard and confirmed final fixes:
+- Raw primary/B nonfinal output (native request final but reply inspect/missingmode) and worker failure markers cannot certify an executed final.
+- Contradictory raw source errors/unsupported envelopes cannot become clean checks by rehashing a selector summary.
+- Nonfatal phase, auxiliary and aggregate model-call counts reconcile; certified B charged tools match actual returned tool evidence.
+- Declared fatal ineligible A cannot be released without an explicit error.
+- A tool-requesting selector cannot certify selected B.
+These were guard-record consistency issues, not evidence the reviewed V6 runtime emitted bad outcomes.
+Legitimate charged-but-unreturned tool/provider paths remain preserved-A gaps when no B is certified; the helper counts those gaps rather than refusing a valid first attempt. Independent positive regression protects known-usage provider error with no retained response. Missing billed usage remains fatal.
+
+Verification command from repository root (no bootstrap/config path):
+env FHIR_LOCAL_AZURE_CONFIG='' MODEL='gpt-6-luna' LITELLM_LOCAL_MODEL_COST_MAP=True PYTHONPATH='.local-setup/phase2-dependencies' .venv/bin/python /private/tmp/fhir-v6-guard-independent-tests.py
+39 synthetic tests PASS in1.076s:30 author's focused tests repeated plus9 independent boundary tests, with additional mode/source subcases. Source SHA asserted before/after. Lifecycle fixtures restore all600 generated first-attempt owner/SHA/CRC audits and verify609-member synthetic archive; no actual run is inspected. Exact helper/base/test/log hashes: /private/tmp/fhir-v6-guard-independent-review-hashes.json.
+
+No active source edits, model/network/FHIR calls, actual QA/gold/SQL/results/config values, or real dataset reads. No formal prelaunch execution was performed here because that would hash the actual dataset. Root owns the later externally pinned real prelaunch/terminal assertion.
+
+Limits: snapshot checks are not atomic OS attestation. Runtime/source-byte binding and mechanical retained provenance do not establish semantic interpretation, complete retrieval or benchmark benefit. Failed/fatal/gap outcomes stay in all600 first-attempt denominators. Fixed300 remains adaptive development;1397 confirmation stays unobserved until the separately frozen final full evaluation. This review approves the exact helper implementation scope, not launch or accuracy selection.

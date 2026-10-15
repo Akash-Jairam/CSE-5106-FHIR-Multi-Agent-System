@@ -1,0 +1,125 @@
+{
+  "status": "PASS_LIVE_RESERVED_DEVELOPMENT_INTERFACE",
+  "questions": 3,
+  "protected_confirmation_overlap": 0,
+  "strategy": "multi_agent_v6",
+  "protocol": "continuous-primary-independent-recompute-v6",
+  "accuracy_scored": false,
+  "experiment_journal_entry_created": false,
+  "bounds_changed_after_check": false,
+  "output_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/development/v6_native_interface_20261015",
+  "attempts": [
+    {
+      "primary_eligible": true,
+      "primary_skip_reason": null,
+      "primary_model_calls": 5,
+      "primary_tokens": 34797,
+      "primary_tools": 5,
+      "aux_status": "primary_preserved",
+      "aux_reason": "auxiliary unavailable: ValueError: independent executed artifact is ineligible",
+      "aux_model_calls": 1,
+      "aux_tools": 1,
+      "reservation": 19717,
+      "generation_prompt_tokens": 2810,
+      "selector_prompt_tokens": null,
+      "B_entry_bytes": null,
+      "B_eligible": false,
+      "selector_admitted": false,
+      "total_usage": {
+        "prompt_tokens": 36923,
+        "completion_tokens": 815,
+        "total_tokens": 37738,
+        "cost": null,
+        "llm_calls": 6
+      },
+      "budget": {
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "tool_calls_run": 6,
+        "stopped": null
+      },
+      "latency": 15.184,
+      "audit_restored": true
+    },
+    {
+      "primary_eligible": false,
+      "primary_skip_reason": "released answer does not bind a clean executed final",
+      "primary_model_calls": 10,
+      "primary_tokens": 142807,
+      "primary_tools": 10,
+      "aux_status": null,
+      "aux_reason": null,
+      "aux_model_calls": 0,
+      "aux_tools": 0,
+      "reservation": null,
+      "generation_prompt_tokens": null,
+      "selector_prompt_tokens": null,
+      "B_entry_bytes": null,
+      "B_eligible": false,
+      "selector_admitted": false,
+      "total_usage": {
+        "prompt_tokens": 140348,
+        "completion_tokens": 2459,
+        "total_tokens": 142807,
+        "cost": null,
+        "llm_calls": 10
+      },
+      "budget": {
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "tool_calls_run": 10,
+        "stopped": null
+      },
+      "latency": 118.413,
+      "audit_restored": true
+    },
+    {
+      "primary_eligible": true,
+      "primary_skip_reason": null,
+      "primary_model_calls": 5,
+      "primary_tokens": 58970,
+      "primary_tools": 5,
+      "aux_status": "primary_preserved",
+      "aux_reason": "auxiliary unavailable: ValueError: independent final execution failed",
+      "aux_model_calls": 1,
+      "aux_tools": 1,
+      "reservation": 19928,
+      "generation_prompt_tokens": 2918,
+      "selector_prompt_tokens": null,
+      "B_entry_bytes": null,
+      "B_eligible": false,
+      "selector_admitted": false,
+      "total_usage": {
+        "prompt_tokens": 61145,
+        "completion_tokens": 815,
+        "total_tokens": 61960,
+        "cost": null,
+        "llm_calls": 6
+      },
+      "budget": {
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "tool_calls_run": 6,
+        "stopped": null
+      },
+      "latency": 64.867,
+      "audit_restored": true
+    }
+  ],
+  "sdk_starts": 22,
+  "sdk_ends": 22,
+  "sdk_outcomes": {
+    "success": 22
+  },
+  "provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "source_sha256": {
+    "agent/continuous_primary.py": "f3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963",
+    "agent/independent_recompute_aux.py": "048bc20b42b982176d979055c257c7aade2f5cfa58aa2611695a1ffb2138c425",
+    "agent/independent_recompute_agent.py": "facb15e3d3b5bdce4e8dd70f1c367dbe05f03786f7910893393e1f9feba9068e",
+    "agent/base_agent.py": "e566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77"
+  }
+}

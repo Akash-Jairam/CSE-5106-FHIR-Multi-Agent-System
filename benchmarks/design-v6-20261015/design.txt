@@ -1,0 +1,355 @@
+V6 prospective design: continuous Single primary and independent recomputation
+Prepared 15 October 2026 UTC. Experimental candidate; no V6 accuracy claim.
+This prospective document is not itself a frozen substantial-run record.
+
+Question and testable hypothesis
+
+Can one small, answer/code-blind computation and a bounded disagreement selector
+improve a capable continuous solver without sacrificing most of its solving
+budget? V6 tests this on the existing adaptive fixed 300. It does not assume that
+more agents, blindness, execution, agreement or correct citations imply truth.
+
+The primary now composes the actual current SingleAgent policy rather than the
+V3/V5 LedgerSolver. This and the auxiliary change are bundled: a win cannot be
+attributed separately to natural continuation, removed Ledger scope vetoes,
+independent generation, selector behavior or the allocation. Smaller primary
+caps can still harm the actual Single policy relative to its 200k/30 control.
+
+Why this experiment follows the negative evidence
+
+V2's blind verifier used its own retrieval trajectory and could block release
+when verification was incomplete; its team scored 198 against refreshed Single 231.
+V3d scored 232 versus fresh Single 238; its valid static audit proposed no material
+repair in 283 cases. V4's visible upfront plan scored 218 versus fresh Single 239.
+V5's frozen-workspace executable critic scored 225 versus fresh Single 237, with
+10 paired wins / 22 losses and reported team-minus-single CI [-8.06, -0.29] percentage
+points. These completed comparisons do not establish causal component effects.
+
+In V5, 282 primaries reached the critic, 334 replies and 97 tools were charged, and
+zero replacements were accepted. There were 44 failed/unusable probes and 9 first
+schema rejections; 52 second calls returned 27 UNKNOWN / 24 KEEP / 1 PATCH. The one patch
+had no substantive executed effect. Of 64 source-valid typed-wrong primaries,
+49 ended KEEP/UNKNOWN and 15 met mechanical/probe barriers. Parser repair alone
+therefore does not address the dominant demonstrated gap. V6 removes V5's quote,
+positive-source-fact, probe-observation and patch-witness interface; it gives B
+one ordinary self-contained final-program tool call instead. One-shot execution
+and selection remain difficult and can still fail or harm a correct A.
+
+Corrected V5 transition interpretation, not a new score:
+  Official available-draft -> released-final: 298 drafts, 224 initially correct,
+  4 wrong->right and 5 right->wrong. The 23 generic revision flags are not critic
+  repairs. On those 23 solver-source revisions, draft -> computed primary was
+  5 helpful / 18 neutral / 0 harmful; draft -> released final was 4 helpful / 14 neutral /
+  5 harmful. Six computed-correct primaries were subsequently withheld, and none
+  reached the critic. Their typed credit is not proof that source gates should
+  be relaxed. Both unavailable-draft rows received null/empty-reference credit,
+  explaining 223 correct released answers among 298 plus 2 = 225 overall.
+
+The source-scope audit distinguishes direct encounter/time membership from a
+supporting reference and from search completeness. V6 makes NO shared checker
+relaxation and adds no reference-path/time inheritance. Using actual Single
+removes Ledger-only global unused-metadata vetoes as a policy difference; it
+does not prove those metadata irrelevant or certify exhaustive retrieval.
+
+Exact primary and eligibility boundary
+
+run_continuous_primary creates actual SingleAgent(max_iterations=30), sets
+175,000 aggregate prompt+completion tokens and 27 INCLUSIVE charged tools, and
+lets SingleAgent.run(original_input) finish naturally. All native prompts,
+starting packet, tools, tool-batch processing, compaction, post-final model
+continuation, final automatic source check and one existing source revision
+remain its normal policy. No Ledger subclass, first-artifact handoff, forced
+explicit final from turn 1, budget nudge, 20-call cap or source-slot reservation.
+Twenty-seven is NOT a guaranteed 25 requested + 2 source arrangement; automatic and
+model-requested checks share that inclusive cap and may be refused naturally.
+
+Adopt the primary's raw aggregate/per-call usage and actual tool count once into
+a clean outer host. Retain its actual released answer/error/limitation and source
+revision separately from its computed artifact. Do not promote a withheld draft.
+
+B is eligible only when released A binds all of:
+- a surviving actual successful mode=final tool execution and full five fields;
+- the current held workspace digest and exact actual program;
+- rendered answer/evidence/limitation equal to A and its final revision;
+- the later actual final automatic_field_check_1 or_2 with exact citations,
+  matching counts, status valid, empty warnings and issues, known usage;
+- no subsequent cap-refused mutation request manufacturing stale eligibility.
+
+Prose-only or otherwise ineligible primary output is preserved unchanged, with
+an auxiliary-skip reason. It is not rewritten as a constant program, newly
+source-checked, rescued by B or vetoed just because no executable A survived.
+Fatal accounting is different: it withholds the overall attempt.
+
+Auxiliary protocol and visible state
+
+API: run_independent_recompute(host, primary5, artifact, workspace, context,
+primary_source_check) -> (existing selected five-field candidate, diagnostics).
+The context contains the original question, assumptions, patient and current
+time. The actual original automatic source envelope is reused for A's eligibility
+and summary; this costs no extra source call.
+
+1. Freeze defensive snapshots of A, its actual code/artifact, held resources and
+   context. Build B's fresh two-message input with the unchanged semantic guide,
+   exact original context, workspace hash and held inventory. Inventory includes
+   all held type counts/concept labels and one untruncated source example/type;
+   these examples are previews, not a complete-record transcript. Oversized
+   essential packets skip the auxiliary. B sees NO A code, answer, evidence,
+   operation, conversation or source-check result. A's data can incidentally
+   contain answer-bearing facts; it is not information-theoretic answer secrecy.
+
+2. B receives only the existing native execute_python_code tool definition.
+   It must request exactly one self-contained mode=final program, with no
+   retrieval, inspect round, debugging conversation or second B attempt. The full
+   held workspace is available at runtime, beyond the displayed examples.
+   Intermediate examination and calculations may occur inside that one program;
+   no intermediate tool feedback or second execution is available. Native
+   argument parsing rejects duplicate keys/nonfinite JSON, unknown tools, extra
+   calls/arguments or invalid final mode. The host runs the program once in a
+   fresh OS worker receiving only a copy of frozen retrieved_resources.
+
+3. Validate its ordinary AnalysisAgent five-field draft: answer, evidence,
+   operation, contributing_ids, limitation. Require held full IDs, exact finite
+   JSON, valid metadata and no limitation for eligible B. Use the existing actual
+   check_fields once on B's exact citations and original question/patient/time.
+   Require the actual raw envelope to bind every cited value/status/warning and
+   matching counts. No synthetic clean envelope, Ledger unresolved-scope gate,
+   implicit supporting-reference inheritance or alternative checker is added.
+   Current ordinary established-empty rules remain: no preference for nonempty
+   answers, and no empty answer may be inferred merely from tool failure.
+
+4. Compare ONLY eligible A/B answers by exact finite JSON serialization. False/0,
+   True/1,1/1.0,string/number,scalar/singleton and list order stay distinct. There
+   is no gold scorer, timestamp normalization, semantic-equivalence oracle or
+   answer-kind routing. Exact agreement preserves the COMPLETE original A and
+   skips selection. Agreement is recorded as behavior, not correctness proof.
+
+5. Disagreement admits one fresh tool-free selector conversation with original
+   context, both intact programs, actual five-field artifacts, workspace/program
+   hashes and summaries derived from actual clean source checks. Neither
+   operation prose nor source validity is trusted as semantic truth. Exact output
+   is {"choice":"A|B|UNKNOWN","reason":"brief concrete comparison"}. It cannot
+   create an answer, change code/citations, probe, retrieve or call a third role.
+   A/UNKNOWN, malformed or nonfatally unavailable output preserves A. A valid B
+   choice releases the existing B artifact exactly. Selection can still be wrong.
+
+Both candidates use A's frozen retrieved evidence. This is independent generation
+conditional on shared retrieval, NOT independent retrieval or full source
+completeness. No new SQL/fixture adapter, gold program, template/patient/question
+ID route, model-specific branch, repair-class grammar or preference for B exists.
+
+Exact resource admission and failure policy
+
+                        Tokens incl prompts/output   Actual tools   Model calls
+  actual Single primary            175,000            27 inclusive       <=30
+  independent auxiliary             25,000            <=3               <=2
+  whole team                       200,000            <=30              <=32
+  contemporary actual Single       200,000            <=30              <=30
+
+The implemented auxiliary uses TWO tools at most: one B final execution and one
+original-record check. The remaining third slot is unused, not an implicit probe,
+repair, replay, retry or free execution. Agreement uses one model call/two tools;
+disagreement may use two calls/two tools. All attempted admitted calls are charged.
+The possible32 team model attempts versus30 control is explicit; aggregate
+token/tool ceilings match, model-call ceilings do not. Equal ceilings are not
+proof of equal actual spending or cross-model computational cost.
+
+Requested completion subcaps: generation4,000; selector1,800, inside unchanged
+caller 16,384. Before B, count native tool schemas in the generation prompt and
+reserve both calls, both completions and ordinary 5% / 64-token prompt margins.
+The second reservation includes intact A/context plus an 8,000-byte maximum B
+entry and 512-token serialization/framing allowance. B's code bound is 6,000
+characters. A B entry consists of complete program, five-field artifact, source
+summary and hashes; its structural byte bound is checked BEFORE the source call,
+then against the actual checked entry. Recount the actual intact selector before
+admission. No essential code, artifact or context is truncated to squeeze it in.
+
+The 4,000 / 1,800 / 6,000 / 8,000 limits are the selected fixed engineering settings;
+there is no accuracy-conditioned or per-question allocation. Initial three
+reserved-development checks completed with 22/22 SDK successes. Two eligible A
+artifacts led to B: one B executed with an explicit limitation and one failed
+worker metadata with an empty operation. Both preserved A; the other A was
+auxiliary-ineligible and was preserved. Both B programs failed to access the
+held workspace. These checks exposed a generic packet-versus-worker visibility
+misunderstanding, not an accuracy finding. The first old-prompt two-call
+reservation 19,717 fit, but does not measure final-prompt population coverage.
+
+Only GENERATION_PROMPT was then clarified: ALL HELD records are accessible at
+runtime beyond displayed examples; intermediate schema examination/filtering/
+ordering/calculation inside the one final program is allowed; there is no
+intermediate feedback or second execution; held access is not complete retrieval;
+operation must be a nonempty accurate string. Bounds, schemas, gates and call
+counts are unchanged. The clarified reserved-development check then completed:
+5/5 SDK successes; A used 4 model calls / 4 tools, B used 1 call / 2 tools. B produced
+an actual valid mode=final artifact and original-source check issues[]. Its
+entry was 4,172 bytes and the two-call reservation 19,910; exact typed answer
+agreement preserved A. Full gzip restored, with no error or unknown usage. This
+reused one previous reserved-development question, with zero protected 1397
+overlap. No live selector path was exercised; that path has synthetic native
+SDK/worker coverage only. One interface success is not an efficacy, population
+coverage or causal improvement estimate. No labels/accuracy or alternate bounds
+were used to select it. This candidate is ready for a prospective source freeze,
+but this private packet is not yet frozen and V6 accuracy has not been tested.
+
+Known pre-call refusal, B execution/source/schema/coverage failure, or verified-
+usage auxiliary inability preserves A. Unknown/malformed admitted provider usage,
+unreconciled adopted counters/cost, actual completion subcap overshoot or phase/
+global token/tool overshoot is fatal for the whole attempt, even with valid A.
+Original primary and attempted B remain in the audit; fatal output is not null
+answer credit. Source/packet hashes and snapshot checks prevent stale authority.
+
+Shared fault-path correction, required identically in both contemporaneous arms:
+BaseAgent now labels post-provider missing usage/actual total overrun as Provider
+accounting failure, so its ordinary known-preflight BudgetExceeded normalization
+cannot turn those into unmarked null credit. The public Azure bridge preserves
+native usage=None instead of LiteLLM's synthetic zero Usage. Explicit reported
+zero remains known. Successful request options/defaultHTTPX2 transport, timeout,
+reasoning, retry policy and valid-call Single behavior remain unchanged. Freeze
+these shared bytes and the ignored runtime adapter in both arms; this is a
+disclosed common infrastructure correction, not a team advantage.
+
+Research rationale and counterevidence
+
+CoVe (Dhuliawala et al., Findings ACL 2024) independently answers verification
+questions to reduce copying/interference from the draft. This motivates hiding
+A's reasoning while B generates, not trusting B or its later selection. CoVe's
+factual QA experiments and multi-step verification are not a two-call FHIR/code
+selection result. B is an open computation, not a draft-conditioned binary claim.
+https://aclanthology.org/2024.findings-acl.212/
+
+CRITIC (Gou et al., ICLR 2024; first preprint 19 May 2023) motivates using actual
+tool feedback and reports the importance of external feedback. Its official
+program driver separately generates critique, rewrites and executes per iteration.
+V6 does NOT have that feedback/repair loop or inherit its results. The copied
+author code was pinned at ProphetNet commit 5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53,
+CRITIC/src/program/critic.py blob 3380050f5482cd2b2b1d5e49965c4b7fb1e95f61.
+Gold comparisons there are evaluation/logging, not a permitted inference oracle.
+https://arxiv.org/abs/2305.11738
+https://github.com/microsoft/ProphetNet/blob/5cf70eb41cdaa1d8faa3e1265d95ee5792d49a53/CRITIC/src/program/critic.py
+
+MBR-EXEC (Shi et al., EMNLP 2022) selects programs via execution-based agreement
+among a generated set and approximates equivalence on test inputs. This supports
+executing actual code rather than judging prose alone. Two disagreeing candidates
+have no majority; V6's selector is not MBR or a correctness certificate.
+https://aclanthology.org/2022.emnlp-main.231/
+
+DPC (2026 preprint) supplies distinguishing SQL fixtures and an
+independent paradigm. V6 deliberately does not implement that new task adapter
+or an extra feedback loop. Its simpler fixed-workspace interface has less evidence
+for semantic discrimination. Treat DPC as a contrast, not borrowed validation.
+https://arxiv.org/abs/2604.15163
+https://github.com/HKUSTDial/DPC/tree/f75c759e58cc5b2b2a0d9b5227e38536e9a248ad
+
+The direct local counterevidence is V2's harmful mandatory verification, V3's
+inactive narrow audit, V4's negative visible advice and V5's mostlyKEEP/UNKNOWN
+critic, above. No source proves this same-model B/judge beats a capable Single
+under 200k/30. A correct A can be switched to a wrong B; shared retrieval biases,
+one-shot code/metadata failure and packet skips can erase any independence gain.
+
+Prospective substantial comparison and acceptance
+
+Use the SAME ordered fixed 300 IDs/input/split as prior comparisons, now explicitly
+adaptive development validation. Fresh separate ordinary_single_agent and
+ordinary_multi_agent jobs, one worker each concurrently; save every first attempt,
+including provider/accounting/source/budget failures, with gzip audit before IPC.
+Keep nativeSDK observer and provider profile fixed (caller 16,384, timeout 60s,
+max_retries 0, reasoning none). No selective retry/replacement/early scoring.
+Record source ZIP/inventory, runtime4 ZIP/public binding, input/split/ID hashes,
+exact commands, prompts/limits, guard and decision code before the substantial run.
+
+Prospective launch command templates (not executed by this packet):
+  V6_OUTPUT=output/experiments/gpt-6-luna/independent_recomputation_v6_300q
+  .venv/bin/python .local-setup/phase3.py run --project-root . --model gpt-6-luna \
+    --max_total_tokens 200000 --max_tool_calls 30 --num_processes 1 --save_interval 1 \
+    --output_dir "$V6_OUTPUT" --split held_out --team_strategy multi_agent_v6 \
+    --audit_storage gzip --arms ordinary_single_agent
+  .venv/bin/python .local-setup/phase3.py run --project-root . --model gpt-6-luna \
+    --max_total_tokens 200000 --max_tool_calls 30 --num_processes 1 --save_interval 1 \
+    --output_dir "$V6_OUTPUT" --split held_out --team_strategy multi_agent_v6 \
+    --audit_storage gzip --arms ordinary_multi_agent
+Select one fresh common output path for both commands and bind the actual
+runtime diagnostics directory in the formal launch record. Add the existing
+caffeinate/log wrapper there. These are prospective templates, not a launch.
+
+Strict development gate: Team > 239 AND Team > fresh contemporary Single, across
+all 300 first attempts. Minimum 240 is necessary, not sufficient if fresh Single >= 240.
+Freeze scores only after both arms terminal and all 600 owned gzip restoration,
+source/runtime/binding/input/identity/cap integrity checks pass. Report paired
+question-weighted patient-block difference/95% CI (10,000 replicates, seed 5106),
+calls/tools/tokens, source support, primary-only versus released outcomes,
+B eligibility/agreement/disagreement, switches helped/harmed, coverage skips and
+accounting/provider losses. Oracle pass@2 is diagnosis only, never routing or gate.
+
+Generalization and later full evaluation
+
+Do not inspect protected 1397 question-confirmation text/answers/programs while
+refining V6. A development win only selects a candidate. The existing manifest
+has 1,397 question-disjoint instances: 1,379 on 58 already exposed patients and 18 on
+one nominally outcome-unexposed patient. It is not a patient/template holdout.
+Once a candidate is selected, freeze one method/control and run the original
+2,931 three-arm benchmark once; confirm team-minus-single on those 1,397 and report
+all exposure strata and full 2,931. Require positive lower paired patient-block CI
+for supported confirmatory improvement and team>single overall, as already
+prespecified in evaluation_generalization_protocol_20261015.txt. No partial
+confirmation scoring, repeated selection or promotion just because runs complete.
+Failed/inconclusive confirmation is spent evidence; later confirmation requires
+independent protected data. Repartitioning cannot recreate unseen patients.
+
+The generic mechanism is isolated generation, immutable executable candidates,
+original-source checks, bounded choice, fallback and explicit accounting. FHIR
+schemas/IDs/clinical labels, patient/time scope and benchmark SQL time conventions
+remain the current shared adapter. The implementation requires ordinary native
+function calling and finite JSON, not hidden confidence or private reasoning.
+Only gpt-6-luna is evaluated now. New-question, model, task, template and real-
+patient portability remain separate unproven empirical claims. A later transfer
+study must freeze orchestration and compare to each new model's capable Single,
+with independent task/patient data and declared adapters rather than new case
+routes or model-specific tuning. Cawley/Talbot and adaptive-holdout research
+motivate the prespecified confirmation, not a guarantee of corrected overfitting.
+https://jmlr.org/papers/v11/cawley10a.html
+https://arxiv.org/abs/1506.02629
+
+Current implementation identity and engineering evidence
+
+agent/continuous_primary.py
+ f3fa3af770a9c43e83a0da6aba41ecfbbf4481ec39af5e7140c3da548002d963
+agent/independent_recompute_aux.py
+ f6659d5de56841068666f50c83d9bf3673e180b21c97fe08cedbfca4f1a8fdd6
+agent/independent_recompute_agent.py
+ facb15e3d3b5bdce4e8dd70f1c367dbe05f03786f7910893393e1f9feba9068e
+agent/single_agent.py (unchanged current policy, not original author commit)
+ 0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e
+tools/field_check.py (unchanged)
+ 53345095c1e489185ff9b280034999c4225748d4c88bc9df939960f3119457c5
+agent/base_agent.py (shared accounting fault-path correction)
+ e566f4241e71a8436aca3e119eb534d41352487cd2274a94b6767565313c3c77
+.local-setup/azure_adapter.py (public runtime; missing native usage correction)
+ 5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8
+agent/ehr_semantics.py (unchanged shared guide)
+ 2c6a12e0c2e5428b028c22b3d017bbabd8bc479b874d32facca98612d7055fe4
+utils/answer_scorer.py (unchanged)
+ ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964
+
+Research notes copied unchanged alongside this document are historical analysis,
+not overrides of the selected protocol. In particular their optional25+2 reserve,
+completeness flags or rejected source-relaxation ideas are NOT implemented here.
+The final source inventory, runtime binding and complete prompts in code govern.
+
+Independent read-only engineering review found no material blocker before the
+prompt-only clarification; 96 focused synthetic tests passed on that snapshot. The coordinator reports 252 broader offline tests passed.
+Own auxiliary/cross-module suite 26 PASS uses actual public
+Azure bridge with explicit placeholders/defaultHTTPX2.send mocked, actual Single
+natural continuation, OS worker, original checker with store fetch mocked,
+V6 worker dispatch and owner-checked lossless gzip. Four SDK calls/720 tokens/
+four tools counted once in the controlled selection fixture. Missing native usage
+is fatal; invalid B/prose-only A preserve A. No network/provider reliability,
+clinical accuracy or semantic generalization is established by these tests.
+
+Final prompt-only revalidation (not new inference-policy changes):
+- All 26 auxiliary/cross-module synthetic tests PASS in 3.207s on final f6659d5d
+  source; log /private/tmp/fhir-v6-prompt-interface-regression-final.log.
+- Independent prompt-diff review is copied under docs/research and binds the
+  final source. Earlier 96/252 suites predate this prompt-only clarification.
+- Clarified actual interface metadata:
+  /private/tmp/fhir-v6-live-development-interface-clarified.json.
+  SDK success and mechanical validity establish transport/interface behavior;
+  no new accuracy result, causal claim or model/task generalization is inferred.

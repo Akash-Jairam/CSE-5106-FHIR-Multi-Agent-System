@@ -1,0 +1,48 @@
+{
+  "acceptance": "team >239 AND team >fresh contemporary single; all300 first attempts, no replacements/retries",
+  "minimum_team_correct": 240,
+  "model": "gpt-6-luna",
+  "fixed_questions_per_arm": 300,
+  "workers_per_arm": 1,
+  "first_attempt_only": true,
+  "expected_public_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "phase_caps": {
+    "primary": [
+      175000,
+      27
+    ],
+    "independent_recompute": [
+      25000,
+      3
+    ]
+  },
+  "primary_iterations": 30,
+  "primary_tools_inclusive_automatic_checks": true,
+  "reserved_primary_source_checks": 0,
+  "max_auxiliary_invocations": 2,
+  "max_team_model_calls": 32,
+  "max_control_model_calls": 30,
+  "global_caps": [
+    200000,
+    30
+  ],
+  "estimated_input_guard": 32000,
+  "bounds": {
+    "generation_completion": 4000,
+    "selection_completion": 1800,
+    "program_chars": 6000,
+    "candidate_entry_bytes": 8000,
+    "selector_boundary_tokens": 512,
+    "selection_chars": 4000
+  },
+  "comparison_method": "Unchanged typed scorer; all scheduled first attempts including errors;10000 question-weighted patient-block bootstrap replicates seed5106; fixed300 reused adaptive development data.",
+  "generalization_protocol": "docs/evaluation_generalization_protocol_20261015.txt",
+  "final_confirmation_manifest_sha256": "6c0410ae9fc581bf5cf6918f95d4d97407a8eb4b19d488cba6815937a1bbf965",
+  "inference_gold_access": false,
+  "semantic_assurance": "Execution and original-source fields validated; answer selection remains fallible; held records do not prove complete retrieval.",
+  "future_full_run": "Only if development gate passes: select one frozen full2931 x3; no partial scoring; report prespecified1397 question-confirmation separately; no new-patient/model/task gain claimed."
+}
