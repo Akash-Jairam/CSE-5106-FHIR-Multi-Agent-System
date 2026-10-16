@@ -1,0 +1,682 @@
+{
+  "scope": "Read-only frozen adapter source and round16/17 safe transport diagnostics; no requests or scoring",
+  "snapshot_utc": "2026-10-16T10:19:13.901486+00:00",
+  "frozen_adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+  "source_findings": {
+    "sdk_timeout_seconds": 60,
+    "sdk_retries": 0,
+    "client_scope": "One cached client per worker process; new worker processes each batch",
+    "diagnostics_expose_exception_classes_flags_numeric_codes_only": true,
+    "diagnostic_errors_suppressed_to_preserve_original_model_result": true
+  },
+  "rounds": [
+    {
+      "round": 16,
+      "files": [
+        {
+          "path": "output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/multi_agent/round-0016/azure-diagnostics-50169-f251b80983dc4e15869e9ced0a8713ea.jsonl",
+          "sha256": "79a176ef67eb6060a7935a72d566af345894dca03461e69c959b37ee47cf0b27",
+          "valid_lines": 608
+        },
+        {
+          "path": "output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/multi_agent/round-0016/azure-diagnostics-50170-8d7599ad2ee74168bff58b47e90e843b.jsonl",
+          "sha256": "6e8428cb752c50bb7501bbe15a1bcece1d8efc5acb5434df0e995b8429bc0377",
+          "valid_lines": 486
+        }
+      ],
+      "starts": 547,
+      "ends": 547,
+      "in_flight_at_snapshot": 0,
+      "end_without_start": 0,
+      "partial_jsonl_lines": 0,
+      "request_outcomes": {
+        "success": 536,
+        "error": 11
+      },
+      "request_error_rate": 0.02010968921389397,
+      "error_categories": {
+        "read_timeout": 5,
+        "http_500": 1,
+        "connect_timeout": 5
+      },
+      "error_http_status": {
+        "None": 10,
+        "500": 1
+      },
+      "durations_all_seconds": {
+        "n": 547,
+        "min": 1.0034084579965565,
+        "median": 3.089104624988977,
+        "p95": 10.926375790993916,
+        "max": 60.00888512498932
+      },
+      "error_durations_by_category_seconds": {
+        "read_timeout": {
+          "n": 5,
+          "min": 60.00394041699474,
+          "median": 60.00521962498897,
+          "p95": 60.00888512498932,
+          "max": 60.00888512498932
+        },
+        "http_500": {
+          "n": 1,
+          "min": 1.0034084579965565,
+          "median": 1.0034084579965565,
+          "p95": 1.0034084579965565,
+          "max": 1.0034084579965565
+        },
+        "connect_timeout": {
+          "n": 5,
+          "min": 35.69652949998272,
+          "median": 36.646818665991304,
+          "p95": 38.77054379100446,
+          "max": 38.77054379100446
+        }
+      },
+      "client_closed_observations": [],
+      "fd_range": {
+        "n": 1094,
+        "min": 17,
+        "median": 18.0,
+        "p95": 18,
+        "max": 19
+      },
+      "exception_flags_counts": {
+        "connect": 10,
+        "dns": 0,
+        "pool": 0,
+        "read": 10,
+        "resource_fd": 0,
+        "timeout": 30,
+        "tls": 0,
+        "write": 0
+      },
+      "exception_numeric_codes": {},
+      "per_process": [
+        {
+          "pid": 50169,
+          "ended_requests": 304,
+          "outcomes": {
+            "success": 300,
+            "error": 4
+          },
+          "first_counter": 1,
+          "last_counter": 304,
+          "fd_first": 17,
+          "fd_last": 18,
+          "fd_min": 17,
+          "fd_max": 19,
+          "distinct_client_ids": 1,
+          "sdk_versions": {
+            "httpx2": "2.13.1",
+            "openai": "3.26.1"
+          },
+          "sdk_class": "openai.lib.azure.AzureOpenAI",
+          "http_class": "openai._base_client.SyncHttpxClientWrapper"
+        },
+        {
+          "pid": 50170,
+          "ended_requests": 243,
+          "outcomes": {
+            "success": 236,
+            "error": 7
+          },
+          "first_counter": 1,
+          "last_counter": 243,
+          "fd_first": 17,
+          "fd_last": 18,
+          "fd_min": 17,
+          "fd_max": 18,
+          "distinct_client_ids": 1,
+          "sdk_versions": {
+            "httpx2": "2.13.1",
+            "openai": "3.26.1"
+          },
+          "sdk_class": "openai.lib.azure.AzureOpenAI",
+          "http_class": "openai._base_client.SyncHttpxClientWrapper"
+        }
+      ],
+      "errors_with_subsequent_same_client_success": 11,
+      "failures": [
+        {
+          "pid": 50170,
+          "counter": 2,
+          "started_utc": "2026-10-16T09:30:51.343408+00:00",
+          "finished_utc": "2026-10-16T09:31:51.350335+00:00",
+          "duration_seconds": 60.007373708009254,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 4.898008,
+          "same_client_success": true
+        },
+        {
+          "pid": 50169,
+          "counter": 14,
+          "started_utc": "2026-10-16T09:31:39.067124+00:00",
+          "finished_utc": "2026-10-16T09:32:39.072018+00:00",
+          "duration_seconds": 60.00521962498897,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 2.841585,
+          "same_client_success": true
+        },
+        {
+          "pid": 50170,
+          "counter": 33,
+          "started_utc": "2026-10-16T09:33:52.467716+00:00",
+          "finished_utc": "2026-10-16T09:33:53.471101+00:00",
+          "duration_seconds": 1.0034084579965565,
+          "category": "http_500",
+          "http_status": 500,
+          "exception_classes": [
+            "openai.InternalServerError"
+          ],
+          "fd_count": 18,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 4.062527,
+          "same_client_success": true
+        },
+        {
+          "pid": 50169,
+          "counter": 59,
+          "started_utc": "2026-10-16T09:35:42.547563+00:00",
+          "finished_utc": "2026-10-16T09:36:42.551431+00:00",
+          "duration_seconds": 60.004212458006805,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 4.620625,
+          "same_client_success": true
+        },
+        {
+          "pid": 50170,
+          "counter": 62,
+          "started_utc": "2026-10-16T09:35:43.749853+00:00",
+          "finished_utc": "2026-10-16T09:36:43.753458+00:00",
+          "duration_seconds": 60.00394041699474,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 4.082874,
+          "same_client_success": true
+        },
+        {
+          "pid": 50170,
+          "counter": 107,
+          "started_utc": "2026-10-16T09:41:09.401480+00:00",
+          "finished_utc": "2026-10-16T09:42:09.410035+00:00",
+          "duration_seconds": 60.00888512498932,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 3.530818,
+          "same_client_success": true
+        },
+        {
+          "pid": 50170,
+          "counter": 228,
+          "started_utc": "2026-10-16T09:52:02.966712+00:00",
+          "finished_utc": "2026-10-16T09:52:38.663049+00:00",
+          "duration_seconds": 35.69652949998272,
+          "category": "connect_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "error",
+          "later_success_observed": true,
+          "requests_until_success": 3,
+          "seconds_until_success": 78.426517,
+          "same_client_success": true
+        },
+        {
+          "pid": 50170,
+          "counter": 229,
+          "started_utc": "2026-10-16T09:52:40.513300+00:00",
+          "finished_utc": "2026-10-16T09:53:17.159901+00:00",
+          "duration_seconds": 36.646818665991304,
+          "category": "connect_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "error",
+          "later_success_observed": true,
+          "requests_until_success": 2,
+          "seconds_until_success": 39.929665,
+          "same_client_success": true
+        },
+        {
+          "pid": 50169,
+          "counter": 300,
+          "started_utc": "2026-10-16T09:52:58.395705+00:00",
+          "finished_utc": "2026-10-16T09:53:35.097565+00:00",
+          "duration_seconds": 36.702062582975486,
+          "category": "connect_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ],
+          "fd_count": 18,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "error",
+          "later_success_observed": true,
+          "requests_until_success": 2,
+          "seconds_until_success": 42.855928,
+          "same_client_success": true
+        },
+        {
+          "pid": 50170,
+          "counter": 230,
+          "started_utc": "2026-10-16T09:53:17.173833+00:00",
+          "finished_utc": "2026-10-16T09:53:53.815664+00:00",
+          "duration_seconds": 36.642033334006555,
+          "category": "connect_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 3.273902,
+          "same_client_success": true
+        },
+        {
+          "pid": 50169,
+          "counter": 301,
+          "started_utc": "2026-10-16T09:53:35.110775+00:00",
+          "finished_utc": "2026-10-16T09:54:13.881105+00:00",
+          "duration_seconds": 38.77054379100446,
+          "category": "connect_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 4.072388,
+          "same_client_success": true
+        }
+      ],
+      "error_time_window_utc": {
+        "first_start": "2026-10-16T09:30:51.343408+00:00",
+        "last_finish": "2026-10-16T09:54:13.881105+00:00"
+      },
+      "next_request_after_failure_outcomes": {
+        "success": 8,
+        "error": 3,
+        "null": 0
+      }
+    },
+    {
+      "round": 17,
+      "files": [
+        {
+          "path": "output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/multi_agent/round-0017/azure-diagnostics-51191-9e09c3071fe34cff9abce65746f26572.jsonl",
+          "sha256": "cfd870b2a353d72d90c402e9fda4898d38bc1ead47be78684e242bceb8d85f69",
+          "valid_lines": 521
+        },
+        {
+          "path": "output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/multi_agent/round-0017/azure-diagnostics-51192-20ec020aa4f34af69b0407e68a6fb051.jsonl",
+          "sha256": "6cb3247e30f18ae31ebfcbd3623b04381463c5e181b399ad8f9eefbe14cdb317",
+          "valid_lines": 517
+        }
+      ],
+      "starts": 520,
+      "ends": 518,
+      "in_flight_at_snapshot": 2,
+      "end_without_start": 0,
+      "partial_jsonl_lines": 0,
+      "request_outcomes": {
+        "success": 511,
+        "error": 7
+      },
+      "request_error_rate": 0.013513513513513514,
+      "error_categories": {
+        "read_timeout": 7
+      },
+      "error_http_status": {
+        "None": 7
+      },
+      "durations_all_seconds": {
+        "n": 518,
+        "min": 1.3228415420162492,
+        "median": 3.092260791512672,
+        "p95": 12.980289416009327,
+        "max": 60.0144520419999
+      },
+      "error_durations_by_category_seconds": {
+        "read_timeout": {
+          "n": 7,
+          "min": 60.00396983299288,
+          "median": 60.00493333398481,
+          "p95": 60.0144520419999,
+          "max": 60.0144520419999
+        }
+      },
+      "client_closed_observations": [],
+      "fd_range": {
+        "n": 1038,
+        "min": 17,
+        "median": 18.0,
+        "p95": 18,
+        "max": 18
+      },
+      "exception_flags_counts": {
+        "connect": 0,
+        "dns": 0,
+        "pool": 0,
+        "read": 14,
+        "resource_fd": 0,
+        "timeout": 21,
+        "tls": 0,
+        "write": 0
+      },
+      "exception_numeric_codes": {},
+      "per_process": [
+        {
+          "pid": 51191,
+          "ended_requests": 260,
+          "outcomes": {
+            "success": 256,
+            "error": 4
+          },
+          "first_counter": 1,
+          "last_counter": 260,
+          "fd_first": 17,
+          "fd_last": 18,
+          "fd_min": 17,
+          "fd_max": 18,
+          "distinct_client_ids": 1,
+          "sdk_versions": {
+            "httpx2": "2.13.1",
+            "openai": "3.26.1"
+          },
+          "sdk_class": "openai.lib.azure.AzureOpenAI",
+          "http_class": "openai._base_client.SyncHttpxClientWrapper"
+        },
+        {
+          "pid": 51192,
+          "ended_requests": 258,
+          "outcomes": {
+            "success": 255,
+            "error": 3
+          },
+          "first_counter": 1,
+          "last_counter": 258,
+          "fd_first": 17,
+          "fd_last": 18,
+          "fd_min": 17,
+          "fd_max": 18,
+          "distinct_client_ids": 1,
+          "sdk_versions": {
+            "httpx2": "2.13.1",
+            "openai": "3.26.1"
+          },
+          "sdk_class": "openai.lib.azure.AzureOpenAI",
+          "http_class": "openai._base_client.SyncHttpxClientWrapper"
+        }
+      ],
+      "errors_with_subsequent_same_client_success": 7,
+      "failures": [
+        {
+          "pid": 51192,
+          "counter": 29,
+          "started_utc": "2026-10-16T09:56:48.872098+00:00",
+          "finished_utc": "2026-10-16T09:57:48.880020+00:00",
+          "duration_seconds": 60.00825137499487,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 3.637722,
+          "same_client_success": true
+        },
+        {
+          "pid": 51191,
+          "counter": 56,
+          "started_utc": "2026-10-16T09:59:29.319683+00:00",
+          "finished_utc": "2026-10-16T10:00:29.323311+00:00",
+          "duration_seconds": 60.00396983299288,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 5.118242,
+          "same_client_success": true
+        },
+        {
+          "pid": 51191,
+          "counter": 108,
+          "started_utc": "2026-10-16T10:04:09.160822+00:00",
+          "finished_utc": "2026-10-16T10:05:09.174949+00:00",
+          "duration_seconds": 60.0144520419999,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 4.286049,
+          "same_client_success": true
+        },
+        {
+          "pid": 51192,
+          "counter": 141,
+          "started_utc": "2026-10-16T10:06:29.267771+00:00",
+          "finished_utc": "2026-10-16T10:07:29.272221+00:00",
+          "duration_seconds": 60.00479504201212,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 3.918592,
+          "same_client_success": true
+        },
+        {
+          "pid": 51191,
+          "counter": 220,
+          "started_utc": "2026-10-16T10:13:59.154792+00:00",
+          "finished_utc": "2026-10-16T10:14:59.159370+00:00",
+          "duration_seconds": 60.00493333398481,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 3.102937,
+          "same_client_success": true
+        },
+        {
+          "pid": 51192,
+          "counter": 220,
+          "started_utc": "2026-10-16T10:14:52.994779+00:00",
+          "finished_utc": "2026-10-16T10:15:52.998603+00:00",
+          "duration_seconds": 60.00418649998028,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 59.410453,
+          "same_client_success": true
+        },
+        {
+          "pid": 51191,
+          "counter": 225,
+          "started_utc": "2026-10-16T10:15:09.570488+00:00",
+          "finished_utc": "2026-10-16T10:16:09.575920+00:00",
+          "duration_seconds": 60.00577141699614,
+          "category": "read_timeout",
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "next_request_outcome": "success",
+          "later_success_observed": true,
+          "requests_until_success": 1,
+          "seconds_until_success": 3.482854,
+          "same_client_success": true
+        }
+      ],
+      "error_time_window_utc": {
+        "first_start": "2026-10-16T09:56:48.872098+00:00",
+        "last_finish": "2026-10-16T10:16:09.575920+00:00"
+      },
+      "next_request_after_failure_outcomes": {
+        "success": 7,
+        "error": 0,
+        "null": 0
+      }
+    }
+  ],
+  "assessment": {
+    "intervention_required_by_observed_evidence": false,
+    "summary": "No observed client, resource, or host defect requiring intervention. Failures are intermittent request-level read/connect timeouts and one remote HTTP500; every failed request is followed by successful use of the same client in the same worker.",
+    "completed_requests": 1065,
+    "request_errors": 18,
+    "request_error_rate": 0.016901408450704224,
+    "same_client_recoveries_after_errors": 18,
+    "client_closed_observations": 0,
+    "fd_peak": 19,
+    "pool_dns_tls_fd_exception_flags_observed": false,
+    "recommended_action": "Continue the frozen runtime-retry policy and existing monitoring; no transport/config/process change justified by this snapshot.",
+    "limits": "Read/connect exceptions do not by themselves locate the cause between provider service and the external network path. This snapshot checks actual exported runtime evidence, not service incident attribution."
+  }
+}
