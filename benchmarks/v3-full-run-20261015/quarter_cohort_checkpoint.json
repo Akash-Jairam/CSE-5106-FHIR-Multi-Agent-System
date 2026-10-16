@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "at_utc": "2026-10-16T06:54:29.898221+00:00",
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "sealed_round": 8,
+  "accepted": 783,
+  "expected_questions_per_arm": 2931,
+  "counts": {
+    "raw_attempts": 800,
+    "runtime_failures": 17,
+    "intrinsic_errors": 0
+  },
+  "batch_classifications": {
+    "accepted": 99,
+    "runtime": 1
+  },
+  "batch_seal_result_identity_input_and100audits_verified": true,
+  "canonical_ledger_ids_match": true,
+  "next_round": 9,
+  "runtime_question_scheduled": true,
+  "accepted_rerun_overlap": 0,
+  "supervisor_pid": 36808,
+  "active": {
+    "multi_agent": {
+      "pid": 43006,
+      "round": 9,
+      "checkpointed_in_batch": 0,
+      "seconds_since_checkpoint": 15
+    }
+  },
+  "native_live_states": {
+    "36808": "Ss",
+    "43006": "Ss"
+  },
+  "attention": false,
+  "provider_error_events": [
+    {
+      "http_status": 500,
+      "duration_seconds": 1.761736332991859,
+      "exception_types": [
+        "openai.InternalServerError"
+      ]
+    }
+  ],
+  "manifest_sha256": "7cb5d3d64d2131d7ae5cba055810fa8b965732d3b8ce1bf91781493736a7fbe6",
+  "correctness_used_for_scheduling": false,
+  "original_started_at": "2026-10-16T04:16:57+00:00",
+  "operational_elapsed_seconds_at_validation": 9452.898221,
+  "operational_elapsed_definition": "Includes runtime attempts and the planned operational correction pause; excluded-attempt durations do not enter primary latency/cost.",
+  "milestone": "First sealed-batch checkpoint above one quarter of the2931-question v3 cohort; no accuracy scoring."
+}
