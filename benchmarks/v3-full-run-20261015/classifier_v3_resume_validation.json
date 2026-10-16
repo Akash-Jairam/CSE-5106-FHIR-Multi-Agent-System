@@ -1,0 +1,144 @@
+{
+  "version": 1,
+  "at_utc": "2026-10-16T11:20:03.279888+00:00",
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "classifier_version": "v3-infrastructure-v3",
+  "manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+  "original_start_at": "2026-10-16T04:16:57+00:00",
+  "resumed_at": "2026-10-16T11:17:06+00:00",
+  "native_live_states": {
+    "55406": "Ss",
+    "55432": "Ss"
+  },
+  "accepted": {
+    "direct_llm": 0,
+    "single_agent": 0,
+    "multi_agent": 1839
+  },
+  "counts": {
+    "direct_llm": {
+      "raw_attempts": 0,
+      "runtime_failures": 0,
+      "intrinsic_errors": 0
+    },
+    "single_agent": {
+      "raw_attempts": 0,
+      "runtime_failures": 0,
+      "intrinsic_errors": 0
+    },
+    "multi_agent": {
+      "raw_attempts": 1900,
+      "runtime_failures": 61,
+      "intrinsic_errors": 0
+    }
+  },
+  "active": {
+    "multi_agent": {
+      "pid": 55432,
+      "round": 20,
+      "checkpointed_in_batch": 10,
+      "seconds_since_checkpoint": 0
+    }
+  },
+  "attention": false,
+  "frozen_source_provider_files_and_inference_fingerprint_verified": true,
+  "sealed_boundary_validation": {
+    "version": 1,
+    "at_utc": "2026-10-16T11:18:12.322101+00:00",
+    "status": "IN_PROGRESS_NOT_FINAL",
+    "arm": "multi_agent",
+    "sealed_round": 19,
+    "accepted": 1839,
+    "expected_questions_per_arm": 2931,
+    "counts": {
+      "raw_attempts": 1900,
+      "runtime_failures": 61,
+      "intrinsic_errors": 0
+    },
+    "batch_classifications": {
+      "accepted": 96,
+      "runtime": 4
+    },
+    "batch_seal_result_identity_input_and_audits_verified": 100,
+    "canonical_ledger_ids_match": true,
+    "all_runtime_questions_scheduled": true,
+    "accepted_rerun_overlap": 0,
+    "supervisor_pid": 55406,
+    "active": {
+      "multi_agent": {
+        "pid": 55432,
+        "round": 20,
+        "checkpointed_in_batch": 0,
+        "seconds_since_checkpoint": 15
+      }
+    },
+    "native_live_states": {
+      "55406": "Ss",
+      "55432": "Ss"
+    },
+    "successful_terminal_state_verified": false,
+    "native_liveness_required": true,
+    "supervisor_phase": "running",
+    "analysis_return_code": null,
+    "attention": false,
+    "provider_error_events": [
+      {
+        "http_status": 500,
+        "duration_seconds": 2.0104959169984795,
+        "exception_types": [
+          "openai.InternalServerError"
+        ]
+      },
+      {
+        "http_status": 401,
+        "duration_seconds": 0.051491666003130376,
+        "exception_types": [
+          "openai.AuthenticationError"
+        ]
+      },
+      {
+        "http_status": 500,
+        "duration_seconds": 0.9327855839801487,
+        "exception_types": [
+          "openai.InternalServerError"
+        ]
+      },
+      {
+        "http_status": 500,
+        "duration_seconds": 14.496421000018017,
+        "exception_types": [
+          "openai.InternalServerError"
+        ]
+      }
+    ],
+    "manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+    "correctness_used_for_scheduling": false,
+    "verifier_sha256": "d6d08e33411bf362525088db5bf65ba410a012adab8afa583bb31a77e2bca856"
+  },
+  "runtime_recovery": {
+    "round_before": 19,
+    "round_after": 20,
+    "checkpoint_status": "Checkpointed and audited, current batch not yet sealed",
+    "outcomes": {
+      "95b245de3db0ff301118f6ef": {
+        "status": "accepted",
+        "reason": "runtime_clean_terminal"
+      },
+      "99302cc231fc961e9d68c413": {
+        "status": "accepted",
+        "reason": "runtime_clean_terminal"
+      },
+      "99ec0658e0c4b37ac1798c46": {
+        "status": "accepted",
+        "reason": "runtime_clean_terminal"
+      },
+      "9a6863fb555783adad183af6": {
+        "status": "accepted",
+        "reason": "runtime_clean_terminal"
+      }
+    },
+    "all_four_runtime_questions_recovered": true,
+    "jwt_rejection_question_recovered": true
+  },
+  "no_correctness_or_gold_used": true
+}
