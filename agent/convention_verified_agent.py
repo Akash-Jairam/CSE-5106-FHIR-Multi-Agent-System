@@ -53,6 +53,12 @@ def run_v8_job(args_tuple):
     return run_agent_safe(agent, input_data)
 
 
+def _source_issue(issue):
+    """A failed source check of the solver's own final, in controller vocabulary (analysis repair)."""
+    return {"type": "wrong_field", "check": "source_check", "responsible_role": "analysis",
+            "action": f"the final's evidence failed the source check: {issue}", "record": None, "field": None}
+
+
 class ConventionVerifiedAgent(QueryContractAgent):
     protocol = PROTOCOL_V8
     phase_caps = PHASE_CAPS_V8
@@ -74,10 +80,39 @@ class ConventionVerifiedAgent(QueryContractAgent):
     def _post_release(self, released, policy, context, solver, primary_result, phases):
         workspace = primary_result.get("retrieved_fhir_resources", {})
         issues = convention_issues(context["question"], released, workspace, solver.complete_types())
+        candidate, extension = self._routed_repair(issues, released, workspace, context, solver, phases)
+        if candidate is None:
+            return released, policy, extension
+        return candidate, "convention_repair_released", extension
+
+    def _null_release(self, null_result, context, solver, primary, primary_result, phases):
+        """V3 released nothing because the solver's final failed its source check. Route one repair of
+        that final (source issues plus convention issues) instead of abstaining; release it under the
+        same rule as a convention repair, otherwise the null release stands."""
+        revision = null_result["revision"]
+        source_issues = revision.get("final_check_issues") or []
+        if primary is None or primary.get("error") or primary.get("answer") is None or not source_issues:
+            revision.update({"verifier_model": self.verifier_model, "convention_issues": [],
+                             "convention_repair": None, "routing": None})
+            return null_result
+        workspace = primary_result.get("retrieved_fhir_resources", {})
+        issues = [_source_issue(issue) for issue in source_issues]
+        issues += convention_issues(context["question"], primary, workspace, solver.complete_types())
+        candidate, extension = self._routed_repair(issues, primary, workspace, context, solver, phases)
+        revision.update(extension)
+        if candidate is None:
+            return null_result
+        return {**null_result, "answer": candidate["answer"], "evidence": candidate["evidence"],
+                "limitation": candidate["limitation"], "trace": self.messages,
+                "revision": {**revision, "final": candidate, "final_check_issues": [], "revised": True,
+                             "answer_changed": True, "release_policy": "null_release_repair_released"}}
+
+    def _routed_repair(self, issues, released, workspace, context, solver, phases):
+        """(candidate or None, revision extension) for one routed repair of `released`."""
         extension = {"verifier_model": self.verifier_model, "convention_issues": issues,
                      "convention_repair": None, "routing": None}
         if not issues:
-            return released, policy, extension
+            return None, extension
         routable = [issue for issue in issues if issue["type"] != "check_error"]
         router = FixedController.__new__(FixedController)
         router._workspace = workspace
@@ -85,7 +120,7 @@ class ConventionVerifiedAgent(QueryContractAgent):
         extension["routing"] = {"role": role, "decisions": decisions}
         if role is None:
             extension["convention_repair"] = {"status": "not_run", "reason": "no repairable convention issue"}
-            return released, policy, extension
+            return None, extension
         phase = PhaseHost(self, "repair")
         offset = len(solver.messages)
         try:
@@ -99,9 +134,7 @@ class ConventionVerifiedAgent(QueryContractAgent):
             report = {**report, "status": "failed", "reason": "aggregate usage could not be verified"}
             candidate = None
         extension["convention_repair"] = report
-        if candidate is None:
-            return released, policy, extension
-        return candidate, "convention_repair_released", extension
+        return candidate, extension
 
     def _repair(self, solver, phase, workspace, issues, context):
         """One routed repair inside the solver's own trajectory; returns (candidate or None, report)."""

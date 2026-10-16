@@ -134,6 +134,29 @@ class ConventionVerifiedAgentTests(unittest.TestCase):
         self.assertIsNone(output["revision"]["convention_repair"])
         self.assertEqual(agent.total_usage["llm_calls"], 4)
 
+    def null_release_responses(self, repair_code):
+        # primary final cites a value its record does not hold; the solver's one revision repeats it
+        bad = ONE_CODE.replace("'value': answer}]", "'value': 'Warfarin'}]")
+        return [reply(json.dumps(CONTRACT)), fetch_requests(), final(bad, "primary-final"),
+                final(bad, "primary-revise"), final(repair_code, "repair-final")]
+
+    def test_source_failed_final_gets_one_routed_repair_instead_of_abstaining(self):
+        _, output = self.run_agent(self.null_release_responses(TIE_CODE))
+        revision = output["revision"]
+        self.assertEqual(output["answer"], ["Heparin", "Insulin"])
+        self.assertEqual(revision["release_policy"], "null_release_repair_released")
+        self.assertEqual(revision["routing"]["role"], "analysis")
+        self.assertEqual([i["check"] for i in revision["convention_issues"]], ["source_check", "tie_completeness"])
+        self.assertEqual(revision["convention_repair"]["status"], "released")
+        self.assertEqual(revision["final_check_issues"], [])
+
+    def test_repair_of_a_null_release_that_fails_the_source_check_stays_null(self):
+        bad = ONE_CODE.replace("'value': answer}]", "'value': 'Warfarin'}]")
+        _, output = self.run_agent(self.null_release_responses(bad))
+        self.assertIsNone(output["answer"])
+        self.assertEqual(output["revision"]["release_policy"], "primary_failed_execution_or_source_contract")
+        self.assertEqual(output["revision"]["convention_repair"]["status"], "rejected")
+
     def test_heterogeneous_verifier_runs_only_the_audit_on_the_other_model(self):
         _, output = self.run_agent(self.base_responses() + [final(TIE_CODE, "repair-final")], verifier_model="other-family")
         models = [r["model"] for r in self.requests]

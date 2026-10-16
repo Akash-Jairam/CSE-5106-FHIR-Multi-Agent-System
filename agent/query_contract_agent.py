@@ -576,6 +576,10 @@ class QueryContractAgent(BaseAgent):
         """Hook after the V3 release decision: (released, policy, revision extension)."""
         return released, policy, {}
 
+    def _null_release(self, null_result, context, solver, primary, primary_result, phases):
+        """Hook when V3 releases no answer because the solver's final failed execution or source checks."""
+        return null_result
+
     def _trace_tool(self, phase, name, arguments, output, identifier):
         self.messages.append({"role": "assistant", "content": None, "phase": phase,
             "tool_calls": [{"id": identifier, "type": "function", "function": {
@@ -737,7 +741,7 @@ class QueryContractAgent(BaseAgent):
         source_issues = primary_revision.get("final_check_issues")
         if (phase.fatal or primary_result.get("error") or primary is None or primary.get("error")
                 or source_issues != []):
-            return {**primary_result, "answer": None, "evidence": [],
+            null_result = {**primary_result, "answer": None, "evidence": [],
                 "limitation": primary_result.get("limitation") or "No source-validated explicit final computation",
                 "trace": self.messages, "revision": {"protocol": self.protocol,
                 "primary": primary, "primary_revision": primary_result.get("revision"),
@@ -753,6 +757,9 @@ class QueryContractAgent(BaseAgent):
                 "contract": contract, "contract_error": audit_error, "phases": phases,
                 "final_check_issues": source_issues if source_issues else [{"type": "execution_contract", "action": "No source-validated explicit final"}],
                 "release_policy": "primary_failed_execution_or_source_contract"}}
+            if phase.fatal or primary_result.get("error"):
+                return null_result
+            return self._null_release(null_result, context, solver, primary, primary_result, phases)
         released, policy = primary, "source_valid_primary_preserved"
         if contract is not None and len(artifact["code"]) <= 24_000:
             phase = PhaseHost(self, "audit")

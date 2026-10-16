@@ -59,7 +59,12 @@ one repair phase that continues the solver's own trajectory (cap 45,000 tokens a
 solver 175k/27, audit 15k/0, targeted 0/3 are unchanged). The repaired candidate is
 released only if the automatic source check passes, the triggering checks no longer
 fire and the answer is non-null; otherwise the original source-valid draft stands.
-No abstention is ever substituted for a draft. Release policy and routing are
+No abstention is ever substituted for a draft. When V3 releases no answer because the
+solver's executed, non-null final failed its source check, the same single repair is
+routed to analysis with the source-check failures (plus any convention issues of that
+final) and released under the same rule (release policy null_release_repair_released);
+otherwise the null release stands. Exploratory run 3b found 7 of 40 completed core
+questions released null this way. Release policy and routing are
 recorded in the revision record (protocol convention-verified-v8).
 
 Optional arm: --verifier_model <other family> runs only the V3 static program audit
