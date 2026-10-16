@@ -128,7 +128,7 @@ class FrameworkTests(unittest.TestCase):
         self.assertIsNone(output["error"])
         self.assertEqual(output["answer"], 18)
         python_reply = next(m for m in output["trace"] if isinstance(m, dict) and m.get("name") == "execute_python_code")
-        self.assertEqual(json.loads(python_reply["content"]), {"answer": 18})
+        self.assertEqual(json.loads(python_reply["content"]), {"answer": 18, "mode": "auto"})
         self.assertEqual([c["name"] for c in output["tool_calls"]],
                          ["get_resources_by_patient_fhir_id", "execute_python_code"])
         self.assertEqual(output["budget"]["tool_calls_run"], 2)
@@ -168,8 +168,55 @@ class FrameworkTests(unittest.TestCase):
         self.assertEqual(Role("analysis", "", Toolbox([]), agent).run("x").error, "provider down")
         agent._llm_call = Mock(return_value=(calls(tool_call("execute_python_code", code="answer = 1")), None, None))
         role = Role("analysis", "", Toolbox(["execute_python_code"]), agent, max_turns=2)
-        with patch("agent.framework.get_tool", return_value=Mock(return_value={"answer": 1})):
-            self.assertIn("no final reply within 2 turns", role.run("x").error)
+        execute = Mock(return_value={"answer": 1})
+        with patch("agent.framework.get_tool", return_value=execute):
+            self.assertIn("requested tools instead of a final reply after 2 turns", role.run("x").error)
+        self.assertEqual(execute.call_count, 2)
+        self.assertEqual(agent._llm_call.call_count, 3)
+        self.assertIsNone(agent._llm_call.call_args.kwargs["tools"])
+
+    def test_last_tool_result_gets_one_final_reply_under_the_shared_budget(self):
+        agent = PipelineAgent("test-model")
+        agent.set_budget(max_total_tokens=1000, max_tool_calls=1)
+        role = Role("analysis", "Return the answer JSON.", Toolbox(["execute_python_code"]), agent, max_turns=1)
+        result_json = json.dumps({"answer": 18, "evidence": [], "limitation": None})
+        usage = {"prompt_tokens": 5, "completion_tokens": 5, "total_tokens": 10, "llm_calls": 1}
+        provider = Mock(side_effect=[
+            (calls(tool_call("execute_python_code", code="answer = 18")), None, usage),
+            (reply(result_json), None, usage)])
+        execute = Mock(return_value={"answer": 18})
+        with patch("agent.base_agent.count_tokens_in_messages", return_value=1), \
+                patch("agent.base_agent.safe_llm_call", provider), \
+                patch("agent.framework.get_tool", return_value=execute):
+            result = role.run("Calculate it.")
+        self.assertIsNone(result.error)
+        self.assertEqual(json.loads(result.content)["answer"], 18)
+        execute.assert_called_once()
+        self.assertEqual(agent.tool_calls_made, 1)
+        self.assertEqual(agent.total_usage["total_tokens"], 20)
+        self.assertEqual(agent.total_usage["llm_calls"], 2)
+        self.assertEqual(provider.call_count, 2)
+        final_request = provider.call_args.kwargs
+        self.assertIsNone(final_request["tools"])
+        self.assertEqual(final_request["max_completion_tokens"], 925)
+        tool_results = [m for m in final_request["messages"] if isinstance(m, dict) and m.get("role") == "tool"]
+        self.assertEqual(json.loads(tool_results[-1]["content"]), {"answer": 18})
+
+    def test_final_synthesis_cannot_exceed_the_token_ceiling(self):
+        agent = PipelineAgent("test-model")
+        agent.set_budget(max_total_tokens=100, max_tool_calls=1)
+        role = Role("analysis", "Return the answer JSON.", Toolbox(["execute_python_code"]), agent, max_turns=1)
+        usage = {"prompt_tokens": 5, "completion_tokens": 35, "total_tokens": 40, "llm_calls": 1}
+        provider = Mock(return_value=(calls(tool_call("execute_python_code", code="answer = 18")), None, usage))
+        with patch("agent.base_agent.count_tokens_in_messages", return_value=1), \
+                patch("agent.base_agent.safe_llm_call", provider), \
+                patch("agent.framework.get_tool", return_value=Mock(return_value={"answer": 18})):
+            result = role.run("Calculate it.")
+        self.assertIn("Budget exceeded", result.error)
+        self.assertIn("token budget", agent.budget_stop)
+        provider.assert_called_once()
+        self.assertEqual(agent.tool_calls_made, 1)
+        self.assertEqual(agent.total_usage["total_tokens"], 40)
 
     def test_bus_copies_payloads_and_rejects_non_json(self):
         bus, payload = Bus(), {"ids": ["Observation/o1"]}

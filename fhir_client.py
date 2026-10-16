@@ -33,6 +33,7 @@ class FHIRClient:
 
         # ADC if creds not supplied
         self.session = creds or get_auth_session_from_default()
+        self.last_search_stats = None
 
         # For debug and logging
         self._info = {
@@ -56,14 +57,22 @@ class FHIRClient:
         """
         all_resources = []
         resource_path = initial_resource_path
+        self.last_search_stats = {"physical_requests": 0, "pages": 0, "returned_records": 0,
+                                  "response_bytes": 0, "complete": False}
 
         while True:
+            self.last_search_stats["physical_requests"] += 1
             response = self.session.get(resource_path)
             response.raise_for_status()
             resources = response.json()
+            self.last_search_stats["pages"] += 1
+            content = getattr(response, "content", b"")
+            if isinstance(content, bytes):
+                self.last_search_stats["response_bytes"] += len(content)
 
             if resources.get("entry", []):
                 all_resources.extend([self.remove_fields(e["resource"], ["text", "meta"]) for e in resources["entry"]])
+                self.last_search_stats["returned_records"] = len(all_resources)
 
             next_url = None
             for link in resources.get("link", []):
@@ -74,6 +83,7 @@ class FHIRClient:
                 break
             resource_path = next_url
 
+        self.last_search_stats["complete"] = True
         return all_resources
 
     def get_resources_by_resource_ids(self, resource_type: str, resource_ids: list[str], max_size: int = 1000) -> JsonObject:

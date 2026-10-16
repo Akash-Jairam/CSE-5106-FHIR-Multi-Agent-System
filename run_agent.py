@@ -26,6 +26,14 @@ HISTORY_COLUMN = "attempt_history"
 CONDITIONS = ("intact", "omitted")
 
 
+def dispatch_agent_job(args_tuple):
+    """Additive V3 dispatch through the common budget and audit job contract."""
+    if args_tuple[1] != "multi_agent_v3":
+        return run_agent_with_input(args_tuple)
+    from agent.query_contract_agent import run_v3_job
+    return run_v3_job(args_tuple)
+
+
 def _boolean(value):
     if isinstance(value, bool):
         return value
@@ -47,7 +55,7 @@ def build_parser():
     parser.add_argument("--agent_strategy", required=True, choices=[
         "single_turn_request", "single_turn_resource", "single_turn_code_resource",
         "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2",
-        "direct_llm", "single_agent", "multi_agent",
+        "direct_llm", "single_agent", "multi_agent", "multi_agent_v3",
     ])
     parser.add_argument("--add_patient_fhir_id", type=_boolean, nargs="?", const=True, default=True)
     parser.add_argument("--num_processes", type=int, default=-1)
@@ -60,6 +68,8 @@ def build_parser():
     parser.add_argument("--max_total_tokens", type=int, default=None)
     parser.add_argument("--max_tool_calls", type=int, default=None)
     parser.add_argument("--enable_cache", type=_boolean, nargs="?", const=True, default=True)
+    parser.add_argument("--audit_storage", choices=("inline", "gzip"), default="inline",
+                        help="gzip preserves full trace/resources in lossless artifacts before rows accumulate; default inline")
     parser.add_argument("--perturbations", default=None,
                         help="Frozen missing-evidence manifest; restricts the run to its questions")
     parser.add_argument("--condition", choices=CONDITIONS, default=None,
@@ -72,10 +82,15 @@ def build_parser():
 
 
 def prepare_multiprocessing_inputs(remaining_inputs, agent_strategy, model, verbose, base_url, enable_cache, budget,
-                                   perturbations=None):
+                                   perturbations=None, include_full_audit=False, audit_contexts=None):
     perturbations = perturbations or [None] * len(remaining_inputs)
-    return [(input_data, agent_strategy, model, verbose, base_url, enable_cache, budget, perturbation)
+    jobs = [(input_data, agent_strategy, model, verbose, base_url, enable_cache, budget, perturbation)
             for input_data, perturbation in zip(remaining_inputs, perturbations)]
+    if audit_contexts is not None and len(audit_contexts) != len(jobs):
+        raise ValueError("Every audit job needs its owning question/output context")
+    if audit_contexts is not None:
+        return [(*job, True, context) for job, context in zip(jobs, audit_contexts)]
+    return [(*job, True) for job in jobs] if include_full_audit else jobs
 
 
 def load_subset(path, split_manifest, split):
@@ -141,6 +156,10 @@ def select_split(df, manifest, selected):
 def code_fingerprint():
     root = Path(__file__).resolve().parent
     paths = [root / "run_agent.py", root / "fhir_client.py", root / "requirements.txt"]
+    for filename in ("audit_store.py", "full_benchmark.py"):
+        helper = root / "scripts" / filename
+        if helper.exists():
+            paths.append(helper)
     for directory in ("agent", "tools", "utils"):
         paths.extend((root / directory).rglob("*.py"))
     digest = hashlib.sha256()
@@ -242,6 +261,8 @@ def run_identity(args, inputs):
         "perturbations_hash": hashlib.sha256(Path(perturbations).read_bytes()).hexdigest() if perturbations else None,
         "subset_hash": hashlib.sha256(Path(subset).read_bytes()).hexdigest() if subset else None,
         "repeat": getattr(args, "repeat", None),
+        "audit_storage": getattr(args, "audit_storage", "inline"),
+        "audit_artifact_schema": 2 if getattr(args, "audit_storage", "inline") == "gzip" else None,
     }
 
 
@@ -250,8 +271,14 @@ def _write_json(value, output_file):
     try:
         with open(temporary, "w", encoding="utf-8") as stream:
             json.dump(_json_values(value), stream, ensure_ascii=False, indent=2, default=str, allow_nan=False)
-        with open(temporary, encoding="utf-8") as stream:
-            json.load(stream)
+        if isinstance(value, list):
+            from scripts.full_benchmark import iter_result_rows
+            validated = sum(1 for _ in iter_result_rows(temporary))
+            if validated != len(value):
+                raise ValueError("Serialized result count changed during validation")
+        else:
+            with open(temporary, encoding="utf-8") as stream:
+                json.load(stream)
         os.replace(temporary, output_file)
     except Exception:
         if os.path.exists(temporary):
@@ -287,7 +314,15 @@ def prepare_results(inputs, output_file, identity):
             saved_identity = json.load(stream)
         if saved_identity != identity:
             raise ValueError("Existing results belong to different inputs or run settings; use a new output path")
-    previous = pd.DataFrame(load_saved_results(output_file, inputs).values())
+    saved = load_saved_results(output_file, inputs)
+    if identity.get("audit_storage") == "gzip":
+        from scripts.audit_store import verify_result_audit
+        for question_id, row in saved.items():
+            if is_attempted(row):
+                if row.get("audit_artifacts") is None:
+                    raise ValueError("A gzip attempt is missing its complete audit reference")
+                verify_result_audit(row, Path(output_file).resolve().parent, question_id=question_id)
+    previous = pd.DataFrame(saved.values())
     if not previous.empty:
         columns = ["question_id"] + RESULT_COLUMNS + [HISTORY_COLUMN]
         previous = previous.reindex(columns=columns)
@@ -300,7 +335,15 @@ def prepare_results(inputs, output_file, identity):
     return results
 
 
-def store_attempt(results, index, output):
+def store_attempt(results, index, output, audit_storage="inline", output_file=None):
+    if audit_storage == "gzip":
+        if output_file is None:
+            raise ValueError("gzip audit storage requires the owning output file")
+        from scripts.audit_store import externalize_result_audit
+        output = externalize_result_audit(output, Path(output_file).resolve().parent,
+                                          question_id=results.at[index, "question_id"])
+    elif audit_storage != "inline":
+        raise ValueError("Unknown audit storage mode")
     previous = results.loc[index]
     if _present(previous.get("latency")) or _present(previous.get("error")):
         history = previous.get(HISTORY_COLUMN)
@@ -386,21 +429,25 @@ def main(argv=None):
                       if args.condition == "omitted" else None)
     jobs = prepare_multiprocessing_inputs(remaining["question_with_context"].tolist(), args.agent_strategy,
                                          args.model, args.verbose, args.base_url, args.enable_cache, budget,
-                                         specifications)
+                                         specifications, include_full_audit=args.audit_storage == "gzip",
+                                         audit_contexts=([{"output_dir": str(Path(output_file).resolve().parent),
+                                                          "question_id": question_id}
+                                                         for question_id in remaining["question_id"]]
+                                                        if args.audit_storage == "gzip" else None))
     processes = min(args.num_processes if args.num_processes > 0 else (os.cpu_count() or 1), len(jobs))
     indexes = remaining.index.tolist()
 
     def collect(outputs):
         for i, output in enumerate(tqdm(outputs, total=len(jobs))):
-            store_attempt(results, indexes[i], output)
+            store_attempt(results, indexes[i], output, audit_storage=args.audit_storage, output_file=output_file)
             if (i + 1) % args.save_interval == 0:
                 save_results_json(results, output_file)
 
     if processes == 1:
-        collect(map(run_agent_with_input, jobs))
+        collect(map(dispatch_agent_job, jobs))
     else:
         with mp.Pool(processes=processes) as pool:
-            collect(pool.imap(run_agent_with_input, jobs))
+            collect(pool.imap(dispatch_agent_job, jobs))
     save_results_json(results, output_file)
     print_usage_summary(results)
     return 0

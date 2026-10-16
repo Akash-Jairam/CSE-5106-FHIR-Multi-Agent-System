@@ -59,13 +59,14 @@ class AnalysisTests(unittest.TestCase):
         self.host._llm_call = Mock(side_effect=[(r, None, None) for r in responses])
         return self.agent(task or {"context": CONTEXT, "records": RECORDS})
 
-    def test_only_the_python_sandbox_is_available(self):
-        self.assertEqual(self.agent.role.toolbox.names, ("execute_python_code",))
+    def test_analyst_can_supplement_retrieval_and_execute_in_the_sandbox(self):
+        self.assertEqual(self.agent.role.toolbox.names, ("get_resources_by_patient_fhir_id",
+                                                       "get_resources_by_resource_id", "execute_python_code"))
 
     def test_computes_in_the_sandbox_and_returns_the_draft(self):
         result = self.analyze(run_python(), draft())
         python_reply = json.loads(self.host.messages[3]["content"])
-        self.assertEqual(python_reply, {"answer": {"id": "o2", "value": 68}})
+        self.assertEqual(python_reply, {"answer": {"id": "o2", "value": 68}, "mode": "auto"})
         self.assertEqual(result, json.loads(draft().content.split("\n", 1)[1]))
 
     def test_prompt_shares_scope_and_previews_the_records(self):
@@ -109,7 +110,8 @@ class AnalysisTests(unittest.TestCase):
         self.assertIn("missing_evidence", prompt)
         self.assertIn('{"answer": 68}', prompt)
         self.assertIn("- Observation: 3 records", prompt)
-        self.assertEqual(json.loads(self.host.messages[3]["content"]), {"answer": {"id": "o3", "value": 65}})
+        self.assertEqual(json.loads(self.host.messages[3]["content"]),
+                         {"answer": {"id": "o3", "value": 65}, "mode": "auto"})
         self.assertEqual(result["answer"], 65)
 
     def test_model_error_is_reported(self):

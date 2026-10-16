@@ -76,6 +76,8 @@ def build_parser():
                         help="One base model shared by every system; default: $MODEL, then MODEL in config.yml, "
                              "then gpt-6-luna")
     parser.add_argument("--base_url", default=None)
+    parser.add_argument("--team_strategy", choices=["multi_agent", "multi_agent_v3"], default="multi_agent",
+                        help="Team implementation; arm names stay stable while run identity records the actual strategy")
     parser.add_argument("--max_total_tokens", type=int, default=None, help="Per-question ceiling for every system")
     parser.add_argument("--max_tool_calls", type=int, default=None, help="Per-question ceiling for every system")
     parser.add_argument("--arms", nargs="+", default=None,
@@ -88,6 +90,8 @@ def build_parser():
                         help="Default: output/experiments/<model>/<split>[_limit<N>]")
     parser.add_argument("--num_processes", type=int, default=-1)
     parser.add_argument("--save_interval", type=int, default=10)
+    parser.add_argument("--audit_storage", choices=("inline", "gzip"), default="inline",
+                        help="gzip preserves full audits in lossless artifacts before worker IPC and DataFrame storage")
     parser.add_argument("--input", default=DEFAULT_INPUT)
     parser.add_argument("--split_manifest", default=DEFAULT_SPLIT)
     parser.add_argument("--perturbations", default=DEFAULT_PERTURBATIONS)
@@ -122,11 +126,12 @@ def output_dir(args):
 
 def runner_argv(arm, args):
     """The run_agent.py arguments for one arm."""
-    argv = ["--agent_strategy", arm.strategy, "--model", args.model,
+    strategy = getattr(args, "team_strategy", "multi_agent") if arm.strategy == "multi_agent" else arm.strategy
+    argv = ["--agent_strategy", strategy, "--model", args.model,
             "--input", args.input, "--output", os.path.join(output_dir(args), f"{arm.name}.json"),
             "--split_manifest", args.split_manifest, "--split", args.split,
             "--enable_cache", "true", "--num_processes", str(args.num_processes),
-            "--save_interval", str(args.save_interval)]
+            "--save_interval", str(args.save_interval), "--audit_storage", getattr(args, "audit_storage", "inline")]
     for key in ("base_url", "max_total_tokens", "max_tool_calls", "limit"):
         if getattr(args, key) is not None:
             argv += [f"--{key}", str(getattr(args, key))]

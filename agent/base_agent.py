@@ -7,7 +7,7 @@ import litellm
 # Add parent directory to path to import utils
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from utils import setup_api_keys, validate_model_api_key, get_model_provider, safe_llm_call
-from utils.core_utils import count_tokens_in_messages
+from utils.core_utils import compact_model_messages, count_tokens_in_messages
 from .output_schema import AgentOutput, extract_tool_calls, parse_final_message, to_tokens, validate_output
 
 BUDGET_EXCEEDED = "Budget exceeded"
@@ -84,6 +84,7 @@ class BaseAgent:
         self.tool_calls_made = 0
         self.budget_stop = None     # why a ceiling stopped the run, if one did
         self.last_llm_error = None
+        self.context_compactions = []
         
     def _update_usage(self, usage_info):
         """Update total usage statistics."""
@@ -108,9 +109,14 @@ class BaseAgent:
         """safe_llm_call() under the token ceiling; records usage. Returns (message, error, usage)."""
         if self.max_tool_calls is not None and self.tool_calls_made >= self.max_tool_calls:
             tools = None
+        prompt = count_tokens_in_messages(messages, tools)
+        if prompt > 28_000:
+            messages, compaction = compact_model_messages(messages, tools)
+            if compaction:
+                self.context_compactions.append(compaction)
+                prompt = count_tokens_in_messages(messages, tools)
         limits = {}
         if self.max_total_tokens is not None:
-            prompt = count_tokens_in_messages(messages, tools)
             # Tokenizers and provider framing differ; reserve a margin before capping output.
             prompt_reserve = prompt + max(64, math.ceil(prompt * 0.05))
             remaining = self.max_total_tokens - self.total_usage['total_tokens'] - prompt_reserve

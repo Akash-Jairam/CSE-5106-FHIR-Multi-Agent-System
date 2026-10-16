@@ -18,6 +18,7 @@ import json
 from copy import deepcopy
 
 from .framework import RETRIEVAL_TOOLS, Role, Toolbox
+from .ehr_semantics import SEMANTIC_GUIDANCE
 from .output_schema import _json_objects
 from tools.perturbation import get_perturbed_starting_packet
 from tools.resource_tools import FHIR_ID_RE, supported_types
@@ -43,7 +44,11 @@ Resolve the question's scope:
 
 Do not compute the answer. When the workspace holds what is needed, reply with only a JSON object:
 {{"resource_types": [<types relevant to the question>], "encounter_ids": [<IDs of the encounters the question is
-scoped to; empty if it is not about specific visits>], "limitation": <null, or what could not be found>}}"""
+scoped to; empty if it is not about specific visits>], "limitation": <null, or what could not be found>}}
+
+Complete the retrieval in a small number of calls: fetch the full patient resource types needed rather
+than individual event IDs. The analyst can investigate missing concepts and supplement retrieval.
+{SEMANTIC_GUIDANCE}"""
 
 
 class RetrievalAgent:
@@ -56,7 +61,7 @@ class RetrievalAgent:
         self.perturbation = getattr(host, "perturbation", None)
         toolbox = Toolbox(RETRIEVAL_TOOLS, workspace, patient_fhir_id=context.get("patient_fhir_id"),
                           current_time=context.get("current_time"))
-        self.role = Role("retrieval", SYSTEM_PROMPT, toolbox, host, max_turns=max_turns)
+        self.role = Role("retrieval", SYSTEM_PROMPT, toolbox, host, max_turns=max_turns, max_tool_calls=5)
 
     def __call__(self, task):
         patient_fhir_id = self.context.get("patient_fhir_id")

@@ -246,6 +246,7 @@ class FixedController(BaseAgent):
                 "final_check_issues": final_check_issues,
                 "revision_error": error if draft is not None else None,
                 "messages": self._bus.to_list(),
+                "context_compactions": self.context_compactions,
             },
         }
 

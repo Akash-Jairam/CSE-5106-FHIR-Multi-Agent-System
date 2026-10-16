@@ -128,6 +128,97 @@ def question_time_window(question, current_time=None):
     return start.strftime(WALL_CLOCK), end.strftime(WALL_CLOCK) if end else None, match.group(0)
 
 
+# Paired detection deliberately requires two explicitly mentioned measurements and
+# a relation between them. An ordinary numeric threshold has only one measurement
+# and keeps the exact legacy scope path below. Indices follow textual order, not
+# the sign/direction of an arithmetic operation.
+PAIRED_MEASUREMENT_RE = re.compile(r"\b(?:measured|measurements?)\b", re.I)
+PAIRED_CONNECTOR_RE = re.compile(
+    r"\bcompared\s+(?:to|with)\b|\b(?:greater|less|higher|lower|smaller)\s+than\b"
+    r"|\bversus\b|\bvs\.?", re.I)
+PAIRED_CHANGE_RE = re.compile(r"\b(?:difference|change|changes|differ|differs|shifts?)\b", re.I)
+EXACT_MEASUREMENT_TIME_RE = re.compile(
+    rf"\bat\s+({YEAR}-\d{{2}}-\d{{2}}[ T]\d{{2}}:\d{{2}}(?::\d{{2}})?"
+    r"(?:Z|[+-]\d{2}:\d{2})?)\b", re.I)
+FINAL_VISIT_RE = re.compile(r"\bfinal(?=\s+(?:hospital|icu)\s+(?:visit|encounter|stay)\b)", re.I)
+
+
+def question_evidence_scopes(question, current_time=None):
+    """Return two gold-free operand scopes for an explicit paired question, or None.
+
+    The accepted structure contains two measurement mentions and a comparison
+    connector between them. The explicit ``from ... measured to ... measured
+    during <visit>`` difference form inherits its trailing common visit/window.
+    Scope values always come from the question; a citation may select only an
+    index, never supply arbitrary window boundaries or encounter selectors.
+
+    This source checker does not establish concept matching, measurement ordinal
+    selection, subtraction direction, or operand completeness. Those remain the
+    solver/independent computation's responsibility.
+    """
+    question = question or ""
+    measurements = list(PAIRED_MEASUREMENT_RE.finditer(question))
+    if len(measurements) != 2:
+        return None
+    first, second = measurements
+    between = question[first.end():second.start()]
+    connector = PAIRED_CONNECTOR_RE.search(between)
+    shared_trailing = False
+    if (connector is None and re.match(r"\s*compared\s+(?:to|with)\b", question, re.I)
+            and re.search(r"\b(?:greater|less|higher|lower|smaller)\b", question[second.end():], re.I)):
+        # Inverted comparison: ``Compared to <first measurement>, is <second
+        # measurement> greater?``. The comma separates the two explicit operands.
+        connector = re.search(r"[,;]", between)
+    if connector is None and PAIRED_CHANGE_RE.search(question):
+        # The release includes ``from second-to-last ... measured to last ...
+        # measured during final ICU visit``. This recognizes its general syntax.
+        connector = re.search(r"\bto\b", between, re.I)
+        shared_trailing = connector is not None
+    if connector is None:
+        return None
+    boundary_start = first.end() + connector.start()
+    boundary_end = first.end() + connector.end()
+    clauses = [question[:boundary_start].strip(), question[boundary_end:].strip()]
+    scopes = []
+    for index, clause in enumerate(clauses):
+        normalized = FINAL_VISIT_RE.sub("last", clause)
+        exact_matches = list(EXACT_MEASUREMENT_TIME_RE.finditer(normalized))
+        exact = exact_matches[0] if exact_matches else None
+        window = question_time_window(normalized, current_time)
+        parse_issues = []
+        if len(exact_matches) > 1:
+            parse_issues.append("multiple exact measurement timestamps within one paired operand")
+        if exact:
+            when = _wall_clock(exact.group(1))
+            if not when:
+                parse_issues.append("invalid explicitly requested measurement timestamp")
+            else:
+                start = datetime.strptime(when, WALL_CLOCK)
+                width = 1 if re.search(r"\d{2}:\d{2}:\d{2}", exact.group(1)) else 60
+                window = (when, (start + timedelta(seconds=width)).strftime(WALL_CLOCK), exact.group(0))
+        elif window is None and any(pattern.search(normalized) for pattern in
+                                    (SINCE_AGO_RE, SINCE_DATE_RE, ON_DATE_RE, RELATIVE_YEAR_RE,
+                                     RELATIVE_MONTH_RE, RELATIVE_DAY_RE)):
+            parse_issues.append("the requested calendar window cannot be resolved from the question and reference time")
+        encounter_phrases = list(ENCOUNTER_SCOPE_RE.finditer(normalized))
+        if len(encounter_phrases) > 1:
+            parse_issues.append("multiple encounter selectors within one paired operand")
+        scopes.append({"index": index, "text": clause, "scope_question": normalized,
+                       "time_window": window,
+                       "encounter_phrase": encounter_phrases[0].group(0) if encounter_phrases else None,
+                       "exact_measurement_time": exact.group(1) if exact else None,
+                       "parse_issues": parse_issues})
+    if shared_trailing and not scopes[0]["time_window"] and not scopes[0]["encounter_phrase"]:
+        # A single final qualifier is inherited only for this explicit from/to
+        # construction, not for arbitrary asymmetric compared-to clauses.
+        scopes[0]["time_window"] = scopes[1]["time_window"]
+        scopes[0]["encounter_phrase"] = scopes[1]["encounter_phrase"]
+        scopes[0]["scope_question"] = scopes[1]["scope_question"]
+        scopes[0]["parse_issues"] = list(scopes[1]["parse_issues"])
+        scopes[0]["shared_trailing_scope"] = True
+    return scopes
+
+
 def _resource_time(resource):
     for path in ("effectiveDateTime", "dispenseRequest.validityPeriod.start", "performedDateTime",
                  "performedPeriod.start", "period.start", "issued", "authoredOn"):
@@ -274,6 +365,96 @@ def _check_one(citation, resources, question, current_time, encounter_id, patien
     return result
 
 
+def _check_paired_fields(citations, scopes, question, current_time, encounter_id, resources,
+                         patient_fhir_id):
+    """Check source integrity once, then temporal/visit membership per requested operand.
+
+    Unannotated citations may match the requested union. An explicit scope_index
+    must match that operand, so it cannot widen an original question constraint.
+    The metadata describes scope membership only, never arithmetic correctness
+    or proof that the two selected measurements are first/last as requested.
+    """
+    citations = list(citations or [])
+    from_store = resources is None
+    patient_fhir_id = _ref_id(patient_fhir_id) if patient_fhir_id else None
+    current_time = _wall_clock(current_time) if current_time else None
+    supplied_encounter = _ref_id(encounter_id) if encounter_id else None
+    resources = dict(resources or {})
+    parsed = [p for p in map(parse_citation, citations) if p]
+    refs = {p[:2] for p in parsed if get_cited_resource(resources, p[0], p[1]) is None}
+    if refs:
+        resources.update(fetch_from_store(refs))
+
+    # Fetch complete encounter context once. Looking only at cited visits cannot
+    # establish first/latest-completed/current scope.
+    if from_store and patient_fhir_id and any(scope["encounter_phrase"] for scope in scopes):
+        from fhir_client import get_fhir_client
+        encounters = get_fhir_client().search_with_pagination(f"Encounter?patient={patient_fhir_id}")
+        resources.update({f"Encounter/{r['id']}": r for r in encounters})
+    resolved = []
+    scope_issues = []
+    for scope in scopes:
+        scoped, issues = question_encounter_scope(scope["scope_question"], patient_fhir_id,
+                                                   resources, current_time)
+        own_issues = [f"paired_scope: operand {scope['index']}: {issue}"
+                      for issue in scope["parse_issues"]]
+        own_issues.extend(issues)
+        resolved.append({**scope, "encounter_id": scoped, "scope_issues": own_issues})
+        scope_issues.extend(own_issues)
+    selected_encounters = {scope["encounter_id"] for scope in resolved if scope["encounter_id"]}
+    if supplied_encounter and supplied_encounter not in selected_encounters:
+        scope_issues.append("encounter_scope: the supplied encounter is not one of the question-derived paired scopes")
+
+    # Preserve parent links and event availability checks from the legacy path.
+    cited = [r for p in parsed if (r := get_cited_resource(resources, p[0], p[1])) is not None]
+    linked = {_ref_id(r.get("encounter") or r.get("context")) for r in cited}
+    missing = {("Encounter", i) for i in linked if i and get_cited_resource(resources, "Encounter", i) is None}
+    if missing:
+        resources.update(fetch_from_store(missing))
+    event_citations = any(p[0] in EVENT_TYPES for p in parsed)
+    encounter_window = not event_citations or bool(ENCOUNTER_EVENT_RE.search(question or ""))
+
+    results = []
+    for citation in citations:
+        base = _check_one(citation, resources, question, current_time, None, patient_fhir_id,
+                          window=None, encounter_window=encounter_window)
+        requested = citation.get("scope_index") if isinstance(citation, dict) else None
+        indexed = isinstance(citation, dict) and "scope_index" in citation
+        valid_index = not indexed or (type(requested) is int and requested in (0, 1))
+        chosen = resolved if not indexed else [scope for scope in resolved if scope["index"] == requested]
+        base["matched_scopes"] = []
+        base["scope_checks"] = []
+        if indexed:
+            base["requested_scope_index"] = requested
+        if not valid_index:
+            base["warnings"].append("paired_scope: scope_index must be the integer 0 or 1 from the question-derived scopes")
+        else:
+            for scope in chosen:
+                checked = _check_one(citation, resources, question, current_time, scope["encounter_id"],
+                                     patient_fhir_id, scope["time_window"], encounter_window)
+                warnings = [w for w in checked["warnings"] if w not in base["warnings"]]
+                warnings.extend(scope["scope_issues"])
+                base["scope_checks"].append({"index": scope["index"], "warnings": warnings})
+                if base["status"] == "valid" and not base["warnings"] and not warnings:
+                    base["matched_scopes"].append(scope["index"])
+            if base["status"] == "valid" and not base["warnings"] and not base["matched_scopes"]:
+                prefix = f"operand {requested}" if indexed else "either operand"
+                base["warnings"].append(f"paired_scope: citation does not match {prefix}'s question-derived time/visit scope")
+        results.append(base)
+    issues = list(dict.fromkeys(scope_issues))
+    for index, result in enumerate(results):
+        if result["status"] != "valid":
+            issues.append(f"evidence[{index}] {result['status']}" +
+                          (f" (actual value: {result['actual']})" if "actual" in result else ""))
+        issues.extend(f"evidence[{index}] {warning}" for warning in result["warnings"])
+    return {"results": results, "issues": issues,
+            "n_valid": sum(result["status"] == "valid" for result in results),
+            "question_scopes": [{key: scope[key] for key in
+                                 ("index", "text", "time_window", "encounter_phrase", "encounter_id",
+                                  "exact_measurement_time", "scope_issues")} for scope in resolved],
+            "scope_membership_only": True}
+
+
 def check_fields(citations, question="", current_time=None, encounter_id=None, resources=None,
                  patient_fhir_id=None):
     """Check cited evidence against supplied original resources or the store.
@@ -282,6 +463,10 @@ def check_fields(citations, question="", current_time=None, encounter_id=None, r
     when question context is supplied. Compatible unit conversions are
     reported as metadata; they do not establish answer arithmetic.
     """
+    scopes = question_evidence_scopes(question, current_time)
+    if scopes is not None:
+        return _check_paired_fields(citations, scopes, question, current_time, encounter_id, resources,
+                                    patient_fhir_id)
     citations = list(citations or [])
     from_store = resources is None
     encounter_id = _ref_id(encounter_id) if encounter_id else None
@@ -339,7 +524,9 @@ tool_registry.register_tool("check_fields", check_fields, {
                         "properties": {
                             "resource_id": {"type": "string", "description": "ResourceType/id"},
                             "field_path": {"type": "string", "description": "e.g. valueQuantity.value"},
-                            "value": {"description": "The value you read at field_path"}
+                            "value": {"description": "The value you read at field_path"},
+                            "scope_index": {"type": "integer", "enum": [0, 1],
+                                            "description": "Optional for explicit paired measurements: bind this citation to operand 0 or 1 in question textual order; boundaries are derived from the question, never supplied by the model."}
                         },
                         "required": ["resource_id", "field_path", "value"]
                     }

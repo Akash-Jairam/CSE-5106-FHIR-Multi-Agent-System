@@ -37,6 +37,7 @@ class RetrievalScopeReviewTests(unittest.TestCase):
 
     def test_unrelated_global_medication_is_not_in_patient_workspace(self):
         workspace = {"MedicationRequest": [record("MedicationRequest", "rx", subject={"reference": "Patient/patient1"},
+                                                  dispenseRequest={"validityPeriod": {"start": "2150-01-01T00:00:00"}},
                                                   medicationReference={"reference": "Medication/m1"})]}
         reply = self.fetch(workspace, "Medication", [record("Medication", "m1"), record("Medication", "m2")])
         self.assertEqual([r["id"] for r in workspace["Medication"]], ["m1"])
@@ -89,7 +90,8 @@ class RetrievalScopeReviewTests(unittest.TestCase):
         self.assertEqual([r["id"] for r in workspace["Condition"]], ["c1"])
 
     def test_location_metadata_must_be_linked_to_a_retrieved_encounter(self):
-        workspace = {"Encounter": [record("Encounter", "e1", location=[
+        workspace = {"Encounter": [record("Encounter", "e1", subject={"reference": "Patient/patient1"},
+            period={"start": "2150-01-01T00:00:00"}, location=[
             {"location": {"reference": "Location/l1"}}])]}
         self.fetch(workspace, "Location", [record("Location", "l1"), record("Location", "l2")])
         self.assertEqual([r["id"] for r in workspace["Location"]], ["l1"])
