@@ -268,4 +268,7 @@ def repair_message(issues):
     return ("Convention verification of your source-valid final found these problems:\n" + "\n".join(lines) +
             "\nYou may repair once. If a problem is a missing retrieval, fetch the named records first; otherwise "
             "recompute with the stated convention. Then call execute_python_code with mode=final again. "
+            "The repaired final is released only if its evidence passes the same source check as before: cite "
+            "field_paths that exist on the cited record with their exact values, and cite only records from the "
+            "encounter and time scope the question selects. "
             "If, after checking the actual records, the original answer is correct, re-execute it unchanged.")
