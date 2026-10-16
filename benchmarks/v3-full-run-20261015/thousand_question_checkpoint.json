@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "at_utc": "2026-10-16T07:57:53.851622+00:00",
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "sealed_round": 11,
+  "accepted": 1079,
+  "expected_questions_per_arm": 2931,
+  "counts": {
+    "raw_attempts": 1100,
+    "runtime_failures": 21,
+    "intrinsic_errors": 0
+  },
+  "batch_classifications": {
+    "accepted": 98,
+    "runtime": 2
+  },
+  "batch_seal_result_identity_input_and100audits_verified": true,
+  "canonical_ledger_ids_match": true,
+  "next_round": 12,
+  "all_runtime_questions_scheduled": true,
+  "accepted_rerun_overlap": 0,
+  "supervisor_pid": 36808,
+  "active": {
+    "multi_agent": {
+      "pid": 45988,
+      "round": 12,
+      "checkpointed_in_batch": 1,
+      "seconds_since_checkpoint": 45
+    }
+  },
+  "native_live_states": {
+    "36808": "Ss",
+    "45988": "Ss"
+  },
+  "attention": false,
+  "provider_error_events": [
+    {
+      "http_status": 500,
+      "duration_seconds": 19.395512791990768,
+      "exception_types": [
+        "openai.InternalServerError"
+      ]
+    },
+    {
+      "http_status": null,
+      "duration_seconds": 60.005650707986206,
+      "exception_types": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ]
+    }
+  ],
+  "manifest_sha256": "7cb5d3d64d2131d7ae5cba055810fa8b965732d3b8ce1bf91781493736a7fbe6",
+  "correctness_used_for_scheduling": false,
+  "milestone": "First sealed checkpoint above1000 accepted v3 questions; full benchmark remains incomplete.",
+  "original_started_at": "2026-10-16T04:16:57+00:00",
+  "operational_elapsed_seconds_at_validation": 13256.851622,
+  "operational_elapsed_definition": "Includes all operational delays and excluded attempts; primary latency/cost use accepted attempts only."
+}
