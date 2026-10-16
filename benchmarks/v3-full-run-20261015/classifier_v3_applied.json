@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "applied_at_utc": "2026-10-16T11:16:47.672689+00:00",
+  "status": "applied_at_sealed_batch_boundary",
+  "scope": "Operational classifier only",
+  "classifier_before": "v3-infrastructure-v2",
+  "classifier_after": "v3-infrastructure-v3",
+  "old_manifest_sha256": "7cb5d3d64d2131d7ae5cba055810fa8b965732d3b8ce1bf91781493736a7fbe6",
+  "new_manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+  "source_changes": {
+    "scripts/v3_full_run.py": {
+      "before": "2b9883e1f3a4e8b21714aecd725aec2df2c0cb0ed57e877a1524e586d20c4430",
+      "after": "370ffcb0738b384bafbe82a194dcaf2a5c1e9da1a025d2ea3abcfca8474dcccd"
+    }
+  },
+  "approved_patch_sha256": "3317e91788112c691023f8423e932f885da22e1ec6317eda79e59497964b46a0",
+  "inference_code_fingerprint_before": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "inference_code_fingerprint_after": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "benchmark_dependency_context": "PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python",
+  "settings_provider_dependencies_inputs_and_arm_identities_unchanged": true,
+  "boundary": {
+    "round": 19,
+    "completed_attempts": 1900,
+    "unique_accepted_questions": 1839,
+    "runtime_attempts": 61,
+    "classification_changes": [
+      {
+        "arm": "multi_agent",
+        "round": 19,
+        "question_id": "9a6863fb555783adad183af6",
+        "attempt_file": "attempts/multi_agent/round-0019.json",
+        "attempted": true,
+        "old": {
+          "status": "attention",
+          "reason": "unclassified_terminal_error",
+          "error_sha256": "d066c871a0d664c104179624a4a0713bab8ac97d84c8b0654587cc588bf3770f"
+        },
+        "candidate": {
+          "status": "runtime",
+          "reason": "allowlisted_infrastructure_failure",
+          "diagnostic_paths": [
+            "error",
+            "revision.phases[1].errors"
+          ]
+        }
+      }
+    ],
+    "all_old_accepted_selections_unchanged": true,
+    "old_canonical_prefix": 1743,
+    "new_sealed_accepted_consolidated": 96
+  },
+  "applied_tests": {
+    "command": "PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python -m unittest tests.test_v3_full_run tests.test_v3_full_analysis tests.test_v3_provider_jwt -v",
+    "run": 42,
+    "failures": 0,
+    "errors": 0,
+    "exit_code": 0,
+    "model_and_network_calls": "mocked"
+  },
+  "original_start_at": "2026-10-16T04:16:57+00:00",
+  "correctness_used_for_scheduling": false,
+  "selection": "First runtime-clean terminal attempt, unchanged; all prior attempts and seals retained",
+  "accepted_files_sha256": {
+    "acceptance.json": "76058e8427941ab35043149851c12f921e6610202054011edde9e4451f594743",
+    "full_multi_agent.json": "0241f8bae212d9afe0d14244a33cddd228aa85b17d7b9145f20bb137d758ca8a"
+  },
+  "preserved_evidence_sha256": {
+    "full_direct_llm.before.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "acceptance.before.json": "c39aaf0d4fa8b0c1a653fdb2b6b48983967f46820803c1b12b58a7e02d596f40",
+    "boundary_receipt.json": "85d652780f885f50caac3129bfaa022dfc275edc19f8bdfc799f61e9615b4eb0",
+    "full_single_agent.before.json.run.json": "2cd3caab9676fc2bae7fcc3760757527f44e1683aa87a0477fab2b2176624ef1",
+    "full_multi_agent.before.json": "53bbf714d615a7f088ccb04be652fd4518e10564961ccb4830ff5480cdb1f024",
+    "prospective_plan.json": "cc7c5ea22673646acc6a71ce59a13376d5a49b7974d2b7f3d295cd82871f3d9c",
+    "full_single_agent.before.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "full_direct_llm.before.json.run.json": "0f3a0dc5f4bab16544c381b4f9d6f90d66e61749584f0af0e4115d6e2bc385a4",
+    "supervisor_state.before.json": "609d3378bfe3c8eada3afbb245e249c6d76e9e67250b4cf2b3aefea923312827",
+    "run_manifest.json": "7cb5d3d64d2131d7ae5cba055810fa8b965732d3b8ce1bf91781493736a7fbe6",
+    "full_multi_agent.before.json.run.json": "b281be4700bb65aa585a7cc3d7c75a558a705a9844a883f97e726975d53ce6c1",
+    "v3_full_run.before.py": "2b9883e1f3a4e8b21714aecd725aec2df2c0cb0ed57e877a1524e586d20c4430",
+    "candidate_review/metadata.json": "48c8fe276b616471430eb863e5cb591f8102d4ff4ee62d09674632c9492cc186",
+    "candidate_review/test_provider_jwt_candidate.py": "bec1473afeec39d08cedeb6df3a6407a24a84dc3c8dcf74535540707a45ae291",
+    "candidate_review/test_v3_provider_jwt.py": "4d2ec2455bc7ca5781b659a7c260e131266cabe992c632c367ad6ed6f95b167e",
+    "candidate_review/integrated_tests.log": "9dcd56abe14d95d9814c4194a9f385549f48b1d1f13865c5e89f26941587442b",
+    "candidate_review/provider_jwt_candidate.py": "7f5616c3199539c50a9c7acd1a2c8af41d7950c2b7072d6151b6eb91dd114d36",
+    "candidate_review/real_round19_replay.json": "7c5daf645e5444badb1de802210e32520afad94670b96f13626e22218eaf619b",
+    "candidate_review/v3-infrastructure-v3.patch": "3317e91788112c691023f8423e932f885da22e1ec6317eda79e59497964b46a0",
+    "candidate_review/v3_full_run.py": "370ffcb0738b384bafbe82a194dcaf2a5c1e9da1a025d2ea3abcfca8474dcccd",
+    "candidate_review/integrated_tests_summary.json": "d5106ab801c42f5137a0a1f9b37c26b357a3dcb694d0425a25c1219759559a50",
+    "replay/verified_audit_ownership.json": "54af8ad56cef5d74d0e3ba7209f6404349c2a478f8bf910d6c5cd38bc8d18ca0",
+    "replay/per_attempt_classification.jsonl": "c4978270fe5af5d464a961b82a3c7e75f8a93f33aed432404ca7d51405a934a5",
+    "replay/verified_artifacts.json": "22485e23e2a3d2cf8688883d72cec343f9d5400445591c3ed9a36d42441bd7de",
+    "replay/replay_artifact_hashes.json": "5494ddf1e7b811e5da607b6181d34897378eaa6c0e928c47b0d107000c610476",
+    "replay/replay_summary.json": "ac389104456b22a45b2c3dda26d514ace071e5e5643fac27e44be2ecdca104ba",
+    "auth_review/safe_evidence.json": "3dd3201ae189144ade0b59511dfa4937f3f48065d46eaddefeb44fc3e6699a75"
+  }
+}

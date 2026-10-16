@@ -27,7 +27,8 @@ from scripts.full_benchmark import atomic_json, dataset_cohort, file_sha256, ite
 from scripts.audit_store import restore_result_audit, ARTIFACT_PATTERN
 
 ARMS = {"direct_llm": "direct_llm", "single_agent": "single_agent", "multi_agent": "multi_agent_v3"}
-CLASSIFIER_VERSION = "v3-infrastructure-v2"
+CLASSIFIER_VERSION = "v3-infrastructure-v3"
+PROVIDER_JWT_REJECTION = "Max retries exceeded: Jwt verification fails"
 RUNTIME = re.compile(
     r"timed?\s*out|time[ -]?out|(?:HTTP(?:StatusError)?[ :]*|status(?:_code| code)?[ =:]*|error code[ :]*)(?:408|429|50[0234]|52[024])\b|"
     r"(?:^|\()(?:408|429|50[0234]) (?:Client|Server) Error|bad gateway|EXCEPTION: Empty or None output\.|"
@@ -107,6 +108,28 @@ def intrinsic_tool_validation(error):
         r": line [1-9][0-9]* column [1-9][0-9]* \(char [0-9]+\)", error))
 
 
+def provider_jwt_paths(row):
+    """Require the exact host model-call error and an unaccounted failed call."""
+    tokens = row.get("tokens")
+    if not isinstance(tokens, dict) or not any(
+            isinstance(call, dict) and call.get("usage_available") is False
+            for call in tokens.get("per_call") or []):
+        return []
+    signals = [("error", row.get("error"))]
+    revision = row.get("revision")
+    if isinstance(revision, dict):
+        signals.extend((f"revision.{name}", revision.get(name))
+                       for name in ("contract_error", "audit_error"))
+        for index, phase in enumerate(revision.get("phases") or []):
+            if not isinstance(phase, dict):
+                continue
+            errors = phase.get("errors")
+            if isinstance(errors, list):
+                signals.extend((f"revision.phases[{index}].errors", error)
+                               for error in errors)
+    return [path for path, error in signals if error == PROVIDER_JWT_REJECTION]
+
+
 def classify_attempt(row, audit_dir=None):
     """Return pending/runtime/accepted/attention without access to gold or scoring.
 
@@ -154,6 +177,7 @@ def classify_attempt(row, audit_dir=None):
         return {"status": "attention", "reason": "unclassified_argument_failure", "diagnostic_paths": ambiguous_arguments}
     runtime_paths = [path for path, error in signals if not intrinsic_tool_validation(error) and RUNTIME.search(error) and not re.match(
         r"^(?:KeyError|IndexError|ValueError|TypeError|NameError|SyntaxError|ZeroDivisionError):", error)]
+    runtime_paths.extend(provider_jwt_paths(full))
     if runtime_paths:
         return {"status": "runtime", "reason": "allowlisted_infrastructure_failure", "diagnostic_paths": runtime_paths}
     ambiguous_host = [path for path, error in signals if error.startswith("targeted check failed:") and "HTTPError" in error]
