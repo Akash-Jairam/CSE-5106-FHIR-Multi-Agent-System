@@ -1,0 +1,133 @@
+Executable data-QA semantic testing — 16 October 2026 UTC
+
+Conditional research only; not a design, gate, implementation or launch decision.
+The research-bearing pre-V8 packet and the AlphaCodium/AgentCoder/CodeT follow-up
+were reviewed first; the31-file packet was inventoried without opening empirical
+case/QA files. Exactly3additional primary papers were investigated. No current
+or aborted V8 outcomes, benchmark questions/references/SQL, FHIR/patient data,
+model/API experiments or scoring. Only this ignored directory was written.
+
+Answer to the narrow question
+
+Partial mechanisms exist, but this bounded review found no materially new,
+verified demonstration of the entire desired chain: independently derived
+intent/specification or synthetic/metamorphic test -> recognition of a semantic
+error in an otherwise executable query -> newly generated correct alternative,
+without a real-task answer oracle, under a capable same-model iterative Single
+control and matched aggregate inference/tool ceilings.
+
+This is a bounded evidence conclusion, not proof that such a method is impossible
+or absent everywhere. It reinforces the existing packet rather than motivating
+another version. V7's historically weak candidate oracle motivated the question;
+nothing here characterizes current V8 outcomes.
+
+1. MAC-SQL: real new-query repair, but an execution/empty-result trigger
+
+Wang et al., COLING2025, pp540–557:
+https://aclanthology.org/2025.coling-main.36/
+https://aclanthology.org/2025.coling-main.36.pdf
+
+The Decomposer emits intermediate subquestions/SQL and the final query together;
+this is not an independently checked specification. The Refiner really calls an
+LLM to write a replacement SQL using question, schema, old SQL and SQLite error.
+No gold answer is required by that helper. However, its validation focuses on
+execution and, in one dataset setting, empty/null results. The paper's GPT-4
+ablation and SQL-Llama training results do not isolate independently derived
+semantic testing, or compare against our capable natural iterative Single under
+the same aggregate caps. New syntax-valid SQL is not necessarily a semantic fix.
+
+Official author code,31a9df5e0d520be4769be57a4b9022e5e34a14f4:
+https://github.com/wbbeyourself/MAC-SQL/tree/31a9df5e0d520be4769be57a4b9022e5e34a14f4
+core/agents.py:598–658 performs one-shot decomposition. Refiner:700–719 accepts
+any executable result in its Spider branch, while the other branch asks for
+repair on empty data or None values. Lines721–785 generate and execute new SQL.
+These heuristics can disturb a legitimate empty/null answer and do not detect a
+wrong projection/grouping/window that returns plausible nonempty data. The code
+also permits an externally supplied extracted schema to bypass pruning; that
+optional pathway must not be confused with an independently verified intent.
+ChatManager initializes with a real model ping; llm.py retries up to5attempts.
+Round limits/token logs are not a hard total SDK/tool/token cap. Code was inspected
+as text, not run, and exact paper/run parity is unproven.
+
+2. CycleSQL: semantic-looking feedback selects from a fixed pool
+
+Fan et al., Grounding Natural Language to SQL Translation with Data-Based
+Self-Explanations, inspected arXiv v1,5November2024:
+https://arxiv.org/html/2411.02948v1
+
+Query-result provenance and SQL operation semantics produce explanations, then
+a trained T5-large entailment classifier compares explanation to the question.
+The paper's inference protocol explicitly checks successive pre-generated top-k
+candidates (beam8 or LLM5), rather than creating a new query after a failure.
+Training uses positive/negative examples labeled by execution against training
+gold SQL. That is legitimate supervision, but a different assumption from our
+frozen same-model orchestration. Robustness and multiple-backbone results do not
+turn a learned selector into a gold-free semantic oracle or expand the pool's
+correct-answer availability. Provenance explains what executed, not what was
+omitted by a wrong query.
+
+Author code,2cb4c16d3576a0e97a2fe5efebc80403dd2a3468:
+https://github.com/Kaimary/CycleSQL/tree/2cb4c16d3576a0e97a2fe5efebc80403dd2a3468
+scripts/run_infer.py loads supplied beam strings, builds explanations, runs the
+classifier and returns an existing candidate, with an executable-beam fallback.
+No corrective generation call exists in that inspected path. Moreover, this
+released driver reads ex['query'] and executes candidate-vs-gold comparisons
+(77–89,163 onward), including diagnostic branches inside traversal. It cannot be
+treated verbatim as an audited gold-free deployment entrypoint. This review does
+not establish that those diagnostics change reported scores; they would need to
+be isolated before such an assurance. Provenance queries, classifier inference
+and prior candidate generation all cost compute; no matching to our joint
+200k/30tool/30send policy follows. The code pin and inspected paper differ in
+date; no exact parity or numerical reproduction is claimed.
+
+3. SynSQL: question-conditioned test databases, but no SQL correction oracle
+
+Habibollah and Rafiei, SynSQL: Synthesizing Relational Databases for Robust
+Evaluation of Text-to-SQL Systems, arXiv v1,29April2026:
+https://arxiv.org/html/2604.27261v1
+https://arxiv.org/pdf/2604.27261v1
+
+Its synthesizer/critic receive question, schema, hint and generated data without
+a per-case predicted/gold SQL input in the listed prompts. This is relevant
+evidence that one can construct discriminating data without conditioning on a
+gold query. But it generates/refines database rows, not task SQL. Evaluation EX
+and compound EX still compare predicted and gold query outputs; success rate
+checks whether the gold query returns rows. Gold-free expected-answer reasoning
+or human validation is future use, not a demonstrated repair oracle. A prompted
+critic accepts quality>=8/10 with up to3refinement iterations; schema selection
+alone uses four model queries. No strict matched token/tool/send accounting or
+official author repository was verified, so there is no code pin to attest.
+
+What remains genuinely distinct, and what is already covered
+
+MAC-SQL substantiates error-conditioned new-query generation, already available
+in our Single/tool-feedback and prior CRITIC evidence. CycleSQL substantiates
+data-grounded explanations and learned selection, already bounded by the known
+candidate-supply issue. SynSQL adds a question-conditioned test-data construction
+lead beyond the old gold-query-based distilled SQL test suites; it does NOT add
+the missing gold-free expected-answer or repair step. Combining those components
+would be an untested new procedure, not a result of any of these papers.
+
+CHESS, CHASE-SQL, SQL-of-Thought, distilled SQL suites and the coding-test papers
+were already covered and were not rebranded as new findings. The prior packet
+already distinguishes generated natural-language tests from executable proofs,
+trained selectors from frozen-model inference, and gold-triggered revision from
+deployable feedback. No additional broad search is warranted for this request.
+
+An independently generated specification is still a model interpretation. A
+synthetic database can separate two candidate denotations without identifying
+which denotation answers the question. A metamorphic relation can reject some
+programs while admitting many wrong ones; validity of the relation itself needs
+task semantics. A useful semantic witness therefore needs more than query
+executability, a nonempty result, an entailment score or agreement on synthetic
+data. Correct local test outputs cannot be obtained by using the tested query as
+its own reference. None of these observations supplies permission to use hidden
+real-task answers, change adapters, or tune the running experiment.
+
+The appropriate conditional interpretation remains: measure newly supplied
+correct alternatives to wrong primaries separately from ranking and final net
+gain, with every attempted path/cost/failure retained. That is an analysis
+principle, not a new study or a current V8 result. Clinical ownership/time/source
+barriers, natural-language ambiguity, complete retrieval and model/task transfer
+remain unproven by these SQL-specific components. Existing research coverage is
+adequate for the current mechanism question; no V9 commitment is made.

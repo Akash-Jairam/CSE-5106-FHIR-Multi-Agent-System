@@ -1,0 +1,148 @@
+Candidate-generation follow-up — 16 October 2026 UTC
+
+Research only. Read the three requested pre-V8 documents before this review.
+Exactly three additional primary papers/author repositories were inspected as
+text. No live or aborted V8 outcomes, QA, reference answers, SQL, protected cases,
+patient records, model/FHIR requests, scoring, source changes or implementation.
+All written artifacts are in this ignored research directory. Source pins and
+the hashes of the three prerequisite documents are in source_manifest.json.
+
+Finding
+
+The existing packet is largely adequate. The additional evidence identifies a
+concrete candidate-producing mechanism, not a demonstrated new architecture:
+derive small executable input/output obligations from the task separately from
+the implementation, execute candidates against them, and generate a new program
+in response to actual failures while retaining previously satisfied obligations.
+This changes generation conditional on observed behavior. Re-ranking the same
+pool, agreement, or another verbal interpretation does not increase that pool's
+correct-answer availability. The known V7 oracle gain of only1/300 makes that
+distinction material, without proving that no future candidate can complement A.
+
+This mechanism is already close to the pre-V8 specification-fixture plan and
+execution-grounded repair. The extra papers do not justify tuning the frozen
+study, adding a planner/test agent now, or calling a renamed loop a novel method.
+
+1. AlphaCodium: genuine new-program repair, substantial oracle/compute confounds
+
+Ridnik et al., Code Generation with AlphaCodium: From Prompt Engineering to Flow
+Engineering, inspected arXiv v1,16January2024:
+https://arxiv.org/html/2401.08500v1
+
+The flow generates task-derived tests before initial code, then repeatedly
+executes and repairs code. Public passing examples anchor later changes; previous
+passing tests are replayed after a proposed repair. This can produce a correct
+program absent from the initial pool. However, generated expected outputs can be
+wrong, and anchors can retain wrong assumptions. Same-backbone gains over direct
+prompting reduce a model-strength confound, but bundle preprocessing, tests,
+iteration and extra compute. Reported15–20calls per solution and pass@5 are not
+a strong natural Single comparison under our shared30-send ceiling. Evidence
+spans several coding models, not clinical QA or arbitrary tools/tasks.
+
+Author code pin eb7577dbe998ae7e55696264591ac3c5dde75638,28September2024:
+https://github.com/Codium-ai/AlphaCodium/tree/eb7577dbe998ae7e55696264591ac3c5dde75638
+coding_competitor.py orders tests before initial code. The test prompt sees the
+task and shared reflection, so it is implementation-blind, not an independent
+semantic oracle. run_evaluate_all_ai_tests.py executes repairs and reverts when
+prior passed tests fail. The repair stage writes a complete replacement program.
+Stage retries and configurable model fallbacks exist; stage-call labels are not
+a hard count of actual SDK attempts. The code is later than the inspected paper;
+this is a mechanism audit, not numerical reproduction or exact version parity.
+
+2. AgentCoder: specification-conditioned testing, but released path differs
+
+Huang et al., AgentCoder, inspected arXiv v3,24May2024:
+https://arxiv.org/html/2312.13010v3
+
+The paper describes implementation-blind test generation and execution feedback
+for code repair. Its within-backbone ablations are relevant to anchoring, but its
+broader baselines come from prior papers; reported overhead uses response tokens,
+not our complete input/output/tool/send accounting. Its tests remain fallible,
+and the paper explicitly recognizes that incorrect expected outputs mislead
+repair. Neither model separation nor a test pass establishes semantic truth.
+
+Official code pin d8538d63675c2b805855e6deb7ddc39fefb5723d,18November2025:
+https://github.com/huangd1999/AgentCoder/tree/d8538d63675c2b805855e6deb7ddc39fefb5723d
+The released HumanEval test writer sees task signature/docstring/doctests and
+few-shot examples, not candidate code. However, the inspected executor selects
+among five programs using ten generated test sets, freezes a program at three
+passing sets, and otherwise resamples pools. Its programmer helper receives no
+execution-error feedback. An unresolved path can consume90successful model
+requests and300execution checks across six pools, with unbounded generation
+retries. MBPP's main path uses the supplied benchmark test_list and regeneration;
+an error-aware fix_bug helper is not invoked there. Thus this release does not
+verify the paper's bounded error-conditioned repair story. Benchmark tests are
+an availability assumption, not permission to use our hidden references.
+
+3. CodeT: useful counterevidence against confusing selection with supply
+
+Chen et al., CodeT: Code Generation with Generated Tests, ICLR2023; inspected
+arXiv v2,23November2022: https://arxiv.org/html/2207.10397v2
+
+CodeT samples programs and task-only tests with the same model, then groups/ranks
+programs using execution agreement. It does not repair those programs. The paper
+explicitly states that selecting all100 candidates has the same pass@100 as its
+baseline: ranking cannot create missing correct programs. It also documents
+joint failures where both programs and tests share a wrong task interpretation.
+Its five-model/four-code-benchmark results concern selection from large pools,
+not extra correct alternatives under matched total tokens/tools/sends. Novel
+test generation adds cost even when the candidate pool is held fixed.
+
+Author code pin35f54d60b152cc31d134b788e702878ad613d9f7,12June2023:
+https://github.com/microsoft/CodeT/tree/35f54d60b152cc31d134b788e702878ad613d9f7/CodeT
+main.py loads existing solution/test samples; agreement.py ranks them without a
+repair or generation call. Ground-truth test execution is used for evaluation;
+the inspected ranking receives generated-test results, not that scoring oracle.
+No generated datasets, answer dumps or example source files were opened here.
+
+What this adds, and what it does not
+
+The most relevant distinction is between an independently derived executable
+obligation and a draft-conditioned concern. V3's contract and V4's visible plan
+were verbal interpretations; V5 had a restrictive probe/patch interface. A task-
+only executable witness could reduce implementation anchoring. V8's known
+research intent already investigates actual program behavior and recomputes an
+alternative, so the difference would be the origin and reliability of the test
+specification, not the existence of another agent or execution loop. No V8
+outcome is assumed or used in this comparison.
+
+A test writer can inherit the same misunderstood qualifier, field, grouping or
+scope as the programmer. Separating contexts is therefore a control on exposure,
+not proof of independent errors. CodeT's counterexamples are especially relevant:
+many mutually agreeing programs and tests can support the same wrong meaning.
+Testing needs a way to establish expected behavior independently of the candidate
+being tested; setting a test's expected answer from that program is circular.
+FHIR field validation supplies source support, not that independent semantics.
+
+Metamorphic testing is not a free substitute for an expected answer. Inference:
+record permutation can reveal accidental order dependence only when order is
+irrelevant to the requested operation; duplication is not invariant for counts;
+adding a supposedly irrelevant record presupposes correct scope. Many wrong
+programs satisfy the same relations. Valid transformations could supply useful
+engineering counterexamples, but the three new sources do not establish a
+general, gold-free metamorphic oracle for this QA task. The existing pre-V8
+fixture proposal already covers these properties; no new runtime claim follows.
+
+Decision relevance under the fixed ceiling
+
+None of the three studies isolates an advantage over our capable same-model,
+natural iterative Single with identical tools and the same aggregate ceiling.
+AlphaCodium supplies the clearest actual repair mechanism, while AgentCoder's
+released path and CodeT mainly support selection/resampling qualifications.
+Importing their full flows would add test generation, oracle checking, repeated
+execution, repair and final validation costs. Those must compete for actual
+residual tokens/tools/sends; paper round counts and response-token comparisons
+cannot certify affordability. Public coding tests are stronger information than
+our source checker, and synthetic test success cannot establish real-patient or
+unseen-question performance.
+
+After a completed, integrity-checked study, the discriminating evidence remains
+wrong-A/correct executed alternative availability, followed separately by useful
+selection and total harms/failures. More passing tests or disagreements alone
+do not demonstrate that the bottleneck changed. A future procedure, if separately
+selected, would need a strong Single with the same test/execution facilities and
+matched aggregate caps to distinguish a useful procedure from agent isolation.
+Generic JSON/tools, immutable artifacts and accounting can transfer; test oracles,
+valid transformations and source semantics require task adapters. Cross-model
+and cross-task efficacy are unproven here. No V9 proposal, gate change, launch,
+implementation or current-run tuning is authorized by this review.

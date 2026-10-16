@@ -1,0 +1,21 @@
+{
+  "recorded_utc": "2026-10-16T03:10:18.991632+00:00",
+  "source_delivery_sha256": "7ebcb71d346a00d8ee0397e299b9297cd154632321ca726f428aa28cdadeb21a",
+  "all_origin_member_hashes_verified": true,
+  "copied_without_changes": [
+    "FINDINGS.txt",
+    "analyze.py",
+    "funnel_counts.json",
+    "hold_and_inputs.json",
+    "manual_witness_review.json",
+    "project_funnel.py",
+    "rows.json",
+    "summary.json"
+  ],
+  "omitted_local_only": [
+    "A_wrong_evidence_private.json",
+    "analysis.log",
+    "funnel_counts.log"
+  ],
+  "scope": "Compact candidate-generation diagnosis. The private saved-question/history packet remains ignored and local; its original hash is retained in origin_delivery.json. No new accuracy gate or design selection."
+}

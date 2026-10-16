@@ -1,0 +1,114 @@
+{
+  "status": "COMPLETED_MECHANISM_STUDY",
+  "primary_contrast": "R - A",
+  "arms": {
+    "A": {
+      "n": 120,
+      "correct": 87,
+      "terminal_errors": 10
+    },
+    "W": {
+      "n": 120,
+      "correct": 86,
+      "terminal_errors": 10
+    },
+    "R": {
+      "n": 120,
+      "correct": 86,
+      "terminal_errors": 11
+    },
+    "C": {
+      "n": 120,
+      "correct": 87,
+      "terminal_errors": 10
+    }
+  },
+  "mechanisms": {
+    "W": {
+      "O": 0,
+      "H": 0,
+      "M": 1,
+      "F": 0,
+      "all_post_A_helpful": 0,
+      "all_post_A_harmful": 1,
+      "selected_B": 2,
+      "B_available_source_bound": 39,
+      "auxiliary_fatal": 0,
+      "net": -1
+    },
+    "R": {
+      "O": 0,
+      "H": 0,
+      "M": 0,
+      "F": 1,
+      "all_post_A_helpful": 0,
+      "all_post_A_harmful": 1,
+      "selected_B": 0,
+      "B_available_source_bound": 28,
+      "auxiliary_fatal": 1,
+      "net": -1
+    },
+    "C": {
+      "O": 0,
+      "H": 0,
+      "M": 0,
+      "F": 0,
+      "all_post_A_helpful": 0,
+      "all_post_A_harmful": 0,
+      "selected_B": 0,
+      "B_available_source_bound": 4,
+      "auxiliary_fatal": 0,
+      "net": 0
+    }
+  },
+  "R_corrective_patients": 0,
+  "R_corrective_operations": 0,
+  "R_minus_A_correct": -1,
+  "paired_question_weighted_patient_bootstrap": {
+    "R-A": {
+      "n": 120,
+      "patients": 35,
+      "estimate": -0.008333333333333333,
+      "ci_low": -0.02654867256637168,
+      "ci_high": 0.0
+    },
+    "R-W": {
+      "n": 120,
+      "patients": 35,
+      "estimate": 0.0,
+      "ci_low": -0.024390243902439025,
+      "ci_high": 0.025
+    },
+    "R-C": {
+      "n": 120,
+      "patients": 35,
+      "estimate": -0.008333333333333333,
+      "ci_low": -0.02654867256637168,
+      "ci_high": 0.0
+    }
+  },
+  "bootstrap": {
+    "replicates": 10000,
+    "seed": 5106,
+    "primary": "R-A",
+    "other_contrasts": "diagnostic"
+  },
+  "advance_gate": {
+    "O_min": 6,
+    "net_min": 4,
+    "harm_plus_fatal_max": 2,
+    "corrective_patients_min": 3,
+    "corrective_operations_min": 2,
+    "passed": false
+  },
+  "diagnostic_contrasts_correct": {
+    "R-W": 0,
+    "R-C": -1
+  },
+  "limits": [
+    "Adaptive balanced development mix, not a full-benchmark effect or patient-generalization test.",
+    "A is shared once physically; policies are dependent. W/R/C contrasts are diagnostic.",
+    "A correct/null credit uses unchanged typed scorer, not an independently established absence search.",
+    "Source-bound alternative does not prove semantic correctness; O is posthoc scorer-based."
+  ]
+}

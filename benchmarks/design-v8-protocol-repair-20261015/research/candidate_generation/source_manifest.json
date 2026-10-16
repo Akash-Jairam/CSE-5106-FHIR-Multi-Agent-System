@@ -1,0 +1,69 @@
+{
+  "date_utc": "2026-10-16",
+  "scope": "Bounded follow-up research only; exactly3newprimarypapers and officialauthorcode inspected as text. No current/aborted V8 results, QA, SQL, protected references, patient data, model/FHIR calls, code execution, scoring or source/record/Git mutation.",
+  "prerequisites_read_sha256": {
+    "docs/pre_v8_review_20261015/research_review.txt": "8a9fe08b011dc4cd88b393f53b86fe3e420c336394c79f282103c39672e09dd8",
+    "docs/pre_v8_review_20261015/research_sources.json": "0aa432efed0ac2a6cacdf1ff50d6ea388e8621ae7fc6262762b30b0f5dbd54f7",
+    "docs/pre_v8_review_20261015/proposed_design_and_tests.txt": "896d54732df79bc79b4b833c70eb62a84e5149313e643164fd0e4945107650e2"
+  },
+  "new_primary_sources": [
+    {
+      "id": "alphacodium",
+      "paper_inspected": "https://arxiv.org/html/2401.08500v1",
+      "paper_version_date": "2024-01-16",
+      "repository": "Codium-ai/AlphaCodium",
+      "commit": "eb7577dbe998ae7e55696264591ac3c5dde75638",
+      "commit_date": "2024-09-28T16:11:09Z",
+      "files_git_blob_sha": {
+        "README.md": "2abc1b345d06405350875705ec1710333066ee8c",
+        "alpha_codium/gen/coding_competitor.py": "2294661792b4fbc07b7bf63e537df1a0c5d00f02",
+        "alpha_codium/gen/stages/run_generate_ai_test.py": "6e3acb8794c280f9287f7a83841bc6d68b79aff5",
+        "alpha_codium/gen/stages/run_evaluate_all_ai_tests.py": "4a1d08dc25e13c5bda918aa564d047b35cf9cd34",
+        "alpha_codium/gen/stages/indirect/run_validate_ai_test.py": "3e2a32d8fba5814cea02a890fb116cf7dc4045e9",
+        "alpha_codium/gen/stages/indirect/run_analyze_and_fix_test_failure.py": "02c264fb2e00ecb56c65434a87ec0fc3c6847842",
+        "alpha_codium/settings/code_contests_prompts_generate_ai_tests.toml": "c64709dedbd37bde050ae000f90b7e05c727ddc2",
+        "alpha_codium/llm/ai_invoker.py": "f192068ef4a4e1d3992d418673059dc732d95c28"
+      },
+      "limits": "Publicinputoutputoracles; samebackbone but directpromptcontrol and bundledcompute/flow changes;15to20calls persolution; no exactpaper/code parity or reproduction claimed. Public prompttemplate inspected, no credential/configuration files opened."
+    },
+    {
+      "id": "agentcoder",
+      "paper_inspected": "https://arxiv.org/html/2312.13010v3",
+      "paper_version_date": "2024-05-24",
+      "repository": "huangd1999/AgentCoder",
+      "commit": "d8538d63675c2b805855e6deb7ddc39fefb5723d",
+      "commit_date": "2025-11-18",
+      "files_git_blob_sha": {
+        "README.md": "c355109e24ede00850bafed33f5a90a01d2bb3e9",
+        "src/programmer_humaneval.py": "3f238f3efdaa6a27c9b84a32f95d42f0a8516b9a",
+        "src/test_designer_humaneval.py": "64b1940adcd6f5cc52f5e2854ea1a8ddf47e63ec",
+        "src/test_executor_humaneval.py": "322634d98552260a79213e62f506140c6866e0fc",
+        "src/programmer_mbpp.py": "30e1c70c401f6d29cfaf224ce0ec99c8d9aab396",
+        "src/test_designer_mbpp.py": "78749f909feb3a16e8ef8a5eefef8b0d4b2580a3",
+        "src/test_executor_mbpp.py": "d1244d7bad9eaf19cfe85d566526f6111f374abd",
+        "prompts/test_designer_humaneval_prompt_update.txt": "7f4763b7c5e9d2a7f78df62b76824fedb5d43329"
+      },
+      "reviewer": "/root/research/surplus_allocation_sources, publictextonly",
+      "limits": "ReleasedHumanEvalmainselects/resamples and does not feed executionerror toprogrammer; MBPPmain usessuppliedtest_list. Up to90successfulrequests before unboundedretries in unresolvedHumanEvalpath. Paper overheadresponse_tokens not totalaccounting; no reproduction or paper/code parity."
+    },
+    {
+      "id": "codet",
+      "paper_inspected": "https://arxiv.org/html/2207.10397v2",
+      "paper_version_date": "2022-11-23",
+      "venue": "ICLR2023",
+      "repository": "microsoft/CodeT",
+      "commit": "35f54d60b152cc31d134b788e702878ad613d9f7",
+      "commit_date": "2023-06-12T18:41:18Z",
+      "files_git_blob_sha": {
+        "README.md": "af6624cc0c79dd622dd6cc0a6b76964a2c18b336",
+        "CodeT/README.md": "57ebb92364f8242ccd82a8afa5808e1cbf2abc50",
+        "CodeT/main.py": "98af6ee6becfb0f5d56568ebbd3e7335ff9db428",
+        "CodeT/src/agreement.py": "baa11c134f1a0fb43602a9f6a32dcf7e07426b70"
+      },
+      "limits": "Selectiononly for fixedprogram pool; does not raise allcandidateoraclecoverage. Same-model tests can share wrongsemantics; largepools/generatedtest/execution costs not matched200k30tools30sends. Groundtruth runs in offlineevaluation, distinct from inspectedranking input. No datasets or answerdumps opened, no reproduction."
+    }
+  ],
+  "total_new_papers": 3,
+  "new_author_files_inspected": 20,
+  "hash_note": "Authorfile hashes are Git blob IDs at pinned commits. Local prerequisite and delivery artifact hashes are SHA256. No thirdparty code copied or executed."
+}

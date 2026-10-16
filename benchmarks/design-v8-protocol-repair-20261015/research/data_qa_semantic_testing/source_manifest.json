@@ -1,0 +1,61 @@
+{
+  "date_utc": "2026-10-16",
+  "scope": "Conditional primary-source research only. No current/aborted V8 outcome/case access, local benchmarkQA/SQL/references/FHIR, scoring, code execution, models/API calls, or source/docs/manifests/records/Git mutation. Writes only this ignored directory.",
+  "prerequisite_scope": "Inventoried preV8packet; read research_review/research_sources/proposed_design_and_tests plus existing candidate-generation notes and source manifest. Empirical case files not opened.",
+  "new_papers_inspected": 3,
+  "sources": [
+    {
+      "id": "mac_sql",
+      "published_paper": "https://aclanthology.org/2025.coling-main.36/",
+      "published_pdf": "https://aclanthology.org/2025.coling-main.36.pdf",
+      "repository": "wbbeyourself/MAC-SQL",
+      "commit": "31a9df5e0d520be4769be57a4b9022e5e34a14f4",
+      "commit_date": "2025-02-27T04:01:53Z",
+      "inspected_files_git_blob_sha": {
+        "README.md": "1e9cb11087015ba726f76a4b56efbece638ea160",
+        "core/agents.py": "f74a2ed35255367bde69082ab78c457556693e23",
+        "core/chat_manager.py": "cb4f0bc7b6e0caf0caf3c68944d755e1ef4fb5e2",
+        "core/llm.py": "51f65c2a7d55e12999c6183ef537564c7f735242"
+      },
+      "mechanism": "Actual error-conditioned replacementSQL generation; not independent semantic tests. Dataset-dependent empty/None checks do not establish question correctness.",
+      "limits": "No credentials/api_config opened. Optional externallysuppliedschema pathway visible in helper. No paper/code numericalparity or matchedstrongSingle/aggregatecap proof. Five-attempt wrapper and startup modelping are actualcompute."
+    },
+    {
+      "id": "cycle_sql",
+      "paper_inspected": "https://arxiv.org/html/2411.02948v1",
+      "paper_version_date": "2024-11-05",
+      "repository": "Kaimary/CycleSQL",
+      "commit": "2cb4c16d3576a0e97a2fe5efebc80403dd2a3468",
+      "commit_date": "2025-05-24T01:43:38Z",
+      "inspected_files_git_blob_sha": {
+        "README.md": "93bb115a141fc990c80efc850eb75fdf047e001c",
+        "scripts/run_infer.py": "72e5ed138474748ef6e8601f3e0c10874ef30cdd",
+        "run_infer.sh": "a8b6bd74dc2f688a7501d12e483e4744267f5e6e",
+        "src/explainer.py": "4fdb9f156195bc1c5eb8f0a86eaf2677746644c4"
+      },
+      "mechanism": "Data-provenance explanations plus trained NLI selection of existing suppliedbeams, not newSQLgeneration.",
+      "limits": "NLI supervised using traininggoldSQL executionlabels. Releasedrun_infer reads realgold and has inside-traversal goldcomparison diagnosticbranches; no assertion those change reportedaccuracy, and no verbatimgoldfreeentrypoint assurance. No beamoutput/QA/data files opened, no reproduction or exactpaper/code parity."
+    },
+    {
+      "id": "synsql",
+      "paper_inspected": "https://arxiv.org/html/2604.27261v1",
+      "paper_pdf": "https://arxiv.org/pdf/2604.27261v1",
+      "paper_version_date": "2026-04-29",
+      "author_repository_verified": null,
+      "commit": null,
+      "inspected_files_git_blob_sha": {},
+      "reviewer": "/root/research/surplus_allocation_sources, primarypaper/publicsearchonly",
+      "mechanism": "Questionconditioned relationalrow synthesis/refinement; not taskSQLgeneration/repair.",
+      "limits": "GoldSQLneeded forEX/compoundEX/successrate metrics. Goldfreeexpectedanswer reasoning/humanvalidation futureuse only. Promptedcritic not separatelytrained; up to3refinementiterations; schemaselection4modelqueries. No officialauthorrepo identified in boundedreview, so no sourcepin/reproduction assertion."
+    }
+  ],
+  "total_new_author_files_inspected": 8,
+  "hash_note": "Git blobIDs pin publicauthorfile versions. PaperURLs pin inspected versions but webpage/PDF bytes were not archived or bytehashed. Delivery uses SHA256 for local notes/manifests. No thirdparty code copied or run.",
+  "prerequisite_sha256": {
+    "docs/pre_v8_review_20261015/research_review.txt": "8a9fe08b011dc4cd88b393f53b86fe3e420c336394c79f282103c39672e09dd8",
+    "docs/pre_v8_review_20261015/research_sources.json": "0aa432efed0ac2a6cacdf1ff50d6ea388e8621ae7fc6262762b30b0f5dbd54f7",
+    "docs/pre_v8_review_20261015/proposed_design_and_tests.txt": "896d54732df79bc79b4b833c70eb62a84e5149313e643164fd0e4945107650e2",
+    "output/research/v8_candidate_generation_followup_20261016/notes.txt": "72a6485c0f13a6cd4d2e9d6e3eea78b8f72f2083a2533b4a810c39d9db7be4cb",
+    "output/research/v8_candidate_generation_followup_20261016/source_manifest.json": "5469dae85b6c8b426e0d4a621b1a7abf34da0df2681fadf2bfa18c7dfe00e1b3"
+  }
+}

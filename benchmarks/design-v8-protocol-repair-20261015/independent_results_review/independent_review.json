@@ -1,0 +1,314 @@
+{
+  "archive_plan": {
+    "allowed_members": 506,
+    "cache_pickle_members": 0,
+    "completed_archive": {
+      "archive_manifest_sha256": "5428a6d1f2f00d09885b92bbbad0504244453479ec715457c033082c3b018476",
+      "bytes": 348733378,
+      "independent_CRC_repeat": false,
+      "member_inventory_and_sizes_match": true,
+      "path": "output/archives/v8_mechanism_120_protocol_repair_20261015.completed.zip",
+      "root_manifest_all_member_SHA_roundtrip_verified": true,
+      "sha256": "2e51e77019b8a958c3a5e79112507d2b977b81505ead560fe7c4be5f2462ef60"
+    },
+    "max_member_bytes": 135475449,
+    "member_counts": {
+      "audit": 382,
+      "primaries": 120,
+      "provider-events": 1,
+      "top_level": 3
+    },
+    "raw_sha256_proof_entries_not_an_archive_allowlist": 1590,
+    "sum_member_bytes": 426893655,
+    "uncompressed_member_bytes": {
+      "audit": 253335529,
+      "primaries": 34962494,
+      "provider-events": 3016942,
+      "top_level": 135578690
+    },
+    "zip_size_not_yet_measured": false
+  },
+  "arms": {
+    "A": {
+      "correct": 87,
+      "n": 120,
+      "terminal_errors": 10
+    },
+    "C": {
+      "correct": 87,
+      "n": 120,
+      "terminal_errors": 10
+    },
+    "R": {
+      "correct": 86,
+      "n": 120,
+      "terminal_errors": 11
+    },
+    "W": {
+      "correct": 86,
+      "n": 120,
+      "terminal_errors": 10
+    }
+  },
+  "conceptual_dedup_reconciliation": {
+    "attempts_equal_physical_plus_3A": true,
+    "known_tokens_equal_physical_plus_3A": true,
+    "total_accounted_invocations": 3516,
+    "total_known_tokens": 34997143
+  },
+  "conceptual_usage": {
+    "A": {
+      "accounted_invocations": 769,
+      "charged_tools": 761,
+      "known_cached_prompt": 6781230,
+      "known_completion": 154210,
+      "known_prompt": 7963206,
+      "policy_latency": {
+        "known": 120,
+        "known_sum": 8306.13515062281,
+        "mean": 69.21779292185674,
+        "median": 55.71145672950661,
+        "n": 120,
+        "unknown": 0
+      },
+      "reported_cost": {
+        "known": 0,
+        "known_sum": 0,
+        "mean": null,
+        "median": null,
+        "n": 120,
+        "unknown": 120
+      },
+      "unknown_usage_invocations": 10
+    },
+    "C": {
+      "accounted_invocations": 792,
+      "charged_tools": 779,
+      "known_cached_prompt": 6917956,
+      "known_completion": 157316,
+      "known_prompt": 8129195,
+      "policy_latency": {
+        "known": 120,
+        "known_sum": 8488.434199117793,
+        "mean": 70.73695165931494,
+        "median": 56.71399602097517,
+        "n": 120,
+        "unknown": 0
+      },
+      "reported_cost": {
+        "known": 0,
+        "known_sum": 0,
+        "mean": null,
+        "median": null,
+        "n": 120,
+        "unknown": 120
+      },
+      "unknown_usage_invocations": 10
+    },
+    "R": {
+      "accounted_invocations": 973,
+      "charged_tools": 929,
+      "known_cached_prompt": 7624344,
+      "known_completion": 197046,
+      "known_prompt": 9077156,
+      "policy_latency": {
+        "known": 120,
+        "known_sum": 9151.704335996561,
+        "mean": 76.26420279997134,
+        "median": 65.76297866650566,
+        "n": 120,
+        "unknown": 0
+      },
+      "reported_cost": {
+        "known": 0,
+        "known_sum": 0,
+        "mean": null,
+        "median": null,
+        "n": 120,
+        "unknown": 120
+      },
+      "unknown_usage_invocations": 11
+    },
+    "W": {
+      "accounted_invocations": 982,
+      "charged_tools": 942,
+      "known_cached_prompt": 7632427,
+      "known_completion": 206264,
+      "known_prompt": 9112750,
+      "policy_latency": {
+        "known": 120,
+        "known_sum": 9323.564972455642,
+        "mean": 77.69637477046369,
+        "median": 66.3670670624997,
+        "n": 120,
+        "unknown": 0
+      },
+      "reported_cost": {
+        "known": 0,
+        "known_sum": 0,
+        "mean": null,
+        "median": null,
+        "n": 120,
+        "unknown": 120
+      },
+      "unknown_usage_invocations": 10
+    }
+  },
+  "error_distinction": {
+    "all_observed_error_chains": {
+      "openai.APITimeoutError -> httpx2.ReadTimeout -> httpcore2.ReadTimeout": 11
+    },
+    "conceptual_failed_policies": 41,
+    "each_of_10_primary_error_cases_fails_all_four_policies": true,
+    "physical_auxiliary_errors": 1,
+    "physical_errors": 11,
+    "physical_primary_errors": 10,
+    "primary_error_policy_replication": 4
+  },
+  "fixed_gate": {
+    "O_min": 6,
+    "corrective_operations_min": 2,
+    "corrective_patients_min": 3,
+    "harm_plus_fatal_max": 2,
+    "net_min": 4,
+    "passed": false
+  },
+  "limits": [
+    "Official typed scores are benchmark labels, not source/clinical semantic truth.",
+    "Shared-A dependent policies, adaptive development cohort and partial coverage do not establish protected1397/generalization efficacy.",
+    "Known token subtotals exclude11 physically unreported error usages; reported monetary costs unavailable, not zero.",
+    "Raw gzip/ownership/CRC complete guard is externally pinned and reused; this audit does not re-execute or restore every480again.",
+    "No programs/checkers/inference/FHIR/network/config or protected question/gold accessed."
+  ],
+  "mechanisms": {
+    "C": {
+      "B_available_source_bound": 4,
+      "F": 0,
+      "H": 0,
+      "M": 0,
+      "O": 0,
+      "all_post_A_harmful": 0,
+      "all_post_A_helpful": 0,
+      "auxiliary_fatal": 0,
+      "net": 0,
+      "selected_B": 0
+    },
+    "R": {
+      "B_available_source_bound": 28,
+      "F": 1,
+      "H": 0,
+      "M": 0,
+      "O": 0,
+      "all_post_A_harmful": 1,
+      "all_post_A_helpful": 0,
+      "auxiliary_fatal": 1,
+      "net": -1,
+      "selected_B": 0
+    },
+    "W": {
+      "B_available_source_bound": 39,
+      "F": 0,
+      "H": 0,
+      "M": 1,
+      "O": 0,
+      "all_post_A_harmful": 1,
+      "all_post_A_helpful": 0,
+      "auxiliary_fatal": 0,
+      "net": -1,
+      "selected_B": 2
+    }
+  },
+  "patient_cluster_bootstrap": {
+    "R-A": {
+      "ci_high": 0.0,
+      "ci_low": -0.02654867256637168,
+      "estimate": -0.008333333333333333,
+      "n": 120,
+      "patients": 35
+    },
+    "R-C": {
+      "ci_high": 0.0,
+      "ci_low": -0.02654867256637168,
+      "estimate": -0.008333333333333333,
+      "n": 120,
+      "patients": 35
+    },
+    "R-W": {
+      "ci_high": 0.025,
+      "ci_low": -0.024390243902439025,
+      "estimate": 0.0,
+      "n": 120,
+      "patients": 35
+    }
+  },
+  "physical_usage": {
+    "actual_invocations": 1209,
+    "known_cached_prompt": 8612267,
+    "known_completion": 252206,
+    "known_prompt": 10392689,
+    "known_usage_invocations": 1198,
+    "physical_charged_tools": 1128,
+    "unknown_by_actual_phase": {
+      "A": 10,
+      "C": 0,
+      "R": 1,
+      "W": 0
+    },
+    "unknown_usage_invocations": 11
+  },
+  "provenance": {
+    "all480_CRC_repeated": false,
+    "external_pins": {
+      "completion_integrity.json": "677aaba828fd29b0546a5b6fc7ed7b1faa691a8d1b6f2e602c8c5113433613d7",
+      "integrity_pins.json": "3cac5e151acd882e40e348d733380a9f354513605349f5f28dc3280c7278bd7b",
+      "official_analysis.json": "8ecfb13c8f5491b6d57dbdb0eb0e3fa0be15addcd2dbbc1a66c206696bff71c4",
+      "supplementary/supplementary.json": "6f6eb89c62b8ce27d1a17a55b07656005b37d8a86c149c8a5f81c1651e8aea49",
+      "terminal_proof.json": "5749508694750f6d2aab0318842ff14fd8fb87d490400f91e21bf722eb82972c"
+    },
+    "raw_top_level_and_journal_SHA_rechecked": true,
+    "runtime_archive_sha256": "6538aaf9a948ede968e5ffbd28b823517226c970e49d5b80b684b012ec7a9b70",
+    "runtime_files_verified": 4,
+    "scorer_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+    "source_archive_sha256": "6a03f78255457d525e9c2dba4d4369728e7247771364fd475fa23e70e4a78e21",
+    "source_files_verified": 226,
+    "source_manifest_sha256": "754fa2c83f0fd768ffa6b88b20e631bc1cd18a48b321b45fe465d16ed4285e0c",
+    "statistics_sha256": "ee7cbdb3778412f94ff450c2c5a0a5b909585751b32556ad11f9977c231a9620"
+  },
+  "runtime": {
+    "completed_SDK_seconds": {
+      "known": 1209,
+      "known_sum": 5677.71584973266,
+      "mean": 4.696208312433962,
+      "median": 2.6035426249727607,
+      "n": 1209,
+      "unknown": 0
+    },
+    "error_SDK_seconds": {
+      "known": 11,
+      "known_sum": 660.6575715839281,
+      "mean": 60.05977923490255,
+      "median": 60.00669437501347,
+      "n": 11,
+      "unknown": 0
+    },
+    "physical_generation_wall_seconds": 10879.880382917007,
+    "reported_physical_phase_cost": {
+      "known_mean": 0.0,
+      "known_median": 0.0,
+      "known_records": 192,
+      "known_sum": 0.0,
+      "records": 480,
+      "unknown_records": 288
+    },
+    "reported_physical_raw_cost": {
+      "known_mean": null,
+      "known_median": null,
+      "known_records": 0,
+      "known_sum": 0,
+      "records": 480,
+      "unknown_records": 480
+    },
+    "sum_A_once_and_followups_seconds": 10351.433206324378
+  },
+  "status": "INDEPENDENT_COMPLETED120_REVIEW_PASS"
+}

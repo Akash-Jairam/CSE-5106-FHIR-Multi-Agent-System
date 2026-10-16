@@ -1,0 +1,44 @@
+[
+  {
+    "B_typed_correct": false,
+    "classification": "witness_explicitly_denies_counterexample",
+    "finding": "The admitted contradiction field says no counterexample is established; B repeats A. Saved numeric source evidence does not independently resolve the empty-reference mismatch.",
+    "mode": "W",
+    "question_id": "249619a43d4c7fe7add673f1"
+  },
+  {
+    "B_typed_correct": false,
+    "classification": "observed_partial_dose_coverage_without_reference_correct_repair",
+    "finding": "Probe establishes two matched requests, only one with a numeric dose quantity. A already discloses partiality. W changes the available sum to null; this remains wrong against the nonempty reference and does not establish the missing dose. R instead releases the same partial numeric A answer without an admitted witness.",
+    "mode": "W",
+    "question_id": "652c13b3ffbd655d3934525f"
+  },
+  {
+    "B_typed_correct": false,
+    "classification": "witness_questions_concept_scope_but_no_changed_answer",
+    "finding": "Witness objects to excluding an Admission Weight record while the question/context specifically targets Daily Weight. B repeats A. The saved list contains the reference numeric value, but the unchanged scorer rejects this list form for a scalar-number question; there is no interface repair.",
+    "mode": "W",
+    "question_id": "a975cd9e522a7abecfd9d1ff"
+  },
+  {
+    "B_typed_correct": false,
+    "classification": "witness_explicitly_denies_counterexample",
+    "finding": "Witness says the observed monthly minimum agrees with A and no counterexample is established. B repeats A. The empty-reference versus retained FHIR-positive mismatch remains unresolved by this inspection.",
+    "mode": "W",
+    "question_id": "eefb26cc5bd74a549f823166"
+  },
+  {
+    "B_typed_correct": false,
+    "classification": "witness_explicitly_denies_counterexample_and_shared_time_scope",
+    "finding": "Witness states that no observation contradicts A empty result, retaining its December interpretation. It does not repair the last-month interpretation identified by the A-error audit; B repeats empty A.",
+    "mode": "W",
+    "question_id": "5cbd34f92a55a8e7c2f987ce"
+  },
+  {
+    "B_typed_correct": false,
+    "classification": "actual_tie_defect_identified_partial_B_repair",
+    "finding": "Probe shows several medications share the earliest timestamp, while A returns only the first sorted record. B expands to six drug names but remains short of the seven-name reference, with one medication-mixture component absent. B is source-bound but typed-wrong. No judge SDK request occurs: three investigator sends are retained and status is judge_malformed_or_coverage_skip with ValueError. Exact ValueError cause is not separately logged. R observes tied starts but produces no complete B before a further probe is refused.",
+    "mode": "W",
+    "question_id": "1d509edaa223f304f5ee3b9f"
+  }
+]

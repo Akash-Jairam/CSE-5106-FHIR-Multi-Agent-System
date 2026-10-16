@@ -1,0 +1,51 @@
+Two-lead semantic-localization audit — 2026-10-16
+Conditional research only; no next design selected.
+This is postterminal research after the repaired V8 completed; it is not V8 prelaunch support.
+
+Scope and conclusion
+This audit used only the two requested primary papers and the official FunCoder repository. Ten author-repository files were inspected in total (nine implementation files plus README); no Self-Debugging author implementation was verified. No local benchmark case, answer, reference program, patient resource, current/aborted V8 trace or inference was inspected or executed. Writes are confined to this ignored research directory.
+
+There is materially relevant evidence beyond checking execution validity or ranking a fixed pool. Self-Debugging reports generation of revised SQL after a semantic comparison; FunCoder generates implementations through dynamic decomposition and later composition. Neither supplies a verified gold-free semantic oracle. Their results do not establish a benefit over our capable, tool-using Single under the same aggregate budget.
+
+1. Self-Debugging: paper evidence and limits
+Teaching Large Language Models to Self-Debug, ICLR 2024:
+https://proceedings.iclr.cc/paper_files/paper/2024/file/2460396f2d0d421885997dd1612ac56b-Paper-Conference.pdf
+Sections 4.1 and Appendix H are the relevant mechanisms.
+
+Spider debugging compares the question's requested return meaning with a clause-level SQL explanation and executed result, then generates revised SQL. It does not receive real-task correctness or unit-test feedback. For Codex, H.4 derives question meaning without task SQL; H.5 explains SQL/results without the task question; H.3 combines them. Chat H.7 instead uses the same conversation, so its interpretations are not mutually blind. Stopping is self-declared correctness or ten debugging turns; later turns add under 0.1 percentage point on Spider. Accepted-paper greedy Codex improves 77.5 to 80.8; GPT-4 improves 73.2 to 73.6. The 81.3-to-84.1 Codex result is the separate 32-initial-sample condition. Codex uses five initial demonstrations and nine debugging demonstrations; chat debugging is zero-shot. TransCoder/MBPP settings provide tests, unlike Spider. Thus execution-grounded explanations can lead to new correct programs without Spider answer labels, but semantic feedback is model judgment, not an oracle. The comparisons do not establish matched total tool/sends/token control against a natural iterative agent.
+
+Author-code boundary
+The official accepted paper, reproducibility statement and author publication page were checked; no author implementation was verified. Therefore no claim is made about actual SDK requests, provider retries, failure accounting, implementation isolation, or paper/code parity. Third-party “self_debug” repositories were not substituted for author code. The arXiv v2 (2023-10-05) is a secondary version pointer; numerical claims above use the accepted paper.
+https://arxiv.org/pdf/2304.05128v2
+https://dennyzhou.github.io/
+
+2. FunCoder: paper evidence and limits
+Divide-and-Conquer Meets Consensus: Unleashing the Power of Functions in Code Generation, NeurIPS 2024:
+https://proceedings.neurips.cc/paper_files/paper/2024/file/7bc4f74e35bcfe8cfe43b0a860786d6a-Paper-Conference.pdf
+
+Divide generates a function implementation and helper stubs; recursive synthesis solves children; Conquer regenerates callers using completed children. This changes generation, rather than merely ranking a fixed whole-program pool. Consensus ranks local implementations using generated inputs. Consensus@11 reuses the Divide candidate alongside ten Conquer candidates. GPT-3.5 HumanEval standard, two-pass without ranking, and Consensus@11 report 68.3, 78.7 and 85.4, with average input-plus-output tokens 886.7, 3343.2 and 5402.0 respectively. The no-ranking ablation is relevant, but compute differs substantially. Known docstring/public examples can filter candidates; hidden evaluation tests are distinct. Generated inputs supply agreement, not semantic truth; generated assertion outputs may themselves be wrong. The reported multi-model results concern code-generation tasks, not matched-cap clinical QA. Recursion, sampling, test execution and retries are not an established fit to our aggregate ceilings.
+
+3. What the pinned author code actually does
+Official repository and inspected commit:
+https://github.com/cometeme/funcoder
+https://github.com/cometeme/funcoder/tree/b6faa6973cd8ceef47320aef14a7167f11ed6963
+Commit timestamp: 2024-12-26T17:00:36Z.
+Exact blob pins and SHA-256 hashes of inspected UTF-8 content are in source_manifest.json.
+
+Generation: gen.py plus dfs_2pass.py dynamically register helper functions, solve their dependencies, and run a second synthesis pass. The original root docstring is restored before that pass. The HumanEval Conquer prompt hides the current function body behind its stub while retaining child implementations and surrounding context; this is a real parent-regeneration boundary, not blindness to the entire solution trajectory. gen_once.py checks code structure/signature and retries malformed generations. Such checks do not prove that decomposition preserves the intended task.
+
+Selection/tests: runner.py executes local candidates on generated tests and returns an existing candidate, with random tie breaking. gen.py rewards output agreement and applies penalties for crashes and supplied unit-test failures. This is not a per-candidate execution-error-to-LLM semantic repair loop. make_test.py can select a sampled implementation as test-generator input; the HumanEval call-test prompt exposes code. Generated tests therefore are not universally derived independently from the requirement. sys_test.py extracts supplied docstring examples. The inspected HumanEval loader passes the task prompt and optional visible tests to generation; its later judge uses hidden tests. This separation was verified only for that inspected path, not every dataset or any external augmentation pipeline.
+
+Requests/cost: openai_gpt_engine.py uses SDK max_retries=1, plus an outer while-loop that retries soft connection/rate/timeout errors without a finite outer attempt limit. Sampling can group or chunk n completions. “Eleven candidates” consequently is not “eleven SDK sends.” Stage-level retries and few-shot backoff add work; missing reported usage can become zero in this code. These semantics must not be imported as our accounting policy. README explicitly cautions that example configurations need not reproduce paper settings; we do not claim paper/code experimental parity.
+
+4. Comparison with designs already tested here
+The following is our interpretation, grounded in the authorized design notes rather than a new local case audit.
+
+Self-Debugging's distinctive element is a comparison between separately represented question semantics and actual program meaning, followed by whole-program revision. V3 already represented question constraints, and V5/V8 already exposed actual programs and execution/source feedback to auxiliary reasoning. Rebranding those operations “backtranslation” would not establish novelty. Conditional input separation and a more direct mismatch-to-regeneration interface are differences worth recognizing, but the paper does not show that our interface burden or shared semantic errors would disappear.
+
+FunCoder's distinctive element is host-managed local synthesis and recomposition, not the existence of a verbal plan, Python helpers, multiple roles, or a majority vote. V4's upfront advice was not executable decomposition, and a capable Single can already define helper functions. Any incremental claim would have to concern the actual generation/composition boundary and resulting alternatives, not agent count. Wrong helper specifications, shared omissions, supplied-example coverage and correlated outputs remain failure modes.
+
+These leads supply evidence that semantic comparison and factorized synthesis can create alternatives in other settings. They do not imply that an available alternative is complementary to our Single, that agreement identifies correctness, or that a repaired answer should replace a valid primary. Self-Debugging's small GPT-4 gain, FunCoder's extra compute, public-example assumptions, and unbounded retry behavior are substantive contrary evidence for direct transfer. Neither establishes model-independent efficacy or clinical-query completeness. Return-type/execution validity is a necessary interface check, not evidence that the requested population, temporal scope, projection, aggregation or ordering was preserved.
+
+No architecture, gate, model, routing rule, or future run is proposed or committed by this packet.
+

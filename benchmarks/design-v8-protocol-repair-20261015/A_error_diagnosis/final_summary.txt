@@ -1,0 +1,77 @@
+Repaired V8: final offline diagnosis of the 23 completed-but-wrong A cases
+
+Official A remains 87/120 correct, 10 terminal errors, and 23 wrong outcomes
+with no terminal error. R’s predeclared advancement gate failed. This analysis
+changes no official result and selects no next architecture.
+
+The 23 primary diagnostic categories are: 6 budget/release outcomes; 4 question
+or computation cases (3 directly established defects plus 1 calendar-convention
+case); 2 output/scorer interface cases; 2 incomplete-field cases; 1 tie/name-
+projection case; 5 domain/mapping ambiguities; and 3 positive held FHIR results
+against empty references. Categories partition cases for reporting, not causal
+identification; secondary mechanisms overlap. Seventeen wrong A outcomes were
+explicit-final and source-bound, demonstrating the limits of citation checks.
+
+The strongest direct defects are unavailable comparison operands encoded false,
+first-hospital scope narrowed to its first ICU, and prescribed quantity replaced
+with product-label strength. The hospital case’s original conversation checks
+correctly name the parent hospital and accept the cited child records; they do
+not establish whole-hospital operand completeness/rank. The candidate snapshot
+check separately reports the ICU. Earlier wording conflating these was corrected.
+
+The two output cases have no extra answer rows containing gold among distractors.
+Case 62 returns exactly [72.5]: a one-element numeric container, with complete
+source-bound execution. Case 112 returns exactly one annotated string in a list,
+containing the computed mean plus month/unit text; it is not an exact scalar
+container. Both are accepted worker shapes but rejected by the scorer’s single-
+reference-row numeric path. Scores are unchanged; no scorer relaxation is proposed.
+
+Exhaustive saved-execution supply addendum
+
+All 34 successful explicit-final execution replies across 22 of these 23 cases
+were scored offline with the unchanged frozen scorer (source SHA recorded in
+the addendum). No generated program was compiled, evaluated or replayed. There
+are 6 typed-correct replies across 3 cases, using the scorer’s 1% relative tolerance:
+- Case 110 / c720: first 120.4 passes against 120.22222222. No original check follows
+  before another execution; later values are wrong and the final release is null.
+- Case 111 / 68ab: four 5312 replies pass against 5337. Original checks after two replies
+  are clean on 32 citations each. Full audit results retain 120 declared evidence
+  citations, so these checks cover a subset only. Repeated executions end at the
+  token boundary and A releases null. This is a real typed-correct execution loss,
+  but a complete automatic source/release check is not demonstrated.
+- Case 113 / 659: first 1000 passes exactly and its following original check validates
+  both declared evidence citations without issues/warnings before any new execution
+  or retrieval. A then rewrites, has a syntax error and releases 20. This is one
+  fully declared-citation-checked within-A regression.
+Thus 3 correct replies have a following clean original check, but only 1 has exact
+full declared-evidence coverage. The initial draft’s exact-number comparison
+missed tolerance-based correctness; this final summary and addendum supersede it.
+Typed correctness is not independent clinical/source ground truth, and selecting
+these executions by reference retrospectively is not an admissible runtime policy.
+
+Operational costs: 16 saved worker/Python errors occur in 9 cases, including 10
+final-schema errors in grouped-output cases. Four source-check refusal events
+occur in 2 cases. No retrieval tool returned an error in this selected set. Six
+outcomes stop at token admission; underlying semantic/source issues can coexist.
+
+Reference uncertainty remains explicit. The LD/Void/specimen cases have apparently
+relevant positive held records against empty references. Unlinked chloride versus
+linked measurements, LOINC versus chart rates, equivalent temperature units, PO
+versus literal ORAL, and ICU intake versus prescribed products expose population
+or mapping contracts that cannot be resolved by score alone. The specimen case
+also plausibly confuses a chemistry analyte with a specimen/microbiology test.
+No reference is declared false. Missing dose/start fields cannot be filled from
+product labels or authoredOn merely to obtain the expected answer. Last-month
+and tied-cardinality conclusions retain their stated convention/contract limits.
+
+Final publication candidates are this file, final_summary_counts.json and
+final_compact_findings.json. Full questions/history/FHIR projections stay in
+ignored local packets. final_findings.json is the detailed corrected per-case
+review; earlier_execution_supply_addendum.json contains every scored execution,
+code hash, original message index and exact source-check coverage. The audit
+script only reads these 23 packets and the hash-verified pure deterministic scorer.
+All original diagnostic drafts and evidence packets are preserved, with corrections
+explicit. final_delivery_sha256.json binds the complete local diagnostic delivery.
+No model, network, FHIR, protected 1397/new-QA access, production/config/frozen-record
+writes or official score changes occurred. Only the authorized ignored directory
+was written.

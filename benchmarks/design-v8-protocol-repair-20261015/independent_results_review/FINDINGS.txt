@@ -1,0 +1,86 @@
+Independent repaired V8 completed120 results and publication readiness
+
+Disposition: PASS for the requested result/provenance/accounting reconciliation;
+the predeclared ADVANCEMENT GATE FAILED. No fresh300 comparison, protected1397
+assessment, main promotion or full run is supported by this result.
+
+Literal external SHA pins verified before scorer import:
+terminal_proof57495086…2972c;completion_integrity677aaba8…613d7;
+official_analysis8ecfb13c…f71c4;integrity_pins3cac5e15…8bd7b;
+supplementary6f6eb89c…aea49. Full literal digests are in verify_results.py.
+Independently verified226 current source-file hashes and exact sourceZIP members,
+4 public runtime-file hashes and exact runtimeZIP members, all five frozenMETA
+hashes, design/study selection, terminal attestation, complete480 first outcomes,
+paired references and immutable A identity. Deep480 gzip ownership/SHA/CRC PASS
+is reused by its external pin; no heavy480-restore/checker/program rerun.
+
+Independent unchanged typed scorer, every first attempt/error retained:
+        n    correct    terminal errors
+A      120      87           10
+W      120      86           10
+R      120      86           11
+C      120      87           10
+All official mechanism counters and10,000-replicate seed5106 question-weighted
+patient-clustered bootstrap objects reproduce exactly. No new scores/labels or
+thresholds are substituted. Fixed R:O0,H0,M0,F1,net−1;corrective patients0 and
+operations0. Required O>=6,net>=4,M+F<=2,>=3patients and>=2operation groups:FAIL.
+W has M1/net−1;C net0. The result shows no recorded source-bound B that corrected
+an A error in this study; it is not an oracle claim about uncomputed alternatives
+or other tasks/patients/models. Source provenance is not semantic correctness.
+
+Physical versus conceptual failure/work accounting:
+- Exactly1209 observed physical SDK attempts:1198 known-usage successes and11
+  unknown-usage errors. All11 chain APITimeoutError→httpx2.ReadTimeout→
+  httpcore2.ReadTimeout; no HTTPstatus returned. No unknown billing is imputed0.
+-10 physical A failures affect all four dependent policy outcomes (40errors).
+  One additional R suffix timeout affects one policy, yielding41 policy errors.
+  Conceptual per-arm unknown usage A10,W10,R11,C10 is NOT41 physical timeouts.
+- Physical A once+suffix known usage:10,392,689 prompt tokens, of which8,612,267
+  cached;252,206 completion;10,644,895 total. Tools charged physically1128.
+- Conceptual totals:A8,117,416 tokens/769 attempts;W9,319,014/982;
+  R9,274,202/973;C8,286,511/792. Summing gives34,997,143 reported tokens and3516
+  conceptual attempts because actual A's prefix is copied four times. Exactly:
+  conceptual_sum = physical_sum +3*A. This is not the actual physical bill and
+  does not predict cache behavior/cost of four separately repeated systems.
+- Monetary cost is unavailable. All120 per-policy reported costs in each arm
+  areNone. The raw physical cost field is unknown on480/480 rows; derived phase
+  cost has192 zero entries and288 unknown entries. Zeros correspond to phases
+  with no admitted charged sends; the zero known subtotal is NOT total expense.
+  No current pricing/invoice data was queried. Known tokens support a qualified
+  later price calculation;11 error usages and invoice/cache policy remain unknown.
+
+Final runtime (different120 cohort/cold local-cache mechanism study):
+Physical generation10879.880s=181.331min=3.022h. Completed SDK intervals5677.716s
+=94.629min, including660.658s=11.011min of timeout intervals. The SDK sum is not
+another independent duration to add to generation wall. A-once and followup
+phase-timer sum10351.433s excludes some recorder/materialization work.
+Conceptual A+suffix mean / median seconds:
+A69.218/55.711;W77.696/66.367;R76.264/65.763;C70.737/56.714.
+R−A mean7.046s(+10.18%). These policy means share the same A; summing all arms
+would duplicate primary time. Generation time includes480 sequential outcomes,
+cache copies, serialization and writes. No architecture-only timing causation or
+comparison with warm-cache fixed300 runtime is asserted.
+
+Publication archive plan and completion crosscheck:
+The exact completion allowlist has506 members:382auditgzip,120primarygzip,
+1 safe provider journal and3 top-level studyJSON. Members total426,893,655bytes;
+largest study_outcomes.json135,475,449bytes. Guard raw_sha256 has1590 entries,
+including private cache proofs:it is NOT the archiveallowlist. Exclude all cache
+pickle files, logs, secret configs, arbitrary siblings and entire-directory ZIPs.
+Root's completed archive is348,733,378bytes,506members,SHA
+2e51e77019b8a958c3a5e79112507d2b977b81505ead560fe7c4be5f2462ef60.
+Independently verified whole archive SHA, central member names/sizes and all
+manifest hashes against the pinned deep-proof snapshot. Root's full member
+roundtrip-SHA verification is reused; CRC/decompression was not repeated.
+Both archive and135MB outcomes member exceed the usual100MiB GitHub file limit.
+Keep raw archive/output ignored and local; publish only reviewed compact
+metadata/results/prose/code plus the archive manifest, not raw clinical/program
+payloads. No archive content is described as synthetic or anonymized by this audit.
+
+Reproduce: env -u FHIR_LOCAL_AZURE_CONFIG -u FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR \
+ .venv/bin/python -IB output/development/v8_postterminal_results_audit_20261016/verify_results.py
+The helper fails before scoring on pin/terminal/source/raw/cohort mismatch,
+loads only the unchanged pure scorer/statistics after those gates, and rechecks
+pins/current source/top-level raw snapshots before its ignored output writes.
+No broader QA CSV/protected questions, secret config, live APIs/models/FHIR,
+program execution, source/runtime/frozen record changes or Git actions occurred.

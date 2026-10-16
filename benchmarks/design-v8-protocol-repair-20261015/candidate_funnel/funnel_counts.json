@@ -1,0 +1,195 @@
+{
+  "C": {
+    "A_wrong_nonfatal": {
+      "actual_aux_send": 0,
+      "any_final_request_rows": 0,
+      "correct_alternative_to_wrong_A": 0,
+      "correct_final_reply_rows": 0,
+      "eligible_observation_rows": 0,
+      "n": 23,
+      "observation_coverage_reasons": {},
+      "probe_rows": 0,
+      "requested_retrievals": 0,
+      "snapshot_created": 16,
+      "source_bound_A": 17,
+      "source_bound_B": 0,
+      "source_bound_B_no_witness": 0,
+      "source_bound_B_with_witness": 0,
+      "source_bound_disagreement": 0,
+      "stops": {
+        "initial probe plus intact final request/judge path unavailable": 16
+      },
+      "successful_final_reply_rows": 0,
+      "unreleased_correct_final_rows": 0,
+      "zero_send_snapshot": 16
+    },
+    "all120": {
+      "actual_aux_send": 10,
+      "any_final_request_rows": 4,
+      "correct_alternative_to_wrong_A": 0,
+      "correct_final_reply_rows": 4,
+      "eligible_observation_rows": 9,
+      "n": 120,
+      "observation_coverage_reasons": {
+        "eligible_or_other": 10
+      },
+      "probe_rows": 10,
+      "requested_retrievals": 1,
+      "snapshot_created": 92,
+      "source_bound_A": 99,
+      "source_bound_B": 4,
+      "source_bound_B_no_witness": 1,
+      "source_bound_B_with_witness": 3,
+      "source_bound_disagreement": 0,
+      "stops": {
+        "None": 3,
+        "initial probe plus intact final request/judge path unavailable": 83,
+        "investigator stopped without a new complete program": 5,
+        "probe plus intact final request/judge path is not reserved": 1
+      },
+      "successful_final_reply_rows": 4,
+      "unreleased_correct_final_rows": 0,
+      "zero_send_snapshot": 82
+    }
+  },
+  "R": {
+    "A_wrong_nonfatal": {
+      "actual_aux_send": 11,
+      "any_final_request_rows": 3,
+      "correct_alternative_to_wrong_A": 0,
+      "correct_final_reply_rows": 0,
+      "eligible_observation_rows": 10,
+      "n": 23,
+      "observation_coverage_reasons": {
+        "complete observation exceeds intact judge bound": 1,
+        "eligible_or_other": 13
+      },
+      "probe_rows": 11,
+      "requested_retrievals": 0,
+      "snapshot_created": 16,
+      "source_bound_A": 17,
+      "source_bound_B": 3,
+      "source_bound_B_no_witness": 3,
+      "source_bound_B_with_witness": 0,
+      "source_bound_disagreement": 0,
+      "stops": {
+        "initial probe plus intact final request/judge path unavailable": 6,
+        "investigator stopped without a new complete program": 6,
+        "probe plus intact final request/judge path is not reserved": 4
+      },
+      "successful_final_reply_rows": 3,
+      "unreleased_correct_final_rows": 0,
+      "zero_send_snapshot": 5
+    },
+    "all120": {
+      "actual_aux_send": 78,
+      "any_final_request_rows": 29,
+      "correct_alternative_to_wrong_A": 0,
+      "correct_final_reply_rows": 25,
+      "eligible_observation_rows": 72,
+      "n": 120,
+      "observation_coverage_reasons": {
+        "complete observation exceeds intact judge bound": 7,
+        "eligible_or_other": 95
+      },
+      "probe_rows": 78,
+      "requested_retrievals": 11,
+      "snapshot_created": 92,
+      "source_bound_A": 99,
+      "source_bound_B": 28,
+      "source_bound_B_no_witness": 8,
+      "source_bound_B_with_witness": 20,
+      "source_bound_disagreement": 0,
+      "stops": {
+        "None": 17,
+        "initial probe plus intact final request/judge path unavailable": 20,
+        "investigator stopped without a new complete program": 30,
+        "probe plus intact final request/judge path is not reserved": 23,
+        "provider request failed": 1,
+        "whole-program/source-check path unavailable": 1
+      },
+      "successful_final_reply_rows": 29,
+      "unreleased_correct_final_rows": 0,
+      "zero_send_snapshot": 14
+    }
+  },
+  "W": {
+    "A_wrong_nonfatal": {
+      "actual_aux_send": 12,
+      "any_final_request_rows": 6,
+      "correct_alternative_to_wrong_A": 0,
+      "correct_final_reply_rows": 0,
+      "eligible_observation_rows": 11,
+      "n": 23,
+      "observation_coverage_reasons": {
+        "complete observation exceeds intact judge bound": 1,
+        "eligible_or_other": 13
+      },
+      "probe_rows": 12,
+      "requested_retrievals": 0,
+      "snapshot_created": 16,
+      "source_bound_A": 17,
+      "source_bound_B": 6,
+      "source_bound_B_no_witness": 0,
+      "source_bound_B_with_witness": 6,
+      "source_bound_disagreement": 2,
+      "stops": {
+        "None": 6,
+        "initial probe plus intact final request/judge path unavailable": 5,
+        "investigator stopped without a new complete program": 1,
+        "probe plus intact final request/judge path is not reserved": 4
+      },
+      "successful_final_reply_rows": 6,
+      "unreleased_correct_final_rows": 0,
+      "zero_send_snapshot": 4
+    },
+    "all120": {
+      "actual_aux_send": 80,
+      "any_final_request_rows": 39,
+      "correct_alternative_to_wrong_A": 0,
+      "correct_final_reply_rows": 31,
+      "eligible_observation_rows": 70,
+      "n": 120,
+      "observation_coverage_reasons": {
+        "complete observation exceeds intact judge bound": 15,
+        "eligible_or_other": 84
+      },
+      "probe_rows": 80,
+      "requested_retrievals": 0,
+      "snapshot_created": 92,
+      "source_bound_A": 99,
+      "source_bound_B": 39,
+      "source_bound_B_no_witness": 4,
+      "source_bound_B_with_witness": 35,
+      "source_bound_disagreement": 4,
+      "stops": {
+        "None": 35,
+        "initial probe plus intact final request/judge path unavailable": 22,
+        "investigator stopped without a new complete program": 24,
+        "probe plus intact final request/judge path is not reserved": 11
+      },
+      "successful_final_reply_rows": 39,
+      "unreleased_correct_final_rows": 0,
+      "zero_send_snapshot": 12
+    }
+  },
+  "wrong_nonfatal_event_counts": {
+    "C": {
+      "native_errors": {},
+      "sourcecheck_issues_nonempty": 0
+    },
+    "R": {
+      "native_errors": {
+        "KeyError: slice(None, 20, None)": 1,
+        "Not run: V8 admission: probe plus intact final request/judge path is not reserved": 4
+      },
+      "sourcecheck_issues_nonempty": 0
+    },
+    "W": {
+      "native_errors": {
+        "Not run: V8 admission: probe plus intact final request/judge path is not reserved": 4
+      },
+      "sourcecheck_issues_nonempty": 0
+    }
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "kind": "COMPACT_OFFLINE_DIAGNOSIS_NO_QUESTIONS_OR_FHIR_PAYLOADS",
+  "official_result_unchanged": true,
+  "counts": {
+    "kind": "OFFLINE_REPAIRED_V8_A_ERROR_DIAGNOSIS",
+    "official_A_n": 120,
+    "official_A_correct": 87,
+    "official_A_terminal_errors": 10,
+    "A_wrong_without_terminal_error": 23,
+    "A_wrong_source_bound": 17,
+    "A_wrong_token_budget_stop": 6,
+    "primary_category_counts": {
+      "missing_or_incomplete_fields": 2,
+      "budget_or_release_failure": 6,
+      "positive_FHIR_vs_empty_reference": 3,
+      "question_or_computation_semantics": 4,
+      "domain_or_mapping_ambiguity": 5,
+      "output_scorer_interface": 2,
+      "tie_cardinality_and_name_projection": 1
+    },
+    "direct_question_code_source_defects_high_confidence": 3,
+    "calendar_convention_dependent_defect": 1,
+    "tie_cardinality_projection_case": 1,
+    "output_interface_cases": 2,
+    "exact_single_scalar_container_case": 1,
+    "single_annotated_string_container_case": 1,
+    "missing_or_incomplete_field_cases": 2,
+    "positive_FHIR_empty_reference_unadjudicated": 3,
+    "other_domain_or_mapping_ambiguity_cases": 5,
+    "cases_with_worker_error_events": 9,
+    "worker_error_events": 16,
+    "worker_final_contract_events": 10,
+    "source_check_issue_events": 4,
+    "cases_with_source_check_issue_events": 2,
+    "retrieval_tool_error_events": 0,
+    "budget_cases_with_successful_final_reply": 5,
+    "budget_cases_with_reference_correct_latest_final_reply": 1,
+    "budget_cases_without_successful_final_reply": 1,
+    "no_official_scores_changed": true,
+    "no_generated_program_execution": true,
+    "no_network_fhir_model_calls": true,
+    "no_protected_or_new_QA_inspected": true,
+    "budget_cases_with_typed_correct_any_successful_final_reply": 2,
+    "all_successful_final_reply_count": 34,
+    "cases_with_any_successful_final_reply": 22,
+    "typed_correct_successful_final_reply_count": 6,
+    "cases_with_typed_correct_earlier_execution": 3,
+    "typed_correct_replies_with_any_following_clean_original_check": 3,
+    "typed_correct_replies_with_exact_full_declared_evidence_clean_original_check": 1,
+    "scorer_source_sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+    "supersedes": "summary_counts.json execution-supply fields (initial exact-number comparison was insufficient)"
+  },
+  "cases": [
+    {
+      "case_index": 6,
+      "question_id": "b0c1e2c1046cc6dad14ddbe4",
+      "category": "missing_or_incomplete_fields",
+      "confidence_and_basis": "established omission; answer3 not independently proven",
+      "A_source_bound": true,
+      "finding": "A requires prescription start; a third named held request lacks that field. Incomplete positive count, not a proven third event date."
+    },
+    {
+      "case_index": 10,
+      "question_id": "45b3c545de90501570505db8",
+      "category": "budget_or_release_failure",
+      "confidence_and_basis": "established operational; missing source facts",
+      "A_source_bound": false,
+      "finding": "No dose/event-start in held matching requests; repeated source-window refusal, then token stop. Reference dose not reconstructed."
+    },
+    {
+      "case_index": 14,
+      "question_id": "a1a26b44387af2430b609395",
+      "category": "budget_or_release_failure",
+      "confidence_and_basis": "established operational; population unresolved",
+      "A_source_bound": false,
+      "finding": "Inspection-only output search consumes token cap; no final artifact and no saved reference-correct sum."
+    },
+    {
+      "case_index": 15,
+      "question_id": "249619a43d4c7fe7add673f1",
+      "category": "positive_FHIR_vs_empty_reference",
+      "confidence_and_basis": "unresolved reference/population alignment",
+      "A_source_bound": true,
+      "finding": "Apparently in-window exact LD lab is positive while reference is empty. Unadjudicated population/reference discrepancy."
+    },
+    {
+      "case_index": 20,
+      "question_id": "0dcdf1950d75981036938d0f",
+      "category": "question_or_computation_semantics",
+      "confidence_and_basis": "high; question+code determinable",
+      "A_source_bound": true,
+      "finding": "Code returns false when operands are unavailable. Clear missingness-versus-comparison error."
+    },
+    {
+      "case_index": 21,
+      "question_id": "5ae7505a2520a19129c81edd",
+      "category": "question_or_computation_semantics",
+      "confidence_and_basis": "high; question+code+held hierarchy determinable",
+      "A_source_bound": true,
+      "finding": "First hospital is narrowed to its first ICU despite held sibling ICUs. Original checks name parent hospital but only validate cited member records; snapshot check separately reports ICU."
+    },
+    {
+      "case_index": 38,
+      "question_id": "652c13b3ffbd655d3934525f",
+      "category": "missing_or_incomplete_fields",
+      "confidence_and_basis": "high incomplete aggregate; unknown missing dose",
+      "A_source_bound": true,
+      "finding": "Available dose sum is released despite a matching request with missing dose. Complete total remains unknown."
+    },
+    {
+      "case_index": 45,
+      "question_id": "fabcb3ee15b98badd66dcd76",
+      "category": "domain_or_mapping_ambiguity",
+      "confidence_and_basis": "established expansion; correctness requires domain contract",
+      "A_source_bound": true,
+      "finding": "Celsius-target clue is expanded to Fahrenheit conversion. Correctness depends on the declared measurement population."
+    },
+    {
+      "case_index": 58,
+      "question_id": "d2063048958d7402567becbf",
+      "category": "domain_or_mapping_ambiguity",
+      "confidence_and_basis": "unresolved record-universe alignment",
+      "A_source_bound": true,
+      "finding": "A includes a higher unlinked chloride record; reference timestamp points to a lower linked record. No grounds to exclude unlinked data from this wording alone."
+    },
+    {
+      "case_index": 62,
+      "question_id": "a975cd9e522a7abecfd9d1ff",
+      "category": "output_scorer_interface",
+      "confidence_and_basis": "high; exact scalar-container mismatch",
+      "A_source_bound": true,
+      "finding": "Exact one-element numeric list [72.5], complete source-bound execution; scalar scorer rejects the container. No extra answer values."
+    },
+    {
+      "case_index": 64,
+      "question_id": "eefb26cc5bd74a549f823166",
+      "category": "positive_FHIR_vs_empty_reference",
+      "confidence_and_basis": "unresolved reference/population alignment",
+      "A_source_bound": true,
+      "finding": "Apparently in-window Void values produce a positive minimum against empty reference. Unadjudicated population/reference discrepancy."
+    },
+    {
+      "case_index": 65,
+      "question_id": "5cbd34f92a55a8e7c2f987ce",
+      "category": "question_or_computation_semantics",
+      "confidence_and_basis": "medium-high; calendar-convention dependent",
+      "A_source_bound": true,
+      "finding": "Code uses current December for last month; retained November weight matches previous-calendar-month interpretation. Calendar convention matters."
+    },
+    {
+      "case_index": 77,
+      "question_id": "26aa4388a8897474b77aa481",
+      "category": "budget_or_release_failure",
+      "confidence_and_basis": "established operational plus mixture-name ambiguity",
+      "A_source_bound": false,
+      "finding": "Mixture/name inspections and a final distinct count exhaust token allowance before release; last computed count still differs from reference."
+    },
+    {
+      "case_index": 79,
+      "question_id": "a46388d3c77f04af56eb9f4a",
+      "category": "budget_or_release_failure",
+      "confidence_and_basis": "established operational; dose representation unresolved",
+      "A_source_bound": false,
+      "finding": "Two indexing errors, then a source-checked quantity differing from reference, followed by budget stop. Ingredient/bag dose representation unresolved."
+    },
+    {
+      "case_index": 80,
+      "question_id": "6033e2bfc3a0657f188b7149",
+      "category": "positive_FHIR_vs_empty_reference",
+      "confidence_and_basis": "likely resource-domain mismatch; not adjudicated gold",
+      "A_source_bound": true,
+      "finding": "Specimen-linked chemistry analyte is treated as specimen-test name; reference empty and held specimen collection dates suggest a different test population."
+    },
+    {
+      "case_index": 81,
+      "question_id": "1d509edaa223f304f5ee3b9f",
+      "category": "tie_cardinality_and_name_projection",
+      "confidence_and_basis": "high tie loss; required cardinality uses benchmark contract",
+      "A_source_bound": true,
+      "finding": "Single first sorted request discards timestamp ties; first-ingredient resolver also truncates mixtures. Required full-set cardinality needs an explicit contract."
+    },
+    {
+      "case_index": 87,
+      "question_id": "9f7246b3b545ea28dc8ff5ad",
+      "category": "domain_or_mapping_ambiguity",
+      "confidence_and_basis": "unresolved event-domain alignment",
+      "A_source_bound": true,
+      "finding": "LOINC vital signs and MIMIC chart rates are combined; the lower LOINC value is real held source. Population contract unresolved."
+    },
+    {
+      "case_index": 106,
+      "question_id": "2dc83d6d0ed121d2f9b4c9ca",
+      "category": "domain_or_mapping_ambiguity",
+      "confidence_and_basis": "likely relation/clinical-domain mismatch",
+      "A_source_bound": true,
+      "finding": "Latest completed ICU MedicationAdministration label is PO Intake; given-versus-prescribed relation and pharmaceutical-product population are unresolved."
+    },
+    {
+      "case_index": 107,
+      "question_id": "89383745e9cd66ac4837c91f",
+      "category": "domain_or_mapping_ambiguity",
+      "confidence_and_basis": "established route expansion; clinical correctness ambiguous",
+      "A_source_bound": true,
+      "finding": "A admits both PO and ORAL; the later PO prescription wins while reference corresponds to literal ORAL. Clinical synonym versus literal route contract is ambiguous."
+    },
+    {
+      "case_index": 110,
+      "question_id": "c72069fe9515604ba1be94c3",
+      "category": "budget_or_release_failure",
+      "confidence_and_basis": "established operational; measurement-domain ambiguity",
+      "A_source_bound": false,
+      "finding": "Earlier executed 120.4 is typed-correct under frozen tolerance but unchecked before overwrite; later wrong recomputation and token exhaustion release null."
+    },
+    {
+      "case_index": 111,
+      "question_id": "68abea0b746f09a1730c8a20",
+      "category": "budget_or_release_failure",
+      "confidence_and_basis": "established operational;25mL source gap unresolved",
+      "A_source_bound": false,
+      "finding": "All four executed 5312 sums are typed-correct under frozen tolerance. Clean manual checks cover only 32 of 120 declared citations; repeated recomputation reaches token cap and releases null."
+    },
+    {
+      "case_index": 112,
+      "question_id": "8ffeebf80d9e33afb70ec3ec",
+      "category": "output_scorer_interface",
+      "confidence_and_basis": "high; annotated single-element mismatch",
+      "A_source_bound": true,
+      "finding": "One formatted string element contains the matching mean plus month/unit annotation; not an exact numeric scalar container and not extra answer rows."
+    },
+    {
+      "case_index": 113,
+      "question_id": "659e84dd2728a7624246c318",
+      "category": "question_or_computation_semantics",
+      "confidence_and_basis": "high; explicit dose field ignored",
+      "A_source_bound": true,
+      "finding": "A correctly executes prescribed quantity, passes an exact 2-citation original check, then unnecessarily rewrites to product-label strength after a syntax failure. One established checked within-A regression."
+    }
+  ],
+  "limits": [
+    "Categories are analyst explanations and overlapping secondary mechanisms, not causal effect estimates. Primary categories partition the23 cases only for readability.",
+    "No independent SQL/source ground-truth adjudication; reference disagreements do not prove reference errors. Source-valid artifacts are not semantic proofs.",
+    "Question/code-determinable defects are explicitly separated from route/unit/record-universe/tie-cardinality assumptions and calendar conventions.",
+    "The two shape cases do not justify relaxing the scorer or changing official accuracy.",
+    "No V9 architecture or implementation is selected by this diagnosis.",
+    "Execution-supply addendum exhaustively scores34 saved successful final replies from these23 cases using the frozen scorer, without re-running generated code.6 replies across3 cases pass; only1 has a following clean check covering all declared execution evidence."
+  ],
+  "supersedes": "compact_findings.json"
+}

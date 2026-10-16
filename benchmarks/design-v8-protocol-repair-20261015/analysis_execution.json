@@ -1,0 +1,48 @@
+{
+  "kind": "completed_v8_postterminal_analysis_execution",
+  "order": [
+    "actual_owned_worker_terminal",
+    "completion",
+    "official",
+    "supplementary",
+    "archive"
+  ],
+  "worker": {
+    "owned_session_id": 29845,
+    "exit_code": 1,
+    "observed_terminal_utc": "2026-10-16T02:55:33+00:00",
+    "exit_semantics": "Runner intentionally returns1 after retaining all480 if any policy outcome failed; state generation_complete_with_errors."
+  },
+  "commands": {
+    "completion": ".venv/bin/python -IB scripts/v8_study_integrity.py completion --record benchmarks/design-v8-protocol-repair-20261015 --pins benchmarks/design-v8-protocol-repair-20261015/integrity_pins.json --pins-sha256 3cac5e151acd882e40e348d733380a9f354513605349f5f28dc3280c7278bd7b --output output/experiments/gpt-6-luna/v8_mechanism_120_protocol_repair_20261015 --terminal-proof benchmarks/design-v8-protocol-repair-20261015/terminal_proof.json --terminal-proof-sha256 5749508694750f6d2aab0318842ff14fd8fb87d490400f91e21bf722eb82972c --report benchmarks/design-v8-protocol-repair-20261015/completion_integrity.json",
+    "official": "FHIR_LOCAL_AZURE_CONFIG='' FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR='' LITELLM_LOCAL_MODEL_COST_MAP=True .venv/bin/python -IB scripts/v8_mechanism_study.py analyze --manifest manifests/v8_mechanism_120_protocol_repair_20261015.json --input output/experiments/gpt-6-luna/v8_mechanism_120_protocol_repair_20261015/study_outcomes.json --output benchmarks/design-v8-protocol-repair-20261015/official_analysis.json --terminal-confirmed",
+    "supplementary": "FHIR_LOCAL_AZURE_CONFIG='' FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR='' LITELLM_LOCAL_MODEL_COST_MAP=True .venv/bin/python -IB benchmarks/design-v8-protocol-repair-20261015/supplementary_plan/supplementary.py --root . --record benchmarks/design-v8-protocol-repair-20261015 --study-output output/experiments/gpt-6-luna/v8_mechanism_120_protocol_repair_20261015 --integrity-report benchmarks/design-v8-protocol-repair-20261015/completion_integrity.json --integrity-sha256 677aaba828fd29b0546a5b6fc7ed7b1faa691a8d1b6f2e602c8c5113433613d7 --terminal-proof benchmarks/design-v8-protocol-repair-20261015/terminal_proof.json --terminal-sha256 5749508694750f6d2aab0318842ff14fd8fb87d490400f91e21bf722eb82972c --pins benchmarks/design-v8-protocol-repair-20261015/integrity_pins.json --pins-sha256 3cac5e151acd882e40e348d733380a9f354513605349f5f28dc3280c7278bd7b --official-analysis benchmarks/design-v8-protocol-repair-20261015/official_analysis.json --official-sha256 8ecfb13c8f5491b6d57dbdb0eb0e3fa0be15addcd2dbbc1a66c206696bff71c4 --destination benchmarks/design-v8-protocol-repair-20261015/supplementary",
+    "archive": ".venv/bin/python -IB output/development/v8_postterminal_recording_20261016/package_completed_study.py"
+  },
+  "completed_owned_sessions": {
+    "completion": {
+      "session_id": 30225,
+      "exit_code": 0
+    },
+    "official": {
+      "exit_code": 0
+    },
+    "supplementary": {
+      "session_id": 48792,
+      "exit_code": 0
+    },
+    "archive": {
+      "session_id": 65107,
+      "exit_code": 0
+    }
+  },
+  "result_sha256": {
+    "terminal_proof.json": "5749508694750f6d2aab0318842ff14fd8fb87d490400f91e21bf722eb82972c",
+    "completion_integrity.json": "677aaba828fd29b0546a5b6fc7ed7b1faa691a8d1b6f2e602c8c5113433613d7",
+    "official_analysis.json": "8ecfb13c8f5491b6d57dbdb0eb0e3fa0be15addcd2dbbc1a66c206696bff71c4",
+    "supplementary/supplementary.json": "6f6eb89c62b8ce27d1a17a55b07656005b37d8a86c149c8a5f81c1651e8aea49",
+    "raw_archive_manifest.json": "5428a6d1f2f00d09885b92bbbad0504244453479ec715457c033082c3b018476",
+    "recording/package_completed_study.py": "915f022c489ec466bfc10b51b96169914efd837d4653664cb63b3ca909e4f873"
+  },
+  "scope": "Saved complete attempts only. No retries, replacements, program execution, FHIR access, protected1397 scoring, or source/runtime change during analysis."
+}

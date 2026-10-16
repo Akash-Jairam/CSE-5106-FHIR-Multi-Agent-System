@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "audit": "v8_semantic_localization_followup_20261016",
+  "status": "postterminal_conditional_primary_source_review_only_not_V8_prelaunch_support",
+  "source_count_papers": 2,
+  "author_repository_files_inspected": 10,
+  "author_implementation_files_inspected": 9,
+  "self_debugging": {
+    "official_paper": "https://proceedings.iclr.cc/paper_files/paper/2024/file/2460396f2d0d421885997dd1612ac56b-Paper-Conference.pdf",
+    "version": "ICLR 2024 accepted; numerical claims use this version",
+    "supplementary_version": "https://arxiv.org/pdf/2304.05128v2",
+    "author_publication_page": "https://dennyzhou.github.io/",
+    "official_author_code_verified": false,
+    "implementation_files_inspected": 0,
+    "actual_sdk_sends_retries_budget": "not verified; no official implementation located"
+  },
+  "funcoder": {
+    "official_paper": "https://proceedings.neurips.cc/paper_files/paper/2024/file/7bc4f74e35bcfe8cfe43b0a860786d6a-Paper-Conference.pdf",
+    "repository": "https://github.com/cometeme/funcoder",
+    "commit": "b6faa6973cd8ceef47320aef14a7167f11ed6963",
+    "commit_timestamp": "2024-12-26T17:00:36Z",
+    "tree": "2029643f4d69393feaa73fe6b17c639670c12699",
+    "paper_code_experimental_parity": "not claimed; repository README cautions sample configurations need not match paper",
+    "inspected_files": [
+      {
+        "path": "README.md",
+        "git_blob_sha": "d1feda1f90e2c8b080a0660bf935d12c31cb696c",
+        "sha256_utf8": "4e44a630e1fb4b0b711d2aec9e005752b6fa70e2a71d77c5440d679fb02aca9b",
+        "bytes_utf8": 9064,
+        "url": "https://github.com/cometeme/funcoder/blob/b6faa6973cd8ceef47320aef14a7167f11ed6963/README.md"
+      },
+      {
+        "path": "funcoder/methods/funcoder/gen.py",
+        "git_blob_sha": "b77b98d00cc74126acb26acfbbc8418162b23349",
+        "sha256_utf8": "4d4fe856dd2d441659fa131b51d66a844f5e166a01312db58809141a78cda2e6",
+        "bytes_utf8": 9932,
+        "url": "https://github.com/cometeme/funcoder/blob/b6faa6973cd8ceef47320aef14a7167f11ed6963/funcoder/methods/funcoder/gen.py"
+      },
+      {
+        "path": "funcoder/methods/funcoder/dfs_2pass.py",
+        "git_blob_sha": "208d9678a47fb4204beac61dfd06896bbcb468ba",
+        "sha256_utf8": "8ba1e973944e5529048db5e6a99c5ef4076ca75a895c9c2e8d22699db51badb8",
+        "bytes_utf8": 7914,
+        "url": "https://github.com/cometeme/funcoder/blob/b6faa6973cd8ceef47320aef14a7167f11ed6963/funcoder/methods/funcoder/dfs_2pass.py"
+      },
+      {
+        "path": "funcoder/methods/funcoder/gen_once.py",
+        "git_blob_sha": "0f3c18ec508f97b00cbaf3a1f47f99d6989bd666",
+        "sha256_utf8": "01df3b8a60ce104bed215e6ebaf8522686b8a3ad82e10e897723d05bde3787c1",
+        "bytes_utf8": 9664,
+        "url": "https://github.com/cometeme/funcoder/blob/b6faa6973cd8ceef47320aef14a7167f11ed6963/funcoder/methods/funcoder/gen_once.py"
+      },
+      {
+        "path": "funcoder/methods/funcoder/runner.py",
+        "git_blob_sha": "3db79eaa59ce6c2271803494d7782b797c8686d3",
+        "sha256_utf8": "87087e01f070f9e531c5e83e0033e2ee35401c7dd8335c43e3dfbd7f235cb5aa",
+        "bytes_utf8": 8151,
+        "url": "https://github.com/cometeme/funcoder/blob/b6faa6973cd8ceef47320aef14a7167f11ed6963/funcoder/methods/funcoder/runner.py"
+      },
+      {
+        "path": "funcoder/methods/funcoder/make_test.py",
+        "git_blob_sha": "86c4843b2c2dced32a284e50c64a109fd2c351ee",
+        "sha256_utf8": "b4af6045b507a2ff632e6f32d6ae5be667d2bbe4e00cc9bd26e7995d0ef40c2f",
+        "bytes_utf8": 11099,
+        "url": "https://github.com/cometeme/funcoder/blob/b6faa6973cd8ceef47320aef14a7167f11ed6963/funcoder/methods/funcoder/make_test.py"
+      },
+      {
+        "path": "funcoder/llm/openai_gpt_engine.py",
+        "git_blob_sha": "127cbf3003463fba894fe57abc0a90d570c0e1a0",
+        "sha256_utf8": "d91c44a4d90112abe9df499eb24f7aa5bf4c275331c45180b01a02e3bdae69ff",
+        "bytes_utf8": 12232,
+        "url": "https://github.com/cometeme/funcoder/blob/b6faa6973cd8ceef47320aef14a7167f11ed6963/funcoder/llm/openai_gpt_engine.py"
+      },
+      {
+        "path": "funcoder/methods/funcoder/prompts/sys_test.py",
+        "git_blob_sha": "0b98aaad6fccbf9cdaa7b96242a4726d4e7d6269",
+        "sha256_utf8": "50d883c084a4fcbd9180a73f451e25988b6535c839d22987675a13a8d2b9100a",
+        "bytes_utf8": 5415,
+        "url": "https://github.com/cometeme/funcoder/blob/b6faa6973cd8ceef47320aef14a7167f11ed6963/funcoder/methods/funcoder/prompts/sys_test.py"
+      },
+      {
+        "path": "funcoder/methods/funcoder/prompts/humaneval.py",
+        "git_blob_sha": "20af9ab2c0a5de337ede11c0446111e5a57cf50c",
+        "sha256_utf8": "b23ac09c9e2e2d1f5ed95395a84ef67780e6a3872ebec587ef718efc5adf7674",
+        "bytes_utf8": 25895,
+        "url": "https://github.com/cometeme/funcoder/blob/b6faa6973cd8ceef47320aef14a7167f11ed6963/funcoder/methods/funcoder/prompts/humaneval.py"
+      },
+      {
+        "path": "funcoder/eval/tasks/humaneval.py",
+        "git_blob_sha": "50facab0dddb255e52ee0a697a48887d11afd40d",
+        "sha256_utf8": "2c8a9184c7870547155f7cdeb7e3250a07e7e018a75ede8f2ed55db9317b801b",
+        "bytes_utf8": 5288,
+        "url": "https://github.com/cometeme/funcoder/blob/b6faa6973cd8ceef47320aef14a7167f11ed6963/funcoder/eval/tasks/humaneval.py"
+      }
+    ]
+  },
+  "constraints": {
+    "no_benchmark_cases_answers_references_sql_patient_resources": true,
+    "no_current_or_aborted_v8_trace_access": true,
+    "no_scoring_inference_model_fhir_or_azure_calls": true,
+    "no_source_runtime_test_manifest_formal_record_git_changes": true,
+    "write_scope": "output/research/v8_semantic_localization_followup_20261016/",
+    "no_next_design_decision_or_implementation": true
+  },
+  "hash_limits": "Git blob SHA values are returned by the official GitHub file API; sha256_utf8 hashes its decoded text as inspected. PDF bytes were not locally archived or hashed; exact accepted-paper URLs identify those versions. No third-party source code is bundled."
+}
