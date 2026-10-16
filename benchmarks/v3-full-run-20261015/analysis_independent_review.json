@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "reviewed_at_utc": "2026-10-16T06:14:59.427275+00:00",
+  "reviewer": "independent audit_v3 agent",
+  "status": "approved_no_blocking_defects_in_core_requirements",
+  "analysis_source_sha256": "24874a5483fe2354d1121c654eec547faead74fba8216371e70fe5f28965b798",
+  "checks": [
+    "Final report requires exactly2931 accepted questions per each of3arms, with frozen identities and complete acceptance ledger.",
+    "Only selected first runtime-clean terminal attempts feed primary per-question, aggregate and paired accuracy/time/cost.",
+    "Failed runtime attempts and retry history cannot enter primary measurements.",
+    "Totals, means, sample standard deviations, median, p95 and missing counts use consistent accepted-only denominators.",
+    "Cached-input prices and observed-only incomplete measurement statistics are correctly labeled.",
+    "Paired outcomes align identical question IDs and patient clusters.",
+    "Operational wall time retains original start, separately from accepted latency.",
+    "Official OpenAI prices adopted for Azure are explicitly estimates, separate from unverified billing."
+  ],
+  "paid_calls": 0,
+  "partial_accuracy_scoring": false,
+  "live_source_or_process_changes": false,
+  "benchmark_status": "Still running; this review does not establish completion."
+}
