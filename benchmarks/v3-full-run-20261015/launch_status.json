@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "design_name": "v3",
+  "status": "running",
+  "at_utc": "2026-10-16T04:17:57.739951+00:00",
+  "run_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015",
+  "branch": "runs/v3-full-run",
+  "implementation_commit": "ba9984e",
+  "inference_source_freeze": "780f9bc",
+  "expected_questions_per_arm": 2931,
+  "expected_total_accepted": 8793,
+  "schedule": "v3 first; matched single-agent and direct-LLM controls next",
+  "offline_tests_passed": 106,
+  "tests_notes": "80 frozen v3 tests plus26 new supervisor/analysis tests; provider/model/FHIR requests mocked",
+  "monitor_automation_id": "monitor-v3-full-benchmark",
+  "monitor_interval_minutes": 15,
+  "artifacts": {
+    "baseline_decision.txt": {
+      "sha256": "a94ede8dba8d32c2c3919a8a51ed34bfdbd4c323325b4e72ffa4a9d7e32d8de6",
+      "bytes": 1352
+    },
+    "launch.json": {
+      "sha256": "61471fb8def065af7f78deeedd710d51f4a60160e171b08ff32663a87512c146",
+      "bytes": 1189
+    },
+    "preflight.json": {
+      "sha256": "dcc42f85a4307605189e752df8606fbffa5681f578b9b39b0c3eaed1be593c9a",
+      "bytes": 4031
+    },
+    "pricing.json": {
+      "sha256": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6",
+      "bytes": 805
+    },
+    "protocol.txt": {
+      "sha256": "ac4d8add2533654773d1464e315be8bb5aa2313b52b2b079050da782a71b0648",
+      "bytes": 5988
+    },
+    "provider_profile.json": {
+      "sha256": "7cfcb5b96ef17973bcf6c2e1a384898b0d7c2895362b52e162b74e513b5a793b",
+      "bytes": 916
+    },
+    "run_manifest.json": {
+      "sha256": "83d1778e6d4d806bc720c6f2814679c1f1109dc298ec18f708004497cc35edb6",
+      "bytes": 11415
+    },
+    "runtime_sources.zip": {
+      "sha256": "4cd91257b2a5479e317d0e8099b0da24a53c35ccf6f691fe9f36027bd03a310a",
+      "bytes": 6822
+    },
+    "split.json": {
+      "sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+      "bytes": 26453
+    }
+  }
+}
