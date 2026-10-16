@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "at_utc": "2026-10-16T11:56:22.368576+00:00",
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "milestone": "More than two thirds of v3 cohort and more than 2000 runtime-clean questions",
+  "accepted": {
+    "direct_llm": 0,
+    "single_agent": 0,
+    "multi_agent": 2038
+  },
+  "expected_questions_per_arm": 2931,
+  "v3_fraction": 0.6953258273626749,
+  "remaining_v3_questions": 893,
+  "counts": {
+    "direct_llm": {
+      "raw_attempts": 0,
+      "runtime_failures": 0,
+      "intrinsic_errors": 0
+    },
+    "single_agent": {
+      "raw_attempts": 0,
+      "runtime_failures": 0,
+      "intrinsic_errors": 0
+    },
+    "multi_agent": {
+      "raw_attempts": 2100,
+      "runtime_failures": 62,
+      "intrinsic_errors": 0
+    }
+  },
+  "active": {
+    "multi_agent": {
+      "pid": 57429,
+      "round": 22,
+      "checkpointed_in_batch": 4,
+      "seconds_since_checkpoint": 15
+    }
+  },
+  "original_start_at": "2026-10-16T04:16:57+00:00",
+  "latest_resume_at": "2026-10-16T11:17:06+00:00",
+  "operational_elapsed_seconds": 27565.368576,
+  "operational_time_notice": "Wall clock includes pauses, retries and concurrent execution; primary question latency and cost include accepted attempts only. No partial accuracy is reported.",
+  "classifier_version": "v3-infrastructure-v3",
+  "manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+  "inference_code_fingerprint": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "frozen_sources_and_provider_files_verified": true,
+  "latest_sealed_batch_validation": {
+    "version": 1,
+    "at_utc": "2026-10-16T11:55:55.378602+00:00",
+    "status": "IN_PROGRESS_NOT_FINAL",
+    "arm": "multi_agent",
+    "sealed_round": 21,
+    "accepted": 2038,
+    "expected_questions_per_arm": 2931,
+    "counts": {
+      "raw_attempts": 2100,
+      "runtime_failures": 62,
+      "intrinsic_errors": 0
+    },
+    "batch_classifications": {
+      "accepted": 99,
+      "runtime": 1
+    },
+    "batch_seal_result_identity_input_and_audits_verified": 100,
+    "canonical_ledger_ids_match": true,
+    "all_runtime_questions_scheduled": true,
+    "accepted_rerun_overlap": 0,
+    "supervisor_pid": 55406,
+    "active": {
+      "multi_agent": {
+        "pid": 57429,
+        "round": 22,
+        "checkpointed_in_batch": 2,
+        "seconds_since_checkpoint": 0
+      }
+    },
+    "native_live_states": {
+      "55406": "Ss",
+      "57429": "Ss"
+    },
+    "successful_terminal_state_verified": false,
+    "native_liveness_required": true,
+    "supervisor_phase": "running",
+    "analysis_return_code": null,
+    "attention": false,
+    "provider_error_events": [
+      {
+        "http_status": null,
+        "duration_seconds": 60.010001749993535,
+        "exception_types": [
+          "openai.APITimeoutError",
+          "httpx2.ReadTimeout",
+          "httpcore2.ReadTimeout"
+        ]
+      }
+    ],
+    "manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+    "correctness_used_for_scheduling": false,
+    "verifier_sha256": "d6d08e33411bf362525088db5bf65ba410a012adab8afa583bb31a77e2bca856"
+  },
+  "accepted_artifact_sha256": {
+    "full_multi_agent.json": "05fa9a1b7f62d1117645ce2d06687fed85651c0e96806f483119e3839f3a39c5",
+    "acceptance.json": "c5201ad92740f86683c69724c5b85c5c0b8b26c74f511ae2338f5e038c5068a7"
+  },
+  "controls": "Queued after v3; fresh single-agent and direct-LLM matched runs required before final analysis",
+  "correctness_used_for_scheduling": false
+}
