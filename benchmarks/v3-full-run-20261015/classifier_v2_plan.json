@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "planned_at_utc": "2026-10-16T04:49:14.491005+00:00",
+  "status": "planned_before_round2_boundary",
+  "scope": "Operational retry classification and resume timing; v3 inference unchanged",
+  "reason": "Actual contract/audit parsers retain extra model-generated error fields; generic recursive diagnostic scanning could mistake these for host infrastructure failures. Existing135attempt snapshot has zero affected decisions.",
+  "changes": [
+    "Exclude model-owned contract and audit subtrees; keep actual host and phase failures.",
+    "Increment classifier version to v3-infrastructure-v2 and apply it uniformly to all saved raw attempts.",
+    "Preserve original run started_at through resume and record resumed_at so operational wall time includes the complete benchmark."
+  ],
+  "boundary": "Let round2 complete and seal; terminate only owned supervisor30955 before a new batch launches, then apply reviewed patch, preserve original manifest, record old/new hashes, and resume the same run.",
+  "inference_code_hash": "3d526978bb2a3eaec72b85d9ce8025b9db9debb45453378d06a832b30afe964e",
+  "private_patch_sha256": "46f3440c03e201aaa7070bbfb181f2db67c4869a7ccb4c681fdd9463df1f2974",
+  "old_runner_sha256": "2c0145c576d518da66ea5a7b41db102201a4de1843bcc8d8e2493131c729a59f",
+  "tests": {
+    "run": 29,
+    "failed": 0,
+    "errors": 0,
+    "location": "/private/tmp/v3-classifier-v2-patch/tests_summary.json"
+  },
+  "selection_rule": "No correctness or gold answer is consulted; preserve completed outcomes and compare old/new runtime classifications for every saved attempted row."
+}
