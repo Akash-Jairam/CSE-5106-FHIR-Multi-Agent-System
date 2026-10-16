@@ -26,7 +26,6 @@ MICRO_TEST_RE = re.compile(r"\b(microbiolog\w*|culture|specimen)\b", re.I)
 # T001 is mostly phrased "count of distinct" / "number of unique", not "how many distinct"
 DISTINCT_COUNT_RE = re.compile(r"\b(how many|count|number|total)\b.*\b(different|distinct|unique)\b", re.I)
 DOSE_RE = re.compile(r"\b(doses?|how much|amount|total|volume)\b", re.I)
-ADMISSION_TYPE_RE = re.compile(r"\badmission type\b", re.I)
 
 
 def _minute(value):
@@ -241,30 +240,10 @@ def check_timestamp_field(question, draft, workspace, **_):
     return []
 
 
-def check_admission_type_field(question, draft, workspace, **_):
-    """Admission type is the Encounter priority coding, not class."""
-    if not ADMISSION_TYPE_RE.search(question):
-        return []
-    items = _answer_items(draft.get("answer"))
-    if not items:
-        return []
-    encounters = workspace.get("Encounter", [])
-    priorities = set()
-    for encounter in encounters:
-        for coding in (encounter.get("priority") or {}).get("coding") or []:
-            for key in ("display", "code"):
-                if coding.get(key):
-                    priorities.add(_norm(coding[key]))
-    if not priorities or all(_norm(item) in priorities for item in items):
-        return []
-    cited = _cited(draft, workspace, "Encounter")
-    return [_issue("admission_type_field", "wrong_field", "analysis",
-                   "the answer is not a priority coding of a retrieved Encounter; admission type is Encounter.priority, "
-                   "not Encounter.class", record=f"Encounter/{(cited or encounters)[0]['id']}", field="priority")]
-
-
+# No admission-type check: live calibration found the reference admission_type nowhere in the
+# released Encounter (label_issue), so a repair could only spend budget (exposure.md).
 CHECKS = (check_tie_completeness, check_specimen_field, check_organism_children,
-          check_distinct_count_scope, check_timestamp_field, check_admission_type_field)
+          check_distinct_count_scope, check_timestamp_field)
 
 
 def convention_issues(question, draft, workspace, complete_types=()):

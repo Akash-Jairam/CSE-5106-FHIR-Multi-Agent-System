@@ -46,8 +46,11 @@ on the released draft with no model call:
   distinct_count_scope  distinct counts over prescriptions require the complete
                         MedicationRequest type, not a preview;
   timestamp_field       "when" answers must equal validityPeriod.start or the parent
-                        test effectiveDateTime at minute precision;
-  admission_type_field  admission type must come from Encounter.priority coding.
+                        test effectiveDateTime at minute precision.
+
+No admission-type check: live calibration (scripts/validate_convention_checks_live.py)
+found the reference admission_type in no field of the released Encounter, so the
+check fired on every reference-shaped answer and a repair could not succeed.
 
 Issues use the controller vocabulary (missing_evidence -> retrieval; wrong_field /
 wrong_filter -> analysis) and are routed by the existing FixedController to exactly

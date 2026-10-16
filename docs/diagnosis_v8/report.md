@@ -95,10 +95,11 @@ system prompt (which previously had none). This is a fairness fix, not a
 team mechanism; it changes the code fingerprint, so every arm re-runs fresh.
 
 **V8** (`agent/convention_verified_agent.py`, strategy `multi_agent_v8`) keeps
-V3d unchanged through its release decision, then runs six deterministic
+V3d unchanged through its release decision, then runs five deterministic
 checks on the released draft (`agent/convention_checks.py`: tie
 completeness, specimen field, organism children, distinct-count scope,
-timestamp field, admission-type field). Each issue is expressed in the
+timestamp field; an admission-type check was dropped after live
+calibration showed its reference is not representable). Each issue is expressed in the
 controller vocabulary (`missing_evidence` → retrieval, `wrong_field` /
 `wrong_filter` → analysis) and routed by the existing `FixedController` to
 exactly one repair that continues the solver's own trajectory (45k tokens /

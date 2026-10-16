@@ -86,8 +86,9 @@ verifier that does not share the analyst's priors**:
    - `tie_completeness`: a first/last-by-time selection over drugs/routes
      must return every distinct value sharing the selected timestamp.
    - `verbatim_code`: specimen-name questions must answer a display string
-     that occurs verbatim in a cited `Specimen.type`; admission-type answers
-     must come from `Encounter.priority`, not `Encounter.class`.
+     that occurs verbatim in a cited `Specimen.type`. (An admission-type
+     check was dropped after live calibration: the reference string is not
+     in the released Encounter; see `exposure.md`.)
    - `timestamp_field`: a "when" answer over prescriptions / microbiology must
      equal `validityPeriod.start` / the parent test `effectiveDateTime` of a
      cited record (minute precision).

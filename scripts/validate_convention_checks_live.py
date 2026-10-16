@@ -45,7 +45,7 @@ PREVIEW_IDS = 32
 # The check each template's audited failure should trigger, and its question gate.
 EXPECTED_CHECK = {
     "T054": "specimen_field", "T051": "tie_completeness", "T052": "tie_completeness",
-    "T001": "distinct_count_scope", "T043": "admission_type_field", "T055": "organism_children",
+    "T001": "distinct_count_scope", "T055": "organism_children",
     "T064": "timestamp_field", "T073": "timestamp_field",
 }
 GATES = {
@@ -55,7 +55,6 @@ GATES = {
     "organism_children": lambda q: bool(cc.ORGANISM_RE.search(q)),
     "distinct_count_scope": lambda q: bool(cc.DISTINCT_COUNT_RE.search(q) and cc.DRUG_RE.search(q)),
     "timestamp_field": lambda q: bool(cc.WHEN_RE.match(q)),
-    "admission_type_field": lambda q: bool(cc.ADMISSION_TYPE_RE.search(q)),
 }
 
 

@@ -154,14 +154,11 @@ class CountAndCodedFieldChecksTest(unittest.TestCase):
                                            draft("2150-01-02 13:00:00", "MedicationRequest/rx1"),
                                            {"MedicationRequest": [rx]}), [])
 
-    def test_admission_type_is_the_priority_coding(self):
+    def test_admission_type_is_not_checked(self):
         encounter = {"resourceType": "Encounter", "id": "h1", "class": {"code": "EMER", "display": "emergency"},
                      "priority": {"coding": [{"code": "UR", "display": "urgent"}]}}
-        bad = convention_issues("What was the admission type of the last hospital visit?",
-                                draft("emergency", "Encounter/h1", field="class.display"), {"Encounter": [encounter]})
-        self.assertEqual([(i["check"], i["type"]) for i in bad], [("admission_type_field", "wrong_field")])
         self.assertEqual(convention_issues("What was the admission type of the last hospital visit?",
-                                           draft("Urgent", "Encounter/h1", field="priority.coding[0].display"),
+                                           draft("emergency", "Encounter/h1", field="class.display"),
                                            {"Encounter": [encounter]}), [])
 
     def test_null_drafts_and_unrelated_questions_never_fire(self):
