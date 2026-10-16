@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "applied_at_utc": "2026-10-16T05:00:07.588675+00:00",
+  "status": "applied_at_sealed_batch_boundary",
+  "scope": "Operational classifier and resume timing only",
+  "classifier_before": "v3-infrastructure-v1",
+  "classifier_after": "v3-infrastructure-v2",
+  "old_manifest_sha256": "83d1778e6d4d806bc720c6f2814679c1f1109dc298ec18f708004497cc35edb6",
+  "new_manifest_sha256": "7cb5d3d64d2131d7ae5cba055810fa8b965732d3b8ce1bf91781493736a7fbe6",
+  "source_changes": {
+    "scripts/v3_full_run.py": {
+      "before": "2c0145c576d518da66ea5a7b41db102201a4de1843bcc8d8e2493131c729a59f",
+      "after": "2b9883e1f3a4e8b21714aecd725aec2df2c0cb0ed57e877a1524e586d20c4430"
+    }
+  },
+  "approved_patch_sha256": "0fde9a43655a1f631c1aed628763713848c030ffe2814ffe0949b87e2eeb6082",
+  "inference_code_fingerprint_before": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "inference_code_fingerprint_after": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "benchmark_dependency_context": "PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python",
+  "historical_frozen_files_verified": 134,
+  "historical_frozen_mismatches": [],
+  "settings_provider_dependencies_inputs_and_arm_identities_unchanged": true,
+  "boundary": {
+    "round": 2,
+    "completed_attempts": 200,
+    "unique_accepted_questions": 198,
+    "runtime_attempts": 2,
+    "all_classifier_decisions_equivalent": true,
+    "replay_sha256": "bda6b9098b144460f3ccb9b03f2f296014ae78b921dc519efb6b610bbf5c84df",
+    "sealed_batch_sha256": "8ef80b08dd9955bcdb1c6422033fb42ceafa56bbfc8c1499604bd2f7c8abb78d"
+  },
+  "applied_tests": {
+    "command": "PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python -m unittest tests.test_v3_full_run tests.test_v3_full_analysis -v",
+    "run": 33,
+    "failures": 0,
+    "errors": 0,
+    "exit_code": 0,
+    "model_and_network_calls": "mocked"
+  },
+  "selection": "First runtime-clean terminal attempt, independent of correctness; all old raw results and seals preserved.",
+  "original_start_at": "2026-10-16T04:16:57+00:00",
+  "planned_pause_receipt": "planned_boundary_pause.json",
+  "fingerprint_context_correction": "The earlier prospective plan used a different dependency context. The benchmark identity fingerprint above matches the original run manifest and exact installed versions; source invariance holds in both contexts."
+}

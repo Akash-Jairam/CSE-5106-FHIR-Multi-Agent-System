@@ -27,7 +27,7 @@ from scripts.full_benchmark import atomic_json, dataset_cohort, file_sha256, ite
 from scripts.audit_store import restore_result_audit, ARTIFACT_PATTERN
 
 ARMS = {"direct_llm": "direct_llm", "single_agent": "single_agent", "multi_agent": "multi_agent_v3"}
-CLASSIFIER_VERSION = "v3-infrastructure-v1"
+CLASSIFIER_VERSION = "v3-infrastructure-v2"
 RUNTIME = re.compile(
     r"timed?\s*out|time[ -]?out|(?:HTTP(?:StatusError)?[ :]*|status(?:_code| code)?[ =:]*|error code[ :]*)(?:408|429|50[0234]|52[024])\b|"
     r"(?:^|\()(?:408|429|50[0234]) (?:Client|Server) Error|bad gateway|EXCEPTION: Empty or None output\.|"
@@ -59,7 +59,7 @@ def diagnostic_errors(value, path="revision"):
     """Collect explicit error fields, excluding prose, answers and executable code."""
     if isinstance(value, dict):
         for key, child in value.items():
-            if key in {"answer", "agent_answer", "draft", "primary", "final", "code", "content", "messages", "trace"}:
+            if key in {"answer", "agent_answer", "draft", "primary", "final", "code", "content", "messages", "trace", "contract", "audit"}:
                 continue
             location = f"{path}.{key}"
             if key == "reason" and isinstance(child, str) and child.startswith("targeted check failed:"):
@@ -83,6 +83,28 @@ def diagnostic_errors(value, path="revision"):
     elif isinstance(value, list):
         for index, child in enumerate(value):
             yield from diagnostic_errors(child, f"{path}[{index}]")
+
+
+def intrinsic_tool_validation(error):
+    """Recognize fixed host validation templates before examining echoed values.
+
+    Tool names and argument keys are model-controlled, so their spelling cannot
+    establish that an actual timeout or network request occurred.
+    """
+    fixed = {"Arguments must be a JSON object", "Unsupported FHIR resource type",
+             "A non-empty FHIR resource ID is required", "Retrieve only the patient identified in this question",
+             "citations must be a list", "mode must be auto, inspect, or final", "timeout must be positive"}
+    if error in fixed:
+        return True
+    tools = (r"(?:get_resources_by_patient_fhir_id|get_resources_by_resource_id|"
+             r"get_all_resources_by_patient_fhir_id|execute_python_code|check_fields|fhir_request_get)")
+    return bool(re.fullmatch(
+        r"Unknown arguments: [\s\S]+|Tool '[\s\S]*' is not available to this role|"
+        rf"(?:TypeError: )?{tools}\(\) got an unexpected keyword argument '[\s\S]+'|"
+        rf"(?:TypeError: )?{tools}\(\) missing [1-9][0-9]* required (?:positional|keyword-only) arguments?: [\s\S]+|"
+        r"(?:JSONDecodeError: )?(?:Expecting (?:value|property name enclosed in double quotes|',' delimiter|':' delimiter)|"
+        r"Unterminated string starting at|Invalid control character at|Extra data|Invalid \\escape|Invalid \\uXXXX escape)"
+        r": line [1-9][0-9]* column [1-9][0-9]* \(char [0-9]+\)", error))
 
 
 def classify_attempt(row, audit_dir=None):
@@ -121,17 +143,23 @@ def classify_attempt(row, audit_dir=None):
                 if "python" in str(message.get("name", "")).lower() and not re.match(
                         r"^Python (?:execution exceeded [0-9.]+ seconds$|sandbox (?:unavailable:|worker failed$)|execution failed:)", error):
                     continue
+                if intrinsic_tool_validation(error):
+                    continue
                 signals.append((location, error))
                 if "python" not in str(message.get("name", "")).lower() and not (RUNTIME.search(error) or INTRINSIC.search(error)):
                     external_unknown.append(location)
-    runtime_paths = [path for path, error in signals if RUNTIME.search(error) and not re.match(
+    ambiguous_arguments = [path for path, error in signals if not intrinsic_tool_validation(error) and re.fullmatch(
+        r"(?:Max retries exceeded: )?(?:TypeError: )?[A-Za-z_][A-Za-z0-9_.<>]*\(\) got an unexpected keyword argument '[\s\S]+'", error)]
+    if ambiguous_arguments:
+        return {"status": "attention", "reason": "unclassified_argument_failure", "diagnostic_paths": ambiguous_arguments}
+    runtime_paths = [path for path, error in signals if not intrinsic_tool_validation(error) and RUNTIME.search(error) and not re.match(
         r"^(?:KeyError|IndexError|ValueError|TypeError|NameError|SyntaxError|ZeroDivisionError):", error)]
     if runtime_paths:
         return {"status": "runtime", "reason": "allowlisted_infrastructure_failure", "diagnostic_paths": runtime_paths}
     ambiguous_host = [path for path, error in signals if error.startswith("targeted check failed:") and "HTTPError" in error]
     if external_unknown or ambiguous_host:
         return {"status": "attention", "reason": "unclassified_external_failure", "diagnostic_paths": external_unknown + ambiguous_host}
-    if top and not INTRINSIC.search(top):
+    if top and not (INTRINSIC.search(top) or intrinsic_tool_validation(top)):
         return {"status": "attention", "reason": "unclassified_terminal_error", "error_sha256": hashlib.sha256(top.encode()).hexdigest()}
     if latency is None:
         # A crashed outer invocation has no attempt latency; do not invent it.
@@ -405,7 +433,7 @@ def stop_signal(signum, frame):
 
 
 def compact_state(state):
-    return {key: state.get(key) for key in ("phase", "heartbeat_at", "supervisor_pid", "started_at", "finished_at",
+    return {key: state.get(key) for key in ("phase", "heartbeat_at", "supervisor_pid", "started_at", "resumed_at", "finished_at",
             "questions_per_arm", "accepted", "counts", "active", "attention", "reason", "safe_message", "analysis_return_code")}
 
 
@@ -424,8 +452,12 @@ def run_supervisor(directory, manifest, patients, resume=False, classifier=class
         raise ValueError("This run already has an active supervisor")
     children, logs, batches, progress = {}, {}, {}, {}
     awake = None
-    state = {"version": 1, "supervisor_pid": os.getpid(), "started_at": utc_now(),
+    prior_state_path = directory / "supervisor_state.json"
+    prior_state = json.loads(prior_state_path.read_text()) if resume and prior_state_path.exists() else {}
+    state = {"version": 1, "supervisor_pid": os.getpid(), "started_at": prior_state.get("started_at") or utc_now(),
              "phase": "starting", "questions_per_arm": len(patients), "active": {}, "attention": False}
+    if resume:
+        state["resumed_at"] = utc_now()
     manifest_hash = file_sha256(directory / "run_manifest.json")
     handlers = {sig: signal.signal(sig, stop_signal) for sig in (signal.SIGINT, signal.SIGTERM)}
     try:
