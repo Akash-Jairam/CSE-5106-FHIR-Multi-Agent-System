@@ -1,0 +1,1915 @@
+{
+  "scope": "Sealed V3 round-0002 accepted-attempt measurement QA only; no accuracy/scoring",
+  "questions": 100,
+  "runtime_clean_selection_verified_against_sealed_boundary_evidence": true,
+  "raw_result_sha256": "39328c2ee65022e48b208abdce044850a35b8114f0ffd59a4f909ce2701ee1d5",
+  "seal_sha256": "8ef80b08dd9955bcdb1c6422033fb42ceafa56bbfc8c1499604bd2f7c8abb78d",
+  "frozen_pricing_sha256": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6",
+  "rates_per_million_tokens": {
+    "input": 0.1,
+    "cached_input": 0.01,
+    "output": 0.5
+  },
+  "latency_sum_seconds_exact": "2224.163",
+  "estimated_cost_usd_exact": "0.51863178",
+  "token_totals": {
+    "prompt": 5633019,
+    "completion": 130569,
+    "total": 5763588,
+    "cached_prompt": 1221718,
+    "repeated_prompt": 4457464,
+    "llm_calls": 628
+  },
+  "reported_provider_cost_counts": {
+    "unknown": 100
+  },
+  "phase_variants": {
+    "contract > solver > audit": 93,
+    "contract > solver": 7
+  },
+  "phase_totals": {
+    "contract": {
+      "observations": 100,
+      "tokens": 145315,
+      "tool_calls": 0,
+      "with_diagnostics": 0
+    },
+    "solver": {
+      "observations": 100,
+      "tokens": 5199281,
+      "tool_calls": 544,
+      "with_diagnostics": 2
+    },
+    "audit": {
+      "observations": 93,
+      "tokens": 418992,
+      "tool_calls": 0,
+      "with_diagnostics": 0
+    }
+  },
+  "independent_latency": {
+    "total": 2224.163,
+    "mean": 22.24163,
+    "median": 19.3095,
+    "p95": 42.226449999999986,
+    "stdev": 13.191449072770396,
+    "min": 5.93,
+    "max": 77.891
+  },
+  "analysis_latency": {
+    "n": 100,
+    "observed_n": 100,
+    "missing_n": 0,
+    "total": 2224.163,
+    "mean": 22.24163,
+    "median": 19.3095,
+    "p95": 42.226449999999986,
+    "stdev": 13.191449072770396,
+    "min": 5.93,
+    "max": 77.891,
+    "observed_only": {
+      "total": 2224.163,
+      "mean": 22.24163,
+      "median": 19.3095,
+      "p95": 42.226449999999986,
+      "stdev": 13.191449072770396,
+      "min": 5.93,
+      "max": 77.891
+    }
+  },
+  "independent_estimated_cost": {
+    "total": 0.51863178,
+    "mean": 0.0051863178,
+    "median": 0.0040698999999999996,
+    "p95": 0.014054083499999998,
+    "stdev": 0.003996730469839895,
+    "min": 0.00053647,
+    "max": 0.01611423
+  },
+  "analysis_estimated_cost": {
+    "n": 100,
+    "observed_n": 100,
+    "missing_n": 0,
+    "total": 0.51863178,
+    "mean": 0.0051863178,
+    "median": 0.0040699,
+    "p95": 0.014054083499999998,
+    "stdev": 0.003996730469839895,
+    "min": 0.00053647,
+    "max": 0.01611423,
+    "observed_only": {
+      "total": 0.51863178,
+      "mean": 0.0051863178,
+      "median": 0.0040699,
+      "p95": 0.014054083499999998,
+      "stdev": 0.003996730469839895,
+      "min": 0.00053647,
+      "max": 0.01611423
+    }
+  },
+  "issues": [],
+  "measurements_reconciled": true,
+  "persisted_ledger_observation": {
+    "persisted_accepted_count": 98,
+    "supervisor_reconstructed_accepted_count": 198,
+    "round2_entries_missing_from_persisted_ledger": 100,
+    "interpretation": "Boundary pause before persistence; resumed supervisor reconstructs sealed rows for scheduling and persists them when next batch finishes."
+  },
+  "accuracy_scoring_performed": false,
+  "reference_answer_values_used": false,
+  "per_question_measurements": [
+    {
+      "question_id": "0544bc6c320c47d80b7b3c78",
+      "latency_seconds": 23.887,
+      "estimated_cost_usd": "0.01235825",
+      "analysis_estimated_cost_usd": 0.01235825,
+      "tokens": {
+        "prompt": 129510,
+        "completion": 1510,
+        "total": 131020,
+        "cached_prompt": 14975,
+        "llm_calls": 9
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "06c9202911fa52427beba085",
+      "latency_seconds": 14.446,
+      "estimated_cost_usd": "0.00172958",
+      "analysis_estimated_cost_usd": 0.0017295799999999999,
+      "tokens": {
+        "prompt": 31510,
+        "completion": 1007,
+        "total": 32517,
+        "cached_prompt": 21388,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0814561e80d18ee7b5e8e214",
+      "latency_seconds": 16.572,
+      "estimated_cost_usd": "0.00387671",
+      "analysis_estimated_cost_usd": 0.0038767100000000007,
+      "tokens": {
+        "prompt": 41628,
+        "completion": 1129,
+        "total": 42757,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "081ba7feccd490013f102984",
+      "latency_seconds": 33.505,
+      "estimated_cost_usd": "0.01611423",
+      "analysis_estimated_cost_usd": 0.01611423,
+      "tokens": {
+        "prompt": 170678,
+        "completion": 2777,
+        "total": 173455,
+        "cached_prompt": 26023,
+        "llm_calls": 12
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0845eda9197d9666e0b3a017",
+      "latency_seconds": 23.814,
+      "estimated_cost_usd": "0.00393071",
+      "analysis_estimated_cost_usd": 0.0039307100000000005,
+      "tokens": {
+        "prompt": 41688,
+        "completion": 1225,
+        "total": 42913,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0874a8eb9ae4f8b6bb50a1d4",
+      "latency_seconds": 33.527,
+      "estimated_cost_usd": "0.00521593",
+      "analysis_estimated_cost_usd": 0.0052159300000000006,
+      "tokens": {
+        "prompt": 55816,
+        "completion": 1467,
+        "total": 57283,
+        "cached_prompt": 12213,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "08777eb92c5be85c5613f0dd",
+      "latency_seconds": 10.219,
+      "estimated_cost_usd": "0.00163839",
+      "analysis_estimated_cost_usd": 0.0016383900000000002,
+      "tokens": {
+        "prompt": 19444,
+        "completion": 592,
+        "total": 20036,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "08ae61222ba27e2b2592fc0d",
+      "latency_seconds": 17.247,
+      "estimated_cost_usd": "0.00227671",
+      "analysis_estimated_cost_usd": 0.00227671,
+      "tokens": {
+        "prompt": 25208,
+        "completion": 1213,
+        "total": 26421,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "08b21636e8a003182b06159f",
+      "latency_seconds": 8.753,
+      "estimated_cost_usd": "0.00101129",
+      "analysis_estimated_cost_usd": 0.00101129,
+      "tokens": {
+        "prompt": 13298,
+        "completion": 567,
+        "total": 13865,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "08bd537529e959a773c05e95",
+      "latency_seconds": 14.724,
+      "estimated_cost_usd": "0.00366411",
+      "analysis_estimated_cost_usd": 0.0036641100000000004,
+      "tokens": {
+        "prompt": 40782,
+        "completion": 873,
+        "total": 41655,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "08e4e46ffbf10a71b11cc538",
+      "latency_seconds": 33.128,
+      "estimated_cost_usd": "0.01476345",
+      "analysis_estimated_cost_usd": 0.014763450000000001,
+      "tokens": {
+        "prompt": 161466,
+        "completion": 2415,
+        "total": 163881,
+        "cached_prompt": 28785,
+        "llm_calls": 12
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0901f19617fd97688d40bbbd",
+      "latency_seconds": 22.19,
+      "estimated_cost_usd": "0.00636825",
+      "analysis_estimated_cost_usd": 0.00636825,
+      "tokens": {
+        "prompt": 69345,
+        "completion": 1563,
+        "total": 70908,
+        "cached_prompt": 14975,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "090b965f222b18444e2a1020",
+      "latency_seconds": 21.323,
+      "estimated_cost_usd": "0.00585053",
+      "analysis_estimated_cost_usd": 0.0058505300000000005,
+      "tokens": {
+        "prompt": 62022,
+        "completion": 1495,
+        "total": 63517,
+        "cached_prompt": 12213,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "090c2ad4771d1fc8adaea4ae",
+      "latency_seconds": 14.993,
+      "estimated_cost_usd": "0.00528433",
+      "analysis_estimated_cost_usd": 0.00528433,
+      "tokens": {
+        "prompt": 58870,
+        "completion": 993,
+        "total": 59863,
+        "cached_prompt": 12213,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0925d99c93fdf4626caf71cc",
+      "latency_seconds": 12.955,
+      "estimated_cost_usd": "0.00295487",
+      "analysis_estimated_cost_usd": 0.0029548700000000005,
+      "tokens": {
+        "prompt": 28528,
+        "completion": 911,
+        "total": 29439,
+        "cached_prompt": 3927,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "09315d12007c47ae3fb400b6",
+      "latency_seconds": 36.176,
+      "estimated_cost_usd": "0.00947598",
+      "analysis_estimated_cost_usd": 0.00947598,
+      "tokens": {
+        "prompt": 93648,
+        "completion": 2211,
+        "total": 95859,
+        "cached_prompt": 11048,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver"
+      ]
+    },
+    {
+      "question_id": "09469e7ae520d7c2a28ad15f",
+      "latency_seconds": 18.586,
+      "estimated_cost_usd": "0.00418109",
+      "analysis_estimated_cost_usd": 0.00418109,
+      "tokens": {
+        "prompt": 41681,
+        "completion": 1230,
+        "total": 42911,
+        "cached_prompt": 6689,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0980045acad692ba2a8996db",
+      "latency_seconds": 11.167,
+      "estimated_cost_usd": "0.00199699",
+      "analysis_estimated_cost_usd": 0.00199699,
+      "tokens": {
+        "prompt": 22035,
+        "completion": 791,
+        "total": 22826,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "098b1301820b7d581a339d0f",
+      "latency_seconds": 16.203,
+      "estimated_cost_usd": "0.00411161",
+      "analysis_estimated_cost_usd": 0.004111610000000001,
+      "tokens": {
+        "prompt": 43562,
+        "completion": 1212,
+        "total": 44774,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "09b0a7c875a861f6dca89576",
+      "latency_seconds": 24.424,
+      "estimated_cost_usd": "0.00806728",
+      "analysis_estimated_cost_usd": 0.00806728,
+      "tokens": {
+        "prompt": 80751,
+        "completion": 1973,
+        "total": 82724,
+        "cached_prompt": 11048,
+        "llm_calls": 8
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "09b1b086d491d385b6744dd6",
+      "latency_seconds": 41.975,
+      "estimated_cost_usd": "0.00610925",
+      "analysis_estimated_cost_usd": 0.00610925,
+      "tokens": {
+        "prompt": 67940,
+        "completion": 1326,
+        "total": 69266,
+        "cached_prompt": 14975,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "09c4726f77bd8073eeb8d985",
+      "latency_seconds": 35.644,
+      "estimated_cost_usd": "0.0147742",
+      "analysis_estimated_cost_usd": 0.014774200000000001,
+      "tokens": {
+        "prompt": 151201,
+        "completion": 1794,
+        "total": 152995,
+        "cached_prompt": 13810,
+        "llm_calls": 10
+      },
+      "phase_names": [
+        "contract",
+        "solver"
+      ]
+    },
+    {
+      "question_id": "09f8601bdd6e63b61b06c516",
+      "latency_seconds": 10.147,
+      "estimated_cost_usd": "0.00106139",
+      "analysis_estimated_cost_usd": 0.00106139,
+      "tokens": {
+        "prompt": 13184,
+        "completion": 690,
+        "total": 13874,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0a0992495803104da30af972",
+      "latency_seconds": 18.102,
+      "estimated_cost_usd": "0.00398001",
+      "analysis_estimated_cost_usd": 0.00398001,
+      "tokens": {
+        "prompt": 41286,
+        "completion": 1404,
+        "total": 42690,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0a36ca6e9f221dc69fc7f8de",
+      "latency_seconds": 22.866,
+      "estimated_cost_usd": "0.00651065",
+      "analysis_estimated_cost_usd": 0.006510650000000001,
+      "tokens": {
+        "prompt": 69314,
+        "completion": 1854,
+        "total": 71168,
+        "cached_prompt": 14975,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0a403bb61217529f94970734",
+      "latency_seconds": 17.957,
+      "estimated_cost_usd": "0.00385451",
+      "analysis_estimated_cost_usd": 0.0038545100000000002,
+      "tokens": {
+        "prompt": 41581,
+        "completion": 1094,
+        "total": 42675,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0a43e2fe814473ab9035db70",
+      "latency_seconds": 41.313,
+      "estimated_cost_usd": "0.01306466",
+      "analysis_estimated_cost_usd": 0.01306466,
+      "tokens": {
+        "prompt": 169246,
+        "completion": 1229,
+        "total": 170475,
+        "cached_prompt": 49716,
+        "llm_calls": 19
+      },
+      "phase_names": [
+        "contract",
+        "solver"
+      ]
+    },
+    {
+      "question_id": "0a5e5b2f22a73ebf9ddd7a3a",
+      "latency_seconds": 10.982,
+      "estimated_cost_usd": "0.00137197",
+      "analysis_estimated_cost_usd": 0.0013719700000000001,
+      "tokens": {
+        "prompt": 13864,
+        "completion": 678,
+        "total": 14542,
+        "cached_prompt": 3927,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0a6429bfa48cdb76d66bf9a6",
+      "latency_seconds": 9.429,
+      "estimated_cost_usd": "0.00121435",
+      "analysis_estimated_cost_usd": 0.0012143499999999999,
+      "tokens": {
+        "prompt": 9812,
+        "completion": 676,
+        "total": 10488,
+        "cached_prompt": 1165,
+        "llm_calls": 3
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0a7229f1e72f42ee2dc14404",
+      "latency_seconds": 15.647,
+      "estimated_cost_usd": "0.00224589",
+      "analysis_estimated_cost_usd": 0.0022458900000000004,
+      "tokens": {
+        "prompt": 22394,
+        "completion": 1217,
+        "total": 23611,
+        "cached_prompt": 6689,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0a8c46b684e72300d29c18aa",
+      "latency_seconds": 19.483,
+      "estimated_cost_usd": "0.00650005",
+      "analysis_estimated_cost_usd": 0.00650005,
+      "tokens": {
+        "prompt": 72418,
+        "completion": 1212,
+        "total": 73630,
+        "cached_prompt": 14975,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0a966abcccedcc3a0964e05e",
+      "latency_seconds": 8.495,
+      "estimated_cost_usd": "0.00157587",
+      "analysis_estimated_cost_usd": 0.00157587,
+      "tokens": {
+        "prompt": 15758,
+        "completion": 707,
+        "total": 16465,
+        "cached_prompt": 3927,
+        "llm_calls": 3
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0ad44ecce7e9c2eea3028673",
+      "latency_seconds": 20.929,
+      "estimated_cost_usd": "0.00624445",
+      "analysis_estimated_cost_usd": 0.00624445,
+      "tokens": {
+        "prompt": 68147,
+        "completion": 1555,
+        "total": 69702,
+        "cached_prompt": 14975,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0ae32bee1adc6a16d66b16de",
+      "latency_seconds": 17.761,
+      "estimated_cost_usd": "0.00161251",
+      "analysis_estimated_cost_usd": 0.00161251,
+      "tokens": {
+        "prompt": 19931,
+        "completion": 940,
+        "total": 20871,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0af1a06bcce4aacbc5a936f4",
+      "latency_seconds": 13.119,
+      "estimated_cost_usd": "0.00384916",
+      "analysis_estimated_cost_usd": 0.0038491600000000003,
+      "tokens": {
+        "prompt": 41569,
+        "completion": 876,
+        "total": 42445,
+        "cached_prompt": 8286,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0b01e88a1ff2627ccad33628",
+      "latency_seconds": 10.394,
+      "estimated_cost_usd": "0.00139709",
+      "analysis_estimated_cost_usd": 0.0013970900000000001,
+      "tokens": {
+        "prompt": 16226,
+        "completion": 753,
+        "total": 16979,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0b0a39c4b7112434084d3daa",
+      "latency_seconds": 10.5,
+      "estimated_cost_usd": "0.00108289",
+      "analysis_estimated_cost_usd": 0.00108289,
+      "tokens": {
+        "prompt": 13474,
+        "completion": 675,
+        "total": 14149,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0b519b394a591392e5d6f8e3",
+      "latency_seconds": 24.16,
+      "estimated_cost_usd": "0.00532135",
+      "analysis_estimated_cost_usd": 0.005321350000000001,
+      "tokens": {
+        "prompt": 58306,
+        "completion": 1677,
+        "total": 59983,
+        "cached_prompt": 14975,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0b9e619bdb576876f002d49a",
+      "latency_seconds": 36.081,
+      "estimated_cost_usd": "0.01313243",
+      "analysis_estimated_cost_usd": 0.01313243,
+      "tokens": {
+        "prompt": 142810,
+        "completion": 2387,
+        "total": 145197,
+        "cached_prompt": 26023,
+        "llm_calls": 11
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0bc993a64b3b18610af5e89f",
+      "latency_seconds": 12.668,
+      "estimated_cost_usd": "0.00135339",
+      "analysis_estimated_cost_usd": 0.0013533899999999999,
+      "tokens": {
+        "prompt": 15304,
+        "completion": 850,
+        "total": 16154,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0bef44d46b407af716e48911",
+      "latency_seconds": 23.446,
+      "estimated_cost_usd": "0.00719237",
+      "analysis_estimated_cost_usd": 0.00719237,
+      "tokens": {
+        "prompt": 81097,
+        "completion": 1358,
+        "total": 82455,
+        "cached_prompt": 17737,
+        "llm_calls": 8
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0bf8b08208180cf560844cba",
+      "latency_seconds": 14.559,
+      "estimated_cost_usd": "0.00232891",
+      "analysis_estimated_cost_usd": 0.00232891,
+      "tokens": {
+        "prompt": 25645,
+        "completion": 1230,
+        "total": 26875,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0c5849747818dd64e3090cd8",
+      "latency_seconds": 14.685,
+      "estimated_cost_usd": "0.00158541",
+      "analysis_estimated_cost_usd": 0.00158541,
+      "tokens": {
+        "prompt": 20415,
+        "completion": 789,
+        "total": 21204,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0c6cdc444ee911941bfd23f0",
+      "latency_seconds": 19.238,
+      "estimated_cost_usd": "0.00645395",
+      "analysis_estimated_cost_usd": 0.006453950000000001,
+      "tokens": {
+        "prompt": 71377,
+        "completion": 1328,
+        "total": 72705,
+        "cached_prompt": 14975,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0c85596eb9a5ce81b6fb531c",
+      "latency_seconds": 11.953,
+      "estimated_cost_usd": "0.00129259",
+      "analysis_estimated_cost_usd": 0.0012925900000000001,
+      "tokens": {
+        "prompt": 15776,
+        "completion": 634,
+        "total": 16410,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0c93a24758fe815a4f4bf747",
+      "latency_seconds": 35.643,
+      "estimated_cost_usd": "0.00416221",
+      "analysis_estimated_cost_usd": 0.004162210000000001,
+      "tokens": {
+        "prompt": 42883,
+        "completion": 1449,
+        "total": 44332,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0cd11d35e8ac3515e3c55d6c",
+      "latency_seconds": 40.276,
+      "estimated_cost_usd": "0.0072614",
+      "analysis_estimated_cost_usd": 0.0072614,
+      "tokens": {
+        "prompt": 77663,
+        "completion": 1476,
+        "total": 79139,
+        "cached_prompt": 13810,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver"
+      ]
+    },
+    {
+      "question_id": "0ce9c8a93ef40fa209454a71",
+      "latency_seconds": 49.171,
+      "estimated_cost_usd": "0.01152343",
+      "analysis_estimated_cost_usd": 0.01152343,
+      "tokens": {
+        "prompt": 130970,
+        "completion": 1537,
+        "total": 132507,
+        "cached_prompt": 26023,
+        "llm_calls": 11
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0ceee1a85a040c4d57c27a09",
+      "latency_seconds": 22.464,
+      "estimated_cost_usd": "0.00608706",
+      "analysis_estimated_cost_usd": 0.00608706,
+      "tokens": {
+        "prompt": 59168,
+        "completion": 1832,
+        "total": 61000,
+        "cached_prompt": 8286,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0cf19476dc727db127ab20bf",
+      "latency_seconds": 35.319,
+      "estimated_cost_usd": "0.01067906",
+      "analysis_estimated_cost_usd": 0.010679059999999999,
+      "tokens": {
+        "prompt": 117177,
+        "completion": 1900,
+        "total": 119077,
+        "cached_prompt": 22096,
+        "llm_calls": 12
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d012e621517a4059d3caf10",
+      "latency_seconds": 28.962,
+      "estimated_cost_usd": "0.00786871",
+      "analysis_estimated_cost_usd": 0.00786871,
+      "tokens": {
+        "prompt": 89457,
+        "completion": 2033,
+        "total": 91490,
+        "cached_prompt": 23261,
+        "llm_calls": 10
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d0fa264d945b5ef90978c92",
+      "latency_seconds": 9.387,
+      "estimated_cost_usd": "0.00128397",
+      "analysis_estimated_cost_usd": 0.00128397,
+      "tokens": {
+        "prompt": 13019,
+        "completion": 671,
+        "total": 13690,
+        "cached_prompt": 3927,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d22269bdd7bfa8481b101b5",
+      "latency_seconds": 73.676,
+      "estimated_cost_usd": "0.00402819",
+      "analysis_estimated_cost_usd": 0.00402819,
+      "tokens": {
+        "prompt": 40852,
+        "completion": 1090,
+        "total": 41942,
+        "cached_prompt": 6689,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d22f4703425e474ebd63580",
+      "latency_seconds": 37.362,
+      "estimated_cost_usd": "0.00714127",
+      "analysis_estimated_cost_usd": 0.007141270000000001,
+      "tokens": {
+        "prompt": 80171,
+        "completion": 1441,
+        "total": 81612,
+        "cached_prompt": 17737,
+        "llm_calls": 8
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d3343e3e64231d00abab91e",
+      "latency_seconds": 9.299,
+      "estimated_cost_usd": "0.00136689",
+      "analysis_estimated_cost_usd": 0.0013668900000000002,
+      "tokens": {
+        "prompt": 16399,
+        "completion": 658,
+        "total": 17057,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d3f767c99e8d250fc86ba71",
+      "latency_seconds": 14.656,
+      "estimated_cost_usd": "0.00203959",
+      "analysis_estimated_cost_usd": 0.00203959,
+      "tokens": {
+        "prompt": 19551,
+        "completion": 1373,
+        "total": 20924,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d4db28074f3b1bafc59af7e",
+      "latency_seconds": 20.199,
+      "estimated_cost_usd": "0.00557543",
+      "analysis_estimated_cost_usd": 0.00557543,
+      "tokens": {
+        "prompt": 58626,
+        "completion": 1624,
+        "total": 60250,
+        "cached_prompt": 12213,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d61464fe9f411c1b299ffef",
+      "latency_seconds": 21.261,
+      "estimated_cost_usd": "0.00673105",
+      "analysis_estimated_cost_usd": 0.006731050000000001,
+      "tokens": {
+        "prompt": 73768,
+        "completion": 1404,
+        "total": 75172,
+        "cached_prompt": 14975,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d67d0933db06596007b915d",
+      "latency_seconds": 33.514,
+      "estimated_cost_usd": "0.01456373",
+      "analysis_estimated_cost_usd": 0.01456373,
+      "tokens": {
+        "prompt": 159433,
+        "completion": 1925,
+        "total": 161358,
+        "cached_prompt": 26023,
+        "llm_calls": 12
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d68d613cbc5bfb69833795a",
+      "latency_seconds": 7.568,
+      "estimated_cost_usd": "0.00063347",
+      "analysis_estimated_cost_usd": 0.00063347,
+      "tokens": {
+        "prompt": 8009,
+        "completion": 372,
+        "total": 8381,
+        "cached_prompt": 3927,
+        "llm_calls": 3
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d6abd33276d5170877ee1fa",
+      "latency_seconds": 25.023,
+      "estimated_cost_usd": "0.00539065",
+      "analysis_estimated_cost_usd": 0.00539065,
+      "tokens": {
+        "prompt": 60454,
+        "completion": 1386,
+        "total": 61840,
+        "cached_prompt": 14975,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d74b2ee638041bc581f98ec",
+      "latency_seconds": 33.544,
+      "estimated_cost_usd": "0.01402726",
+      "analysis_estimated_cost_usd": 0.01402726,
+      "tokens": {
+        "prompt": 150589,
+        "completion": 1914,
+        "total": 152503,
+        "cached_prompt": 22096,
+        "llm_calls": 9
+      },
+      "phase_names": [
+        "contract",
+        "solver"
+      ]
+    },
+    {
+      "question_id": "0d7f97f7f014369165ccb406",
+      "latency_seconds": 77.891,
+      "estimated_cost_usd": "0.00923779",
+      "analysis_estimated_cost_usd": 0.009237790000000001,
+      "tokens": {
+        "prompt": 96172,
+        "completion": 2931,
+        "total": 99103,
+        "cached_prompt": 20499,
+        "llm_calls": 9
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0d923876f67a35e78f8044b8",
+      "latency_seconds": 38.882,
+      "estimated_cost_usd": "0.01040804",
+      "analysis_estimated_cost_usd": 0.01040804,
+      "tokens": {
+        "prompt": 111926,
+        "completion": 1911,
+        "total": 113837,
+        "cached_prompt": 19334,
+        "llm_calls": 8
+      },
+      "phase_names": [
+        "contract",
+        "solver"
+      ]
+    },
+    {
+      "question_id": "0d93e83a24f730a575941764",
+      "latency_seconds": 31.053,
+      "estimated_cost_usd": "0.01242671",
+      "analysis_estimated_cost_usd": 0.01242671,
+      "tokens": {
+        "prompt": 134587,
+        "completion": 2123,
+        "total": 136710,
+        "cached_prompt": 23261,
+        "llm_calls": 10
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0dac4285b866c55eacef22d7",
+      "latency_seconds": 16.496,
+      "estimated_cost_usd": "0.00262191",
+      "analysis_estimated_cost_usd": 0.00262191,
+      "tokens": {
+        "prompt": 27835,
+        "completion": 1378,
+        "total": 29213,
+        "cached_prompt": 9451,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0dbcca2edb8dc4ada9f1ae3a",
+      "latency_seconds": 19.281,
+      "estimated_cost_usd": "0.00637091",
+      "analysis_estimated_cost_usd": 0.0063709100000000005,
+      "tokens": {
+        "prompt": 66220,
+        "completion": 1199,
+        "total": 67419,
+        "cached_prompt": 9451,
+        "llm_calls": 7
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0dcdf1950d75981036938d0f",
+      "latency_seconds": 24.334,
+      "estimated_cost_usd": "0.00266063",
+      "analysis_estimated_cost_usd": 0.00266063,
+      "tokens": {
+        "prompt": 30003,
+        "completion": 1519,
+        "total": 31522,
+        "cached_prompt": 12213,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0de3b7f259a662ea8dea4d2b",
+      "latency_seconds": 20.133,
+      "estimated_cost_usd": "0.00292573",
+      "analysis_estimated_cost_usd": 0.00292573,
+      "tokens": {
+        "prompt": 32789,
+        "completion": 1492,
+        "total": 34281,
+        "cached_prompt": 12213,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0df69b82de6a35ad5bdec3d3",
+      "latency_seconds": 22.709,
+      "estimated_cost_usd": "0.00771177",
+      "analysis_estimated_cost_usd": 0.007711770000000001,
+      "tokens": {
+        "prompt": 84596,
+        "completion": 1697,
+        "total": 86293,
+        "cached_prompt": 17737,
+        "llm_calls": 8
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0e13e0edf9b3f935d475fa33",
+      "latency_seconds": 22.604,
+      "estimated_cost_usd": "0.00431227",
+      "analysis_estimated_cost_usd": 0.004312270000000001,
+      "tokens": {
+        "prompt": 51266,
+        "completion": 1564,
+        "total": 52830,
+        "cached_prompt": 17737,
+        "llm_calls": 8
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0e38c574dc705f0c26a2aa69",
+      "latency_seconds": 13.051,
+      "estimated_cost_usd": "0.00280069",
+      "analysis_estimated_cost_usd": 0.00280069,
+      "tokens": {
+        "prompt": 28392,
+        "completion": 1127,
+        "total": 29519,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0e38c978a69e475449c84fee",
+      "latency_seconds": 5.93,
+      "estimated_cost_usd": "0.00053647",
+      "analysis_estimated_cost_usd": 0.00053647,
+      "tokens": {
+        "prompt": 7144,
+        "completion": 351,
+        "total": 7495,
+        "cached_prompt": 3927,
+        "llm_calls": 3
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0e4bb22781a9b0bc9dedffb9",
+      "latency_seconds": 25.292,
+      "estimated_cost_usd": "0.00528802",
+      "analysis_estimated_cost_usd": 0.00528802,
+      "tokens": {
+        "prompt": 59155,
+        "completion": 1728,
+        "total": 60883,
+        "cached_prompt": 16572,
+        "llm_calls": 8
+      },
+      "phase_names": [
+        "contract",
+        "solver"
+      ]
+    },
+    {
+      "question_id": "0e87f2737511d219196c8409",
+      "latency_seconds": 47.004,
+      "estimated_cost_usd": "0.00484232",
+      "analysis_estimated_cost_usd": 0.00484232,
+      "tokens": {
+        "prompt": 55118,
+        "completion": 1644,
+        "total": 56762,
+        "cached_prompt": 16572,
+        "llm_calls": 9
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0e9be6448c82613884bebdf5",
+      "latency_seconds": 19.291,
+      "estimated_cost_usd": "0.00237978",
+      "analysis_estimated_cost_usd": 0.00237978,
+      "tokens": {
+        "prompt": 27276,
+        "completion": 1293,
+        "total": 28569,
+        "cached_prompt": 11048,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0eb69f6e47ab63c055e2df90",
+      "latency_seconds": 8.059,
+      "estimated_cost_usd": "0.00136577",
+      "analysis_estimated_cost_usd": 0.0013657699999999999,
+      "tokens": {
+        "prompt": 13642,
+        "completion": 710,
+        "total": 14352,
+        "cached_prompt": 3927,
+        "llm_calls": 3
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0eba370644940aed20760324",
+      "latency_seconds": 19.925,
+      "estimated_cost_usd": "0.00561516",
+      "analysis_estimated_cost_usd": 0.00561516,
+      "tokens": {
+        "prompt": 56524,
+        "completion": 1417,
+        "total": 57941,
+        "cached_prompt": 8286,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0edf383920d07410f686cb96",
+      "latency_seconds": 13.088,
+      "estimated_cost_usd": "0.00162979",
+      "analysis_estimated_cost_usd": 0.00162979,
+      "tokens": {
+        "prompt": 16868,
+        "completion": 1090,
+        "total": 17958,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0eeb80895de2cb7f545f7953",
+      "latency_seconds": 21.871,
+      "estimated_cost_usd": "0.00344649",
+      "analysis_estimated_cost_usd": 0.0034464900000000004,
+      "tokens": {
+        "prompt": 33405,
+        "completion": 1416,
+        "total": 34821,
+        "cached_prompt": 6689,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0ef02974483ac960722b84f8",
+      "latency_seconds": 17.405,
+      "estimated_cost_usd": "0.00207329",
+      "analysis_estimated_cost_usd": 0.0020732899999999998,
+      "tokens": {
+        "prompt": 20473,
+        "completion": 1256,
+        "total": 21729,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0ef0e1be7cef42de551d0ac7",
+      "latency_seconds": 17.839,
+      "estimated_cost_usd": "0.00498033",
+      "analysis_estimated_cost_usd": 0.00498033,
+      "tokens": {
+        "prompt": 54040,
+        "completion": 1351,
+        "total": 55391,
+        "cached_prompt": 12213,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0f03144b28c1a640986c7ffc",
+      "latency_seconds": 19.443,
+      "estimated_cost_usd": "0.00531981",
+      "analysis_estimated_cost_usd": 0.00531981,
+      "tokens": {
+        "prompt": 55059,
+        "completion": 1329,
+        "total": 56388,
+        "cached_prompt": 9451,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0f0a1891025fdcedc7e8ea0d",
+      "latency_seconds": 28.843,
+      "estimated_cost_usd": "0.01285091",
+      "analysis_estimated_cost_usd": 0.012850910000000002,
+      "tokens": {
+        "prompt": 141134,
+        "completion": 1662,
+        "total": 142796,
+        "cached_prompt": 23261,
+        "llm_calls": 10
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0f107c9e56d31b410f4f045c",
+      "latency_seconds": 26.94,
+      "estimated_cost_usd": "0.00935477",
+      "analysis_estimated_cost_usd": 0.00935477,
+      "tokens": {
+        "prompt": 100581,
+        "completion": 1786,
+        "total": 102367,
+        "cached_prompt": 17737,
+        "llm_calls": 8
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0f1253fab8016b9da9f6e223",
+      "latency_seconds": 19.896,
+      "estimated_cost_usd": "0.00483983",
+      "analysis_estimated_cost_usd": 0.00483983,
+      "tokens": {
+        "prompt": 52765,
+        "completion": 1325,
+        "total": 54090,
+        "cached_prompt": 12213,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0f1dd768a428334842bfec50",
+      "latency_seconds": 30.026,
+      "estimated_cost_usd": "0.01482183",
+      "analysis_estimated_cost_usd": 0.01482183,
+      "tokens": {
+        "prompt": 161199,
+        "completion": 2088,
+        "total": 163287,
+        "cached_prompt": 26023,
+        "llm_calls": 11
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0f2f3ef0fa1e36d951c5a42f",
+      "latency_seconds": 19.328,
+      "estimated_cost_usd": "0.00362821",
+      "analysis_estimated_cost_usd": 0.0036282100000000006,
+      "tokens": {
+        "prompt": 39758,
+        "completion": 1006,
+        "total": 40764,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0f415abf215849df3c74d8fb",
+      "latency_seconds": 15.229,
+      "estimated_cost_usd": "0.00275711",
+      "analysis_estimated_cost_usd": 0.00275711,
+      "tokens": {
+        "prompt": 31107,
+        "completion": 994,
+        "total": 32101,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0f42767e5be8f1f3825dbebf",
+      "latency_seconds": 65.758,
+      "estimated_cost_usd": "0.00419099",
+      "analysis_estimated_cost_usd": 0.0041909899999999995,
+      "tokens": {
+        "prompt": 42190,
+        "completion": 1148,
+        "total": 43338,
+        "cached_prompt": 6689,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0f47e5f69b9a81be1ceeb52c",
+      "latency_seconds": 10.445,
+      "estimated_cost_usd": "0.00250349",
+      "analysis_estimated_cost_usd": 0.0025034899999999997,
+      "tokens": {
+        "prompt": 27495,
+        "completion": 712,
+        "total": 28207,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0fae80f812674773157d9f2a",
+      "latency_seconds": 7.079,
+      "estimated_cost_usd": "0.00071262",
+      "analysis_estimated_cost_usd": 0.00071262,
+      "tokens": {
+        "prompt": 7937,
+        "completion": 335,
+        "total": 8272,
+        "cached_prompt": 2762,
+        "llm_calls": 3
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "0ff24db141cbffff8252d7e6",
+      "latency_seconds": 8.831,
+      "estimated_cost_usd": "0.00102639",
+      "analysis_estimated_cost_usd": 0.0010263899999999999,
+      "tokens": {
+        "prompt": 13089,
+        "completion": 639,
+        "total": 13728,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "101023c9d00c778450601539",
+      "latency_seconds": 11.359,
+      "estimated_cost_usd": "0.00109999",
+      "analysis_estimated_cost_usd": 0.00109999,
+      "tokens": {
+        "prompt": 13135,
+        "completion": 777,
+        "total": 13912,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "102866b5841e8a98e3f1d51b",
+      "latency_seconds": 15.971,
+      "estimated_cost_usd": "0.00222153",
+      "analysis_estimated_cost_usd": 0.00222153,
+      "tokens": {
+        "prompt": 26647,
+        "completion": 1312,
+        "total": 27959,
+        "cached_prompt": 12213,
+        "llm_calls": 6
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "103963052c1ac6130cd2db9a",
+      "latency_seconds": 14.403,
+      "estimated_cost_usd": "0.00374261",
+      "analysis_estimated_cost_usd": 0.0037426100000000004,
+      "tokens": {
+        "prompt": 40682,
+        "completion": 1050,
+        "total": 41732,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "103e589c49e80280c9f04475",
+      "latency_seconds": 9.513,
+      "estimated_cost_usd": "0.00113654",
+      "analysis_estimated_cost_usd": 0.00113654,
+      "tokens": {
+        "prompt": 13057,
+        "completion": 656,
+        "total": 13713,
+        "cached_prompt": 5524,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "104c93f89e19274578bafb8d",
+      "latency_seconds": 16.064,
+      "estimated_cost_usd": "0.00386471",
+      "analysis_estimated_cost_usd": 0.0038647100000000004,
+      "tokens": {
+        "prompt": 41093,
+        "completion": 1212,
+        "total": 42305,
+        "cached_prompt": 9451,
+        "llm_calls": 5
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "107acacd9df083f664395e57",
+      "latency_seconds": 8.492,
+      "estimated_cost_usd": "0.00111949",
+      "analysis_estimated_cost_usd": 0.0011194900000000001,
+      "tokens": {
+        "prompt": 13665,
+        "completion": 710,
+        "total": 14375,
+        "cached_prompt": 6689,
+        "llm_calls": 4
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    },
+    {
+      "question_id": "1089bbe66e821577636739ae",
+      "latency_seconds": 27.709,
+      "estimated_cost_usd": "0.00946412",
+      "analysis_estimated_cost_usd": 0.009464120000000001,
+      "tokens": {
+        "prompt": 97261,
+        "completion": 2459,
+        "total": 99720,
+        "cached_prompt": 16572,
+        "llm_calls": 8
+      },
+      "phase_names": [
+        "contract",
+        "solver",
+        "audit"
+      ]
+    }
+  ]
+}
