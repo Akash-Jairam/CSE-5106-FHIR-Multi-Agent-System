@@ -63,7 +63,12 @@ No abstention is ever substituted for a draft. When V3 releases no answer becaus
 solver's executed, non-null final failed its source check, the same single repair is
 routed to analysis with the source-check failures (plus any convention issues of that
 final) and released under the same rule (release policy null_release_repair_released);
-otherwise the null release stands. Exploratory run 3b found 7 of 40 completed core
+otherwise the null release stands.
+
+Harness (all arms): a budgeted model call that returns nothing within 180 s is retried
+once, its abandoned attempt charged prompt reserve + min(4,096, granted completion)
+tokens against the same ceiling; FHIR reads retry dropped connections. Terminal
+errors remain first-attempt failures and count as wrong. Exploratory run 3b found 7 of 40 completed core
 questions released null this way. Release policy and routing are
 recorded in the revision record (protocol convention-verified-v8).
 

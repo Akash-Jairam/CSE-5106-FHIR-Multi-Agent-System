@@ -13,6 +13,15 @@ Always pass `--split held_out`; `--split dev` is the 50-question smoke split.
 
 ## 0. Pre-flight (offline, ~1 min)
 
+Launch every long run on AC power under `caffeinate -i` (e.g.
+`caffeinate -i python scripts/run_experiments.py run ...`). In exploratory run
+3b the laptop idle-slept ~43 times on battery; requests in flight across a
+sleep hung until the provider timeout and became terminal errors. Budgeted
+model calls now give up after 180 s and are retried once; the abandoned
+attempt is charged its prompt reserve plus up to 4,096 completion tokens, so
+the aggregate ceiling still holds (`agent/base_agent.py`). FHIR reads retry
+dropped connections (`fhir_client.py`). Both apply to all three arms.
+
 ```
 git checkout experiments/diagnosis-v8
 .venv/bin/python -m pytest -q tests                       # expect all passed

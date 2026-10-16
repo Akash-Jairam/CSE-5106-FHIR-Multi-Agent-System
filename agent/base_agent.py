@@ -11,6 +11,41 @@ from utils.core_utils import compact_model_messages, count_tokens_in_messages
 from .output_schema import AgentOutput, extract_tool_calls, parse_final_message, to_tokens, validate_output
 
 BUDGET_EXCEEDED = "Budget exceeded"
+# A budgeted call that hangs (no response, no usage) is abandoned after REQUEST_TIMEOUT_S and retried
+# once. The abandoned attempt is charged its prompt reserve plus TIMEOUT_COMPLETION_CHARGE output
+# tokens (well above the ~1k largest completion observed in V8 runs), so the ceiling still holds.
+REQUEST_TIMEOUT_S = 180
+TIMEOUT_RETRIES = 1
+TIMEOUT_COMPLETION_CHARGE = 4096
+HUNG_ERROR_MARKERS = ("Timeout", "APIConnectionError", "Connection error")
+
+
+def _hung(error, usage_info):
+    """True when the provider returned nothing at all: a timeout or dropped connection with no usage."""
+    calls = (usage_info or {}).get("per_call") or []
+    return bool(error and calls and all(c.get("usage_available") is False for c in calls)
+                and any(marker in error for marker in HUNG_ERROR_MARKERS))
+
+
+def _timeout_charge(prompt_reserve, granted_completion):
+    # the provider cannot have produced more than the completion it was granted
+    completion = min(TIMEOUT_COMPLETION_CHARGE, granted_completion)
+    return {"prompt_tokens": prompt_reserve, "completion_tokens": completion, "total_tokens": prompt_reserve + completion,
+            "cached_prompt_tokens": 0, "cost": None, "llm_calls": 1,
+            "per_call": [{"prompt": prompt_reserve, "completion": completion, "cached": 0,
+                          "usage_available": True, "charged_after_timeout": True}]}
+
+
+def _merge_usage(first, second):
+    if not first:
+        return second
+    if not second:
+        return first
+    merged = {key: first.get(key, 0) + second.get(key, 0)
+              for key in ("prompt_tokens", "completion_tokens", "total_tokens", "cached_prompt_tokens", "llm_calls")}
+    merged["cost"] = None if first.get("cost") is None or second.get("cost") is None else first["cost"] + second["cost"]
+    merged["per_call"] = (first.get("per_call") or []) + (second.get("per_call") or [])
+    return merged
 
 
 def _cap_completion(model, remaining):
@@ -95,6 +130,7 @@ class BaseAgent:
         self.budget_stop = None     # why a ceiling stopped the run, if one did
         self.last_llm_error = None
         self.context_compactions = []
+        self.timeout_retries = []    # hung budgeted calls abandoned, charged and retried once
         
     def _update_usage(self, usage_info):
         """Update total usage statistics."""
@@ -125,8 +161,14 @@ class BaseAgent:
             if compaction:
                 self.context_compactions.append(compaction)
                 prompt = count_tokens_in_messages(messages, tools)
-        limits = {}
-        if self.max_total_tokens is not None:
+        if self.max_total_tokens is None:
+            response, error, usage_info = safe_llm_call(model=self.model, messages=messages, tools=tools,
+                                                        base_url=self.base_url)
+            self._update_usage(usage_info)
+            self.last_llm_error = error
+            return response, error, usage_info
+        charged = None
+        for attempt in range(1 + TIMEOUT_RETRIES):
             # Tokenizers and provider framing differ; reserve a margin before capping output.
             prompt_reserve = prompt + max(64, math.ceil(prompt * 0.05))
             remaining = self.max_total_tokens - self.total_usage['total_tokens'] - prompt_reserve
@@ -134,18 +176,27 @@ class BaseAgent:
                 self.budget_stop = (f"token budget: {self.total_usage['total_tokens']} tokens used, the next prompt "
                                     f"needs ~{prompt}, ceiling {self.max_total_tokens}")
                 self.last_llm_error = f"{BUDGET_EXCEEDED}: {self.budget_stop}"
-                return None, self.last_llm_error, None
-            limits = {"max_completion_tokens": _cap_completion(self.model, remaining), "max_retries": 1}
-        response, error, usage_info = safe_llm_call(model=self.model, messages=messages, tools=tools,
-                                                    base_url=self.base_url, **limits)
+                return None, self.last_llm_error, charged
+            limits = {"max_completion_tokens": _cap_completion(self.model, remaining), "max_retries": 1,
+                      "timeout": REQUEST_TIMEOUT_S}
+            response, error, usage_info = safe_llm_call(model=self.model, messages=messages, tools=tools,
+                                                        base_url=self.base_url, **limits)
+            if attempt < TIMEOUT_RETRIES and _hung(error, usage_info):
+                charge = _timeout_charge(prompt_reserve, limits["max_completion_tokens"])
+                self._update_usage(charge)
+                charged = _merge_usage(charged, charge)
+                self.timeout_retries.append({"error": error[:200], "charged_tokens": charge["total_tokens"]})
+                continue
+            break
         self._update_usage(usage_info)
+        usage_info = _merge_usage(charged, usage_info)
         self.last_llm_error = error
-        if self.max_total_tokens is not None and not error and usage_info and any(
+        if not error and usage_info and any(
                 c.get("usage_available") is False for c in usage_info.get("per_call", [])):
             self.budget_stop = "provider did not report token usage; aggregate ceiling cannot be verified"
             self.last_llm_error = f"{BUDGET_EXCEEDED}: {self.budget_stop}"
             return None, self.last_llm_error, usage_info
-        if self.max_total_tokens is not None and self.total_usage['total_tokens'] > self.max_total_tokens:
+        if self.total_usage['total_tokens'] > self.max_total_tokens:
             self.budget_stop = "provider usage exceeded the reserved token ceiling"
             self.last_llm_error = f"{BUDGET_EXCEEDED}: {self.budget_stop}"
             return None, self.last_llm_error, usage_info
@@ -213,6 +264,7 @@ class BaseAgent:
                 "max_tool_calls": self.max_tool_calls,
                 "tool_calls_run": self.tool_calls_made,
                 "stopped": self.budget_stop,
+                "timeout_retries": len(self.timeout_retries),
             },
         }
         problems = validate_output(output)

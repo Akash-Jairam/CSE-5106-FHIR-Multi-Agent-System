@@ -37,6 +37,58 @@ class BudgetTests(unittest.TestCase):
             self.agent._llm_call([{"role": "user", "content": "q"}])
         self.assertEqual(call.call_args.kwargs["max_completion_tokens"], 128_000)
 
+    HUNG = (None, "Max retries exceeded: litellm.Timeout: APITimeoutError - Request timed out.",
+            {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0, "cached_prompt_tokens": 0, "cost": None,
+             "llm_calls": 1, "per_call": [{"prompt": 0, "completion": 0, "cached": 0, "usage_available": False}]})
+    OK = ("answer", None, {"prompt_tokens": 100, "completion_tokens": 10, "total_tokens": 110, "cached_prompt_tokens": 0,
+                           "cost": 0.0, "llm_calls": 1,
+                           "per_call": [{"prompt": 100, "completion": 10, "cached": 0, "usage_available": True}]})
+
+    def test_hung_call_is_charged_and_retried_once(self):
+        self.agent.set_budget(max_total_tokens=200_000)
+        with patch("agent.base_agent.count_tokens_in_messages", return_value=100), patch(
+                "agent.base_agent.safe_llm_call", side_effect=[self.HUNG, self.OK]) as call:
+            response, error, usage = self.agent._llm_call([{"role": "user", "content": "q"}])
+        self.assertEqual((response, error), ("answer", None))
+        self.assertEqual(call.call_count, 2)
+        self.assertEqual(call.call_args.kwargs["timeout"], 180)
+        charge = 164 + 4096  # prompt reserve (100 + 64 margin) + completion charge
+        self.assertEqual(self.agent.total_usage["total_tokens"], charge + 110)
+        self.assertTrue(all(c["usage_available"] for c in usage["per_call"]))
+        self.assertEqual(len(self.agent.timeout_retries), 1)
+        self.assertIsNone(self.agent.budget_stop)
+        # the retry's completion allowance already excludes the charged attempt
+        self.assertEqual(call.call_args.kwargs["max_completion_tokens"], 200_000 - charge - 164)
+
+    def test_second_hang_and_non_hang_errors_are_not_retried(self):
+        self.agent.set_budget(max_total_tokens=200_000)
+        with patch("agent.base_agent.count_tokens_in_messages", return_value=100), patch(
+                "agent.base_agent.safe_llm_call", side_effect=[self.HUNG, self.HUNG]) as call:
+            _, error, _ = self.agent._llm_call([])
+        self.assertEqual(call.call_count, 2)
+        self.assertIn("Timeout", error)
+        bad_request = (None, "BadRequestError: invalid", self.HUNG[2])
+        with patch("agent.base_agent.count_tokens_in_messages", return_value=100), patch(
+                "agent.base_agent.safe_llm_call", side_effect=[bad_request]) as call:
+            _, error, _ = self.agent._llm_call([])
+        self.assertEqual(call.call_count, 1)
+
+    def test_timeout_charge_that_exhausts_the_ceiling_stops_without_retry(self):
+        self.agent.set_budget(max_total_tokens=4_400)
+        with patch("agent.base_agent.count_tokens_in_messages", return_value=100), patch(
+                "agent.base_agent.safe_llm_call", side_effect=[self.HUNG, self.OK]) as call:
+            _, error, usage = self.agent._llm_call([])
+        self.assertEqual(call.call_count, 1)
+        self.assertIn("Budget exceeded", error)
+        self.assertEqual(usage["total_tokens"], 164 + 4096)
+
+    def test_timeout_charge_never_exceeds_the_granted_completion(self):
+        self.agent.set_budget(max_total_tokens=1_000)
+        with patch("agent.base_agent.count_tokens_in_messages", return_value=100), patch(
+                "agent.base_agent.safe_llm_call", side_effect=[self.HUNG]):
+            self.agent._llm_call([])
+        self.assertLessEqual(self.agent.total_usage["total_tokens"], 1_000)
+
     def test_second_prompt_consumes_remaining_budget(self):
         self.agent.set_budget(max_total_tokens=200)
         self.agent.total_usage["total_tokens"] = 150

@@ -495,7 +495,7 @@ def _is_luna_chat_model(model):
     return model.removeprefix("openai/") == "gpt-6-luna"
 
 
-def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_calls=True, max_retries=5, max_tokens=32000, base_url=None, max_completion_tokens=None):
+def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_calls=True, max_retries=5, max_tokens=32000, base_url=None, max_completion_tokens=None, timeout=None):
     """Safe LLM API call with context length validation and retry logic."""
     
     input_tokens = count_tokens_in_messages(messages, tools)
@@ -514,6 +514,8 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                 key = "max_completion_tokens" if is_reasoning_llm(model) else "max_tokens"
                 limits[key] = max_completion_tokens
                 limits["num_retries"] = 0
+            if timeout is not None:
+                limits["timeout"] = timeout
             usage_info["llm_calls"] += 1
             output = litellm.completion(
                 model=model, 
