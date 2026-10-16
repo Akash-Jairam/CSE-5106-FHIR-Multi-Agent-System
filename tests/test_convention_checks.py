@@ -51,6 +51,19 @@ class TieCompletenessTest(unittest.TestCase):
         self.assertEqual(convention_issues("When was the first drug prescribed?",
                                            draft("2150-01-02 08:00:00", "MedicationRequest/rx1"), self.workspace), [])
 
+    def test_route_question_ties_only_within_the_cited_route(self):
+        workspace = {"MedicationRequest": [request("rx1", "Heparin", "2150-01-02T08:00:00", route="IV"),
+                                           request("rx2", "Insulin", "2150-01-02T08:00:00", route="SC")]}
+        self.assertEqual(convention_issues("What was the first drug prescribed via the iv route?",
+                                           draft("Heparin", "MedicationRequest/rx1"), workspace), [])
+
+    def test_dose_count_and_time_answers_are_not_tie_selections(self):
+        for question, answer in (("What was the last dose of heparin prescribed?", 5000),
+                                 ("How much heparin was prescribed the last time?", "5000"),
+                                 ("And what was the last time the patient was prescribed a drug?", "2150-01-02 08:00:00")):
+            self.assertEqual(convention_issues(question, draft(answer, "MedicationRequest/rx1"), self.workspace), [],
+                             question)
+
     def test_mixture_components_count_as_distinct_drugs(self):
         workspace = {"MedicationRequest": [
             {**request("rx1", "", "2150-01-02T08:00:00"), "medicationReference": {"reference": "Medication/mix"}},
@@ -126,6 +139,20 @@ class CountAndCodedFieldChecksTest(unittest.TestCase):
                                  draft("2150-01-02 08:00:00", "MedicationRequest/rx1",
                                        field="dispenseRequest.validityPeriod.start"), workspace)
         self.assertEqual(good, [])
+
+    def test_distinct_count_gate_covers_count_and_number_phrasings(self):
+        workspace = {"MedicationRequest": [request("rx0", "d0", "2150-01-02T08:00:00")]}
+        for question in ("Tell me the count of distinct drugs the patient was prescribed.",
+                         "Find out the number of unique medicines prescribed to the patient."):
+            issues = convention_issues(question, draft(1, "MedicationRequest/rx0"), workspace)
+            self.assertEqual([i["check"] for i in issues], ["distinct_count_scope"], question)
+
+    def test_prescription_without_validity_start_is_not_timestamp_checked(self):
+        rx = request("rx1", "Heparin", "2150-01-02T08:00:00")
+        rx["dispenseRequest"] = {}
+        self.assertEqual(convention_issues("When was the patient first prescribed heparin?",
+                                           draft("2150-01-02 13:00:00", "MedicationRequest/rx1"),
+                                           {"MedicationRequest": [rx]}), [])
 
     def test_admission_type_is_the_priority_coding(self):
         encounter = {"resourceType": "Encounter", "id": "h1", "class": {"code": "EMER", "display": "emergency"},

@@ -18,11 +18,14 @@ from tools.starting_packet import _display, _medication_name
 FIRST_LAST_RE = re.compile(r"\b(first|last|earliest|latest)\b", re.I)
 DRUG_RE = re.compile(r"\b(drug|medication|medicine|prescri\w*)\b", re.I)
 ROUTE_RE = re.compile(r"\broute\b", re.I)
-WHEN_RE = re.compile(r"^\s*(when|what time|at what time|what was the (?:date|time))\b", re.I)
+# live calibration: "And what was the last time ..." is a when-question too
+WHEN_RE = re.compile(r"^\s*(?:and\s+)?(when|what time|at what time|what was the (?:\w+\s+)?(?:date|time))\b", re.I)
 SPECIMEN_RE = re.compile(r"\bspecimen\b", re.I)
 ORGANISM_RE = re.compile(r"\borganism", re.I)
 MICRO_TEST_RE = re.compile(r"\b(microbiolog\w*|culture|specimen)\b", re.I)
-DISTINCT_COUNT_RE = re.compile(r"\bhow many (different|distinct|unique)\b", re.I)
+# T001 is mostly phrased "count of distinct" / "number of unique", not "how many distinct"
+DISTINCT_COUNT_RE = re.compile(r"\b(how many|count|number|total)\b.*\b(different|distinct|unique)\b", re.I)
+DOSE_RE = re.compile(r"\b(doses?|how much|amount|total|volume)\b", re.I)
 ADMISSION_TYPE_RE = re.compile(r"\badmission type\b", re.I)
 
 
@@ -106,10 +109,11 @@ def _issue(check, kind, role, action, record=None, field=None):
 def check_tie_completeness(question, draft, workspace, **_):
     """first/last drug or route: every distinct value at the selected start time."""
     if not (FIRST_LAST_RE.search(question) and (DRUG_RE.search(question) or ROUTE_RE.search(question))
-            and not WHEN_RE.match(question)):
+            and not WHEN_RE.match(question) and not DOSE_RE.search(question)):
         return []
     items = _answer_items(draft.get("answer"))
-    if not items:
+    if not items or isinstance(draft.get("answer"), (int, float, bool)) or all(_minute(i) for i in items):
+        # a dose, count or time answer is not a drug/route selection
         return []
     by_id = _by_id(workspace)
     cited = _cited(draft, workspace, "MedicationRequest")
@@ -119,11 +123,15 @@ def check_tie_completeness(question, draft, workspace, **_):
     selected = next(iter(starts))
     encounters = {_ref(r.get("encounter")) for r in cited}
     by_route = ROUTE_RE.search(question) and not DRUG_RE.search(question)
+    # "drug ... via the iv route": the tie set is restricted to the cited route string
+    routes = {_norm(_request_route(r)) for r in cited} if ROUTE_RE.search(question) and not by_route else None
     tied = {}
     for request in workspace.get("MedicationRequest", []):
         if _minute(_request_start(request)) != selected:
             continue
         if encounters and _ref(request.get("encounter")) not in encounters:
+            continue
+        if routes is not None and _norm(_request_route(request)) not in routes:
             continue
         values = [_request_route(request)] if by_route else _request_names(request, by_id)
         for value in values:
@@ -208,7 +216,8 @@ def check_timestamp_field(question, draft, workspace, **_):
     if DRUG_RE.search(question):
         cited = _cited(draft, workspace, "MedicationRequest")
         starts = {_minute(_request_start(r)) for r in cited} - {None}
-        if cited and moment not in starts:
+        # some released prescriptions carry no validityPeriod.start (authoredOn is hours off); nothing to check
+        if starts and moment not in starts:
             return [_issue("timestamp_field", "wrong_field", "analysis",
                            "the answered time is not the dispenseRequest.validityPeriod.start of any cited prescription",
                            record=f"MedicationRequest/{cited[0]['id']}", field="dispenseRequest.validityPeriod.start")]
