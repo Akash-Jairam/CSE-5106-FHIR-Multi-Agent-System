@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "at_utc": "2026-10-16T09:31:04.071292+00:00",
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "sealed_round": 15,
+  "accepted": 1469,
+  "expected_questions_per_arm": 2931,
+  "counts": {
+    "raw_attempts": 1500,
+    "runtime_failures": 31,
+    "intrinsic_errors": 0
+  },
+  "batch_classifications": {
+    "accepted": 96,
+    "runtime": 4
+  },
+  "batch_seal_result_identity_input_and_audits_verified": 100,
+  "canonical_ledger_ids_match": true,
+  "all_runtime_questions_scheduled": true,
+  "accepted_rerun_overlap": 0,
+  "supervisor_pid": 36808,
+  "active": {
+    "multi_agent": {
+      "pid": 50160,
+      "round": 16,
+      "checkpointed_in_batch": 0,
+      "seconds_since_checkpoint": 17
+    }
+  },
+  "native_live_states": {
+    "36808": "Ss",
+    "50160": "Ss"
+  },
+  "attention": false,
+  "provider_error_events": [
+    {
+      "http_status": null,
+      "duration_seconds": 60.00546149999718,
+      "exception_types": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ]
+    },
+    {
+      "http_status": null,
+      "duration_seconds": 60.003939832997276,
+      "exception_types": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ]
+    },
+    {
+      "http_status": 500,
+      "duration_seconds": 7.25655437502428,
+      "exception_types": [
+        "openai.InternalServerError"
+      ]
+    },
+    {
+      "http_status": null,
+      "duration_seconds": 60.00497412501136,
+      "exception_types": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ]
+    }
+  ],
+  "manifest_sha256": "7cb5d3d64d2131d7ae5cba055810fa8b965732d3b8ce1bf91781493736a7fbe6",
+  "correctness_used_for_scheduling": false,
+  "verifier_sha256": "9fcab41d30ceed42687865364fb9f973f1e051b7184630b2a8615423fadbecf8",
+  "milestone": "First sealed checkpoint above half of the2931-question v3 cohort; full benchmark remains incomplete.",
+  "original_started_at": "2026-10-16T04:16:57+00:00",
+  "operational_elapsed_seconds_at_validation": 18847.071292,
+  "operational_elapsed_definition": "Includes operational delays and excluded attempts; primary latency/cost use accepted attempts only."
+}
