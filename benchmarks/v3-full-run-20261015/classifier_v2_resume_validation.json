@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "validated_at_utc": "2026-10-16T05:01:25.777471+00:00",
+  "source_commit": "42528d9",
+  "supervisor_pid": 36808,
+  "worker_pid": 36814,
+  "native_processes_verified_live": true,
+  "native_process_check_time_context": "Immediately before this record, ps showed both .venv Python supervisor and owned worker alive.",
+  "state": {
+    "version": 1,
+    "supervisor_pid": 36808,
+    "started_at": "2026-10-16T04:16:57+00:00",
+    "phase": "running",
+    "questions_per_arm": 2931,
+    "active": {
+      "multi_agent": {
+        "pid": 36814,
+        "round": 3,
+        "checkpointed_in_batch": 3,
+        "seconds_since_checkpoint": 0
+      }
+    },
+    "attention": false,
+    "resumed_at": "2026-10-16T05:00:28+00:00",
+    "keep_awake_pid": 36813,
+    "heartbeat_at": "2026-10-16T05:01:16+00:00",
+    "accepted": {
+      "direct_llm": 0,
+      "single_agent": 0,
+      "multi_agent": 198
+    },
+    "counts": {
+      "direct_llm": {
+        "raw_attempts": 0,
+        "runtime_failures": 0,
+        "intrinsic_errors": 0
+      },
+      "single_agent": {
+        "raw_attempts": 0,
+        "runtime_failures": 0,
+        "intrinsic_errors": 0
+      },
+      "multi_agent": {
+        "raw_attempts": 200,
+        "runtime_failures": 2,
+        "intrinsic_errors": 0
+      }
+    }
+  },
+  "sealed_accepted_reconstructed": {
+    "direct_llm": 0,
+    "single_agent": 0,
+    "multi_agent": 198
+  },
+  "round3": {
+    "scheduled_questions": 100,
+    "overlap_with_accepted": 0,
+    "checkpointed_at_validation": 3,
+    "classification_counts": {
+      "accepted": 3
+    }
+  },
+  "original_started_at_preserved": true,
+  "no_inference_or_provider_settings_changed": true,
+  "raw_seals_preserved": true,
+  "manifest_sha256": "7cb5d3d64d2131d7ae5cba055810fa8b965732d3b8ce1bf91781493736a7fbe6",
+  "scheduled_monitor": {
+    "id": "monitor-v3-full-benchmark",
+    "status": "ACTIVE",
+    "interval_minutes": 15,
+    "quiet_when_normal": true
+  }
+}
