@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "status": "V3_COMPLETE_CONTROLS_PENDING",
+  "benchmark_complete": false,
+  "v3_complete": true,
+  "generated_at": "2026-10-16T15:35:03.876224+00:00",
+  "scope": "multi_agent",
+  "questions": 2931,
+  "live_run_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015",
+  "output_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_complete_2931_20261016",
+  "source_manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+  "v3_canonical_sha256_before": "1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c",
+  "v3_canonical_sha256_after": "1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c",
+  "v3_identity_sha256": "b281be4700bb65aa585a7cc3d7c75a558a705a9844a883f97e726975d53ce6c1",
+  "v3_ledger_slice_sha256_before": "bee6059797644eb020664b549e13390bf4e44f5bad187fba0df516b9b016134f",
+  "v3_ledger_slice_sha256_after": "bee6059797644eb020664b549e13390bf4e44f5bad187fba0df516b9b016134f",
+  "whole_ledger_sha256_at_gate": "ed9c8052a3f24490728b0720bde21f86532f0fcd0bbbc95a4d9deabda7de34e2",
+  "whole_ledger_sha256_after": "ed9c8052a3f24490728b0720bde21f86532f0fcd0bbbc95a4d9deabda7de34e2",
+  "classifier_version": "v3-infrastructure-v3",
+  "sealed_v3_rounds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33
+  ],
+  "independently_approved_classifier": {
+    "version": "v3-infrastructure-v3",
+    "sha256": "370ffcb0738b384bafbe82a194dcaf2a5c1e9da1a025d2ea3abcfca8474dcccd"
+  },
+  "raw_v3_attempt_counts": {
+    "raw_attempts": 3012,
+    "runtime_failures": 81,
+    "intrinsic_errors": 0
+  },
+  "verified_raw_audits": 3012,
+  "selected_raw_rows_sha256": "9fa6a253b8567397ddb864f0db770b13c297c93dc1cb88e9df9cf2c96bf30c17",
+  "missing_measurements": {
+    "latency_seconds": 0,
+    "estimated_cost_usd": 0,
+    "reported_cost_usd": 2931,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "cached_prompt_tokens": 0,
+    "uncached_prompt_tokens": 0,
+    "repeated_prompt_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls_executed": 0,
+    "tool_calls_recorded": 0,
+    "evidence_count": 0,
+    "evidence_valid": 0,
+    "valid_evidence_fraction": 794,
+    "evidence_precision": 206,
+    "evidence_recall": 113
+  },
+  "controls": {
+    "status": "PENDING_MATCHED_FINAL_ANALYSIS",
+    "included_in_delivery": false,
+    "accepted_counts_at_gate": {
+      "direct_llm": 0,
+      "single_agent": 0
+    },
+    "accepted_counts_after": {
+      "direct_llm": 0,
+      "single_agent": 0
+    }
+  },
+  "global_partial_export": {
+    "directory": "global_partial",
+    "status": "PARTIAL_PROGRESS_DO_NOT_REPORT_AS_FINAL",
+    "note": "Frozen exporter output on a V3-only snapshot. Control artifacts intentionally omitted; these zero snapshot counts are not live control counts."
+  },
+  "snapshot": {
+    "directory": "validated_v3_input_snapshot",
+    "self_contained_or_portable": false,
+    "original_manifest_bytes_preserved": true,
+    "original_ledger_bytes_preserved": true,
+    "omitted_live_artifacts": [
+      "Control accepted results/identities, raw attempts and audits",
+      "Provider/runtime/configuration/credential files"
+    ],
+    "operational_log": "Complete JSONL prefix captured at snapshot time",
+    "storage": "Small metadata is copied. Verified audits and larger immutable V3 result files may be hardlinks to live inodes; do not edit snapshot files or change their permissions. Use v3_complete tables for analysis.",
+    "absolute_references": "Original dataset, family, offline FHIR and batch input/output paths remain absolute references to verified live immutable artifacts."
+  },
+  "frozen_full_benchmark_final_gate_changed": false,
+  "scoring": {
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/utils/answer_scorer.py",
+    "sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+    "rule": "Unchanged typed scorer on accepted runtime-clean final answers; intrinsic terminal errors are incorrect. No raw runtime failures or retry history contribute to reported measurements."
+  },
+  "statistics": {
+    "bootstrap_replicates": 10000,
+    "seed": 5106,
+    "confidence_level": 0.95,
+    "unit": "patient cluster",
+    "estimand": "question-weighted mean; paired differences left minus right",
+    "percentile_convention": "linear interpolation",
+    "stdev": "sample standard deviation; undefined for n<2"
+  },
+  "pricing": {
+    "version": 1,
+    "model": "gpt-6-luna",
+    "currency": "USD",
+    "label": "Official OpenAI standard short-context prices, adopted for Azure by user instruction; usage-based estimate, not verified billing",
+    "per_million_tokens": {
+      "input": 0.1,
+      "cached_input": 0.01,
+      "output": 0.5
+    },
+    "sources": [
+      "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "https://developers.openai.com/api/docs/pricing"
+    ],
+    "frozen_at": "2026-10-16T04:13:52.058805+00:00",
+    "source_checked_local_date": "2026-10-15",
+    "azure_rate_assumption": "User confirmed using official OpenAI prices",
+    "formula": "((prompt-cached_prompt)*input+cached_prompt*cached_input+completion*output)/1000000",
+    "excluded": "Earlier infrastructure-failed attempts; no taxes or other cloud service charges"
+  },
+  "helper_sha256": "b388b45481af63f2397308fec4cb51500a8c63da5542f0669e98fe24600f4282",
+  "guarantees": [
+    "Full V3 cohort and first-clean provenance verified before any scoring",
+    "No partial control answers were scored or presented",
+    "Frozen analyzer/statistics used unchanged; global partial output preserved",
+    "Live source, runtime, results, ledger, processes and scheduling unchanged",
+    "The complete matched three-arm benchmark and its final analysis are still pending"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "supervisor_pid": 55406,
+  "started_at": "2026-10-16T04:16:57+00:00",
+  "phase": "attention",
+  "questions_per_arm": 2931,
+  "active": {},
+  "attention": true,
+  "resumed_at": "2026-10-16T11:17:06+00:00",
+  "keep_awake_pid": 55431,
+  "heartbeat_at": "2026-10-16T15:47:51+00:00",
+  "accepted": {
+    "direct_llm": 0,
+    "single_agent": 0,
+    "multi_agent": 2931
+  },
+  "counts": {
+    "direct_llm": {
+      "raw_attempts": 0,
+      "runtime_failures": 0,
+      "intrinsic_errors": 0
+    },
+    "single_agent": {
+      "raw_attempts": 0,
+      "runtime_failures": 0,
+      "intrinsic_errors": 0
+    },
+    "multi_agent": {
+      "raw_attempts": 3012,
+      "runtime_failures": 81,
+      "intrinsic_errors": 0
+    }
+  },
+  "reason": "unclassified_or_invalid_attempt",
+  "issues": [
+    {
+      "arm": "direct_llm",
+      "question_id": "05a8454a6a71435a557db2cc",
+      "attempt_file": "attempts/direct_llm/round-0001.json",
+      "status": "attention",
+      "reason": "unclassified_terminal_error",
+      "error_sha256": "455bc6f946d024bc51f5efcbdb16f2f80e7d35c2e8213919ba51e196973a60c5"
+    }
+  ]
+}

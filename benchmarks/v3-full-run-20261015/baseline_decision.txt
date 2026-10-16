@@ -1,6 +1,13 @@
 Decision: run a fresh matched single-agent full cohort after V3.
 Authorized by the user on 15 October 2026 (America/Chicago).
 
+Superseding instruction, 16 October 2026: V3 is complete. The user requested
+that its records/statistics be finalized and pushed, and that Codex end the
+task and wait for instructions before baseline work. All baseline processes
+are stopped; partial attempts remain local and unreported. The monitor is
+paused. The methodological rationale below remains background, not current
+authorization to resume inference.
+
 The original FHIR-AgentBench paper evaluates o4-mini, Gemini-2.5-Flash,
 Qwen3-32B and Llama-3.3-70B. It uses an o4-mini evaluator for free-text answer
 correctness. Its results cover 2,931 questions but do not supply our matched

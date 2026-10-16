@@ -1,0 +1,30 @@
+{
+  "status": "COMPLETE_V3_BASELINES_DEFERRED",
+  "finalized_at_utc": "2026-10-16T19:26:14.292569+00:00",
+  "scope": "multi_agent_v3",
+  "questions": 2931,
+  "v3_complete": true,
+  "matched_three_arm_benchmark_complete": false,
+  "baseline_status": "DEFERRED_BY_USER_PENDING_FURTHER_INSTRUCTION",
+  "baseline_comparisons_included": false,
+  "owned_run_processes_stopped": true,
+  "native_stop_evidence": "stopped_processes.json",
+  "monitor_status": "PAUSED",
+  "classifier_unchanged": "v3-infrastructure-v3",
+  "source_manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+  "canonical_v3_sha256": "1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c",
+  "raw_attempt_counts": {
+    "raw_attempts": 3012,
+    "runtime_failures": 81,
+    "intrinsic_errors": 0
+  },
+  "full_cohort_independent_reconciliation": "PASS",
+  "all_source_and_public_pin_hashes_revalidated": true,
+  "accepted_results_and_original_export_unchanged": true,
+  "raw_traces_location": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015",
+  "original_export_location": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_complete_2931_20261016",
+  "result_tables_byte_identical_to_original_export": true,
+  "correctness_used_for_retry_selection": false,
+  "partial_baselines": "Preserved locally, not final, not compared, no further inference authorized until user instruction",
+  "monitoring_note": "One round-32 progress check sampled the normally finished successor worker during batch consolidation and failed its liveness assertion. The complete-cohort gate and independent all-batch first-clean replay subsequently verified all 33 V3 batches; no data or process restart resulted."
+}

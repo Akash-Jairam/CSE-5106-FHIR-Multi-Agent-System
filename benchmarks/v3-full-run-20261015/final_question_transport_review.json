@@ -1,0 +1,226 @@
+{
+  "snapshot_utc": "2026-10-16T15:30:41.353381+00:00",
+  "scope": "Safe request metadata for final-question rounds31/32 and successor33 if present; no raw messages, answers, prompts, references, configs, requests or mutations",
+  "rounds": [
+    {
+      "round": 31,
+      "files": [
+        {
+          "name": "azure-diagnostics-67581-382c42f5f2ad4687b2a11ad6ef14557f.jsonl",
+          "sha256": "52e3f85108457b9b9513ab35e11ca016373352e1502d210b85e39579ba914fe9",
+          "events": 56
+        },
+        {
+          "name": "azure-diagnostics-67582-806baa31ea8244eb8f1eb4fbbb00be4e.jsonl",
+          "sha256": "31fc7b00c41c6fe51ab040ffad0c520d428eb46930a0af14831e9458d15a6510",
+          "events": 82
+        }
+      ],
+      "completed_calls": 69,
+      "outcomes": {
+        "success": 68,
+        "error": 1
+      },
+      "error_status_counts": {
+        "None": 1
+      },
+      "failures": [
+        {
+          "pid": 67581,
+          "counter": 28,
+          "started_utc": "2026-10-16T15:24:58.737100+00:00",
+          "finished_utc": "2026-10-16T15:25:58.741825+00:00",
+          "duration_seconds": 60.0050697500119,
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 17,
+          "sdk_closed": false,
+          "http_closed": false,
+          "preceding_same_client_successes": 27,
+          "last_preceding_success": {
+            "counter": 27,
+            "finished_utc": "2026-10-16T15:24:58.414963+00:00",
+            "duration_seconds": 2.822275707992958,
+            "same_client": true
+          },
+          "following_same_client_successes": 0,
+          "first_following_success": null
+        }
+      ],
+      "per_process": [
+        {
+          "pid": 67581,
+          "completed_calls": 28,
+          "outcomes": {
+            "success": 27,
+            "error": 1
+          },
+          "unique_client_ids": 1,
+          "fd_min": 17,
+          "fd_max": 18,
+          "closed_observations": 0,
+          "latest_completed": {
+            "counter": 28,
+            "outcome": "error",
+            "finished_utc": "2026-10-16T15:25:58.741825+00:00",
+            "duration_seconds": 60.0050697500119
+          }
+        },
+        {
+          "pid": 67582,
+          "completed_calls": 41,
+          "outcomes": {
+            "success": 41
+          },
+          "unique_client_ids": 1,
+          "fd_min": 17,
+          "fd_max": 18,
+          "closed_observations": 0,
+          "latest_completed": {
+            "counter": 41,
+            "outcome": "success",
+            "finished_utc": "2026-10-16T15:26:29.146058+00:00",
+            "duration_seconds": 12.642653250019066
+          }
+        }
+      ],
+      "inflight": [],
+      "partial_lines": 0,
+      "exception_flags": {
+        "connect": 0,
+        "dns": 0,
+        "pool": 0,
+        "read": 2,
+        "resource_fd": 0,
+        "timeout": 3,
+        "tls": 0,
+        "write": 0
+      },
+      "exception_numeric_codes": {}
+    },
+    {
+      "round": 32,
+      "files": [
+        {
+          "name": "azure-diagnostics-67800-5bad04839fbb45e8a68fbdc1d1219e91.jsonl",
+          "sha256": "7862aa95ac22bf3b8de502143639c0e2ab390417eb4d1f5c8791153f59a09281",
+          "events": 2
+        }
+      ],
+      "completed_calls": 1,
+      "outcomes": {
+        "error": 1
+      },
+      "error_status_counts": {
+        "None": 1
+      },
+      "failures": [
+        {
+          "pid": 67800,
+          "counter": 1,
+          "started_utc": "2026-10-16T15:27:57.733189+00:00",
+          "finished_utc": "2026-10-16T15:28:57.996622+00:00",
+          "duration_seconds": 60.2638626669941,
+          "http_status": null,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ],
+          "fd_count": 9,
+          "sdk_closed": false,
+          "http_closed": false,
+          "preceding_same_client_successes": 0,
+          "last_preceding_success": null,
+          "following_same_client_successes": 0,
+          "first_following_success": null
+        }
+      ],
+      "per_process": [
+        {
+          "pid": 67800,
+          "completed_calls": 1,
+          "outcomes": {
+            "error": 1
+          },
+          "unique_client_ids": 1,
+          "fd_min": 9,
+          "fd_max": 9,
+          "closed_observations": 0,
+          "latest_completed": {
+            "counter": 1,
+            "outcome": "error",
+            "finished_utc": "2026-10-16T15:28:57.996622+00:00",
+            "duration_seconds": 60.2638626669941
+          }
+        }
+      ],
+      "inflight": [],
+      "partial_lines": 0,
+      "exception_flags": {
+        "connect": 0,
+        "dns": 0,
+        "pool": 0,
+        "read": 2,
+        "resource_fd": 0,
+        "timeout": 3,
+        "tls": 0,
+        "write": 0
+      },
+      "exception_numeric_codes": {}
+    },
+    {
+      "round": 33,
+      "files": [
+        {
+          "name": "azure-diagnostics-67899-e62cd984d5f847a6b1ea733ab317aa95.jsonl",
+          "sha256": "a9228849fe87a2f78feea141ea2b87c3035f93b9e4e1465cd4d9535ef6879329",
+          "events": 10
+        }
+      ],
+      "completed_calls": 5,
+      "outcomes": {
+        "success": 5
+      },
+      "error_status_counts": {},
+      "failures": [],
+      "per_process": [
+        {
+          "pid": 67899,
+          "completed_calls": 5,
+          "outcomes": {
+            "success": 5
+          },
+          "unique_client_ids": 1,
+          "fd_min": 9,
+          "fd_max": 10,
+          "closed_observations": 0,
+          "latest_completed": {
+            "counter": 5,
+            "outcome": "success",
+            "finished_utc": "2026-10-16T15:30:30.040878+00:00",
+            "duration_seconds": 2.713385582988849
+          }
+        }
+      ],
+      "inflight": [],
+      "partial_lines": 0,
+      "exception_flags": {},
+      "exception_numeric_codes": {}
+    }
+  ],
+  "frozen_adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+  "assessment": {
+    "failure_origin": "SDK APITimeoutError caused by httpx2/httpcore2 ReadTimeout, with no HTTP response status; configured 60-second read deadline.",
+    "recurrence": "Round31 one60.005s read timeout after27same-client successes; round32 fresh process timed out on its first request at60.264s.",
+    "successor": "Round33 fresh process completed5requests, allsuccess, last15:30:30UTC, no in-flight request at snapshot.",
+    "host_or_client_defect_requiring_intervention_observed": false,
+    "reason": "No closed-client flags, FD growth, pool/resource/DNS/TLS flags or numeric OS resource errors. Recurrence across fresh processes followed by successful successor requests does not support a permanently poisoned client or host resource failure.",
+    "limits": "Read-timeout metadata cannot attribute remote service vs external network path, nor establish why this question encountered repeated delays. Same-client post-failure recovery is unavailable because each failed worker had no later requests; successor recovery uses a fresh process.",
+    "recommended_action": "Continue frozen retry policy and root monitoring; no source, credential, timeout, transport, concurrency or process intervention justified by this evidence."
+  }
+}
