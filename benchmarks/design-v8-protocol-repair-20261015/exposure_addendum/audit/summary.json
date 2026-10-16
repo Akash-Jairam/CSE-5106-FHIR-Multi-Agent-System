@@ -1,0 +1,178 @@
+{
+  "V4_historical_interface_input_hash": "0a1b12ff9d0619582254dabc02fe2fba0791d04b7413652cc6caae20b2c95d48",
+  "balanced120_feasible_for_identified_exclusions": true,
+  "dataset_patients": 94,
+  "dataset_questions": 2931,
+  "documented_subject_exposure_groups": 5,
+  "documented_subjects": 32,
+  "documented_subjects_mapped_to_patients": 32,
+  "feasibility_proof": "Every disjoint operation pool meets its quota. Lookup/counting alone has34 available patients and30slots, so20patient coverage can be achieved without selecting question IDs here.",
+  "historical_explicit_attempted_patients": 62,
+  "historical_explicit_attempted_questions": 321,
+  "known_attempted_ID_union_lower_bound": 439,
+  "known_attempted_ID_union_note": "Prior explicit321 plus completed repaired120 plus2 verified interfaces. Original aborted120 exact attempted-prefix identities not independently re-audited; all120 excluded as scheduled.",
+  "known_scheduled_attempted_interface_patients": 93,
+  "known_scheduled_attempted_interface_union": 557,
+  "later_informal_diagnostic_mentioned_without_QIDs": true,
+  "legacy_V6_named_run_input_hash": "1cddf773a9b06fe7e2438752c49029b5c3152baf88088389755465bc007df2ff",
+  "legacy_interface_identity_gaps": {
+    "benchmarks/design-v5-20261015/live_development_interface.json": {
+      "input_sha256": null,
+      "input_split_sha256": null,
+      "question_IDs_present": false,
+      "reported_questions_or_attempts": 1,
+      "reuse_assertion": null
+    },
+    "benchmarks/design-v6-20261015/live_development_interface_clarified.json": {
+      "input_sha256": null,
+      "input_split_sha256": null,
+      "question_IDs_present": false,
+      "reported_questions_or_attempts": 1,
+      "reuse_assertion": true
+    },
+    "benchmarks/design-v6-20261015/live_development_interface_initial.json": {
+      "input_sha256": null,
+      "input_split_sha256": null,
+      "question_IDs_present": false,
+      "reported_questions_or_attempts": 3,
+      "reuse_assertion": null
+    },
+    "benchmarks/design-v7-20261015/live_development_interface.json": {
+      "input_sha256": "e704a2cad00e220fdfa7300ae52929f28a1cfdec31aba20bc48364020204c669",
+      "input_split_sha256": "d36f844472f4daefbe41e451f16e364ac01d9cf7837d532931e05b7fb958b8f9",
+      "question_IDs_present": false,
+      "reported_questions_or_attempts": 1,
+      "reuse_assertion": true
+    }
+  },
+  "legacy_interface_total_reported_slots_upper_bound": 6,
+  "limits": [
+    "Remaining977 are clean against identified question-ID sets, not proven untouched against all engineering history.",
+    "V5/V6/V7 interface metadata omits QIDs; named V6/V7 custom input hashes differ from the old V4 interface, and V5 input identity is unavailable. Do not silently assume their IDs belong to321.",
+    "The32-subject coarse ledger records substantive QA/answer/few-shot/gold-packet exposure without exact QIDs. This further limits fully uninspected-question claims, beyond the six unresolved interface slots.",
+    "All35 reserved patients have prior documented or scheduled exposure; this is fresh-relative-to-known-ID adaptive development, not new-patient/template/model confirmation.",
+    "Prior metadata scan attestation reused; no answer file was reopened and no historical raw correctness was inspected.",
+    "Metadata template IDs and patient IDs do not establish identical question semantics or independent task transfer.",
+    "No scorer/model/FHIR invocation, cache/program replay, new QA field or protected-case content inspected."
+  ],
+  "overlap": {
+    "original_V8": {
+      "fixed300_overlap_n": 0,
+      "historical_attempt_overlap": [
+        "72f9afe9d7752f2079ec4df1",
+        "7329fbf5056c86af263e9033"
+      ],
+      "historical_attempt_overlap_n": 2,
+      "known_V8_interface_overlap": [],
+      "prior_extraction_provenance": {
+        "output/experiments/gpt-6-luna/verified_team_v2_pilot_a/ordinary_single_agent.json": {
+          "attempted_metadata_rows": 20,
+          "evidence": "Copied only from prior SHA-bound metadata extraction; source answer file not reopened",
+          "identity_sha256_recorded_by_prior_audit": "5f3bf319c6bb21ef9cac89f9a7cf62e0df7a6635e63dfaa403af6f47e103a223",
+          "question_ids": [
+            "72f9afe9d7752f2079ec4df1",
+            "7329fbf5056c86af263e9033"
+          ],
+          "scheduled_metadata_rows": 20
+        }
+      },
+      "protected1397_overlap_n": 0
+    },
+    "repaired_V8": {
+      "fixed300_overlap_n": 0,
+      "historical_attempt_overlap": [
+        "70b43bd19ed867f8f2420003",
+        "89383745e9cd66ac4837c91f",
+        "9eda5afbe00ed4d5f058ec11",
+        "c72069fe9515604ba1be94c3"
+      ],
+      "historical_attempt_overlap_n": 4,
+      "known_V8_interface_overlap": [],
+      "prior_extraction_provenance": {
+        "output/experiments/gpt-6-luna/verified_team_v2_pilot_a/ordinary_single_agent.json": {
+          "attempted_metadata_rows": 20,
+          "evidence": "Copied only from prior SHA-bound metadata extraction; source answer file not reopened",
+          "identity_sha256_recorded_by_prior_audit": "5f3bf319c6bb21ef9cac89f9a7cf62e0df7a6635e63dfaa403af6f47e103a223",
+          "question_ids": [
+            "70b43bd19ed867f8f2420003",
+            "89383745e9cd66ac4837c91f",
+            "9eda5afbe00ed4d5f058ec11",
+            "c72069fe9515604ba1be94c3"
+          ],
+          "scheduled_metadata_rows": 20
+        }
+      },
+      "protected1397_overlap_n": 0
+    }
+  },
+  "patient_expanded_conservative_pool": {
+    "balanced120_feasible": false,
+    "interpretation": "Optional stronger exclusion of all32 patients in the coarse documented QA/gold exposure ledger, NOT an assertion that every question on these patients was attempted",
+    "operation_counts": {
+      "duration": 4,
+      "lookup_counting": 5,
+      "numerical_aggregation": 5,
+      "paired_comparison": 1,
+      "paired_difference": 3,
+      "temporal_selection": 10
+    },
+    "patients": 3,
+    "questions": 28
+  },
+  "proposed_next_seed": 5110,
+  "protected1397_unchanged": true,
+  "protected_overlap_with_known_exposure_union": 0,
+  "remaining_by_operation": {
+    "duration": {
+      "available_patients": 13,
+      "available_questions": 126,
+      "quota": 10,
+      "surplus": 116
+    },
+    "lookup_counting": {
+      "available_patients": 34,
+      "available_questions": 218,
+      "quota": 30,
+      "surplus": 188
+    },
+    "numerical_aggregation": {
+      "available_patients": 26,
+      "available_questions": 130,
+      "quota": 30,
+      "surplus": 100
+    },
+    "paired_comparison": {
+      "available_patients": 14,
+      "available_questions": 25,
+      "quota": 10,
+      "surplus": 15
+    },
+    "paired_difference": {
+      "available_patients": 17,
+      "available_questions": 34,
+      "quota": 10,
+      "surplus": 24
+    },
+    "temporal_selection": {
+      "available_patients": 35,
+      "available_questions": 444,
+      "quota": 30,
+      "surplus": 414
+    }
+  },
+  "remaining_known_ID_clean_upper_bound": 977,
+  "remaining_patients": 35,
+  "remaining_questions_on_documented_development_patients": 949,
+  "remaining_template_IDs_absent_from_known_question_exclusion_union": 8,
+  "remaining_templates": 72,
+  "reserved_dev_pilot_patients": 35,
+  "reserved_dev_pilot_questions": 1234,
+  "reserved_known_question_exclusions": 257,
+  "reserved_patients_without_any_known_question_exposure_or_schedule": 0,
+  "reviewed_V8_selection_seeds": [
+    5108,
+    5109
+  ],
+  "seed_claim": "5110 is unused in the two reviewed formal study manifests; no assertion about every unrecorded local trial. No new IDs selected.",
+  "status": "METADATA_ONLY_EXPOSURE_AUDIT_NO_NEW_MANIFEST_OR_QA"
+}

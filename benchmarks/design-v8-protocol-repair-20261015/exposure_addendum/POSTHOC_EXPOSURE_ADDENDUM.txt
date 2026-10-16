@@ -1,0 +1,22 @@
+POSTHOC EXPOSURE ADDENDUM — repaired V8 development study
+Recorded16 October2026. Metadata only; no new scoring.
+
+This addendum attaches to completed-record commit3508c31fab080f0fd36763e5837d2265bfbb6e58 and its original completion_publication_manifest.json SHA256 c7faf0f2fda5e2b1a3220353473a59d8a3a4943d9ad20ab71a28454e72a3ec1a.
+
+A later bounded metadata audit found that4 of the repaired study's120 question IDs appear in the explicit20-ID attempted-question list for the earlier V2 pilot_a Single run:
+70b43bd19ed867f8f2420003
+89383745e9cd66ac4837c91f
+9eda5afbe00ed4d5f058ec11
+c72069fe9515604ba1be94c3
+
+The evidence is the prior ID-only extraction /private/tmp/fhir-known-attempted-question-patient-ids.json, SHA25641e0246ff531e34a3fedf304a0cd5bbd51393faeb09e75f23b73e008de44eab9, itself pinned by committed docs/evaluation_exposure_history_20261015.json. Its three covering lists reconcile321 explicit attempted IDs. The four overlaps belong specifically to output/experiments/gpt-6-luna/verified_team_v2_pilot_a/ordinary_single_agent.json in that extraction. The answer file was not reopened. This claim is distinct from the separate32-subject patient-exposure ledger, which is not expanded into attempted question IDs.
+
+The repaired manifest excluded the original scheduled V8 cohort, adaptive300 and protected1397 as declared, and has no overlap with the two identified V8 engineering interface questions. The four older pilot questions were not excluded by that declared selection procedure. Therefore the repaired120 must not be described as wholly unexposed relative to all known prior attempts. It remains a prospective, balanced adaptive-development screen over previously exposed patients, with this additional question-history limitation.
+
+No question is replaced or dropped. No attempt is rerun, score recalculated, gate changed or winner reselected. The published completed negative result and failed original R advancement gate remain authoritative. All originally published file pins,226 frozen source files and four runtime files were rechecked unchanged while drafting this addendum. The original manifest, completion report, scores, publication manifest and archives remain untouched.
+
+Legacy V5-V7 engineering summaries also omit exact question IDs, and the coarse32-patient ledger records QA/answer/few-shot/gold-packet exposure without an exhaustive QID map. Thus this audit cannot reconstruct perfect untouched-question history. Future development may exclude all recoverable exact attempted/scheduled/interface IDs and accurately state identified-QID freshness over exposed patients. It must not claim new-patient, new-template, new-task or cross-model confirmation from that selection.
+
+The existing protected1397 membership and once-only confirmation rules remain unchanged. Its QA payloads were not inspected. The sealed metadata audit is output/development/post_v8_exposure_audit_20261016/delivery.json, SHA25617f072053f1724cc19a3fd92864ec0af23406d20c563a9977d3a568b1ee7a0cc; historical_overlap_provenance.json SHA25641d76dd66d540d28107367136ef166a61cabbf81e628256c81cf91aaba6a8ebe binds the exact source paths and IDs.
+
+Publication note: the experiment index now links this correction and qualifies freshness. The original completed-record files and their original publication manifest retain their historical bytes; the index revision is explicitly bound in this addendum. The sealed metadata audit is copied under exposure_addendum/audit/.

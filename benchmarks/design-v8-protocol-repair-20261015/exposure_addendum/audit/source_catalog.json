@@ -1,0 +1,122 @@
+[
+  {
+    "bytes": 43535,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/scripts/v8_mechanism_study.py",
+    "role": "Exact reviewed metadata-only loader; no execute/analyze/scorer invoked",
+    "sha256": "b7e250c79c4f6f233d010d509138ff606c7a3922a70aaa5cbc41b9e15a43d38a"
+  },
+  {
+    "bytes": 7813736,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/final_dataset/questions_answers_sql_fhir.csv",
+    "role": "Parsed ONLY question_id/patient_fhir_id through explicit usecols",
+    "sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0"
+  },
+  {
+    "bytes": 551551,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/manifests/question_families.csv",
+    "role": "Parsed ONLY question_id/family/excluded_reason/template_id through exact loader",
+    "sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab"
+  },
+  {
+    "bytes": 26453,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/manifests/split.json",
+    "role": "Question/patient split metadata",
+    "sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015"
+  },
+  {
+    "bytes": 254200,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/manifests/final_evaluation_strata_20261015.json",
+    "role": "Frozen confirmation/development question IDs only; no QA",
+    "sha256": "6c0410ae9fc581bf5cf6918f95d4d97407a8eb4b19d488cba6815937a1bbf965"
+  },
+  {
+    "bytes": 28769,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/docs/evaluation_exposure_history_20261015.json",
+    "role": "Prior committed historical metadata scan attestation; no listed answer files reopened",
+    "sha256": "6f3d22ae5e2fbec2dfc086d43dc391893168f82280a4e913956fb1b0bf7431a1"
+  },
+  {
+    "bytes": 28716,
+    "path": "/private/tmp/fhir-known-attempted-question-patient-ids.json",
+    "role": "Prior SHA-bound explicit attempted question/patient IDs, not patient-expanded exposure",
+    "sha256": "41e0246ff531e34a3fedf304a0cd5bbd51393faeb09e75f23b73e008de44eab9"
+  },
+  {
+    "bytes": 1692,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/manifests/development_exposure.json",
+    "role": "Subject/patient exposure ONLY; not an attempted-question list",
+    "sha256": "b56e95cd4429559abe2789214bc3cff700556f0fbfa0cd3247ab36e93c47e902"
+  },
+  {
+    "bytes": 51255,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/manifests/v8_mechanism_120_20261015.json",
+    "role": "Original V8 full scheduled120, conservatively excluded including uncompleted43",
+    "sha256": "d37c4042b31ad0e5c84fa4afeacd1455e86c5a3f5ea61a425cf8b40dfc92107e"
+  },
+  {
+    "bytes": 51683,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/manifests/v8_mechanism_120_protocol_repair_20261015.json",
+    "role": "Completed repaired V8 scheduled120; parent attests all120 terminal, no answer files read",
+    "sha256": "1694573a0486df16a502bf1c6650061ad10e3a4adf6dd94a115e92065ba75a19"
+  },
+  {
+    "bytes": 13522,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/development/v8_interface_20261015a/study_identity.json",
+    "role": "Explicitly named V8 development interface case metadata only",
+    "sha256": "1f35e248c3e46a1d99aeb7ce12b6620b3d3f1497bba7247140b85cdeecc6f425"
+  },
+  {
+    "bytes": 3584,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/development/v8_engineering_20261015/live_interface_review.json",
+    "role": "Named live interface completion metadata; no outcome values read",
+    "sha256": "ebc34bdbdb7b84e699dae0f194dc2876c7e53f9938334a7e19d9dcdc6cb54783"
+  },
+  {
+    "bytes": 13542,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/development/v8_interface_20261015b/study_identity.json",
+    "role": "Explicitly named V8 development interface case metadata only",
+    "sha256": "ef854d52494ebf71551bc046594a918d068e73a8dc155db821814ab20f4d55d4"
+  },
+  {
+    "bytes": 3234,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/development/v8_engineering_20261015/live_interface_review_b.json",
+    "role": "Named live interface completion metadata; no outcome values read",
+    "sha256": "8326aebbef7817a29d9b08c762049d4053b32bdca711e60fffa8b1421049749d"
+  },
+  {
+    "bytes": 1032,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v5-20261015/live_development_interface.json",
+    "role": "Legacy live interface metadata; QIDs absent, identity not assumed",
+    "sha256": "70cd414e300c41783df06ec603fe83e5b80038d13400a43a12e48d441126b347"
+  },
+  {
+    "bytes": 4122,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/live_development_interface_initial.json",
+    "role": "Legacy live interface metadata; QIDs absent, identity not assumed",
+    "sha256": "72981d737730fbfd9ee8f74e9886806d5de3ff0ce1ef1f62ac85e81a32128e62"
+  },
+  {
+    "bytes": 2017,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v6-20261015/live_development_interface_clarified.json",
+    "role": "Legacy live interface metadata; QIDs absent, identity not assumed",
+    "sha256": "3da7541951a772b073e7318a1fe7e10012d035c93345fc3e5c503e049b73136a"
+  },
+  {
+    "bytes": 3144,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v7-20261015/live_development_interface.json",
+    "role": "Legacy live interface metadata; QIDs absent, identity not assumed",
+    "sha256": "372697725e73bf77dc07663b502f732eca648da433f21fd4798eb3bf139cb063"
+  },
+  {
+    "bytes": 704,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/development/v6_native_interface_20261015/ordinary_multi_agent.json.run.json",
+    "role": "Explicitly named V6 run identity only; no answers/audits read",
+    "sha256": "40dacb80d3837d52012dc035d8428c4c0e839e719f07c81a90aaf968e156bbe4"
+  },
+  {
+    "bytes": 1012,
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/design-v8-protocol-repair-20261015/engineering/root_selection_review.json",
+    "role": "Committed cohort separation assertions and mention of later diagnostic; no QA",
+    "sha256": "f0ba91d48834b1fc6e052068883fbc8c166113be7a81c2af193dfb46623c9787"
+  }
+]

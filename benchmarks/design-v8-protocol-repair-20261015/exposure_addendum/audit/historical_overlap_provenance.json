@@ -1,0 +1,57 @@
+{
+  "committed_attestation_path": "docs/evaluation_exposure_history_20261015.json",
+  "committed_attestation_sha256": "6f3d22ae5e2fbec2dfc086d43dc391893168f82280a4e913956fb1b0bf7431a1",
+  "historical_ledger_path": "/private/tmp/fhir-known-attempted-question-patient-ids.json",
+  "historical_ledger_sha256": "41e0246ff531e34a3fedf304a0cd5bbd51393faeb09e75f23b73e008de44eab9",
+  "overlaps": {
+    "original_V8": {
+      "fixed300_overlap_n": 0,
+      "historical_attempt_overlap": [
+        "72f9afe9d7752f2079ec4df1",
+        "7329fbf5056c86af263e9033"
+      ],
+      "historical_attempt_overlap_n": 2,
+      "known_V8_interface_overlap": [],
+      "prior_extraction_provenance": {
+        "output/experiments/gpt-6-luna/verified_team_v2_pilot_a/ordinary_single_agent.json": {
+          "attempted_metadata_rows": 20,
+          "evidence": "Copied only from prior SHA-bound metadata extraction; source answer file not reopened",
+          "identity_sha256_recorded_by_prior_audit": "5f3bf319c6bb21ef9cac89f9a7cf62e0df7a6635e63dfaa403af6f47e103a223",
+          "question_ids": [
+            "72f9afe9d7752f2079ec4df1",
+            "7329fbf5056c86af263e9033"
+          ],
+          "scheduled_metadata_rows": 20
+        }
+      },
+      "protected1397_overlap_n": 0
+    },
+    "repaired_V8": {
+      "fixed300_overlap_n": 0,
+      "historical_attempt_overlap": [
+        "70b43bd19ed867f8f2420003",
+        "89383745e9cd66ac4837c91f",
+        "9eda5afbe00ed4d5f058ec11",
+        "c72069fe9515604ba1be94c3"
+      ],
+      "historical_attempt_overlap_n": 4,
+      "known_V8_interface_overlap": [],
+      "prior_extraction_provenance": {
+        "output/experiments/gpt-6-luna/verified_team_v2_pilot_a/ordinary_single_agent.json": {
+          "attempted_metadata_rows": 20,
+          "evidence": "Copied only from prior SHA-bound metadata extraction; source answer file not reopened",
+          "identity_sha256_recorded_by_prior_audit": "5f3bf319c6bb21ef9cac89f9a7cf62e0df7a6635e63dfaa403af6f47e103a223",
+          "question_ids": [
+            "70b43bd19ed867f8f2420003",
+            "89383745e9cd66ac4837c91f",
+            "9eda5afbe00ed4d5f058ec11",
+            "c72069fe9515604ba1be94c3"
+          ],
+          "scheduled_metadata_rows": 20
+        }
+      },
+      "protected1397_overlap_n": 0
+    }
+  },
+  "union_proof": "Each covering file belongs to47-file scan; their union has321qids/62patients, equal to complete scan union counts, so no additional qid/patient occurs elsewhere in the47 files."
+}

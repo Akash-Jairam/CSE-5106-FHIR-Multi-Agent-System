@@ -1,0 +1,53 @@
+{
+  "QA_reference_SQL_fields_materialized": false,
+  "balanced120_feasible_for_identified_exclusions": true,
+  "files": {
+    "FINDINGS.txt": {
+      "bytes": 7598,
+      "sha256": "bc6e2c0d4291e54aecdd6ba7c2401ecdbd122a671730da6cb5b7dda50d1093f6"
+    },
+    "audit.log": {
+      "bytes": 7656,
+      "sha256": "6a31fa3afc75882edc549b2392841f5875526eb38f6fd52123f9cfb174f011e1"
+    },
+    "audit_metadata.py": {
+      "bytes": 13538,
+      "sha256": "43ddc45a2b9cd625b6b47669e3bf0f40b2674c6c3259b53eebbd721b0eebb177"
+    },
+    "exposure_ID_sets.json": {
+      "bytes": 77771,
+      "sha256": "06a63d840163954952201fab6a05d04b09b80e74bc04906ce13efa6c4f988b0c"
+    },
+    "historical_overlap_provenance.json": {
+      "bytes": 2503,
+      "sha256": "41d76dd66d540d28107367136ef166a61cabbf81e628256c81cf91aaba6a8ebe"
+    },
+    "known_question_exclusion_union.json": {
+      "bytes": 26272,
+      "sha256": "037d31bcb187553957d0de6043e3c9fceb231e97beafd88988e1f05ff0aa7567"
+    },
+    "remaining_counts_by_patient.json": {
+      "bytes": 14696,
+      "sha256": "8a9d09909c32eb60496fc7083aa1f8045966a8ab96e02a4b78317c70cb73c40e"
+    },
+    "source_catalog.json": {
+      "bytes": 7520,
+      "sha256": "5a7ce9e6f6da0920ff24747608d8b4087845ad2dd38c9693bb70f65faf510c0f"
+    },
+    "summary.json": {
+      "bytes": 7656,
+      "sha256": "83664f2db9606b9b93ec48dceafb82ef12ab6f46781aa888d00c88a046ebd35c"
+    }
+  },
+  "formal_new_manifest_created": false,
+  "known_ID_clean_upper_bound": 977,
+  "known_exclusion_union": 557,
+  "legacy_and_coarse_exposure_gaps_disclosed": true,
+  "model_or_FHIR_calls": 0,
+  "new_question_ids_selected": false,
+  "protected_QA_read": false,
+  "repaired120_historical_explicit_attempt_overlap": 4,
+  "source_catalog_hashes_rechecked_unchanged": true,
+  "source_runtime_record_git_mutations": false,
+  "status": "BOUNDED_METADATA_ONLY_COMPLETE"
+}

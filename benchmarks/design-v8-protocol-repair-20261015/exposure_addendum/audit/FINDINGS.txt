@@ -1,0 +1,54 @@
+Post-V8 metadata exposure audit — 16 October 2026
+Scope: bounded metadata-only audit. No new study manifest, candidate design, model call or new QA inspection.
+
+Finding
+A further balanced120 is feasible after excluding every IDENTIFIED prior attempted/scheduled/interface question ID, fixed300 and protected1397:977 reserved dev/pilot questions remain across35 patients. This is a known-ID-clean upper bound, not a proof that every remainder question is uninspected. Legacy interface identities and older patient-level QA exposure are incompletely enumerated. All35 reserved patients have already been exposed or scheduled; this pool cannot provide new-patient validation.
+
+The repaired V8 study has FOUR question overlaps with a prior explicit pilot-attempt list. This does not change its frozen cohort, official scores, failed gate or development-only interpretation. A transparent posthoc exposure addendum can state the overlap. Neither V8 study intersects fixed300/protected1397, and neither intersects the two identified V8 engineering interface IDs.
+
+Exact historical source and claim boundary
+The321-QID source is /private/tmp/fhir-known-attempted-question-patient-ids.json,
+SHA25641e0246ff531e34a3fedf304a0cd5bbd51393faeb09e75f23b73e008de44eab9.
+Committed docs/evaluation_exposure_history_20261015.json pins this exact artifact at attempted_id_union_artifact. Its prior47-file metadata scan states321 unique attempted questions/62patients. The artifact's three explicit covering lists are V3d Single300, V2 pilot_a Single20, and V4 dev interface1. Their union was checked to equal321. This audit reused the source-hashed metadata attestation; it did not reopen those answer files or independently repeat the old raw-history scan.
+
+This is distinct from manifests/development_exposure.json: that file lists five SUBJECT/PATIENT exposure groups totaling32 subjects. Its reasons include proposal reference-answer examples, few-shot QA/answers in prompts, phase1 scored smoke/preliminary runs, and earlier gold-ID packet diagnostics. It does not list321 question IDs. Those32 subjects are not expanded into attempted QIDs in this audit. They still represent substantive exposure and unknown exact question history.
+
+V8 overlaps with explicit historical attempts
+Original scheduled120, seed5108: two pilot_a IDs,
+72f9afe9d7752f2079ec4df1 and7329fbf5056c86af263e9033.
+Repaired scheduled120, seed5109: four pilot_a IDs,
+70b43bd19ed867f8f2420003,89383745e9cd66ac4837c91f,
+9eda5afbe00ed4d5f058ec11,c72069fe9515604ba1be94c3.
+All six occur in the explicit20-QID pilot_a attempted list, rather than a patient-expanded set. historical_overlap_provenance.json binds the prior ledger, committed attestation, original covering-file identity and overlap IDs. These comparisons do not use question text, references, outcomes or accuracy.
+
+Question-ID exclusion accounting
+The frozen partitions are reserved dev1174 +pilot60 =1234, adaptive fixed300, and protected1397, partitioning all2931 metadata rows. The known union is:
+  historical explicit attempted321 (includes fixed300 and21 reserved questions);
+  every original V8 scheduled120, including the43 uncompleted slots;
+  every repaired V8 scheduled120;
+  the two verified V8 interface IDs from study_identity metadata:
+    7809b76d2d7b213240cd949c andb09ed49b64bdf344e14bb1c7.
+After overlap removal this is557 question IDs/93 patients, of which257 IDs belong to reserved dev/pilot. Thus1234-257=977. The known attempted-ID lower bound is439 from historical321 + completed repaired120 + two verified interfaces, accounting for four overlaps. Original aborted-study attempted-prefix IDs were not re-enumerated here, but its full scheduled120 is excluded regardless.
+
+Remaining operation pools and quotas
+                            Questions  Patients  Required
+lookup/counting                 218        34       30
+temporal selection              444        35       30
+numerical aggregation           130        26       30
+duration                        126        13       10
+paired comparison                25        14       10
+paired difference                34        17       10
+Every disjoint operation pool exceeds its quota. Lookup/counting alone offers34 patients for30 slots, so the minimum20-patient coverage is feasible without choosing question IDs in this audit. remaining_counts_by_patient.json gives counts across all35 patients. No candidate120 or order has been selected or saved. Seed5110 is a reasonable next proposed seed; it is absent from the two reviewed study-selection manifests. This does not assert that every unrecorded local trial has been audited.
+
+Unresolved engineering identities
+The committed V5 interface summary reports1 question; V6 initial reports3 questions/attempts; V6 clarified reports1 reused question; V7 reports1 previously queried input. These summaries omit QIDs. The exact named V6 run identity has custom input hash1cddf773..., V7 has e704a2ca..., while the old V4 interface metadata records0a1b12ff.... V5 input identity is unavailable in the reviewed summary. Reuse booleans do not justify assigning these interfaces to the old V4 QID or the321-ID set.
+
+These six reported slots are an upper bound on distinct unresolved IDs within these particular summaries; reuse may reduce it. Even excluding six additional distinct remaining questions would leave at least971 and would preserve every operation quota and20-patient feasibility. Their actual identities should nevertheless be recovered from explicitly identified ID-only input metadata before claiming they have been excluded. A reviewed selection record also mentions a later informal diagnostic without QIDs; this bounded audit cannot determine whether it used any dataset QA. No raw-output crawl was used to fill these gaps.
+
+Stronger exposure interpretation
+Of the977 known-ID-clean remainder,949 lie on the32 patients with coarse documented QA/gold exposure. Excluding every question on those32 patients as an OPTIONAL stronger conservative rule would leave only28 questions on three pilot patients (lookup5, temporal10, numeric5, duration4, comparison1, difference3), so balanced120 would be impossible. This is not evidence that all949 questions were attempted. It shows why fully uninspected-question or new-patient claims cannot be reconstructed from coarse patient metadata. Even the three pilot patients have known prior question exposure.
+
+There are72 template IDs in the977 remainder; eight are absent from the identified excluded-question union. Those are metadata-ID counts only. The coarse patient ledger and earlier template usage do not establish that the eight wordings or task structures are unseen. No new-template or cross-model claim follows. The once-only protected1397 membership is unchanged and has zero overlap with the identified exposure union; its QA payloads were not inspected.
+
+Implementation/access evidence
+AGENTS.md was read first. The exact read_selection_inputs function in scripts/v8_mechanism_study.py was used: pandas usecols question_id/patient_fhir_id only, and family CSV projection question_id/family/excluded_reason/template_id only. No execute/analyze/scorer entry point was called. Only explicitly named committed metadata, checkpoints and interface identities/reviews were inspected. No secret configuration, answer/output payload file, raw trace, FHIR source/cache, model call, replay, source/runtime/record write or Git mutation occurred. All writes are in this ignored directory. source_catalog.json records every source content hash used by the reproducible audit_metadata.py script.
