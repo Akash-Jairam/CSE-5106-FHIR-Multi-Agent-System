@@ -1,0 +1,67 @@
+V3 full benchmark: finding and interpreting the saved data
+
+Live run directory, relative to the repository:
+output/experiments/gpt-6-luna/v3_full_2931_20261015
+
+Progress and recovery
+supervisor_state.json shows the current process, phase, accepted counts and
+checkpoints in the active batch. Accepted totals update when a batch seals;
+checkpointed_in_batch can therefore increase before accepted totals change.
+operations.jsonl records batch launch/seal events and operational recovery.
+diagnostics/ contains public provider request timing, usage and exception types.
+The configured launcher provides a credential-safe aggregate status command:
+  .venv/bin/python scripts/launch_v3_full.py status --run-dir \
+    output/experiments/gpt-6-luna/v3_full_2931_20261015
+
+Authoritative predictions
+full_multi_agent.json, full_single_agent.json and full_direct_llm.json contain
+the first runtime-clean completed outcome for each accepted question. Each has
+a .run.json identity. acceptance.json maps accepted questions to immutable raw
+attempt files. Earlier infrastructure failures are preserved under attempts/
+and are excluded from primary accuracy, question latency and estimated cost.
+Each raw batch has an input, identity, metadata, checkpoint result, and immutable
+seal. A retry receives the same question and settings; correctness never decides
+retry eligibility. Completed intrinsic failures and abstentions remain outcomes.
+
+Final analysis
+analysis/summary.json and analysis/report.txt are the final outputs only after
+all 2,931 questions in all three arms are accepted and the strict terminal gates
+pass. A complete summary must explicitly say COMPLETE. Files in
+analysis_validation_first_batch/ or analysis_partial/ are operational validation
+or progress snapshots, not final performance results. Their prefixes need not
+represent the full question distribution.
+
+Per-question data and tables
+per_question.jsonl retains one JSON object per accepted arm/question, including
+prediction, reference, scoring, family/template/patient, citation data, revision
+and source-check diagnostics, latency, token counts, usage-based estimated cost,
+and pointers to the full compressed audits. per_question.csv has the same data;
+structured columns are JSON strings and some diagnostic fields are large.
+Python's built-in csv reader may require csv.field_size_limit(sys.maxsize).
+Use JSONL for rich diagnostics, or select scalar columns for spreadsheet import.
+arm_summary.csv contains the principal accuracy, latency, token and cost totals,
+means, median, p95, standard deviation and measurement missingness. Separate
+tables group by family, answer type, template, patient, exposure and original
+analysis split. paired_comparisons.csv records paired wins/losses, differences
+and patient-cluster bootstrap intervals. mechanisms.csv records draft/final and
+targeted-repair transitions; phase_usage.csv records phase token/tool accounting.
+
+Measurement interpretation
+Estimated cost uses pricing.json, the user-authorized official OpenAI schedule
+adopted for this Azure deployment. It is not a billing receipt. Unknown reported
+provider dollar costs stay null. Cached tokens are a subset of prompt tokens;
+they must not be charged twice. Latency is the accepted agent invocation's
+recorded seconds. Summed task latency is distinct from operational wall time,
+which also reflects parallelism, retries, launch delays and reporting.
+The rich report records complete-cohort and observed-only statistics separately
+when a measurement is missing. Runtime failures never receive an incorrect
+answer label merely because they failed to execute.
+
+Evidence and claims
+Local original FHIR records independently validate cited field values. Evidence
+validity and overlap with annotated resource IDs are different from answer
+correctness and do not prove semantic completeness. Full-cohort results include
+questions exposed during development; use the saved exposure labels and avoid
+describing the released full cohort as a fresh held-out confirmation. The paper's
+aggregate scores use different models and evaluation and are background; the
+new single-agent run is the matched project control.
