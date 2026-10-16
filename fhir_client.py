@@ -5,6 +5,8 @@ sys.path.append("..")
 
 from google.auth import default
 from google.auth.transport import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 from typing import Any, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from utils import get_fhir_config
@@ -14,6 +16,21 @@ JsonObject = list[dict[str, Any]]
 def get_auth_session_from_default():
     credentials, project_id = default(scopes=["https://www.googleapis.com/auth/cloud-platform"])
     return requests.AuthorizedSession(credentials)
+
+
+# FHIR access is read-only, so retrying a dropped or throttled GET cannot duplicate work.
+# Stale pooled connections ("Connection aborted / RemoteDisconnected") otherwise ended
+# whole questions before any agent step (V8 exploratory run 3b).
+FHIR_GET_RETRY = Retry(total=4, connect=4, read=4, backoff_factor=1.0, allowed_methods=frozenset({"GET"}),
+                       status_forcelist=(429, 500, 502, 503, 504), raise_on_status=False)
+
+
+def with_read_retries(session):
+    if hasattr(session, "mount"):
+        adapter = HTTPAdapter(max_retries=FHIR_GET_RETRY)
+        session.mount("https://", adapter)
+        session.mount("http://", adapter)
+    return session
 
 def fhir_store_construct_url(project_id, location, dataset_id, fhir_store_id):
     base_url = "https://healthcare.googleapis.com/v1"
@@ -32,7 +49,7 @@ class FHIRClient:
         self.fhir_store_url = fhir_store_construct_url(project_id, location, dataset_id, fhir_store_id)
 
         # ADC if creds not supplied
-        self.session = creds or get_auth_session_from_default()
+        self.session = with_read_retries(creds or get_auth_session_from_default())
         self.last_search_stats = None
 
         # For debug and logging
