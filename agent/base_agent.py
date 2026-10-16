@@ -13,6 +13,16 @@ from .output_schema import AgentOutput, extract_tool_calls, parse_final_message,
 BUDGET_EXCEEDED = "Budget exceeded"
 
 
+def _cap_completion(model, remaining):
+    """Clamp to the provider's per-call output cap when the registry knows it;
+    a 200k ceiling otherwise requests more than gpt-6-luna's 128k."""
+    try:
+        cap = litellm.get_model_info(model.removeprefix("openai/")).get("max_output_tokens")
+    except Exception:
+        cap = None
+    return min(remaining, cap) if cap else remaining
+
+
 class BaseAgent:
     """
     Base class for all FHIR agents.
@@ -125,7 +135,7 @@ class BaseAgent:
                                     f"needs ~{prompt}, ceiling {self.max_total_tokens}")
                 self.last_llm_error = f"{BUDGET_EXCEEDED}: {self.budget_stop}"
                 return None, self.last_llm_error, None
-            limits = {"max_completion_tokens": remaining, "max_retries": 1}
+            limits = {"max_completion_tokens": _cap_completion(self.model, remaining), "max_retries": 1}
         response, error, usage_info = safe_llm_call(model=self.model, messages=messages, tools=tools,
                                                     base_url=self.base_url, **limits)
         self._update_usage(usage_info)

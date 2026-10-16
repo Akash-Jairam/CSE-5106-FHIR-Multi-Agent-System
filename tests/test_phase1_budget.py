@@ -29,6 +29,14 @@ class BudgetTests(unittest.TestCase):
         self.assertEqual(call.call_args.kwargs["max_completion_tokens"], 36)
         self.assertEqual(call.call_args.kwargs["max_retries"], 1)
 
+    def test_completion_is_capped_by_model_output_limit(self):
+        self.agent.model = "gpt-6-luna"
+        self.agent.set_budget(max_total_tokens=200_000)
+        with patch("agent.base_agent.count_tokens_in_messages", return_value=100), patch(
+                "agent.base_agent.safe_llm_call", return_value=("answer", None, None)) as call:
+            self.agent._llm_call([{"role": "user", "content": "q"}])
+        self.assertEqual(call.call_args.kwargs["max_completion_tokens"], 128_000)
+
     def test_second_prompt_consumes_remaining_budget(self):
         self.agent.set_budget(max_total_tokens=200)
         self.agent.total_usage["total_tokens"] = 150
