@@ -1,0 +1,22 @@
+Decision: run a fresh matched single-agent full cohort after V3.
+Authorized by the user on 15 October 2026 (America/Chicago).
+
+The original FHIR-AgentBench paper evaluates o4-mini, Gemini-2.5-Flash,
+Qwen3-32B and Llama-3.3-70B. It uses an o4-mini evaluator for free-text answer
+correctness. Its results cover 2,931 questions but do not supply our matched
+GPT-6 Luna baseline under our tools, source checks, budgets and typed scorer.
+Source: sections 4.1 and 4.3, retrieved 15 October 2026:
+https://arxiv.org/html/2509.19319
+Publication record: https://proceedings.mlr.press/v297/lee26a.html
+
+The project's own single_agent is the capable, continuous-context control used
+in the proposal and V1-V3 development. Reusing paper aggregate scores would
+confound model, tool implementation, prompt, answer contract and evaluation.
+It would also prevent paired question-level accuracy/cost/latency comparisons.
+Therefore the supervisor schedules the complete V3 team first, followed by
+the complete matched single_agent and direct_llm controls, using unchanged
+frozen settings and the same runtime-recovery policy in every arm.
+
+The new single-agent run is a project control, not a literal reproduction of
+every paper architecture. Historical paper scores remain contextual related
+work, not the denominator for claims that V3 improves over a matched control.
