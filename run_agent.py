@@ -81,6 +81,8 @@ def build_parser():
                         help="With --perturbations: start from the full (intact) or the omitted packet")
     parser.add_argument("--subset", default=None,
                         help="Frozen question subset (manifests/variability_subset.json); restricts the run to it")
+    parser.add_argument("--question_ids_file", default=None,
+                        help="Exploratory runs only: one question_id per line, restricted to the selected inputs")
     parser.add_argument("--repeat", type=int, default=None,
                         help="Repeat number of a repeated subset run; recorded in the run identity only")
     return parser
@@ -408,7 +410,12 @@ def main(argv=None):
         parser.error("--subset needs --split_manifest and --split, and cannot be combined with --perturbations")
     if args.repeat is not None and (not args.subset or args.repeat < 1):
         parser.error("--repeat must be a positive repeat number of a --subset run")
+    if args.question_ids_file and (args.subset or args.perturbations):
+        parser.error("--question_ids_file cannot be combined with --subset or --perturbations")
     question_ids = load_subset(args.subset, args.split_manifest, args.split) if args.subset else None
+    if args.question_ids_file:
+        with open(args.question_ids_file, encoding="utf-8") as stream:
+            question_ids = [line.strip() for line in stream if line.strip()]
     perturbations = None
     if args.perturbations:
         from tools.perturbation import load_perturbations

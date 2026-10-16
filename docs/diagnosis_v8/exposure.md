@@ -45,3 +45,13 @@ as exposed by earlier phases; this makes the V8 inspection explicit.
   `validityPeriod.start`. Reference-shaped false positives fell from 12 to 4.
   All 4 remaining are `admission_type_field` on T043, where the reference is
   not representable.
+
+## Exploratory repair runs (hand-off §3b)
+
+- **What ran**: the V8 team alone (gpt-6-luna, 200k / 30) on the 49
+  `root_causes.csv` questions, selected with `run_agent.py --question_ids_file`
+  under `output/exploratory/` (not an experiment entry). These are `held_out`
+  questions; this use is exploratory development, as with V2-V7.
+- **What was read**: revision records (`convention_issues`, `routing`,
+  `release_policy`, repair usage) and typed correctness per question, to tune
+  check gates, the repair cap and `repair_message` before the freeze.
