@@ -1,0 +1,44 @@
+{
+  "status": "APPROVED",
+  "reviewed_at": "2026-10-17T05:44:04.773302+00:00",
+  "reviewed_helper_sha256": "dfe5ed6a5e1221137993313ef8bcd14fb037cef53d72eb6543132fede0c8c00f",
+  "blocking_data_or_statistics_defects": [],
+  "checks_passed": [
+    "Both exact 2931 acceptance and canonical cohorts, patient identity and saved full-cohort run identities precede analyzer/scorer import",
+    "Full input identities bind both arms and each raw shard",
+    "Historical V3 canonical and ledger slice unchanged; preserved historical manifest and runner archive bound",
+    "Current manifest differs only in runner scheduling source SHA and selected_arms single_agent",
+    "Eight classifier AST definitions/constants remain semantically identical across operational amendment",
+    "Both arms replayed from sealed owned source batches including gzip audit payload/hash/owner verification",
+    "First clean accepted selection exact equals canonical and ledger; accepted reruns and unknown attention rejected",
+    "Snapshot contains both complete canonical arms and no Direct LLM canonical/results",
+    "Original analyzer called partial=True and global partial status retained; original three-arm final gate unchanged",
+    "Paired complete projection has only V3 and Single Agent plus exactly one 2931 matched comparison",
+    "Accepted latency/cost/tokens exclude runtime failures, missing measurements remain null, official OpenAI proxy labels retained",
+    "Unchanged patient-cluster confidence intervals, left-minus-right convention and missing-pair denominator retained",
+    "Snapshot nonportability and writable hardlinks disclosed; absolute historical references not claimed portable",
+    "All nine exact allowlisted public pins hash-bound through pre-import/final inventory checks; seven provider/runtime/preflight/protocol/baseline files omitted from snapshot and disclosed"
+  ],
+  "tests": {
+    "independent_synthetic_full2931_each": "PASS_11_CHECKS",
+    "independent_live_incomplete_refusal": "PASS",
+    "analyzer_import_count_on_incomplete": 0,
+    "scorer_imported_on_incomplete": false,
+    "output_created_on_incomplete": false,
+    "source_pins_current_match": 45,
+    "public_pins_current_match": 9,
+    "public_pin_tamper_rejected_before_analyzer": true,
+    "omitted_public_snapshot_material_verified": true,
+    "only_requested_delta_from_prior_review": true
+  },
+  "evidence_files": [
+    "incomplete_refusal.json",
+    "current_source_and_public_pins.json",
+    "public_pin_delta.json",
+    "/private/tmp/v3-single-baseline-candidate/paired_export_test_results.json"
+  ],
+  "no_live_changes": true,
+  "no_model_calls": true,
+  "no_actual_partial_scores": true,
+  "reviewed_test_sha256": "a93d0fbc2b02fac4e36dab80741394a8bb594ccbee74fcc32f757e133be81d2e"
+}

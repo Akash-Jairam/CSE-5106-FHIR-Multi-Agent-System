@@ -1,0 +1,61 @@
+COMPLETE-COHORT V3 + SINGLE AGENT ANALYSIS
+
+Do not evaluate partial baseline answers. The additive exporter refuses to
+import the scorer/analyzer until both exact 2,931-question first-clean cohorts,
+identities, immutable source attempts and audits validate. It also verifies
+the historical V3 manifest/receipt and the selected-arm scheduling amendment,
+unchanged classifier semantics, shared inference/settings/inputs, frozen
+pricing, and all nine public runtime/protocol pins.
+
+When the selected supervisor has completed all 2,931 Single Agent outcomes:
+
+1. Verify execution and preservation with native process access:
+   PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python \
+     benchmarks/single-agent-full-run-20261017/monitor_single_agent.py verify \
+     --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015 \
+     --final-arm --append-validation
+
+2. Export to a NEW sibling directory; never overwrite the live run or the
+   original completed V3 export:
+   PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python \
+     benchmarks/single-agent-full-run-20261017/export_complete_v3_single.py \
+     --project-root . \
+     --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015 \
+     --historical-v3-export output/experiments/gpt-6-luna/v3_complete_2931_20261016 \
+     --operational-amendment-dir output/experiments/gpt-6-luna/v3_full_2931_20261015/amendments/0003-single-agent-only-resume \
+     --output-dir output/experiments/gpt-6-luna/v3_single_complete_2931_20261017
+
+   If that output directory already exists, inspect its receipt/hashes and
+   determine whether the export succeeded before deciding any next action.
+   Never rerun inference because an analysis or observation command failed.
+
+3. Independently reconcile the full per-question table against canonical
+   outcomes and the selected acceptance ledger. Check time/token/cached-token
+   and cost sums, means, coverage, missingness and confidence intervals. Review
+   correctness versus the syntactic empty/no-value flag; correct empty answers
+   are not refusals. Verify paired wins/losses and the comparison sign.
+   The frozen analyzer uses left minus right, explicitly labeled in each row.
+
+4. Preserve the full per-question CSV/JSONL, aggregate and subgroup tables,
+   paired comparisons, report, receipts, provenance and file checksums. Keep raw
+   attempts/audits/diagnostics in the local run. Summed accepted task latency is
+   distinct from wall time. The original single-agent batch preceded a user
+   deferral; report the selected-resume interval separately from the historical
+   first-to-last batch span, which includes that gap.
+
+5. After validating the matched pair, disable the single-agent heartbeat and
+   report measured results. Do not run Direct LLM or rerun V3. Detailed public
+   GitHub publication still requires the user's outstanding explicit approval.
+
+The paired delivery status is V3_SINGLE_COMPLETE_DIRECT_PENDING with
+paired_scope_complete=true and benchmark_complete=false. Use paired_complete/
+for the complete matched pair. global_partial/ retains the frozen analyzer's
+original global three-arm partial label. Direct LLM is omitted from the
+snapshot, scoring and comparisons. The original three-arm final gate is
+unchanged and must not be claimed complete.
+
+Snapshots may contain hardlinks to immutable local results/audits and retain
+absolute historical source paths; they are not portable archives. Do not edit
+or chmod snapshot files. Work from the exported tables and preserve their hashes.
+The helper and its eleven-check synthetic full-cohort validation are archived
+locally; the original fixture source retains its test-machine paths.
