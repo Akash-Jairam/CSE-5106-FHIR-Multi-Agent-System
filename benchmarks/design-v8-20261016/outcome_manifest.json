@@ -1,0 +1,79 @@
+{
+  "recorded_at_utc": "2026-10-17T00:46:51.844804+00:00",
+  "arms": {
+    "ordinary_direct_llm": {
+      "result_sha256": "1cdee192addf39d24ca918a56916bce747e297e809bc5a0ffd9f46b90e564e47",
+      "run_identity": {
+        "version": 2,
+        "agent_strategy": "direct_llm",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "1fb93e0ecbf288aa5a4f97620967d05e26c1daef1b859fbffa534848f608a0b6",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_path": "/Users/akashjairam/Downloads/Git/CSE-5106-FHIR-Multi-Agent-System-v8/output/experiments/gpt-6-luna/v8_300q/ordinary_direct_llm.json"
+    },
+    "ordinary_single_agent": {
+      "result_sha256": "dd78aa8ecef6c7b875622a2687201c4f6479aebbc9a54d23602d66aaba7a16ea",
+      "run_identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "1fb93e0ecbf288aa5a4f97620967d05e26c1daef1b859fbffa534848f608a0b6",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_path": "/Users/akashjairam/Downloads/Git/CSE-5106-FHIR-Multi-Agent-System-v8/output/experiments/gpt-6-luna/v8_300q/ordinary_single_agent.json"
+    },
+    "ordinary_multi_agent": {
+      "result_sha256": "9cb0ddc1d42ad737bdd199750bbb9e4e9bedfca46d654efb115cdf8e68ca9b0d",
+      "run_identity": {
+        "version": 2,
+        "agent_strategy": "multi_agent_v8",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "1fb93e0ecbf288aa5a4f97620967d05e26c1daef1b859fbffa534848f608a0b6",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_path": "/Users/akashjairam/Downloads/Git/CSE-5106-FHIR-Multi-Agent-System-v8/output/experiments/gpt-6-luna/v8_300q/ordinary_multi_agent.json"
+    }
+  },
+  "provider_binding": null,
+  "report_sha256": "a4cbc07282c9a964270235e65aa4687695452049542a16604b5ac9f886a07cb3"
+}

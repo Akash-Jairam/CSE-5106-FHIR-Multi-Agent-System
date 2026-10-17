@@ -55,3 +55,13 @@ as exposed by earlier phases; this makes the V8 inspection explicit.
 - **What was read**: revision records (`convention_issues`, `routing`,
   `release_policy`, repair usage) and typed correctness per question, to tune
   check gates, the repair cap and `repair_message` before the freeze.
+
+## Run C (launch.md §2), scored once
+
+- **What ran**: direct, single and V8 team on all 300 `held_out` questions
+  under the frozen record `benchmarks/design-v8-20261016` (code b50c397),
+  900/900 first attempts, no resume.
+- **What was read**: aggregate accuracy, paired CIs, transitions and
+  release-policy / check / repair counts (`outcome.txt`). The gate failed, so
+  nothing from this run feeds a further design change, and no protected
+  question has been touched.

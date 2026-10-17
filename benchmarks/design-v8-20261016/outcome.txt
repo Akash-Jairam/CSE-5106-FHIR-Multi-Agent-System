@@ -1,0 +1,27 @@
+design-v8-20261016 outcome — GATE FAILED (negative result)
+
+Run C: held_out 300, gpt-6-luna, 200k tokens / 30 tools, code b50c397 (= dd0f7d8 + freeze record),
+900/900 first attempts, 0 terminal errors, 0 timeout retries, no resume.
+
+Accuracy (95% CI, clustered by patient, 58 patients)
+  direct LLM     208/300  69.3% [64.0, 74.7]
+  single agent   246/300  82.0% [76.7, 86.6]   15 budget stops
+  V8 team        241/300  80.3% [75.1, 85.0]    0 budget stops
+
+team - single: -1.7 pts, 95% CI [-4.8, +1.4], wins/losses 11/16
+
+Frozen gate (design.txt)
+  1. team > single                          -1.7 pts          FAIL
+  2. CI lower bound of (team - single) > -2  -4.8             FAIL
+  3. team wrong_to_right >= right_to_wrong   5 vs 6           FAIL
+
+Team release policies: source_valid_primary_preserved 276, primary_failed_execution_or_source_contract 18,
+convention_repair_released 3, null_release_repair_released 3.
+Checks fired on 19 questions: source_check 13, tie_completeness 5, specimen_field 2.
+V8 repairs: 19 run, 6 released (3 wrong->right, 3 wrong->wrong, 0 right->wrong), 10 rejected, 3 failed;
+  474k repair-phase tokens (mean 25k, max 43k, max 3 tools).
+The 6 right->wrong draft->release transitions come from the V3d solver revision path, not from V8 repairs.
+
+Cost: team 60.7k mean tokens vs single 74.0k; median latency 19.2s vs 21.3s.
+
+Consequence: confirmation (launch.md §7) is not run. No further dev-set iteration on the 300.

@@ -24,6 +24,13 @@ contract checks routed through the proposal's fixed controller, plus an
 optional heterogeneous-model audit arm. Its acceptance gate is frozen in
 [`design_v8.txt`](design_v8.txt) before any result exists.
 
+**V8 result (run C): gate failed.** Team 241/300 (80.3 %) vs fresh single
+246/300 (82.0 %): −1.7 pts, 95 % CI [−4.8, +1.4], at 0.82× the single's
+tokens. The checks fired on only 19 questions; the 6 released repairs were
+3 wrong→right and 3 wrong→wrong with no harm, but the inherited V3d solver
+revisions turned 6 right drafts wrong, so the arm's net transitions are 5 vs 6.
+No confirmation is run ([`outcome.txt`](../../benchmarks/design-v8-20261016/outcome.txt)).
+
 ## 2. Completed paired runs (300 `held_out` questions, gpt-6-luna, 200k tokens / 30 tools)
 
 All first attempts; terminal errors count as wrong; patient-block bootstrap
@@ -38,8 +45,8 @@ CIs from each branch's frozen `outcome.txt`.
 | V5 executable critic | 225 (75.0 %) | 237 (79.0 %)* | −4.0 [−8.1, −0.3] | 0 | 0 accepted repairs; 64 source-valid-but-wrong |
 | V6 independent recompute | 231 (77.0 %) | 234 (78.0 %)* | −1.0 [−5.2, +3.2] | 5 | 0 A-wrong/B-right among 37 eligible |
 | V7 residual trajectories | 233 (77.7 %) | 238 (79.3 %)* | −1.7 [−5.0, +1.6] | 6 | 1 A-wrong/B-right among 184 eligible; 115.0k vs 72.2k tokens; A revisions 3 neutral / 2 harmful |
-| **V8 convention-verified** | **TBD** | **TBD** | **TBD** | TBD | TBD (release_policy counts) |
-| V8 + heterogeneous verifier | **TBD** | same control | **TBD** | TBD | TBD |
+| **V8 convention-verified** | **241 (80.3 %)** | **246 (82.0 %)*** | **−1.7 [−4.8, +1.4]** | 0 | checks fired on 19; repairs 6 released (3 W→R, 3 W→W), 10 rejected, 3 failed; 276 primaries preserved, 18 null; 60.7k vs 74.0k tokens |
+| V8 + heterogeneous verifier | not run | same control | — | — | needs a second provider key |
 
 \* fresh single run under that design's fingerprint. Direct LLM (no tools):
 202/300 (67.3 %) archived.
@@ -128,11 +135,11 @@ no further dev-set iteration.
 
 | Experiment | What it tests (proposal §) | Status | Result |
 |---|---|---|---|
-| C — paired 300 under the B3 fingerprint | H1: team > single | prepared (launch.md §2) | **TBD** |
+| C — paired 300 under the B3 fingerprint | H1: team > single | done 2026-10-16, 900/900, 0 errors | **gate failed**: −1.7 [−4.8, +1.4]; transitions 5 W→R / 6 R→W; direct 69.3 % |
 | C' — heterogeneous verifier | breaks shared-model error correlation | prepared (§3) | **TBD** |
 | B1 — recovery, 50 × intact/omitted × single/team | §5.3: does a team recover an omitted resource better? Archived hint: single −14 pts, team −4 pts, confounded by a 54 % team | prepared (§4) | **TBD** |
 | B2 — weaker base model, 900 runs | verification pays when the base model has headroom (direct LLM is already 67 % on Luna) | prepared (§5); model fixed before launch | **TBD** |
-| Confirmation | generalisation off the burned 300 | blocked on gate | — |
+| Confirmation | generalisation off the burned 300 | not run: gate failed | — |
 
 ## 6. Caveats
 
