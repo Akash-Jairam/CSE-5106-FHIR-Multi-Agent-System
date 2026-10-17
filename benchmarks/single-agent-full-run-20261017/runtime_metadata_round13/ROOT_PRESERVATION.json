@@ -1,0 +1,19 @@
+{
+  "status": "PRESERVED_AND_REFERENCED_BYTES_REOBSERVED",
+  "at_utc": "2026-10-17T08:51:48.715063+00:00",
+  "scope": "sealed round13 runtime metadata; no correctness analysis",
+  "runtime_attempts": 6,
+  "all_runtime_statuses": [
+    500
+  ],
+  "new_provider_policy_rejections": 0,
+  "referenced_audits_rehashed": 8,
+  "source_and_sealed_result_hashes_reobserved": true,
+  "first_clean_validation_sha256": "a07ece9499f9e444bfdc5ddd18ebd5a9f59112f64b197daaef55a97b7366834a",
+  "selected_accepted_at_saved_validation": 1183,
+  "first_clean_verified": true,
+  "accepted_reruns": 0,
+  "prior_round12_runtime_question_recovered_and_selected": true,
+  "unselected_arms_preserved": true,
+  "note": "safe_review_at_seal.json records the normal immediate seal-to-ledger update interval; safe_review.json retains that observation and records the subsequent ledger adoption. Source scripts retain original local provenance paths."
+}

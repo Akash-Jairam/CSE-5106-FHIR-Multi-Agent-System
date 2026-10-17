@@ -1,0 +1,182 @@
+{
+  "status": "SEALED_RUNTIME_METADATA_RECONCILED",
+  "captured_at_utc": "2026-10-17T08:48:24.895974+00:00",
+  "scope": "IMMUTABLE_ROUND13_RUNTIME_AND_ROUND12_RECOVERY",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 13,
+  "saved_classifications": {
+    "accepted": 94,
+    "runtime": 6
+  },
+  "runtime_attempts": [
+    {
+      "question_id": "612351f75cf9c16873706c46",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "617d9b7140ffa467be53e5b8",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "61f764dd9a145b1cc50e9c25",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "631830633e3ef0505c85ca98",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "64d3df17e06aa81f9ecdc580",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "64dfb6c9030d4565fdcadb6f",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    }
+  ],
+  "provider_policy_rejection_count_in_captured_round13": 0,
+  "round12_runtime_recoveries": [
+    {
+      "question_id": "57c595ed27d732fb9989f76d",
+      "prior_sealed_attempts": [
+        {
+          "round": 12,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round13_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round13": true,
+      "selection_persistence": "Sealed raw result independently verified; see separately recorded acceptance-ledger adoption observation."
+    }
+  ],
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "attempts/single_agent/round-0012.json": "913dd49d9e8ba79b7a4fbc12ab8c0ac2cf89cc58b8fabe760aa1f3642e5540cc",
+    "attempts/single_agent/round-0012.batch.json": "f2b7c078805cf128cc04607719c6b4cf46ec6ce0539be8a838001cf2d2a87897",
+    "attempts/single_agent/round-0012.batch.seal.json": "6fea479a45af1331ebbb51f606f7c80fe651550ccf616ae47c919ee6992c38de"
+  },
+  "round13_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0013.json",
+    "sha256": "51424347e938e5cb1e25d5acbe197816a23ffed70ccdb2dedb3c8edd1d6bb562",
+    "bytes": 21241604,
+    "sha256_at_review_end": "51424347e938e5cb1e25d5acbe197816a23ffed70ccdb2dedb3c8edd1d6bb562",
+    "live_checkpoint_may_advance_normally": true
+  },
+  "referenced_audit_hashes": {
+    "attempts/single_agent/audit/f63e8dcd4e1d833d49d94bc5b8a43c2242ec450661ff467cfca3afc5e6b05d8d.json.gz": {
+      "compressed_sha256": "5fd1fcb9ead1b716f7f87db99786392a32d688220edf5629e5d08dc3d97537d8",
+      "uncompressed_sha256": "f63e8dcd4e1d833d49d94bc5b8a43c2242ec450661ff467cfca3afc5e6b05d8d"
+    },
+    "attempts/single_agent/audit/adffa7bccd08a4d34146ce6fa8b56cc80111226843c67156c40a9a8b68497a1e.json.gz": {
+      "compressed_sha256": "df1f70aca56d746cd85f097036962fd5b8e60594e4d2790da4a8aa2cdf3b2ed4",
+      "uncompressed_sha256": "adffa7bccd08a4d34146ce6fa8b56cc80111226843c67156c40a9a8b68497a1e"
+    },
+    "attempts/single_agent/audit/dcb8afd5db25b838edee883780a07a459ecf7efb78c02d7ad86111c2addba9d1.json.gz": {
+      "compressed_sha256": "ba57dab390290e5bc00d660743ec7244583b612bcbf0936b7f47f78e7921e3ae",
+      "uncompressed_sha256": "dcb8afd5db25b838edee883780a07a459ecf7efb78c02d7ad86111c2addba9d1"
+    },
+    "attempts/single_agent/audit/37356460b5ac12c4d11a32f254793a4a4a70b5f7c8759ae2a01801ef734d8bb1.json.gz": {
+      "compressed_sha256": "af1ca212fc47c029c0ac572283bc589fd7019eb457a8e833ecdff032fa551c43",
+      "uncompressed_sha256": "37356460b5ac12c4d11a32f254793a4a4a70b5f7c8759ae2a01801ef734d8bb1"
+    },
+    "attempts/single_agent/audit/a7fbb8d03b63c8e182b6857f7685b03408eee9c83787c518b8a59b933d4ee19e.json.gz": {
+      "compressed_sha256": "0ba81b123a57fa5ba0969ec2ca9ec5fe06684ac212e3f9e9277f90a5ec4ec9d9",
+      "uncompressed_sha256": "a7fbb8d03b63c8e182b6857f7685b03408eee9c83787c518b8a59b933d4ee19e"
+    },
+    "attempts/single_agent/audit/dc6de156fae09dbaee3a4e344c374021e21948041af24caff7464a138706c73d.json.gz": {
+      "compressed_sha256": "0e172ba42ebf8f9b4549ddc80bb6b9e6962e4a3ddb81db63df5a292a4b821781",
+      "uncompressed_sha256": "dc6de156fae09dbaee3a4e344c374021e21948041af24caff7464a138706c73d"
+    },
+    "attempts/single_agent/audit/ef79aa8f6082c6a8c568fb8c5d83b4d13845062ceb8974dee71946e9fb81ae9a.json.gz": {
+      "compressed_sha256": "edee01a90915c584fa0fe76ec73770771b2718625d5167a3778cd433be21e975",
+      "uncompressed_sha256": "ef79aa8f6082c6a8c568fb8c5d83b4d13845062ceb8974dee71946e9fb81ae9a"
+    },
+    "attempts/single_agent/audit/149e9eae40c7444837701976f6d4a2c68b6bc06c09109c278e131c84359a339e.json.gz": {
+      "compressed_sha256": "41271c24a7cf0bf67dc20714d79c65d9f4c281161fb3087387207348bdcdf709",
+      "uncompressed_sha256": "149e9eae40c7444837701976f6d4a2c68b6bc06c09109c278e131c84359a339e"
+    }
+  },
+  "no_clinical_raw_error_answer_reference_or_correctness_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true,
+  "reconciled_at_utc": "2026-10-17T08:48:24.955717+00:00",
+  "natural_seal": {
+    "batch_sha256": "c704feff4ed86f660ab2addc6143e0aa318c599466c8482b5f6042ae042f3219",
+    "seal_sha256": "a5681b9ac154ac911357d83be3860603f99bd137f201755a7caa0e42b58ca7bf",
+    "result_sha256": "51424347e938e5cb1e25d5acbe197816a23ffed70ccdb2dedb3c8edd1d6bb562",
+    "identity_sha256": "4064990123eac847f91bcb1287eb780ecd35f6e5cf39de7a60066ddfa890e71c",
+    "shard_input_sha256": "c941863bd1714a863b93f68f2341496b798f9cfe368e1d0fc6a60354d60aacbd",
+    "frozen_identity_matches": true,
+    "question_count": 100,
+    "all_scheduled_questions_accounted_for": true
+  },
+  "recovery_canonical_ledger_selection_observed": {
+    "question_id": "57c595ed27d732fb9989f76d",
+    "ledger_entry_matches_first_clean_round13": false,
+    "selection_metadata_only": null,
+    "acceptance_snapshot_sha256": "39b30898cb419ed8c48827fe6c140a031c2c3593c09ff2ab4e5ab75468ce3af7"
+  },
+  "runtime_round13_attempts_not_selected_in_ledger": true,
+  "review_code_sha256": "2916ee2e7e72b23bb47bae1ff98bb5e2a221aafe1a2f3e0e7cafd05e1d6583aa",
+  "classification_review_code_sha256": "741965dd39232ef351b12ba4ef1cec25046158cce4e20ec2133cce3712b17263"
+}
