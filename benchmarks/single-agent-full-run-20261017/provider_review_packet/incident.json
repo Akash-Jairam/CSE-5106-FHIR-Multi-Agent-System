@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-17T06:43:19.937250+00:00",
+  "purpose": "Evidence for legitimate provider review of suspected false-positive prompt rejections; no request for filter bypass or benchmark changes.",
+  "arm": "single_agent",
+  "benchmark_design": "v3 matched full benchmark",
+  "run_label": "v3_full_2931_20261015",
+  "provider": {
+    "provider": "azure",
+    "deployment": "gpt-6-luna",
+    "model": "gpt-6-luna",
+    "api_version": "2024-12-01-preview",
+    "profile_file_sha256": "7cfcb5b96ef17973bcf6c2e1a384898b0d7c2895362b52e162b74e513b5a793b",
+    "declared_public_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "endpoint_sha256_only": "e2cd7dc7c6dd4c1de28b69075dcacb2dfe9e267c52a6c841d83a78670229d48d"
+  },
+  "frozen_classifier_version": "v3-infrastructure-v4",
+  "operational_policy": {
+    "version": "azure-prompt-rejection-v1",
+    "category": "provider_policy_rejection",
+    "max_rejections_per_question": 2,
+    "retry_request": "unchanged",
+    "persistent_action": "park_pending_then_attention",
+    "scope": [
+      "single_agent"
+    ]
+  },
+  "status": {
+    "target_questions": 2,
+    "sealed_rejections": 4,
+    "each_target_parked_after_two_unchanged_request_rejections": true,
+    "remaining_authorized_single_agent_cohort_continues": true,
+    "supervisor_pid": 12567,
+    "state_observed_at_heartbeat": "2026-10-17T06:43:13+00:00"
+  },
+  "incidents": [
+    {
+      "question_id": "05a8454a6a71435a557db2cc",
+      "sealed_rejection_count": 2,
+      "parked_pending": true,
+      "attempts": [
+        {
+          "round": 2,
+          "provider_error": {
+            "http_status": 400,
+            "SDK_exception_class": "openai.BadRequestError",
+            "code": "content_filter",
+            "param": "prompt",
+            "inner_code": "ResponsibleAIPolicyViolation",
+            "filter_results": {
+              "jailbreak": {
+                "detected": true,
+                "filtered": true
+              }
+            }
+          },
+          "error_text_sha256_only": "455bc6f946d024bc51f5efcbdb16f2f80e7d35c2e8213919ba51e196973a60c5",
+          "usage_available_by_recorded_call": [
+            false
+          ],
+          "recorded_call_count": 1,
+          "usage_and_billing_note": "Provider usage is unavailable for the rejected call. Zero recorded token counters must not be interpreted as verified zero provider computation or billing.",
+          "task_elapsed_seconds": 1.658,
+          "audit": {
+            "relative_path": "attempts/single_agent/audit/8608cb77220a282989d5d11debacd47f7492cfcb30f9df46a603011bcf9fb859.json.gz",
+            "compressed_sha256": "2a1bef369b2626ae078d8c1b319eab328c382e9c8a1109cad0cacd9fbd4ca4aa",
+            "uncompressed_sha256": "8608cb77220a282989d5d11debacd47f7492cfcb30f9df46a603011bcf9fb859",
+            "question_owner_verified": true,
+            "descriptor_version": 2,
+            "codec": "json+gzip"
+          },
+          "provenance_source_key": "round-0002",
+          "provider_diagnostic": {
+            "journal_relative_path": "diagnostics/single_agent/round-0002/azure-diagnostics-9730-ac60ef8df3d944d0959a97ff5916b077.jsonl",
+            "pid": 9730,
+            "counter": 193,
+            "started_utc": "2026-10-17T05:45:35.192045+00:00",
+            "finished_utc": "2026-10-17T05:45:36.585537+00:00",
+            "request_duration_seconds": 1.3935138750020997,
+            "http_status": 400,
+            "exception_classes": [
+              "openai.BadRequestError"
+            ],
+            "response_request_ids": {
+              "apim-request-id": "14cdbb14-43aa-449a-b731-b747f5263786"
+            }
+          },
+          "journal_correlation": {
+            "direct_question_id_in_journal": false,
+            "basis": "Unique one-to-one within-round association: equal counts of recorded content-filter result rows and BadRequestError HTTP400 events; provider elapsed cannot exceed its enclosing task elapsed.",
+            "confidence": "unambiguous under recorded single-call task-duration constraints; inferred, not a direct question-ID journal field"
+          }
+        },
+        {
+          "round": 3,
+          "provider_error": {
+            "http_status": 400,
+            "SDK_exception_class": "openai.BadRequestError",
+            "code": "content_filter",
+            "param": "prompt",
+            "inner_code": "ResponsibleAIPolicyViolation",
+            "filter_results": {
+              "jailbreak": {
+                "detected": true,
+                "filtered": true
+              }
+            }
+          },
+          "error_text_sha256_only": "455bc6f946d024bc51f5efcbdb16f2f80e7d35c2e8213919ba51e196973a60c5",
+          "usage_available_by_recorded_call": [
+            false
+          ],
+          "recorded_call_count": 1,
+          "usage_and_billing_note": "Provider usage is unavailable for the rejected call. Zero recorded token counters must not be interpreted as verified zero provider computation or billing.",
+          "task_elapsed_seconds": 2.948,
+          "audit": {
+            "relative_path": "attempts/single_agent/audit/8608cb77220a282989d5d11debacd47f7492cfcb30f9df46a603011bcf9fb859.json.gz",
+            "compressed_sha256": "2a1bef369b2626ae078d8c1b319eab328c382e9c8a1109cad0cacd9fbd4ca4aa",
+            "uncompressed_sha256": "8608cb77220a282989d5d11debacd47f7492cfcb30f9df46a603011bcf9fb859",
+            "question_owner_verified": true,
+            "descriptor_version": 2,
+            "codec": "json+gzip"
+          },
+          "provenance_source_key": "round-0003",
+          "provider_diagnostic": {
+            "journal_relative_path": "diagnostics/single_agent/round-0003/azure-diagnostics-12573-2914e1a794c5439e8b72a767e8ca3c59.jsonl",
+            "pid": 12573,
+            "counter": 1,
+            "started_utc": "2026-10-17T05:58:18.813932+00:00",
+            "finished_utc": "2026-10-17T05:58:21.478138+00:00",
+            "request_duration_seconds": 2.6642366659980325,
+            "http_status": 400,
+            "exception_classes": [
+              "openai.BadRequestError"
+            ],
+            "response_request_ids": {
+              "apim-request-id": "df69093e-c38f-44a3-900a-b55e0b181e38"
+            }
+          },
+          "journal_correlation": {
+            "direct_question_id_in_journal": false,
+            "basis": "Unique one-to-one within-round association: equal counts of recorded content-filter result rows and BadRequestError HTTP400 events; provider elapsed cannot exceed its enclosing task elapsed.",
+            "confidence": "unambiguous under recorded single-call task-duration constraints; inferred, not a direct question-ID journal field"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "0eb69f6e47ab63c055e2df90",
+      "sealed_rejection_count": 2,
+      "parked_pending": true,
+      "attempts": [
+        {
+          "round": 3,
+          "provider_error": {
+            "http_status": 400,
+            "SDK_exception_class": "openai.BadRequestError",
+            "code": "content_filter",
+            "param": "prompt",
+            "inner_code": "ResponsibleAIPolicyViolation",
+            "filter_results": {
+              "jailbreak": {
+                "detected": true,
+                "filtered": true
+              }
+            }
+          },
+          "error_text_sha256_only": "455bc6f946d024bc51f5efcbdb16f2f80e7d35c2e8213919ba51e196973a60c5",
+          "usage_available_by_recorded_call": [
+            false
+          ],
+          "recorded_call_count": 1,
+          "usage_and_billing_note": "Provider usage is unavailable for the rejected call. Zero recorded token counters must not be interpreted as verified zero provider computation or billing.",
+          "task_elapsed_seconds": 1.061,
+          "audit": {
+            "relative_path": "attempts/single_agent/audit/3953e7ee1ed1bd11775e244b37fb90d81dbbf3d1710cd7b317c24d7c372f2819.json.gz",
+            "compressed_sha256": "b2dbbf9cf939606b32f8268a87f4fc94c82056bb6bb8272a543a7614175597db",
+            "uncompressed_sha256": "3953e7ee1ed1bd11775e244b37fb90d81dbbf3d1710cd7b317c24d7c372f2819",
+            "question_owner_verified": true,
+            "descriptor_version": 2,
+            "codec": "json+gzip"
+          },
+          "provenance_source_key": "round-0003",
+          "provider_diagnostic": {
+            "journal_relative_path": "diagnostics/single_agent/round-0003/azure-diagnostics-12573-2914e1a794c5439e8b72a767e8ca3c59.jsonl",
+            "pid": 12573,
+            "counter": 204,
+            "started_utc": "2026-10-17T06:08:55.120141+00:00",
+            "finished_utc": "2026-10-17T06:08:56.031124+00:00",
+            "request_duration_seconds": 0.9110005420006928,
+            "http_status": 400,
+            "exception_classes": [
+              "openai.BadRequestError"
+            ],
+            "response_request_ids": {
+              "apim-request-id": "2154f958-d375-4f74-b3ca-bbd60d876e2e"
+            }
+          },
+          "journal_correlation": {
+            "direct_question_id_in_journal": false,
+            "basis": "Unique one-to-one within-round association: equal counts of recorded content-filter result rows and BadRequestError HTTP400 events; provider elapsed cannot exceed its enclosing task elapsed.",
+            "confidence": "unambiguous under recorded single-call task-duration constraints; inferred, not a direct question-ID journal field"
+          }
+        },
+        {
+          "round": 4,
+          "provider_error": {
+            "http_status": 400,
+            "SDK_exception_class": "openai.BadRequestError",
+            "code": "content_filter",
+            "param": "prompt",
+            "inner_code": "ResponsibleAIPolicyViolation",
+            "filter_results": {
+              "jailbreak": {
+                "detected": true,
+                "filtered": true
+              }
+            }
+          },
+          "error_text_sha256_only": "455bc6f946d024bc51f5efcbdb16f2f80e7d35c2e8213919ba51e196973a60c5",
+          "usage_available_by_recorded_call": [
+            false
+          ],
+          "recorded_call_count": 1,
+          "usage_and_billing_note": "Provider usage is unavailable for the rejected call. Zero recorded token counters must not be interpreted as verified zero provider computation or billing.",
+          "task_elapsed_seconds": 1.227,
+          "audit": {
+            "relative_path": "attempts/single_agent/audit/3953e7ee1ed1bd11775e244b37fb90d81dbbf3d1710cd7b317c24d7c372f2819.json.gz",
+            "compressed_sha256": "b2dbbf9cf939606b32f8268a87f4fc94c82056bb6bb8272a543a7614175597db",
+            "uncompressed_sha256": "3953e7ee1ed1bd11775e244b37fb90d81dbbf3d1710cd7b317c24d7c372f2819",
+            "question_owner_verified": true,
+            "descriptor_version": 2,
+            "codec": "json+gzip"
+          },
+          "provenance_source_key": "round-0004",
+          "provider_diagnostic": {
+            "journal_relative_path": "diagnostics/single_agent/round-0004/azure-diagnostics-13875-2505b66444c241048eb6fb908befed2a.jsonl",
+            "pid": 13875,
+            "counter": 13,
+            "started_utc": "2026-10-17T06:15:17.934893+00:00",
+            "finished_utc": "2026-10-17T06:15:18.994280+00:00",
+            "request_duration_seconds": 1.0593928339985723,
+            "http_status": 400,
+            "exception_classes": [
+              "openai.BadRequestError"
+            ],
+            "response_request_ids": {
+              "apim-request-id": "c1a7e539-5ff9-4a12-b73f-4053c593eff9"
+            }
+          },
+          "journal_correlation": {
+            "direct_question_id_in_journal": false,
+            "basis": "Unique one-to-one within-round association: equal counts of recorded content-filter result rows and BadRequestError HTTP400 events; provider elapsed cannot exceed its enclosing task elapsed.",
+            "confidence": "unambiguous under recorded single-call task-duration constraints; inferred, not a direct question-ID journal field"
+          }
+        }
+      ]
+    }
+  ],
+  "sealed_sources": {
+    "round-0002": {
+      "round": 2,
+      "batch_relative_path": "attempts/single_agent/round-0002.batch.json",
+      "batch_sha256": "acc9ec5312575798e3da26f555518c3ff24f6d18a506b784014d2bf0b7ae5334",
+      "seal_relative_path": "attempts/single_agent/round-0002.batch.seal.json",
+      "seal_sha256": "4065f7a1c65ab7c187c710d329f4a9caf0b554879aee4483505102f7fa4ad64a",
+      "result_relative_path": "attempts/single_agent/round-0002.json",
+      "result_sha256": "154e71819c154c322188829f12b63769bb62e42f603044df6f371b87d45b88a8",
+      "identity_sha256": "20f949298af3454a456644b58223c029c453b4e946b8cb6cfb8010287e1f7436",
+      "input_sha256": "0e70a26d599714f2eda4b94285ab9d86729c44ccd0807acce173504f4eadf387",
+      "sealed_at": "2026-10-17T05:51:08+00:00"
+    },
+    "round-0003": {
+      "round": 3,
+      "batch_relative_path": "attempts/single_agent/round-0003.batch.json",
+      "batch_sha256": "f9824b35059150b5ba38854d1c530a1334cf8f40578762367652686a3d85d300",
+      "seal_relative_path": "attempts/single_agent/round-0003.batch.seal.json",
+      "seal_sha256": "e07d022f32b9bdcd7dc7b01827919b1bf207310b2538dfa7c5b996a0c94379bb",
+      "result_relative_path": "attempts/single_agent/round-0003.json",
+      "result_sha256": "28b443efbb4b29311268a864ea44e3870a16cc18fa17e4196747d29dc61ee221",
+      "identity_sha256": "541606c9de7bdbc42b7a7996c4d6be0f847ab03dc9493e9ee3ad30c993e2cbca",
+      "input_sha256": "a5da783cc1019aefb120636c31b0b9fe22f3a05349a47e7c2d7c91d347dffc3b",
+      "sealed_at": "2026-10-17T06:14:10+00:00"
+    },
+    "round-0004": {
+      "round": 4,
+      "batch_relative_path": "attempts/single_agent/round-0004.batch.json",
+      "batch_sha256": "de16017ef2c84b8b6aebc5e268ac46431c85e192616424d8bb0261189fdfbcc2",
+      "seal_relative_path": "attempts/single_agent/round-0004.batch.seal.json",
+      "seal_sha256": "3e06216c8c53ec06afa7f8f4e83a21a244b000779a734925a35b1e86ac1090bd",
+      "result_relative_path": "attempts/single_agent/round-0004.json",
+      "result_sha256": "b2e67f0f257a87cc2bfd87043351373c17fa3fff9b00a877eae5a7032f40b6df",
+      "identity_sha256": "5d0e7ca719fa9833eac30c0e67aba7097b0ff8b1a640837f4e513bb4dd809334",
+      "input_sha256": "4f1c71e88c97b72b76d6af7a4a88ed1771b3b7caee64a106bb93e618ecb0f91a",
+      "sealed_at": "2026-10-17T06:30:13+00:00"
+    }
+  },
+  "provider_journal_sources": {
+    "diagnostics/single_agent/round-0002/azure-diagnostics-9730-ac60ef8df3d944d0959a97ff5916b077.jsonl": {
+      "sha256": "f84bd6dbb8acb7ca7b6557efda9272d5ae545cef63d3747d630a76d601ec4a6b",
+      "bytes": 838457
+    },
+    "diagnostics/single_agent/round-0002/azure-diagnostics-9731-f9f5027175c74bc883009541d0cf22b3.jsonl": {
+      "sha256": "1b2f122c51e1a82ebb5ee98883ab0dc60aa21a68db58ae0865d046df749282cb",
+      "bytes": 785321
+    },
+    "diagnostics/single_agent/round-0003/azure-diagnostics-12573-2914e1a794c5439e8b72a767e8ca3c59.jsonl": {
+      "sha256": "8d0fdbc0dfb9e9760b2ade8911ef2cd45928b24738b56258f21604ae422de246",
+      "bytes": 731303
+    },
+    "diagnostics/single_agent/round-0003/azure-diagnostics-12574-aedc459ee3cc41619c9d4beb3c00b119.jsonl": {
+      "sha256": "86bc2b1f7d71fb531f9e292a124d57390350fdd3b7a7c23bc7f4c94c49410efd",
+      "bytes": 792554
+    },
+    "diagnostics/single_agent/round-0004/azure-diagnostics-13875-2505b66444c241048eb6fb908befed2a.jsonl": {
+      "sha256": "0730bdda8e73325ed26fa77c28067da9d5675be4789f35028ca017db4958ac1c",
+      "bytes": 832867
+    },
+    "diagnostics/single_agent/round-0004/azure-diagnostics-13876-9cfec386003243a8ab23db84196efefe.jsonl": {
+      "sha256": "c408e46e05f320aaf86e48356e3b1960333f71dbcdea9294d82bfadb8ee8d4e8",
+      "bytes": 789136
+    }
+  },
+  "exclusions": [
+    "No question, prompt, answer, gold/reference answer, clinical resource, credential, raw provider response, or freeform provider message text is included.",
+    "No new provider requests were made. No source, settings, schedule, process, or live result was modified."
+  ],
+  "limitations": [
+    "Journal events do not store question IDs. The packet labels the deterministic within-round timing-based correlation rather than claiming a directly recorded question-ID binding.",
+    "Provider usage is unavailable; the packet makes no assertion about internal provider computation or billing.",
+    "Filter codes alone do not establish why the provider classified a request. Clinical or prompt content is deliberately excluded from this packet."
+  ],
+  "validation": {
+    "sealed_source_journal_audit_and_public_profile_hashes_rechecked_after_extraction": true,
+    "hashed_source_checks": 23,
+    "forbidden_content_keys_absent": true,
+    "request_bodies_not_compared_or_included": "Unchanged-request status follows the frozen operational retry policy; this packet does not inspect or assert byte equality of request bodies."
+  }
+}
