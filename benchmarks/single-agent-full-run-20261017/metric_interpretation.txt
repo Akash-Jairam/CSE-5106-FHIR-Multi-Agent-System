@@ -1,0 +1,31 @@
+TOKEN AND COST INTERPRETATION
+
+These notes apply to the frozen V3 and single-agent measurement path. They
+supplement the recorded tables; no source, column name or value is changed.
+
+repeated_prompt_tokens is a length-based heuristic. For each task it sums
+min(current prompt, previous prompt + previous completion) across adjacent
+recorded model calls; the first call contributes zero. It does not compare token
+sequences. V3 combines contract, solver and audit calls in one list, including
+role/context boundaries. This is not an exact count of repeated text, cache hits,
+token savings or communication overhead, and it does not enter the cost formula.
+
+cached_prompt_tokens sums the collector's normalized cached-input counts.
+Missing or null cache details default to zero in canonical per-call records.
+A recorded zero alone therefore does not distinguish an explicitly reported
+zero from absent detail. usage_available describes the overall usage object;
+it does not independently certify cache-detail presence. Arithmetic missingness
+checks concern persisted fields and must not be described as proof of cache
+metadata completeness.
+
+Separate best-effort provider diagnostic events retain nullable cache counts,
+but lack a direct question ID. Canonical per-call entries lack the matching
+request ID, worker PID and diagnostic counter. Establish event coverage and
+linkage before claiming per-question cache completeness; label associations
+inferred from ordered token counts as inferred. Preserve any supplemental
+diagnostic audit and its missing/ambiguous coverage alongside the final report.
+
+Cached input is a subset of prompt input and is charged once at the frozen
+cached-input rate. Estimated dollar costs depend on the recorded usage, cache
+metadata and user-approved OpenAI price proxy for Azure. They are not verified
+billing. Unknown billed cost remains null.

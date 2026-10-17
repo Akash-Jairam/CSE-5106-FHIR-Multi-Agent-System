@@ -1,0 +1,130 @@
+{
+  "status": "PASS_OBSERVED_METADATA_ASSOCIATIONS_WITH_EXPLICIT_LIMITS",
+  "reviewed_at_utc": "2026-10-17T08:15:11.780038+00:00",
+  "inputs": {
+    "cache_package_manifest_sha256": "ae5c29b441f4db8b9a2db670f9c74e0010c51d805de099e8495ab5796516e91d",
+    "numeric_package_manifest_sha256": "5d6ba18571b7fb1f80f74a2e2353a53c6b7b513b3b188b5d56cd2fb8f40568fd",
+    "cache_package_script_sha256": "9f9dacd2099bc4aec22136482b40328a5db42bd5f5f605493d3574d01eff9e4c",
+    "captured_association_sha256": "9a124be36643e4d8a9a5361daff76ef1d94d6270ee4425859533e41e25f1c6c2",
+    "numeric_measurements_sha256": "961b39cef4f3f8b566ab6c98c24160e3362e9e5e6574f538b51ce942a205bc3b",
+    "captured_first_clean_proof_sha256": "32cee962f1bbc37af3bda55fa3a7893fed3d3cef81c9d42d18aa55004f94c77c"
+  },
+  "artifact_hash_size_checks": 36,
+  "journal_count": 20,
+  "selected_questions": 891,
+  "selected_calls": 5858,
+  "independently_unique_scoped_sequences": 891,
+  "global_sequence_candidate_count_distribution": {
+    "1": 891
+  },
+  "captured_raw_digest_bindings_match_copied_first_clean_proof": true,
+  "journal_and_usage_keys_metadata_allowlist_verified": true,
+  "matched_per_call_total_and_cached_subset_balances_verified": true,
+  "cache_excluded_from_all_match_keys": true,
+  "matching_key_fields": [
+    "round",
+    "pid",
+    "process_session",
+    "consecutive counter",
+    "ordered prompt_tokens/completion_tokens sequence"
+  ],
+  "association_file_identity_values_all_reproduced": true,
+  "matched_event_overlap": 0,
+  "matched_provider_duration_within_question_latency_count": 891,
+  "same_worker_temporal_overlap_anomalies": [],
+  "single_call_candidate_counts": {
+    "single_call_unique": 5838,
+    "single_call_ambiguous": 20
+  },
+  "retained_request_coverage": {
+    "starts": 5944,
+    "ends": 5942,
+    "successes": 5921,
+    "errors": 21,
+    "starts_without_end": 2,
+    "ends_without_start": 0,
+    "missing_recorded_counters": 0,
+    "start_only_entries_are_terminal_round1_events": true
+  },
+  "observed_success_cache_counts": {
+    "null": 0,
+    "zero": 55,
+    "positive": 5866,
+    "invalid": 0
+  },
+  "matched_accepted_cache_counts": {
+    "null": 0,
+    "zero": 50,
+    "positive": 5808,
+    "invalid": 0
+  },
+  "matched_token_totals": {
+    "prompt_tokens": 63450176,
+    "completion_tokens": 1217022,
+    "total_tokens": 64667198,
+    "cached_prompt_tokens": 54118775
+  },
+  "all_retained_success_token_totals_operational_only": {
+    "prompt_tokens": 64044000,
+    "completion_tokens": 1226891,
+    "total_tokens": 65270891,
+    "cached_prompt_tokens": 54577590
+  },
+  "unassociated_success_token_totals_excluded_from_accepted_metrics": {
+    "prompt_tokens": 593824,
+    "completion_tokens": 9869,
+    "total_tokens": 603693,
+    "cached_prompt_tokens": 458815
+  },
+  "captured_numeric_token_totals": {
+    "prompt_tokens": 63450176,
+    "completion_tokens": 1217022,
+    "total_tokens": 64667198,
+    "cached_prompt_tokens": 54118775
+  },
+  "successful_unassociated_events": 63,
+  "matched_normalized_cache_disagreements": 0,
+  "successful_requests_without_request_id": 0,
+  "duplicate_nonempty_success_request_id_sets": 0,
+  "visible_barrier_synthetic_tests": {
+    "visible_success_contiguous_matches": true,
+    "explicit_failed_end_blocks": true,
+    "missing_end_counter_blocks": true,
+    "missing_whole_recorded_counter_blocks": true
+  },
+  "invisible_failure_counterexample": {
+    "canonical_target_sequence": [
+      [
+        100,
+        10
+      ],
+      [
+        200,
+        20
+      ]
+    ],
+    "actual_events": "Target callA is logged atcounter1; target callB is unlogged before counter increment; next question callB is logged atcounter2.",
+    "retained_sequence": [
+      [
+        100,
+        10
+      ],
+      [
+        200,
+        20
+      ]
+    ],
+    "matcher_observes_unique_contiguous_sequence": true,
+    "why_not_identity_proof": "Without a stored question/request join, unique retained numeric sequences do not rule out a completely invisible logging failure and a coincidentally matching neighboring call."
+  },
+  "limits": [
+    "Observed failures remain explicit nonmatching barriers; absent ends/recorded counters break consecutive sequences. No accepted match crosses such a visible barrier.",
+    "Matching is unique relative to retained numeric events. It is inferred, not a directly persisted question/request-ID join; a fully invisible logging failure before counter increment can still defeat identity inference, as the synthetic counterexample shows.",
+    "This review rechecks captured numeric rows, copied first-clean receipt, and all20 copied journals. Original sealed raw attempts/inputs/ledger are not copied here, so external raw-to-question provenance remains attested by the captured proof and capture receipts rather than re-read from live files.",
+    "No unconditional complete-logging/cache-availability claim follows; the finding applies only to891 questions/5858 matched observed calls at this checkpoint. It does not establish coverage for V3 or later baseline calls.",
+    "No actual provider bill is verified, and no frozen metric, cache value, estimate, prompt, source, setting, or schedule is changed."
+  ],
+  "no_live_reads_or_changes": true,
+  "no_question_answer_reference_clinical_or_correctness_values_read": true,
+  "no_model_scorer_provider_calls": true
+}

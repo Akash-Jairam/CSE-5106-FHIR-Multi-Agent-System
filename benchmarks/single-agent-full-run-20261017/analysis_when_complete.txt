@@ -65,6 +65,14 @@ When the selected supervisor has completed all 2,931 Single Agent outcomes:
    original per-question measurements, and conditional bootstrap uncertainty
    notes into the final comparison report/README. Preserve the frozen analyzer
    output unchanged; these interpretation notes belong in the companion report.
+   Include metric_interpretation.txt and any cache-diagnostic coverage audit.
+   Label repeated_prompt_tokens as a length heuristic and distinguish recorded
+   cached counts from independently established cache-detail availability.
+   The reconstructed 891-question diagnostic audit is an interim checkpoint.
+   Establish corresponding coverage for each full cohort before making a full
+   cache-detail claim; otherwise report its missing/ambiguous coverage and the
+   collector's normalization limits. Preserve frozen values and label any
+   reconstructed token-sequence associations as inferred, not direct ID joins.
 
 5. After validating the matched pair, disable the single-agent heartbeat and
    report measured results. Do not run Direct LLM or rerun V3. Detailed public

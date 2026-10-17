@@ -1,0 +1,34 @@
+{
+  "label": "IN_PROGRESS_NOT_FINAL",
+  "selected_questions": 891,
+  "selected_calls": 5858,
+  "retained_diagnostic_start_events": 5944,
+  "retained_diagnostic_end_events": 5942,
+  "retained_successful_end_events": 5921,
+  "retained_error_end_events": 21,
+  "successful_event_cache_counts": {
+    "null": 0,
+    "zero": 55,
+    "positive": 5866,
+    "invalid": 0
+  },
+  "accepted_observed_sequence_association": {
+    "question_sequences_unique": 891,
+    "call_events_matched": 5858,
+    "event_overlap": 0,
+    "single_call_signatures_ambiguous_without_sequence": 20,
+    "matched_cache_null": 0,
+    "matched_cache_explicit_zero": 50,
+    "matched_cache_positive": 5808,
+    "normalized_cache_disagreements": 0,
+    "matched_cached_token_sum": 54118775
+  },
+  "unassociated_successful_events": 63,
+  "starts_without_end": 2,
+  "ends_without_start": 0,
+  "recorded_counter_gaps": 0,
+  "direct_persisted_question_request_id_join": false,
+  "claim_scope": "Unique ordered numeric-token sequence associations within retained journals; no unconditional cache-availability or complete-logging claim.",
+  "source_stable": true,
+  "no_frozen_metric_changes": true
+}

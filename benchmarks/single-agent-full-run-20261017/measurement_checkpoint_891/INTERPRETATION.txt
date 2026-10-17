@@ -1,0 +1,10 @@
+IN_PROGRESS_NOT_FINAL: measurement-only checkpoint, 891/2931.
+
+Arithmetic and missingness checks concern persisted numeric fields. They do not
+by themselves prove the presence of provider cache-detail fields: the frozen
+collector defaults missing/null cached-token details to zero. A separate
+diagnostic metadata audit is required to establish cache-detail coverage.
+Dollar values are estimates from recorded usage and frozen prices; actual
+billing is unknown. repeated_prompt_tokens is an adjacent-call length heuristic,
+not exact repeated content or cache hits; it does not enter the cost formula.
+No accuracy, comparison or extrapolation is included.

@@ -106,6 +106,12 @@ The patient-cluster bootstrap intervals reflect resampling variation across the
 observed patients, conditional on this collected run and cohort. They do not
 measure variation across repeated model runs or provider dates.
 
+metric_interpretation.txt defines the repeated-prompt heuristic and distinguishes
+normalized cached-input counts from cache-detail availability. Numeric balance
+and persisted-field missingness do not establish diagnostic cache coverage.
+Carry those definitions and any separate cache-metadata audit into the report;
+preserve the frozen analyzer and its recorded values.
+
 The syntactic "abstained" flag also includes correct empty-reference answers.
 Record its correctness cross-tab; do not interpret it as a refusal/failure rate.
 Full-cohort development exposure remains a limitation of both arms. Differences
@@ -126,6 +132,17 @@ analysis, comparison or extrapolation. Its fixed-count script must not be rerun
 against a later live checkpoint. Raw attempts remain in the retained run tree;
 the preservation receipt rechecks their hashes without duplicating clinical
 content into this measurement-only package. These are not final cohort statistics.
+measurement_checkpoint_891 repeats the numeric checks on 891 accepted outcomes
+and 5,858 recorded calls, preserving the ten sealed source bindings, first-clean
+proof and independent captured-data arithmetic review. Its interpretation note
+qualifies cache metadata; no partial accuracy or comparison is included.
+cache_provenance_checkpoint_891 separately preserves unique, non-overlapping
+ordered token-count associations for those 5,858 calls in retained diagnostics.
+All matched cache fields are numeric (50 explicit zeros, 5,808 positive, no
+nulls) and agree with recorded counts. Independent reconstruction also passed.
+These are inferred observed associations, with best-effort logging limits;
+they do not establish V3 or future-cohort coverage. Raw journals remain in the
+local run, with their hashes and the code/metadata view preserved here.
 
 Live run directory (relative to the repository)
 output/experiments/gpt-6-luna/v3_full_2931_20261015

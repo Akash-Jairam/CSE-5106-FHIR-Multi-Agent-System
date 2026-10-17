@@ -1,0 +1,33 @@
+--- original_audit_measurements_497.py
++++ audit_measurements.py
+@@ -15,8 +15,8 @@
+ 
+ ROOT = Path('/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System')
+ RUN = ROOT / 'output/experiments/gpt-6-luna/v3_full_2931_20261015'
+-OUT = Path('/private/tmp/single-measurement-checkpoint-497')
+-EXPECTED = 497
++OUT = Path('/private/tmp/single-measurement-checkpoint-891')
++EXPECTED = 891
+ ALLOWED = {'question_id','patient_fhir_id','latency','tokens','budget'}
+ 
+ 
+@@ -76,7 +76,7 @@
+     require(len(selections) == EXPECTED,'Checkpoint changed; refuse without restart')
+     pricing = json.loads(files[2].read_bytes())
+     require(pricing['per_million_tokens'] == {'input':.1,'cached_input':.01,'output':.5},'Official proxy schedule differs')
+-    proof_path = ROOT/'benchmarks/single-agent-full-run-20261017/sealed_round6_first_clean_validation.json'
++    proof_path = ROOT/'benchmarks/single-agent-full-run-20261017/sealed_round10_first_clean_validation.json'
+     proof = json.loads(proof_path.read_bytes())
+     require(proof['selected_accepted'] == EXPECTED and proof['canonical_first_clean_verified'] is True
+             and proof['accepted_reruns'] == 0 and proof['replayed_counts'] == ledger['counts']['single_agent'],
+@@ -166,8 +166,8 @@
+                 'answer_reference_prediction_values_printed':False,'scorer_or_analyzer_calls':False,'provider_calls':False,
+                 'comparison_or_extrapolation_performed':False,'repo_or_live_files_modified':False,
+                 'measurement_projection_method':'Standard JSON parsing followed solely by allowlisted measurement/ID access; answer/reference/correctness values unexamined; tool arguments unexamined.',
+-                'limitations':['497 accepted measurements are a partial progress checkpoint, not final statistics or a comparison.',
+-                               'Raw first-clean classification is established by the separately reviewed round6 proof; this audit independently matches only selected measurement projections.',
++                'limitations':['891 accepted measurements are a partial progress checkpoint, not final statistics or a comparison.',
++                               'Raw first-clean classification is established by the separately reviewed round10 proof; this audit independently matches only selected measurement projections.',
+                                'Estimated dollar costs use the frozen official OpenAI rates as an Azure proxy; actual billing is unknown when absent.'],
+                 'measurement_file_sha256':sha(output),'script_sha256':sha(Path(__file__))}
+     (OUT/'safe_evidence.json').write_text(json.dumps(evidence,indent=2,allow_nan=False)+'\n')
