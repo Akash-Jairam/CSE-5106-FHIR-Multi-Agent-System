@@ -73,6 +73,11 @@ When the selected supervisor has completed all 2,931 Single Agent outcomes:
    cache-detail claim; otherwise report its missing/ambiguous coverage and the
    collector's normalization limits. Preserve frozen values and label any
    reconstructed token-sequence associations as inferred, not direct ID joins.
+   Full V3 cache reconciliation is already preserved and independently checked
+   in ../v3-full-run-20261015/cache_metadata_reconciliation_20261017. Verify its
+   hashes when carrying it forward. The baseline audit currently covers 891
+   outcomes only; extend metadata analysis to its full completed cohort without
+   rerunning inference or changing recorded measurements.
 
 5. After validating the matched pair, disable the single-agent heartbeat and
    report measured results. Do not run Direct LLM or rerun V3. Detailed public

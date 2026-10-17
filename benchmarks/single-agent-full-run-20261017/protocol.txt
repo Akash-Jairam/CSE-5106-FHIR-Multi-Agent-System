@@ -144,6 +144,16 @@ These are inferred observed associations, with best-effort logging limits;
 they do not establish V3 or future-cohort coverage. Raw journals remain in the
 local run, with their hashes and the code/metadata view preserved here.
 
+The completed V3 cohort has a separate full metadata audit in
+../v3-full-run-20261015/cache_metadata_reconciliation_20261017. All 2,931
+questions and 17,715 accepted calls have unique, non-overlapping observed
+sequence associations; matched cache counts are 6,763 explicit zeros, 10,952
+positive and no nulls, totaling 27,222,449 cached tokens. All 33 rounds reconcile
+their sealed raw call counts to retained events. Independent reconstruction
+passed, and all 26 original completed-V3 delivery files remain unchanged.
+The same inferred-identity and best-effort logging limits apply. This supplies
+V3 coverage only; full baseline coverage still awaits the completed cohort.
+
 Live run directory (relative to the repository)
 output/experiments/gpt-6-luna/v3_full_2931_20261015
 

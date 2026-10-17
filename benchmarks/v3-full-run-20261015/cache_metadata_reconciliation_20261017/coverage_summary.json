@@ -1,0 +1,42 @@
+{
+  "label": "COMPLETE_V3_COHORT_METADATA_PROVENANCE_AUDIT",
+  "selected_questions": 2931,
+  "selected_calls": 17715,
+  "retained_journals": 64,
+  "retained_start_events": 18004,
+  "retained_successful_end_events": 17923,
+  "retained_error_end_events": 81,
+  "all_sealed_raw_attempt_call_counts": {
+    "calls": 18004,
+    "usage_available": 17923,
+    "usage_unavailable": 81
+  },
+  "all33_round_raw_call_counts_reconcile_to_recorded_events": true,
+  "successful_event_cache_counts": {
+    "null": 0,
+    "zero": 6876,
+    "positive": 11047,
+    "invalid": 0
+  },
+  "accepted_observed_sequence_association": {
+    "question_sequences_unique": 2931,
+    "call_events_matched": 17715,
+    "event_overlap": 0,
+    "single_call_signatures_ambiguous_without_sequence": 50,
+    "matched_cache_null": 0,
+    "matched_cache_explicit_zero": 6763,
+    "matched_cache_positive": 10952,
+    "normalized_cache_disagreements": 0,
+    "matched_cached_token_sum": 27222449,
+    "canonical_cached_token_sum": 27222449
+  },
+  "unassociated_successful_events": 208,
+  "starts_without_end": 0,
+  "ends_without_start": 0,
+  "recorded_counter_gaps": 0,
+  "direct_persisted_question_request_id_join": false,
+  "claim_scope": "Unique ordered numeric-token sequence associations within retained journals, with per-round raw-call/event count reconciliation; no unconditional logging-completeness claim.",
+  "source_stable": true,
+  "baseline_canonical_or_state_read": false,
+  "no_frozen_metric_changes": true
+}
