@@ -1,0 +1,32 @@
+{
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "recorded_at": "2026-10-17T07:04:36.236211+00:00",
+  "questions_per_arm": 2931,
+  "single_first_clean_saved": 497,
+  "single_attempt_counts": {
+    "raw_attempts": 512,
+    "runtime_failures": 15,
+    "intrinsic_errors": 0
+  },
+  "provider_rejections": {
+    "05a8454a6a71435a557db2cc": 2,
+    "0eb69f6e47ab63c055e2df90": 2
+  },
+  "parked_pending_question_ids": [
+    "05a8454a6a71435a557db2cc",
+    "0eb69f6e47ab63c055e2df90"
+  ],
+  "active_round": 7,
+  "accepted_reruns": 0,
+  "canonical_first_clean_verified": true,
+  "v3_and_direct_preserved": true,
+  "actual_accuracy_scored": false,
+  "full_arm_complete": false,
+  "validation_repository_relative": "benchmarks/single-agent-full-run-20261017/sealed_round6_first_clean_validation.json",
+  "validation_sha256": "302bef9e57d233579cafd8d11d7275e80eb1d8fa4bd512456ae320c5f8e1b198",
+  "native_states": {
+    "12567": "Ss",
+    "12569": "Ss",
+    "17801": "Ss"
+  }
+}
