@@ -1,0 +1,21 @@
+{
+  "status": "PRESERVED_AND_REFERENCED_BYTES_REOBSERVED",
+  "at_utc": "2026-10-17T13:43:00.697968+00:00",
+  "scope": "sealed round30 timeout metadata and natural round31 retry scheduling; no correctness analysis",
+  "round30_clean": 99,
+  "round30_runtime": 1,
+  "runtime_category": "allowlisted infrastructure timeout",
+  "new_provider_policy_rejections": 0,
+  "referenced_audits_rehashed": 100,
+  "source_and_sealed_result_identity_shard_hashes_reobserved": true,
+  "next_batch_and_shard_hashes_reobserved": true,
+  "next_batch_question_count": 70,
+  "selected_accepted_at_saved_validation": 2859,
+  "first_clean_validation_sha256": "317b215e39d4e4c92feb8bd6f69ba4ad9402be16cc790c66e0ff6710752eb8af",
+  "canonical_first_clean_verified": true,
+  "accepted_reruns": 0,
+  "unselected_arms_preserved": true,
+  "parked_provider_cases_at_two_rejections_each": 2,
+  "timeout_excluded_and_scheduled_in_round31": true,
+  "note": "Review scripts retain original absolute local provenance paths. Active-round scheduling metadata is not a final round31 seal/adoption proof. The separate observer worker-exit refusal is not a benchmark runtime attempt."
+}

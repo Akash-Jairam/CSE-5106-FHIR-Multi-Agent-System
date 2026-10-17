@@ -1,0 +1,38 @@
+{
+  "observed_at_utc": "2026-10-17T13:38:35.951077+00:00",
+  "scope": "Known benchmark PID/stat/comm follow-up after observer worker-exit refusal",
+  "prior_observer_exit": {
+    "observer_exit": "monitor_refused",
+    "reason": "Owned process is a zombie"
+  },
+  "state_phase": "running",
+  "attention": false,
+  "accepted": 2859,
+  "active_metadata": {
+    "pid": 50214,
+    "round": 31,
+    "checkpointed_in_batch": 2,
+    "seconds_since_checkpoint": 0
+  },
+  "heartbeat_at": "2026-10-17T13:38:24+00:00",
+  "supervisor_pid": 12567,
+  "native": {
+    "12567": {
+      "state": "Ss",
+      "comm": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python"
+    },
+    "12569": {
+      "state": "Ss",
+      "comm": "/usr/bin/caffeinate"
+    },
+    "50214": {
+      "state": "Ss",
+      "comm": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python"
+    }
+  },
+  "old_round30_worker_absent_now": true,
+  "source_state_sha256_at_capture": "ed3ece0d6b0f8531985712f8c09c8bd9e7e34e5fadea376478b591837329cf5b",
+  "full_state_bytes_not_copied": true,
+  "benchmark_restarted": false,
+  "capture_method": "Inline read-only metadata and scoped native check; no source file was created before capture."
+}

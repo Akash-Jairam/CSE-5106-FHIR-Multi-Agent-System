@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED_OBSERVER_ON_WORKER_EXIT_STATE_REFUSAL",
+  "recorded_at_utc": "2026-10-17T13:38:35.952155+00:00",
+  "total_observations": 13,
+  "normal_observations": 13,
+  "supervisor_transition_observations": 0,
+  "first_sample_utc": "2026-10-17T13:24:24.743565+00:00",
+  "last_sample_utc": "2026-10-17T13:35:45.924321+00:00",
+  "first_sealed_accepted": 2760,
+  "last_sealed_accepted": 2760,
+  "prior_valid_samples_healthy": true,
+  "unselected_preservation_passed_when_sampled": true,
+  "observer_exit": {
+    "observer_exit": "monitor_refused",
+    "reason": "Owned process is a zombie"
+  },
+  "native_followup_sha256": "e4df65b6966e819f13ddf65cc7efce9d2031c81e57a14eb39295e9844c59a75c",
+  "supervisor_confirmed_live_after_refusal": true,
+  "benchmark_restarted": false,
+  "inference_failure_claimed": false,
+  "scope": "Valid sampled window plus a later native follow-up. Observer refusal is not counted as a benchmark runtime failure. This does not prove unobserved intervals or whole-run completion."
+}
