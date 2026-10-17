@@ -1,0 +1,117 @@
+{
+  "status": "PASS_BOUNDED_METADATA_PRIVACY_REVIEW",
+  "archive_sha256": "d6144775c811e387e9201273db5c2ae4faec45647bfecd020ec7ef49e8db1738",
+  "local_provider_metadata": "Exactly three SHA256 strings; no endpoint, settings values, credentials or credential-presence fields. Equals the frozen outcome provider_binding.",
+  "local_provider_keys": [
+    "adapter_sha256",
+    "bootstrap_sha256",
+    "provider_profile_sha256"
+  ],
+  "non_audit_members_checked": [
+    {
+      "member": ".local-provider.json",
+      "bytes": 278,
+      "sha256": "5cb707bfd6d3d0bde84ab4e86872e48812372e21a680145b4d4e22ae61979188",
+      "credential_pattern_counts": {
+        "credential_assignment": 0,
+        "bearer_value": 0,
+        "openai_key_shape": 0,
+        "credential_in_url": 0
+      }
+    },
+    {
+      "member": "ordinary_multi_agent.json",
+      "bytes": 72614994,
+      "sha256": "89d7cb53378aa14847c703a00a7695c0ba2d6c26c581700da66e49a52a505940",
+      "credential_pattern_counts": {
+        "credential_assignment": 0,
+        "bearer_value": 0,
+        "openai_key_shape": 0,
+        "credential_in_url": 0
+      }
+    },
+    {
+      "member": "ordinary_multi_agent.json.run.json",
+      "bytes": 709,
+      "sha256": "20aba819898ff2dce86e641a7ed5d52684b12ebaa2a24e73a02faeaa309a35d2",
+      "credential_pattern_counts": {
+        "credential_assignment": 0,
+        "bearer_value": 0,
+        "openai_key_shape": 0,
+        "credential_in_url": 0
+      }
+    },
+    {
+      "member": "ordinary_single_agent.json",
+      "bytes": 73152567,
+      "sha256": "b25288e96eacfabb26a37cf4c2ceeec51a28863b4dbf774f8b046303ec849d07",
+      "credential_pattern_counts": {
+        "credential_assignment": 0,
+        "bearer_value": 0,
+        "openai_key_shape": 0,
+        "credential_in_url": 0
+      }
+    },
+    {
+      "member": "ordinary_single_agent.json.run.json",
+      "bytes": 707,
+      "sha256": "77f19b6fb4aceee04d61009cacbb58bde1eff78f82c9e236eec9d43cae4d0490",
+      "credential_pattern_counts": {
+        "credential_assignment": 0,
+        "bearer_value": 0,
+        "openai_key_shape": 0,
+        "credential_in_url": 0
+      }
+    },
+    {
+      "member": "provider-events/azure-diagnostics-86469-5a19ad2b0f8b4122875e1a828409caa0.jsonl",
+      "bytes": 4850496,
+      "sha256": "bbd070812c837f132e711f906c4e49b962c5eae4787523308816ad03e9eb0a84",
+      "credential_pattern_counts": {
+        "credential_assignment": 0,
+        "bearer_value": 0,
+        "openai_key_shape": 0,
+        "credential_in_url": 0
+      }
+    },
+    {
+      "member": "provider-events/azure-diagnostics-86513-d9f0b56fce4a42eba863c252fa5214f0.jsonl",
+      "bytes": 4481117,
+      "sha256": "030af433be15d804e20bdafcf0087dc1179460f6b915c67e0a887f1428e02dcb",
+      "credential_pattern_counts": {
+        "credential_assignment": 0,
+        "bearer_value": 0,
+        "openai_key_shape": 0,
+        "credential_in_url": 0
+      }
+    },
+    {
+      "member": "run_single.log",
+      "bytes": 557522,
+      "sha256": "126ebba6146a31c784116bb93b0be3faf14855369a45a770b519105eb04fd004",
+      "credential_pattern_counts": {
+        "credential_assignment": 0,
+        "bearer_value": 0,
+        "openai_key_shape": 0,
+        "credential_in_url": 0
+      }
+    },
+    {
+      "member": "run_team.log",
+      "bytes": 530365,
+      "sha256": "757468f4ae9bbb1d067d61670091c56608ffc160f07d864d5ea713b943adb2b8",
+      "credential_pattern_counts": {
+        "credential_assignment": 0,
+        "bearer_value": 0,
+        "openai_key_shape": 0,
+        "credential_in_url": 0
+      }
+    }
+  ],
+  "original_journal_privacy_allowlist_valid": true,
+  "limits": [
+    "No credential/configuration files were read and no values were emitted.",
+    "The local-provider object is strict hash-only public provenance. Pattern scans of logs/canonical metadata/journals found no credential-shaped assignments, bearer values, OpenAI key shapes or credentials in URLs; this is a bounded scan, not a claim about all hypothetical encodings.",
+    "The 600 compressed clinical audit payloads remain original archival data; this bounded review concerns the nine other archive members."
+  ]
+}

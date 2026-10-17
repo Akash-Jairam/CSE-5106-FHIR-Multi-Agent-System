@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-17T16:56:02.491057+00:00",
+  "source_branch": "experiments/query-contract-v3",
+  "source_record_commit": "906327dee1823178e3ac6319061f7d9ee5d2e01f",
+  "source_code_commit": "f00804f186768a3672ae6a6075f366a27dc0ca9a",
+  "original_record_directory": "benchmarks/design-v3d-20261014",
+  "new_results_directory": "results/v3/development",
+  "complete": true,
+  "questions_per_arm": 300,
+  "arms": [
+    "single_agent",
+    "multi_agent_v3"
+  ],
+  "scoring": "Original team per-question scores reused; fresh Single Agent scored offline with the unchanged frozen typed scorer, reconciled exactly to all frozen family totals and238/300 overall.",
+  "source_file_hashes": {
+    "benchmarks/design-v3d-20261014/manifest.json": {
+      "sha256": "424309324bda4e72fe8060220fbf4e0e83a7160ece6f7fdab5c7f1f5d138e944",
+      "bytes": 17520
+    },
+    "benchmarks/design-v3d-20261014/results.json": {
+      "sha256": "0e5a82d399fe0cf393cff73de0fe355556fce79740e32fd8240df36777b15f9c",
+      "bytes": 12192
+    },
+    "benchmarks/design-v3d-20261014/completion_protocol_audit.json": {
+      "sha256": "1b0a9fd0feedee41102ca04e9aff31011060a0edda9ae9ebbf6901e1d8b9459c",
+      "bytes": 129671
+    },
+    "benchmarks/design-v3d-20261014/diagnostics/mechanisms.json": {
+      "sha256": "ba0400a0b2842dded41fab400c9f249c155e7709cd728d3da6aaa2961e9fb9d5",
+      "bytes": 122729
+    },
+    "benchmarks/design-v3d-20261014/diagnostics/mechanisms_rows.json": {
+      "sha256": "06568082594124d6f3cafc0b9b7f48b7252ba00a066ba5206abb052ca5734528",
+      "bytes": 790818
+    },
+    "benchmarks/design-v3d-20261014/runtime_equality.json": {
+      "sha256": "55bc4864830705ea2fb6144bb9c274caee0eac87b9bf3bad37cde14475051a25",
+      "bytes": 5969
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/run_manifest.json": {
+      "sha256": "a76fcc081d88c7293e69713cf6f95c4b7b721aeaca62704ce10e3fb2ce435f10",
+      "bytes": 12472
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/pricing.json": {
+      "sha256": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6",
+      "bytes": 805
+    },
+    "benchmarks/design-v3d-20261014/azure_diagnostic_journal.patch": {
+      "sha256": "e7a71ccf944fc1175c64203e33155312472a38c0391974e9996796e3723d4b64",
+      "bytes": 37641
+    },
+    "benchmarks/design-v3d-20261014/completion_protocol_audit_source.py": {
+      "sha256": "38e7c0b73e0f7ad01aae9df306f476129130a60decf56cb44c273db68c3c854e",
+      "bytes": 30452
+    },
+    "benchmarks/design-v3d-20261014/completion_protocol_review.txt": {
+      "sha256": "96395751ee2c307f01ccf79f71c6d21b433d479741ded959495b9577daef8030",
+      "bytes": 3647
+    },
+    "benchmarks/design-v3d-20261014/delivery_metadata.json": {
+      "sha256": "f8a6d4796418f319f96dff550981871d4308b1d6c77a4e0358e3c5c637a71183",
+      "bytes": 1425
+    },
+    "benchmarks/design-v3d-20261014/design.txt": {
+      "sha256": "a38b068fe7915848d8af3d3bc063fa8f4d53978e8e4bfc51213a7b81e8d2309c",
+      "bytes": 7222
+    },
+    "benchmarks/design-v3d-20261014/diagnostics/mechanisms.csv": {
+      "sha256": "57fbae9549fbb36e238f9ae7672a1392a4bbf1d83c567a5b8162c5c7ffd42d55",
+      "bytes": 287611
+    },
+    "benchmarks/design-v3d-20261014/health_preflight.json": {
+      "sha256": "3fb0b9800aaf216944399bb5f6d15e7b24a3ce93793ef4d887893e1de2154b71",
+      "bytes": 6704
+    },
+    "benchmarks/design-v3d-20261014/health_preflight_source.py": {
+      "sha256": "2037823c20b3974dadc8716ec1f582dec1f92499a062f2a67d55389db1ec8286",
+      "bytes": 19216
+    },
+    "benchmarks/design-v3d-20261014/initial_protocol_audit.json": {
+      "sha256": "9d1eddd78711236b7dde5c5f621d40649682663e32e01e7a3cf0d7176766ecbf",
+      "bytes": 6244
+    },
+    "benchmarks/design-v3d-20261014/initial_protocol_audit_source.py": {
+      "sha256": "6eb9bbe9c3a74be900f03747b63f30668fd48983fb926fef85b8afcd8599f652",
+      "bytes": 20592
+    },
+    "benchmarks/design-v3d-20261014/journal_model_free_tests.log": {
+      "sha256": "e03dd1261d39ef5a1a6573b21c7147989360c1f1b287102c3911b8e020be9476",
+      "bytes": 3318
+    },
+    "benchmarks/design-v3d-20261014/launch_commands.json": {
+      "sha256": "e42b40c2b44a98cede1c7154c200c35e1c380b00b8fb0fa2462075c772f52a74",
+      "bytes": 4528
+    },
+    "benchmarks/design-v3d-20261014/launch_started.json": {
+      "sha256": "951ec122fc7c1e69ec4880d83452a3751c6fba5f6af8ba8dc4e3ec6ebe6699de",
+      "bytes": 2623
+    },
+    "benchmarks/design-v3d-20261014/mechanism_analysis_source.py": {
+      "sha256": "307e4ccb4f3ace901f3010d9773b4b2c3dbd2e7075dfc08bc4522cf6919c292a",
+      "bytes": 29594
+    },
+    "benchmarks/design-v3d-20261014/outcome.json": {
+      "sha256": "a70bae4a0dc9fafa687c5e1c8801f605e09ffea60f48ed06ade8b18f49cc4024",
+      "bytes": 1924
+    },
+    "benchmarks/design-v3d-20261014/outcome.txt": {
+      "sha256": "9f11412748ff2f6c108efb8d7e926a5de04742a8c4c461f7a7464094fe5a8ce9",
+      "bytes": 1895
+    },
+    "benchmarks/design-v3d-20261014/outcome_manifest.json": {
+      "sha256": "41e092e2ccfa4e7d584a83a4cb530ce1195daeb8aeb7c2d53758094dd7ac57dc",
+      "bytes": 2864
+    },
+    "benchmarks/design-v3d-20261014/outcome_record_files.json": {
+      "sha256": "25894636ed037f11eaadbbac92a699742f5107971a1255aa4e821d369ac445e4",
+      "bytes": 3192
+    },
+    "benchmarks/design-v3d-20261014/prelaunch_audit.json": {
+      "sha256": "69aedf94407c1774b2c6d760f480539a4453a19ef6e308c904c86cc038eca2e1",
+      "bytes": 9436
+    },
+    "benchmarks/design-v3d-20261014/raw_archive_manifest.json": {
+      "sha256": "e24e64475d2f964cb785262d40615d7efe8a721d39fe91d323395a70fcfcdba3",
+      "bytes": 129992
+    },
+    "benchmarks/design-v3d-20261014/research_review.txt": {
+      "sha256": "1ef01fe2e68a5fdf712d52a2dc3ddf5ccba71e55c3474020c905a2c621f3fa54",
+      "bytes": 3647
+    },
+    "benchmarks/design-v3d-20261014/root_test_portability_note.txt": {
+      "sha256": "8d97c50a20d7bcd3a5815844742a8051651a336022430f54e926addc7e853864",
+      "bytes": 475
+    },
+    "benchmarks/design-v3d-20261014/root_validation.json": {
+      "sha256": "0d72441544b59eadd922a5316a2713ba73b8ad973bb1c4accce7f0c172b82462",
+      "bytes": 726
+    },
+    "benchmarks/design-v3d-20261014/runtime_adapter_manifest.json": {
+      "sha256": "a06ccea4fc17786b520b2a0350cba797c68c8c77f14c567a264a7f0be91db656",
+      "bytes": 946
+    },
+    "benchmarks/design-v3d-20261014/runtime_adapter_sources.zip": {
+      "sha256": "d9c2db180f44a6794d7426f882c447aa4447fececda136c2ab935a743b2a2352",
+      "bytes": 8311
+    },
+    "benchmarks/design-v3d-20261014/scope_and_limits.txt": {
+      "sha256": "49d53445cd8dff22822abcd4bd5bc65795d7c278097aa68ecb506ccf9fcc1ca3",
+      "bytes": 2347
+    },
+    "benchmarks/design-v3d-20261014/source.zip": {
+      "sha256": "e8f65e398c7a96891ca830a2f3e62fd662dcc9e70a54d4537a15676457297bfb",
+      "bytes": 606714
+    },
+    "utils/answer_scorer.py": {
+      "sha256": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+      "bytes": 23221
+    },
+    "final_dataset/questions_answers_sql_fhir.csv": {
+      "sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+      "bytes": 7813736
+    },
+    "manifests/question_families.csv": {
+      "sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+      "bytes": 551551
+    },
+    "manifests/split.json": {
+      "sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+      "bytes": 26453
+    },
+    "output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_single_agent.json": {
+      "sha256": "b25288e96eacfabb26a37cf4c2ceeec51a28863b4dbf774f8b046303ec849d07",
+      "bytes": 73152567
+    },
+    "output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_single_agent.json.run.json": {
+      "sha256": "77f19b6fb4aceee04d61009cacbb58bde1eff78f82c9e236eec9d43cae4d0490",
+      "bytes": 707
+    },
+    "output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_multi_agent.json": {
+      "sha256": "89d7cb53378aa14847c703a00a7695c0ba2d6c26c581700da66e49a52a505940",
+      "bytes": 72614994
+    },
+    "output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_multi_agent.json.run.json": {
+      "sha256": "20aba819898ff2dce86e641a7ed5d52684b12ebaa2a24e73a02faeaa309a35d2",
+      "bytes": 709
+    }
+  },
+  "original_source_archive_files_verified": 138,
+  "new_analysis_source_sha256": "9fdb37ff814c3d5727d07f8c44707b4bf5b9941e0759cf890389296f728da8ca",
+  "source_bindings_stable": true,
+  "numeric_export_policy": "No question text, clinical data, predictions, or gold values in new exports. Historical original records remain byte-identical.",
+  "original_record_inventory": "original_record_inventory.json",
+  "source_comparison": "source_comparison.json",
+  "statistics": "statistics.json",
+  "proxy_cost_basis": "Pinned official OpenAI prices, adopted as an Azure proxy, not verified Azure bills. Original observed_cost was null.",
+  "output_files": [
+    "accuracy_by_family.csv",
+    "development_analysis.txt",
+    "manifest.json",
+    "mechanism_counts.csv",
+    "metric_statistics.csv",
+    "original_record_inventory.json",
+    "paired_measurements.csv",
+    "paired_measurements.jsonl",
+    "per_question.csv",
+    "per_question.jsonl",
+    "phase_measurements.csv",
+    "phase_measurements.jsonl",
+    "phase_summary.csv",
+    "source_comparison.json",
+    "statistics.json",
+    "validation.json"
+  ],
+  "csv_authoring_source_sha256": "fa4103dc709acf346c754f596214f7b4ff59d667b18bc30fe0e47f74d8fa69fb",
+  "validation": "validation.json",
+  "csv_identifier_import_note": "Treat question_id as text; JSONL is authoritative for numeric types and nulls.",
+  "main_analysis": "development_analysis.txt",
+  "raw_archive_parts": {
+    "directory": "raw",
+    "manifest": "raw/manifest.json",
+    "original_archive_sha256": "d6144775c811e387e9201273db5c2ae4faec45647bfecd020ec7ef49e8db1738",
+    "original_archive_bytes": 241257127,
+    "part_count": 3,
+    "concatenated_sha256_verified": true
+  }
+}

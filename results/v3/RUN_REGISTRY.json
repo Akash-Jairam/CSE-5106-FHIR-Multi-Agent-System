@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "branch": "results/v3-ful-run",
+  "date_utc": "2026-10-17",
+  "purpose": "Four logical arm records plus a posthoc matched available-cohort comparison; no new inference.",
+  "runs": [
+    {
+      "id": "development_single_agent_300",
+      "arm": "single_agent",
+      "accepted_or_scheduled_n": 300,
+      "planned_n": 300,
+      "correct": 238,
+      "policy": "historical_first_attempt",
+      "results": "results/v3/development",
+      "original_results": "benchmarks/design-v3d-20261014",
+      "record_commit": "906327dee1823178e3ac6319061f7d9ee5d2e01f",
+      "source_commit": "f00804f186768a3672ae6a6075f366a27dc0ca9a"
+    },
+    {
+      "id": "development_v3_300",
+      "arm": "multi_agent_v3",
+      "accepted_or_scheduled_n": 300,
+      "planned_n": 300,
+      "correct": 232,
+      "policy": "historical_first_attempt",
+      "results": "results/v3/development",
+      "original_results": "benchmarks/design-v3d-20261014",
+      "record_commit": "906327dee1823178e3ac6319061f7d9ee5d2e01f",
+      "source_commit": "f00804f186768a3672ae6a6075f366a27dc0ca9a"
+    },
+    {
+      "id": "full_v3_2931",
+      "arm": "multi_agent_v3",
+      "accepted_or_scheduled_n": 2931,
+      "planned_n": 2931,
+      "correct": 2256,
+      "policy": "first_clean_attempt",
+      "complete": true,
+      "results": "results/v3/full_v3",
+      "original_results": "benchmarks/v3-full-run-20261015/completed_v3",
+      "source_commit": "4c7fbd13c1fd6e0b38abd002b072af8654837f28"
+    },
+    {
+      "id": "full_single_agent_available_2929",
+      "arm": "single_agent",
+      "accepted_or_scheduled_n": 2929,
+      "planned_n": 2931,
+      "correct": 2343,
+      "policy": "first_clean_attempt",
+      "complete": false,
+      "results": "results/v3/full_single_agent",
+      "source_commit": "4c7fbd13c1fd6e0b38abd002b072af8654837f28"
+    }
+  ],
+  "primary_comparison": {
+    "type": "posthoc_available_matched_cohort",
+    "n": 2929,
+    "patients": 94,
+    "single_correct": 2343,
+    "v3_correct": 2255,
+    "results": "results/v3/full_single_agent/paired_comparison.json",
+    "difference_convention": "full comparison paired files Single Agent minus V3; development paired tables and handoff V3 minus Single Agent"
+  },
+  "overlap": {
+    "development_question_ids_in_matched_full": 300,
+    "fresh_development_patients": 58,
+    "known_union_exposed_patients": 93,
+    "full_patients": 94,
+    "independent_repetitions": false,
+    "untouched_holdout_claim": false
+  },
+  "source_comparison": "results/v3/development/source_comparison.json",
+  "source_note": "Full and development share V3 architecture; host-loop bound21 versus22 differs in one shared runtime file. Model-call cap20 unchanged.",
+  "runtime_implementation_merged": false
+}

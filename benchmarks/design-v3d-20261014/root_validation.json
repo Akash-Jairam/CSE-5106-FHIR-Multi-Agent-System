@@ -1,0 +1,13 @@
+{
+  "checked_at_utc": "2026-10-15T00:48:03.037776+00:00",
+  "root_model_free_tests_passed": 15,
+  "command": "LITELLM_LOCAL_MODEL_COST_MAP=True PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python -m unittest tests.test_azure_diagnostic_journal -v",
+  "agent_and_shared_runtime_files_unchanged": 57,
+  "provider_profile_unchanged": true,
+  "preflight_tokens": 71,
+  "benchmark_attempts_started": 0,
+  "azure_and_github_user_approvals_persist": true,
+  "optional_adapter_absence_skips_before_setup_import": true,
+  "test_support_delta": "Skip only when personal adapter is absent; current15 tests still execute and pass",
+  "test_source_sha256": "726dea2c3498749ce316b6da9f1cbda7abf1fcf9da8e1b66b6c97b63db650569"
+}

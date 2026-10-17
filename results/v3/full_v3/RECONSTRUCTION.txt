@@ -1,0 +1,45 @@
+PORTABLE V3 RAW ARCHIVE: VERIFY AND RECONSTRUCT
+
+Requires Python 3.10+ with standard-library lzma/gzip support. No project setup,
+API credentials, model calls, FHIR service, third-party package or original
+absolute source path is needed to read the archive.
+
+From the repository root:
+  python3 results/v3/full_v3/archive_tools.py verify \
+    --archive results/v3/full_v3/data_archive
+
+To rebuild into a NEW directory outside the archive:
+  python3 results/v3/full_v3/archive_tools.py reconstruct \
+    --archive results/v3/full_v3/data_archive \
+    --output /your/new/reconstructed-v3-directory
+
+The reconstructed directory contains full_multi_agent.json in the original row
+order, its exact inference-identity file, and the audit/ tree referenced by each
+row. Every original parsed canonical field is preserved, including question,
+reference, prediction, evidence, usage, diagnostic and audit-reference fields.
+Every owned audit payload is byte-identical UTF-8 after decompression. Existing
+output directories are refused. Reconstruction can use temporary disk roughly
+the size of the parsed canonical source, plus the final reconstructed files.
+
+Each XZ file contains UTF-8 JSON Lines envelopes with exactly two fields:
+  canonical: the complete original parsed canonical row
+  audit_json: the original gzip-decompressed audit JSON text, as a string
+Audit payloads preserve their own metadata, traces and full resource fields.
+The question index records original source-row order, patient/question IDs,
+archive/line locations, canonical semantic hashes, and original compressed and
+uncompressed audit hashes/sizes. Patient grouping and compact JSON improve
+compression while retaining all values. Every archive is below 90,000,000 bytes.
+
+Canonical semantic hashes use UTF-8 JSON with sorted keys and compact separators,
+matching archive_tools.py. Original canonical whitespace is not reproduced, so
+the rebuilt canonical file need not match the source file's byte SHA256. Original
+gzip headers/deflate containers are also not reproduced: reconstruction uses new
+mtime=0 gzip containers. Their decompressed payload SHA256 must match; original
+compressed hashes are retained as source provenance. XZ compression is verified
+by its file SHA256 and CRC64 plus complete row/payload readback.
+
+ARCHIVE_MANIFEST.json records original source SHA256, cohort counts, compression
+parameters, every archive hash/size, index hash and verification result. Its
+original absolute paths document provenance only; portable verification does not
+open those paths. pack_archive.py records the standard-library packaging method.
+The archive is complete only when that manifest has verified status.

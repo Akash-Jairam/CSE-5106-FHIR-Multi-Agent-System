@@ -1,0 +1,90 @@
+[
+  {
+    "group": "development_exposed_patient",
+    "left": "single_agent",
+    "right": "multi_agent",
+    "matched_questions": 1233,
+    "left_only": 0,
+    "right_only": 0,
+    "left_wins": 78,
+    "right_wins": 40,
+    "both_correct": 911,
+    "both_wrong": 204,
+    "accuracy_difference": {
+      "n": 1233,
+      "patients": 35,
+      "estimate": 0.030819140308191405,
+      "ci_low": 0.010532341216443529,
+      "ci_high": 0.051259569267662786
+    },
+    "latency_seconds_difference_observed_pairs": {
+      "n": 1233,
+      "patients": 35,
+      "estimate": -5.325536090835361,
+      "ci_low": -6.879068374180057,
+      "ci_high": -3.986068391609954
+    },
+    "latency_seconds_missing_pairs": 0,
+    "estimated_cost_usd_difference_observed_pairs": {
+      "n": 1233,
+      "patients": 35,
+      "estimate": -0.002793506293592863,
+      "ci_low": -0.003056754346564032,
+      "ci_high": -0.002499807110232628
+    },
+    "estimated_cost_usd_missing_pairs": 0,
+    "total_tokens_difference_observed_pairs": {
+      "n": 1233,
+      "patients": 35,
+      "estimate": 24524.912408759123,
+      "ci_low": 16967.686850550566,
+      "ci_high": 31045.010035569103
+    },
+    "total_tokens_missing_pairs": 0,
+    "difference_convention": "single_agent minus multi_agent_v3 (left minus right)"
+  },
+  {
+    "group": "held_out_patient_descriptive",
+    "left": "single_agent",
+    "right": "multi_agent",
+    "matched_questions": 1696,
+    "left_only": 0,
+    "right_only": 0,
+    "left_wins": 103,
+    "right_wins": 53,
+    "both_correct": 1251,
+    "both_wrong": 289,
+    "accuracy_difference": {
+      "n": 1696,
+      "patients": 59,
+      "estimate": 0.0294811320754717,
+      "ci_low": 0.016042780748663103,
+      "ci_high": 0.0433146158433384
+    },
+    "latency_seconds_difference_observed_pairs": {
+      "n": 1696,
+      "patients": 59,
+      "estimate": -6.710247641509434,
+      "ci_low": -7.476135548038709,
+      "ci_high": -5.914979690849712
+    },
+    "latency_seconds_missing_pairs": 0,
+    "estimated_cost_usd_difference_observed_pairs": {
+      "n": 1696,
+      "patients": 59,
+      "estimate": -0.002703250353773585,
+      "ci_low": -0.0028944637808125027,
+      "ci_high": -0.0024947970240518577
+    },
+    "estimated_cost_usd_missing_pairs": 0,
+    "total_tokens_difference_observed_pairs": {
+      "n": 1696,
+      "patients": 59,
+      "estimate": 16297.37087264151,
+      "ci_low": 14635.451875710258,
+      "ci_high": 17997.519864442125
+    },
+    "total_tokens_missing_pairs": 0,
+    "difference_convention": "single_agent minus multi_agent_v3 (left minus right)"
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "reviewed_at_utc": "2026-10-17T17:09:41.857299+00:00",
+  "document": "results/v3/ANALYSIS.docx",
+  "docx_sha256": "8d7673fdcab00935d611bc1fa4b2a684bde7e34cd521277e615431544ac6e544",
+  "text_sha256": "9cf3d26d8a351eaa561257bf183e69fe579dc57b8fa822dd3e9a637bbe35f2f0",
+  "builder_sha256": "38629d4b303d20287e22872c072ebf81c01ad62f4784c89d546f10424d988858",
+  "bundled_compiler": "documents skill render_docx.py and bundled headless LibreOffice",
+  "pages": 11,
+  "all_pages_visually_inspected_at_original_resolution": true,
+  "page_checks": [
+    "legible body and table text",
+    "no clipped content or table overflow",
+    "no orphan final paragraph",
+    "plain black headings without title rule",
+    "numeric alignment and repeated table headers",
+    "consistent page numbers and margins"
+  ],
+  "qa_pdf_sha256": "8c570e5b45012b5f5f7becdcc0c94b514d979abcc4c6276087633c41f62775f9",
+  "page_png_sha256": {
+    "page-1.png": "cfe587f1b624ed59660d42ecb238d4c9ba007704927dde099c53e79657ca650f",
+    "page-2.png": "e6853b4186dba3b33b5b627346bc6906e0805af699a16d7a0a59a651ffed7642",
+    "page-3.png": "ad312288c43757826de10d04dad824d5e360220471c47b58a259f2568042098c",
+    "page-4.png": "69205f6fa80ba36b8a303ef1da151b4f863eebc66ba071472f09564d9a97345e",
+    "page-5.png": "5fd9ca86af52276478a7bb9b7b7671536ba4fd3479c11c2ce8b73fe1a6c05eb1",
+    "page-6.png": "8b8879e1cddd62e81770ffcb0670f8096df211c181212030898ae2740c5d5115",
+    "page-7.png": "63a6194f4c4225355840e3bfb4867c098e8ecce8fa4f82662de6ba42add78f34",
+    "page-8.png": "0b001611df654a4af3c4a5ec078fc6686d4fe2475a0a9734ba189e1fbd2c53af",
+    "page-9.png": "6add156e1240bcc74075757abbbb4e663aa9167c7b2accc94e740b3cd2638bf6",
+    "page-10.png": "05d4bde7e5cd24b0694a285cf56c1a9e04669bd7005a24a87e65e5e00f4033cd",
+    "page-11.png": "f4d9ce1d07b65bf10079892b04273228dea4d8a8b31e8af9f8062c5df2d3a9de"
+  },
+  "qa_pdf_and_png_delivery": false,
+  "output_format": "docx",
+  "provider_calls": false
+}

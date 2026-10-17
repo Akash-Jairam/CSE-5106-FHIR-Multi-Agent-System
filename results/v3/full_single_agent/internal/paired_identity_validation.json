@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "run_identity_equal_except_strategy": true,
+  "same_model_budgets_input_fingerprint_and_audit_storage": true,
+  "exact_pricing_equal_to_historical_v3": true,
+  "all_frozen_manifest_fields_equal_except_operational_scope_classifier_policy_runner": true,
+  "source_changes_restricted_to_operational_runner": true,
+  "single_strategy": "single_agent",
+  "V3_strategy": "multi_agent_v3",
+  "inference_fingerprint": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "model": "gpt-6-luna",
+  "max_total_tokens": 200000,
+  "max_tool_calls": 30
+}

@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "supervisor_pid": 57961,
+  "started_at": "2026-10-16T04:16:57+00:00",
+  "phase": "attention",
+  "questions_per_arm": 2931,
+  "active": {},
+  "attention": true,
+  "resumed_at": "2026-10-17T15:56:42+00:00",
+  "selected_arms": [
+    "single_agent"
+  ],
+  "selected_scope_complete": false,
+  "benchmark_complete": false,
+  "pending_scoped_export": false,
+  "analysis_status": "not_started",
+  "scope_started_at": "2026-10-17T05:36:27+00:00",
+  "provider_rejections": {
+    "version": 1,
+    "classifier_version": "v3-infrastructure-v4",
+    "policy": {
+      "version": "azure-prompt-rejection-v2-reviewed-retry",
+      "category": "provider_policy_rejection",
+      "max_rejections_per_question": 3,
+      "prior_max_rejections_per_question": 2,
+      "reviewed_question_ids": [
+        "05a8454a6a71435a557db2cc",
+        "0eb69f6e47ab63c055e2df90"
+      ],
+      "first_reviewed_round": 32,
+      "retry_request": "unchanged",
+      "persistent_action": "park_pending_then_attention",
+      "scope": [
+        "single_agent"
+      ]
+    },
+    "updated_at": "2026-10-17T15:59:32+00:00",
+    "source": "reconstructed_from_sealed_immutable_attempts",
+    "rejections": {
+      "single_agent": {
+        "05a8454a6a71435a557db2cc": 3,
+        "0eb69f6e47ab63c055e2df90": 3
+      }
+    },
+    "parked_question_ids": {
+      "single_agent": [
+        "05a8454a6a71435a557db2cc",
+        "0eb69f6e47ab63c055e2df90"
+      ]
+    },
+    "pending_question_ids": {
+      "single_agent": [
+        "05a8454a6a71435a557db2cc",
+        "0eb69f6e47ab63c055e2df90"
+      ]
+    }
+  },
+  "keep_awake_pid": 58084,
+  "accepted": {
+    "direct_llm": 0,
+    "single_agent": 2929,
+    "multi_agent": 2931
+  },
+  "counts": {
+    "direct_llm": {
+      "raw_attempts": 0,
+      "runtime_failures": 0,
+      "intrinsic_errors": 0
+    },
+    "single_agent": {
+      "raw_attempts": 2984,
+      "runtime_failures": 55,
+      "intrinsic_errors": 0
+    },
+    "multi_agent": {
+      "raw_attempts": 3012,
+      "runtime_failures": 81,
+      "intrinsic_errors": 0
+    }
+  },
+  "heartbeat_at": "2026-10-17T15:59:35+00:00",
+  "reason": "provider_policy_review_required",
+  "finished_at": "2026-10-17T15:59:35+00:00",
+  "issues": [
+    {
+      "arm": "single_agent",
+      "question_id": "05a8454a6a71435a557db2cc",
+      "provider_rejections": 3,
+      "status": "pending",
+      "action": "external_policy_review_required"
+    },
+    {
+      "arm": "single_agent",
+      "question_id": "0eb69f6e47ab63c055e2df90",
+      "provider_rejections": 3,
+      "status": "pending",
+      "action": "external_policy_review_required"
+    }
+  ]
+}

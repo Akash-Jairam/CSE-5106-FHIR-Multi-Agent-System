@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "restored_runtime_rows": 55,
+  "metadata_rows": 55,
+  "question_patient_order_matches": true,
+  "gzip_complete_readback": true,
+  "excluded_from_all_primary_metrics": true,
+  "provider_rejections": 6,
+  "other_infrastructure": 49,
+  "chunks": [
+    {
+      "path": "internal/runtime_details/runtime-0001.jsonl.gz",
+      "rows": 55,
+      "sha256": "eee7d1d34fc1adde6643af051576419757b6e0235c0218c591a9e08a1553e36d",
+      "bytes": 11069444
+    }
+  ],
+  "format": "Each JSONL row is a restored complete runtime result; no external audit payload needed. Original audit SHA/ownership was verified during restoration and original raw source hashes/seals are retained separately."
+}

@@ -1,0 +1,342 @@
+{
+  "checked_at_utc": "2026-10-15T00:48:49.125159+00:00",
+  "status": "PASS",
+  "blockers": [],
+  "scope": "Independent credential-free, model-free, network-free, scoring-free prelaunch verification; no imports of runtime bootstrap or settings loader.",
+  "source_base_commit": "f00804f186768a3672ae6a6075f366a27dc0ca9a",
+  "frozen_source_files_verified": 138,
+  "source_zip_entries_verified": 138,
+  "runtime_adapter_files_and_zip_entries_verified": 4,
+  "v3c_equal_runtime_files_verified": 57,
+  "held_out_questions": 300,
+  "held_out_unique_patients": 58,
+  "split_patient_entries": 59,
+  "dataset_questions": 2931,
+  "source_archive_sha256": "e8f65e398c7a96891ca830a2f3e62fd662dcc9e70a54d4537a15676457297bfb",
+  "design_sha256": "a38b068fe7915848d8af3d3bc063fa8f4d53978e8e4bfc51213a7b81e8d2309c",
+  "dataset_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+  "split_sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+  "expected_provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "launch_commands_file": "launch_commands.json",
+  "concurrent_arms": [
+    "ordinary_single_agent",
+    "ordinary_multi_agent"
+  ],
+  "workers_each": 1,
+  "save_interval": 1,
+  "team_strategy": "multi_agent_v3",
+  "audit_storage": "gzip",
+  "max_total_tokens": 200000,
+  "max_tool_calls": 30,
+  "estimated_input_guard": 32000,
+  "requested_common_completion_ceiling": 16384,
+  "reasoning_effort": "none",
+  "sdk_timeout_seconds": 60,
+  "sdk_max_retries": 0,
+  "application_attempts": 1,
+  "native_default_transport": "HTTPX2 2.13.1 via OpenAI 3.26.1",
+  "preflight": {
+    "success": true,
+    "sdk_calls": 1,
+    "total_tokens": 71,
+    "tools": 0,
+    "elapsed_seconds": 1.608828666008776,
+    "http_status": null,
+    "journal_start_end_paired": true
+  },
+  "fresh_output_directory_absent_at_audit": true,
+  "launch_step": "Root creates the fresh output directory before shell log redirection, then starts both separately owned concurrent commands after freeze commit. Compare each normal runtime .local-provider binding with the expected public binding before judging results.",
+  "limits": [
+    "Profile equality is proved by recorded canonical public binding from the successful normal bootstrap preflight; this audit did not re-read settings or credentials.",
+    "One healthy nonclinical default-transport request does not prove sustained availability or recovery of any older failed worker.",
+    "Parsed success provides no HTTP status; null is retained and HTTP 200 is not asserted.",
+    "Journal collection is best effort; missing events and failed-call usage must remain unknown. A default transport label does not prove a selected proxy route.",
+    "delivery_metadata.json, research_review.txt and scope_and_limits.txt retain historical isolated/not-applied wording; the current source hashes, design and root validation establish the applied freeze.",
+    "Live FHIR values were not compared or requested. Full lossless gzip restore and source/cohort/protocol checks remain required after completion and before scoring."
+  ],
+  "assertions_passed": 750,
+  "failed_assertions": [],
+  "detailed_assertions_local_path": "/private/tmp/fhir-v3d-prelaunch-full-checks.json",
+  "audit_helper_sha256": "65e6481b6be5d46bf0567905bf4ef00fe0f77a2c74c30cf4d5df1f0384615d2d",
+  "checks": [
+    {
+      "check": "source_file_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source.zip:archive_sha256",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source.zip:exact_inventory",
+      "passed": true,
+      "detail": 138
+    },
+    {
+      "check": "design_sha256",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "dataset_sha256",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "split_sha256",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "held_out_300_unique",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "dataset_2931_unique",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "cohort_ids_exist",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "cohort_patients_in_manifest",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "same_dataset_split_as_v3c",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "runtime_57_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "runtime_57_no_reported_mismatch",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "runtime_archive_only_four_allowlisted",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "runtime_adapter_sources.zip:archive_sha256",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "runtime_adapter_sources.zip:exact_inventory",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "check": "expected_adapter_and_bootstrap_binding",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "profile_recorded_preflight_binding",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "prior_adapter_bytes_match_own_manifest",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "adapter_function_byte_parity:AzureSettings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "adapter_function_byte_parity:make_client",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "adapter_function_byte_parity:install",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "request_dict_sdk_create_output_conversion_ast_parity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "journal_opt_in_flag",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "expected_two_concurrent_one_worker_launches",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "command_arm:single",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "command_prefix:single",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "command_flags_exact:single",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "only_optional_journal_environment:single",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "command_log:single",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "command_shell_matches_structured:single",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "command_arm:team",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "command_prefix:team",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "command_flags_exact:team",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "only_optional_journal_environment:team",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "command_log:team",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "command_shell_matches_structured:team",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "manifest_commands_match_launch_commands",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "common_caps",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fresh_output_directory_absent",
+      "passed": true,
+      "detail": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/query_contract_v3d_300q"
+    },
+    {
+      "check": "preflight_success_scope",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "preflight_same_public_policy",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "preflight_harness_sha256",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "preflight_no_custom_http_client_construction",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "one_successful_sdk_event",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "preflight_sdk_default_native_httpx2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "preflight_usage71_tools0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "observer_two_matching_events",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "observer_start_end_pair",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "observer_same_default_open_client",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "observer_success_and_matching_usage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "observer_honest_unknown_status",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "recorded_model_free_tests15_pass",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "freeze_source_base_head",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "output_still_absent_after_audit",
+      "passed": true,
+      "detail": null
+    }
+  ]
+}

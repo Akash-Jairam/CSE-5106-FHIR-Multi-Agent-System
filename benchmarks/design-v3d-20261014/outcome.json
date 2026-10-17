@@ -1,0 +1,58 @@
+{
+  "recorded_at_utc": "2026-10-15T02:46:23.960372+00:00",
+  "status": "complete_usable_comparison_acceptance_not_met",
+  "architecture": "V3 blind question contract + continuous source-checked solver + static audit + gated local repair",
+  "same_subset_questions": 300,
+  "patient_clusters": 58,
+  "correct": {
+    "archive_single": 223,
+    "refreshed_single": 231,
+    "v3d_single": 238,
+    "v3d_team": 232
+  },
+  "fresh_paired_comparison": {
+    "comparison": "v3d_team - v3d_single",
+    "wins": 8,
+    "losses": 14,
+    "n": 300,
+    "patients": 58,
+    "estimate": -0.02,
+    "ci_low": -0.0515879416282642,
+    "ci_high": 0.010948905109489052
+  },
+  "acceptance": {
+    "rule": "team > archive_single223 and team > refreshed_single231 and team > fresh_single238",
+    "passed": false
+  },
+  "protocol_audit": "PASS",
+  "verified_first_attempts": 600,
+  "verified_owned_gzip_audits": 600,
+  "frozen_source_files": 138,
+  "provider": {
+    "calls": 3744,
+    "successes": 3742,
+    "team_read_timeouts": 1,
+    "team_http500": 1,
+    "http408": 0,
+    "retries": 0,
+    "failed_call_usage": "unknown; both retained as failed outcomes"
+  },
+  "mechanisms": {
+    "source_valid_release": 283,
+    "solver_source_revised": 19,
+    "source_revision_helped": 4,
+    "source_revision_harmed": 0,
+    "targeted_revised": 0,
+    "wrong_primary_recovered": 0,
+    "correct_draft_lost": 5,
+    "unverified_null_credit": 6,
+    "provider_usage_unknown": 2,
+    "accounting_anomaly_questions": 0
+  },
+  "next_action": "Research-backed refinement and another complete paired fixed300; full benchmark not launched.",
+  "limits": [
+    "Fixed subset reused for development; exploratory, not confirmatory superiority.",
+    "Typed scorer can credit null despite absent source-valid release.",
+    "Frozen design predates user-requested removal of the network-failed V3c formal record; current run provenance is self-contained."
+  ]
+}

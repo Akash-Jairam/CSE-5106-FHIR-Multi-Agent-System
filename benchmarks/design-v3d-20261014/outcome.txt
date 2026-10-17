@@ -1,0 +1,31 @@
+V3 completed usable comparison — 300 first attempts per arm
+
+Single-agent: 238/300 (79.3%); V3 team: 232/300 (77.3%).
+Team minus fresh single: -2.0 percentage points; patient-block 95% interval
+[-5.2, +1.1], with 8 wins and 14 losses. The team exceeds archived single
+223 and refreshed single 231 but does not beat its contemporaneous control.
+Acceptance is not met; no full benchmark launch follows this result.
+
+All 600 first attempts and owned gzip traces passed completeness, CRC/SHA,
+restoration, source/input/identity/budget checks. All 138 frozen files and
+the four allowlisted local runtime sources stayed unchanged. Journal: 3,744
+paired calls, 3,742 successful; one team read timeout and one team HTTP500.
+No HTTP408, retries or replacement attempts. Both failed calls have unknown
+usage and retain failed outcomes; no reported token/tool overshoot.
+
+Team mechanisms: 283 source-valid primary releases; 19 source-feedback
+revisions, four corrections and no losses at that transition. The static
+audit ran on 283 valid primaries but proposed no material local repair;
+zero targeted revisions and zero wrong-primary recoveries. Five initially
+correct drafts did not survive to a credited final answer; this does not
+establish audit-caused loss. Six null credits lack a source-valid release.
+See diagnostics for full phase/source/scope accounting and limitations.
+
+The fixed300 has been reused for architecture development, so results are
+exploratory. The next candidate requires a new source freeze, exact design
+record and complete paired run. Main remains unchanged pending a win.
+
+The frozen design text predates the user-requested removal of the network-
+failed V3c formal record; historical links there may be absent. The failed
+attempt is not a formal comparison. Current run source/runtime archives and
+provenance are self-contained; local troubleshooting outputs are retained.

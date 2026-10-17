@@ -1,0 +1,74 @@
+{
+  "recorded_at_utc": "2026-10-15T00:51:37.674212+00:00",
+  "status": "running",
+  "sessions": {
+    "single": 69941,
+    "team": 22424
+  },
+  "pre_run_freeze_commit": "246e230",
+  "arms": {
+    "single": {
+      "attempted": 3,
+      "terminal_errors": 0,
+      "identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "208a88f0727213df44b4c74d873037d74a939f710b8787128202d254c5da29a9",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "identity_written_utc": "2026-10-15T00:50:24.574677+00:00"
+    },
+    "team": {
+      "attempted": 3,
+      "terminal_errors": 0,
+      "identity": {
+        "version": 2,
+        "agent_strategy": "multi_agent_v3",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "208a88f0727213df44b4c74d873037d74a939f710b8787128202d254c5da29a9",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "identity_written_utc": "2026-10-15T00:50:46.615375+00:00"
+    }
+  },
+  "scoring_performed": false,
+  "provider_journal": {
+    "starts": 51,
+    "completed": 49,
+    "successes": 49,
+    "errors": 0,
+    "partial_lines": 0
+  },
+  "provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "checked_at_utc": "2026-10-15T00:58:17.760896+00:00",
+  "scope": "One-shot live saved-file and per-journal byte snapshots; operational/provenance only; no scoring or ranking. Counts may differ between snapshots; not a run-completion claim.",
+  "snapshot_started_utc": "2026-10-15T00:58:16.452750+00:00",
+  "frozen_source_files_verified": 138,
+  "source_mismatches": [],
+  "source_archive_verified": true,
+  "design_dataset_split_hashes_verified": true,
+  "adapter_source_files_verified": 4,
+  "adapter_archive_verified": true,
+  "provider_binding": {
+    "provider_profile_sha256": "493987643d4523481d1c2ed077747d43390f806f1665ab6a9d605f8a2251df1c",
+    "adapter_sha256": "41f300c5adad350a41fc8e9d296820c526cd4689ab3621436bfe1ad39646d4bf",
+    "bootstrap_sha256": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe"
+  },
+  "identical_ordered_300_inputs": true,
+  "code_hash": "208a88f0727213df44b4c74d873037d74a939f710b8787128202d254c5da29a9",
+  "sidecar_settings_match_except_actual_strategy": true,
+  "arms": {
+    "ordinary_single_agent": {
+      "scheduled_rows": 300,
+      "saved_first_attempts_checked": 28,
+      "terminal_errors": 0,
+      "gzip_owner_hash_restorations": 28,
+      "host_boundaries": 0,
+      "phases_observed": {},
+      "release_policies": {},
+      "raw_snapshot_sha256": "8dc5fa650334c548c83eb1a39a1a6222fa3338bb905c250f6edfced6f3e37db2",
+      "snapshot_bytes": 4215854,
+      "snapshot_observed_utc": "2026-10-15T00:58:17.216718+00:00",
+      "independent_uncompressed_artifact_bytes_verified": 56491709,
+      "phase_fatal_records": 0,
+      "phase_overshoot_records": 0,
+      "reported_global_token_overshoots": 0,
+      "team_errors_without_phase_records": 0
+    },
+    "ordinary_multi_agent": {
+      "scheduled_rows": 300,
+      "saved_first_attempts_checked": 26,
+      "terminal_errors": 0,
+      "gzip_owner_hash_restorations": 26,
+      "host_boundaries": 26,
+      "phases_observed": {
+        "contract": 26,
+        "solver": 26,
+        "audit": 25
+      },
+      "release_policies": {
+        "source_valid_primary_preserved": 25,
+        "primary_failed_execution_or_source_contract": 1
+      },
+      "raw_snapshot_sha256": "313dd87002ae90dd572e0666d6fb64306fe4a1dd3ce140b7779aa4f8220f6b21",
+      "snapshot_bytes": 3265353,
+      "snapshot_observed_utc": "2026-10-15T00:58:17.760881+00:00",
+      "independent_uncompressed_artifact_bytes_verified": 41469330,
+      "phase_fatal_records": 0,
+      "phase_overshoot_records": 0,
+      "reported_global_token_overshoots": 0,
+      "team_errors_without_phase_records": 0
+    }
+  },
+  "anomalies": [],
+  "provider_journal": {
+    "schema_valid": true,
+    "privacy_allowlist_valid": true,
+    "totals": {
+      "starts": 361,
+      "ends": 359,
+      "matched_pairs": 359,
+      "successes": 359,
+      "errors": 0,
+      "unmatched_starts": 2,
+      "unmatched_ends": 0,
+      "trailing_partial_lines": 0,
+      "unknown_usage_ends": 0,
+      "ends_without_client_metadata": 0
+    },
+    "observed_default_transport_completed_events": {
+      "httpx2.HTTPTransport": 359
+    },
+    "files": [
+      {
+        "file": "azure-diagnostics-86469-5a19ad2b0f8b4122875e1a828409caa0.jsonl",
+        "snapshot_sha256": "112ff08dc818726a2c32ef569a152eef03db7206fe15676455b9b21c714304a8",
+        "snapshot_bytes": 448722,
+        "snapshot_observed_utc": "2026-10-15T00:58:17.771626+00:00",
+        "starts": 181,
+        "ends": 180,
+        "matched_pairs": 180,
+        "successes": 180,
+        "errors": 0,
+        "unmatched_starts": [
+          {
+            "pid": 86469,
+            "counter": 181,
+            "started_utc": "2026-10-15T00:58:17.568475+00:00",
+            "most_recent_start_in_this_snapshot": true
+          }
+        ],
+        "unmatched_ends": 0,
+        "trailing_partial_bytes": 0,
+        "numeric_fd_min": 9,
+        "numeric_fd_max": 10,
+        "distinct_nonnull_sdk_client_ids": 1,
+        "observed_transport_classes": {
+          "unavailable_before_client_creation": 1,
+          "httpx2.HTTPTransport": 360
+        },
+        "http_status_counts": {
+          "None": 180
+        },
+        "error_cause_class_counts": {},
+        "unknown_usage_ends": 0
+      },
+      {
+        "file": "azure-diagnostics-86513-d9f0b56fce4a42eba863c252fa5214f0.jsonl",
+        "snapshot_sha256": "b3e8b73cac11415c0b9afa0a9f5dcc0b86407fba4d04a299b04f0005ca488f25",
+        "snapshot_bytes": 446074,
+        "snapshot_observed_utc": "2026-10-15T00:58:17.776271+00:00",
+        "starts": 180,
+        "ends": 179,
+        "matched_pairs": 179,
+        "successes": 179,
+        "errors": 0,
+        "unmatched_starts": [
+          {
+            "pid": 86513,
+            "counter": 180,
+            "started_utc": "2026-10-15T00:58:16.713666+00:00",
+            "most_recent_start_in_this_snapshot": true
+          }
+        ],
+        "unmatched_ends": 0,
+        "trailing_partial_bytes": 0,
+        "numeric_fd_min": 9,
+        "numeric_fd_max": 10,
+        "distinct_nonnull_sdk_client_ids": 1,
+        "observed_transport_classes": {
+          "unavailable_before_client_creation": 1,
+          "httpx2.HTTPTransport": 358
+        },
+        "http_status_counts": {
+          "None": 179
+        },
+        "error_cause_class_counts": {},
+        "unknown_usage_ends": 0
+      }
+    ],
+    "limits": [
+      "Per-file byte snapshots are not simultaneous with each other or saved result snapshots.",
+      "Latest unmatched starts are consistent with current in-flight calls; unmatched/partial evidence is never credited as success or known usage.",
+      "Journaling is best effort; missing events cannot prove that a request was absent.",
+      "Native default HTTPX2 class/version observations do not establish the proxy route or sustained future availability.",
+      "FD observations are descriptor counts at event boundaries, not a proof of leak absence.",
+      "Successful parsed SDK responses have unknown HTTP status; null is retained rather than asserting HTTP 200."
+    ]
+  },
+  "status": "PASS",
+  "helper_sha256": "6eb9bbe9c3a74be900f03747b63f30668fd48983fb926fef85b8afcd8599f652",
+  "no_config_model_network_scoring_calls": true,
+  "fatal_or_overshoot_outcomes_are_recorded_not_rejected": true
+}

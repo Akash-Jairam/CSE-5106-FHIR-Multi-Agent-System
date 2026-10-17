@@ -1,0 +1,55 @@
+Independent offline/read-only review, 15 October2026 UTC.
+
+Final disposition: no remaining concrete blocker in the reviewed completion/
+archive helper. It may be used only after root confirms both owned jobs exited.
+No live run data, credentials, model/FHIR/network calls or accuracy scoring was
+used in this review; main was not invoked against the live repository/output.
+Only temporary synthetic tests and this review note were executed/written.
+
+Reviewed helper SHA256:
+38e7c0b73e0f7ad01aae9df306f476129130a60decf56cb44c273db68c3c854e
+Reviewed tests SHA256:
+dcf27391202707602fe989c1d949199f8cd18c8e2a6476ba1c30bf142471693f
+All17 synthetic offline tests independently pass.
+
+Two material findings were corrected before final approval:
+1. Python equality originally conflated False/0, True/1 and int/float in restored
+   fields and displayed/final binding. Canonical finite JSON comparison now
+   preserves those distinctions, rejects nonfinite values, and also guards
+   identities and declared caps. New regressions pass.
+2. The original unguarded report write could overwrite a verified raw/input/source
+   file. Destination validation now runs before source/raw access; report and
+   archive paths must be fresh, exclusive, noncolliding, and outside owned raw
+   output. Repository destinations are limited to the formal record for a new
+   JSON report and output/archives for a new ZIP. The newly created report handle
+   is retained for archive metadata updates. Protected-file collision regression
+   proves no provenance read or overwrite occurs.
+
+Reviewed safeguards:
+- Main requires both ordered300-ID arms with terminal first-attempt outcomes,
+  no retry history, expected input/code/identity/settings/caps, and138 frozen
+  sources matching the source ZIP. Four exact runtime adapter paths, their ZIP,
+  public binding and common preflight profile are checked without config loading.
+- Independent gzip read verifies CRC, raw SHA, content address, question ownership
+  and permitted fields; the repository restorer must reproduce full and inline
+  values with exact finite JSON equality. Result hashes/stamps and frozen files
+  are rechecked before archive. This verifies stored provenance, not clinical truth.
+- Journal events have fixed privacy schema, bounded type/MRO/cause/ID fields,
+  safe numeric usage/status/FD counts, filename ownership, pair identity and
+  expected completed default HTTPX2 versions/classes. Missing pairs/usage/status
+  remain limitations/unknowns. Default transport metadata is not proxy-route proof.
+- ZIP membership is exactly seven named base files plus referenced owned gzip
+  artifacts and validated owned journal files. No recursive output/cache/pickle/
+  configuration archive occurs. Creation is exclusive; CRC, inventory and exact
+  member bytes are verified against source files afterward.
+
+Correctly disclosed limits: root asserts process completion; hashes are periodic,
+not atomic process attestation. The main600-record path was reviewed but not
+executed end-to-end against any actual result. Terminal errors, unknown usage and
+reported overshoots are preserved as observations, not certified good executions.
+Content-address dedup may reduce unique members below607 while all600 records
+remain restored. A partial unvalidated journal tail permits a completion report
+with limitations but blocks archive; missing valid pairs do not become successes.
+An archive/report filesystem failure may leave its newly owned partial artifact;
+no existing file is overwritten. This review does not authorize clinical scoring
+before full completion or substitute integrity PASS for benchmark acceptance.

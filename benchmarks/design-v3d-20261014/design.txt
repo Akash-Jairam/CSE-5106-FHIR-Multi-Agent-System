@@ -1,0 +1,109 @@
+V3d: fresh paired fixed-300 repeat with safe provider diagnostics
+Prepared before inference, 14 October 2026 local time / 15 October UTC.
+
+Question and decision
+Repeat V3c's complete comparison after its synchronized connection failures,
+without interpreting that failed run as an architectural result or replacing
+any of its attempts. V3c completed single 91/300 and team 88/300, with 183 and
+178 terminal failures respectively. It did not meet acceptance. Its immutable
+record, source, all 600 audits and raw archive remain in design-v3c-20261014.
+The generic saved errors lack underlying causes. Fresh default-transport
+requests work now; sustained workload recovery remains to be tested.
+
+The treatment is the same V3.2 question-contract architecture as V3c. The
+single control, questions, ordering, shared substrate and typed scorer remain
+unchanged. Require team to exceed archived single 223/300, refreshed single
+231/300 AND the new contemporaneous single before promotion/full benchmarking.
+Retain all scheduled first attempts, including errors. No selective replay,
+replacement, success-only acceptance or gold-informed runtime routing.
+
+Exact semantic design
+The full role/prompt/source-gate specification is inherited from the frozen
+benchmarks/design-v3c-20261014/design.txt and source.zip. Source hashes and
+runtime equality proof in this new record must confirm that inheritance.
+QueryContractAgent remains query-contract-v3.2-static-audit, module SHA256
+e8466ca0b0df4378289357f677af3bf22718d855643245edac9aced3c5de9ae6.
+No planner exposure, prompt change, new auditor, retrieval policy, source gate,
+semantic patch or synthesis is introduced.
+
+Question-only contract: one completion, 10k total tokens, zero tools; blind to
+the solver's code, answer, records and gold. Continuous solver: 175k tokens,
+27 tools (25 requested plus two automatic source checks), at most 20 real model
+calls and 22 host slots. The contract remains withheld from the solver. Require
+an executed explicit final at the full batch boundary, complete retrieval
+ledger and source validation; allow the existing one source-feedback revision.
+Unresolved patient/time/metadata scope blocks positives and absence answers.
+Static program audit: one completion, 15k tokens, zero tools; frozen contract,
+executed code/ledger/bounded sources, without rendered candidate answer. Unknown
+or unsupported auxiliary results preserve a valid primary only with nonfatal,
+verified accounting. Targeted host repair: zero tokens, up to three tools and
+the same narrowly supported unique-AST/changed-contributor/source witnesses.
+No whole second solve or vote. Aggregate ceiling stays 200k accounted tokens
+and 30 executed tools; unknown provider usage and reported overshoot are fatal.
+
+Operational delta, disclosed before the run
+Only an optional local Azure diagnostics journal is added. Enable it through
+FHIR_LOCAL_AZURE_DIAGNOSTICS_DIR in both launch environments. Default SDK client
+construction, request dictionary/create call, completion ceiling, model output
+conversion and reuse remain unchanged; no fallback, client reset or retry is
+added. The provider public-profile hash must equal V3c. Record the changed
+adapter hash and full allowlisted adapter source archive separately from the
+repository source ZIP. New tests and this design document are archival/support
+changes, not treatment prompt changes.
+
+Actual default transport is OpenAI 3.26.1 with HTTPX2 2.13.1. Prior health checks
+that supplied HTTPX 0.28.1 verified a different transport path. The new preflight
+uses make_client(settings) without substitution and enables the same observer.
+The unchanged SDK timeout is 60 seconds, SDK retries zero, application one
+attempt; per-request caller ceiling is 16,384, further limited by phase/global
+budgets. Keep reasoning none, 32k estimated-input guard, existing compaction,
+starting packets, retrieval/cache/source checks and gzip-before-worker-IPC.
+
+The journal writes per-process start/end JSONL events: counters/session, UTC and
+elapsed time, bounded class/MRO/version/client-closed metadata, descriptor counts,
+exception type/errno/verify-code flags, numeric usage and fixed request-ID fields.
+It stores no message/response content, endpoint/configuration/key, request
+headers, traceback or exception text. Missing status/usage is null. Logging is
+best effort and cannot replace a successful response or original raised error.
+An unmatched start or partial line remains evidence of incomplete recording,
+not an invented successful/zero-cost request. Default-transport introspection
+does not attest an actual proxy route, all dependencies or historical resources.
+
+Run and records
+Use fresh output/experiments/gpt-6-luna/query_contract_v3d_300q. Launch separate
+concurrent single/team jobs, one worker each, save_interval 1, gzip audits, the
+same held_out 300 IDs from manifests/split.json and released dataset. Common
+provider diagnostics directory contains only this run's per-process events.
+Freeze the exact source/runtime archives, provider profile, commands, identities,
+research rationale and test/preflight evidence before the 600 first attempts.
+Existing human consent covers configured Azure payloads and GitHub records.
+Root monitors actual jobs and diagnostics; sustained transport failure prompts
+an operational stop with every saved/in-flight attempt retained as such. No
+partial-accuracy stopping or source/settings changes while inference runs.
+
+After both 300 complete, verify source/input/identities and all owned gzip
+artifacts, then use the unchanged full-first-attempt comparison and patient-block
+95% bootstrap (10,000 draws, seed 5106). Report paired wins/losses, families,
+error/unknown-usage taxonomy, source-valid release/null-credit caveats, audit/
+repair gain and harm, usage and latency. Journal diagnoses are supplementary;
+they do not repair scores or certify global semantics. Repeated fixed-cohort
+selection is exploratory, not fresh held-out generalization. Preserve this
+large run's design and result even if interrupted or unsuccessful.
+
+If acceptance passes, select the best tested design on main and independently
+freeze/start the actual full 2,931-question three-arm benchmark (8,793 first
+attempts), then verify real execution. If it fails with usable service, judge
+refinement from whole-run mechanisms and primary research. The isolated V4
+advisory-plan candidate remains unselected and unlaunched.
+
+Primary rationale and limits
+The existing V3 research references CodeAct, CoVe, local query repair and budget
+visibility; see the frozen V3c specification and committed research notes.
+Provider diagnosis follows installed/public source, not a presumed cause:
+https://developers.openai.com/api/reference/python
+https://github.com/openai/openai-python/blob/v3.26.1/httpx2.md
+https://github.com/openai/openai-python/blob/v3.26.1/src/openai/_base_client.py
+https://github.com/pydantic/httpx2/blob/v2.13.1/src/httpcore2/httpcore2/_sync/connection_pool.py
+The complete primary-source report and four network-free native timeout-cleanup
+tests are preserved in V3c's connection_investigation. Ordinary timeout recovery
+does not prove the original workers' failure cause or whole-workload recovery.

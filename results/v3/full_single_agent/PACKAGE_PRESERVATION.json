@@ -1,0 +1,22 @@
+{
+  "status": "MATCHED_COMPLETED_COHORT_DATA_PACKAGE_READY",
+  "main_N": 2929,
+  "patients": 94,
+  "full_benchmark_complete_claimed": false,
+  "numeric_validation": "validation.json",
+  "independent_numeric_review": "../internal/validation/consolidation_review.json",
+  "archive_validation": "internal/portable_archive_validation.json",
+  "archive_manifest": "raw/ARCHIVE_MANIFEST.json",
+  "archive_manifest_sha256": "fcb592efb0a142e1e3f0da43f6a8e47d7c0b8a4c457ccc80ef921e9ce995ca6d",
+  "archive_parts": 315,
+  "archive_compressed_bytes": 267394408,
+  "archive_original_audit_payload_bytes": 13377878208,
+  "reconstruction_guide": "raw/RECONSTRUCTION.txt",
+  "analysis_source_preservation": "reproduce/sourceanalysis/",
+  "analysis_source_note": "Offline analysis/archive code only; no duplicated inference implementation source.",
+  "operational_records": "internal/",
+  "accepted_primary_metrics_exclude_all_runtime_attempts": true,
+  "estimated_cost_label": "Frozen official OpenAI user-approved Azure proxy; actual billing unknown.",
+  "cache_provenance_limit": "891-question cached-field checkpoint only; no full baseline cached-field audit.",
+  "created_at_utc": "2026-10-17T17:14:22.048348+00:00"
+}

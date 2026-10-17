@@ -1,0 +1,21 @@
+V3 full benchmark: V3_COMPLETE_CONTROLS_PENDING
+
+Accepted runtime-clean attempts only; failed runtime attempts excluded.
+Patient-cluster bootstrap: 10000 replicates, seed 5106, 95% percentile intervals.
+Cost schedule: Official OpenAI standard short-context prices, adopted for Azure by user instruction; usage-based estimate, not verified billing
+
+multi_agent: 2256/2931 correct; accuracy=0.7697; 95% CI [0.7453, 0.7934]
+  latency seconds: total=70504.27, mean=24.05, median=20.49, p95=50.92
+  estimated USD: total=14.810824, mean=0.005053; tokens total=156787021
+  intrinsic errors=0; limitations=700; budget stops=0; missing latency=0; missing cost=0
+
+
+All latency/cost/token results use only selected runtime-clean attempts. Runtime retries remain separate operational records.
+Summed per-question latency is not wall-clock benchmark duration; arms and workers may overlap.
+A missing measurement makes a complete-cohort total/mean unavailable. Observed-only statistics are separately labeled.
+Pricing estimates use the frozen official OpenAI schedule; the user authorized assuming the same rates for Azure. Actual billed charges are not measured.
+Split/exposure results are descriptive. Development used repeated subsets and later designs; the historic split does not certify an untouched test set.
+Architecture comparisons include shared tools/contracts and topology; they do not isolate a pure topology effect.
+
+Per-question answers, stage scores, usage, mechanisms and raw audit pointers: per_question.jsonl / per_question.csv.
+Detailed aggregates and provenance: summary.json; group tables and paired_comparisons.csv.

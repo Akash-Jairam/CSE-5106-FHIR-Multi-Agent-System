@@ -1,0 +1,131 @@
+{
+  "status": "PASS",
+  "checks": 194209,
+  "findings": [],
+  "details": {
+    "single": {
+      "n": 2929,
+      "correct": 2343,
+      "patients": 94,
+      "correctness_empty_flag_crosstab": {
+        "(True, False)": 1928,
+        "(False, False)": 453,
+        "(False, True)": 133,
+        "(True, True)": 415
+      }
+    },
+    "matched_v3": {
+      "n": 2929,
+      "correct": 2255,
+      "patients": 94,
+      "correctness_empty_flag_crosstab": {
+        "(True, False)": 1833,
+        "(False, True)": 231,
+        "(True, True)": 422,
+        "(False, False)": 443
+      }
+    },
+    "original_v3": {
+      "n": 2931,
+      "correct": 2256,
+      "patients": 94,
+      "correctness_empty_flag_crosstab": {
+        "(True, False)": 1834,
+        "(False, True)": 232,
+        "(True, True)": 422,
+        "(False, False)": 443
+      }
+    },
+    "full_pair_correct": {
+      "n": 2929,
+      "patients": 94,
+      "estimate": 0.030044383748719698,
+      "ci_low": 0.018420225978676392,
+      "ci_high": 0.04170790962079528
+    },
+    "full_pair_latency_seconds": {
+      "n": 2929,
+      "patients": 94,
+      "estimate": -6.127335609423011,
+      "ci_low": -6.942925320673327,
+      "ci_high": -5.303000475028936
+    },
+    "full_pair_estimated_cost_usd": {
+      "n": 2929,
+      "patients": 94,
+      "estimate": -0.002741244745646979,
+      "ci_low": -0.0029060100517615756,
+      "ci_high": -0.0025725834533162936
+    },
+    "full_pair_total_tokens": {
+      "n": 2929,
+      "patients": 94,
+      "estimate": 19760.859679071356,
+      "ci_low": 16361.589630789938,
+      "ci_high": 23490.72410784803
+    },
+    "full_pair_crosstab": {
+      "(True, True)": 2162,
+      "(False, False)": 493,
+      "(True, False)": 181,
+      "(False, True)": 93
+    },
+    "development_crosstab": {
+      "(True, True)": 224,
+      "(False, False)": 54,
+      "(True, False)": 8,
+      "(False, True)": 14
+    },
+    "exposure": {
+      "known_union_patients": 93,
+      "total_patients": 94,
+      "fresh_patients": 58,
+      "original_patients": 35,
+      "fresh_question_overlap": 300
+    },
+    "source_comparison": {
+      "shared_files": 57,
+      "equal": 56,
+      "different": [
+        "agent/query_contract_agent.py"
+      ],
+      "fingerprint_source_files": 42,
+      "recorded_dependency_versions": 21,
+      "both_recorded_fingerprints_reproduced": true
+    },
+    "tracked_diff_from_f71a8d9": []
+  },
+  "input_sha256": {
+    "results/v3/full_single_agent/per_question_measurements_and_scores.jsonl": "eb9ee09212c54d49b9937f2a74106aaf77a2e64d2363f1b49bd45c1573639007",
+    "results/v3/full_single_agent/matched_v3_measurements_and_scores.jsonl": "aecb1e6c79058bac91e2cadd26b2bf427b5ab5f0c3f4a18cf3242a988e7dde68",
+    "benchmarks/v3-full-run-20261015/completed_v3/per_question.jsonl": "6c1dfabbeb27a354f21fee4f1820aa840f17157f4769aa16e87ab4d12a7f6604",
+    "results/v3/full_single_agent/single_agent_summary.json": "e4b6b0939d867e1152de833464f5e42af5f2c69018004d6ab9971afc133b90f1",
+    "results/v3/full_single_agent/matched_v3_summary.json": "f0fa73448274bb4a127000b8a0096fc67d0df1c7b98c9c625ea944426e712822",
+    "benchmarks/v3-full-run-20261015/completed_v3/summary.json": "2eebd0f7d5c00e8be00b374f900b53f3d07995bb759f8f8e459ccbb0ea9599d2",
+    "results/v3/full_single_agent/correctness_empty_flag_crosstab.json": "4a295ff5bb8d9ea6ae00c9d1524f33d473b7fa270b1b746ed3249f3a6140486a",
+    "results/v3/full_single_agent/paired_comparison.json": "c14d288117c7aee5da911734aae3d8c611f896cc4614efbca1b858059654c3f8",
+    "results/v3/full_single_agent/draft_final_scope_reconciliation.json": "afd79ceade64b83c92f8fbc75bcc1f8f4f92411b7ea86a11aaecde56a743b825",
+    "results/v3/full_single_agent/paired_by_family.json": "7b914f37b5721e06acf7ad624c8465b776d65a839e117dcf1c05a497709b1794",
+    "results/v3/cost_cache_sensitivity.json": "f3965d1b3330ee3e0aa4dfe66733f707684acfe8820b130940e9966f27e16c75",
+    "results/v3/development/per_question.jsonl": "d9b093f2a4c342a86e9d4f8756ec06f71919844fc5a5d47ccfb3735118043471",
+    "results/v3/development/paired_measurements.jsonl": "1885ca773a74dee259478b09d713ba3f23ca50608afbf2597e71499b0740b30c",
+    "results/v3/development/statistics.json": "549ef546190c0eca71163f7516486ddecb2aad0f37e28122c531b74630c3ac47",
+    "results/v3/full_single_agent/exploratory_development_exposure_labels.jsonl": "1afa55fb7f3fc9c21ae1e4fdf55b3b1fd82e09ab5865f622e83e56272319a4c5",
+    "results/v3/full_single_agent/exploratory_development_exposure_overlap.json": "79c530b4e4528906019630b806131f7d26e575678b2ea191fbd5fb5700d5e580",
+    "results/v3/development/source_comparison.json": "d84d4344138b472a03aaad36352e646c1e8465a1d549bea64881824478d376bb"
+  },
+  "script_sha256": "749bae4c0484927a35c7a38c9beab4533978978186f1309e7fbefd86d3a70fd9",
+  "runtime": {
+    "numpy": "2.4.4",
+    "bootstrap_replicates": 10000,
+    "seed": 5106
+  },
+  "limits": [
+    "No scorer is rerun; retained correctness flags are independently counted and cross-tabulated.",
+    "Patient-cluster bootstrap independently aggregated with the frozen multinomial/default_rng recipe; not repeated-run or provider uncertainty.",
+    "Development accuracy intervals are unchanged copied historical results; both accuracy and measurement intervals were independently verified using numerically ordered local cluster labels.",
+    "Cache numeric balance and cost formula checks do not prove original cache-field availability; missing/cache provenance limits remain.",
+    "Raw archives and final package manifest are owned by other agents and were not read or validated while being written.",
+    "No provider/model calls, config/secret reads, inference changes, commits or pushes."
+  ]
+}

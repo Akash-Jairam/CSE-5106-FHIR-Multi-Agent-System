@@ -1,0 +1,43 @@
+INTERNAL OFFLINE CONTEXT DIAGNOSIS
+
+Both reviewed tasks have one accepted initial model call followed by a rejected
+second call. The added context consists of an assistant execute_python_code
+request (inspect mode) and its tool reply. No FHIR retrieval occurs between
+these calls. Saved assistant/tool links are consistent. No broad claim about
+all EHR content follows: the starting packet was already in the first call.
+
+The logical second-call messages are recoverable from the saved audit plus
+frozen source: both have four roles (system, user, assistant, tool), no saved
+model-content preview substitution, and estimates below the compaction trigger.
+Tools and stable request parameters can be reconstructed from frozen sources.
+The original HTTP body, exact SDK JSON serialization and headers were not
+captured. The recorded hashes describe logical reconstructed objects, not
+wire-byte equality. Failed-call provider prompt-token counts remain unavailable.
+
+V3 uses exactly the same initial solver system and user/starting-packet strings
+for these targets, but adds host budget messages and follows different generated
+Python/result and phase trajectories. One target uses inspect then final with
+source-check revision; the other finalizes from its first solver computation and
+uses a separate audit phase. These are not identical requests to Single Agent.
+
+The finite instruction-pattern scan found only a shared generic format-priority
+phrase in the system template; this same template is present in accepted initial
+and V3 contexts. No matched instruction-override/exfiltration/role-spoofing pattern
+was found in the newly added Python arguments or tool replies. This does not
+certify semantic safety or identify Azure's hidden classifier rationale. There
+is no evidence here that a malformed local message caused the decision.
+
+An authorized Azure administrator/provider review can use the retained safe
+request IDs, UTCs and logical-context hashes. No additional requests or changes
+to prompts, clinical data, filters or routing were made. There is no demonstrated
+minimal source fix supported by these saved observations. Prompt/result-encoding
+or stopping-policy changes would change the benchmark implementation and require
+a new reviewed protocol/version and declared matched rerun scope, preserving
+this frozen run; do not silently alter only the two problematic outcomes.
+
+Keep this diagnosis internal. Main matched-cohort analysis should use its declared
+completed sample count and omit incident narrative/IDs. The original full-cohort
+gate and raw reproducibility records remain unchanged. evidence.json contains
+only component lengths/hashes, numeric usage, source bindings and raw asset
+availability/size metadata. It copies no clinical text, questions, answers,
+references, credentials or raw request bodies. Raw assets remain local/protected.

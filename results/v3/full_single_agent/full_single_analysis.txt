@@ -1,0 +1,109 @@
+MATCHED COMPLETED COHORT N=2929 (94 patients)
+
+The comparison uses the same2929 completed questions in both arms. Availability-based selection is posthoc and descriptive. The overall V3 N2931 evaluation is reported separately.
+
+single_agent: 2343/2929 typed-correct; accuracy79.9931717310%;95%patient-clusterCI[77.1988540803%,82.4949149836%]
+  latency_seconds: observed2929/2929,missing0; total=52531.06;mean=17.934810515534313;median=15.184;p95=37.6226;sampleSD=9.964972024413736;min=2.876;max=114.961
+    Mean patient-clusterCI: {"n": 2929, "patients": 94, "estimate": 17.934810515534313, "ci_low": 16.796084972244895, "ci_high": 19.210434582089036}
+  estimated_cost_usd: observed2929/2929,missing0; total=6.777078;mean=0.0023137855923523387;median=0.00204232;p95=0.0049174200000000005;sampleSD=0.0013698846139633676;min=0.00026282;max=0.019532
+    Mean patient-clusterCI: {"n": 2929, "patients": 94, "estimate": 0.0023137855923523387, "ci_low": 0.002179392491700265, "ci_high": 0.002459616717959969}
+  reported_cost_usd: observed0/2929,missing2929; total=None;mean=None;median=None;p95=None;sampleSD=None;min=None;max=None
+  prompt_tokens: observed2929/2929,missing0; total=210582685;mean=71895.76135199727;median=59460;p95=180739.8;sampleSD=46847.33033520977;min=7689;max=195827
+  completion_tokens: observed2929/2929,missing0; total=4033144;mean=1376.9696142027997;median=1104;p95=3274.9999999999995;sampleSD=915.5407619068634;min=145;max=9192
+  total_tokens: observed2929/2929,missing0; total=214615829;mean=73272.73096620006;median=60652;p95=183282.8;sampleSD=47527.9784595362;min=7847;max=198137
+    Mean patient-clusterCI: {"n": 2929, "patients": 94, "estimate": 73272.73096620006, "ci_low": 68108.09066204951, "ci_high": 78990.15947824805}
+  cached_prompt_tokens: observed2929/2929,missing0; total=181086250;mean=61825.281666097646;median=49203;p95=161314.19999999998;sampleSD=42395.78770304049;min=0;max=182705
+  uncached_prompt_tokens: observed2929/2929,missing0; total=29496435;mean=10070.479685899625;median=9887;p95=19103.799999999996;sampleSD=7089.908336667701;min=667;max=185175
+  repeated_prompt_tokens: observed2929/2929,missing0; total=177698336;mean=60668.60225332878;median=47361;p95=162531.6;sampleSD=43315.70276826425;min=3833;max=181142
+  llm_calls: observed2929/2929,missing0; total=19440;mean=6.637077500853533;median=6;p95=12.0;sampleSD=2.6616594072766007;min=2;max=21
+  tool_calls_executed: observed2929/2929,missing0; total=19473;mean=6.648344144759304;median=6;p95=12.0;sampleSD=2.661183386791665;min=2;max=21
+  tool_calls_recorded: observed2929/2929,missing0; total=19473;mean=6.648344144759304;median=6;p95=12.0;sampleSD=2.661183386791665;min=2;max=21
+  evidence_count: observed2929/2929,missing0; total=16311;mean=5.568794810515534;median=2;p95=15.0;sampleSD=22.87045057514471;min=0;max=600
+  evidence_valid: observed0/2929,missing2929; total=None;mean=None;median=None;p95=None;sampleSD=None;min=None;max=None
+  valid_evidence_fraction: observed0/2929,missing2929; total=None;mean=None;median=None;p95=None;sampleSD=None;min=None;max=None
+  evidence_precision: observed0/2929,missing2929; total=None;mean=None;median=None;p95=None;sampleSD=None;min=None;max=None
+  evidence_recall: observed0/2929,missing2929; total=None;mean=None;median=None;p95=None;sampleSD=None;min=None;max=None
+multi_agent_v3: 2255/2929 typed-correct; accuracy76.9887333561%;95%patient-clusterCI[74.5398458500%,79.3676061987%]
+  latency_seconds: observed2929/2929,missing0; total=70478.026;mean=24.062146124957323;median=20.512;p95=50.926199999999994;sampleSD=13.981636038191663;min=5.692;max=141.772
+    Mean patient-clusterCI: {"n": 2929, "patients": 94, "estimate": 24.062146124957323, "ci_low": 23.11264422566922, "ci_high": 25.002419302806274}
+  estimated_cost_usd: observed2929/2929,missing0; total=14.80618386;mean=0.005055030337999317;median=0.00405661;p95=0.013585963999999999;sampleSD=0.003643695118032166;min=0.00053647;max=0.01782011
+    Mean patient-clusterCI: {"n": 2929, "patients": 94, "estimate": 0.005055030337999317, "ci_low": 0.004795473719824273, "ci_high": 0.005321677518163383}
+  reported_cost_usd: observed0/2929,missing2929; total=None;mean=None;median=None;p95=None;sampleSD=None;min=None;max=None
+  prompt_tokens: observed2929/2929,missing0; total=152782576;mean=52162.02663024923;median=41584;p95=140860.4;sampleSD=37430.634582253144;min=7144;max=174455
+  completion_tokens: observed2929/2929,missing0; total=3953695;mean=1349.8446568794811;median=1266;p95=2429.6;sampleSD=558.9759531760966;min=311;max=5264
+  total_tokens: observed2929/2929,missing0; total=156736271;mean=53511.87128712871;median=42735;p95=143060.59999999995;sampleSD=37883.91853929895;min=7495;max=177550
+    Mean patient-clusterCI: {"n": 2929, "patients": 94, "estimate": 53511.87128712871, "ci_low": 50870.22109798153, "ci_high": 56226.78236299852}
+  cached_prompt_tokens: observed2929/2929,missing0; total=27210236;mean=9289.940594059406;median=9451;p95=20499.0;sampleSD=6087.8518397797;min=0;max=49716
+  uncached_prompt_tokens: observed2929/2929,missing0; total=125572340;mean=42872.08603618982;median=33481;p95=120522.19999999998;sampleSD=33844.99343633723;min=3020;max=164983
+  repeated_prompt_tokens: observed2929/2929,missing0; total=119450435;mean=40781.985319221574;median=29055;p95=121723.4;sampleSD=33624.84699993818;min=3768;max=158077
+  llm_calls: observed2929/2929,missing0; total=17708;mean=6.04574940252646;median=6;p95=10.599999999999909;sampleSD=2.1478695108905796;min=3;max=19
+  tool_calls_executed: observed2929/2929,missing0; total=15502;mean=5.292591328098327;median=5;p95=10.0;sampleSD=2.3578616052824666;min=2;max=18
+  tool_calls_recorded: observed2929/2929,missing0; total=15502;mean=5.292591328098327;median=5;p95=10.0;sampleSD=2.3578616052824666;min=2;max=18
+  evidence_count: observed2929/2929,missing0; total=19297;mean=6.588255377261864;median=2;p95=15.0;sampleSD=35.27313136713208;min=0;max=1128
+  evidence_valid: observed2929/2929,missing0; total=19252.0;mean=6.572891771935814;median=2.0;p95=15.0;sampleSD=35.27533527203105;min=0.0;max=1128.0
+  valid_evidence_fraction: observed2136/2929,missing793; total=None;mean=None;median=None;p95=None;sampleSD=None;min=None;max=None
+  evidence_precision: observed2723/2929,missing206; total=None;mean=None;median=None;p95=None;sampleSD=None;min=None;max=None
+  evidence_recall: observed2816/2929,missing113; total=None;mean=None;median=None;p95=None;sampleSD=None;min=None;max=None
+
+Paired differences (Single Agent minus V3):
+{
+  "left": "single_agent",
+  "right": "multi_agent",
+  "matched_questions": 2929,
+  "left_only": 0,
+  "right_only": 0,
+  "left_wins": 181,
+  "right_wins": 93,
+  "both_correct": 2162,
+  "both_wrong": 493,
+  "accuracy_difference": {
+    "n": 2929,
+    "patients": 94,
+    "estimate": 0.030044383748719698,
+    "ci_low": 0.018420225978676392,
+    "ci_high": 0.04170790962079528
+  },
+  "latency_seconds_difference_observed_pairs": {
+    "n": 2929,
+    "patients": 94,
+    "estimate": -6.127335609423011,
+    "ci_low": -6.942925320673327,
+    "ci_high": -5.303000475028935
+  },
+  "latency_seconds_missing_pairs": 0,
+  "estimated_cost_usd_difference_observed_pairs": {
+    "n": 2929,
+    "patients": 94,
+    "estimate": -0.002741244745646979,
+    "ci_low": -0.0029060100517615756,
+    "ci_high": -0.0025725834533162936
+  },
+  "estimated_cost_usd_missing_pairs": 0,
+  "total_tokens_difference_observed_pairs": {
+    "n": 2929,
+    "patients": 94,
+    "estimate": 19760.859679071356,
+    "ci_low": 16361.589630789938,
+    "ci_high": 23490.72410784803
+  },
+  "total_tokens_missing_pairs": 0,
+  "difference_convention": "left minus right = single_agent minus multi_agent_v3; accuracy is a fraction (multiply by100 for percentage points)"
+}
+
+This analysis uses the matched completed cohort, N=2929, selected posthoc by shared availability. Both arms use exactly the same question and patient IDs.
+The complete V3 N=2931 result is a separate overall evaluation; these matched V3 numbers use the shared2929 only.
+The two unavailable Single Agent questions are excluded from both sides and are never marked incorrect.
+The full released dataset informed development; split/exposure tables are descriptive, not an untouched held-out evaluation.
+Estimated dollar costs use frozen official OpenAI rates as the user-approved Azure proxy. Actual billing is unknown.
+The completed cached-field provenance checkpoint covers891 Single Agent questions. Aggregate usage availability flags do not prove cached-field presence. Full baseline cache provenance audit was not performed.
+Evidence-count is descriptive; field validation/precision/recall remain unavailable unless already present in frozen V3 results. No new evidence validation was performed.
+
+Tables: per_question_measurements_and_scores.*, matched_v3_measurements_and_scores.*, matched_arm_summaries.csv, metric_summary.csv, paired_comparison.*, by_*.{json,csv},paired_by_*.{json,csv}.
+phase_usage.json records available phase metadata; absent phase labels mean unavailable rather than zero work. call_ordinal_usage describes call index, not inferred phases. tool_name_counts and mechanisms retain descriptive behavior.
+The syntactic empty/no-value flag can include correct empty answers. See correctness_empty_flag_crosstab.json; do not equate every flagged answer with failure.
+Complete available clinical output is archived losslessly without displaying it. Archive manifest documents exact canonical row and audit payload preservation. Original gzip headers/bytes are not reconstructed.
+Internal provenance retains frozen source identities and hashes, first-clean replay, terminal metadata and excluded diagnostics. Original full2931 completion gates remain unchanged.
+
+Exposure-label provenance correction (descriptive addition):
+Frozen source-split labels do not incorporate later fresh300 development exposure. Neither remaining group is asserted pristine or untouched; union covers only the recorded split and this later development run. Frozen reports/labels remain unchanged. No accuracy or CIs computed for these exploratory overlap labels.
+Fresh300 covers58 patients;58 patients assigned the frozen held_out_patient_descriptive label also appear in fresh300. Use the separate exploratory overlap labels for that later exposure; do not interpret frozen held_out as untouched.

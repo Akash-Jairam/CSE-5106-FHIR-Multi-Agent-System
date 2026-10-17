@@ -1,0 +1,397 @@
+{
+  "questions": 2929,
+  "correct": 2255,
+  "accuracy": {
+    "n": 2929,
+    "patients": 94,
+    "estimate": 0.7698873335609423,
+    "ci_low": 0.745398458499847,
+    "ci_high": 0.7936760619873348
+  },
+  "intrinsic_errors": 0,
+  "abstentions": 653,
+  "limitations": 699,
+  "budget_stops": 0,
+  "provider_usage_unknown": 0,
+  "evidence_validated_questions": 2929,
+  "metrics": {
+    "latency_seconds": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 70478.026,
+      "mean": 24.062146124957323,
+      "median": 20.512,
+      "p95": 50.926199999999994,
+      "stdev": 13.981636038191663,
+      "min": 5.692,
+      "max": 141.772,
+      "observed_only": {
+        "total": 70478.026,
+        "mean": 24.062146124957323,
+        "median": 20.512,
+        "p95": 50.926199999999994,
+        "stdev": 13.981636038191663,
+        "min": 5.692,
+        "max": 141.772
+      },
+      "mean_patient_bootstrap": {
+        "n": 2929,
+        "patients": 94,
+        "estimate": 24.062146124957323,
+        "ci_low": 23.11264422566922,
+        "ci_high": 25.002419302806274
+      }
+    },
+    "estimated_cost_usd": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 14.80618386,
+      "mean": 0.005055030337999317,
+      "median": 0.00405661,
+      "p95": 0.013585963999999999,
+      "stdev": 0.003643695118032166,
+      "min": 0.00053647,
+      "max": 0.01782011,
+      "observed_only": {
+        "total": 14.80618386,
+        "mean": 0.005055030337999317,
+        "median": 0.00405661,
+        "p95": 0.013585963999999999,
+        "stdev": 0.003643695118032166,
+        "min": 0.00053647,
+        "max": 0.01782011
+      },
+      "mean_patient_bootstrap": {
+        "n": 2929,
+        "patients": 94,
+        "estimate": 0.005055030337999317,
+        "ci_low": 0.004795473719824273,
+        "ci_high": 0.005321677518163383
+      }
+    },
+    "reported_cost_usd": {
+      "n": 2929,
+      "observed_n": 0,
+      "missing_n": 2929,
+      "total": null,
+      "mean": null,
+      "median": null,
+      "p95": null,
+      "stdev": null,
+      "min": null,
+      "max": null,
+      "observed_only": {
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "prompt_tokens": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 152782576,
+      "mean": 52162.02663024923,
+      "median": 41584,
+      "p95": 140860.4,
+      "stdev": 37430.634582253144,
+      "min": 7144,
+      "max": 174455,
+      "observed_only": {
+        "total": 152782576,
+        "mean": 52162.02663024923,
+        "median": 41584,
+        "p95": 140860.4,
+        "stdev": 37430.634582253144,
+        "min": 7144,
+        "max": 174455
+      }
+    },
+    "completion_tokens": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 3953695,
+      "mean": 1349.8446568794811,
+      "median": 1266,
+      "p95": 2429.6,
+      "stdev": 558.9759531760966,
+      "min": 311,
+      "max": 5264,
+      "observed_only": {
+        "total": 3953695,
+        "mean": 1349.8446568794811,
+        "median": 1266,
+        "p95": 2429.6,
+        "stdev": 558.9759531760966,
+        "min": 311,
+        "max": 5264
+      }
+    },
+    "total_tokens": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 156736271,
+      "mean": 53511.87128712871,
+      "median": 42735,
+      "p95": 143060.59999999995,
+      "stdev": 37883.91853929895,
+      "min": 7495,
+      "max": 177550,
+      "observed_only": {
+        "total": 156736271,
+        "mean": 53511.87128712871,
+        "median": 42735,
+        "p95": 143060.59999999995,
+        "stdev": 37883.91853929895,
+        "min": 7495,
+        "max": 177550
+      },
+      "mean_patient_bootstrap": {
+        "n": 2929,
+        "patients": 94,
+        "estimate": 53511.87128712871,
+        "ci_low": 50870.22109798153,
+        "ci_high": 56226.78236299852
+      }
+    },
+    "cached_prompt_tokens": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 27210236,
+      "mean": 9289.940594059406,
+      "median": 9451,
+      "p95": 20499.0,
+      "stdev": 6087.8518397797,
+      "min": 0,
+      "max": 49716,
+      "observed_only": {
+        "total": 27210236,
+        "mean": 9289.940594059406,
+        "median": 9451,
+        "p95": 20499.0,
+        "stdev": 6087.8518397797,
+        "min": 0,
+        "max": 49716
+      }
+    },
+    "uncached_prompt_tokens": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 125572340,
+      "mean": 42872.08603618982,
+      "median": 33481,
+      "p95": 120522.19999999998,
+      "stdev": 33844.99343633723,
+      "min": 3020,
+      "max": 164983,
+      "observed_only": {
+        "total": 125572340,
+        "mean": 42872.08603618982,
+        "median": 33481,
+        "p95": 120522.19999999998,
+        "stdev": 33844.99343633723,
+        "min": 3020,
+        "max": 164983
+      }
+    },
+    "repeated_prompt_tokens": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 119450435,
+      "mean": 40781.985319221574,
+      "median": 29055,
+      "p95": 121723.4,
+      "stdev": 33624.84699993818,
+      "min": 3768,
+      "max": 158077,
+      "observed_only": {
+        "total": 119450435,
+        "mean": 40781.985319221574,
+        "median": 29055,
+        "p95": 121723.4,
+        "stdev": 33624.84699993818,
+        "min": 3768,
+        "max": 158077
+      }
+    },
+    "llm_calls": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 17708,
+      "mean": 6.04574940252646,
+      "median": 6,
+      "p95": 10.599999999999909,
+      "stdev": 2.1478695108905796,
+      "min": 3,
+      "max": 19,
+      "observed_only": {
+        "total": 17708,
+        "mean": 6.04574940252646,
+        "median": 6,
+        "p95": 10.599999999999909,
+        "stdev": 2.1478695108905796,
+        "min": 3,
+        "max": 19
+      }
+    },
+    "tool_calls_executed": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 15502,
+      "mean": 5.292591328098327,
+      "median": 5,
+      "p95": 10.0,
+      "stdev": 2.3578616052824666,
+      "min": 2,
+      "max": 18,
+      "observed_only": {
+        "total": 15502,
+        "mean": 5.292591328098327,
+        "median": 5,
+        "p95": 10.0,
+        "stdev": 2.3578616052824666,
+        "min": 2,
+        "max": 18
+      }
+    },
+    "tool_calls_recorded": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 15502,
+      "mean": 5.292591328098327,
+      "median": 5,
+      "p95": 10.0,
+      "stdev": 2.3578616052824666,
+      "min": 2,
+      "max": 18,
+      "observed_only": {
+        "total": 15502,
+        "mean": 5.292591328098327,
+        "median": 5,
+        "p95": 10.0,
+        "stdev": 2.3578616052824666,
+        "min": 2,
+        "max": 18
+      }
+    },
+    "evidence_count": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 19297,
+      "mean": 6.588255377261864,
+      "median": 2,
+      "p95": 15.0,
+      "stdev": 35.27313136713208,
+      "min": 0,
+      "max": 1128,
+      "observed_only": {
+        "total": 19297,
+        "mean": 6.588255377261864,
+        "median": 2,
+        "p95": 15.0,
+        "stdev": 35.27313136713208,
+        "min": 0,
+        "max": 1128
+      }
+    },
+    "evidence_valid": {
+      "n": 2929,
+      "observed_n": 2929,
+      "missing_n": 0,
+      "total": 19252.0,
+      "mean": 6.572891771935814,
+      "median": 2.0,
+      "p95": 15.0,
+      "stdev": 35.27533527203105,
+      "min": 0.0,
+      "max": 1128.0,
+      "observed_only": {
+        "total": 19252.0,
+        "mean": 6.572891771935814,
+        "median": 2.0,
+        "p95": 15.0,
+        "stdev": 35.27533527203105,
+        "min": 0.0,
+        "max": 1128.0
+      }
+    },
+    "valid_evidence_fraction": {
+      "n": 2929,
+      "observed_n": 2136,
+      "missing_n": 793,
+      "total": null,
+      "mean": null,
+      "median": null,
+      "p95": null,
+      "stdev": null,
+      "min": null,
+      "max": null,
+      "observed_only": {
+        "total": 2118.6,
+        "mean": 0.9918539325842696,
+        "median": 1.0,
+        "p95": 1.0,
+        "stdev": 0.08928091190410846,
+        "min": 0.0,
+        "max": 1.0
+      }
+    },
+    "evidence_precision": {
+      "n": 2929,
+      "observed_n": 2723,
+      "missing_n": 206,
+      "total": null,
+      "mean": null,
+      "median": null,
+      "p95": null,
+      "stdev": null,
+      "min": null,
+      "max": null,
+      "observed_only": {
+        "total": 2152.0358052518714,
+        "mean": 0.7903179600631184,
+        "median": 1.0,
+        "p95": 1.0,
+        "stdev": 0.36260063603598264,
+        "min": 0.0,
+        "max": 1.0
+      }
+    },
+    "evidence_recall": {
+      "n": 2929,
+      "observed_n": 2816,
+      "missing_n": 113,
+      "total": null,
+      "mean": null,
+      "median": null,
+      "p95": null,
+      "stdev": null,
+      "min": null,
+      "max": null,
+      "observed_only": {
+        "total": 2102.6470842139956,
+        "mean": 0.7466786520646291,
+        "median": 1.0,
+        "p95": 1.0,
+        "stdev": 0.4096700952345555,
+        "min": 0.0,
+        "max": 1.0
+      }
+    }
+  }
+}
