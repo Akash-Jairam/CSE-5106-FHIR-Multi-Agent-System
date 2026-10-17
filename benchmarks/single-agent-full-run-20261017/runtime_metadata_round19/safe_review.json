@@ -1,0 +1,117 @@
+{
+  "status": "SEALED_ROUND19_METADATA_RECONCILED",
+  "captured_at_utc": "2026-10-17T10:25:05.367924+00:00",
+  "scope": "IMMUTABLE_ROUND19_RUNTIME_AND_ROUND18_RECOVERIES",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 19,
+  "saved_classifications": {
+    "accepted": 100
+  },
+  "runtime_attempts": [],
+  "provider_policy_rejection_count_in_captured_round19": 0,
+  "round18_runtime_recoveries": [
+    {
+      "question_id": "89383745e9cd66ac4837c91f",
+      "prior_sealed_attempts": [
+        {
+          "round": 18,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round19_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round19": true,
+      "selection_persistence": "Immutable sealed raw classification verified; adoption reported separately in final_recoveries."
+    },
+    {
+      "question_id": "89541b5a85b5b5b3125bf003",
+      "prior_sealed_attempts": [
+        {
+          "round": 18,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round19_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round19": true,
+      "selection_persistence": "Immutable sealed raw classification verified; adoption reported separately in final_recoveries."
+    }
+  ],
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "attempts/single_agent/round-0018.json": "84f67bc1dca664e8dddd70de1f5862762dc80d2d0fe51e6f469439ac0e6c373d",
+    "attempts/single_agent/round-0018.batch.json": "d79241b6f2b03e1fad38988118916091edad7f8c65116bf2f79816261ee7a143",
+    "attempts/single_agent/round-0018.batch.seal.json": "292f67b845b7450afac6e9459b33789d277eb08118f33492c227db27a62f51f4"
+  },
+  "round19_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0019.json",
+    "sha256": "065d460f1277f607ea7ce708353d9871e258ba5c89ce49f7ba015eede74ed712",
+    "bytes": 29589549,
+    "sha256_at_review_end": "065d460f1277f607ea7ce708353d9871e258ba5c89ce49f7ba015eede74ed712",
+    "live_checkpoint_may_advance_normally": true
+  },
+  "no_clinical_raw_error_answer_reference_or_correctness_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true,
+  "reconciled_at_utc": "2026-10-17T10:25:31.076146+00:00",
+  "natural_seal": {
+    "batch_sha256": "4f4254b4ad1c35e76ffd2a2d0e9c3452daf05da53f7275fd29ab71f1b5d46386",
+    "seal_sha256": "7f5ea79dceeb76fb5d232a6102c1c0848d54969a559a3eca8f8e06edef93073d",
+    "result_sha256": "065d460f1277f607ea7ce708353d9871e258ba5c89ce49f7ba015eede74ed712",
+    "identity_sha256": "a2473409e4f9c5a58a2ca87e94e214318d4ba8f77f4ef89db2e0dbc5f3baa59a",
+    "shard_input_sha256": "cccba56e646151cb421377280294ed109f9bd609191d05fb988f7858041d2585",
+    "frozen_identity_matches": true,
+    "question_count": 100
+  },
+  "final_recoveries": [
+    {
+      "question_id": "89383745e9cd66ac4837c91f",
+      "first_clean_in_sealed_round19": true,
+      "ledger_adopted": true,
+      "selection_metadata_only": {
+        "attempt_file": "attempts/single_agent/round-0019.json",
+        "round": 19,
+        "runtime_failures_before": 1,
+        "selection": "runtime_clean_terminal",
+        "runtime_clean": true
+      }
+    },
+    {
+      "question_id": "89541b5a85b5b5b3125bf003",
+      "first_clean_in_sealed_round19": true,
+      "ledger_adopted": true,
+      "selection_metadata_only": {
+        "attempt_file": "attempts/single_agent/round-0019.json",
+        "round": 19,
+        "runtime_failures_before": 1,
+        "selection": "runtime_clean_terminal",
+        "runtime_clean": true
+      }
+    }
+  ],
+  "acceptance_ledger_observation": {
+    "at_utc": "2026-10-17T10:25:31.076146+00:00",
+    "accepted_snapshot_sha256": "199915d661fc81fb21eb01d2e4ec3f35fb6cc108ab3c33114703ab5c607016d6",
+    "sealed_clean_count": 100,
+    "clean_adopted_count": 100,
+    "prior_round18_recovery_adopted_count": 2,
+    "ledger_transition_complete": true
+  },
+  "all_sealed_runtime_attempts_excluded_from_ledger": true,
+  "review_code_sha256": "511f5a6eb5a32a0f93cdb31ee7374f1741c0a7b93fd171fd38b26a8b30274eea",
+  "classification_review_code_sha256": "f8879beb30e0e9608b8b7203836aff9abd7494357d771e8c7a12796f56c44815",
+  "audit_integrity": {
+    "restored_and_hash_verified_count": 102,
+    "inventory_file": "audit_hash_inventory.json",
+    "inventory_sha256": "a6e55df18a677ec9c9ec1efb2a2bfb1bc67aff35921731dc2268944a71a81759"
+  },
+  "non_HTTP500_runtime_signatures": []
+}
