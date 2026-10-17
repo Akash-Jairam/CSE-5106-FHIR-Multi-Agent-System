@@ -1,0 +1,17 @@
+{
+  "status": "CLOSED_OBSERVATION_WINDOW_HEALTHY_SAMPLES",
+  "at_utc": "2026-10-17T10:38:30.870809+00:00",
+  "total_observations": 43,
+  "normal_observations": 41,
+  "supervisor_transition_observations": 2,
+  "first_sample_utc": "2026-10-17T09:57:33.156830+00:00",
+  "last_sample_utc": "2026-10-17T10:37:20.590470+00:00",
+  "first_sealed_accepted": 1574,
+  "last_sealed_accepted": 1772,
+  "unselected_preservation_passed_when_sampled": true,
+  "sampled_supervisor_pid": 12567,
+  "sampled_supervisor_states_live": true,
+  "benchmark_restarted": false,
+  "observation_expiry_is_not_benchmark_failure": true,
+  "scope": "Only this sampled window; not proof of unobserved intervals or whole-run completion. Transition observations verify supervisor liveness; unselected preservation applies to normal observations where it was checked."
+}
