@@ -126,3 +126,29 @@ The recovery revision additionally passed a full 2,931-per-arm synthetic export,
 32 independent monitor checks and seven independent scorer-free paired gates.
 Persistent provider-rejected questions remain pending. An arm with any pending
 question is incomplete and must not pass this export gate or be scored as full.
+
+If the supervisor stops with provider_policy_review_required instead of selected
+completion, preserve that incomplete state and do not run the numbered full-
+cohort commands above. The unchanged observer can record terminal attention:
+  PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python -B \
+    benchmarks/single-agent-full-run-20261017/monitor_single_agent.py observe \
+    --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015 --skip-native
+Check the known supervisor/worker processes separately and retain the actual
+terminal state, finished_at, empty active set and supervisor_stopped event.
+Skipping native observation does not prove process termination or data integrity.
+
+A plain verify command, without --skip-native, --final-arm or --append-validation,
+is expected to exit 2 with REFUSED / Supervisor requests attention at the current
+monitor's attention guard. With stable source, manifest, state, ledger, canonical,
+input and exact round/seal inventory bindings before and after, that precise
+refusal establishes only
+the integrity checks preceding the guard: sealed-attempt/audit replay, first-
+clean ledger/counters/canonical equality, provider parking and V3/Direct
+preservation. It is not a verifier success or cohort-completion receipt. Later
+requested-round/count assertions and native/active-successor checks are not
+reached. Replay skips unsealed attempts, so independently verify the exact final
+round/seal inventory and final batch adoption. The monitor also does not validate
+all current source/public pins; retain those separate bindings. Preserve actual
+output and exit status, including any unexpected refusal, without changing state
+or weakening a gate. Provider review and a reviewed legitimate recovery amendment
+remain necessary before further attempts of parked questions.
