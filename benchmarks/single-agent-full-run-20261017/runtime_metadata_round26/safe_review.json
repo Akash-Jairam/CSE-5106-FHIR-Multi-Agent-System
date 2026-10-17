@@ -1,0 +1,81 @@
+{
+  "status": "SEALED_ROUND26_METADATA_RECONCILED",
+  "captured_at_utc": "2026-10-17T12:25:01.613016+00:00",
+  "scope": "IMMUTABLE_ROUND26_RUNTIME_AND_ROUND25_RECOVERIES",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 26,
+  "saved_classifications": {
+    "accepted": 99,
+    "runtime": 1
+  },
+  "runtime_attempts": [
+    {
+      "question_id": "d24509cc1ab0dd341bb53f33",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "timeout"
+      ],
+      "HTTP_statuses": [],
+      "new_provider_policy_rejection": false
+    }
+  ],
+  "provider_policy_rejection_count_in_captured_round26": 0,
+  "round25_runtime_recoveries": [],
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf"
+  },
+  "round26_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0026.json",
+    "sha256": "364a79c26e37b0df5993ae1931d1b033cabe0116ae515f5bfdec28401c1d7690",
+    "bytes": 38052069,
+    "sha256_at_review_end": "364a79c26e37b0df5993ae1931d1b033cabe0116ae515f5bfdec28401c1d7690",
+    "live_checkpoint_may_advance_normally": true
+  },
+  "no_clinical_raw_error_answer_reference_or_correctness_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true,
+  "reconciled_at_utc": "2026-10-17T12:25:36.110413+00:00",
+  "natural_seal": {
+    "batch_sha256": "a0f26586c04d4e51d7963b7b40e2ededcbb05b41dc15f177271665e0278b79df",
+    "seal_sha256": "90ad39631dd55324a687b8d19efb57edcffdf04cf52223e2800fa132c4fbe625",
+    "result_sha256": "364a79c26e37b0df5993ae1931d1b033cabe0116ae515f5bfdec28401c1d7690",
+    "identity_sha256": "5d54c2e4aaa60a6a936735bb1bb8f3c9cb38fdb2179487019b3fe0b9e561e7b0",
+    "shard_input_sha256": "23b638747c901690190b7af959c24564ac0f050c0b15e9ee7e6adbda8dff8a0b",
+    "frozen_identity_matches": true,
+    "question_count": 100
+  },
+  "final_recoveries": [],
+  "acceptance_ledger_observation": {
+    "at_utc": "2026-10-17T12:25:36.110413+00:00",
+    "accepted_snapshot_sha256": "6c6d1f81c33b93016dba68665aa57670fe8c5404646946512d9a16242902b9df",
+    "sealed_clean_count": 99,
+    "clean_adopted_count": 99,
+    "prior_round25_recovery_adopted_count": 0,
+    "ledger_transition_complete": true
+  },
+  "all_sealed_runtime_attempts_excluded_from_ledger": true,
+  "review_code_sha256": "594f60b73f6401cb4741a73f9b07207872f4ad8cac2feb4ad3e26999b27f9d4d",
+  "classification_review_code_sha256": "5d50bdf88f2e6ba3cbb48649909a224df8afc442f339205625ef942b796afa1e",
+  "audit_integrity": {
+    "restored_and_hash_verified_count": 100,
+    "inventory_file": "audit_hash_inventory.json",
+    "inventory_sha256": "90f0af672f96632cd2c10b7f0ce0061c3d6e290b0fadd22b82986721cd40a370"
+  },
+  "non_HTTP500_runtime_signatures": [
+    {
+      "question_id": "d24509cc1ab0dd341bb53f33",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "timeout"
+      ],
+      "HTTP_statuses": [],
+      "new_provider_policy_rejection": false
+    }
+  ]
+}
