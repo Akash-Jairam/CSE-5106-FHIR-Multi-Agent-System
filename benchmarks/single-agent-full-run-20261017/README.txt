@@ -4,7 +4,7 @@ The authorized 2,931-question Single Agent baseline remains in progress.
 V3's complete result is unchanged. Direct LLM remains deferred; the original
 three-arm benchmark is incomplete. Do not evaluate partial baseline accuracy.
 
-Saved checkpoint: sealed_round21_first_clean_validation.json records 1,968 of
+Saved checkpoint: sealed_round22_first_clean_validation.json records 2,067 of
 2,931 first-clean outcomes. This is a historical checkpoint, not live progress
 or a completion claim. Later sealed proofs may supersede this checkpoint.
 
