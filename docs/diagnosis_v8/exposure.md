@@ -65,3 +65,14 @@ as exposed by earlier phases; this makes the V8 inspection explicit.
   release-policy / check / repair counts (`outcome.txt`). The gate failed, so
   nothing from this run feeds a further design change, and no protected
   question has been touched.
+
+## Post-run C offline analysis and B2 launch
+
+- **What was read**: run C per-question correctness of team and single answers,
+  drafts and budgets, to simulate counterfactual release rules (null → draft,
+  abstention fallback, lower solver caps). No design change was adopted from it;
+  the counterfactuals are hypothesis-generating only.
+- **B2**: model fixed as `gpt-5-mini` (first prespecified candidate) after
+  `check_setup.py` and a 5-question pilot smoke (`output/smoke/b2_gpt-5-mini_pilot5`),
+  before any `held_out` attempt with that model. Same frozen code and settings
+  as run C.

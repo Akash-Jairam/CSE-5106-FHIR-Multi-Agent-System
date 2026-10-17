@@ -138,7 +138,7 @@ no further dev-set iteration.
 | C — paired 300 under the B3 fingerprint | H1: team > single | done 2026-10-16, 900/900, 0 errors | **gate failed**: −1.7 [−4.8, +1.4]; transitions 5 W→R / 6 R→W; direct 69.3 % |
 | C' — heterogeneous verifier | breaks shared-model error correlation | prepared (§3) | **TBD** |
 | B1 — recovery, 50 × intact/omitted × single/team | §5.3: does a team recover an omitted resource better? Archived hint: single −14 pts, team −4 pts, confounded by a 54 % team | prepared (§4) | **TBD** |
-| B2 — weaker base model, 900 runs | verification pays when the base model has headroom (direct LLM is already 67 % on Luna) | prepared (§5); model fixed before launch | **TBD** |
+| B2 — weaker base model, 900 runs | verification pays when the base model has headroom (direct LLM is already 67 % on Luna) | model fixed before launch: `gpt-5-mini` (first candidate; check_setup and 5-question pilot smoke passed 2026-10-16) | **TBD** |
 | Confirmation | generalisation off the burned 300 | not run: gate failed | — |
 
 ## 6. Caveats
