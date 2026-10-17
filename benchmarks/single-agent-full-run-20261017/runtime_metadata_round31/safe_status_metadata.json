@@ -1,0 +1,73 @@
+{
+  "scope": "OBSERVED_STATUS_METADATA_ONLY_NOT_COMPLETION_VERIFICATION",
+  "captured_at_utc": "2026-10-17T13:52:58.977216+00:00",
+  "observed_state": {
+    "phase": "attention",
+    "reason": "provider_policy_review_required",
+    "attention": true,
+    "started_at": "2026-10-16T04:16:57+00:00",
+    "resumed_at": "2026-10-17T05:58:12+00:00",
+    "scope_started_at": "2026-10-17T05:36:27+00:00",
+    "finished_at": "2026-10-17T13:52:28+00:00",
+    "heartbeat_at": "2026-10-17T13:52:28+00:00",
+    "selected_arms": [
+      "single_agent"
+    ],
+    "selected_scope_complete": false,
+    "benchmark_complete": false,
+    "pending_scoped_export": false,
+    "analysis_status": "not_started",
+    "active_is_empty": true,
+    "single_agent_runtime_clean_count": 2929,
+    "questions_per_arm": 2931,
+    "remaining_count_by_cohort_total": 2,
+    "pending_question_ids_from_provider_state": [
+      "05a8454a6a71435a557db2cc",
+      "0eb69f6e47ab63c055e2df90"
+    ],
+    "pending_ids_are_exactly_two_parked_cases": true,
+    "parked_ids_absent_from_runtime_clean_results": true,
+    "provider_rejections": {
+      "05a8454a6a71435a557db2cc": 2,
+      "0eb69f6e47ab63c055e2df90": 2
+    },
+    "issues": [
+      {
+        "arm": "single_agent",
+        "question_id": "05a8454a6a71435a557db2cc",
+        "provider_rejections": 2,
+        "status": "pending",
+        "action": "external_policy_review_required"
+      },
+      {
+        "arm": "single_agent",
+        "question_id": "0eb69f6e47ab63c055e2df90",
+        "provider_rejections": 2,
+        "status": "pending",
+        "action": "external_policy_review_required"
+      }
+    ]
+  },
+  "observed_stop_events_after_finished_at": [
+    {
+      "at": "2026-10-17T13:52:28+00:00",
+      "event": "supervisor_stopped",
+      "phase": "attention",
+      "attention": true
+    }
+  ],
+  "interpretation": "INCOMPLETE_PROVIDER_REVIEW_REQUIRED",
+  "benchmark_completion_claimed": false,
+  "wrong_answer_inference_claimed": false,
+  "no_next_batch_expected_from_this_attention_reason": true,
+  "no_next_batch_wait_or_terminal_helper_export_scoring_invoked": true,
+  "source_snapshots": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "supervisor_state.json": "23c217c81b08d3705f6185c6bcb682f6de0c791a065b7e371e73ced25543141a",
+    "acceptance.json": "2fbf9596c70e201a66d95183d234bfd36e7e5cf3a9d1c0ed89c28d661512e426",
+    "operations.jsonl": "f280ac8c4979be462f4b605ff9d3d7d23ae8c26525ee90d497fe0ae7dfa28a33"
+  },
+  "state_ledger_operation_hashes_are_snapshots_not_final_seals": true,
+  "review_code_sha256": "67aa6e2a6729d9685d6d4a6c824da0be9556d1e9b0fd2b84982a4e114680170d",
+  "no_clinical_answer_reference_correctness_credential_output_or_calls": true
+}

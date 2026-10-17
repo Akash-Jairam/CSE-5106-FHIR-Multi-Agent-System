@@ -1,0 +1,27 @@
+{
+  "status": "CLOSED_AFTER_INCOMPLETE_PROVIDER_ATTENTION_STOP",
+  "recorded_at_utc": "2026-10-17T13:58:41.871873+00:00",
+  "total_observations": 15,
+  "normal_observations": 14,
+  "supervisor_transition_observations": 1,
+  "first_sample_utc": "2026-10-17T13:38:37.842379+00:00",
+  "last_sample_utc": "2026-10-17T13:51:52.104017+00:00",
+  "first_sealed_accepted_sampled": 2859,
+  "last_sealed_accepted_sampled": 2859,
+  "valid_samples_healthy": true,
+  "unselected_preservation_passed_when_sampled": true,
+  "observer_exit": {
+    "observer_exit": "supervisor_missing_or_zombie",
+    "supervisor_pid": 12567
+  },
+  "terminal_observation_sha256": "9308dcc6fa4ab31a126638947347ace6435a96a4e592b60ea9c0d45957951b6c",
+  "actual_terminal_accepted_from_separate_record": 2929,
+  "terminal_pending": 2,
+  "terminal_reason": "provider_policy_review_required",
+  "selected_scope_complete": false,
+  "known_owned_pids_absent_in_terminal_record": true,
+  "terminal_state_and_operations_hashes_reobserved": true,
+  "benchmark_restarted": false,
+  "observer_renewed_after_terminal_stop": false,
+  "scope": "Sampled observation window plus a separate native/state/stop-event record. This is not a complete-cohort execution-verifier receipt. The observer exit follows the actual incomplete provider-review stop and is not an additional benchmark runtime attempt."
+}

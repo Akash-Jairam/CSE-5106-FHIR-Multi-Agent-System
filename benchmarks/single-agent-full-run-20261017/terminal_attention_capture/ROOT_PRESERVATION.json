@@ -1,0 +1,56 @@
+{
+  "status": "PRESERVED_TERMINAL_INCOMPLETE_METADATA_WITH_INDEPENDENT_REVIEW",
+  "at_utc": "2026-10-17T14:10:42.916096+00:00",
+  "accepted": 2929,
+  "expected_full_cohort": 2931,
+  "pending": 2,
+  "counts": {
+    "raw_attempts": 2982,
+    "runtime_failures": 53,
+    "intrinsic_errors": 0
+  },
+  "benchmark_complete": false,
+  "selected_scope_complete": false,
+  "verifier_success": false,
+  "accuracy_scoring_or_complete_pair_export_performed": false,
+  "original_capture_receipt_sha256": "a838a53967fa05e91f41621c19e4fe950a0f7d0739f6b9d9b771fd9d897d6c51",
+  "original_capture_manifest_sha256": "d0781fab9c19673a55c1e8a63b3e740cf883b5f916f6ef9d19156e075a121aa8",
+  "capture_source_sha256": "8f818004508cc84a303ac303dfb3a28d9477b63d3f0319ef66f6dc1d42eb1171",
+  "pre_execution_review_sha256": "25296db7d247f1e8b2f1ceef701d5268f36af7600db52f00cfcb60f2e9e5ef83",
+  "independent_review_sha256": "9e7ade2dabd361b5b3bce77c8d623155439c006d703ede6d3c1587b1eb676283",
+  "initial_native_observation_sha256": "9308dcc6fa4ab31a126638947347ace6435a96a4e592b60ea9c0d45957951b6c",
+  "original_capture_files_preserved_verbatim": true,
+  "capture_artifacts_rehashed": 11,
+  "stable_file_bindings": 9201,
+  "source_scope_counts": {
+    "guarded_sources": 45,
+    "public_pins": 9,
+    "input_descriptors": 3,
+    "declared_dependency_versions": 21
+  },
+  "sealed_rounds": 31,
+  "final_round_clean_and_adopted": 70,
+  "last_successful_full_execution_checkpoint_round": 30,
+  "last_successful_full_execution_checkpoint_sha256": "317b215e39d4e4c92feb8bd6f69ba4ad9402be16cc790c66e0ff6710752eb8af",
+  "expected_plain_verifier_refusal": {
+    "status": "REFUSED",
+    "error_type": "ValueError",
+    "reason": "Supervisor requests attention"
+  },
+  "recorded_owned_pids_absent": [
+    12567,
+    12569,
+    50214
+  ],
+  "provider_review_required_before_parked_retry": true,
+  "public_push_performed": false,
+  "limitations": [
+    "Approval concerns saved terminal INCOMPLETE metadata at 2929/2931, not a successful full verifier, completed baseline, paired analysis or cache-availability report.",
+    "The exact unchanged-monitor attention refusal supports only checks preceding its attention guard; later active-successor and native-success conditions were not reached.",
+    "Native absence is evidenced only by the three recorded PID/stat/comm observations; this review made no new native calls.",
+    "Uncompressed payload ownership/hash verification covers the monitor-referenced selected raw/canonical audits; wider or orphan audit blobs have compressed-byte inventory bindings only.",
+    "Dependency versions are distribution metadata; public provider-profile hashes do not validate credentials/current provider settings; three input descriptors do not establish a full offline-FHIR resource inventory.",
+    "No full baseline cache-availability audit has run; the 891-question checkpoint remains interim.",
+    "Local raw attempts/audits/journals retain measurements; this metadata package is not a portable clinical raw archive."
+  ]
+}

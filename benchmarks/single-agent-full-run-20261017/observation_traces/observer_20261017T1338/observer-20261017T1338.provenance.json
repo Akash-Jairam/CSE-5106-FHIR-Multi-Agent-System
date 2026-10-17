@@ -1,0 +1,19 @@
+{
+  "created_at_utc": "2026-10-17T13:38:35.952790+00:00",
+  "observer_source_sha256": "c95ee748e000d144c9b5bdd2f78e1384d2933c4054bf160d693eb108fa2e7b3f",
+  "permanent_monitor_sha256": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+  "trace_file": "observer-20261017T1338.jsonl",
+  "window_seconds": 2400,
+  "interval_seconds": 55,
+  "legacy_until_accepted_argument": 2931,
+  "legacy_until_accepted_argument_is_unused": true,
+  "renewed_after_observation_window_expired": false,
+  "renewed_after_owned_worker_exit_refusal": true,
+  "preceding_observer_exit": {
+    "observer_exit": "monitor_refused",
+    "reason": "Owned process is a zombie"
+  },
+  "direct_native_followup_sha256": "e4df65b6966e819f13ddf65cc7efce9d2031c81e57a14eb39295e9844c59a75c",
+  "underlying_benchmark_restart": false,
+  "observer_refusal_is_not_inference_failure": true
+}

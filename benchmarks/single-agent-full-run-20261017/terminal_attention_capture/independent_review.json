@@ -1,0 +1,77 @@
+{
+  "status": "APPROVED_TERMINAL_INCOMPLETE_METADATA_CAPTURE",
+  "reviewed_at_utc": "2026-10-17T14:05:54.745618+00:00",
+  "capture_directory": "/private/tmp/single-terminal-attention-capture-20261017",
+  "reviewed_script_sha256": "8f818004508cc84a303ac303dfb3a28d9477b63d3f0319ef66f6dc1d42eb1171",
+  "capture_receipt_sha256": "a838a53967fa05e91f41621c19e4fe950a0f7d0739f6b9d9b771fd9d897d6c51",
+  "capture_artifact_manifest_sha256": "d0781fab9c19673a55c1e8a63b3e740cf883b5f916f6ef9d19156e075a121aa8",
+  "before_after_bindings_sha256": "709697800363dba7fd6de631dc438e552cdae5629e1810dc1b8204134426265a",
+  "initial_terminal_observation_sha256": "9308dcc6fa4ab31a126638947347ace6435a96a4e592b60ea9c0d45957951b6c",
+  "final_round31_review_sha256": "0980b72491af33adec10207bf960f6365a12d39b8b0b08e5832261295414873b",
+  "final_round31_artifact_manifest_sha256": "2b8e4f6dea437b75c973bb30d679a47feba8cdccfdfa8fa9c904e42361d95a53",
+  "accepted": 2929,
+  "expected_full_cohort": 2931,
+  "pending": 2,
+  "parked_question_ids": [
+    "05a8454a6a71435a557db2cc",
+    "0eb69f6e47ab63c055e2df90"
+  ],
+  "provider_rejections_each": 2,
+  "counts": {
+    "raw_attempts": 2982,
+    "runtime_failures": 53,
+    "intrinsic_errors": 0
+  },
+  "sealed_rounds": 31,
+  "sealed_round_metadata_files": 155,
+  "last_round_clean_and_adopted": 70,
+  "source_scope_counts": {
+    "guarded_sources": 45,
+    "public_pins": 9,
+    "input_descriptors": 3,
+    "declared_dependency_versions": 21
+  },
+  "captured_file_bindings": 9201,
+  "capture_artifacts_verified": 11,
+  "audit_directory_inventory_counts": {
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/single_agent/audit": 2981,
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/audit": 5959
+  },
+  "referenced_audit_paths_bound": 5909,
+  "expected_observe_exit_code": 0,
+  "expected_plain_verifier_exit_code": 2,
+  "verifier_result": {
+    "status": "REFUSED",
+    "error_type": "ValueError",
+    "reason": "Supervisor requests attention"
+  },
+  "owned_pids_absent_in_saved_before_after_records": [
+    12567,
+    12569,
+    50214
+  ],
+  "finished_at": "2026-10-17T13:52:28+00:00",
+  "source_bindings_equal_before_after": true,
+  "source_maps_match_pinned_public_manifest": true,
+  "initial_state_and_stop_hashes_unchanged_at_capture": true,
+  "unselected_V3_and_Direct_preserved_in_saved_observer": true,
+  "benchmark_complete": false,
+  "selected_scope_complete": false,
+  "verifier_success": false,
+  "accuracy_or_cache_coverage_assessed": false,
+  "actions": {
+    "verifier_capture_native_or_tests_rerun": false,
+    "scorer_inference_provider_calls": false,
+    "configuration_or_clinical_answer_reference_values_inspected": false,
+    "source_run_settings_or_capture_files_modified": false,
+    "only_this_new_review_written": true
+  },
+  "limitations": [
+    "Approval concerns saved terminal INCOMPLETE metadata at 2929/2931, not a successful full verifier, completed baseline, paired analysis or cache-availability report.",
+    "The exact unchanged-monitor attention refusal supports only checks preceding its attention guard; later active-successor and native-success conditions were not reached.",
+    "Native absence is evidenced only by the three recorded PID/stat/comm observations; this review made no new native calls.",
+    "Uncompressed payload ownership/hash verification covers the monitor-referenced selected raw/canonical audits; wider or orphan audit blobs have compressed-byte inventory bindings only.",
+    "Dependency versions are distribution metadata; public provider-profile hashes do not validate credentials/current provider settings; three input descriptors do not establish a full offline-FHIR resource inventory."
+  ],
+  "findings": []
+}

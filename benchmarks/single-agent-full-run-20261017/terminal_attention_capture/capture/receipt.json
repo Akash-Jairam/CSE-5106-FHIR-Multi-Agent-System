@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "status": "TERMINAL_INCOMPLETE_METADATA_CAPTURED",
+  "started_at": "2026-10-17T13:59:12.763990+00:00",
+  "capture_script_sha256": "8f818004508cc84a303ac303dfb3a28d9477b63d3f0319ef66f6dc1d42eb1171",
+  "run": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015",
+  "benchmark_complete": false,
+  "selected_scope_complete": false,
+  "verifier_success": false,
+  "correctness_scoring_performed": false,
+  "inference_or_provider_calls_performed": false,
+  "secret_configuration_read": false,
+  "stable_before_after_bindings": true,
+  "expected_attention_refusal_observed": true,
+  "source_bound_prefix_checks_reached": true,
+  "safe_terminal_projection": {
+    "phase": "attention",
+    "reason": "provider_policy_review_required",
+    "finished_at": "2026-10-17T13:52:28+00:00",
+    "active": {},
+    "selected_accepted": 2929,
+    "questions_per_selected_arm": 2931,
+    "remaining_question_ids": [
+      "05a8454a6a71435a557db2cc",
+      "0eb69f6e47ab63c055e2df90"
+    ],
+    "provider_rejections_each": 2,
+    "selected_scope_complete": false,
+    "original_three_arm_benchmark_complete": false,
+    "selected_counts": {
+      "raw_attempts": 2982,
+      "runtime_failures": 53,
+      "intrinsic_errors": 0
+    },
+    "last_supervisor_stopped": {
+      "at": "2026-10-17T13:52:28+00:00",
+      "event": "supervisor_stopped",
+      "phase": "attention",
+      "attention": true
+    }
+  },
+  "scope_counts": {
+    "guarded_sources": 45,
+    "public_pins": 9,
+    "input_descriptors": 3,
+    "declared_dependency_versions": 21
+  },
+  "finished_at": "2026-10-17T14:02:46.144492+00:00",
+  "limitations": [
+    "This records terminal INCOMPLETE 2929/2931 state. It is not monitor success, selected-arm completion, or full-benchmark completion.",
+    "The exact unchanged-monitor attention refusal establishes only checks before its attention guard, with stable bound files. Later assertions and native/active-successor checks are not reached.",
+    "Native absence is separately observed only for the three explicitly authorized PIDs; no process signals are sent.",
+    "The separate capture requires all 31 selected round stems sealed and inventories shards/audits; it does not invent a successful monitor receipt or independently score answers.",
+    "Audit payload ownership and uncompressed hashes are checked by the unchanged monitor before its attention guard; this capture binds compressed bytes and safe reference paths.",
+    "Declared dependency versions are distribution metadata, not package-byte hashes; the three input descriptors do not cover the separate offline FHIR resource files.",
+    "Provider-profile bytes are pinned public metadata. Credentials/current provider settings are not read or validated.",
+    "No retry, prompt/filter/provider change, partial scoring, or export is authorized by this bookkeeping receipt."
+  ]
+}

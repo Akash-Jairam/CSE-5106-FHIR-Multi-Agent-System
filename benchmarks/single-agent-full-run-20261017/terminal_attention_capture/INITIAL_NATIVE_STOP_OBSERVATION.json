@@ -1,0 +1,46 @@
+{
+  "status": "INITIAL_INCOMPLETE_PROVIDER_REVIEW_STOP_OBSERVED",
+  "observed_at_utc": "2026-10-17T13:53:29.274761+00:00",
+  "selected_accepted": 2929,
+  "questions_per_arm": 2931,
+  "selected_scope_complete": false,
+  "phase": "attention",
+  "reason": "provider_policy_review_required",
+  "finished_at": "2026-10-17T13:52:28+00:00",
+  "active_empty": true,
+  "pending_issues": [
+    {
+      "arm": "single_agent",
+      "question_id": "05a8454a6a71435a557db2cc",
+      "provider_rejections": 2,
+      "status": "pending",
+      "action": "external_policy_review_required"
+    },
+    {
+      "arm": "single_agent",
+      "question_id": "0eb69f6e47ab63c055e2df90",
+      "provider_rejections": 2,
+      "status": "pending",
+      "action": "external_policy_review_required"
+    }
+  ],
+  "known_owned_pids_checked": [
+    12567,
+    12569,
+    50214
+  ],
+  "native_ps_exit_code": 1,
+  "known_owned_pid_presence": [],
+  "last_stop_event": {
+    "at": "2026-10-17T13:52:28+00:00",
+    "event": "supervisor_stopped",
+    "phase": "attention",
+    "attention": true
+  },
+  "source_state_sha256": "23c217c81b08d3705f6185c6bcb682f6de0c791a065b7e371e73ced25543141a",
+  "source_operations_sha256": "f280ac8c4979be462f4b605ff9d3d7d23ae8c26525ee90d497fe0ae7dfa28a33",
+  "source_bytes_not_copied": true,
+  "native_method": "scoped pid/stat/comm only",
+  "inference_restarted": false,
+  "not_a_full_verifier_or_completion_receipt": true
+}

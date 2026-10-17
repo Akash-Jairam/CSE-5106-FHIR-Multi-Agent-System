@@ -1,12 +1,24 @@
 Matched Single Agent benchmark: evidence navigation
 
-The authorized 2,931-question Single Agent baseline remains in progress.
-V3's complete result is unchanged. Direct LLM remains deferred; the original
-three-arm benchmark is incomplete. Do not evaluate partial baseline accuracy.
+The authorized 2,931-question Single Agent baseline stopped incomplete at
+2026-10-17 13:52:28 UTC: 2,929 runtime-clean outcomes are accepted and two
+provider-rejected questions remain pending review. No inference jobs remain
+active. V3's complete result is unchanged. Direct LLM remains deferred; the
+original three-arm benchmark is incomplete. Do not evaluate partial baseline
+accuracy or describe this selected arm as complete.
+
+The scheduled monitoring heartbeat is paused because inference has stopped and
+the remaining cases require external provider review. monitor_pause_receipt.json
+records the applied status and preserved schedule/prompt. This does not pause or
+complete the goal, authorize another request or change any benchmark data.
 
 Saved checkpoint: sealed_round30_first_clean_validation.json records 2,859 of
 2,931 first-clean outcomes. This is a historical checkpoint, not live progress
 or a completion claim. Later sealed proofs may supersede this checkpoint.
+The final 70-question round is reconciled in runtime_metadata_round31/.
+terminal_attention_capture/ preserves the actual incomplete stop, independent
+native absence, stable source/file bindings and the unchanged monitor's exact
+attention refusal. That refusal is not a successful completion-verifier receipt.
 
 Authoritative local run directory, relative to the repository root:
   output/experiments/gpt-6-luna/v3_full_2931_20261015
@@ -17,8 +29,11 @@ packages supplement that run; they do not schedule or resume inference.
 For current answer-blind observation only, run from the repository root:
   PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python \
     benchmarks/single-agent-full-run-20261017/monitor_single_agent.py observe \
-    --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015
-An observation failure is not a reason to restart inference or duplicate jobs.
+    --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015 --skip-native
+This records terminal attention without treating stopped processes as live;
+native absence is preserved separately in the terminal package. An observation
+failure is not a reason to restart inference or duplicate jobs. Provider review
+and a reviewed legitimate recovery amendment are needed for the parked cases.
 
 Start with these files in this directory:
 - protocol.txt: authorized scope, matched settings, first-clean selection,
@@ -39,6 +54,8 @@ Execution and recovery evidence:
 - provider_recovery/: reviewed operational classifier amendment, answer-blind
   replay, bounded unchanged-request recovery and validation sources.
 - runtime_metadata_round*/: safe boundary records of exclusions and recoveries.
+- terminal_attention_capture/: reviewed metadata capture and independent QA of
+  the incomplete 2,929-outcome stop; all full-cohort analysis gates remain closed.
 - transport_health_round23/: timeout-gap and same-client recovery evidence,
   with live snapshot versus post-seal journal bindings and explicit limits.
 - provider_review_packet/: safe provider-review metadata for parked requests.
