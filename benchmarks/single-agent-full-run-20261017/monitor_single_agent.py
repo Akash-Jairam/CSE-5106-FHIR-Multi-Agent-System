@@ -16,7 +16,7 @@ import subprocess
 import sys
 
 from scripts.audit_store import restore_result_audit
-from scripts.v3_full_run import classify_attempt
+from scripts.v3_full_run import classify_attempt, classifier_for_manifest
 
 ARM = 'single_agent'
 UNSELECTED = ('multi_agent', 'direct_llm')
@@ -181,16 +181,22 @@ def identities_and_rows(run, manifest, batch_path, patients):
 def replay(run, manifest):
     accepted, choices, retries, counts, summaries = {}, {}, {}, Counter(raw_attempts=0, runtime_failures=0, intrinsic_errors=0), []
     patients = cohort(manifest)
+    classifier = classifier_for_manifest(manifest)
+    provider_counts = Counter()
+    policy = manifest.get('provider_rejection_policy')
     paths = sorted((run / 'attempts' / ARM).glob('round-*.batch.json'))
     for batch_path in paths:
         if not batch_path.with_suffix('.seal.json').exists():
             continue
         batch, rows, identity = identities_and_rows(run, manifest, batch_path, patients)
         require(not set(batch['question_ids']) & set(accepted), 'Accepted question scheduled again')
-        decisions, audit_count = Counter(), 0
+        if policy:
+            require(all(provider_counts[qid] < policy['max_rejections_per_question'] for qid in batch['question_ids']),
+                    'Historical batch exceeded provider rejection unchanged-retry limit')
+        decisions, audit_count, rejections = Counter(), 0, Counter()
         for row in rows:
             qid = row['question_id']
-            decision = classify_attempt(safe_projection(row), Path(batch['output']).parent)
+            decision = classifier(safe_projection(row), Path(batch['output']).parent)
             decisions[decision['status']] += 1
             if decision['status'] == 'pending':
                 continue
@@ -202,6 +208,9 @@ def replay(run, manifest):
             if decision['status'] == 'runtime':
                 retries[qid] = retries.get(qid, 0) + 1
                 counts['runtime_failures'] += 1
+                if decision.get('category') == 'provider_policy_rejection':
+                    rejections[qid] += 1
+                    provider_counts[qid] += 1
             else:
                 accepted[qid] = {key: value for key, value in row.items() if key != 'attempt_history'}
                 choices[qid] = {'attempt_file': str(Path(batch['output']).relative_to(run)), 'round': batch['round'],
@@ -209,6 +218,7 @@ def replay(run, manifest):
                 counts['intrinsic_errors'] += int(bool(row.get('error')))
         summaries.append({'round': batch['round'], 'scheduled': len(batch['question_ids']),
                           'classifications': dict(decisions), 'audits_verified': audit_count,
+                          'provider_rejections': dict(rejections),
                           'result_sha256': sha(batch['output']) if Path(batch['output']).exists() else None,
                           'seal_sha256': sha(batch_path.with_suffix('.seal.json'))})
     return accepted, choices, retries, dict(counts), summaries
@@ -219,6 +229,15 @@ def verify(run, snapshot, args):
     scope_state(state)
     preserved = preservation(run, snapshot)
     accepted, choices, retries, counts, summaries = replay(run, manifest)
+    rejections = Counter()
+    for summary in summaries:
+        rejections.update(summary['provider_rejections'])
+    policy = manifest.get('provider_rejection_policy')
+    parked = {qid for qid, count in rejections.items() if policy and count >= policy['max_rejections_per_question'] and qid not in accepted}
+    if policy:
+        derived = read(run / 'provider_rejections.json')
+        require(derived.get('policy') == policy and derived.get('source') == 'reconstructed_from_sealed_immutable_attempts', 'Provider rejection provenance changed')
+        require(derived.get('rejections') == {ARM: dict(rejections)} and derived.get('parked_question_ids') == {ARM: sorted(parked)}, 'Provider rejection counts/parking differ from sealed replay')
     require(set(ledger['arms'][ARM]) == set(accepted), 'Selected ledger does not include all sealed clean results')
     require(ledger['arms'][ARM] == choices, 'Selected ledger did not select the first runtime-clean outcome')
     require(ledger['counts'][ARM] == counts, 'Selected operational counts differ from sealed replay')
@@ -250,7 +269,8 @@ def verify(run, snapshot, args):
         batch_path = run / 'attempts' / ARM / f'round-{active["round"]:04d}.batch.json'
         active_batch = read(batch_path)
         require(not set(active_batch['question_ids']) & set(accepted), 'Active batch repeats accepted question')
-        pending_retries = set(retries) - set(accepted)
+        require(not parked & set(active_batch['question_ids']), 'Persistently rejected request scheduled beyond its unchanged-retry limit')
+        pending_retries = set(retries) - set(accepted) - parked
         require(pending_retries <= set(active_batch['question_ids']), 'Runtime retry missing from active selected queue')
     native = native_status(state, terminal)
     return {'status': 'SELECTED_EXECUTION_COMPLETE_ANALYSIS_PENDING' if terminal else 'SELECTED_SCOPE_IN_PROGRESS',
@@ -258,6 +278,7 @@ def verify(run, snapshot, args):
             'selected_scope_complete': terminal, 'original_three_arm_benchmark_complete': False,
             'analysis_status': state.get('analysis_status'), 'preserved_unselected': preserved,
             'replayed_counts': counts, 'sealed_batches': summaries, 'canonical_first_clean_verified': True,
+            'provider_rejections_replayed': dict(rejections), 'parked_pending_question_ids': sorted(parked),
             'accepted_reruns': 0, 'current_native': native, 'state_phase': state.get('phase')}
 
 
@@ -269,13 +290,14 @@ def observe(run, snapshot, args):
     selected = len(ledger['arms'][ARM])
     terminal = terminal_proof(state, ledger, selected, expected)
     active_report = None
+    classifier = classifier_for_manifest(manifest)
     active = state.get('active', {}).get(ARM)
     if active:
         path = run / 'attempts' / ARM / f'round-{active["round"]:04d}.json'
         decisions = Counter()
         if path.exists():
             for row in read(path):
-                decisions[classify_attempt(safe_projection(row), path.parent)['status']] += 1
+                decisions[classifier(safe_projection(row), path.parent)['status']] += 1
         active_report = {'pid': active['pid'], 'round': active['round'], 'checkpointed_reported': active.get('checkpointed_in_batch'),
                          'seconds_since_checkpoint': active.get('seconds_since_checkpoint'), 'saved_classifications': dict(decisions),
                          'provider_diagnostics': provider_events(run, active['round'])}
@@ -287,6 +309,7 @@ def observe(run, snapshot, args):
             'selected_accepted_persisted': selected, 'selected_accepted_state': state.get('accepted', {}).get(ARM),
             'selected_counts_persisted': ledger['counts'][ARM], 'active_single_agent': active_report,
             'attention': state.get('attention'), 'attention_reason': state.get('reason'),
+            'provider_rejections': state.get('provider_rejections'),
             'disk_free_gib': free / 1024 ** 3, 'disk_minimum_gib': manifest['settings'].get('min_free_gb'),
             'disk_guard_clear': free >= manifest['settings'].get('min_free_gb', 5) * 1024 ** 3,
             'preserved_unselected': preserved,

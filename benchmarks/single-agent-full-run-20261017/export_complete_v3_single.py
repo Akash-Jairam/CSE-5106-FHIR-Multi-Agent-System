@@ -12,8 +12,11 @@ from datetime import datetime, timezone
 import csv
 import importlib.util
 import json
+import hashlib
+import math
 import os
 from pathlib import Path
+import re
 import shutil
 import sys
 
@@ -27,6 +30,11 @@ CLASSIFIER_NAMES = {'CLASSIFIER_VERSION', 'RUNTIME', 'INTRINSIC', 'PROVIDER_JWT_
 PUBLIC_PINS = {'baseline_decision.txt', 'preflight.json', 'protocol.txt', 'provider_profile.json',
                'pricing.json', 'split.json', 'runtime/azure.py', 'runtime/azure_adapter.py', 'runtime/sitecustomize.py'}
 SNAPSHOT_OMIT_PUBLIC = PUBLIC_PINS - {'pricing.json', 'split.json'}
+V4_RUNNER_SHA256 = 'd13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da'
+V4_POLICY = {'version': 'azure-prompt-rejection-v1', 'category': 'provider_policy_rejection',
+             'max_rejections_per_question': 2, 'retry_request': 'unchanged',
+             'persistent_action': 'park_pending_then_attention', 'scope': ['single_agent']}
+V4_CLASSIFIER_NAMES = CLASSIFIER_NAMES | {'is_observed_provider_prompt_rejection', 'SDK_ERROR_PREFIX', 'MAX_ERROR_CHARS'}
 
 
 def load_utilities(root):
@@ -48,8 +56,39 @@ def classifier_ast(path, semantic_hash):
     return semantic_hash(ast.dump(ast.Module(body=nodes, type_ignores=[]), include_attributes=False))
 
 
+def load_v4_classifier(path, u):
+    """Execute the reviewed pure classifier dependency closure only."""
+    u.require(u.sha256(path) == V4_RUNNER_SHA256, 'Unapproved provider classifier source')
+    tree = ast.parse(Path(path).read_text(), filename=str(path))
+    definitions = {}
+    for node in tree.body:
+        if isinstance(node, ast.FunctionDef):
+            definitions[node.name] = node
+        elif isinstance(node, ast.Assign):
+            for target in node.targets:
+                if isinstance(target, ast.Name):
+                    definitions[target.id] = node
+    selected, pending = set(), ['classify_attempt', 'CLASSIFIER_VERSION']
+    while pending:
+        name = pending.pop()
+        if name in selected or name not in definitions:
+            continue
+        selected.add(name)
+        pending.extend(child.id for child in ast.walk(definitions[name])
+                       if isinstance(child, ast.Name) and isinstance(child.ctx, ast.Load)
+                       and child.id in definitions and child.id not in selected)
+    u.require(selected == V4_CLASSIFIER_NAMES, 'Provider classifier dependency set changed')
+    nodes = [node for node in tree.body if any(definitions[name] is node for name in selected)]
+    u.require(not any(isinstance(node, ast.FunctionDef) and node.decorator_list for node in nodes), 'Classifier decorators forbidden')
+    scope = {'ast': ast, 're': re, 'math': math, 'hashlib': hashlib, 'json': json, 'restore_result_audit': u.restore_result_audit}
+    exec(compile(ast.Module(body=nodes, type_ignores=[]), str(path), 'exec'), scope)
+    u.require(scope['CLASSIFIER_VERSION'] == 'v3-infrastructure-v4', 'Provider classifier version changed')
+    digest = u.semantic_hash(ast.dump(ast.Module(body=nodes, type_ignores=[]), include_attributes=False))
+    return scope['classify_attempt'], scope['CLASSIFIER_VERSION'], digest
+
+
 class PairedGate:
-    def __init__(self, root, run, historical_export, amendment):
+    def __init__(self, root, run, historical_export, amendment, provider_amendment=None):
         self.root, self.run, self.historical_export, self.amendment = map(Path, (root, run, historical_export, amendment))
         self.u = load_utilities(self.root)
         self.inventory = {}
@@ -58,6 +97,9 @@ class PairedGate:
         self.ledger_slices = {}
         self.replay = {}
         self.rounds = {}
+        self.provider_amendment = Path(provider_amendment) if provider_amendment else None
+        self.classifier_transition = None
+        self.transition_replay = {arm: {'attempted': 0, 'unchanged': 0, 'provider_rejections': []} for arm in ARMS}
 
     def remember(self, path):
         path = Path(path).resolve()
@@ -113,11 +155,20 @@ class PairedGate:
         for arm in ARMS:
             u.require(self.manifest['run_identities'][arm]['input_hash'] == full_input_hash, 'Full input identity changed')
         self.validate_sources()
-        classifier, version = u.load_classifier(self.root / 'scripts/v3_full_run.py')
-        u.require(version == 'v3-infrastructure-v3' == self.manifest['classifier_version'], 'Runtime selection policy changed')
+        if self.provider_amendment:
+            classifier, version, current_ast = load_v4_classifier(self.root / 'scripts/v3_full_run.py', u)
+            u.require(version == self.manifest['classifier_version'], 'Provider classifier manifest version differs')
+            self.classifier_transition['current_AST_sha256'] = current_ast
+            self.old_classifier, old_version = u.load_classifier(self.amendment / 'pre_apply_source/scripts/v3_full_run.py')
+            u.require(old_version == 'v3-infrastructure-v3', 'Historical classifier version changed')
+            active = lambda row, directory: classifier(row, directory, allow_provider_rejection=True)
+        else:
+            classifier, version = u.load_classifier(self.root / 'scripts/v3_full_run.py')
+            u.require(version == 'v3-infrastructure-v3' == self.manifest['classifier_version'], 'Runtime selection policy changed')
+            active = classifier
         self.classifier_version = version
         for arm in ARMS:
-            self.replay_arm(arm, classifier, patients, source_rows)
+            self.replay_arm(arm, active, patients, source_rows)
         self.check_stable()
         self.verify_inventory()
         return self
@@ -142,6 +193,8 @@ class PairedGate:
         u.require(self.remember(archived_runner) == old['source_sha256']['scripts/v3_full_run.py'], 'Historical operational runner changed')
         # Only runner scheduling source and an optional explicit selected scope may differ.
         excluded = {'source_sha256', 'selected_arms'}
+        if self.provider_amendment:
+            excluded |= {'classifier_version', 'provider_rejection_policy'}
         u.require({k: v for k, v in self.manifest.items() if k not in excluded}
                   == {k: v for k, v in old.items() if k not in excluded}, 'Non-operational frozen manifest fields changed')
         u.require(self.manifest.get('selected_arms') == ['single_agent'], 'Operational selection is not explicitly single_agent only')
@@ -151,11 +204,47 @@ class PairedGate:
         u.require(differences <= {'scripts/v3_full_run.py'}, 'Inference/analyzer/launcher source changed')
         self.operational_source_changes = {name: {'before': before[name], 'after': after[name]} for name in sorted(differences)}
         self.classifier_ast_hash = classifier_ast(archived_runner, u.semantic_hash)
-        u.require(self.classifier_ast_hash == classifier_ast(self.root / 'scripts/v3_full_run.py', u.semantic_hash),
-                  'Scheduling amendment changed the historical runtime classifier semantics')
+        if self.provider_amendment:
+            self.validate_provider_lineage(old)
+        else:
+            u.require(self.classifier_ast_hash == classifier_ast(self.root / 'scripts/v3_full_run.py', u.semantic_hash),
+                      'Scheduling amendment changed the historical runtime classifier semantics')
         u.require(self.canonical_hashes['multi_agent'] == self.historical_receipt['v3_canonical_sha256_after'], 'Historical V3 canonical changed')
         u.require(u.semantic_hash(self.ledger_slices['multi_agent']) == self.historical_receipt['v3_ledger_slice_sha256_after'], 'Historical V3 selections changed')
         self.old_manifest = old
+
+    def validate_provider_lineage(self, original):
+        u = self.u
+        amendment = self.provider_amendment.resolve()
+        u.require(amendment.is_relative_to((self.run / 'amendments').resolve()), 'Provider amendment outside run')
+        before_path = amendment / 'pre_apply_metadata/run_manifest.json'
+        before = u.read_json(before_path)
+        self.remember(before_path)
+        runner = amendment / 'pre_apply_source/scripts/v3_full_run.py'
+        u.require(self.remember(runner) == before['source_sha256']['scripts/v3_full_run.py'], 'Pre-provider source changed')
+        u.require(classifier_ast(runner, u.semantic_hash) == self.classifier_ast_hash, 'Prior selected scheduler changed classifier semantics')
+        excluded = {'source_sha256', 'selected_arms'}
+        u.require({k:v for k,v in before.items() if k not in excluded} == {k:v for k,v in original.items() if k not in excluded}, 'Prior selected manifest inference differs')
+        u.require(before.get('selected_arms') == ['single_agent'], 'Prior scope changed')
+        u.require(set(before['source_sha256']) == set(original['source_sha256']) and all(before['source_sha256'][k] == v for k,v in original['source_sha256'].items() if k != 'scripts/v3_full_run.py'), 'Prior inference source changed')
+        expected = json.loads(json.dumps(before))
+        expected['source_sha256']['scripts/v3_full_run.py'] = V4_RUNNER_SHA256
+        expected['classifier_version'] = 'v3-infrastructure-v4'
+        expected['provider_rejection_policy'] = V4_POLICY
+        u.require(self.manifest == expected, 'Provider amendment changed unapproved manifest fields')
+        approval_path = amendment / 'root_approval.json'
+        approval = u.read_json(approval_path)
+        self.remember(approval_path)
+        u.require(approval.get('status') == 'APPROVED_OPERATIONAL_RECOVERY_ONLY'
+                  and approval.get('runner_sha256') == V4_RUNNER_SHA256
+                  and approval.get('manifest_sha256') == self.manifest_hash
+                  and approval.get('inference_unchanged') is True
+                  and approval.get('historical_accepted_choices_unchanged') is True,
+                  'Provider amendment lacks reviewed provenance')
+        self.classifier_transition = {'amendment_directory': str(amendment), 'approval_sha256': u.sha256(approval_path),
+                                     'historical_version': 'v3-infrastructure-v3', 'historical_AST_sha256': self.classifier_ast_hash,
+                                     'current_version': 'v3-infrastructure-v4', 'policy': V4_POLICY,
+                                     'scope': 'Single-agent provider rejection before usable completion; all V3 decisions unchanged'}
 
     def validate_sources(self):
         u = self.u
@@ -183,7 +272,7 @@ class PairedGate:
 
     def replay_arm(self, arm, classifier, patients, source_rows):
         u = self.u
-        selected, choices, retries = {}, {}, Counter()
+        selected, choices, retries, provider_counts = {}, {}, Counter(), Counter()
         counts = {'raw_attempts': 0, 'runtime_failures': 0, 'intrinsic_errors': 0}
         batches = sorted((self.run / 'attempts' / arm).glob('round-*.batch.json'), key=lambda path: int(path.name.split('-')[1].split('.')[0]))
         u.require(bool(batches), arm + ': no sealed source batches')
@@ -207,6 +296,9 @@ class PairedGate:
                     u.require(qid in patients and u.semantic_hash(row) == source_rows[qid], 'Shard differs from authoritative input')
                     ids.append(qid)
             u.require(len(set(ids)) == len(ids) and ids == batch['question_ids'], 'Shard question order/cohort changed')
+            if self.provider_amendment and arm == 'single_agent':
+                u.require(all(provider_counts[qid] < V4_POLICY['max_rejections_per_question'] for qid in ids),
+                          'Historical batch scheduled a persistently rejected request beyond its unchanged-retry limit')
             rounds.append(number)
             if not output.exists():
                 u.require(seal.get('result_sha256') is None and seal.get('identity_sha256') is None, 'Missing sealed result')
@@ -231,6 +323,19 @@ class PairedGate:
                     audit_hash = self.remember(path)
                 full = u.restore_result_audit(row, output.parent, restore_history=False)
                 decision = classifier(full, None)
+                if self.provider_amendment and u.attempted(row):
+                    previous = self.old_classifier(full, None)
+                    replay = self.transition_replay[arm]
+                    replay['attempted'] += 1
+                    if decision == previous:
+                        replay['unchanged'] += 1
+                    else:
+                        u.require(arm == 'single_agent' and previous['status'] == 'attention'
+                                  and decision == {'status':'runtime', 'reason':'provider_policy_rejection',
+                                                   'category':'provider_policy_rejection', 'diagnostic_paths':['error']},
+                                  'Classifier transition changed a non-provider decision')
+                        replay['provider_rejections'].append({'question_id': qid, 'round': number,
+                                                             'before': previous, 'after': decision})
                 if not u.attempted(row):
                     u.require(decision['status'] == 'pending', 'Unattempted placeholder classified terminal')
                     continue
@@ -239,6 +344,8 @@ class PairedGate:
                 if decision['status'] == 'runtime':
                     counts['runtime_failures'] += 1
                     retries[qid] += 1
+                    if decision.get('category') == 'provider_policy_rejection':
+                        provider_counts[qid] += 1
                 elif decision['status'] == 'accepted':
                     u.require(ref is not None, 'Accepted row lacks owned audit')
                     selected[qid] = u.semantic_hash({key: value for key, value in row.items() if key != 'attempt_history'})
@@ -299,11 +406,11 @@ class PairedGate:
         self.verify_inventory()
 
 
-def deliver(root, run, historical_export, amendment, output):
+def deliver(root, run, historical_export, amendment, output, provider_amendment=None):
     root, run, historical_export, amendment, output = [Path(path).resolve() for path in (root, run, historical_export, amendment, output)]
     if output.exists() or output.is_relative_to(run) or run.is_relative_to(output):
         raise ValueError('Output must be NEW and outside the live run')
-    gate = PairedGate(root, run, historical_export, amendment).validate()
+    gate = PairedGate(root, run, historical_export, amendment, provider_amendment).validate()
     u = gate.u
     output.mkdir(parents=True)
     snapshot = output / 'validated_paired_input_snapshot'
@@ -347,7 +454,8 @@ def deliver(root, run, historical_export, amendment, output):
                'historical_v3_manifest_sha256': gate.historical_manifest_hash,
                'historical_v3_receipt_sha256': u.sha256(historical_export / 'V3_COMPLETE_CONTROLS_PENDING.json'),
                'selected_arm_operational_amendment_directory': str(amendment), 'operational_source_changes': gate.operational_source_changes,
-               'unchanged_classifier_AST_sha256': gate.classifier_ast_hash, 'classifier_version': gate.classifier_version,
+               'historical_classifier_AST_sha256': gate.classifier_ast_hash, 'classifier_version': gate.classifier_version,
+               'classifier_transition': gate.classifier_transition, 'classifier_transition_actual_replay': gate.transition_replay,
                'canonical_sha256': gate.canonical_hashes,
                'accepted_ledger_slice_sha256': {arm: u.semantic_hash(gate.ledger_slices[arm]) for arm in ARMS},
                'sealed_rounds': gate.rounds, 'first_clean_replay_counts': gate.replay,
@@ -368,7 +476,7 @@ def deliver(root, run, historical_export, amendment, output):
         'Use paired_complete/ for per-question data, all per-arm metrics, mechanisms and the matched paired comparison. '
         'Direct LLM is omitted and is not scored or compared. The original three-arm benchmark is not marked complete.\n'
         'global_partial/ preserves unchanged frozen analyzer output from a two-arm snapshot. '
-        'Classifier semantics and the frozen inference fingerprint are unchanged across the recorded selected-arm scheduling amendment. '
+        'The frozen inference fingerprint is unchanged. The receipt records any reviewed provider-rejection classifier extension and full actual-attempt replay; V3 decisions remain unchanged. '
         'Comparison signs follow left minus right. Treat input snapshot hardlinks as read-only; this is not a portable archive.\n')
     (output / 'delivery_artifact_hashes.json').write_text(json.dumps(u.file_manifest(output), indent=2) + '\n')
     return receipt
@@ -380,9 +488,10 @@ def main():
     parser.add_argument('--run-dir', required=True, type=Path)
     parser.add_argument('--historical-v3-export', required=True, type=Path)
     parser.add_argument('--operational-amendment-dir', required=True, type=Path)
+    parser.add_argument('--provider-rejection-amendment-dir', type=Path)
     parser.add_argument('--output-dir', required=True, type=Path)
     args = parser.parse_args()
-    receipt = deliver(args.project_root, args.run_dir, args.historical_v3_export, args.operational_amendment_dir, args.output_dir)
+    receipt = deliver(args.project_root, args.run_dir, args.historical_v3_export, args.operational_amendment_dir, args.output_dir, args.provider_rejection_amendment_dir)
     print(json.dumps({'status': receipt['status'], 'questions_per_arm': N, 'benchmark_complete': False,
                       'receipt': str(args.output_dir / 'V3_SINGLE_COMPLETE_DIRECT_PENDING.json')}))
 

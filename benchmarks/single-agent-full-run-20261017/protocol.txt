@@ -42,7 +42,42 @@ Collection, recovery, attention, retry limits, scheduling, persistence and
 completion are restricted to single_agent. The completed V3 and deferred
 Direct LLM canonical files, identities and acceptance/count slices must remain
 unchanged. Archive the original operational source/manifest before applying
-this scheduling change. Inference and runtime-classifier semantics stay fixed.
+this scheduling change. That initial scheduling amendment leaves inference and
+runtime-classifier semantics fixed. The separately recorded recovery amendment
+below extends only the operational classification of an observed provider rejection.
+
+Provider rejection recovery amendment (17 October 2026)
+The second single-agent batch sealed 98 clean outcomes, one HTTP 500 runtime
+failure and one structured Azure input-policy rejection. Together with the ten
+reused outcomes, 108 clean results were preserved before the supervisor stopped
+for inspection. No accepted outcome is eligible for another attempt.
+
+A reviewed optional classifier extension recognizes only the observed SDK-owned
+HTTP 400 prompt rejection with structured content_filter,
+ResponsibleAIPolicyViolation and detected/filtered metadata, corroborated by an
+unsuccessful call with unavailable usage. It does not infer failures from model
+prose, answer correctness, generic HTTP 400 errors or tool-name echoes.
+
+The rejected question gets at most one additional unchanged attempt. A second
+provider rejection parks it pending, while other questions continue. It is never
+scored incorrect. After all remaining executable questions finish, persistent
+rejections require external provider-policy review; the arm is still incomplete.
+No provider safeguards, prompts, questions, model settings, budgets or inference
+code change. Recorded usage is unavailable for the rejected call; this does not
+establish zero provider computation or zero billing.
+
+Rejection counts and parking are reconstructed from sealed raw attempts across
+resumes. Historical attempts beyond the two-rejection limit must fail validation.
+The separate provider_rejections.json records the distinct category; the existing
+runtime_failures count includes these discarded provider attempts for compatibility.
+They remain excluded from primary latency, tokens and estimated cost.
+
+Archive 0004-provider-rejection-runtime records the pre-change source, manifest,
+canonical results, identities, ledger, public pins and immutable raw inventory.
+Full answer-blind old/new replay must preserve all V3 decisions and every earlier
+clean single-agent selection. Only the observed unresolved provider rejection may
+move from attention to runtime. The paired exporter records this transition
+explicitly; it must not claim classifier semantics stayed unchanged.
 
 Measurements and final analysis
 Save per-question predictions/references, patient/question/family/template

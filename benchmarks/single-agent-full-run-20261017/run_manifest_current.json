@@ -2,7 +2,7 @@
   "version": 1,
   "created_at": "2026-10-16T04:16:57+00:00",
   "protocol": "v3-first-runtime-clean-terminal",
-  "classifier_version": "v3-infrastructure-v3",
+  "classifier_version": "v3-infrastructure-v4",
   "project_root": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System",
   "arms": {
     "direct_llm": "direct_llm",
@@ -64,7 +64,7 @@
     "scripts/full_benchmark.py": "41a329b3607478ae861ac1f53fe0492b8186212927ffe5a0e4fb9bf37a436164",
     "scripts/launch_v3_full.py": "4c712041d8402ca508c1143eeb4c46523f5dd934d7c5a245be2641ef8e0ede3e",
     "scripts/v3_full_analysis.py": "24874a5483fe2354d1121c654eec547faead74fba8216371e70fe5f28965b798",
-    "scripts/v3_full_run.py": "880694880ddc03f0e1d1c3743868051cb0e0b4228fdd1c7f501513df85038eeb",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
     "tools/__init__.py": "20fd87e431de62093c1d56815c02a125be8fa1b819bf4b056a8805ae9a2d3496",
     "tools/cache.py": "c53aee7aafe497f66674200375d641d7bcc9301b82e2b15db17b08bd380dc8a9",
     "tools/field_check.py": "53345095c1e489185ff9b280034999c4225748d4c88bc9df939960f3119457c5",
@@ -220,5 +220,15 @@
   ],
   "selected_arms": [
     "single_agent"
-  ]
+  ],
+  "provider_rejection_policy": {
+    "version": "azure-prompt-rejection-v1",
+    "category": "provider_policy_rejection",
+    "max_rejections_per_question": 2,
+    "retry_request": "unchanged",
+    "persistent_action": "park_pending_then_attention",
+    "scope": [
+      "single_agent"
+    ]
+  }
 }

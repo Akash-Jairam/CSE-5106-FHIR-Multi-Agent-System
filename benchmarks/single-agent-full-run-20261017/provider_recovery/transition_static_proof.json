@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "candidate_sha256": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+  "manifest_changed_fields": [
+    "classifier_version",
+    "provider_rejection_policy",
+    "source_sha256"
+  ],
+  "source_changed_fields": [
+    "scripts/v3_full_run.py"
+  ],
+  "all_saved_run_identities_unchanged": true,
+  "settings_unchanged": true,
+  "nine_public_pins_unchanged": true,
+  "ast_unchanged_definitions": [
+    "RUNTIME",
+    "INTRINSIC",
+    "PROVIDER_JWT_REJECTION",
+    "diagnostic_errors",
+    "intrinsic_tool_validation",
+    "provider_jwt_paths",
+    "runner_command",
+    "source_hashes",
+    "pinned_files",
+    "save_accepted",
+    "validate_completed_v3",
+    "create_batch",
+    "seal_batch",
+    "recover_unsealed",
+    "eligible_arms",
+    "manifest_for"
+  ],
+  "inference_fingerprint": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409"
+}

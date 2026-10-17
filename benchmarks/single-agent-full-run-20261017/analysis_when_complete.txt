@@ -3,9 +3,12 @@ COMPLETE-COHORT V3 + SINGLE AGENT ANALYSIS
 Do not evaluate partial baseline answers. The additive exporter refuses to
 import the scorer/analyzer until both exact 2,931-question first-clean cohorts,
 identities, immutable source attempts and audits validate. It also verifies
-the historical V3 manifest/receipt and the selected-arm scheduling amendment,
-unchanged classifier semantics, shared inference/settings/inputs, frozen
+the historical V3 manifest/receipt, the selected-arm scheduling amendment and
+the reviewed provider-rejection recovery amendment, shared inference/settings/inputs, frozen
 pricing, and all nine public runtime/protocol pins.
+The classifier transition is explicit: replay must preserve every V3 decision
+and allow only the narrow single-agent provider attention-to-runtime change.
+Historical attempts beyond the two-rejection limit must fail validation.
 
 When the selected supervisor has completed all 2,931 Single Agent outcomes:
 
@@ -23,6 +26,7 @@ When the selected supervisor has completed all 2,931 Single Agent outcomes:
      --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015 \
      --historical-v3-export output/experiments/gpt-6-luna/v3_complete_2931_20261016 \
      --operational-amendment-dir output/experiments/gpt-6-luna/v3_full_2931_20261015/amendments/0003-single-agent-only-resume \
+     --provider-rejection-amendment-dir output/experiments/gpt-6-luna/v3_full_2931_20261015/amendments/0004-provider-rejection-runtime \
      --output-dir output/experiments/gpt-6-luna/v3_single_complete_2931_20261017
 
    If that output directory already exists, inspect its receipt/hashes and
@@ -59,3 +63,7 @@ absolute historical source paths; they are not portable archives. Do not edit
 or chmod snapshot files. Work from the exported tables and preserve their hashes.
 The helper and its eleven-check synthetic full-cohort validation are archived
 locally; the original fixture source retains its test-machine paths.
+The recovery revision additionally passed a full 2,931-per-arm synthetic export,
+32 independent monitor checks and seven independent scorer-free paired gates.
+Persistent provider-rejected questions remain pending. An arm with any pending
+question is incomplete and must not pass this export gate or be scored as full.

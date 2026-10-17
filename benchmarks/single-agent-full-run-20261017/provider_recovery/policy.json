@@ -1,0 +1,10 @@
+{
+  "version": "azure-prompt-rejection-v1",
+  "category": "provider_policy_rejection",
+  "max_rejections_per_question": 2,
+  "retry_request": "unchanged",
+  "persistent_action": "park_pending_then_attention",
+  "scope": [
+    "single_agent"
+  ]
+}

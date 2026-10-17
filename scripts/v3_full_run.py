@@ -6,6 +6,7 @@ under attempts/ and never enter accuracy, accepted latency, or accepted cost.
 No scorer or reference answer participates in scheduling or recovery.
 """
 import argparse
+import ast
 import csv
 from datetime import datetime, timezone
 import fcntl
@@ -27,7 +28,13 @@ from scripts.full_benchmark import atomic_json, dataset_cohort, file_sha256, ite
 from scripts.audit_store import restore_result_audit, ARTIFACT_PATTERN
 
 ARMS = {"direct_llm": "direct_llm", "single_agent": "single_agent", "multi_agent": "multi_agent_v3"}
-CLASSIFIER_VERSION = "v3-infrastructure-v3"
+CLASSIFIER_VERSION = "v3-infrastructure-v4"
+PROVIDER_REJECTION_POLICY = {
+    "version": "azure-prompt-rejection-v1", "category": "provider_policy_rejection",
+    "max_rejections_per_question": 2, "retry_request": "unchanged",
+    "persistent_action": "park_pending_then_attention", "scope": ["single_agent"]}
+SDK_ERROR_PREFIX = "Max retries exceeded: Error code: 400 - "
+MAX_ERROR_CHARS = 8192
 PROVIDER_JWT_REJECTION = "Max retries exceeded: Jwt verification fails"
 RUNTIME = re.compile(
     r"timed?\s*out|time[ -]?out|(?:HTTP(?:StatusError)?[ :]*|status(?:_code| code)?[ =:]*|error code[ :]*)(?:408|429|50[0234]|52[024])\b|"
@@ -130,7 +137,37 @@ def provider_jwt_paths(row):
     return [path for path, error in signals if error == PROVIDER_JWT_REJECTION]
 
 
-def classify_attempt(row, audit_dir=None):
+def is_observed_provider_prompt_rejection(row):
+    """Recognize only the observed SDK-owned rejected prompt, without answers."""
+    if not isinstance(row, dict):
+        return False
+    error = row.get("error")
+    tokens = row.get("tokens")
+    calls = tokens.get("per_call") if isinstance(tokens, dict) else None
+    if not (isinstance(error, str) and error.startswith(SDK_ERROR_PREFIX)
+            and len(error) <= MAX_ERROR_CHARS and isinstance(calls, list) and calls
+            and isinstance(calls[-1], dict) and calls[-1].get("usage_available") is False):
+        return False
+    try:
+        payload = ast.literal_eval(error[len(SDK_ERROR_PREFIX):])
+    except (ValueError, SyntaxError, TypeError, RecursionError):
+        return False
+    if not (isinstance(payload, dict) and set(payload) == {"error"} and isinstance(payload["error"], dict)):
+        return False
+    provider_error = payload["error"]
+    if not (provider_error.get("code") == "content_filter" and provider_error.get("param") == "prompt"
+            and type(provider_error.get("status")) is int and provider_error["status"] == 400):
+        return False
+    inner = provider_error.get("innererror")
+    if not (isinstance(inner, dict) and inner.get("code") == "ResponsibleAIPolicyViolation"):
+        return False
+    filters = inner.get("content_filter_result")
+    jailbreak = filters.get("jailbreak") if isinstance(filters, dict) else None
+    return (isinstance(jailbreak, dict) and jailbreak.get("detected") is True
+            and jailbreak.get("filtered") is True)
+
+
+def classify_attempt(row, audit_dir=None, allow_provider_rejection=False):
     """Return pending/runtime/accepted/attention without access to gold or scoring.
 
     Unknown top-level errors halt. Nested model/debug errors are intrinsic unless
@@ -147,6 +184,9 @@ def classify_attempt(row, audit_dir=None):
     if latency is not None and (type(latency) not in (int, float) or not math.isfinite(latency) or latency < 0):
         return {"status": "attention", "reason": "invalid_latency"}
     full = restore_result_audit(row, audit_dir, restore_history=False) if audit_dir is not None else row
+    if allow_provider_rejection and is_observed_provider_prompt_rejection(full):
+        return {"status": "runtime", "reason": "provider_policy_rejection",
+                "category": "provider_policy_rejection", "diagnostic_paths": ["error"]}
     signals = [("error", top)] if top else []
     external_unknown = []
     signals.extend(diagnostic_errors(full.get("revision") or {}))
@@ -258,6 +298,9 @@ def manifest_for(args):
 
 def validate_manifest(manifest, directory):
     import run_agent
+    policy = manifest.get("provider_rejection_policy")
+    if "provider_rejection_policy" in manifest and (policy != PROVIDER_REJECTION_POLICY or manifest.get("selected_arms") != ["single_agent"]):
+        raise ValueError("Selected provider-rejection policy is invalid or outside its approved scope")
     if manifest.get("classifier_version") != CLASSIFIER_VERSION or manifest.get("arms") != ARMS:
         raise ValueError("Frozen run protocol changed")
     if manifest.get("project_root") != str(ROOT) or manifest.get("source_sha256") != source_hashes():
@@ -331,9 +374,27 @@ def attempt_rounds(directory, arm):
     return sorted(root.glob("round-*.batch.json"), key=lambda path: int(path.name.split("-")[1].split(".")[0]))
 
 
-def collect_accepted(directory, manifest, patients, classifier=classify_attempt, arms=None):
+def classifier_for_manifest(manifest, classifier=classify_attempt):
+    """The narrow policy extension requires an explicit frozen scope opt-in."""
+    policy = manifest.get("provider_rejection_policy")
+    if "provider_rejection_policy" not in manifest:
+        return classifier
+    if policy != PROVIDER_REJECTION_POLICY or manifest.get("selected_arms") != ["single_agent"]:
+        raise ValueError("Selected provider-rejection policy is absent, invalid, or outside its approved scope")
+    if classifier is classify_attempt:
+        return lambda row, audit_dir=None: classify_attempt(row, audit_dir, allow_provider_rejection=True)
+    return classifier
+
+
+def collect_accepted(directory, manifest, patients, classifier=classify_attempt, arms=None, provider_rejections=None):
     """Rebuild accepted rows only from sealed immutable batches in execution order."""
     import run_agent
+    classifier = classifier_for_manifest(manifest, classifier)
+    if provider_rejections is None and "provider_rejection_policy" in manifest:
+        provider_rejections = {}
+    if provider_rejections is not None:
+        provider_rejections.clear()
+        provider_rejections.update({arm: {} for arm in ARMS})
     accepted, choices, retries, attention = {arm: {} for arm in ARMS}, {arm: {} for arm in ARMS}, {arm: {} for arm in ARMS}, []
     counts = {arm: {"raw_attempts": 0, "runtime_failures": 0, "intrinsic_errors": 0} for arm in ARMS}
     for arm in ARMS if arms is None else arms:
@@ -349,6 +410,10 @@ def collect_accepted(directory, manifest, patients, classifier=classify_attempt,
                     or sealed.get("identity_sha256") != (file_sha256(identity_file) if identity_file.exists() else None)
                     or sealed.get("result_sha256") != (file_sha256(output) if output.exists() else None)):
                 raise ValueError("Sealed attempt batch changed")
+            if "provider_rejection_policy" in manifest and any(
+                    provider_rejections[arm].get(qid, 0) >= manifest["provider_rejection_policy"]["max_rejections_per_question"]
+                    for qid in batch["question_ids"]):
+                raise ValueError("Selected provider-rejection policy forbids scheduling a parked question")
             if not output.exists():
                 continue
             if not identity_file.exists() or json.loads(identity_file.read_text()) != batch["run_identity"]:
@@ -370,6 +435,8 @@ def collect_accepted(directory, manifest, patients, classifier=classify_attempt,
                 if decision["status"] == "runtime":
                     counts[arm]["runtime_failures"] += 1
                     retries[arm][qid] = retries[arm].get(qid, 0) + 1
+                    if provider_rejections is not None and decision.get("category") == "provider_policy_rejection":
+                        provider_rejections[arm][qid] = provider_rejections[arm].get(qid, 0) + 1
                 elif decision["status"] == "accepted":
                     copy_audit(row, output.parent, directory)
                     row = {key: value for key, value in row.items() if key != "attempt_history"}
@@ -414,10 +481,29 @@ def execution_arms(manifest, only_arms=None, resume=False):
     """Require both an explicit request and a matching frozen scheduling scope."""
     pinned = manifest.get("selected_arms")
     if pinned is None and only_arms is None:
+        if "provider_rejection_policy" in manifest:
+            raise ValueError("Selected provider-rejection policy cannot enable an unscoped run")
         return tuple(ARMS)
     if not resume or pinned != ["single_agent"] or only_arms != ["single_agent"]:
         raise ValueError("Selected arms require resume with --only-arm single_agent and an identical manifest pin")
+    if "provider_rejection_policy" in manifest and manifest["provider_rejection_policy"] != PROVIDER_REJECTION_POLICY:
+        raise ValueError("Selected provider-rejection policy requires the exact explicit manifest opt-in")
     return ("single_agent",)
+
+
+def persist_provider_rejections(directory, manifest, accepted, rejections, arms):
+    """Derived operational state; immutable sealed attempts remain authoritative."""
+    limit = manifest["provider_rejection_policy"]["max_rejections_per_question"]
+    parked = {arm: {qid for qid, count in rejections[arm].items()
+                    if count >= limit and qid not in accepted[arm]} for arm in arms}
+    document = {"version": 1, "classifier_version": CLASSIFIER_VERSION,
+                "policy": manifest["provider_rejection_policy"], "updated_at": utc_now(),
+                "source": "reconstructed_from_sealed_immutable_attempts",
+                "rejections": {arm: rejections[arm] for arm in arms},
+                "parked_question_ids": {arm: sorted(parked[arm]) for arm in arms},
+                "pending_question_ids": {arm: sorted(qid for qid in rejections[arm] if qid not in accepted[arm]) for arm in arms}}
+    atomic_json(directory / "provider_rejections.json", document)
+    return parked, document
 
 
 def read_acceptance(directory, manifest):
@@ -520,7 +606,8 @@ def stop_signal(signum, frame):
 def compact_state(state):
     return {key: state.get(key) for key in ("phase", "heartbeat_at", "supervisor_pid", "started_at", "resumed_at", "finished_at",
             "questions_per_arm", "accepted", "counts", "active", "attention", "reason", "safe_message", "analysis_return_code",
-            "selected_arms", "scope_started_at", "selected_scope_complete", "benchmark_complete", "pending_scoped_export", "analysis_status")}
+            "selected_arms", "scope_started_at", "selected_scope_complete", "benchmark_complete", "pending_scoped_export", "analysis_status",
+            "provider_rejections")}
 
 
 def eligible_arms(accepted, count):
@@ -531,6 +618,10 @@ def eligible_arms(accepted, count):
 def run_supervisor(directory, manifest, patients, resume=False, classifier=classify_attempt, only_arms=None):
     arms = execution_arms(manifest, only_arms, resume)
     selected = only_arms is not None
+    provider_policy = "provider_rejection_policy" in manifest
+    classifier = classifier_for_manifest(manifest, classifier)
+    provider_rejections = {} if provider_policy else None
+    parked = {arm: set() for arm in arms}
     settings = manifest["settings"]
     lock = (directory / ".supervisor.lock").open("a")
     try:
@@ -557,7 +648,9 @@ def run_supervisor(directory, manifest, patients, resume=False, classifier=class
         retained = validate_completed_v3(directory, manifest, patients) if selected else None
         if resume:
             recover_unsealed(directory, arms if selected else None)
-        accepted, choices, retries, attention, counts = collect_accepted(directory, manifest, patients, classifier, arms if selected else None)
+        accepted, choices, retries, attention, counts = collect_accepted(directory, manifest, patients, classifier, arms if selected else None, provider_rejections)
+        if provider_policy:
+            parked, state["provider_rejections"] = persist_provider_rejections(directory, manifest, accepted, provider_rejections, arms)
         if selected:
             # Recover saved clean results before scheduling any retry. Deferred
             # canonical files, identities, ledger entries and counts stay intact.
@@ -609,7 +702,9 @@ def run_supervisor(directory, manifest, patients, resume=False, classifier=class
                     finished.append(arm)
                     next_launch[arm] = time.monotonic() + settings["retry_delay_seconds"]
             if finished:
-                accepted, choices, retries, attention, counts = collect_accepted(directory, manifest, patients, classifier, arms if selected else None)
+                accepted, choices, retries, attention, counts = collect_accepted(directory, manifest, patients, classifier, arms if selected else None, provider_rejections)
+                if provider_policy:
+                    parked, state["provider_rejections"] = persist_provider_rejections(directory, manifest, accepted, provider_rejections, arms)
                 for arm in finished:
                     no_progress_rounds[arm] = no_progress_rounds[arm] + 1 if len(accepted[arm]) == prior_counts[arm] else 0
                     prior_counts[arm] = len(accepted[arm])
@@ -624,10 +719,18 @@ def run_supervisor(directory, manifest, patients, resume=False, classifier=class
                 state.update(phase="attention", attention=True, reason="unclassified_or_invalid_attempt", issues=attention)
                 break
             exhausted = [{"arm": arm, "question_id": qid, "runtime_attempts": count}
-                         for arm in arms for qid, count in retries[arm].items()
+                         for arm in arms for qid, total in retries[arm].items()
+                         for count in [total - (provider_rejections[arm].get(qid, 0) if provider_policy else 0)]
                          if count > settings["max_runtime_retries"] and qid not in accepted[arm]]
             if exhausted:
                 state.update(phase="attention", attention=True, reason="runtime_retry_limit", issues=exhausted)
+                break
+            if provider_policy and not children and any(parked.values()) and all(
+                    set(patients) - set(accepted[arm]) <= parked[arm] for arm in arms):
+                state.update(phase="attention", attention=True, reason="provider_policy_review_required", finished_at=utc_now(),
+                             issues=[{"arm": arm, "question_id": qid, "provider_rejections": provider_rejections[arm][qid],
+                                      "status": "pending", "action": "external_policy_review_required"}
+                                     for arm in arms for qid in sorted(parked[arm])])
                 break
             for arm in arms if selected else eligible_arms(accepted, len(patients)):
                 if arm in children or len(accepted[arm]) == len(patients) or time.monotonic() < next_launch[arm]:
@@ -638,7 +741,9 @@ def run_supervisor(directory, manifest, patients, resume=False, classifier=class
                 if no_progress_rounds[arm] >= settings["max_runtime_retries"] + 2:
                     state.update(phase="attention", attention=True, reason="process_round_limit")
                     break
-                pending = set([qid for qid in patients if qid not in accepted[arm]][:settings["batch_size"]])
+                pending = set([qid for qid in patients if qid not in accepted[arm] and qid not in parked[arm]][:settings["batch_size"]])
+                if not pending:
+                    continue
                 number = max([int(path.name.split("-")[1].split(".")[0]) for path in prior] or [0]) + 1
                 batch_path, batch = create_batch(directory, arm, pending, manifest, number)
                 log = Path(batch["output"]).with_suffix(".log").open("x", encoding="utf-8")
