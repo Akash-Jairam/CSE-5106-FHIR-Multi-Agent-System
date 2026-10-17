@@ -98,6 +98,14 @@ record paired question-level accuracy/latency/token/cost comparisons and subgrou
 statistics using the existing analyzer. Do not score partial baseline data or
 call the original three-arm benchmark complete while Direct LLM is deferred.
 
+The main collections were sequential: V3 completed before the single-agent
+full-run resume. Arm assignment did not follow a randomized or interleaved
+schedule. The single-agent cohort includes ten outcomes retained from an earlier
+partial batch, with their original per-question latency, tokens and cost estimates.
+The patient-cluster bootstrap intervals reflect resampling variation across the
+observed patients, conditional on this collected run and cohort. They do not
+measure variation across repeated model runs or provider dates.
+
 The syntactic "abstained" flag also includes correct empty-reference answers.
 Record its correctness cross-tab; do not interpret it as a refusal/failure rate.
 Full-cohort development exposure remains a limitation of both arms. Differences

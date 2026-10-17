@@ -61,6 +61,11 @@ When the selected supervisor has completed all 2,931 Single Agent outcomes:
    deferral; report the selected-resume interval separately from the historical
    first-to-last batch span, which includes that gap.
 
+   Carry the protocol's sequential collection order, ten reused outcomes with
+   original per-question measurements, and conditional bootstrap uncertainty
+   notes into the final comparison report/README. Preserve the frozen analyzer
+   output unchanged; these interpretation notes belong in the companion report.
+
 5. After validating the matched pair, disable the single-agent heartbeat and
    report measured results. Do not run Direct LLM or rerun V3. Detailed public
    GitHub publication still requires the user's outstanding explicit approval.
