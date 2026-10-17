@@ -1,0 +1,134 @@
+{
+  "status": "PASS_INCOMPLETE_RETRY_CLOSEOUT_METADATA_REVIEW",
+  "reviewed_at_utc": "2026-10-17T16:07:40.008813+00:00",
+  "reviewer": "paired_stats_audit",
+  "findings": [],
+  "scope": "Saved safe metadata, documentation, packet checksums, byte-only re-observation of referenced terminal/source/canonical/journal/audit bindings, and one-constant prepared-helper comparison. No raw outcome replay or scoring.",
+  "artifact_sha256": {
+    "reviewed_provider_retry/terminal_metadata.json": "717d4a4ec8679eca14b44a76fdc13c8cbc0b7300061e61f4efba4de21c7335b6",
+    "reviewed_provider_retry/round32_outcome.json": "05bf6f25f04e3bd45cab37d219fb48ee558399b4309c6620ee383962045df4c4",
+    "reviewed_provider_retry/native_stop_observation.json": "31d010b204268e12018d55e009b58ce1bc936b064ef2caad04deda0685070932",
+    "reviewed_provider_retry/README.txt": "b6422f2a9c3d79360214b5bcb3fc961e5ea3fe0ba0ae8f8b272499e8517bf9b4",
+    "reviewed_provider_retry/round32_provider_review_packet/ARTIFACT_SHA256SUMS.json": "d3564d24f6d63cd7b7769c1223f0234f4575aec42eac532e3e1268e5ba9240d8",
+    "reviewed_provider_retry/round32_provider_review_packet/README.txt": "fd6824202447bc16344b0fefe08014e3d00645a7a750d80e8b5042741e906c58",
+    "reviewed_provider_retry/round32_provider_review_packet/incident.json": "d4eecb6babc9a6b8e2a2fe1ba34d0c707213213f951d42da85c23f73838fe3b6",
+    "reviewed_provider_retry/round32_provider_review_packet/initial_round32_outcome.json": "65b8161fcc1b54e962202eefa465189bf44d72c98d4fecb7d2cc094c1d9c5f22",
+    "reviewed_provider_retry/round32_provider_review_packet/round32_outcome.json": "05bf6f25f04e3bd45cab37d219fb48ee558399b4309c6620ee383962045df4c4",
+    "reviewed_provider_retry/final_cache_audit/adaptation_receipt.json": "e8fa8f4b63baa6939ed0e3ab31de80baba0d9cb2a89e9eeaa5fb6be502365257",
+    "reviewed_provider_retry/final_cache_audit/README.txt": "ce74bb4a5eeaeb1b40ed9ddc865254e2492735b58364a2192fe8839e28432c9c",
+    "reviewed_provider_retry/final_cache_audit/audit_complete_single_cache.py": "f65ca58e005e73eddb143ee6e3baa8a71adf8ae53ac4a5d4074a0b36f8a2a829",
+    "reviewed_provider_retry/final_cache_audit/completed_gate.py": "55a3ce97d1049ad3abf4ddde397c6938c256595fc09ec40ab5da76c5f5907dd3",
+    "reviewed_provider_retry/final_cache_audit/bound_completion.py": "5cda57b75a80c7459e9591e24ec18c82b9b41822ee6145e0d3857164b17276b5",
+    "reviewed_provider_retry/final_cache_audit/capture_final_proof.py": "cdafa942e2ccbc821c7ebd63c64c96d585c6323cf7b23d066c37b3e6c5b11b80",
+    "reviewed_provider_retry/export_preparation/PREPARATION_STATUS.json": "629e6fd9f2cf03b616fca9cd76c26a24a90bc53eb4e2fc4b05e88de14e9f6cf3",
+    "reviewed_provider_retry/export_preparation/test_results.json": "758e193c3a3c924532ddf2ef174ccb3d987a81e1bdc5ad45a39e4666b8840ff5",
+    "reviewed_provider_retry/export_preparation/independent_results.json": "758e193c3a3c924532ddf2ef174ccb3d987a81e1bdc5ad45a39e4666b8840ff5",
+    "protocol.txt": "4a2e1a53a63087ae5ea6c4c28d42a871c302795c8e7b2a77dc447297b4e40a91",
+    "analysis_when_complete.txt": "9c3bd050fc67d35ca4b45dbe0df0469d38e60c281d92c81b81a91fd568d1b93a"
+  },
+  "terminal": {
+    "accepted": 2929,
+    "expected": 2931,
+    "pending": 2,
+    "raw_attempts": 2984,
+    "runtime_failures": 55,
+    "intrinsic_errors": 0,
+    "retry_exit_code": 2,
+    "finished_at_utc": "2026-10-17T15:59:35+00:00",
+    "each_named_question_provider_rejections": 3,
+    "active_empty": true,
+    "new_clean_outcomes": 0,
+    "incomplete": true,
+    "no_fourth_request_claim_in_receipt": true
+  },
+  "checks": {
+    "safe_packet_artifacts_hash_and_size_verified": 4,
+    "packet_outcome_byte_identical": true,
+    "cross_receipt_source_seal_state_ledger_bindings_agree": true,
+    "referenced_six_canonical_identity_hashes_reobserved": true,
+    "referenced_five_terminal_core_hashes_reobserved": true,
+    "referenced_four_source_bindings_reobserved": true,
+    "two_journal_hashes_and_sizes_reobserved": true,
+    "two_compressed_and_decompressed_audit_hashes_and_sizes_reobserved_without_parsing": true,
+    "review_inputs_stable_during_check": true
+  },
+  "measurement_interpretation": {
+    "per_task_call_usage_pattern": [
+      true,
+      false
+    ],
+    "known_successful_call_proxy_costs_USD": [
+      "0.0011377",
+      "0.0008852"
+    ],
+    "entire_two_failed_tasks_excluded_from_primary_metrics": true,
+    "rejected_call_usage_unknown": true,
+    "actual_provider_billing_unknown": true,
+    "explicit_zero_cached_metadata_observed_only_for_two_successful_prefix_calls": true,
+    "question_to_request_association": "Inferred unique owned-worker P/C prefix then next error counter; not direct QID/request-ID join or proof of complete best-effort logging."
+  },
+  "native_evidence": {
+    "saved_observation_only": true,
+    "known_pids": [
+      57961,
+      58084,
+      58085,
+      58093,
+      58094
+    ],
+    "ps_exit_code": 1,
+    "output_empty": true,
+    "scope": "These five recorded PIDs only; no native calls performed by reviewer."
+  },
+  "prepared_cache_helper": {
+    "status": "PREPARATION_ONLY_NOT_EXECUTED",
+    "only_source_change": "bound_completion.MONITOR_SHA old reviewed monitor to reviewed retry monitor 1e091082d844fcabafb0e6a558d8b41634a26e2f476790b30b31c61033eba3dc",
+    "helpers": {
+      "audit_complete_single_cache.py": {
+        "original_sha256": "f65ca58e005e73eddb143ee6e3baa8a71adf8ae53ac4a5d4074a0b36f8a2a829",
+        "adapted_sha256": "f65ca58e005e73eddb143ee6e3baa8a71adf8ae53ac4a5d4074a0b36f8a2a829",
+        "byte_identical": true
+      },
+      "completed_gate.py": {
+        "original_sha256": "55a3ce97d1049ad3abf4ddde397c6938c256595fc09ec40ab5da76c5f5907dd3",
+        "adapted_sha256": "55a3ce97d1049ad3abf4ddde397c6938c256595fc09ec40ab5da76c5f5907dd3",
+        "byte_identical": true
+      },
+      "bound_completion.py": {
+        "original_sha256": "5345fe58f5cad0655ffd50db11996096e92ba8aa26b62b7a18f1834e33c909b3",
+        "adapted_sha256": "5cda57b75a80c7459e9591e24ec18c82b9b41822ee6145e0d3857164b17276b5",
+        "byte_identical": false
+      },
+      "capture_final_proof.py": {
+        "original_sha256": "cdafa942e2ccbc821c7ebd63c64c96d585c6323cf7b23d066c37b3e6c5b11b80",
+        "adapted_sha256": "cdafa942e2ccbc821c7ebd63c64c96d585c6323cf7b23d066c37b3e6c5b11b80",
+        "byte_identical": true
+      }
+    },
+    "full_2931_and_stable_final_binding_gates_unchanged": true,
+    "diagnostic_coverage_not_guaranteed": true
+  },
+  "export_preparation": {
+    "status": "PREPARED_AND_SYNTHETICALLY_VALIDATED_NOT_APPLIED_NOT_EXECUTED_ON_REAL_DATA",
+    "candidate_sha256": "058efdb99863913fe619ab8bc5164793d9d77d8e0fead3b4754fc5fd04af1b7d",
+    "reported_author_and_independent_synthetic_checks": 15,
+    "not_reexecuted_or_source_reapproved_here": true,
+    "live_exporter_not_modified_per_status_receipt": true
+  },
+  "documentation": {
+    "readme_protocol_analysis_guide_reviewed": true,
+    "current_incomplete_scope_explicit": true,
+    "no_partial_accuracy_or_full_paired_cache_execution_authorized": true,
+    "runtime_measurements_excluded_and_billing_unknown": true,
+    "same_question_source_templates_route_settings_does_not_claim_identical_wire_body": true,
+    "no_automatic_fourth_retry": true,
+    "new_full_execution_requires_reviewed_source_manifest_pins": true
+  },
+  "limits": [
+    "Historical 31-round/155-file sealed-prefix preservation and all45/9/3/21 map checks rely on the reviewed root terminal/prefix replay receipts; this closeout did not repeat whole-prefix replay.",
+    "Audit bytes were hashed and decompressed for hash/size verification only; no clinical prompt, answer, reference or correctness fields were parsed or inspected.",
+    "Native absence is a saved scoped observation. Journal associations are inferred and best effort; seals do not cover journals. Public profile equality cannot establish identical remote backend/filter state.",
+    "No provider, model, inference, scorer, native or test-suite calls; no config/secret reads; no source/run/settings edits. Only this independent private review artifact is written.",
+    "This is an incomplete terminal metadata review, not whole-cohort verifier success, benchmark completion, cache-coverage report, accuracy assessment, or paired comparison. Original V3 completed cohort remains byte-preserved in the referenced canonical binding."
+  ]
+}

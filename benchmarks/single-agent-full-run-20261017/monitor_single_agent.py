@@ -16,7 +16,7 @@ import subprocess
 import sys
 
 from scripts.audit_store import restore_result_audit
-from scripts.v3_full_run import classify_attempt, classifier_for_manifest
+from scripts.v3_full_run import classify_attempt, classifier_for_manifest, provider_rejection_limit
 
 ARM = 'single_agent'
 UNSELECTED = ('multi_agent', 'direct_llm')
@@ -191,7 +191,7 @@ def replay(run, manifest):
         batch, rows, identity = identities_and_rows(run, manifest, batch_path, patients)
         require(not set(batch['question_ids']) & set(accepted), 'Accepted question scheduled again')
         if policy:
-            require(all(provider_counts[qid] < policy['max_rejections_per_question'] for qid in batch['question_ids']),
+            require(all(provider_counts[qid] < provider_rejection_limit(manifest, qid, batch['round']) for qid in batch['question_ids']),
                     'Historical batch exceeded provider rejection unchanged-retry limit')
         decisions, audit_count, rejections = Counter(), 0, Counter()
         for row in rows:
@@ -233,7 +233,7 @@ def verify(run, snapshot, args):
     for summary in summaries:
         rejections.update(summary['provider_rejections'])
     policy = manifest.get('provider_rejection_policy')
-    parked = {qid for qid, count in rejections.items() if policy and count >= policy['max_rejections_per_question'] and qid not in accepted}
+    parked = {qid for qid, count in rejections.items() if policy and count >= provider_rejection_limit(manifest, qid) and qid not in accepted}
     if policy:
         derived = read(run / 'provider_rejections.json')
         require(derived.get('policy') == policy and derived.get('source') == 'reconstructed_from_sealed_immutable_attempts', 'Provider rejection provenance changed')
@@ -269,7 +269,10 @@ def verify(run, snapshot, args):
         batch_path = run / 'attempts' / ARM / f'round-{active["round"]:04d}.batch.json'
         active_batch = read(batch_path)
         require(not set(active_batch['question_ids']) & set(accepted), 'Active batch repeats accepted question')
-        require(not parked & set(active_batch['question_ids']), 'Persistently rejected request scheduled beyond its unchanged-retry limit')
+        if policy:
+            require(all(rejections[qid] < provider_rejection_limit(manifest, qid, active_batch['round'])
+                        for qid in active_batch['question_ids']),
+                    'Persistently rejected request scheduled beyond its unchanged-retry limit')
         pending_retries = set(retries) - set(accepted) - parked
         require(pending_retries <= set(active_batch['question_ids']), 'Runtime retry missing from active selected queue')
     native = native_status(state, terminal)

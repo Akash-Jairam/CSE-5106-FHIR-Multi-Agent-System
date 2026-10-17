@@ -1,0 +1,18 @@
+{
+  "status": "RECORDED_RETRY_PROCESS_PIDS_ABSENT",
+  "observed_at_utc": "2026-10-17 16:05:05 UTC",
+  "pids": [
+    57961,
+    58084,
+    58085,
+    58093,
+    58094
+  ],
+  "command": "ps -o pid=,stat=,comm= -p 57961,58084,58085,58093,58094",
+  "exit_code": 1,
+  "output_empty": true,
+  "pid_sources": "Supervisor/active state and the two round32 worker diagnostic headers; no argument or environment inventory.",
+  "round32_incident_sha256": "d4eecb6babc9a6b8e2a2fe1ba34d0c707213213f951d42da85c23f73838fe3b6",
+  "no_process_signals_sent": true,
+  "scope": "These five recorded PIDs only; this is not a host-wide process audit."
+}

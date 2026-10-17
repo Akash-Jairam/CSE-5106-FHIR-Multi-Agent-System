@@ -1,0 +1,44 @@
+{
+  "status": "PRIVATE_CANDIDATE_TARGETED_VALIDATION_PASS",
+  "candidate_runner_sha256": "b1543ea655e005af6b14c280a0695b877084fc14f19024c569a4f70ebc583f4a",
+  "candidate_monitor_sha256": "1e091082d844fcabafb0e6a558d8b41634a26e2f476790b30b31c61033eba3dc",
+  "patch_sha256": "80404110d7a56077c880636aeaad37d7d4260cf5f2a741e93100e20be54f8305",
+  "test_source_sha256": "0eea1f77dee6e2b3359965ba0668ab2cab8977bd6136525c8a734e7f8bb981a6",
+  "test_log_sha256": "4b249ac6dfb1b40b6f0334c79e5d65f33f60ff969a766ea078840d4c2eac2a88",
+  "targeted_tests_passed": 9,
+  "changed_runner_definitions": [
+    "PROVIDER_REJECTION_POLICY",
+    "collect_accepted",
+    "persist_provider_rejections"
+  ],
+  "added_runner_definitions": [
+    "provider_rejection_limit"
+  ],
+  "removed_runner_definitions": [],
+  "changed_monitor_definitions": [
+    "replay",
+    "verify"
+  ],
+  "monitor_import_change": "adds provider_rejection_limit from scripts.v3_full_run",
+  "all_11_classifier_definitions_AST_identical": true,
+  "classifier_version_unchanged": "v3-infrastructure-v4",
+  "inference_fingerprint": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "generic_runtime_retry_code_unchanged": true,
+  "existing_first_clean_audit_identity_seal_and_accepted_rerun_guards_AST_unchanged": true,
+  "live_runner_monitor_and_manifest_unchanged": true,
+  "original_manifest_sha256": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+  "test_scope": [
+    "exact authorization policy/scope and named-question round31/32 boundary",
+    "current parking reconstructs/retains counts and excludes only named two atcount2",
+    "reviewed third clean at32 accepted while prior clean choice remainsround3",
+    "third clean before32/nonreviewed at32 refused",
+    "third rejection retained and fourth clean refused",
+    "third clean accepted cannot be rerun",
+    "monitor replay and active round31 refusal/round32 allowance"
+  ],
+  "limitations": [
+    "Tests are metadata fixtures with mocked classifier and audit/identity/native boundaries, not live inference, provider or full historical replay.",
+    "Classifier AST equality proves this patch makes no classifier-semantic change; it does not reclassify clinical content or score answers."
+  ],
+  "no_provider_config_inference_scoring_or_live_mutations": true
+}

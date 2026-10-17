@@ -1,11 +1,19 @@
 Matched Single Agent benchmark: evidence navigation
 
-The authorized 2,931-question Single Agent baseline stopped incomplete at
-2026-10-17 13:52:28 UTC: 2,929 runtime-clean outcomes are accepted and two
-provider-rejected questions remain pending review. No inference jobs remain
+The authorized 2,931-question Single Agent baseline stopped incomplete again at
+2026-10-17 15:59:35 UTC after the user's reviewed additional retry: 2,929
+runtime-clean outcomes are accepted and two provider-rejected questions remain
+pending, with three rejections each. No inference jobs remain
 active. V3's complete result is unchanged. Direct LLM remains deferred; the
 original three-arm benchmark is incomplete. Do not evaluate partial baseline
 accuracy or describe this selected arm as complete.
+
+reviewed_provider_retry/ records the user's new authorization, V3 comparison,
+operational amendment 0005, reviewed source, preserved prefix and the actual
+round32 outcome. The latest ledger has 2,984 raw attempts and 55 discarded
+runtime attempts. Both new tasks made a successful call before their rejected
+call; they must not be described as zero-usage tasks. Their entire task time/cost
+stays excluded from primary metrics. No fourth retry is scheduled automatically.
 
 The scheduled monitoring heartbeat is paused because inference has stopped and
 the remaining cases require external provider review. monitor_pause_receipt.json
@@ -16,7 +24,7 @@ Saved checkpoint: sealed_round30_first_clean_validation.json records 2,859 of
 2,931 first-clean outcomes. This is a historical checkpoint, not live progress
 or a completion claim. Later sealed proofs may supersede this checkpoint.
 The final 70-question round is reconciled in runtime_metadata_round31/.
-terminal_attention_capture/ preserves the actual incomplete stop, independent
+terminal_attention_capture/ preserves the earlier 13:52:28 incomplete stop, independent
 native absence, stable source/file bindings and the unchanged monitor's exact
 attention refusal. That refusal is not a successful completion-verifier receipt.
 
@@ -55,11 +63,14 @@ Execution and recovery evidence:
   replay, bounded unchanged-request recovery and validation sources.
 - runtime_metadata_round*/: safe boundary records of exclusions and recoveries.
 - terminal_attention_capture/: reviewed metadata capture and independent QA of
-  the incomplete 2,929-outcome stop; all full-cohort analysis gates remain closed.
+  the earlier incomplete 2,929-outcome stop; all full-cohort gates remain closed.
+- reviewed_provider_retry/: subsequent human-authorized unchanged retry and
+  latest terminal metadata; the two further provider rejections remain pending.
 - transport_health_round23/: timeout-gap and same-client recovery evidence,
   with live snapshot versus post-seal journal bindings and explicit limits.
 - provider_review_packet/: safe provider-review metadata for parked requests.
-  Provider rejection remains pending, never an incorrect benchmark answer.
+  Its four original request IDs are historical; the two later events are in
+  reviewed_provider_retry/. Rejection remains pending, never an incorrect answer.
 
 Interim measurement packages:
 - measurement_checkpoint_497/ and measurement_checkpoint_891/: accepted-only

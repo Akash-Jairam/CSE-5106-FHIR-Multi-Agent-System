@@ -79,7 +79,20 @@ clean single-agent selection. Only the observed unresolved provider rejection ma
 move from attention to runtime. The paired exporter records this transition
 explicitly; it must not claim classifier semantics stayed unchanged.
 
+17 October 2026 reviewed retry addendum: after the first incomplete stop, the
+user explicitly requested another try and comparison with V3. Answer-blind review
+confirmed that both questions completed in V3 without the same provider error.
+Amendment 0005 supersedes the local two-rejection limit for these two question
+IDs from round32 only, allowing one additional unchanged provider-rejection
+retry. Historical rounds and other questions retain the limit of two. Generic
+infrastructure recovery and all first-clean/classifier/inference/measurement
+rules remain unchanged. The provider's safeguards were not modified. Both third
+tasks were again rejected after a successful call; no clean outcome was produced.
+They remain pending at three rejections each, with no automatic fourth request.
+See reviewed_provider_retry/ for the reviewed sources, receipts and limitations.
+
 Measurements and final analysis
+
 Save per-question predictions/references, patient/question/family/template
 identities, limitations, evidence, source-check and revision diagnostics,
 accepted invocation latency, token and cached-token usage, tool/phase counts,

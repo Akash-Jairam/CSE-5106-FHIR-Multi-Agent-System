@@ -30,8 +30,10 @@ from scripts.audit_store import restore_result_audit, ARTIFACT_PATTERN
 ARMS = {"direct_llm": "direct_llm", "single_agent": "single_agent", "multi_agent": "multi_agent_v3"}
 CLASSIFIER_VERSION = "v3-infrastructure-v4"
 PROVIDER_REJECTION_POLICY = {
-    "version": "azure-prompt-rejection-v1", "category": "provider_policy_rejection",
-    "max_rejections_per_question": 2, "retry_request": "unchanged",
+    "version": "azure-prompt-rejection-v2-reviewed-retry", "category": "provider_policy_rejection",
+    "max_rejections_per_question": 3, "prior_max_rejections_per_question": 2,
+    "reviewed_question_ids": ["05a8454a6a71435a557db2cc", "0eb69f6e47ab63c055e2df90"],
+    "first_reviewed_round": 32, "retry_request": "unchanged",
     "persistent_action": "park_pending_then_attention", "scope": ["single_agent"]}
 SDK_ERROR_PREFIX = "Max retries exceeded: Error code: 400 - "
 MAX_ERROR_CHARS = 8192
@@ -386,6 +388,18 @@ def classifier_for_manifest(manifest, classifier=classify_attempt):
     return classifier
 
 
+
+def provider_rejection_limit(manifest, question_id, round_number=None):
+    """Apply the reviewed exception only to named questions after its boundary."""
+    policy = manifest.get("provider_rejection_policy")
+    if policy != PROVIDER_REJECTION_POLICY or manifest.get("selected_arms") != ["single_agent"]:
+        raise ValueError("Selected provider-rejection policy is absent, invalid, or outside its approved scope")
+    if (question_id in policy["reviewed_question_ids"]
+            and (round_number is None or round_number >= policy["first_reviewed_round"])):
+        return policy["max_rejections_per_question"]
+    return policy["prior_max_rejections_per_question"]
+
+
 def collect_accepted(directory, manifest, patients, classifier=classify_attempt, arms=None, provider_rejections=None):
     """Rebuild accepted rows only from sealed immutable batches in execution order."""
     import run_agent
@@ -411,7 +425,7 @@ def collect_accepted(directory, manifest, patients, classifier=classify_attempt,
                     or sealed.get("result_sha256") != (file_sha256(output) if output.exists() else None)):
                 raise ValueError("Sealed attempt batch changed")
             if "provider_rejection_policy" in manifest and any(
-                    provider_rejections[arm].get(qid, 0) >= manifest["provider_rejection_policy"]["max_rejections_per_question"]
+                    provider_rejections[arm].get(qid, 0) >= provider_rejection_limit(manifest, qid, batch["round"])
                     for qid in batch["question_ids"]):
                 raise ValueError("Selected provider-rejection policy forbids scheduling a parked question")
             if not output.exists():
@@ -493,9 +507,8 @@ def execution_arms(manifest, only_arms=None, resume=False):
 
 def persist_provider_rejections(directory, manifest, accepted, rejections, arms):
     """Derived operational state; immutable sealed attempts remain authoritative."""
-    limit = manifest["provider_rejection_policy"]["max_rejections_per_question"]
     parked = {arm: {qid for qid, count in rejections[arm].items()
-                    if count >= limit and qid not in accepted[arm]} for arm in arms}
+                    if count >= provider_rejection_limit(manifest, qid) and qid not in accepted[arm]} for arm in arms}
     document = {"version": 1, "classifier_version": CLASSIFIER_VERSION,
                 "policy": manifest["provider_rejection_policy"], "updated_at": utc_now(),
                 "source": "reconstructed_from_sealed_immutable_attempts",

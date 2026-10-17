@@ -1,5 +1,18 @@
 COMPLETE-COHORT V3 + SINGLE AGENT ANALYSIS
 
+Current 17 October status: a human-reviewed unchanged retry under amendment
+0005 again ended incomplete at 2,929 outcomes. Both questions remain pending at
+three provider rejections. No full analysis or complete cache audit may run.
+The commands below retain the earlier 0003/0004 lineage. The separately validated
+0005 exporter in reviewed_provider_retry/export_preparation/ is preparation only,
+not applied to the live exporter. It adds --reviewed-provider-retry-amendment-dir
+and exact historical-prefix/authorization pins; do not weaken the live gates.
+reviewed_provider_retry/final_cache_audit/ contains the companion four helpers
+with only the reviewed monitor SHA updated. Its actual complete audit has not run.
+Any future recovery must be reviewed against its own final source/manifest pins
+before these full-cohort commands become executable. Historical cap2 remains;
+only the two explicitly reviewed IDs at round32 or later had a cap3 exception.
+
 Do not evaluate partial baseline answers. The additive exporter refuses to
 import the scorer/analyzer until both exact 2,931-question first-clean cohorts,
 identities, immutable source attempts and audits validate. It also verifies
