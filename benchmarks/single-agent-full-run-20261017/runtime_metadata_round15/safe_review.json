@@ -1,0 +1,93 @@
+{
+  "status": "SEALED_ROUND15_METADATA_RECONCILED",
+  "captured_at_utc": "2026-10-17T09:20:18.881392+00:00",
+  "scope": "IMMUTABLE_ROUND15_RUNTIME_AND_ROUND14_RECOVERY",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 15,
+  "saved_classifications": {
+    "accepted": 100
+  },
+  "runtime_attempts": [],
+  "provider_policy_rejection_count_in_captured_round15": 0,
+  "round14_runtime_recoveries": [
+    {
+      "question_id": "661a2833119e979de4228585",
+      "prior_sealed_attempts": [
+        {
+          "round": 14,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round15_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round15": true,
+      "selection_persistence": "Immutable sealed raw classification verified; adoption reported separately in final_recoveries."
+    }
+  ],
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "attempts/single_agent/round-0014.json": "4f1db3245777df3298e40d101702cc7fbb5d3ab9d527de7a9f135c5a5a48575f",
+    "attempts/single_agent/round-0014.batch.json": "0440d4187ba8757f468137b1f804dfe93467057466f912f5aef384df3fd48be1",
+    "attempts/single_agent/round-0014.batch.seal.json": "9d9f89e25d2dbb810938658fbd7359cc912e6b3244600da67b08f8efea2dce2f"
+  },
+  "round15_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0015.json",
+    "sha256": "1e76de180ac87e7abfc86c34546e6eefc43622ec87ad67ce0345535ebad18595",
+    "bytes": 31806874,
+    "sha256_at_review_end": "1e76de180ac87e7abfc86c34546e6eefc43622ec87ad67ce0345535ebad18595",
+    "live_checkpoint_may_advance_normally": true
+  },
+  "referenced_audit_hashes": {
+    "attempts/single_agent/audit/38513c0d4d53bce4100fa9b22e433e2fc1dd388c2f0348fdb6694fdcab9e5767.json.gz": {
+      "compressed_sha256": "23247ddf5dc6e50df71c169765f34b21cdce8d8c640b79ec3b22a3f4b973a108",
+      "uncompressed_sha256": "38513c0d4d53bce4100fa9b22e433e2fc1dd388c2f0348fdb6694fdcab9e5767"
+    },
+    "attempts/single_agent/audit/6487d8c36dca660f86a3a39002ec5540f5ee6cc78e2ce78380847d013992357c.json.gz": {
+      "compressed_sha256": "d248d9968c674086b18ebdbf48db403029ca2bfcc49312edc00bbc936fd60b01",
+      "uncompressed_sha256": "6487d8c36dca660f86a3a39002ec5540f5ee6cc78e2ce78380847d013992357c"
+    }
+  },
+  "no_clinical_raw_error_answer_reference_or_correctness_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true,
+  "reconciled_at_utc": "2026-10-17T09:20:44.669693+00:00",
+  "natural_seal": {
+    "batch_sha256": "2b426b950e1993ae562217999db4e8d590aefc8d273b4672df6b91bbe7aa8a01",
+    "seal_sha256": "a11a278d4f565accd995ae82a2c2b6722504b4e8a83beb3a7143d8e981248dd6",
+    "result_sha256": "1e76de180ac87e7abfc86c34546e6eefc43622ec87ad67ce0345535ebad18595",
+    "identity_sha256": "ad4bd94a379ed47b6e1d57dee7c217f4f02921dfabff8d7644c622bb7f2d2be5",
+    "shard_input_sha256": "c705cf468acf19e8c0f5a234f8b7d63f326956ce75d5e1b20aa3db2d7cbc39c1",
+    "frozen_identity_matches": true,
+    "question_count": 100
+  },
+  "final_recoveries": [
+    {
+      "question_id": "661a2833119e979de4228585",
+      "first_clean_in_sealed_round15": true,
+      "ledger_adopted": true,
+      "selection_metadata_only": {
+        "attempt_file": "attempts/single_agent/round-0015.json",
+        "round": 15,
+        "runtime_failures_before": 1,
+        "selection": "runtime_clean_terminal",
+        "runtime_clean": true
+      }
+    }
+  ],
+  "acceptance_ledger_observation": {
+    "at_utc": "2026-10-17T09:20:44.669693+00:00",
+    "accepted_snapshot_sha256": "5813873e32208568581157e22ceb0916c9f33498eeb7244b157f2cbf01bdb7ea",
+    "sealed_clean_count": 100,
+    "clean_adopted_count": 100,
+    "prior_round14_recovery_adopted_count": 1,
+    "ledger_transition_complete": true
+  },
+  "all_sealed_runtime_attempts_excluded_from_ledger": true,
+  "review_code_sha256": "be11a5139af3784018137060b25a7b8eaa812c29c4e8fa6669f5e3e9fe2cbb74",
+  "classification_review_code_sha256": "08289990cf1c6b506a4af8ea111ba97e808186dfae4c6492f96f2883a3e4b25b"
+}
