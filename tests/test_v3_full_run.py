@@ -345,6 +345,217 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(accepted["multi_agent"], {})
         self.assertEqual(len(attention), 2)
 
+    def prepare_selected_resume(self):
+        path, batch = runner.create_batch(self.directory, "multi_agent", set(self.patients), self.manifest, 1)
+        self.write_batch_results(batch)
+        runner.seal_batch(path, 0, "fixture")
+        accepted, choices, _, _, counts = runner.collect_accepted(self.directory, self.manifest, self.patients)
+        runner.save_accepted(self.directory, self.manifest, accepted, choices, counts)
+        self.manifest["selected_arms"] = ["single_agent"]
+        runner.atomic_json(self.directory / "run_manifest.json", self.manifest)
+        runner.atomic_json(self.directory / "supervisor_state.json", {
+            "supervisor_pid": 0, "started_at": "2026-10-16T04:16:57+00:00",
+            "phase": "attention", "active": {}, "issues": [{"arm": "direct_llm"}]})
+
+    def parked_evidence(self):
+        files = {name: (self.directory / name).read_bytes() for arm in ("multi_agent", "direct_llm")
+                 for name in (f"full_{arm}.json", f"full_{arm}.json.run.json")}
+        ledger = json.loads((self.directory / "acceptance.json").read_text())
+        slices = {section: {arm: ledger[section][arm] for arm in ("multi_agent", "direct_llm")}
+                  for section in ("arms", "counts")}
+        return files, slices
+
+    def selected_run(self, launch, **kwargs):
+        with patch.object(runner, "validate_manifest"), patch.object(runner.shutil, "which", return_value=None), \
+             patch.object(runner.subprocess, "Popen", side_effect=launch), patch.object(runner.time, "sleep"):
+            return runner.run_supervisor(self.directory, self.manifest, self.patients, resume=True,
+                                         only_arms=["single_agent"], **kwargs)
+
+    def test_selected_scope_requires_exact_pin_explicit_flag_and_resume(self):
+        self.assertEqual(runner.execution_arms(self.manifest), tuple(runner.ARMS))
+        for pin, flags, resume in ((None, ["single_agent"], True), (["single_agent"], None, True),
+                                   (["single_agent"], ["single_agent"], False),
+                                   (["single_agent", "direct_llm"], ["single_agent"], True),
+                                   (["single_agent"], ["single_agent", "single_agent"], True),
+                                   (["direct_llm"], ["direct_llm"], True), ([], None, True)):
+            value = deepcopy(self.manifest)
+            if pin is not None:
+                value["selected_arms"] = pin
+            with self.subTest(pin=pin, flags=flags, resume=resume), self.assertRaisesRegex(ValueError, "Selected arms"):
+                runner.execution_arms(value, flags, resume)
+        for command in ("plan", "run", "status"):
+            with self.subTest(command=command), patch.object(runner, "manifest_for") as make, \
+                 self.assertRaisesRegex(ValueError, "only for resume"):
+                runner.main([command, "--run-dir", str(self.directory), "--only-arm", "single_agent"])
+            make.assert_not_called()
+        self.manifest["selected_arms"] = ["single_agent"]
+        runner.atomic_json(self.directory / "run_manifest.json", self.manifest)
+        original = {path.name: path.read_bytes() for path in self.directory.iterdir() if path.is_file()}
+        with patch.object(runner, "validate_manifest") as validate, patch.object(runner, "run_supervisor") as run, \
+             self.assertRaisesRegex(ValueError, "Selected arms"):
+            runner.main(["resume", "--run-dir", str(self.directory)])
+        validate.assert_not_called()
+        run.assert_not_called()
+        self.assertEqual(original, {path.name: path.read_bytes() for path in self.directory.iterdir() if path.is_file()})
+
+    def test_selected_resume_reuses_clean_wrong_ignores_deferred_attention_and_stops(self):
+        self.prepare_selected_resume()
+        # A sealed deferred attention row must remain unclassified, and an
+        # unrelated unsealed batch must remain unsealed during scoped recovery.
+        direct_path, direct = runner.create_batch(self.directory, "direct_llm", set(self.patients), self.manifest, 1)
+        self.write_batch_results(direct)
+        values = json.loads(Path(direct["output"]).read_text())
+        values[0]["error"] = "Unknown provider rejection"
+        runner.atomic_json(direct["output"], values)
+        runner.seal_batch(direct_path, 0, "fixture_attention")
+        unsealed, _ = runner.create_batch(self.directory, "direct_llm", {"q0"}, self.manifest, 2)
+        single_path, single = runner.create_batch(self.directory, "single_agent", set(self.patients), self.manifest, 1)
+        self.write_batch_results(single, runtime=True)
+        original_raw = Path(single["output"]).read_bytes()
+        parked = self.parked_evidence()
+        launches = []
+        class Child:
+            returncode = 0
+            pid = 999999
+            def poll(self):
+                return 0
+            def wait(self, timeout=None):
+                return 0
+        def launch(command, **kwargs):
+            strategy = command[command.index("--agent_strategy") + 1]
+            self.assertEqual(strategy, "single_agent")
+            batch = json.loads(Path(command[command.index("--output") + 1]).with_suffix(".batch.json").read_text())
+            launches.append(batch["question_ids"])
+            self.write_batch_results(batch)
+            return Child()
+        self.assertEqual(self.selected_run(launch), 0)
+        self.assertEqual(launches, [["q0"]])
+        self.assertEqual(self.parked_evidence(), parked)
+        self.assertFalse(unsealed.with_suffix(".seal.json").exists())
+        self.assertTrue(single_path.with_suffix(".seal.json").exists())
+        self.assertEqual(Path(single["output"]).read_bytes(), original_raw)
+        ledger = json.loads((self.directory / "acceptance.json").read_text())
+        self.assertFalse(ledger["complete"])
+        self.assertEqual(ledger["arms"]["single_agent"]["q1"]["round"], 1)
+        self.assertEqual(ledger["arms"]["single_agent"]["q0"]["round"], 2)
+        self.assertEqual(ledger["counts"]["single_agent"]["runtime_failures"], 1)
+        self.assertEqual({value["agent_answer"] for value in json.loads((self.directory / "full_single_agent.json").read_text())}, {"wrong"})
+        state = json.loads((self.directory / "supervisor_state.json").read_text())
+        self.assertEqual(state["phase"], "complete_selected_arms")
+        self.assertEqual(state["selected_arms"], ["single_agent"])
+        self.assertEqual(state["accepted"], {"multi_agent": 2, "single_agent": 2, "direct_llm": 0})
+        self.assertTrue(state["selected_scope_complete"])
+        self.assertTrue(state["pending_scoped_export"])
+        self.assertFalse(state["benchmark_complete"])
+        self.assertEqual(state["analysis_status"], "pending_scoped_export")
+        self.assertNotIn("analysis_return_code", state)
+        self.assertEqual(state["started_at"], "2026-10-16T04:16:57+00:00")
+        self.assertFalse((self.directory / "analysis.log").exists())
+        # Repeating a completed selected resume cannot launch anything, and
+        # keeps the original selected wall-time origin for operational analysis.
+        with patch.object(runner.subprocess, "Popen") as child:
+            self.assertEqual(self.selected_run(child), 0)
+        child.assert_not_called()
+        after = json.loads((self.directory / "supervisor_state.json").read_text())
+        self.assertEqual(after["scope_started_at"], state["scope_started_at"])
+        self.assertEqual(self.parked_evidence(), parked)
+
+    def test_selected_resume_rejects_incomplete_or_changed_v3_before_launch_or_recovery(self):
+        self.prepare_selected_resume()
+        unsealed, _ = runner.create_batch(self.directory, "single_agent", {"q0"}, self.manifest, 1)
+        original = (self.directory / "full_multi_agent.json").read_bytes()
+        cases = ([], [dict(row(), patient_fhir_id="other"), dict(row(), question_id="q1", patient_fhir_id="p1")])
+        for records in cases:
+            runner.atomic_json(self.directory / "full_multi_agent.json", records)
+            with self.subTest(records=records), patch.object(runner.subprocess, "Popen") as child:
+                self.assertEqual(self.selected_run(child), 2)
+            child.assert_not_called()
+            self.assertFalse(unsealed.with_suffix(".seal.json").exists())
+        (self.directory / "full_multi_agent.json").write_bytes(original)
+        runner.atomic_json(self.directory / "full_multi_agent.json.run.json", {"different": True})
+        with patch.object(runner.subprocess, "Popen") as child:
+            self.assertEqual(self.selected_run(child), 2)
+        child.assert_not_called()
+        self.assertFalse(unsealed.with_suffix(".seal.json").exists())
+
+    def test_selected_retry_limit_and_unknown_attention_never_launch_or_change_parked_arms(self):
+        for failure in ("APIConnectionError", "Unknown provider rejection"):
+            with self.subTest(failure=failure):
+                # Each case uses a fresh fixture so a prior terminal decision
+                # cannot affect the second branch of the guard.
+                fixture = SupervisorTests()
+                fixture.setUp()
+                try:
+                    fixture.prepare_selected_resume()
+                    fixture.manifest["settings"]["max_runtime_retries"] = 0
+                    runner.atomic_json(fixture.directory / "run_manifest.json", fixture.manifest)
+                    path, batch = runner.create_batch(fixture.directory, "single_agent", set(fixture.patients), fixture.manifest, 1)
+                    fixture.write_batch_results(batch)
+                    records = json.loads(Path(batch["output"]).read_text())
+                    records[0]["error"] = failure
+                    runner.atomic_json(batch["output"], records)
+                    runner.seal_batch(path, 0, "fixture_failure")
+                    parked = fixture.parked_evidence()
+                    with patch.object(runner.subprocess, "Popen") as child:
+                        self.assertEqual(fixture.selected_run(child), 2)
+                    child.assert_not_called()
+                    self.assertEqual(fixture.parked_evidence(), parked)
+                    state = json.loads((fixture.directory / "supervisor_state.json").read_text())
+                    self.assertEqual(state["reason"], "runtime_retry_limit" if failure == "APIConnectionError" else "unclassified_or_invalid_attempt")
+                    self.assertFalse(state["selected_scope_complete"])
+                    ledger = json.loads((fixture.directory / "acceptance.json").read_text())
+                    self.assertEqual(set(ledger["arms"]["single_agent"]), {"q1"})
+                    self.assertFalse(ledger["complete"])
+                finally:
+                    fixture.doCleanups()
+
+    def test_selected_completed_question_rerun_remains_rejected(self):
+        self.prepare_selected_resume()
+        for number in (1, 2):
+            path, batch = runner.create_batch(self.directory, "single_agent", {"q0"}, self.manifest, number)
+            self.write_batch_results(batch)
+            runner.seal_batch(path, 0, "fixture")
+        parked = self.parked_evidence()
+        with patch.object(runner.subprocess, "Popen") as child:
+            self.assertEqual(self.selected_run(child), 2)
+        child.assert_not_called()
+        self.assertEqual(self.parked_evidence(), parked)
+        state = json.loads((self.directory / "supervisor_state.json").read_text())
+        self.assertIn("Completed accepted question was rerun", state["safe_message"])
+
+    def test_selected_new_attention_batch_persists_its_clean_rows_before_stopping(self):
+        self.prepare_selected_resume()
+        parked = self.parked_evidence()
+        launches = []
+        class Child:
+            returncode = 0
+            pid = 999999
+            def poll(self):
+                return 0
+            def wait(self, timeout=None):
+                return 0
+        def launch(command, **kwargs):
+            self.assertEqual(command[command.index("--agent_strategy") + 1], "single_agent")
+            output = Path(command[command.index("--output") + 1])
+            batch = json.loads(output.with_suffix(".batch.json").read_text())
+            self.write_batch_results(batch)
+            records = json.loads(output.read_text())
+            records[0]["error"] = "Unknown provider rejection"
+            runner.atomic_json(output, records)
+            launches.append(batch["question_ids"])
+            return Child()
+        self.assertEqual(self.selected_run(launch), 2)
+        self.assertEqual(launches, [["q0", "q1"]])
+        self.assertEqual(self.parked_evidence(), parked)
+        ledger = json.loads((self.directory / "acceptance.json").read_text())
+        self.assertEqual(set(ledger["arms"]["single_agent"]), {"q1"})
+        self.assertFalse(ledger["complete"])
+        state = json.loads((self.directory / "supervisor_state.json").read_text())
+        self.assertEqual(state["reason"], "unclassified_or_invalid_attempt")
+        self.assertEqual(state["accepted"]["single_agent"], 1)
+        self.assertEqual(state["counts"]["single_agent"]["raw_attempts"], 2)
+        self.assertFalse(state["selected_scope_complete"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -331,12 +331,12 @@ def attempt_rounds(directory, arm):
     return sorted(root.glob("round-*.batch.json"), key=lambda path: int(path.name.split("-")[1].split(".")[0]))
 
 
-def collect_accepted(directory, manifest, patients, classifier=classify_attempt):
+def collect_accepted(directory, manifest, patients, classifier=classify_attempt, arms=None):
     """Rebuild accepted rows only from sealed immutable batches in execution order."""
     import run_agent
     accepted, choices, retries, attention = {arm: {} for arm in ARMS}, {arm: {} for arm in ARMS}, {arm: {} for arm in ARMS}, []
     counts = {arm: {"raw_attempts": 0, "runtime_failures": 0, "intrinsic_errors": 0} for arm in ARMS}
-    for arm in ARMS:
+    for arm in ARMS if arms is None else arms:
         for batch_path in attempt_rounds(directory, arm):
             batch = json.loads(batch_path.read_text())
             seal = batch_path.with_suffix(".seal.json")
@@ -385,15 +385,76 @@ def collect_accepted(directory, manifest, patients, classifier=classify_attempt)
     return accepted, choices, retries, attention, counts
 
 
-def save_accepted(directory, manifest, accepted, choices, counts):
-    for arm, indexed in accepted.items():
+def save_accepted(directory, manifest, accepted, choices, counts, arms=None, cohort=None):
+    if arms is None:
+        ledger = {"version": 1, "protocol": manifest["protocol"],
+                  "selection": "first_runtime_clean_terminal", "counts": counts, "arms": choices}
+    else:
+        # A scoped resume owns only these slices. In particular, replaying a
+        # deferred arm must never discard its attention or overwrite its results.
+        if cohort is None:
+            raise ValueError("Selected persistence requires the original question cohort")
+        ledger = read_acceptance(directory, manifest)
+        for arm in arms:
+            ledger["counts"][arm], ledger["arms"][arm] = counts[arm], choices[arm]
+    for arm in accepted if arms is None else arms:
+        indexed = accepted[arm]
         atomic_json(directory / f"full_{arm}.json", [indexed[qid] for qid in sorted(indexed)])
         # The identity binds the authoritative complete cohort. Raw shard identities
         # remain untouched and the manifest explicitly records this consolidation.
         atomic_json(directory / f"full_{arm}.json.run.json", manifest["run_identities"][arm])
-    atomic_json(directory / "acceptance.json", {"version": 1, "protocol": manifest["protocol"],
-                "selection": "first_runtime_clean_terminal", "complete": all(len(rows) == manifest["questions_per_arm"] for rows in accepted.values()),
-                "counts": counts, "arms": choices})
+    if arms is None:
+        ledger["complete"] = all(len(rows) == manifest["questions_per_arm"] for rows in accepted.values())
+    else:
+        ledger["complete"] = all(set(ledger["arms"][arm]) == set(cohort) for arm in ARMS)
+    atomic_json(directory / "acceptance.json", ledger)
+
+
+def execution_arms(manifest, only_arms=None, resume=False):
+    """Require both an explicit request and a matching frozen scheduling scope."""
+    pinned = manifest.get("selected_arms")
+    if pinned is None and only_arms is None:
+        return tuple(ARMS)
+    if not resume or pinned != ["single_agent"] or only_arms != ["single_agent"]:
+        raise ValueError("Selected arms require resume with --only-arm single_agent and an identical manifest pin")
+    return ("single_agent",)
+
+
+def read_acceptance(directory, manifest):
+    ledger = json.loads((directory / "acceptance.json").read_text())
+    if (ledger.get("version") != 1 or ledger.get("protocol") != manifest["protocol"]
+            or ledger.get("selection") != "first_runtime_clean_terminal"
+            or not isinstance(ledger.get("arms"), dict) or set(ledger["arms"]) != set(ARMS)
+            or not isinstance(ledger.get("counts"), dict) or set(ledger["counts"]) != set(ARMS)
+            or any(not isinstance(ledger[section][arm], dict) for section in ("arms", "counts") for arm in ARMS)):
+        raise ValueError("Selected resume requires the original three-arm acceptance ledger")
+    return ledger
+
+
+def validate_completed_v3(directory, manifest, patients):
+    """Read-only prerequisite for scheduling the separately requested baseline."""
+    ledger = read_acceptance(directory, manifest)
+    cohort = set(patients)
+    if (len(cohort) != manifest["questions_per_arm"]
+            or set(ledger["arms"]["multi_agent"]) != cohort
+            or any(not set(ledger["arms"][arm]).issubset(cohort) for arm in ARMS)):
+        raise ValueError("Selected resume requires the exact completed V3 cohort")
+    identity_path = directory / "full_multi_agent.json.run.json"
+    if json.loads(identity_path.read_text()) != manifest["run_identities"]["multi_agent"]:
+        raise ValueError("Selected resume requires the original completed V3 identity")
+    seen = set()
+    for row in iter_result_rows(directory / "full_multi_agent.json"):
+        qid = row.get("question_id")
+        if qid not in cohort or qid in seen or row.get("patient_fhir_id") != patients[qid] or row.get("attempt_history"):
+            raise ValueError("Selected resume requires unchanged completed V3 question/patient identities")
+        choice = ledger["arms"]["multi_agent"][qid]
+        if (not isinstance(choice, dict) or choice.get("runtime_clean") is not True
+                or choice.get("selection") not in {"runtime_clean_terminal", "intrinsic_terminal_error"}):
+            raise ValueError("Selected resume requires runtime-clean completed V3 selections")
+        seen.add(qid)
+    if seen != cohort:
+        raise ValueError("Selected resume requires the exact completed V3 canonical cohort")
+    return ledger
 
 
 def create_batch(directory, arm, pending, manifest, number):
@@ -434,7 +495,7 @@ def seal_batch(batch_path, return_code, reason):
                       "return_code": return_code, "reason": reason})
 
 
-def recover_unsealed(directory):
+def recover_unsealed(directory, arms=None):
     """A prior interrupted supervisor must have no surviving owned children."""
     state_file = directory / "supervisor_state.json"
     prior = json.loads(state_file.read_text()) if state_file.exists() else {}
@@ -443,7 +504,7 @@ def recover_unsealed(directory):
     for detail in prior.get("active", {}).values():
         if process_alive(detail.get("pid")):
             raise ValueError("Prior owned child is still running; inspect before resuming")
-    for arm in ARMS:
+    for arm in ARMS if arms is None else arms:
         for batch_path in attempt_rounds(directory, arm):
             seal_batch(batch_path, None, "recovered_after_interruption")
 
@@ -458,7 +519,8 @@ def stop_signal(signum, frame):
 
 def compact_state(state):
     return {key: state.get(key) for key in ("phase", "heartbeat_at", "supervisor_pid", "started_at", "resumed_at", "finished_at",
-            "questions_per_arm", "accepted", "counts", "active", "attention", "reason", "safe_message", "analysis_return_code")}
+            "questions_per_arm", "accepted", "counts", "active", "attention", "reason", "safe_message", "analysis_return_code",
+            "selected_arms", "scope_started_at", "selected_scope_complete", "benchmark_complete", "pending_scoped_export", "analysis_status")}
 
 
 def eligible_arms(accepted, count):
@@ -466,7 +528,9 @@ def eligible_arms(accepted, count):
     return ("multi_agent",) if len(accepted["multi_agent"]) < count else ("single_agent", "direct_llm")
 
 
-def run_supervisor(directory, manifest, patients, resume=False, classifier=classify_attempt):
+def run_supervisor(directory, manifest, patients, resume=False, classifier=classify_attempt, only_arms=None):
+    arms = execution_arms(manifest, only_arms, resume)
+    selected = only_arms is not None
     settings = manifest["settings"]
     lock = (directory / ".supervisor.lock").open("a")
     try:
@@ -482,21 +546,30 @@ def run_supervisor(directory, manifest, patients, resume=False, classifier=class
              "phase": "starting", "questions_per_arm": len(patients), "active": {}, "attention": False}
     if resume:
         state["resumed_at"] = utc_now()
+    if selected:
+        state.update(selected_arms=list(arms), selected_scope_complete=False, benchmark_complete=False,
+                     pending_scoped_export=False, analysis_status="not_started",
+                     scope_started_at=(prior_state.get("scope_started_at") if prior_state.get("selected_arms") == list(arms) else None) or utc_now())
     manifest_hash = file_sha256(directory / "run_manifest.json")
     handlers = {sig: signal.signal(sig, stop_signal) for sig in (signal.SIGINT, signal.SIGTERM)}
     try:
         validate_manifest(manifest, directory)
+        retained = validate_completed_v3(directory, manifest, patients) if selected else None
         if resume:
-            recover_unsealed(directory)
-        accepted, choices, retries, attention, counts = collect_accepted(directory, manifest, patients, classifier)
+            recover_unsealed(directory, arms if selected else None)
+        accepted, choices, retries, attention, counts = collect_accepted(directory, manifest, patients, classifier, arms if selected else None)
+        if selected:
+            # Recover saved clean results before scheduling any retry. Deferred
+            # canonical files, identities, ledger entries and counts stay intact.
+            save_accepted(directory, manifest, accepted, choices, counts, arms, patients)
         executable = shutil.which("caffeinate")
         if executable:
             awake = subprocess.Popen([executable, "-i", "-w", str(os.getpid())], stdout=subprocess.DEVNULL,
                                      stderr=subprocess.DEVNULL, start_new_session=True)
             state["keep_awake_pid"] = awake.pid
-        event(directory, "supervisor_started", pid=os.getpid(), resumed=resume)
-        next_launch = {arm: 0 for arm in ARMS}
-        no_progress_rounds = {arm: 0 for arm in ARMS}
+        event(directory, "supervisor_started", pid=os.getpid(), resumed=resume, **({"selected_arms": list(arms)} if selected else {}))
+        next_launch = {arm: 0 for arm in arms}
+        no_progress_rounds = {arm: 0 for arm in arms}
         prior_counts = {arm: len(rows) for arm, rows in accepted.items()}
         while True:
             validate_manifest(manifest, directory)
@@ -536,20 +609,27 @@ def run_supervisor(directory, manifest, patients, resume=False, classifier=class
                     finished.append(arm)
                     next_launch[arm] = time.monotonic() + settings["retry_delay_seconds"]
             if finished:
-                accepted, choices, retries, attention, counts = collect_accepted(directory, manifest, patients, classifier)
+                accepted, choices, retries, attention, counts = collect_accepted(directory, manifest, patients, classifier, arms if selected else None)
                 for arm in finished:
                     no_progress_rounds[arm] = no_progress_rounds[arm] + 1 if len(accepted[arm]) == prior_counts[arm] else 0
                     prior_counts[arm] = len(accepted[arm])
+                if selected:
+                    save_accepted(directory, manifest, accepted, choices, counts, arms, patients)
+            if selected:
+                # Even an attention boundary reports and retains the clean
+                # rows sealed alongside the infrastructure/unknown failure.
+                state.update(accepted={arm: len(accepted[arm]) if arm in arms else len(retained["arms"][arm]) for arm in ARMS},
+                             counts={arm: counts[arm] if arm in arms else retained["counts"][arm] for arm in ARMS})
             if attention:
                 state.update(phase="attention", attention=True, reason="unclassified_or_invalid_attempt", issues=attention)
                 break
             exhausted = [{"arm": arm, "question_id": qid, "runtime_attempts": count}
-                         for arm, indexed in retries.items() for qid, count in indexed.items()
+                         for arm in arms for qid, count in retries[arm].items()
                          if count > settings["max_runtime_retries"] and qid not in accepted[arm]]
             if exhausted:
                 state.update(phase="attention", attention=True, reason="runtime_retry_limit", issues=exhausted)
                 break
-            for arm in eligible_arms(accepted, len(patients)):
+            for arm in arms if selected else eligible_arms(accepted, len(patients)):
                 if arm in children or len(accepted[arm]) == len(patients) or time.monotonic() < next_launch[arm]:
                     continue
                 # Repeated pre-result process failures are bounded separately from
@@ -570,16 +650,22 @@ def run_supervisor(directory, manifest, patients, resume=False, classifier=class
                 logs[arm], batches[arm] = log, (batch_path, batch)
                 progress[arm] = {"stamp": None, "monotonic": time.monotonic(), "checkpointed": 0}
                 event(directory, "batch_started", arm=arm, round=number, questions=len(pending), pid=children[arm].pid)
-            state.update(heartbeat_at=utc_now(), accepted={arm: len(rows) for arm, rows in accepted.items()}, counts=counts,
+            state.update(heartbeat_at=utc_now(),
+                         accepted={arm: len(accepted[arm]) if not selected or arm in arms else len(retained["arms"][arm]) for arm in ARMS},
+                         counts={arm: counts[arm] if not selected or arm in arms else retained["counts"][arm] for arm in ARMS},
                          active={arm: {"pid": child.pid, "round": batches[arm][1]["round"],
                                        "checkpointed_in_batch": progress[arm].get("checkpointed", 0),
                                        "seconds_since_checkpoint": round(time.monotonic() - progress[arm]["monotonic"])}
                                  for arm, child in children.items()})
-            if finished or not (directory / "acceptance.json").exists():
-                save_accepted(directory, manifest, accepted, choices, counts)
+            if (finished and not selected) or not (directory / "acceptance.json").exists():
+                save_accepted(directory, manifest, accepted, choices, counts, arms if selected else None, patients if selected else None)
             if state["attention"]:
                 break
-            if all(len(rows) == len(patients) for rows in accepted.values()):
+            if selected and all(set(accepted[arm]) == set(patients) for arm in arms):
+                state.update(phase="complete_selected_arms", selected_scope_complete=True, benchmark_complete=False,
+                             pending_scoped_export=True, analysis_status="pending_scoped_export", finished_at=utc_now())
+                break
+            if not selected and all(len(rows) == len(patients) for rows in accepted.values()):
                 state["phase"] = "analyzing"
                 atomic_json(directory / "supervisor_state.json", state)
                 with (directory / "analysis.log").open("a", encoding="utf-8") as analysis_log:
@@ -607,7 +693,7 @@ def run_supervisor(directory, manifest, patients, resume=False, classifier=class
     except Exception as error:
         # Persist only the class; runtime exception strings may contain endpoint
         # bodies or request information. Local raw logs remain available to audit.
-        safe_message = str(error) if isinstance(error, ValueError) and str(error).startswith(("Frozen ", "Run manifest", "Disk reserve", "Sealed ", "Attempt ", "Terminal attempt", "Saved attempt", "Completed accepted", "Conflicting accepted", "Prior ")) else None
+        safe_message = str(error) if isinstance(error, ValueError) and str(error).startswith(("Frozen ", "Run manifest", "Disk reserve", "Sealed ", "Attempt ", "Terminal attempt", "Saved attempt", "Completed accepted", "Conflicting accepted", "Prior ", "Selected ")) else None
         state.update(phase="attention_supervisor", attention=True, reason=type(error).__name__, safe_message=safe_message, finished_at=utc_now())
         return 2
     finally:
@@ -650,12 +736,16 @@ def build_parser():
     parser.add_argument("--max-runtime-retries", type=int, default=20)
     parser.add_argument("--retry-delay-seconds", type=int, default=30)
     parser.add_argument("--batch-size", type=int, default=100)
+    parser.add_argument("--only-arm", action="append", choices=("single_agent",),
+                        help="Resume only the explicitly pinned single-agent scope; never runs full analysis")
     return parser
 
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
     args.run_dir, args.input, args.families = [path.resolve() for path in (args.run_dir, args.input, args.families)]
+    if args.only_arm is not None and args.command != "resume":
+        raise ValueError("Selected arms are supported only for resume")
     if args.command == "status":
         path = args.run_dir / "supervisor_state.json"
         print(json.dumps(compact_state(json.loads(path.read_text())) if path.exists() else {"phase": "not_started"}, indent=2))
@@ -666,6 +756,7 @@ def main(argv=None):
         raise ValueError("Invalid checkpoint, retry, or disk guard setting")
     if args.command == "resume":
         manifest = json.loads((args.run_dir / "run_manifest.json").read_text())
+        execution_arms(manifest, args.only_arm, resume=True)
         validate_manifest(manifest, args.run_dir)
         patients = dataset_cohort(manifest["input"]["path"])
     else:
@@ -682,7 +773,7 @@ def main(argv=None):
             stream.write("\n")
             stream.flush()
             os.fsync(stream.fileno())
-    return run_supervisor(args.run_dir, manifest, patients, resume=args.command == "resume")
+    return run_supervisor(args.run_dir, manifest, patients, resume=args.command == "resume", only_arms=args.only_arm)
 
 
 if __name__ == "__main__":

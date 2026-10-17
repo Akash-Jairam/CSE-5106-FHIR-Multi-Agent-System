@@ -1,6 +1,12 @@
 Decision: run a fresh matched single-agent full cohort after V3.
 Authorized by the user on 15 October 2026 (America/Chicago).
 
+Latest instruction, 17 October 2026: the user authorized the full matched
+single_agent benchmark with the same recovery and measurement rules as V3.
+Resume only that arm with the pinned selected_arms scope and explicit
+--only-arm single_agent flag. Direct LLM remains deferred. See the new protocol
+in benchmarks/single-agent-full-run-20261017. The completed V3 data are preserved.
+
 Superseding instruction, 16 October 2026: V3 is complete. The user requested
 that its records/statistics be finalized and pushed, and that Codex end the
 task and wait for instructions before baseline work. All baseline processes

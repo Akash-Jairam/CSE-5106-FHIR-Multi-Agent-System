@@ -1,0 +1,82 @@
+MATCHED SINGLE-AGENT FULL BENCHMARK
+
+Authorization: the user requested the complete single-agent baseline on
+17 October 2026, using the same rules as the completed V3 design run.
+Only single_agent inference is authorized by this continuation. Direct LLM
+remains deferred. Approval to publish detailed FHIR-derived records to the
+public GitHub repository remains pending; no automatic push is authorized.
+
+Why this control is required
+The original paper's aggregate results use different models and evaluation.
+They cannot replace a question-matched project control using the frozen model,
+tools, answer contract, budgets and typed scorer. This run uses the project's
+existing single_agent implementation, without tuning it against V3 results.
+It is a matched project control, not a reproduction of every paper setting.
+The prior decision and paper references are recorded in
+benchmarks/v3-full-run-20261015/baseline_decision.txt.
+
+Frozen comparison
+- Same 2,931 released questions and 94 patients as V3.
+- Same input, family/split manifests, original local FHIR resources, provider
+  runtime, model, reasoning setting and completion limit.
+- Same 200,000-token and 30-tool-call per-question ceilings; two workers;
+  cache enabled, save interval 1, compressed audit schema 2 and batches of 100.
+- Same inference source/dependency fingerprint:
+  65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409.
+- Same frozen typed answer scorer. Architecture, prompts and tools differ only
+  as defined by the existing V3 and single_agent implementations.
+
+Recovery and selection
+Retain the first runtime-clean terminal outcome for each question. Completed
+wrong answers, design failures and empty/no-value answers are final outcomes;
+their correctness never determines retry eligibility. Genuine infrastructure
+failures remain pending and are retried under the unchanged bounded policy.
+Unknown failures halt for inspection rather than being marked incorrect.
+Preserve all raw attempts, seals, checkpoints, diagnostics and audit ownership.
+Unsaved interrupted work remains pending. Reuse the ten validated outcomes
+from the earlier partial single-agent batch unchanged; 2,921 questions remain,
+including two infrastructure retries. No accepted question may be rerun.
+
+The single-agent resume has an explicit CLI scope and matching manifest pin.
+Collection, recovery, attention, retry limits, scheduling, persistence and
+completion are restricted to single_agent. The completed V3 and deferred
+Direct LLM canonical files, identities and acceptance/count slices must remain
+unchanged. Archive the original operational source/manifest before applying
+this scheduling change. Inference and runtime-classifier semantics stay fixed.
+
+Measurements and final analysis
+Save per-question predictions/references, patient/question/family/template
+identities, limitations, evidence, source-check and revision diagnostics,
+accepted invocation latency, token and cached-token usage, tool/phase counts,
+and estimated dollar cost. Primary time/cost exclude discarded runtime attempts.
+Keep unknown measurements null, and report missingness rather than zero-fill.
+
+Use the same user-approved official OpenAI rate snapshot as V3: USD 0.10 per
+million uncached input tokens, 0.01 cached input and 0.50 output. Cached input
+is part of prompt input, not an additional charge. These are estimates for the
+Azure deployment, not measured billing. Preserve the original pricing snapshot.
+
+For each complete arm, record totals, means, median, p95, sample standard
+deviation, extrema and missingness. Use the unchanged patient-cluster bootstrap
+with 10,000 replicates, seed 5106 and 95% percentile intervals. At full completion,
+record paired question-level accuracy/latency/token/cost comparisons and subgroup
+statistics using the existing analyzer. Do not score partial baseline data or
+call the original three-arm benchmark complete while Direct LLM is deferred.
+
+The syntactic "abstained" flag also includes correct empty-reference answers.
+Record its correctness cross-tab; do not interpret it as a refusal/failure rate.
+Full-cohort development exposure remains a limitation of both arms. Differences
+include the existing architecture/tool/contract design and are not a pure
+topology-only causal estimate. Cache and provider conditions can affect latency.
+
+Live run directory (relative to the repository)
+output/experiments/gpt-6-luna/v3_full_2931_20261015
+
+Safe resume command, after the operational amendment has been verified
+PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python \
+  scripts/launch_v3_full.py resume --only-arm single_agent \
+  --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015
+
+All credential values remain private. Only the normal project launcher/runtime
+may load configuration internally. Do not inspect config.yml or configuration
+backups. Monitoring is answer-blind and must not launch duplicate jobs.

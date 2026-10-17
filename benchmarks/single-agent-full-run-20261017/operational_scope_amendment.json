@@ -1,0 +1,28 @@
+{
+  "at_utc": "2026-10-17T05:36:10.446542+00:00",
+  "status": "APPROVED_OPERATIONAL_SCOPE_ONLY",
+  "authorization": "User requested matched single-agent full benchmark, same V3 rules, on 17 October 2026",
+  "old_manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+  "new_manifest_sha256": "ed049b68c0d3eb26fdce6021b51ecbeabab38b23586cd6e7c69e4fef695c6fa7",
+  "changed_manifest_fields": [
+    "source_sha256.scripts/v3_full_run.py",
+    "selected_arms"
+  ],
+  "classifier_version_unchanged": "v3-infrastructure-v3",
+  "classifier_definition_AST_unchanged": true,
+  "inference_code_hash": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "model_settings_inputs_pricing_and_public_runtime_unchanged": true,
+  "V3_and_Direct_canonical_identity_and_ledger_slices_preserved": true,
+  "reused_single_agent_results": 10,
+  "pending_single_agent_questions": 2921,
+  "tests_passed": 48,
+  "launch_command": [
+    ".venv/bin/python",
+    "scripts/launch_v3_full.py",
+    "resume",
+    "--only-arm",
+    "single_agent",
+    "--run-dir",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015"
+  ]
+}
