@@ -103,6 +103,11 @@ Record its correctness cross-tab; do not interpret it as a refusal/failure rate.
 Full-cohort development exposure remains a limitation of both arms. Differences
 include the existing architecture/tool/contract design and are not a pure
 topology-only causal estimate. Cache and provider conditions can affect latency.
+The requested model/deployment, API version and provider settings are pinned.
+The frozen measurement path retains usage and request identifiers but does not
+persist the returned server model revision/system fingerprint. An identical
+underlying server revision across the two run dates has not been independently
+verified; do not describe a matching deployment alias as proof of that revision.
 
 Live run directory (relative to the repository)
 output/experiments/gpt-6-luna/v3_full_2931_20261015

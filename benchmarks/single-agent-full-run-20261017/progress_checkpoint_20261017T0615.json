@@ -1,0 +1,45 @@
+{
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "recorded_at": "2026-10-17T06:15:46.380288+00:00",
+  "questions_per_arm": 2931,
+  "single_first_clean_saved": 202,
+  "single_attempt_counts": {
+    "raw_attempts": 212,
+    "runtime_failures": 10,
+    "intrinsic_errors": 0
+  },
+  "provider_rejections": {
+    "05a8454a6a71435a557db2cc": 2,
+    "0eb69f6e47ab63c055e2df90": 1
+  },
+  "parked_pending_question_ids": [
+    "05a8454a6a71435a557db2cc"
+  ],
+  "active_round": 4,
+  "accepted_reruns": 0,
+  "v3_outcomes_preserved": 2931,
+  "direct_llm_deferred": true,
+  "accuracy_evaluated": false,
+  "primary_measurement_selection": "First runtime-clean terminal attempt; discard infrastructure and provider failure measurements",
+  "actual_billing_recorded_or_known": false,
+  "server_model_revision_independently_verified": false,
+  "run_still_incomplete": true,
+  "evidence_files": {
+    "transport_health_round3.json": {
+      "sha256": "6bd6abe771f87129fd878b05d742026aa7dfdc89f04c192ed813d1e7f36fffe2",
+      "bytes": 18494
+    },
+    "sealed_round3_checkpoint.json": {
+      "sha256": "15f21d852548125c4a324616eb311914b47cfbac648ef4f128a08249683fe776",
+      "bytes": 5616
+    },
+    "sealed_round3_first_clean_validation.json": {
+      "sha256": "b8e593e03e49db273c6425f46139417ca9afd637a18a49c1083d13de4f0ddd7d",
+      "bytes": 3847
+    },
+    "protocol.txt": {
+      "sha256": "dcfdb7a0a8eeb345011f7e576bb1b59bc268ea207917b6ba2ac72585e2c4a8a5",
+      "bytes": 7621
+    }
+  }
+}

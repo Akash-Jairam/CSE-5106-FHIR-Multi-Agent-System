@@ -1,0 +1,170 @@
+{
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "snapshot_utc": "2026-10-17T06:14:47.905228+00:00",
+  "sealed_round": 3,
+  "single_clean_outcomes": 202,
+  "single_attempt_counts": {
+    "raw_attempts": 212,
+    "runtime_failures": 10,
+    "intrinsic_errors": 0
+  },
+  "provider_policy_rejections": {
+    "version": 1,
+    "classifier_version": "v3-infrastructure-v4",
+    "policy": {
+      "version": "azure-prompt-rejection-v1",
+      "category": "provider_policy_rejection",
+      "max_rejections_per_question": 2,
+      "retry_request": "unchanged",
+      "persistent_action": "park_pending_then_attention",
+      "scope": [
+        "single_agent"
+      ]
+    },
+    "updated_at": "2026-10-17T06:14:13+00:00",
+    "source": "reconstructed_from_sealed_immutable_attempts",
+    "rejections": {
+      "single_agent": {
+        "05a8454a6a71435a557db2cc": 2,
+        "0eb69f6e47ab63c055e2df90": 1
+      }
+    },
+    "parked_question_ids": {
+      "single_agent": [
+        "05a8454a6a71435a557db2cc"
+      ]
+    },
+    "pending_question_ids": {
+      "single_agent": [
+        "05a8454a6a71435a557db2cc",
+        "0eb69f6e47ab63c055e2df90"
+      ]
+    }
+  },
+  "round3_safe_provider_diagnostics": {
+    "completed_requests": 610,
+    "outcomes": {
+      "error": 6,
+      "success": 604
+    },
+    "failures_safe_metadata": [
+      {
+        "pid": 12573,
+        "counter": 1,
+        "started_utc": "2026-10-17T05:58:18.813932+00:00",
+        "finished_utc": "2026-10-17T05:58:21.478138+00:00",
+        "duration_seconds": 2.6642366659980325,
+        "http_status": 400,
+        "fd_count": 18,
+        "exception_classes": [
+          "openai.BadRequestError"
+        ],
+        "sdk_closed": false,
+        "http_closed": false
+      },
+      {
+        "pid": 12573,
+        "counter": 86,
+        "started_utc": "2026-10-17T06:03:35.286299+00:00",
+        "finished_utc": "2026-10-17T06:04:11.911376+00:00",
+        "duration_seconds": 36.62527729199792,
+        "http_status": null,
+        "fd_count": 17,
+        "exception_classes": [
+          "openai.APITimeoutError",
+          "httpx2.ConnectTimeout",
+          "httpcore2.ConnectTimeout"
+        ],
+        "sdk_closed": false,
+        "http_closed": false
+      },
+      {
+        "pid": 12573,
+        "counter": 204,
+        "started_utc": "2026-10-17T06:08:55.120141+00:00",
+        "finished_utc": "2026-10-17T06:08:56.031124+00:00",
+        "duration_seconds": 0.9110005420006928,
+        "http_status": 400,
+        "fd_count": 18,
+        "exception_classes": [
+          "openai.BadRequestError"
+        ],
+        "sdk_closed": false,
+        "http_closed": false
+      },
+      {
+        "pid": 12574,
+        "counter": 100,
+        "started_utc": "2026-10-17T06:02:23.381158+00:00",
+        "finished_utc": "2026-10-17T06:02:59.111750+00:00",
+        "duration_seconds": 35.73078079200059,
+        "http_status": null,
+        "fd_count": 17,
+        "exception_classes": [
+          "openai.APITimeoutError",
+          "httpx2.ConnectTimeout",
+          "httpcore2.ConnectTimeout"
+        ],
+        "sdk_closed": false,
+        "http_closed": false
+      },
+      {
+        "pid": 12574,
+        "counter": 101,
+        "started_utc": "2026-10-17T06:02:59.361992+00:00",
+        "finished_utc": "2026-10-17T06:03:34.979597+00:00",
+        "duration_seconds": 35.61779849999948,
+        "http_status": null,
+        "fd_count": 17,
+        "exception_classes": [
+          "openai.APITimeoutError",
+          "httpx2.ConnectTimeout",
+          "httpcore2.ConnectTimeout"
+        ],
+        "sdk_closed": false,
+        "http_closed": false
+      },
+      {
+        "pid": 12574,
+        "counter": 102,
+        "started_utc": "2026-10-17T06:03:35.065956+00:00",
+        "finished_utc": "2026-10-17T06:04:10.679512+00:00",
+        "duration_seconds": 35.613760625001305,
+        "http_status": null,
+        "fd_count": 17,
+        "exception_classes": [
+          "openai.APITimeoutError",
+          "httpx2.ConnectTimeout",
+          "httpcore2.ConnectTimeout"
+        ],
+        "sdk_closed": false,
+        "http_closed": false
+      }
+    ],
+    "partial_lines": 0
+  },
+  "preserved_unselected": {
+    "multi_agent": {
+      "files_byte_identical_sha256": {
+        "full_multi_agent.json": "1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c",
+        "full_multi_agent.json.run.json": "b281be4700bb65aa585a7cc3d7c75a558a705a9844a883f97e726975d53ce6c1"
+      },
+      "ledger_choices_semantic_sha256": "4c14237a91042b1e91da695542331066dce36e9391fa3c09e0b9250a372397da",
+      "ledger_counts_semantic_sha256": "259a4735465e918e70ea67a5c6bff5b569bfc13ae9ee1f4eec063ecca1a816a7",
+      "unchanged": true
+    },
+    "direct_llm": {
+      "files_byte_identical_sha256": {
+        "full_direct_llm.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "full_direct_llm.json.run.json": "0f3a0dc5f4bab16544c381b4f9d6f90d66e61749584f0af0e4115d6e2bc385a4"
+      },
+      "ledger_choices_semantic_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "ledger_counts_semantic_sha256": "de9c1d4c0555abe3f5181b519332722d7bd0ef0f3cfc968976f671cb87a6c5dd",
+      "unchanged": true
+    }
+  },
+  "canonical_sha256_at_checkpoint": "85d619ce29c600b7a7d37e63103ddc5c6dccf7482579649a20fcd4376ab80a75",
+  "manifest_sha256": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+  "correctness_scored": false,
+  "note": "One persistent provider-rejected question is parked pending. All remaining executable questions continue. This is not a full-cohort score or final report."
+}
