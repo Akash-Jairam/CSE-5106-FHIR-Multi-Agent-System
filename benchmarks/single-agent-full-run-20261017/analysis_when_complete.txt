@@ -40,6 +40,20 @@ When the selected supervisor has completed all 2,931 Single Agent outcomes:
    are not refusals. Verify paired wins/losses and the comparison sign.
    The frozen analyzer uses left minus right, explicitly labeled in each row.
 
+   Run the separately implemented statistical verifier on the completed export:
+   PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python \
+     benchmarks/single-agent-full-run-20261017/reconcile_final_pair.py \
+     --export-dir output/experiments/gpt-6-luna/v3_single_complete_2931_20261017 \
+     --output output/experiments/gpt-6-luna/v3_single_complete_2931_20261017_independent_qa.json
+
+   The QA output must be new and outside the immutable export. This checks all
+   17 measurement fields, group/phase aggregates, cached-input pricing, CSV/JSONL,
+   exact matched identities, paired signs and patient-cluster intervals. It
+   reconciles frozen scorer correctness flags; it does not independently re-score
+   answers. The exporter retains responsibility for full raw-attempt/audit replay.
+   Validation sources and both author/root synthetic evidence are archived under
+   independent_stats_validation/. They retain their original test-machine paths.
+
 4. Preserve the full per-question CSV/JSONL, aggregate and subgroup tables,
    paired comparisons, report, receipts, provenance and file checksums. Keep raw
    attempts/audits/diagnostics in the local run. Summed accepted task latency is

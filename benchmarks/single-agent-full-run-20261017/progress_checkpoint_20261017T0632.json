@@ -1,0 +1,29 @@
+{
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "recorded_at": "2026-10-17T06:31:55.873278+00:00",
+  "questions_per_arm": 2931,
+  "single_first_clean_saved": 299,
+  "single_attempt_counts": {
+    "raw_attempts": 312,
+    "runtime_failures": 13,
+    "intrinsic_errors": 0
+  },
+  "provider_rejections": {
+    "05a8454a6a71435a557db2cc": 2,
+    "0eb69f6e47ab63c055e2df90": 2
+  },
+  "parked_pending_question_ids": [
+    "05a8454a6a71435a557db2cc",
+    "0eb69f6e47ab63c055e2df90"
+  ],
+  "active_round": 5,
+  "accepted_reruns": 0,
+  "unselected_preserved": true,
+  "actual_accuracy_evaluated": false,
+  "statistics_qa_utility_sha256": "d72e57442521970fbbd748d8c5813316b80caee0d22360b9f32c6144d910753e",
+  "root_qa_core_tests": 14,
+  "root_qa_full_synthetic_checks": 17,
+  "source_design_changes": false,
+  "full_arm_complete": false,
+  "evidence_sha256": "519531ce0d76b0dad6d54758f19fd88fde49c788f13f8989f9994b6edb16e9e0"
+}
