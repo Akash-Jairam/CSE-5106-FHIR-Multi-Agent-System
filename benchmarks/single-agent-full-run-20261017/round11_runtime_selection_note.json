@@ -1,0 +1,24 @@
+{
+  "status": "SEALED_RUNTIME_SELECTION_CHECK",
+  "at_utc": "2026-10-17T08:19:48.043588+00:00",
+  "round": 11,
+  "accepted_total": 990,
+  "runtime_attempts_excluded_total": 22,
+  "sealed_batch_runtime_failures": [
+    {
+      "question_id": "53ad3791f3c9399dbc8de0c3",
+      "classification": {
+        "status": "runtime",
+        "reason": "allowlisted_infrastructure_failure",
+        "diagnostic_paths": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "raw_result_sha256": "dbac9c64284cce8a330770eebe0efc86b596ca3327809f0b0b1a6b886d76128d",
+  "first_clean_validation_sha256": "70eea8b031ba6cc46c88520b761f971963bcb91ca52fd59bf54f29bf9bab7033",
+  "provider_parked_question_count": 2,
+  "accuracy_inspected": false,
+  "frozen_source_or_settings_changed": false
+}
