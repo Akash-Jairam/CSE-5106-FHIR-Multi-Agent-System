@@ -1,0 +1,110 @@
+{
+  "status": "SEALED_ROUND21_METADATA_RECONCILED",
+  "captured_at_utc": "2026-10-17T10:58:54.767856+00:00",
+  "scope": "IMMUTABLE_ROUND21_RUNTIME_AND_NO_PRIOR_RUNTIME_RECOVERIES",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 21,
+  "saved_classifications": {
+    "accepted": 96,
+    "runtime": 4
+  },
+  "runtime_attempts": [
+    {
+      "question_id": "a2556a4a997d1f09c6a72589",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "a291e9eb06fbda894cbb7a33",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "a3b2c1bfc83f38e441791752",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "a3bc0d803f5c36757f71d51c",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    }
+  ],
+  "provider_policy_rejection_count_in_captured_round21": 0,
+  "round20_runtime_recoveries": [],
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf"
+  },
+  "round21_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0021.json",
+    "sha256": "73e1a07c3a57c2fac489bc583ed6f4d939abc0d0b75173829a5d072dc3e33245",
+    "bytes": 29896087,
+    "sha256_at_review_end": "73e1a07c3a57c2fac489bc583ed6f4d939abc0d0b75173829a5d072dc3e33245",
+    "live_checkpoint_may_advance_normally": true
+  },
+  "no_clinical_raw_error_answer_reference_or_correctness_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true,
+  "reconciled_at_utc": "2026-10-17T10:59:20.843332+00:00",
+  "natural_seal": {
+    "batch_sha256": "90a4326ea29805e22984c6c055757d3b56a0a71a27ea62e3d0f60055d66d290f",
+    "seal_sha256": "3114fa5a581216564b641b24b47fddee9a9aa7e228890ade3ef7ff8a4be23abd",
+    "result_sha256": "73e1a07c3a57c2fac489bc583ed6f4d939abc0d0b75173829a5d072dc3e33245",
+    "identity_sha256": "2c421f316ac340668aa0613101cac817c3bf6864a38dfd59c4f3766f5da3904f",
+    "shard_input_sha256": "fd4681cd6bef53d0ad3f58071e69d8779919ad47e0987cbe2774317890a0d5be",
+    "frozen_identity_matches": true,
+    "question_count": 100
+  },
+  "final_recoveries": [],
+  "acceptance_ledger_observation": {
+    "at_utc": "2026-10-17T10:59:20.843332+00:00",
+    "accepted_snapshot_sha256": "2e98acd21cddd480b4100c825060651b1ed2b22092b53a7e40db3cf49a75b239",
+    "sealed_clean_count": 96,
+    "clean_adopted_count": 96,
+    "prior_round20_recovery_adopted_count": 0,
+    "ledger_transition_complete": true
+  },
+  "all_sealed_runtime_attempts_excluded_from_ledger": true,
+  "review_code_sha256": "f3b8400153805d7eaad4eb0568fd8e70a043aa532e71b39dc1ae784299f2b1c8",
+  "classification_review_code_sha256": "9d4d3db04e81a86641ac7d6832a249c4b11ec73163a2692aba465e773c5a4fad",
+  "audit_integrity": {
+    "restored_and_hash_verified_count": 100,
+    "inventory_file": "audit_hash_inventory.json",
+    "inventory_sha256": "1ba6cdc26d0775b11ccbb9eb95efdff12931b4fdff5680bd009ff877100d2ee6"
+  },
+  "non_HTTP500_runtime_signatures": []
+}
