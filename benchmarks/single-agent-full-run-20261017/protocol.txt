@@ -109,6 +109,16 @@ persist the returned server model revision/system fingerprint. An identical
 underlying server revision across the two run dates has not been independently
 verified; do not describe a matching deployment alias as proof of that revision.
 
+Interim measurement preservation
+measurement_checkpoint_497 preserves 497 accepted per-question measurement
+projections, capture source hashes, the separate first-clean validation and an
+independent numeric review. Timing, token/cache balances and cost estimates are
+complete for this checkpoint; actual billing is unknown. It contains no accuracy
+analysis, comparison or extrapolation. Its fixed-count script must not be rerun
+against a later live checkpoint. Raw attempts remain in the retained run tree;
+the preservation receipt rechecks their hashes without duplicating clinical
+content into this measurement-only package. These are not final cohort statistics.
+
 Live run directory (relative to the repository)
 output/experiments/gpt-6-luna/v3_full_2931_20261015
 
