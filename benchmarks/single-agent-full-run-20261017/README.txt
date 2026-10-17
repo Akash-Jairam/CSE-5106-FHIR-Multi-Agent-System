@@ -49,6 +49,9 @@ Interim measurement packages:
   that checkpoint, coverage summaries and independent reconstruction.
   This coverage does not establish availability for future baseline rows.
 - metric_definition_reviews/: source evidence supporting metric interpretation.
+- final_cache_audit_preparation/: reviewed full-baseline metadata helper,
+  bound final-verifier capture, synthetic validation and stale-receipt checks.
+  This is preparation only; no full-baseline cache audit has run yet.
 - independent_stats_validation/, paired_export_validation.json and
   paired_export_independent_review.json: synthetic/offline validation of the
   eventual complete-cohort analysis path.

@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "focused_synthetic_tests": 15,
+  "synthetic_verifier_mocked": true,
+  "actual_full_monitor_invocations": 0,
+  "actual_full_audits": 0,
+  "live_incomplete_count_observed": 1183,
+  "live_refusals": {
+    "capture": {
+      "status": "REFUSED",
+      "reason": "Full baseline requires exactly 2931 selected outcomes; current cohort is incomplete"
+    },
+    "audit": {
+      "status": "REFUSED",
+      "reason": "Full baseline requires exactly 2931 selected outcomes; current cohort is incomplete"
+    }
+  },
+  "live_cli_exit_codes": {
+    "capture": 2,
+    "audit": 2
+  },
+  "live_output_directories_created": false,
+  "stale_cases_keep_saved_proof_and_binding_unchanged": true,
+  "stale_cases": [
+    "canonical bytes",
+    "first-clean reason and prior-runtime count",
+    "unproved round99 pointer",
+    "global raw/runtime counts retaining 2931 difference",
+    "completion timestamp",
+    "later exactly sealed round",
+    "extra unsealed round",
+    "canonical identity",
+    "raw result",
+    "shard"
+  ],
+  "other_cases": [
+    "saved proof digest mutation",
+    "incomplete before canonical/verifier",
+    "changes during verification",
+    "False selected usage"
+  ],
+  "independent_reviewer_tests": 15,
+  "root_tests_reported": 15,
+  "helper_sha256": {
+    "audit_complete_single_cache.py": "f65ca58e005e73eddb143ee6e3baa8a71adf8ae53ac4a5d4074a0b36f8a2a829",
+    "completed_gate.py": "55a3ce97d1049ad3abf4ddde397c6938c256595fc09ec40ab5da76c5f5907dd3",
+    "bound_completion.py": "5345fe58f5cad0655ffd50db11996096e92ba8aa26b62b7a18f1834e33c909b3",
+    "capture_final_proof.py": "cdafa942e2ccbc821c7ebd63c64c96d585c6323cf7b23d066c37b3e6c5b11b80",
+    "test_bound_completion.py": "e383a4f0ade0d1332ec7457a0149e542d487795957dad96eca6eb66563c1d11f"
+  },
+  "no_inference_scoring_provider_calls": true,
+  "no_live_guarded_monitor_or_completed_export_edits": true
+}

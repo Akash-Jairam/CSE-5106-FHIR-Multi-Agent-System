@@ -1,0 +1,32 @@
+{
+  "status": "OLD_REVIEW_REPRODUCTION_PRESERVED",
+  "harness": "/private/tmp/cache-single-independent-review/reproduce_gate_mutations.py",
+  "harness_executable": true,
+  "harness_sha256": "b427646793d20d61e941196c8cc5750f03ebe5dc975a5d4e6cfacfc462a2b676",
+  "evidence": "/private/tmp/cache-single-independent-review/adversarial_evidence.json",
+  "snapshots": {
+    "audit_complete_single_cache.py": {
+      "path": "/private/tmp/cache-single-independent-review/audit_complete_single_cache.py",
+      "sha256": "4363a928dff33dd82b19222b90bf7a4a2bf0f086a840ff305963fb603825e10a",
+      "matches_executed_review_snapshot": true
+    },
+    "completed_gate.py": {
+      "path": "/private/tmp/cache-single-independent-review/completed_gate.py",
+      "sha256": "f69e22738cd08e95ab4b0b32f0552d33307c3d3e9bbf27eed2eef80b51557cd9",
+      "matches_executed_review_snapshot": true
+    },
+    "original_complete_v3_audit.py": {
+      "path": "/private/tmp/cache-single-independent-review/original_complete_v3_audit.py",
+      "sha256": "b26bcafdd406acfc6dae3fb529da54e11cb63028aa50dbf678f8b495487b4f5c",
+      "matches_executed_review_snapshot": true
+    },
+    "test_completion_gate.py": {
+      "path": "/private/tmp/cache-single-independent-review/test_completion_gate.py",
+      "sha256": "a28f0b9212bd545bb6722e52184918e965fcc9c5e151ba3e9b1e5a9fe386ccde",
+      "matches_executed_review_snapshot": true
+    }
+  },
+  "sources_recopied": false,
+  "new_scenarios_executed": false,
+  "live_reads_or_edits": false
+}

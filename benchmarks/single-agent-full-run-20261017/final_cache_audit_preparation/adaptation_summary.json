@@ -1,0 +1,29 @@
+{
+  "status": "BOUNDED_FRESH_PROOF_BINDING_REVISION",
+  "initial_helper_sha256": "4363a928dff33dd82b19222b90bf7a4a2bf0f086a840ff305963fb603825e10a",
+  "initial_gate_sha256": "f69e22738cd08e95ab4b0b32f0552d33307c3d3e9bbf27eed2eef80b51557cd9",
+  "helper_AST_identity": {
+    "require": true,
+    "sha": true,
+    "write": true,
+    "count_cache": true,
+    "signature": true,
+    "event_signature": true
+  },
+  "matching_core_changed": false,
+  "accepted_usage_available_true_only_restored": true,
+  "permanent_monitor_changed": false,
+  "added_files": [
+    "capture_final_proof.py",
+    "bound_completion.py"
+  ],
+  "new_requirements": [
+    "Exact byte/inventory capture before and after unchanged final monitor",
+    "Raw saved proof digest plus capture-helper source digests",
+    "Current snapshot equals BOTH saved snapshots before canonical parsing",
+    "Exact actual sealed-round inventory and ledger pointers",
+    "Final whole snapshot equality after metadata audit"
+  ],
+  "diagnostic_coverage_not_assumed": true,
+  "full_baseline_audit_launched": false
+}

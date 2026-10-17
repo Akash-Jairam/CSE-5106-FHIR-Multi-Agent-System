@@ -1,0 +1,54 @@
+{
+  "status": "APPROVED_PREPARATION_ONLY",
+  "reviewed_at": "2026-10-17T09:05:04.961702+00:00",
+  "blocking_findings_remaining": [],
+  "package_inventory_sha256": "7a38b5e6e9474c4520e61438a83a808b575ca96e8dc3c4922f9c7625cd222f5f",
+  "source_sha256": {
+    "audit_complete_single_cache.py": "f65ca58e005e73eddb143ee6e3baa8a71adf8ae53ac4a5d4074a0b36f8a2a829",
+    "completed_gate.py": "55a3ce97d1049ad3abf4ddde397c6938c256595fc09ec40ab5da76c5f5907dd3",
+    "bound_completion.py": "5345fe58f5cad0655ffd50db11996096e92ba8aa26b62b7a18f1834e33c909b3",
+    "capture_final_proof.py": "cdafa942e2ccbc821c7ebd63c64c96d585c6323cf7b23d066c37b3e6c5b11b80",
+    "test_bound_completion.py": "e383a4f0ade0d1332ec7457a0149e542d487795957dad96eca6eb66563c1d11f",
+    "README.txt": "80b623716fb970fd668ce70f41a1622d8ed4e4ef929dafb5f6856bddbf5eedaa"
+  },
+  "unchanged_permanent_monitor_sha256": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+  "resolved_findings": [
+    "Stale saved proof now rejected by exact current canonical/identity/full-ledger/state/manifest/source/input/round inventory bindings to equal pre/post final-monitor snapshots",
+    "Extra sealed/unsealed rounds and modified raw/shard/proof/selection/count metadata rejected before canonical parsing or output",
+    "Selected per-call usage_available=False rejected by restored True-only guard"
+  ],
+  "tests": {
+    "independent_adversarial_cases_passed": 15,
+    "verifier_mocked_in_synthetic_cases": true,
+    "actual_incomplete_selected_count_observed": 1183,
+    "actual_incomplete_audit_and_capture_refused": true,
+    "actual_incomplete_canonical_opens": 0,
+    "actual_incomplete_monitor_subprocesses": 0,
+    "actual_incomplete_output_created": false
+  },
+  "matching": {
+    "six_original_helper_ASTs_identical": true,
+    "P_C_only_matching_block_AST_identical": true,
+    "matching_block_AST_sha256": "3ec65bf0081385a138b88701618cac183be18433c158a3f2a214ddfb8465d12c",
+    "all_original_uncertainty_sentences_retained": true,
+    "non_keyed_join_flags_and_conclusion_unchanged": true
+  },
+  "coverage_scope": {
+    "outcome_cohort": "Exactly2931 completed first-clean selected outcomes mandatory; parked question keeps gate closed",
+    "diagnostics": "Missing journals, absent/ambiguous matches and nullable cache metadata remain reported observations, never forced to full availability or explicit zero",
+    "abort_limit": "Malformed/truncated/invalid journals, source mutation or duration failures can leave partial output; only valid final safe_evidence.json establishes completed diagnostic coverage audit",
+    "no_completed_actual_coverage_report_claimed": true
+  },
+  "actual_full_monitor_invocations": 0,
+  "actual_full_cache_audits": 0,
+  "inference_or_scoring_or_provider_calls": false,
+  "live_or_guarded_or_permanent_monitor_changes": false,
+  "evidence_files": [
+    "live_incomplete_refusal.json",
+    "adversarial_evidence.json",
+    "reproduce_gate_mutations.py",
+    "preservation_receipt.json",
+    "revised_live_incomplete_refusal.json",
+    "revised_matching_review.json"
+  ]
+}

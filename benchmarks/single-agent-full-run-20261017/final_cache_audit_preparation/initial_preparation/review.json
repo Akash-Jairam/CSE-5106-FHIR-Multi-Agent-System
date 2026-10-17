@@ -1,0 +1,34 @@
+{
+  "status": "CHANGES_REQUIRED_BEFORE_COMPLETED_AUDIT",
+  "reviewed_at": "2026-10-17T08:55:04.586964+00:00",
+  "reviewed_helper_sha256": "4363a928dff33dd82b19222b90bf7a4a2bf0f086a840ff305963fb603825e10a",
+  "reviewed_gate_sha256": "f69e22738cd08e95ab4b0b32f0552d33307c3d3e9bbf27eed2eef80b51557cd9",
+  "findings": [
+    {
+      "priority": "P1",
+      "issue": "Saved monitor receipt not bound to current canonical, selected ledger, supervisor state or exact current sealed inventory; stale proof passes metadata gate before canonical parsing",
+      "evidence": "adversarial_evidence.json",
+      "requested_fix": "Add complete-only final-proof capture wrapper that hashes relevant files before and after reviewed monitor final verification, saves proof digest plus full inventory, and gate verifies current exact inventory before canonical parsing/output."
+    },
+    {
+      "priority": "P2",
+      "issue": "Adapted accepted canonical usage_available guard allows False although original guard and frozen runtime-clean policy require True",
+      "evidence": "adversarial_evidence.json",
+      "requested_fix": "Restore usage_available is True for all accepted per-call records."
+    }
+  ],
+  "positive_findings": [
+    "Current1183 incomplete run rejects before any canonical open/output/scorer/inference import",
+    "Six numerical helper ASTs identical to completed V3 audit",
+    "P/C-only contiguous-sequence matching block AST identical",
+    "Association/absence/ambiguity/logging/cache-null uncertainty labels unchanged"
+  ],
+  "evidence_sha256": {
+    "live_incomplete_refusal.json": "cbc4d241aab59764f5c43ff85bb0dd111e896138c3d0ebc1496a0c218955a284",
+    "adversarial_evidence.json": "b9ee0173effa7dfc70cced6023eaf572e47244c044d57bd8c4f6c067937b3d72",
+    "matching_review.json": "8f84f0b69a16b052ac12f4b033f02b79c3625a17152e15afaa59a38b51f600c1"
+  },
+  "permanent_monitor_or_live_sources_changed": false,
+  "inference_or_scoring_or_provider_calls": false,
+  "actual_partial_correctness_scored": false
+}

@@ -1,0 +1,51 @@
+--- initial_preparation/audit_complete_single_cache.py
++++ audit_complete_single_cache.py
+@@ -68,9 +68,11 @@
+     parser.add_argument('--run-dir',required=True,type=Path)
+     parser.add_argument('--completion-proof',required=True,type=Path,
+                         help='Saved JSON output of the reviewed monitor verify --final-arm')
++    parser.add_argument('--completion-binding',required=True,type=Path,
++                        help='Stable before/after bindings saved beside the captured final monitor proof')
+     parser.add_argument('--output-dir',required=True,type=Path)
+     args = parser.parse_args()
+-    gate = completion_gate(args.project_root,args.run_dir,args.completion_proof,args.output_dir)
++    gate = completion_gate(args.project_root,args.run_dir,args.completion_proof,args.completion_binding,args.output_dir)
+     ROOT,RUN,OUT = gate['root'],gate['run'],gate['output']
+     canonical,proof_path = gate['canonical'],gate['proof_path']
+     selections,round_proofs,fixed = gate['selections'],gate['rounds'],gate['fixed']
+@@ -89,8 +91,8 @@
+         calls = tokens.get('per_call')
+         require(isinstance(calls,list) and calls,'Canonical baseline per-call usage missing')
+         for call in calls:
+-            require(set(call)<={'prompt','completion','cached','usage_available'} and type(call.get('usage_available')) is bool,
+-                    'Unexpected canonical baseline per-call measurement schema')
++            require(set(call)<={'prompt','completion','cached','usage_available'} and call.get('usage_available') is True,
++                    'Unexpected canonical baseline per-call measurement schema/unknown usage')
+             require(all(type(call.get(k)) is int and call[k]>=0 for k in ('prompt','completion','cached'))
+                     and call['cached']<=call['prompt'],'Invalid canonical numeric usage/cache subset')
+         row = {'question_id':qid,'patient_fhir_id':original['patient_fhir_id'],'latency_seconds':original.get('latency'),
+@@ -242,6 +244,8 @@
+     require(journal_hashes==final_hashes,'Diagnostic source changed during audit')
+     for name,digest in fixed.items():
+         require(sha(name)==digest,'Fixed completed baseline input changed during audit')
++    from bound_completion import snapshot
++    require(snapshot(ROOT,RUN)==gate['bound_snapshot'],'Completed round/byte inventory changed during cache audit')
+     output = OUT/'accepted_call_metadata_associations.jsonl'
+     output.write_text(''.join(json.dumps(e,allow_nan=False)+'\n' for e in associations))
+     write(OUT/'per_question_candidate_counts.json',question_candidates)
+@@ -249,6 +253,7 @@
+         'status':'METADATA_ONLY_OBSERVED_ASSOCIATION_AUDIT_COMPLETE','label':'COMPLETE_SINGLE_AGENT_COHORT_METADATA_PROVENANCE_AUDIT',
+         'at_utc':datetime.now(timezone.utc).isoformat(),'selected_questions':2931,'selected_calls':total_calls,
+         'fixed_completed_baseline_input_hashes':fixed,'completed_first_clean_proof_sha256':sha(proof_path),
++        'completed_proof_binding_sha256':sha(gate['binding_path']),
+         'completed_single_agent_canonical_read':True,'canonical_sha256':canonical_expected,'v3_canonical_or_state_modified':False,
+         'rounds':round_evidence,'successful_diagnostic_events':len(success),'successful_event_cache_counts':count_cache(success),
+         'diagnostic_source_sha256_before':journal_hashes,'diagnostic_source_sha256_after':final_hashes,
+@@ -264,6 +269,7 @@
+                        'Diagnostics are best-effort. Contiguous counters and start/end coverage describe recorded events; failed logging before counter increment may leave no observable gap.',
+                        'Numeric sequence uniqueness is relative to the retained journals; question IDs and request IDs were not persisted together in canonical per_call.',
+                        'Missing journals, interrupted work and unmatched starts are reported; observed event totals are not automatically accepted-cohort call totals.',
++                       'Outcome cohort completeness is mandatory. Diagnostic association coverage is not assumed: missing journals, ambiguous sequences and nullable cache fields are reported without invented zeros.',
+                        'No correction to frozen metrics or estimates was made; an absent cache detail is never inferred to be zero.'],
+         'no_answers_references_correctness_inspected':True,'no_scoring_or_model_provider_calls':True,
+         'no_repo_live_or_frozen_metrics_edits':True,'measurement_projection_sha256':sha(measurement_path),'script_sha256':sha(Path(__file__)),
