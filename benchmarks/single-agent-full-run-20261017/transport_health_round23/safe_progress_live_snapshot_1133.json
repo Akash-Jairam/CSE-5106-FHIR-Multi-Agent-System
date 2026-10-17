@@ -1,0 +1,152 @@
+{
+  "captured_at_utc": "2026-10-17T11:33:28.316696+00:00",
+  "phase": "running",
+  "attention": false,
+  "heartbeat_at": "2026-10-17T11:33:15+00:00",
+  "round": 23,
+  "checkpointed": 87,
+  "checkpoint_age_seconds": 135,
+  "raw_mtime_utc": "2026-10-17T11:33:19.470951+00:00",
+  "diagnostic_errors_safe_metadata": [
+    {
+      "pid": 39367,
+      "counter": 67,
+      "started_utc": "2026-10-17T11:19:49.525732+00:00",
+      "finished_utc": "2026-10-17T11:20:49.532654+00:00",
+      "duration_seconds": 60.007157833002566,
+      "outcome": "error",
+      "http_status": null,
+      "fd_count": 17,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "sdk_closed": false,
+      "http_closed": false
+    },
+    {
+      "pid": 39367,
+      "counter": 283,
+      "started_utc": "2026-10-17T11:32:42.600065+00:00",
+      "finished_utc": "2026-10-17T11:33:18.199054+00:00",
+      "duration_seconds": 35.599133332994825,
+      "outcome": "error",
+      "http_status": null,
+      "fd_count": 18,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ConnectTimeout",
+        "httpcore2.ConnectTimeout"
+      ],
+      "sdk_closed": false,
+      "http_closed": false
+    },
+    {
+      "pid": 39368,
+      "counter": 310,
+      "started_utc": "2026-10-17T11:32:05.021987+00:00",
+      "finished_utc": "2026-10-17T11:32:41.799622+00:00",
+      "duration_seconds": 36.777772959001595,
+      "outcome": "error",
+      "http_status": null,
+      "fd_count": 17,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ConnectTimeout",
+        "httpcore2.ConnectTimeout"
+      ],
+      "sdk_closed": false,
+      "http_closed": false
+    },
+    {
+      "pid": 39368,
+      "counter": 311,
+      "started_utc": "2026-10-17T11:32:42.688103+00:00",
+      "finished_utc": "2026-10-17T11:33:19.307157+00:00",
+      "duration_seconds": 36.61918441699527,
+      "outcome": "error",
+      "http_status": null,
+      "fd_count": 17,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ConnectTimeout",
+        "httpcore2.ConnectTimeout"
+      ],
+      "sdk_closed": false,
+      "http_closed": false
+    }
+  ],
+  "latest_provider_ends_safe_metadata": [
+    {
+      "pid": 39367,
+      "counter": 282,
+      "started_utc": "2026-10-17T11:31:06.279169+00:00",
+      "finished_utc": "2026-10-17T11:31:09.265738+00:00",
+      "duration_seconds": 2.9865695420012344,
+      "outcome": "success",
+      "http_status": null,
+      "fd_count": 18,
+      "exception_classes": [],
+      "sdk_closed": false,
+      "http_closed": false
+    },
+    {
+      "pid": 39367,
+      "counter": 283,
+      "started_utc": "2026-10-17T11:32:42.600065+00:00",
+      "finished_utc": "2026-10-17T11:33:18.199054+00:00",
+      "duration_seconds": 35.599133332994825,
+      "outcome": "error",
+      "http_status": null,
+      "fd_count": 18,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ConnectTimeout",
+        "httpcore2.ConnectTimeout"
+      ],
+      "sdk_closed": false,
+      "http_closed": false
+    },
+    {
+      "pid": 39368,
+      "counter": 310,
+      "started_utc": "2026-10-17T11:32:05.021987+00:00",
+      "finished_utc": "2026-10-17T11:32:41.799622+00:00",
+      "duration_seconds": 36.777772959001595,
+      "outcome": "error",
+      "http_status": null,
+      "fd_count": 17,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ConnectTimeout",
+        "httpcore2.ConnectTimeout"
+      ],
+      "sdk_closed": false,
+      "http_closed": false
+    },
+    {
+      "pid": 39368,
+      "counter": 311,
+      "started_utc": "2026-10-17T11:32:42.688103+00:00",
+      "finished_utc": "2026-10-17T11:33:19.307157+00:00",
+      "duration_seconds": 36.61918441699527,
+      "outcome": "error",
+      "http_status": null,
+      "fd_count": 17,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ConnectTimeout",
+        "httpcore2.ConnectTimeout"
+      ],
+      "sdk_closed": false,
+      "http_closed": false
+    }
+  ],
+  "diagnostic_source_hashes": {
+    "azure-diagnostics-39367-14fa73124b434955a620a763a8b079f5.jsonl": "bd0ca91aafb990f61cc30d3a2ff93d275866a801b4e71c87d4cf59de9292aefe",
+    "azure-diagnostics-39368-e323f1fc39724d3091a9d155cf0058ec.jsonl": "f25f42f3850755805372de68e6818082483b88c56b597acfa09f15e6aa318e8d"
+  },
+  "question_error_join_not_claimed_before_checkpoint": true,
+  "no_model_provider_scorer_calls_or_live_changes": true
+}

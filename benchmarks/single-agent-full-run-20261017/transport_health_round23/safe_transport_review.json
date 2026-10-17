@@ -1,0 +1,217 @@
+{
+  "status": "READ_ONLY_TRANSPORT_GAP_AND_SAME_CLIENT_RECOVERY_DOCUMENTED",
+  "captured_at_utc": "2026-10-17T11:37:41.362018+00:00",
+  "initial_snapshot_file": "safe_progress_live_snapshot_1133.json",
+  "initial_snapshot_sha256": "3e7b7011c8a2ce0841c2004939a51c716382dcd1dba2af4a7a796fbab56f98e2",
+  "initial_snapshot_recorded_at_utc": "2026-10-17T11:33:28.316696+00:00",
+  "initial_snapshot_journal_hashes_are_provisional": true,
+  "batch_seal_sha256": "bbce36378f587924caa3f8664d01c75d996b2d6573bc321a4ee2a153b388c777",
+  "batch_result_sha256": "2973fdd0722e3a838143b944719ca3338e80cf456f087250b577cf3c9854de7d",
+  "journal_hashes_are_not_covered_by_batch_seal": true,
+  "frozen_adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+  "source_bindings": {
+    "azure-diagnostics-39367-14fa73124b434955a620a763a8b079f5.jsonl": {
+      "live_snapshot_hash_at_1133": "bd0ca91aafb990f61cc30d3a2ff93d275866a801b4e71c87d4cf59de9292aefe",
+      "post_batch_seal_stable_observation_sha256": "b6be921a5d9e7d033682356019b5cc8bb195296d7cbc2a2927eb3eae6cdf3350",
+      "post_batch_seal_bytes": 767581,
+      "post_batch_seal_file_relative_path": "diagnostics/single_agent/round-0023/azure-diagnostics-39367-14fa73124b434955a620a763a8b079f5.jsonl",
+      "snapshot_hash_scope": "Hash of bytes captured while this journal was still live; not an immutable/final journal hash.",
+      "post_seal_hash_scope": "Stable bytes independently observed after batch sealing. Diagnostic journal is not covered by batch.seal result/batch/identity hash fields."
+    },
+    "azure-diagnostics-39368-e323f1fc39724d3091a9d155cf0058ec.jsonl": {
+      "live_snapshot_hash_at_1133": "f25f42f3850755805372de68e6818082483b88c56b597acfa09f15e6aa318e8d",
+      "post_batch_seal_stable_observation_sha256": "b7a22951079a1d2065c1c8fb52a5a8cc70eb16e80426b372cf2416567239528b",
+      "post_batch_seal_bytes": 835015,
+      "post_batch_seal_file_relative_path": "diagnostics/single_agent/round-0023/azure-diagnostics-39368-e323f1fc39724d3091a9d155cf0058ec.jsonl",
+      "snapshot_hash_scope": "Hash of bytes captured while this journal was still live; not an immutable/final journal hash.",
+      "post_seal_hash_scope": "Stable bytes independently observed after batch sealing. Diagnostic journal is not covered by batch.seal result/batch/identity hash fields."
+    }
+  },
+  "workers": [
+    {
+      "pid": 39367,
+      "process_session": "14fa73124b434955a620a763a8b079f5",
+      "starts": 307,
+      "ends": 307,
+      "successes": 304,
+      "errors": 3,
+      "timeout_errors_safe_metadata": [
+        {
+          "pid": 39367,
+          "counter": 67,
+          "started_utc": "2026-10-17T11:19:49.525732+00:00",
+          "finished_utc": "2026-10-17T11:20:49.532654+00:00",
+          "duration_seconds": 60.007157833002566,
+          "outcome": "error",
+          "http_status": null,
+          "fd_count": 17,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ReadTimeout",
+            "httpcore2.ReadTimeout"
+          ]
+        },
+        {
+          "pid": 39367,
+          "counter": 283,
+          "started_utc": "2026-10-17T11:32:42.600065+00:00",
+          "finished_utc": "2026-10-17T11:33:18.199054+00:00",
+          "duration_seconds": 35.599133332994825,
+          "outcome": "error",
+          "http_status": null,
+          "fd_count": 18,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ]
+        },
+        {
+          "pid": 39367,
+          "counter": 284,
+          "started_utc": "2026-10-17T11:33:18.862053+00:00",
+          "finished_utc": "2026-10-17T11:33:57.699591+00:00",
+          "duration_seconds": 38.83769624999695,
+          "outcome": "error",
+          "http_status": null,
+          "fd_count": 17,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ]
+        }
+      ],
+      "SDK_exception_class_counts": {
+        "openai.APITimeoutError": 3
+      },
+      "FD_min": 17,
+      "FD_max": 19,
+      "any_SDK_closed": false,
+      "any_HTTP_closed": false,
+      "same_process_session_client_successes_after_last_timeout": 23,
+      "first_same_client_success_after_last_timeout": {
+        "pid": 39367,
+        "counter": 285,
+        "started_utc": "2026-10-17T11:33:57.801395+00:00",
+        "finished_utc": "2026-10-17T11:33:59.086859+00:00",
+        "duration_seconds": 1.2854893330004415,
+        "outcome": "success",
+        "http_status": null,
+        "fd_count": 18,
+        "exception_classes": []
+      },
+      "last_recorded_success": {
+        "pid": 39367,
+        "counter": 307,
+        "started_utc": "2026-10-17T11:35:08.643621+00:00",
+        "finished_utc": "2026-10-17T11:35:10.633896+00:00",
+        "duration_seconds": 1.99030045800464,
+        "outcome": "success",
+        "http_status": null,
+        "fd_count": 18,
+        "exception_classes": []
+      }
+    },
+    {
+      "pid": 39368,
+      "process_session": "e323f1fc39724d3091a9d155cf0058ec",
+      "starts": 334,
+      "ends": 334,
+      "successes": 331,
+      "errors": 3,
+      "timeout_errors_safe_metadata": [
+        {
+          "pid": 39368,
+          "counter": 310,
+          "started_utc": "2026-10-17T11:32:05.021987+00:00",
+          "finished_utc": "2026-10-17T11:32:41.799622+00:00",
+          "duration_seconds": 36.777772959001595,
+          "outcome": "error",
+          "http_status": null,
+          "fd_count": 17,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ]
+        },
+        {
+          "pid": 39368,
+          "counter": 311,
+          "started_utc": "2026-10-17T11:32:42.688103+00:00",
+          "finished_utc": "2026-10-17T11:33:19.307157+00:00",
+          "duration_seconds": 36.61918441699527,
+          "outcome": "error",
+          "http_status": null,
+          "fd_count": 17,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ]
+        },
+        {
+          "pid": 39368,
+          "counter": 312,
+          "started_utc": "2026-10-17T11:33:20.075573+00:00",
+          "finished_utc": "2026-10-17T11:33:56.697047+00:00",
+          "duration_seconds": 36.621631041998626,
+          "outcome": "error",
+          "http_status": null,
+          "fd_count": 17,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ]
+        }
+      ],
+      "SDK_exception_class_counts": {
+        "openai.APITimeoutError": 3
+      },
+      "FD_min": 17,
+      "FD_max": 18,
+      "any_SDK_closed": false,
+      "any_HTTP_closed": false,
+      "same_process_session_client_successes_after_last_timeout": 22,
+      "first_same_client_success_after_last_timeout": {
+        "pid": 39368,
+        "counter": 313,
+        "started_utc": "2026-10-17T11:33:57.001993+00:00",
+        "finished_utc": "2026-10-17T11:33:58.235615+00:00",
+        "duration_seconds": 1.23362366699439,
+        "outcome": "success",
+        "http_status": null,
+        "fd_count": 18,
+        "exception_classes": []
+      },
+      "last_recorded_success": {
+        "pid": 39368,
+        "counter": 334,
+        "started_utc": "2026-10-17T11:35:00.864420+00:00",
+        "finished_utc": "2026-10-17T11:35:02.772301+00:00",
+        "duration_seconds": 1.9078943749991595,
+        "outcome": "success",
+        "http_status": null,
+        "fd_count": 18,
+        "exception_classes": []
+      }
+    }
+  ],
+  "post_seal_provider_end_outcomes": {
+    "success": 635,
+    "error": 6
+  },
+  "finding": "ConnectTimeout gap ended with subsequent successful requests in the same worker process/session and SDK client; recorded FD counts and closed flags show no client-close or FD-exhaustion signal. No restart or changes were performed by this audit.",
+  "limits": [
+    "Safe journal metadata does not locate the network/provider cause.",
+    "No direct diagnostic-to-question join is claimed.",
+    "Initial live journal snapshot hashes are not final sealed journal hashes. The separately recorded post-batch-seal hashes bind bytes observed stable here; the batch seal itself excludes journals."
+  ],
+  "source_reconstruction_note": "The initial snapshot was captured by inline Python. capture_snapshot_source_reconstructed.py reproduces that executed tool-cell text and was saved afterward; no pre-capture source-file checksum is claimed. It was not re-executed.",
+  "reconstructed_initial_source_sha256": "7e5811dca3cfc4af71100b85ec2e691d84b50b6c73058151804894271f3678f4",
+  "final_review_source_sha256": "5bb25769b1529e086109df356aa88dee03100f001b4b3bc8a387f5d67a8e8902",
+  "no_raw_messages_clinical_answers_references_or_credentials_output": true,
+  "no_provider_model_scorer_calls_or_run_changes": true
+}

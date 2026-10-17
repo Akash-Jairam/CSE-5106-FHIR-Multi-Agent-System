@@ -4,7 +4,7 @@ The authorized 2,931-question Single Agent baseline remains in progress.
 V3's complete result is unchanged. Direct LLM remains deferred; the original
 three-arm benchmark is incomplete. Do not evaluate partial baseline accuracy.
 
-Saved checkpoint: sealed_round22_first_clean_validation.json records 2,067 of
+Saved checkpoint: sealed_round23_first_clean_validation.json records 2,161 of
 2,931 first-clean outcomes. This is a historical checkpoint, not live progress
 or a completion claim. Later sealed proofs may supersede this checkpoint.
 
@@ -38,6 +38,9 @@ Execution and recovery evidence:
   operational setup/scope evidence; retained process details are historical.
 - provider_recovery/: reviewed operational classifier amendment, answer-blind
   replay, bounded unchanged-request recovery and validation sources.
+- runtime_metadata_round*/: safe boundary records of exclusions and recoveries.
+- transport_health_round23/: timeout-gap and same-client recovery evidence,
+  with live snapshot versus post-seal journal bindings and explicit limits.
 - provider_review_packet/: safe provider-review metadata for parked requests.
   Provider rejection remains pending, never an incorrect benchmark answer.
 

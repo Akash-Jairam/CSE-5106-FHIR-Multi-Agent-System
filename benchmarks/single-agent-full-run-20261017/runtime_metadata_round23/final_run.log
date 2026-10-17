@@ -1,0 +1,93 @@
+{
+  "status": "SEALED_ROUND23_METADATA_RECONCILED",
+  "sealed_classifications": {
+    "accepted": 94,
+    "runtime": 6
+  },
+  "runtime_attempts": [
+    {
+      "question_id": "b5ddccb2652019203e02c96e",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "timeout"
+      ],
+      "HTTP_statuses": [],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "bbd60fbc1489752c6364f8bf",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "timeout"
+      ],
+      "HTTP_statuses": [],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "bbef3c6dded10fa7874540f2",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "timeout"
+      ],
+      "HTTP_statuses": [],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "bc354ef513b2215446177f31",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "timeout"
+      ],
+      "HTTP_statuses": [],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "bc393399923f7dabaa005804",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "timeout"
+      ],
+      "HTTP_statuses": [],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "bc55adec6e2f148eae8ab156",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "timeout"
+      ],
+      "HTTP_statuses": [],
+      "new_provider_policy_rejection": false
+    }
+  ],
+  "new_provider_policy_rejections": 0,
+  "recoveries": [
+    {
+      "question_id": "b0c1e2c1046cc6dad14ddbe4",
+      "first_clean_in_sealed_round23": true,
+      "ledger_adopted": true,
+      "selection_metadata_only": {
+        "attempt_file": "attempts/single_agent/round-0023.json",
+        "round": 23,
+        "runtime_failures_before": 1,
+        "selection": "runtime_clean_terminal",
+        "runtime_clean": true
+      }
+    }
+  ],
+  "all_sealed_clean_results_adopted": true,
+  "evidence": "/private/tmp/single-round23-runtime-sealed-review/safe_review.json",
+  "evidence_sha256": "cb9aedc125e4ab1bf43510d67b423c1c6a0aca62fd45796a4458b88f3e635cb0"
+}
