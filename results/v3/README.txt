@@ -4,7 +4,10 @@ Branch: results/v3-ful-run
 Start with ANALYSIS.docx, the editable detailed handoff, or ANALYSIS.txt for
 plain-text review. METHODS.txt defines cohort selection, measurement and
 statistical interpretation. RUN_REGISTRY.json maps the four logical run records
-to their source commits, evidence packages and derived tables.
+to their source commits, evidence packages and derived tables. The primary full
+benchmark comparison reports 2,929 completed task pairs from 94 patients.
+comparison_summary.csv gives both systems' accuracy, time, tokens and estimated
+cost on exactly those question IDs; use it for report tables and figures.
 
 development/
   The paired 300-question development runs, with per-question measurements,
@@ -17,11 +20,12 @@ full_v3/
   benchmarks/v3-full-run-20261015/completed_v3/ in this same branch.
 
 full_single_agent/
-  Measurements and typed scores for 2,929 available Single Agent questions,
+  Measurements and typed scores for 2,929 completed Single Agent questions,
   the matched 2,929 V3 rows, paired and subgroup summaries, and portable raw
   results. paired_comparison.json reports Single Agent minus V3. The main
-  handoff reports V3 minus Single Agent. The planned benchmark has 2,931 rows;
-  this available-cohort paired analysis is explicitly posthoc.
+  handoff reports V3 minus Single Agent. These 2,929 pairs form the primary
+  full benchmark comparison. Pairing is posthoc and based on completion,
+  without selecting by correctness.
 
 internal/
   Operational provenance for internal development and reproduction. It is not
@@ -38,7 +42,9 @@ Reproduction
 Scope
   These are four arm records, not four independent repetitions. The development
   questions overlap the full benchmark and must not be pooled with it. V3's
-  complete result and the common-cohort comparison have different denominators.
+  original execution archive contains 2,931 questions. The report uses the
+  same 2,929 completed pairs for both systems; run_summary.csv retains the
+  original run counts and comparison_summary.csv contains reporting figures.
   Costs are estimates under recorded frozen rates; see METHODS.txt. Source
   fingerprints differ by a documented host-loop bound. This branch consolidates
   results and analysis without merging development implementation code.

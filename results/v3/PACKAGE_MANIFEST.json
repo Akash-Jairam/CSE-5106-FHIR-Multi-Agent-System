@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "CONSOLIDATED_RESULTS_DELIVERY",
-  "created_at_utc": "2026-10-17T17:15:42.561125+00:00",
+  "created_at_utc": "2026-10-19T20:40:43.001941+00:00",
   "branch": "results/v3-ful-run",
   "source_base_commit": "f71a8d9eef38a5cc33efd4fd16b7d3f629b340e4",
   "cohort_scope": {
@@ -22,8 +22,8 @@
     "benchmarks/v3-full-run-20261015/cache_metadata_reconciliation_20261017"
   ],
   "self_excluded": true,
-  "file_count": 1005,
-  "total_bytes": 954282106,
+  "file_count": 1007,
+  "total_bytes": 954289023,
   "largest_blob_bytes": 83886080,
   "runtime_implementation_merged": false,
   "new_inference": false,
@@ -33,7 +33,8 @@
     "results/v3/development/validation.json",
     "results/v3/full_single_agent/validation.json",
     "results/v3/full_single_agent/internal/portable_archive_validation.json",
-    "results/v3/full_v3/PORTABLE_VERIFICATION.json"
+    "results/v3/full_v3/PORTABLE_VERIFICATION.json",
+    "results/v3/internal/validation/document_revision_2929.json"
   ],
   "preservation_note": "Historical paths retain original labels. Main reporting names the accepted architecture V3. Raw archive manifests define byte/semantic preservation. Original full completion gates are unchanged.",
   "files": [
@@ -429,28 +430,33 @@
     },
     {
       "path": "results/v3/ANALYSIS.docx",
-      "bytes": 53351,
-      "sha256": "8d7673fdcab00935d611bc1fa4b2a684bde7e34cd521277e615431544ac6e544"
+      "bytes": 53444,
+      "sha256": "65cccc344748fc27fdb5473fc563171ba286d1d5fbbe2b408b944d470cb7e58c"
     },
     {
       "path": "results/v3/ANALYSIS.txt",
-      "bytes": 26064,
-      "sha256": "9cf3d26d8a351eaa561257bf183e69fe579dc57b8fa822dd3e9a637bbe35f2f0"
+      "bytes": 26574,
+      "sha256": "19edd2a0e8349e7f7a866fb40689f16315db84be980c0d17b398f110b168dd32"
     },
     {
       "path": "results/v3/METHODS.txt",
-      "bytes": 7441,
-      "sha256": "d2daf3b06330f1dfff3a3a3efd7a6ab8f71797b17c3a2c4f79e326ff30ab8fad"
+      "bytes": 7308,
+      "sha256": "9265d297cb5e1225cfe226a0b037c82867c1a27e573e7262e4ff7dc9d8a8e1d7"
     },
     {
       "path": "results/v3/README.txt",
-      "bytes": 2254,
-      "sha256": "9644e4e687e5068432d5d235b1e77d7ba843b45fbc5afb92cc1f909b8625b18d"
+      "bytes": 2689,
+      "sha256": "0242c9bee485073761b0e31d6c2fb844ba6695ea258864d5a73346bf3221a715"
     },
     {
       "path": "results/v3/RUN_REGISTRY.json",
-      "bytes": 2763,
-      "sha256": "60d56c4a3cf18013a1293baa725757fa6703e144372ab261b683334b674ba64c"
+      "bytes": 2961,
+      "sha256": "93fe96b4865b2764c67a9e8b594bb2e85bf7780505c73efdcc3e5bf0b7e7fb61"
+    },
+    {
+      "path": "results/v3/comparison_summary.csv",
+      "bytes": 1015,
+      "sha256": "3c9a24a2211297f79c8390af24520ea9666e364aff768b692c0da8995e4ac3e1"
     },
     {
       "path": "results/v3/cost_cache_sensitivity.json",
@@ -5014,8 +5020,13 @@
     },
     {
       "path": "results/v3/internal/validation/document_quality_review.json",
-      "bytes": 1976,
-      "sha256": "dc83f827983ebbd577a125ec658749b45c7c41d7d690ba3c21b09dca540c7569"
+      "bytes": 2299,
+      "sha256": "16085ef71db34516a770407885224918e744f79a19160830d91e2d20f505e617"
+    },
+    {
+      "path": "results/v3/internal/validation/document_revision_2929.json",
+      "bytes": 2326,
+      "sha256": "54aa59811dcdacd25c70dece210199f2f5afbbd942fab21a7096f306c8ddaea8"
     },
     {
       "path": "results/v3/internal/validation/independent_numeric_qa.py",
@@ -5029,8 +5040,8 @@
     },
     {
       "path": "results/v3/reproduce/build_analysis.py",
-      "bytes": 38045,
-      "sha256": "38629d4b303d20287e22872c072ebf81c01ad62f4784c89d546f10424d988858"
+      "bytes": 40195,
+      "sha256": "0529945ac41919fcd00e7c50b6bae474eba3d6930eb51b343ca72953e396d254"
     },
     {
       "path": "results/v3/reproduce/build_package_manifest.py",
@@ -5062,5 +5073,12 @@
       "bytes": 380,
       "sha256": "05f07bc3ab0a4deca401bbbb733682fa7c3c891d853980da6f7a1535e5a9252c"
     }
-  ]
+  ],
+  "reporting_revision": {
+    "date_utc": "2026-10-19",
+    "primary_matched_pairs": 2929,
+    "comparison_summary": "results/v3/comparison_summary.csv",
+    "receipt": "results/v3/internal/validation/document_revision_2929.json",
+    "inventory_scope": "Prior published package leaves plus reporting additions; unversioned operational working files excluded."
+  }
 }

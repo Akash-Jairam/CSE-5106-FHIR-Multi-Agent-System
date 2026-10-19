@@ -2,7 +2,8 @@
   "schema_version": 1,
   "branch": "results/v3-ful-run",
   "date_utc": "2026-10-17",
-  "purpose": "Four logical arm records plus a posthoc matched available-cohort comparison; no new inference.",
+  "analysis_revised_date_utc": "2026-10-19",
+  "purpose": "Four historical arm records and a primary full benchmark comparison of 2,929 completed task pairs; no new inference.",
   "runs": [
     {
       "id": "development_single_agent_300",
@@ -54,11 +55,13 @@
   ],
   "primary_comparison": {
     "type": "posthoc_available_matched_cohort",
+    "report_label": "Full benchmark comparison of 2,929 completed task pairs",
     "n": 2929,
     "patients": 94,
     "single_correct": 2343,
     "v3_correct": 2255,
     "results": "results/v3/full_single_agent/paired_comparison.json",
+    "summary": "results/v3/comparison_summary.csv",
     "difference_convention": "full comparison paired files Single Agent minus V3; development paired tables and handoff V3 minus Single Agent"
   },
   "overlap": {

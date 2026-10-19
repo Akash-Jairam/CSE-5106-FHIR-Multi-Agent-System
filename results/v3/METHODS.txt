@@ -1,27 +1,27 @@
 V3 consolidated midterm results
 Analysis protocol recorded 17 October 2026
+Reporting presentation revised 19 October 2026
 
 Purpose
-Consolidate four logical run records: the development Single Agent and V3 arms
-(300 questions each), the full V3 arm (2,931 questions), and the available full
-Single Agent arm (2,929 questions). Historical records remain unchanged. Derived
-tables, archives and the handoff document are additions on results/v3-ful-run.
+Consolidate the development Single Agent and V3 arms (300 questions each) and
+the full benchmark comparison (2,929 completed task pairs from 94 patients).
+All primary full comparison accuracy, time, token and cost figures use that
+same denominator for both systems. Historical execution records remain
+unchanged. Derived tables, archives and the handoff document are additions on
+results/v3-ful-run.
 
 Primary comparison
-The full paired analysis uses the intersection of accepted question IDs from
-both full arms: 2,929 questions, from 94 patients. Both arms use exactly that
-same cohort. The planned benchmark contains 2,931 questions. V3's separate
-complete 2,931-question result is retained. Coverage is stated explicitly; an
-unavailable answer is not assigned a wrong-answer score. The 2,929-question
-comparison is a posthoc analysis of the available matched cohort and must not
-be described as a completed 2,931-question baseline experiment. Selection was
-by availability, not correctness. It does not change the original full-run
-completion gates or the immutable historical completion reports.
+We ran both systems against the full benchmark and report comparative results
+for 2,929 completed task pairs. Pairing joins accepted question IDs and verifies
+patient IDs. Selection is posthoc by completion, without selecting by
+correctness. Runtime failures are not scored as wrong answers and their
+measurements do not enter design totals. comparison_summary.csv provides the
+primary reporting figures; its V3 row comes from matched_v3_summary.json.
 
-This protocol authorizes deterministic offline scoring and analysis of the
-available baseline for this new consolidation. Earlier instructions in frozen
-run packages to wait for all 2,931 answers remain historical instructions for
-those packages; they do not prohibit this explicitly labeled derived analysis.
+The released benchmark and original V3 execution archive contain 2,931
+questions. RUN_REGISTRY.json and run_summary.csv retain historical execution
+counts and completion status. The 2,929-pair reporting view leaves those source
+records and original completion gates unchanged.
 
 Acceptance and measurement
 Full-arm records use the frozen first-clean-attempt selection. Only selected

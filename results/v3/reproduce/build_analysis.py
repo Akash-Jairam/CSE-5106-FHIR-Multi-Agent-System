@@ -52,14 +52,15 @@ cost_sensitivity['v3_to_single_no_cache_cost_ratio'] = cost_sensitivity['arms'][
 
 registry = {
  'schema_version': 1, 'branch': 'results/v3-ful-run', 'date_utc': '2026-10-17',
- 'purpose': 'Four logical arm records plus a posthoc matched available-cohort comparison; no new inference.',
+ 'analysis_revised_date_utc': '2026-10-19',
+ 'purpose': 'Four historical arm records and a primary full benchmark comparison of 2,929 completed task pairs; no new inference.',
  'runs': [
   {'id':'development_single_agent_300','arm':'single_agent','accepted_or_scheduled_n':300,'planned_n':300,'correct':238,'policy':'historical_first_attempt','results':'results/v3/development','original_results':'benchmarks/design-v3d-20261014','record_commit':'906327dee1823178e3ac6319061f7d9ee5d2e01f','source_commit':'f00804f186768a3672ae6a6075f366a27dc0ca9a'},
   {'id':'development_v3_300','arm':'multi_agent_v3','accepted_or_scheduled_n':300,'planned_n':300,'correct':232,'policy':'historical_first_attempt','results':'results/v3/development','original_results':'benchmarks/design-v3d-20261014','record_commit':'906327dee1823178e3ac6319061f7d9ee5d2e01f','source_commit':'f00804f186768a3672ae6a6075f366a27dc0ca9a'},
   {'id':'full_v3_2931','arm':'multi_agent_v3','accepted_or_scheduled_n':2931,'planned_n':2931,'correct':2256,'policy':'first_clean_attempt','complete':True,'results':'results/v3/full_v3','original_results':'benchmarks/v3-full-run-20261015/completed_v3','source_commit':'4c7fbd13c1fd6e0b38abd002b072af8654837f28'},
   {'id':'full_single_agent_available_2929','arm':'single_agent','accepted_or_scheduled_n':2929,'planned_n':2931,'correct':2343,'policy':'first_clean_attempt','complete':False,'results':'results/v3/full_single_agent','source_commit':'4c7fbd13c1fd6e0b38abd002b072af8654837f28'},
  ],
- 'primary_comparison': {'type':'posthoc_available_matched_cohort','n':2929,'patients':94,'single_correct':2343,'v3_correct':2255,'results':'results/v3/full_single_agent/paired_comparison.json','difference_convention':'full comparison paired files Single Agent minus V3; development paired tables and handoff V3 minus Single Agent'},
+ 'primary_comparison': {'type':'posthoc_available_matched_cohort','report_label':'Full benchmark comparison of 2,929 completed task pairs','n':2929,'patients':94,'single_correct':2343,'v3_correct':2255,'results':'results/v3/full_single_agent/paired_comparison.json','summary':'results/v3/comparison_summary.csv','difference_convention':'full comparison paired files Single Agent minus V3; development paired tables and handoff V3 minus Single Agent'},
  'overlap': {'development_question_ids_in_matched_full':300,'fresh_development_patients':58,'known_union_exposed_patients':93,'full_patients':94,'independent_repetitions':False,'untouched_holdout_claim':False},
  'source_comparison':'results/v3/development/source_comparison.json',
  'source_note':'Full and development share V3 architecture; host-loop bound21 versus22 differs in one shared runtime file. Model-call cap20 unchanged.',
@@ -90,9 +91,9 @@ for name, size in [('Title',25),('Heading 1',18),('Heading 2',12)]:
     st.paragraph_format.space_after=Pt(9)
     st.paragraph_format.keep_with_next=True
 header = sec.header.paragraphs[0]
-header.text='V3 MIDTERM RESULTS   |   Consolidated analysis   |   17 October 2026'
+header.text='V3 MIDTERM RESULTS   |   2,929 completed pairs   |   Revised 19 October 2026'
 header.runs[0].font.size=Pt(8)
-header.runs[0].font.color.rgb=RGBColor.from_string('555555')
+header.runs[0].font.color.rgb=RGBColor(0,0,0)
 footer=sec.footer.paragraphs[0]; footer.alignment=WD_ALIGN_PARAGRAPH.RIGHT
 r=footer.add_run('Results branch  results/v3-ful-run   |   '); r.font.size=Pt(8)
 fld=OxmlElement('w:fldSimple'); fld.set(qn('w:instr'),'PAGE'); footer._p.append(fld)
@@ -146,16 +147,16 @@ def table(headers, rows, widths=None):
 
 doc.add_paragraph('V3 consolidated results',style='Title')
 p('Midterm checkpoint and analysis handoff',True)
-p('Four logical run records • Development and full benchmark • Recorded 17 October 2026')
-p('The available matched full comparison favors Single Agent on answer accuracy, task latency and estimated cost. V3 uses fewer measured tokens and tool calls. The measurements therefore support a specific efficiency tradeoff, rather than an overall performance advantage for the current V3 design.')
-table(['Run record','Questions','Correct','Accuracy'],[
+p('Development checkpoint and full benchmark comparison • Revised 19 October 2026')
+p('We ran both systems against the full benchmark and report comparative results for 2,929 completed task pairs from 94 patients. Single Agent has higher answer accuracy, lower task latency and lower estimated cost. V3 uses fewer measured tokens and tool calls. These results describe the tradeoff in the current V3 design.')
+table(['Analysis record','Questions','Correct','Accuracy'],[
  ['Development Single Agent','300','238','79.33%'],['Development V3','300','232','77.33%'],
- ['Full V3 overall','2,931','2,256','76.97%'],['Full Single Agent available','2,929','2,343','79.99%']], [3.15,1.2,1.2,1.55])
+ ['Full comparison Single Agent','2,929','2,343','79.99%'],['Full comparison V3','2,929','2,255','76.99%']], [3.15,1.2,1.2,1.55])
 h('Main comparison',2)
 p('Use the same 2,929 completed question IDs for both arms. On this cohort V3 scores 2,255/2,929 (76.99%). V3 minus Single Agent is −3.00 percentage points, with a paired patient-cluster 95% interval of [−4.17, −1.84] percentage points.')
 p('V3 mean task latency is 24.06 seconds versus 17.93 seconds; estimated mean cost is $0.005055 versus $0.002314. V3 uses 53,512 versus 73,273 tokens per question, about 27.0% fewer. Recorded cached-input shares differ substantially, so fewer tokens do not imply a lower dollar estimate.')
 h('How to use this handoff',2)
-p('The complete V3 result and the matched comparison answer different questions and retain separate denominators. The baseline has 2,929 available answers out of 2,931 planned; the main comparison is a posthoc matched available-cohort analysis. Development uses the historical 300-question first-attempt protocol and overlaps the full benchmark. These are four arm records, not four independent repetitions.')
+p('All full benchmark accuracy, time, token and cost figures in this document use the same 2,929 completed question IDs for both systems. Development uses the historical 300-question first-attempt protocol and overlaps the full benchmark. The four analysis rows describe two systems at two stages; they are not independent repetitions. Original execution counts remain in the archive registry.')
 p('The remainder explains methods, development findings, paired accuracy, time and usage, cost sensitivity, mechanisms, limitations and file-level reproduction. Detailed machine-readable statistics accompany this document.')
 
 page('Design and comparison methods')
@@ -166,7 +167,7 @@ h('Frozen execution and scoring',2)
 p('The recorded Azure deployment is gpt-6-luna, reasoning none, with a maximum completion limit of 16,384 tokens, a 32,000-token estimated-input guard and enabled prompt caching. Full runs use two workers. The unchanged typed-answer scorer determines correctness from saved final answers and reference types. No model judge or additional inference is used for consolidation.')
 p('Full runs select the first accepted runtime-clean task outcome by the frozen collection policy. Only those selected task measurements enter the design totals. Development retains its original scheduled first-attempt scores. Unknown measurement values remain null. Missing fields are not converted to free usage or zero time.')
 h('Cohort and uncertainty',2)
-p('The primary comparison joins question IDs and verifies patient IDs, giving 2,929 matched pairs and 94 patients. Patient-cluster percentile intervals resample patients 10,000 times with seed 5106, retain their questions and estimate the question-weighted mean. Pairing is preserved in differences. Intervals describe this cohort and recorded run, not repeated deployments or random model seeds.')
+p('The primary comparison joins completed question IDs and verifies patient IDs, giving 2,929 matched pairs and 94 patients. Pairing was determined by outcome availability, without selecting by correctness; this is a posthoc descriptive comparison. Patient-cluster percentile intervals resample patients 10,000 times with seed 5106, retain their questions and estimate the question-weighted mean. Pairing is preserved in differences. Intervals describe these questions and the recorded run, not repeated deployments or random model seeds.')
 p('The dataset informed development. All 300 fresh development question IDs also occur in the matched full cohort. The original split labels do not capture later development exposure; they must not be called an untouched holdout. See the exposure discussion on page 8.')
 h('Source comparability',2)
 p('The full source freeze is 4c7fbd13; the development source freeze is f00804f1, with results pinned at 906327de. Of 57 declared shared runtime files, 56 are identical. LedgerSolver has a host-loop bound of 21 in the full freeze and 22 in development; its actual model-call cap stays 20. This can affect final-boundary completion, so the runs share the V3 architecture but are not byte-identical. Consolidation merges results, not development runtime code.')
@@ -236,7 +237,7 @@ table(['Accounting scenario','Single total USD','V3 total USD'],[
  ['Recorded cache mix',usd(cs['recorded_cache_total_usd']),usd(cv['recorded_cache_total_usd'])],
  ['All prompt tokens at uncached price',usd(cs['no_cache_total_usd']),usd(cv['no_cache_total_usd'])]], [3.5,1.8,1.8])
 p(f"If the same measured usage were priced with no cached-input discount, V3's estimated total would be {100*(1-cost_sensitivity['v3_to_single_no_cache_cost_ratio']):.1f}% lower. This scenario isolates the accounting contribution of caching; it is not another inference run and does not show what latency or outputs would have been without caching.")
-p('Cache availability flags require care. The complete V3 cache reconciliation covers all 2,931 accepted questions. The preserved baseline provenance checkpoint covers 891 questions; a full baseline cache-metadata audit was not performed. Normalized numeric cache values are sufficient for reproducing these estimates, but are not a guarantee that every original metadata field was present. Dates, scheduling and prompt-prefix reuse were not randomized between arms.')
+p('Cache availability flags require care. The V3 cache reconciliation covers every V3 question used in this comparison. The preserved baseline provenance checkpoint covers 891 questions; a full baseline cache-metadata audit was not performed. Normalized numeric cache values are sufficient for reproducing these estimates, but are not a guarantee that every original metadata field was present. Dates, scheduling and prompt-prefix reuse were not randomized between arms.')
 
 page('Mechanism diagnostics')
 p('The saved diagnostics distinguish final answer correctness from source support, draft quality and local revision behavior. They are useful for explaining where the design may be losing value, while observational transitions cannot isolate the effect of a particular component.')
@@ -258,7 +259,7 @@ h('Development exposure is broader than source split labels',2)
 p('The older split labels identify 35 dev/pilot patients and 59 patients labeled held_out_patient_descriptive. The later fresh 300-question development run uses 58 patients, all drawn from that latter label. Those 58 patients contribute 1,678 matched full questions; all 300 exact development question IDs also occur in the matched cohort. The known union of the two development sources covers 93 of 94 full patients.')
 p('Consequently, the saved exposure subgroup tables are source-split descriptions, not evidence of untouched generalization. Their frozen labels are retained for reproducibility, and a separate exploratory overlap file records the later exposure. This handoff does not make a heldout-performance claim or construct a new confirmatory subgroup from the remaining patient.')
 h('What the experiment establishes',2)
-p('For this frozen V3 architecture and these recorded runs on the released benchmark, V3 reduces measured token and tool usage. On the available matched full cohort it has lower typed accuracy, greater per-task latency and greater cost under the recorded cache mix than the contemporaneous Single Agent control. The accuracy interval is conditional on patient sampling from this benchmark; it does not account for design selection on reused data.')
+p('For this frozen V3 architecture and these recorded runs on the released benchmark, V3 reduces measured token and tool usage. Across the 2,929 completed task pairs it has lower typed accuracy, greater per-task latency and greater cost under the recorded cache mix than the contemporaneous Single Agent control. The accuracy interval is conditional on patient sampling from this benchmark; it does not account for design selection on reused data.')
 p('A controlled causal claim about multi-agent architecture alone would require tighter isolation. Execution dates and cache states differ, the development and full code have a documented host-loop bound difference, and the cohort informed refinement. The no-cache price calculation demonstrates accounting sensitivity without simulating a new service configuration.')
 h('What should travel with a midterm figure',2)
 p('Any accuracy figure should state the question denominator, 94-patient clustering for the full comparison, reused development data and paired interval method. Any efficiency figure should name its metric: selected task seconds, measured tokens or estimated USD. Cost figures should state the rates and the cache assumption. Keep the 300-question checkpoint separate from the full common-cohort comparison.')
@@ -266,34 +267,44 @@ p('Do not replace typed accuracy with conditional accuracy among nonempty output
 h('Questions supported for later work',2)
 p('The paired discordant question IDs support analyzing the 181 Single-only and 93 V3-only successes by temporal interpretation, source-contract enforcement and computation behavior. The draft transitions support studying why correct drafts are lost and why audit repair contributes no observed targeted recovery. These are follow-up analyses or new protocol decisions; this consolidation launches no additional benchmark.')
 
-page('Complete V3 overall record')
-p('The complete V3 evaluation contains all 2,931 released questions from 94 patients: 2,256 correct, 675 wrong, 76.9703% accuracy, with a patient-cluster 95% interval [74.5292%, 79.3363%]. It remains an independently preserved arm result. The matched V3 subset has 2,255 correct among 2,929 and must be used for comparison to the available baseline.')
-table(['Complete V3 metric','Value'],[
- ['Accuracy','2,256 / 2,931 = 76.9703%'],['Task latency sum','70,504.268 s'],
- ['Task latency mean / median','24.0547 s / 20.4860 s'],['Task latency p95 / sample SD','50.9185 s / 13.9804 s'],
- ['Mean latency 95% interval','[23.1050, 24.9964] s'],['Estimated total cost','$14.81082369'],
- ['Estimated mean / median cost','$0.00505316 / $0.00405541'],['Estimated p95 cost','$0.013585405'],
- ['Mean cost 95% interval','[$0.00479423, $0.00532022]'],['Total measured tokens','156,787,021'],
- ['Mean / median total tokens','53,492.67 / 42,733'],['p95 total tokens','143,016.5'],
- ['Mean tokens 95% interval','[50,852.12, 56,206.91]'],['Primary measurement missingness','0 latency / cost estimate / tokens']], [3.65,3.45])
-p('The original complete V3 delivery is preserved at benchmarks/v3-full-run-20261015/completed_v3/. Its historical statement that baseline work was deferred reflects its original finalization date. This consolidation adds the later available baseline comparison without rewriting that historical report or claiming the original full three-arm completion gate passed.')
+page('V3 comparison reference')
+p(f"V3 is evaluated on the same {v['questions']:,} completed question IDs as Single Agent, from 94 patients: {v['correct']:,} correct and {v['questions']-v['correct']:,} wrong, or {100*v['accuracy']['estimate']:.4f}% accuracy. Its patient-cluster 95% interval is {ci(v['accuracy'],100,4)}%. All values below use these 2,929 questions and agree with the paired analysis.")
+vm=v['metrics']
+table(['V3 metric for 2929 questions','Value'],[
+ ['Accuracy',f"{v['correct']:,} / {v['questions']:,} = {100*v['accuracy']['estimate']:.4f}%"],
+ ['Task latency sum',f"{vm['latency_seconds']['total']:,.3f} s"],
+ ['Task latency mean / median',f"{vm['latency_seconds']['mean']:.4f} s / {vm['latency_seconds']['median']:.4f} s"],
+ ['Task latency p95 / sample SD',f"{vm['latency_seconds']['p95']:.4f} s / {vm['latency_seconds']['stdev']:.4f} s"],
+ ['Mean latency 95% interval',ci(vm['latency_seconds']['mean_patient_bootstrap'],digits=4)+' s'],
+ ['Estimated total cost',usd(vm['estimated_cost_usd']['total'],8)],
+ ['Estimated mean / median cost',usd(vm['estimated_cost_usd']['mean'],8)+' / '+usd(vm['estimated_cost_usd']['median'],8)],
+ ['Estimated p95 cost',usd(vm['estimated_cost_usd']['p95'],9)],
+ ['Mean cost 95% interval',ci(vm['estimated_cost_usd']['mean_patient_bootstrap'],digits=8)+' USD'],
+ ['Total measured tokens',f"{vm['total_tokens']['total']:,}"],
+ ['Mean / median total tokens',f"{vm['total_tokens']['mean']:,.2f} / {vm['total_tokens']['median']:,.0f}"],
+ ['p95 total tokens',f"{vm['total_tokens']['p95']:,.1f}"],
+ ['Mean tokens 95% interval',ci(vm['total_tokens']['mean_patient_bootstrap'])],
+ ['Primary measurement missingness','0 latency / cost estimate / tokens']], [3.65,3.45])
+p('The source summaries are full_single_agent/matched_v3_summary.json and single_agent_summary.json. The root comparison_summary.csv provides both systems on the same denominator for later report tables and figures. Preserve these question IDs when joining further diagnostics.')
 h('Correct empty answers remain correct',2)
-p('In the complete V3 record, 654 outputs have the syntactic empty/no-value flag. Of these, 422 are correct against empty reference results and 232 are incorrect. Among the other 2,277 outputs, 1,834 are correct and 443 incorrect. Thus the full 2,931-question score includes legitimate empty answers. This distinction is preserved in the numeric records.')
-p('The recorded V3 operational interval from first batch start to last seal is 40,426 seconds, or 11 hours 13 minutes 46 seconds, with two workers. This contextual wall interval is distinct from accepted task-time totals and should not be used as an architecture-only speed metric.')
+p('Among the 2,929 V3 comparison outputs, 653 have the syntactic empty/no-value flag. Of these, 422 are correct against empty reference results and 231 are incorrect. Among the other 2,276 outputs, 1,833 are correct and 443 incorrect. The 76.9887% score includes legitimate empty answers. This distinction is preserved in the numeric records.')
+p('Use the 70,478.026-second selected task-time sum for this V3 comparison. Historical experiment wall intervals remain in the execution archive; concurrency and scheduling make them different measurements from accumulated task time.')
 
 page('Files metrics and reproduction')
 p('All paths below are relative to the repository root. The branch results/v3-ful-run contains the historical result directories, derived numerical tables, this editable document, a text counterpart and portable raw archives. No development runtime implementation is merged.')
 table(['Location under results/v3','Use'],[
  ['RUN_REGISTRY.json and METHODS.txt','Run identities, cohorts and analysis protocol'],
+ ['comparison_summary.csv','Primary V3 and Single Agent figures on 2,929 questions each'],
  ['development/','300 per arm; numeric rows, pairs, phases, source comparison and raw ZIP parts'],
  ['full_single_agent/','2,929 per arm; scores, paired and subgroup statistics, diagnostics and baseline raw archive'],
- ['full_v3/','All 2,931 canonical V3 records and owned audit payloads'],
+ ['full_v3/','Original execution archive with all 2,931 V3 records and owned audit payloads'],
  ['cost_cache_sensitivity.json','Frozen-rate, fixed-usage cache scenario'],
  ['PACKAGE_MANIFEST.json','Artifact sizes and SHA256 inventory'],
  ['reproduce/','Offline analysis and archive reconstruction helpers']], [2.8,4.3])
 h('Metric dictionary',2)
 p('question_id is the join key and must be imported as text. Patient IDs define bootstrap clusters. correct is the frozen typed final-answer score. latency_seconds is selected task elapsed time. prompt_tokens includes cached_prompt_tokens; completion_tokens is output usage; total_tokens is prompt plus completion. estimated_cost_usd is the frozen-rate calculation. reported_cost_usd is unavailable provider dollar reporting, not the proxy estimate.')
 p('llm_calls and executed-tool counts measure different operations. evidence_count counts recorded evidence entries, while evidence_valid, precision and recall require recorded validation and can be missing. Draft/final transitions apply only where a draft exists. Empty/no-value, limitation and budget-stop flags retain their recorded meanings; none substitutes for typed correctness.')
+p('The released benchmark and original V3 execution archive contain 2,931 questions. The report compares the 2,929 question IDs with completed outcomes from both systems. RUN_REGISTRY.json and run_summary.csv retain original execution counts; comparison_summary.csv contains the primary reporting figures. This reporting view preserves the raw records and does not change the benchmark definition.')
 page('Offline reproduction')
 p('Start from a checkout of results/v3-ful-run. Read METHODS.txt and RUN_REGISTRY.json, then work from the numeric files before restoring the much larger raw material. All commands below are local and require no model credentials.')
 h('Verify the package',2)
@@ -311,7 +322,7 @@ for command in [
 p('The baseline archive uses the same envelope schema. Its own reconstruction guide gives the corresponding utility and archive-directory arguments. Development uses ordered ZIP parts; its guide supplies the exact concatenation order and original SHA256.')
 h('Rebuild and interpret tables',2)
 p('3. Run reproduce/build_analysis.py with Python and python-docx to rebuild this handoff from saved summaries. No provider request is made. Frozen scorer and analysis sources remain pinned in Git; derived extraction sources and hashes accompany the numerical packages.')
-p('4. Use matched 2,929-question files for comparisons, the complete V3 package for the 2,931-question arm result and development files for the reused checkpoint. Full comparison paired JSON files use Single Agent minus V3; development paired tables and this handoff use V3 minus Single Agent.')
+p('4. Use comparison_summary.csv and the matched 2,929-question files for full benchmark figures. Use development files for the reused checkpoint. The original V3 execution package supplies archival provenance. Full comparison paired JSON files use Single Agent minus V3; development paired tables and this handoff use V3 minus Single Agent.')
 p('Before publication, verify that figure labels preserve these denominators and signs. Recomputing an estimate from a selected subset creates a new analysis; retain its question IDs and assumptions alongside the resulting figure. The archived raw and numerical inputs remain the reference records.')
 
 doc.core_properties.title='V3 consolidated results and analysis'
@@ -319,7 +330,21 @@ doc.core_properties.subject='Midterm benchmark checkpoint and reproducible hando
 doc.core_properties.author='CSE 5106 project team'
 doc.core_properties.keywords='V3, FHIR, benchmark, paired comparison, midterm'
 doc.save(BASE / 'ANALYSIS.docx')
-(BASE / 'ANALYSIS.txt').write_text('V3 CONSOLIDATED RESULTS\nMidterm checkpoint and analysis handoff\n17 October 2026\n\n'+'\n'.join(text))
+(BASE / 'ANALYSIS.txt').write_text('V3 CONSOLIDATED RESULTS\nMidterm checkpoint and analysis handoff\nRevised 19 October 2026\n\n'+'\n'.join(text))
+
+comparison_rows=[]
+for name,arm in [('single_agent',s),('multi_agent_v3',v)]:
+    row={'arm':name,'questions':arm['questions'],'patients':arm['accuracy']['patients'],
+         'correct':arm['correct'],'wrong':arm['questions']-arm['correct'],
+         'accuracy':arm['accuracy']['estimate'],'accuracy_ci_low':arm['accuracy']['ci_low'],
+         'accuracy_ci_high':arm['accuracy']['ci_high']}
+    for key in ['latency_seconds','total_tokens','estimated_cost_usd']:
+        for stat in ['total','mean','median','p95','stdev']:
+            row[key+'_'+stat]=arm['metrics'][key][stat]
+    comparison_rows.append(row)
+with (BASE/'comparison_summary.csv').open('w',newline='') as f:
+    writer=csv.DictWriter(f,fieldnames=list(comparison_rows[0]),lineterminator='\n');writer.writeheader()
+    writer.writerows(comparison_rows)
 
 with (BASE/'run_summary.csv').open('w',newline='') as f:
     w=csv.DictWriter(f,fieldnames=['run_id','planned_n','recorded_n','correct','accuracy','selection_policy']);w.writeheader()

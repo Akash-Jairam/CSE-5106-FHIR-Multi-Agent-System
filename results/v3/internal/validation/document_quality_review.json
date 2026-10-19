@@ -1,11 +1,11 @@
 {
   "status": "PASS",
-  "reviewed_at_utc": "2026-10-17T17:09:41.857299+00:00",
+  "reviewed_at_utc": "2026-10-19T20:40:42.605669+00:00",
   "document": "results/v3/ANALYSIS.docx",
-  "docx_sha256": "8d7673fdcab00935d611bc1fa4b2a684bde7e34cd521277e615431544ac6e544",
-  "text_sha256": "9cf3d26d8a351eaa561257bf183e69fe579dc57b8fa822dd3e9a637bbe35f2f0",
-  "builder_sha256": "38629d4b303d20287e22872c072ebf81c01ad62f4784c89d546f10424d988858",
-  "bundled_compiler": "documents skill render_docx.py and bundled headless LibreOffice",
+  "docx_sha256": "65cccc344748fc27fdb5473fc563171ba286d1d5fbbe2b408b944d470cb7e58c",
+  "text_sha256": "19edd2a0e8349e7f7a866fb40689f16315db84be980c0d17b398f110b168dd32",
+  "builder_sha256": "0529945ac41919fcd00e7c50b6bae474eba3d6930eb51b343ca72953e396d254",
+  "bundled_compiler": "documents skill 26.1017.11052 render_docx.py and bundled headless LibreOffice",
   "pages": 11,
   "all_pages_visually_inspected_at_original_resolution": true,
   "page_checks": [
@@ -14,23 +14,29 @@
     "no orphan final paragraph",
     "plain black headings without title rule",
     "numeric alignment and repeated table headers",
-    "consistent page numbers and margins"
+    "consistent page numbers and margins",
+    "2929 primary comparison on cover and V3 reference page"
   ],
-  "qa_pdf_sha256": "8c570e5b45012b5f5f7becdcc0c94b514d979abcc4c6276087633c41f62775f9",
+  "qa_pdf_sha256": "2582a3a2a246fd1ea5c6928fff1ded946de6a51586569dac4d841a833cc915d1",
   "page_png_sha256": {
-    "page-1.png": "cfe587f1b624ed59660d42ecb238d4c9ba007704927dde099c53e79657ca650f",
-    "page-2.png": "e6853b4186dba3b33b5b627346bc6906e0805af699a16d7a0a59a651ffed7642",
-    "page-3.png": "ad312288c43757826de10d04dad824d5e360220471c47b58a259f2568042098c",
-    "page-4.png": "69205f6fa80ba36b8a303ef1da151b4f863eebc66ba071472f09564d9a97345e",
-    "page-5.png": "5fd9ca86af52276478a7bb9b7b7671536ba4fd3479c11c2ce8b73fe1a6c05eb1",
-    "page-6.png": "8b8879e1cddd62e81770ffcb0670f8096df211c181212030898ae2740c5d5115",
-    "page-7.png": "63a6194f4c4225355840e3bfb4867c098e8ecce8fa4f82662de6ba42add78f34",
-    "page-8.png": "0b001611df654a4af3c4a5ec078fc6686d4fe2475a0a9734ba189e1fbd2c53af",
-    "page-9.png": "6add156e1240bcc74075757abbbb4e663aa9167c7b2accc94e740b3cd2638bf6",
-    "page-10.png": "05d4bde7e5cd24b0694a285cf56c1a9e04669bd7005a24a87e65e5e00f4033cd",
-    "page-11.png": "f4d9ce1d07b65bf10079892b04273228dea4d8a8b31e8af9f8062c5df2d3a9de"
+    "page-1.png": "e91fe3057105149d9f02d3f7e12b9535c1bd6d995b2ce510b680515d7e82f3a5",
+    "page-2.png": "5e465ce3d38b898a075b6c18f8ab4e71a5419a7f63427314cea38e9de3115114",
+    "page-3.png": "faea1beb35a061b319055d146b74eb27dc27c08f4f2e52cd984fe621cf913e9a",
+    "page-4.png": "4c4b5dfc6fd7abf2ed4c22103e69e6e7a07d930ee9b74c745c7c704af5b541ae",
+    "page-5.png": "b4017c6c604e8adf1fabd4662fa901aae75cd3802f1ba04e9a44471f42a59b93",
+    "page-6.png": "fcd628dad364223715fdaadc2be3df931e8ee758e39b99ccf7d2bca9a283e906",
+    "page-7.png": "50c28f604829a6371e3fda737dfbf6fc4d27e1c64cd0643fa26b0c40a3b791aa",
+    "page-8.png": "c4845edcabbf2c78966a195fc13bd517ca775ef1a65714f9d917e742b3ef9389",
+    "page-9.png": "1be6aa7635f83a3867acef70853efaa8edd2bb76a6a247cbb008acea2204e14e",
+    "page-10.png": "c09b8d6ba732e76966a84f1a6eced52d36ab2f0b82c489211f3fa58d10cbdd9e",
+    "page-11.png": "ff25efc23fa994a6b8206949abcdc171c61ccef8c48a6f0d5cc244c1ea4a1709"
   },
   "qa_pdf_and_png_delivery": false,
   "output_format": "docx",
-  "provider_calls": false
+  "provider_calls": false,
+  "previous_review": {
+    "reviewed_at_utc": "2026-10-17T17:09:41.857299+00:00",
+    "docx_sha256": "8d7673fdcab00935d611bc1fa4b2a684bde7e34cd521277e615431544ac6e544",
+    "retained_in_git_parent": "81e2d0d9618a091193e1dc233c47c66b680a67d4"
+  }
 }
