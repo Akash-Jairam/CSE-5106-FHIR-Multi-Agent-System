@@ -34,6 +34,9 @@ def dispatch_agent_job(args_tuple):
     if args_tuple[1] == "multi_agent_v8":
         from agent.convention_verified_agent import run_v8_job
         return run_v8_job(args_tuple)
+    if args_tuple[1] == "multi_agent_v9":
+        from agent.dual_solver_agent import run_v9_job
+        return run_v9_job(args_tuple)
     return run_agent_with_input(args_tuple)
 
 
@@ -59,6 +62,7 @@ def build_parser():
         "single_turn_request", "single_turn_resource", "single_turn_code_resource",
         "multi_turn_resource", "multi_turn_code_resource", "multi_turn_code_resource_v2",
         "direct_llm", "single_agent", "multi_agent", "multi_agent_v3", "multi_agent_v8",
+        "multi_agent_v9",
     ])
     parser.add_argument("--verifier_model", default=None,
                         help="multi_agent_v8 only: run the static program audit on this model (heterogeneous verifier)")
