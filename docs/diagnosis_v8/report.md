@@ -47,6 +47,7 @@ CIs from each branch's frozen `outcome.txt`.
 | V7 residual trajectories | 233 (77.7 %) | 238 (79.3 %)* | −1.7 [−5.0, +1.6] | 6 | 1 A-wrong/B-right among 184 eligible; 115.0k vs 72.2k tokens; A revisions 3 neutral / 2 harmful |
 | **V8 convention-verified** | **241 (80.3 %)** | **246 (82.0 %)*** | **−1.7 [−4.8, +1.4]** | 0 | checks fired on 19; repairs 6 released (3 W→R, 3 W→W), 10 rejected, 3 failed; 276 primaries preserved, 18 null; 60.7k vs 74.0k tokens |
 | V8 + heterogeneous verifier | not run | same control | — | — | needs a second provider key |
+| V9 dual-solver (`experiments/dual-solver-v9`) | **TBD** | **TBD*** | **TBD** | **TBD** | pre-registered replay: 246 vs 246 (bound 250); see §5a |
 
 \* fresh single run under that design's fingerprint. Direct LLM (no tools):
 202/300 (67.3 %) archived.
@@ -141,6 +142,40 @@ no further dev-set iteration.
 | B2 — weaker base model, 900 runs | verification pays when the base model has headroom (direct LLM is already 67 % on Luna) | model fixed before launch: `gpt-5-mini` (first candidate; check_setup and 5-question pilot smoke passed 2026-10-16); done 2026-10-17, 900 attempts, 3 terminal errors (2 direct invalid output, 1 team provider 520) counted wrong | **not supported**: team 230 (76.7 %) vs single 234 (78.0 %), −1.3 [−4.6, +2.1], wins/losses 12/16; direct 221 (73.7 %). V8 repairs 6 released (5 W→R, 1 W→W, 0 R→W) but team abstained on 51 vs single 40; 53.8k vs 60.5k tokens; median latency 110 s vs 40 s |
 | Confirmation | generalisation off the burned 300 | not run: gate failed | — |
 
+## 5a. Run-C ablation and the V9 design
+
+Plan V9 starts from run C's per-question rows instead of a new architecture.
+`scripts/replay_v9_controller.py predict` takes the single agent's released
+answer as the primary and the V8 solver's candidate (`revision.primary`) as an
+independent recompute. Counts only:
+
+| Run C, 300 dev q, gpt-6-luna | n |
+|---|---|
+| single released / V8 solver candidate / V8 solver draft | 246 / 244 / 242 |
+| both right / both wrong / single-only right / solver-only right | 231 / 41 / 15 / 13 |
+| oracle pick between the two | 259 (+13) |
+| primary null, recompute non-null | 12, of which 11 are single budget stops |
+| single tokens mean / median / p90 | 74.0k / 63.3k / 146k |
+| V8 solver-phase tokens mean / median / p90 | 52.6k / 38.4k / 118k |
+
+The two scaffolds disagree in a complementary way. V6/V7's same-scaffold
+recomputes found 0–1 such cases. V9 (`multi_agent_v9`, `design_v9.txt`) therefore
+runs the unchanged single agent first on the full allowance. The query-contract
+solver then recomputes on the residual minus a 15k adjudication reserve
+(skipped below 25k). A fixed controller releases the primary on agreement,
+applies a null rule, and sends both-non-null disagreements to one adjudication
+call whose cited field must verify.
+
+Replaying the controller (steps 3–4 exact, adjudication defaulting to the
+primary) predicts **246, i.e. +0** (perfect-adjudicator bound 250). Policy
+counts: agree 218, recompute skipped or truncated 64, adjudicate 13, null rule
+primary 4 / recompute 1. The null-rule headroom sits on the single's budget
+stops, and those are exactly the questions with no residual for the recompute.
+With an unlimited recompute budget the replay gives 251, but that breaks the
+equal-ceiling constraint. The prediction was written into `design_v9.txt`
+before the run, and the run was launched as the prespecified test regardless
+([`launch_v9.md`](launch_v9.md)). Result: **TBD**.
+
 ## 6. Caveats
 
 - The 300 `held_out` questions have been reused for eight design
@@ -168,3 +203,4 @@ no further dev-set iteration.
 | `launch.md` | flag-checked commands for pre-flight, freeze, C, C', B1, B2, analysis, confirmation |
 | `agent/convention_checks.py`, `agent/convention_verified_agent.py` | V8 |
 | `agent/ehr_semantics.py`, `agent/direct_llm_agent.py` | B3 shared guide |
+| `agent/dual_solver_agent.py`, `scripts/replay_v9_controller.py`, `design_v9.txt`, `launch_v9.md` | V9 (§5a) |

@@ -76,3 +76,20 @@ as exposed by earlier phases; this makes the V8 inspection explicit.
   `check_setup.py` and a 5-question pilot smoke (`output/smoke/b2_gpt-5-mini_pilot5`),
   before any `held_out` attempt with that model. Same frozen code and settings
   as run C.
+
+## V9 design (plan V9, dual-solver team)
+
+- **What was read**: run C per-question rows of the single and V8 team arms:
+  typed correctness of the single's released answer and of the V8 solver's
+  draft/primary candidates, source-check issue lists, per-phase token and tool
+  usage, and budget stops. `scripts/replay_v9_controller.py` replays the V9
+  controller over them and outputs counts only, never answers. No gold SQL or
+  reference answer was read beyond the typed scorer's 0/1.
+- **What changed because of it**: the V9 design itself (`agent/dual_solver_agent.py`,
+  `design_v9.txt`): which second scaffold to use, the null rule, and the
+  reference-only exception to source validity. The replay prediction (246,
+  bound 250) is fitted on run C, so it is an in-sample expectation, not a test.
+- **Status of the 300 dev questions**: the V9 paired run is their **ninth**
+  exposure. Every V9 number on them is exploratory; only the protected-set
+  confirmation (run only if the gate passes) is confirmatory. The direct LLM arm
+  is reused from run C rather than re-run, so it adds no exposure.

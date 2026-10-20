@@ -51,7 +51,10 @@ the `multi_agent` strategy in `run_agent.py`.
 and `recovery_multi_agent_*` arm names while the run identity records the
 actual strategy: `multi_agent_v3` (query contract + static audit,
 `agent/query_contract_agent.py`) and `multi_agent_v8` (V3 plus deterministic
-convention checks and one routed repair, `agent/convention_verified_agent.py`).
+convention checks and one routed repair, `agent/convention_verified_agent.py`)
+and `multi_agent_v9` (single-agent primary, independent query-contract
+recompute on the residual budget, null rule and one verified adjudication,
+`agent/dual_solver_agent.py`; [`launch_v9.md`](diagnosis_v8/launch_v9.md)).
 With `multi_agent_v8`, `--verifier_model` runs only the static program audit
 on another model (passed to workers as `$VERIFIER_MODEL`). Runs with different
 team strategies or verifier models must use different `--output_dir`s. See

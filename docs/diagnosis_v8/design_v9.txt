@@ -1,0 +1,135 @@
+Design V9: dual-solver verified team (single-agent analysis, independent recompute, adjudication)
+Substantial fixed 300-question comparison; frozen before any V9 accuracy result is known
+
+Frozen acceptance gate
+
+On the 300 split.json held_out questions (the reused development cohort, ninth
+exposure), paired with a fresh single_agent control run under the same code
+fingerprint, model, budgets, cache and worker count, all three must hold with the
+unchanged typed scorer, all scheduled first attempts in the denominator, terminal
+errors incorrect, no retries and no best-attempt replacement:
+
+  1. team typed-accuracy > fresh single typed-accuracy;
+  2. patient-block bootstrap 95% CI lower bound of (team - single) > -2 points;
+  3. among adjudicated releases, right_to_wrong <= wrong_to_right
+     (draft = the primary's answer; scripts/replay_v9_controller.py mechanism,
+     "replacements" and transitions of the adjudicated_* policies).
+
+Only if all three hold: one once-only confirmation on a family-stratified
+300-question sample of the protected questions (never in pilot/dev/held_out,
+patient-disjoint from every entry in manifests/development_exposure.json and
+docs/diagnosis_v8/audited_subject_ids.json), scored once. Otherwise V9 is reported
+as a negative result alongside V2-V8. The gate is not changed after results.
+
+Why this design (run C, design-v8-20261016)
+
+Run C's per-question rows show that the single agent and the V3d/V8 query-contract
+solver make different errors: the solver candidate and the single's released
+answer are both right on 231, both wrong on 41, and split 15 single-right /
+13 solver-right, so an oracle pick between them scores 259 vs the single's 246.
+Same-scaffold second solvers (V6, V7) found 0-1 such complementary cases. The gain,
+if any, is in selecting between scaffolds, not in checking one answer.
+
+Treatment
+
+multi_agent_v9 (agent/dual_solver_agent.py, protocol dual-solver-v9). Same base
+model in three contexts under one aggregate accountant (200,000 tokens / 30 tools,
+identical to the single):
+
+  1 analysis      the unchanged SingleAgent scaffold runs first with the full
+                  allowance; its released answer is the primary (the team never
+                  has less budget than the single);
+  2 recompute     the V3/V8 LedgerSolver (no contract, no static audit, no repair)
+                  re-derives an answer from the original records without seeing
+                  the primary, capped at min(175,000, residual - 15,000) tokens and
+                  min(27, residual tools - 2) tools; skipped if the residual is
+                  < 25,000 tokens or the tool allowance is < 4. Its source check
+                  (with source_scope) and the V8 convention checks run as
+                  informational flags, never a veto;
+  3 adjudication  only when both candidates are non-null and differ: one role
+                  (<= 3 model turns, <= 2 get_resources_by_resource_id fetches,
+                  15,000-token reserve) sees the question, the shared guide, both
+                  answers, evidence, executed final programs, check flags and cited
+                  records, but no reasoning history. Candidates are labelled A/B in
+                  a fixed question-hash order. Output {"pick": "A|B", "check":
+                  {resource_id, field_path, rule, observed_value}}.
+
+Fixed controller (no model):
+  agreement (typed-normalised equality, verification_agent._canonical) -> primary;
+  exactly one non-null: primary non-null -> primary; recompute non-null and
+  source-valid for its cited resources (a source_scope note is ignored when every
+  unresolved record is Medication/Location or uncited) -> recompute, else primary;
+  both non-null and different -> adjudication; the pick is released only if the
+  cited record is held and holds exactly observed_value at field_path
+  (utils.evidence_scorer.check_citation); malformed output, failed check, phase
+  ceiling or unverifiable usage -> primary.
+Release policies: agree_primary, null_rule_primary, null_rule_recompute,
+adjudicated_primary, adjudicated_recompute, recompute_skipped_budget,
+adjudication_defaulted. The revision record holds both candidates with flags, the
+budget plan, the adjudication record (order, verdict, check status) and per-phase
+usage. When the primary is released the single agent's own output contract
+(error, budget stop) is reproduced; when the recompute is released, error is None
+(primary errors rescued this way are counted separately in the mechanism table).
+
+Pre-registered expectation (offline replay, written before the run)
+
+scripts/replay_v9_controller.py predict over run C (single arm = primary; V8 team
+revision.primary = recompute; availability from the V8 solver phase's own usage
+against the V9 allowance; steps 3-4 exact; adjudication defaults to primary):
+
+  predicted team score                  246 / 300   (= single 246; delta +0)
+  bound, perfect adjudicator            250
+  bound, adjudicator always recompute   246
+  policies  agree_primary 218, recompute_skipped_budget 64 (20 residual < 25k,
+            44 estimated truncated), adjudicate 13, null_rule_primary 4,
+            null_rule_recompute 1 (right)
+  adjudication cases                    4 primary-right/recompute-wrong,
+                                        4 primary-wrong/recompute-right, 5 both wrong
+  tokens                                single mean 74.0k (median 63.3k, p90 146k);
+                                        estimated team mean 112.4k (1.52x)
+
+Sensitivity: with revision.draft as the recompute the prediction is again 246
+(bound 250). With an unlimited recompute budget it would be 251 (bound 258), but
+that breaks the equal-ceiling constraint. The plan's estimate of about 250 does
+not hold: of the 12 questions where the primary is null and the recompute answers,
+11 are single-agent budget stops, where the residual is below 25,000 tokens and
+the recompute is skipped. The expected null-rule gain therefore lies almost
+entirely where this budget scheme cannot reach it. The run measures, in order,
+whether the live recompute availability exceeds the 236/300 estimate, whether
+adjudication is net positive on its ~13-16 cases, and the cost of both. A
+prediction of +0 means the gate is expected to fail. It is launched anyway as the
+prespecified test of the plan.
+
+Deviations from the proposal, stated for the report
+
+- The analysis context is the baseline single agent itself, so any team gain is
+  attributable only to verification by independent recomputation plus
+  adjudication.
+- The recompute is a different scaffold (the query-contract solver), not a
+  re-run of the analyst; the proposal's "re-fetch, recompute, search again" is
+  met by fresh retrieval from the starting packet.
+- The single repair is replacing the primary with the recomputed candidate.
+- The adjudicator's verified check grounds its pick in a real record field; it
+  is not a proof that the picked answer is correct.
+
+Controls and settings
+
+Model gpt-6-luna (Azure, reasoning_effort none), 200,000 aggregate tokens and 30
+aggregate logical tools per question for every system, enable_cache true, gzip
+audit storage, identical worker count across arms, same harness retries as V8.
+The single control is re-run fresh under the V9 code fingerprint (agent/ changed),
+although its own code path is unchanged. The direct LLM arm is not re-run: run C's
+ordinary_direct_llm.json (code b50c397; direct path unchanged since) is reused
+and compared only through scripts/compare_runs.py, which accepts differing
+fingerprints. No stronger model, question-ID routing, gold-answer or reference-SQL
+access, best-of-N or larger ceiling is used by any arm.
+
+Analysis
+
+scripts/run_experiments.py analyze/revisions (single + team, same fingerprint),
+scripts/compare_runs.py for paired team - single (gate items 1-2) and the reused
+direct arm, scripts/replay_v9_controller.py mechanism for release-policy counts,
+transitions per policy (gate item 3), adjudication outcomes, recompute
+availability vs the 236 estimate, and per-phase tokens. Report accuracy, tokens
+(including repeated context), tool calls, latency, terminal errors, budget stops
+and helpful/harmful revisions per arm, and the accuracy-vs-tokens plot.
