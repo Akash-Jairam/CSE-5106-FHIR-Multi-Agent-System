@@ -47,7 +47,7 @@ CIs from each branch's frozen `outcome.txt`.
 | V7 residual trajectories | 233 (77.7 %) | 238 (79.3 %)* | −1.7 [−5.0, +1.6] | 6 | 1 A-wrong/B-right among 184 eligible; 115.0k vs 72.2k tokens; A revisions 3 neutral / 2 harmful |
 | **V8 convention-verified** | **241 (80.3 %)** | **246 (82.0 %)*** | **−1.7 [−4.8, +1.4]** | 0 | checks fired on 19; repairs 6 released (3 W→R, 3 W→W), 10 rejected, 3 failed; 276 primaries preserved, 18 null; 60.7k vs 74.0k tokens |
 | V8 + heterogeneous verifier | not run | same control | — | — | needs a second provider key |
-| V9 dual-solver (`experiments/dual-solver-v9`) | **TBD** | **TBD*** | **TBD** | **TBD** | pre-registered replay: 246 vs 246 (bound 250); see §5a |
+| V9 dual-solver (`experiments/dual-solver-v9`) | 249 (83.0 %) | 244 (81.3 %)* | +1.7 [−1.4, +4.9] | 0 | gate passes, but controller net 0: 298/300 released the primary (which alone scores 249); 2 adjudicated changes, 1 W→R / 1 R→W; 9/18 adjudications hit the phase ceiling; 110.0k vs 75.1k tokens; see §5a |
 
 \* fresh single run under that design's fingerprint. Direct LLM (no tools):
 202/300 (67.3 %) archived.
@@ -174,7 +174,18 @@ stops, and those are exactly the questions with no residual for the recompute.
 With an unlimited recompute budget the replay gives 251, but that breaks the
 equal-ceiling constraint. The prediction was written into `design_v9.txt`
 before the run, and the run was launched as the prespecified test regardless
-([`launch_v9.md`](launch_v9.md)). Result: **TBD**.
+([`launch_v9.md`](launch_v9.md)).
+
+Result (`benchmarks/design-v9-20261019/outcome.txt`): team 249 vs single 244,
++1.7 pts [−1.4, +4.9], so all three frozen gate items pass. The mechanism table
+says the pass is not the treatment's doing. The team released the primary's
+answer on 298 of 300 questions; its primary (the unchanged single scaffold)
+scores 249 on its own, and the two adjudicated replacements cancelled (1 W→R,
+1 R→W). The +5 is run-to-run variation between two runs of the same
+single-agent code path, consistent with the pre-registered +0. Recompute ran on
+282/300 (estimate 236), but 33 recomputes returned null, and half of the 18
+adjudications defaulted because their prompt no longer fit the remaining
+allowance. Cost: 1.47× the single's tokens.
 
 ## 6. Caveats
 

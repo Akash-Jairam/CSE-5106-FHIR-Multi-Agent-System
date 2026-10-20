@@ -1,0 +1,75 @@
+{
+  "adjudication": {
+    "cases": 18,
+    "check_not_run": 9,
+    "check_valid": 9,
+    "malformed_or_failed": 9
+  },
+  "policies": {
+    "adjudicated_primary": 6,
+    "adjudicated_recompute": 3,
+    "adjudication_defaulted": 9,
+    "agree_primary": 230,
+    "null_rule_primary": 33,
+    "null_rule_recompute": 1,
+    "recompute_skipped_budget": 18
+  },
+  "primary_errors_rescued": 0,
+  "protocols": {
+    "dual-solver-v9": 300
+  },
+  "questions": 300,
+  "replacements": {
+    "adjudicated_recompute": {
+      "right_to_right": 1,
+      "right_to_wrong": 1,
+      "wrong_to_right": 1
+    },
+    "null_rule_recompute": {
+      "right_to_right": 1
+    }
+  },
+  "tokens": {
+    "adjudicate": {
+      "mean": 9726.111111111111,
+      "median": 10404.5,
+      "n": 18,
+      "p90": 14468
+    },
+    "primary": {
+      "mean": 72306.64,
+      "median": 61713.5,
+      "n": 300,
+      "p90": 143379
+    },
+    "recompute": {
+      "mean": 39505.34042553192,
+      "median": 37268.0,
+      "n": 282,
+      "p90": 77966
+    },
+    "total": {
+      "mean": 110025.22666666667,
+      "median": 106112.5,
+      "n": 300,
+      "p90": 179407
+    }
+  },
+  "transitions": {
+    "adjudicated_primary:right_to_right": 4,
+    "adjudicated_primary:wrong_to_wrong": 2,
+    "adjudicated_recompute:right_to_right": 1,
+    "adjudicated_recompute:right_to_wrong": 1,
+    "adjudicated_recompute:wrong_to_right": 1,
+    "adjudication_defaulted:right_to_right": 6,
+    "adjudication_defaulted:wrong_to_wrong": 3,
+    "agree_primary:right_to_right": 208,
+    "agree_primary:wrong_to_wrong": 22,
+    "null_rule_primary:right_to_right": 23,
+    "null_rule_primary:wrong_to_wrong": 10,
+    "null_rule_recompute:right_to_right": 1,
+    "recompute_skipped_budget:right_to_right": 5,
+    "recompute_skipped_budget:wrong_to_wrong": 13
+  },
+  "unknown_policies": []
+}

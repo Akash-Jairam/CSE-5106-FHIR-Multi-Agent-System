@@ -1,0 +1,40 @@
+Outcome: design-v9-20261019 (dual-solver verified team), paired 300 held_out, run 2026-10-19
+
+Accuracy (typed scorer, first attempts, terminal errors wrong)
+  team (multi_agent_v9)   249 / 300  83.0 %   errors 0   budget stops 13
+  single (fresh control)  244 / 300  81.3 %   errors 0   budget stops 19
+  direct LLM (run C)      208 / 300  69.3 %   (reused, code b50c397)
+  team - single  +1.7 pts, patient-block 95 % CI [-1.4, +4.9], wins/losses 14/9
+
+Frozen gate
+  1. team > single                                   249 > 244          PASS
+  2. CI lower bound > -2 pts                          -1.4 > -2          PASS
+  3. adjudicated releases right_to_wrong <= w_to_r    1 <= 1             PASS
+  The gate passes as written.
+
+Mechanism (scripts/replay_v9_controller.py mechanism -> mechanism.json)
+  policies: agree_primary 230, null_rule_primary 33, recompute_skipped_budget 18,
+            adjudication_defaulted 9, adjudicated_primary 6, adjudicated_recompute 3,
+            null_rule_recompute 1
+  answers changed from the primary: 2 (adjudicated_recompute: 1 W->R, 1 R->W);
+            null_rule_recompute 1 was R->R. Net controller effect: 0.
+  The team's primary alone (the unchanged SingleAgent scaffold, draft) scores 249.
+  The whole +5 is therefore run-to-run variation between two runs of the same
+  single-agent code path (primary 249 vs control 244), not verification.
+  Recompute availability: 282 / 300 run (estimate 236). 33 recomputes returned
+  null (all null_rule_primary). Adjudication: 18 cases, 9 defaulted, all 9 on the
+  phase token ceiling (prompt did not fit the remaining allowance); 9 with a
+  verified check. primary_errors_rescued 0.
+  Pre-registered prediction 246 vs 246 (+0); the controller's realised effect, +0,
+  matches it.
+
+Cost
+  mean tokens team 110.0k vs single 75.1k (1.47x; replay estimate 112.4k);
+  median latency 37.4 s vs 29.0 s.
+
+Reading
+  Formally the gate passes, which per design_v9.txt licenses the once-only
+  confirmation. The mechanism shows the pass is not attributable to the V9
+  treatment: the team released the primary's answer on 298 of 300 questions,
+  and the two changes cancelled. Whether to spend the protected confirmation
+  sample on this is decided by the authors; it is not run automatically.
