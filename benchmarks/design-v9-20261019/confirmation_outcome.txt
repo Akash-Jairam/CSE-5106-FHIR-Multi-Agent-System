@@ -1,0 +1,34 @@
+Confirmation outcome: design-v9-20261019, once-only protected sample, run 2026-10-20/21
+
+Sample: manifests/confirmation_v9.json (scripts/build_confirmation_split.py, seed 5106,
+committed 7a5c491 before the run). 300 family-stratified questions (159 temporal,
+92 lookup/counting, 49 numerical) from the 378 protected questions on 26 patients.
+No question was in pilot/dev/held_out and no patient is in development_exposure.json
+or audited_subject_ids.json. 29 questions are on pilot-split patients (the 5-question
+V9 smoke touched that pool), 271 on held_out-split patients; the frozen rule does
+not exclude either.
+
+Result (typed scorer, scored once, 2026-10-21)
+  single (fresh)          250 / 300  83.3 %   errors 0   budget stops 13   65.5k tokens
+  team (multi_agent_v9)   249 / 300  83.0 %   errors 0   budget stops 10   97.6k tokens
+  team - single  -0.3 pts, patient-block 95 % CI [-2.8, +1.9], wins/losses 4/5
+  -> confirmation FAILS (team does not beat the single). V9 is reported as negative.
+
+Deviation (decided before any scoring): the OpenAI account ran out of credits during
+the team arm; 137 team first attempts failed with "RateLimitError ... no credits
+remaining" (106 with zero usage, 31 mid-question). After credits were added the run
+was resumed and only those 137 were retried. The score above discards the billing
+attempts (ordinary_multi_agent.billing_retried.json, derived; raw file unchanged).
+The strict first-attempt score is team 134 / 300 vs single 250 (-38.7 pts), and is
+reported for completeness only (confirmation_results_strict.json). Either way the
+confirmation fails. The Mac slept during part of the retry, so confirmation latency
+is not reported; tokens and accuracy are unaffected.
+
+Mechanism (confirmation_mechanism.json)
+  agree_primary 245, null_rule_primary 25, recompute_skipped_budget 16,
+  adjudication_defaulted 5, null_rule_recompute 5, adjudicated_primary 2,
+  adjudicated_recompute 2
+  null_rule_recompute: 2 W->R, 2 R->R, 1 W->W (2 primary errors rescued)
+  adjudicated_recompute: 1 R->W, 1 W->W
+  primary alone 248, released 249: controller net +1. Team primary vs fresh single
+  is again run-to-run variation of the same scaffold (248 vs 250, dev run 249 vs 244).

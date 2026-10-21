@@ -47,7 +47,7 @@ CIs from each branch's frozen `outcome.txt`.
 | V7 residual trajectories | 233 (77.7 %) | 238 (79.3 %)* | −1.7 [−5.0, +1.6] | 6 | 1 A-wrong/B-right among 184 eligible; 115.0k vs 72.2k tokens; A revisions 3 neutral / 2 harmful |
 | **V8 convention-verified** | **241 (80.3 %)** | **246 (82.0 %)*** | **−1.7 [−4.8, +1.4]** | 0 | checks fired on 19; repairs 6 released (3 W→R, 3 W→W), 10 rejected, 3 failed; 276 primaries preserved, 18 null; 60.7k vs 74.0k tokens |
 | V8 + heterogeneous verifier | not run | same control | — | — | needs a second provider key |
-| V9 dual-solver (`experiments/dual-solver-v9`) | 249 (83.0 %) | 244 (81.3 %)* | +1.7 [−1.4, +4.9] | 0 | gate passes, but controller net 0: 298/300 released the primary (which alone scores 249); 2 adjudicated changes, 1 W→R / 1 R→W; 9/18 adjudications hit the phase ceiling; 110.0k vs 75.1k tokens; see §5a |
+| V9 dual-solver (`experiments/dual-solver-v9`) | 249 (83.0 %) | 244 (81.3 %)* | +1.7 [−1.4, +4.9] | 0 | confirmation fails (249 vs 250, −0.3 [−2.8, +1.9]); dev gate passed, but controller net 0: 298/300 released the primary (which alone scores 249); 2 adjudicated changes, 1 W→R / 1 R→W; 9/18 adjudications hit the phase ceiling; 110.0k vs 75.1k tokens; see §5a |
 
 \* fresh single run under that design's fingerprint. Direct LLM (no tools):
 202/300 (67.3 %) archived.
@@ -186,6 +186,16 @@ single-agent code path, consistent with the pre-registered +0. Recompute ran on
 282/300 (estimate 236), but 33 recomputes returned null, and half of the 18
 adjudications defaulted because their prompt no longer fit the remaining
 allowance. Cost: 1.47× the single's tokens.
+
+Because the gate passed as written, the once-only confirmation was run on 300
+protected questions (`manifests/confirmation_v9.json`; `confirmation_outcome.txt`).
+It fails: team 249 vs single 250, −0.3 pts [−2.8, +1.9], at 97.6k vs 65.5k
+tokens. The controller's net effect there was +1 (2 null-rule rescues, 1
+adjudicated R→W), and the dev-run "gain" disappears, as the mechanism table
+predicted. One disclosed deviation: 137 team first attempts failed on an
+exhausted API credit balance and were retried once after a top-up, decided
+before scoring; strict first-attempt scoring gives 134 vs 250. V9 joins V2–V8
+as a negative result.
 
 ## 6. Caveats
 

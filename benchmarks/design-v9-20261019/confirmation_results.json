@@ -1,0 +1,178 @@
+{
+  "cohort": "held_out",
+  "selection_warning": "Fixed subset is reused for architecture development; gains on it are exploratory.",
+  "questions": 300,
+  "patients": 26,
+  "question_ids_sha256": "cfe3f04f81c0639205b8dc9d478c5bbf941d9d8cf30e41c74f8e92ccb63400a4",
+  "dataset_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+  "families_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+  "scoring": "Unchanged typed scorer; first attempts, terminal errors incorrect; patient-block bootstrap",
+  "identities": {
+    "single": {
+      "result_path": "/Users/akashjairam/Downloads/Git/CSE-5106-FHIR-Multi-Agent-System-v9/output/experiments/gpt-6-luna/v9_confirmation/ordinary_single_agent.json",
+      "result_sha256": "76b2381292e94175dd701059c9ec05caa2070c4c46d16215b791c55aef051dc7",
+      "identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "7e5ed714a4419e2c1fcab2b7d47c9931306ab60ced41ba1917a61aa760b751e5",
+        "code_hash": "8d7f01c95456c82cbbd67181c85e51695110538ce1a06668586e247c424e9a51",
+        "split": "held_out",
+        "split_manifest_hash": "847707313b4d209bc4df8669890aa4b2afb1f49824d9da52d553f113e471f34d",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      }
+    },
+    "team": {
+      "result_path": "/Users/akashjairam/Downloads/Git/CSE-5106-FHIR-Multi-Agent-System-v9/output/experiments/gpt-6-luna/v9_confirmation/ordinary_multi_agent.billing_retried.json",
+      "result_sha256": "4ead25a52bd1eb65d0d489a51357dfb46218397f95b5d91cf32ee70e6a3408e4",
+      "identity": {
+        "version": 2,
+        "agent_strategy": "multi_agent_v9",
+        "model": "gpt-6-luna",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "7e5ed714a4419e2c1fcab2b7d47c9931306ab60ced41ba1917a61aa760b751e5",
+        "code_hash": "8d7f01c95456c82cbbd67181c85e51695110538ce1a06668586e247c424e9a51",
+        "split": "held_out",
+        "split_manifest_hash": "847707313b4d209bc4df8669890aa4b2afb1f49824d9da52d553f113e471f34d",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      }
+    }
+  },
+  "arms": {
+    "single": {
+      "accuracy": {
+        "all": {
+          "correct": 250,
+          "n": 300,
+          "patients": 26,
+          "estimate": 0.8333333333333334,
+          "ci_low": 0.7955960230062427,
+          "ci_high": 0.8721329806735453
+        },
+        "lookup_counting": {
+          "correct": 80,
+          "n": 92,
+          "patients": 25,
+          "estimate": 0.8695652173913043,
+          "ci_low": 0.8113207547169812,
+          "ci_high": 0.9340659340659341
+        },
+        "numerical_aggregation": {
+          "correct": 32,
+          "n": 49,
+          "patients": 22,
+          "estimate": 0.6530612244897959,
+          "ci_low": 0.5098039215686274,
+          "ci_high": 0.8064657611771361
+        },
+        "temporal_selection": {
+          "correct": 138,
+          "n": 159,
+          "patients": 26,
+          "estimate": 0.8679245283018868,
+          "ci_low": 0.8076923076923077,
+          "ci_high": 0.91875
+        }
+      },
+      "terminal_errors": 0,
+      "budget_stops": 13,
+      "mean_tokens": 65516.87333333334,
+      "observed_cost": 0.60809328,
+      "latency": {
+        "n": 300,
+        "median": 17.193,
+        "p95": 36.71285000000002
+      },
+      "transitions": {
+        "wrong_to_right": 3,
+        "right_to_wrong": 0,
+        "draft_correct": 243,
+        "drafts": 287,
+        "semantic_repairs": 6
+      }
+    },
+    "team": {
+      "accuracy": {
+        "all": {
+          "correct": 249,
+          "n": 300,
+          "patients": 26,
+          "estimate": 0.83,
+          "ci_low": 0.7896551724137931,
+          "ci_high": 0.8680367648381699
+        },
+        "lookup_counting": {
+          "correct": 79,
+          "n": 92,
+          "patients": 25,
+          "estimate": 0.8586956521739131,
+          "ci_low": 0.8,
+          "ci_high": 0.9220815295815296
+        },
+        "numerical_aggregation": {
+          "correct": 33,
+          "n": 49,
+          "patients": 22,
+          "estimate": 0.673469387755102,
+          "ci_low": 0.5087719298245614,
+          "ci_high": 0.8500265957446804
+        },
+        "temporal_selection": {
+          "correct": 137,
+          "n": 159,
+          "patients": 26,
+          "estimate": 0.8616352201257862,
+          "ci_low": 0.8014705882352942,
+          "ci_high": 0.9103791185581526
+        }
+      },
+      "terminal_errors": 0,
+      "budget_stops": 10,
+      "mean_tokens": 97632.35666666667,
+      "observed_cost": null,
+      "latency": {
+        "n": 300,
+        "median": 33.6435,
+        "p95": 200.99095000000005
+      },
+      "transitions": {
+        "wrong_to_right": 2,
+        "right_to_wrong": 1,
+        "draft_correct": 248,
+        "drafts": 300,
+        "semantic_repairs": 7
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "comparison": "team - single",
+      "wins": 4,
+      "losses": 5,
+      "n": 300,
+      "patients": 26,
+      "estimate": -0.0033333333333333335,
+      "ci_low": -0.027777777777777776,
+      "ci_high": 0.01948051948051948
+    }
+  ]
+}
