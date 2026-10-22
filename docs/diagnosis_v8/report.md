@@ -31,6 +31,12 @@ tokens. The checks fired on only 19 questions; the 6 released repairs were
 revisions turned 6 right drafts wrong, so the arm's net transitions are 5 vs 6.
 No confirmation is run ([`outcome.txt`](../../benchmarks/design-v8-20261016/outcome.txt)).
 
+**Final (V9 and B2).** The V9 dual-solver team passed its dev gate on run-to-run
+variance and then failed its protected confirmation (249 vs 250). On the weaker
+`gpt-5.4-nano` it again did not beat the single (222 vs 224, −0.7 [−4.4, +3.2]),
+although its controller was net +4 there. The hypothesis is not supported at
+either capability level (§5a, §5b).
+
 ## 2. Completed paired runs (300 `held_out` questions, gpt-6-luna, 200k tokens / 30 tools)
 
 All first attempts; terminal errors count as wrong; patient-block bootstrap
@@ -140,6 +146,7 @@ no further dev-set iteration.
 | C' — heterogeneous verifier | breaks shared-model error correlation | prepared (§3) | **TBD** |
 | B1 — recovery, 50 × intact/omitted × single/team | §5.3: does a team recover an omitted resource better? Archived hint: single −14 pts, team −4 pts, confounded by a 54 % team | prepared (§4) | **TBD** |
 | B2 — weaker base model, 900 runs | verification pays when the base model has headroom (direct LLM is already 67 % on Luna) | model fixed before launch: `gpt-5-mini` (first candidate; check_setup and 5-question pilot smoke passed 2026-10-16); done 2026-10-17, 900 attempts, 3 terminal errors (2 direct invalid output, 1 team provider 520) counted wrong | **not supported**: team 230 (76.7 %) vs single 234 (78.0 %), −1.3 [−4.6, +2.1], wins/losses 12/16; direct 221 (73.7 %). V8 repairs 6 released (5 W→R, 1 W→W, 0 R→W) but team abstained on 51 vs single 40; 53.8k vs 60.5k tokens; median latency 110 s vs 40 s |
+| B2 (V9) — V9 team on `gpt-5.4-nano`, 900 runs | same question with the V9 controller and a weaker model (`plan_b2.md`) | frozen `design-b2-20261022`; done 2026-10-22, 900/900, 0 errors | **not supported**: team 222 (74.0 %) vs single 224 (74.7 %), −0.7 [−4.4, +3.2]; direct 170 (56.7 %). Controller net +4 over its own primary, but primary 218 vs fresh single 224; see §5b |
 | Confirmation | generalisation off the burned 300 | not run: gate failed | — |
 
 ## 5a. Run-C ablation and the V9 design
@@ -197,6 +204,35 @@ exhausted API credit balance and were retried once after a top-up, decided
 before scoring; strict first-attempt scoring gives 134 vs 250. V9 joins V2–V8
 as a negative result.
 
+## 5b. B2 with the V9 team on a weaker model (`design-b2-20261022`)
+
+[`plan_b2.md`](plan_b2.md), frozen in [`design_b2.txt`](design_b2.txt) with a
+pre-registered prediction (team − single +1, range −2 to +4; controller net
++2 to +5; H-B2a holds, H-B2b fails). Model `gpt-5.4-nano`, the smallest nano
+tier on the account, chosen on a 5-question pilot smoke without looking at
+held_out. Code identical to the V9 confirmation (same `code_hash`).
+
+| Model | Direct | Single | Team (V9) | Δ team − single (95 % CI) | Controller net | Tokens team / single |
+|---|---|---|---|---|---|---|
+| gpt-6-luna (dev, run C / V9) | 208 | 244–250 | 241 / 249 | −1.7 … +1.7 (dev), −0.3 [−2.8, +1.9] (confirmation) | +0 dev, +1 confirmation | 1.5× |
+| gpt-5.4-nano (dev) | 170 | 224 | 222 | −0.7 [−4.4, +3.2] | +4 (6 W→R, 2 R→W) | 75.1k / 51.4k = 1.46× |
+| gpt-5.4-nano + luna verifier (H-B2c) | — | same | not run | — | — | — |
+
+**H-B2a holds**: the direct LLM drops 38 questions and the single 20, and the
+single − direct gap widens from 36 to 54. **H-B2b fails**: the team does not
+beat the single and the CI lower bound is −4.4. Every number landed inside the
+pre-registered ranges. The mechanism is the most favourable of the series:
+nano disagrees with its own recompute more often (32 adjudications, 31 with a
+verified check), and the adjudicator's picks were net +3, so the controller
+released 4 more correct answers than its primary had. That was smaller than
+the primary's own run-to-run gap to the fresh single (218 vs 224), which is
+the same variance that produced V9's +5 on luna. Per the plan's template:
+the failure is not about headroom. A same-model controller adds at most a few
+questions, which the 300-question design cannot separate from run-to-run
+noise, at about 1.5× the tokens. No confirmation is run; this closes the
+project. Plot: [`accuracy_vs_tokens_luna_nano.svg`](../../benchmarks/design-b2-20261022/accuracy_vs_tokens_luna_nano.svg);
+record: [`outcome.txt`](../../benchmarks/design-b2-20261022/outcome.txt).
+
 ## 6. Caveats
 
 - The 300 `held_out` questions have been reused for eight design
@@ -225,3 +261,5 @@ as a negative result.
 | `agent/convention_checks.py`, `agent/convention_verified_agent.py` | V8 |
 | `agent/ehr_semantics.py`, `agent/direct_llm_agent.py` | B3 shared guide |
 | `agent/dual_solver_agent.py`, `scripts/replay_v9_controller.py`, `design_v9.txt`, `launch_v9.md` | V9 (§5a) |
+| `scripts/build_confirmation_split.py`, `manifests/confirmation_v9.json` | V9 confirmation sample (§5a) |
+| `plan_b2.md`, `design_b2.txt`, `benchmarks/design-b2-20261022/` | B2 on gpt-5.4-nano with the V9 team (§5b) |

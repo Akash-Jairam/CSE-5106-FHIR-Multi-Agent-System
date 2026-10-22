@@ -1,0 +1,46 @@
+Outcome: design-b2-20261022 (V9 team vs single on gpt-5.4-nano), 300 held_out, run 2026-10-22
+
+Accuracy (typed scorer, first attempts, terminal errors wrong; scored once)
+  direct LLM      170 / 300  56.7 %   errors 0   budget stops 0    6.5k tokens
+  single agent    224 / 300  74.7 %   errors 0   budget stops 3   51.4k tokens
+  team (V9)       222 / 300  74.0 %   errors 0   budget stops 3   75.1k tokens (1.46x)
+  team - single    -0.7 pts, patient-block 95 % CI [-4.4, +3.2], wins/losses 17/19
+  direct - single -18.0 pts [-23.6, -11.8]; direct - team -17.3 [-23.2, -10.9]
+  per family (single / team / direct): lookup_counting 74 / 81 / 71,
+  numerical_aggregation 38 / 36 / 27, temporal_selection 112 / 105 / 72
+  No billing errors; the machine stayed on AC and awake (latency valid).
+  Observed cost: direct $0.46; single and team cost unavailable for some attempts
+  (litellm has no price for some calls); cache hit 94 % (single), 91 % (team) of
+  repeated prompt tokens.
+
+H-B2a (headroom)   HOLDS. direct 170 < 199; single 224 < 244; single - direct gap
+                   54 > luna's 36.
+H-B2b (team gain)  FAILS. team - single = -0.7 (not > 0); CI lower bound -4.4 < -2.
+                   The controller itself was net positive: released correct 222 vs
+                   the team primary's own 218 = +4 (adjudicated_recompute 5 W->R,
+                   2 R->W, 3 W->W; null_rule_recompute 1 W->R, 1 R->R, 3 W->W).
+                   But the team primary (218) trailed the fresh single (224) by 6,
+                   beyond the +-2 run-to-run allowance, so the controller's +4
+                   did not cover primary variance.
+H-B2c              not run (not part of this record).
+
+Mechanism (mechanism.json)
+  agree_primary 241, adjudicated_primary 21, null_rule_primary 18,
+  adjudicated_recompute 10, null_rule_recompute 5, recompute_skipped_budget 4,
+  adjudication_defaulted 1. Adjudication: 32 cases, 31 with a verified check,
+  1 malformed/failed. Recompute ran on 296 / 300. Mean tokens per phase:
+  primary 49.6k, recompute 25.2k, adjudicate 5.6k.
+  Compared with luna, nano gave the adjudicator more to do (32 vs 18 cases) and the
+  adjudicator was net positive (+3 on picked recomputes), the first V-series
+  design whose controller beat its own primary by more than one question.
+
+Against the pre-registered prediction
+  team - single      predicted +1 (range -2 to +4)     observed -0.7   in range
+  controller net     predicted +2 to +5                observed +4     in range
+  H-B2a              predicted holds                   holds
+  H-B2b              predicted does not hold           does not hold
+
+Verdict (frozen rule): H-B2b not supported -> final negative; no confirmation, no
+further runs on this question. H-B2a holds, so per plan_b2.md section 6: the failure
+is not about headroom. Plot: accuracy_vs_tokens_luna_nano.svg (luna run-C direct,
+V9 dev single/team; nano arms).
