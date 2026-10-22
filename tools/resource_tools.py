@@ -296,3 +296,82 @@ tool_registry.register_tool("get_all_resources_by_patient_fhir_id", get_all_reso
         }
     }
 })
+
+
+# Reference fields a record's links can be followed through (V10 shared retrieval; design_v10.txt §4)
+LINK_FIELDS = {
+    "Observation": ("specimen", "hasMember", "derivedFrom"),
+    "MedicationRequest": ("medicationReference",),
+    "Medication": ("ingredient",),
+}
+
+
+def _link_targets(record, field):
+    """[(resource_type, id)] referenced by `record[field]`; ingredients link through itemReference."""
+    value = record.get(field)
+    items = value if isinstance(value, list) else [value] if value else []
+    targets = []
+    for item in items:
+        reference = (item.get("itemReference") if field == "ingredient" else item) if isinstance(item, dict) else None
+        parts = reference.get("reference", "").rstrip("/").split("/") if isinstance(reference, dict) else []
+        if len(parts) < 2 or parts[-2] not in supported_types or not FHIR_ID_RE.fullmatch(parts[-1]):
+            raise ValueError(f"Unsupported or malformed {field} reference")
+        targets.append((parts[-2], parts[-1]))
+    return list(dict.fromkeys(targets))
+
+
+@cached_tool(version=1)
+def get_linked_resources(resource_type: str, resource_id: str, field: str) -> dict:
+    """One record plus every record its `field` references, grouped by resource type."""
+    try:
+        _validate_search(resource_type, resource_id)
+        if resource_type not in LINK_FIELDS:
+            raise ValueError(f"Links can be followed from: {', '.join(LINK_FIELDS)}")
+        if field not in LINK_FIELDS[resource_type]:
+            raise ValueError(f"{resource_type} links can be followed through: {', '.join(LINK_FIELDS[resource_type])}")
+        client = get_fhir_client()
+        source = [r for r in client.search_with_pagination(f"{resource_type}?_id={resource_id}")
+                  if r.get("resourceType") == resource_type and r.get("id") == resource_id]
+        if len(source) != 1:
+            raise ValueError("The source record was not found")
+        targets = _link_targets(source[0], field)
+        grouped = {resource_type: [source[0]]}
+        by_type = {}
+        for rtype, rid in targets:
+            by_type.setdefault(rtype, []).append(rid)
+        for rtype, ids in by_type.items():
+            for offset in range(0, len(ids), MEDICATION_BATCH_SIZE):
+                batch = ids[offset:offset + MEDICATION_BATCH_SIZE]
+                found = [r for r in client.search_with_pagination(
+                    f"{rtype}?_id={','.join(batch)}&_count={MEDICATION_BATCH_SIZE}")
+                         if r.get("resourceType") == rtype and r.get("id") in batch]
+                missing = set(batch) - {r["id"] for r in found}
+                if missing:
+                    raise ValueError(f"{len(missing)} linked {rtype} records are missing")
+                held = {r["id"] for r in grouped.get(rtype, [])}
+                grouped.setdefault(rtype, []).extend(r for r in found if r["id"] not in held)
+        return {**grouped, "source": f"{resource_type}/{resource_id}",
+                "linked_ids": [f"{rtype}/{rid}" for rtype, rid in targets]}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+tool_registry.register_tool("get_linked_resources", get_linked_resources, {
+    "type": "function",
+    "function": {
+        "name": "get_linked_resources",
+        "description": ("Fetch one record and every record it references through one field: Observation specimen "
+                        "(the Specimen), hasMember (child organism/result Observations) or derivedFrom (the parent "
+                        "test); MedicationRequest medicationReference; Medication ingredient (mix components)."),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "resource_type": {"type": "string", "description": "Observation, MedicationRequest or Medication"},
+                "resource_id": {"type": "string", "description": "FHIR resource ID of the source record"},
+                "field": {"type": "string",
+                          "description": "specimen, hasMember, derivedFrom, medicationReference or ingredient"}
+            },
+            "required": ["resource_type", "resource_id", "field"]
+        }
+    }
+})

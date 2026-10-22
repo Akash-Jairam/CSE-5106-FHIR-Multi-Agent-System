@@ -54,7 +54,11 @@ actual strategy: `multi_agent_v3` (query contract + static audit,
 convention checks and one routed repair, `agent/convention_verified_agent.py`)
 and `multi_agent_v9` (single-agent primary, independent query-contract
 recompute on the residual budget, null rule and one verified adjudication,
-`agent/dual_solver_agent.py`; [`launch_v9.md`](diagnosis_v8/launch_v9.md)).
+`agent/dual_solver_agent.py`; [`launch_v9.md`](diagnosis_v8/launch_v9.md))
+and `multi_agent_v10` (two or three independent single-agent draws with a
+typed-normalised vote, a template-routed deterministic finisher and the V9
+adjudicator for split votes, `agent/finisher_team_agent.py`;
+[`launch_v10.md`](diagnosis_v8/launch_v10.md)).
 With `multi_agent_v8`, `--verifier_model` runs only the static program audit
 on another model (passed to workers as `$VERIFIER_MODEL`). Runs with different
 team strategies or verifier models must use different `--output_dir`s. See

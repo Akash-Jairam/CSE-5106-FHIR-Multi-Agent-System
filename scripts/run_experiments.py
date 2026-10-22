@@ -76,7 +76,8 @@ def build_parser():
                         help="One base model shared by every system; default: $MODEL, then MODEL in config.yml, "
                              "then gpt-6-luna")
     parser.add_argument("--base_url", default=None)
-    parser.add_argument("--team_strategy", choices=["multi_agent", "multi_agent_v3", "multi_agent_v8", "multi_agent_v9"], default="multi_agent",
+    parser.add_argument("--team_strategy", choices=["multi_agent", "multi_agent_v3", "multi_agent_v8", "multi_agent_v9",
+                                                    "multi_agent_v10"], default="multi_agent",
                         help="Team implementation; arm names stay stable while run identity records the actual strategy")
     parser.add_argument("--verifier_model", default=None,
                         help="multi_agent_v8 only: run the team's program audit on this model (heterogeneous verifier arm)")

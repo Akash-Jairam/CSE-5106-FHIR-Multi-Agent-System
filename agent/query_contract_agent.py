@@ -17,7 +17,7 @@ from .analysis_agent import AnalysisAgent
 from .ehr_semantics import SEMANTIC_GUIDANCE
 from .framework import PYTHON_TOOL, RETRIEVAL_TOOLS, Role, Toolbox, _bound_tool_reply
 from .output_schema import _json_objects
-from .single_agent import SingleAgent
+from .single_agent import LINK_TOOL, SingleAgent
 from .verification_agent import _canonical, _empty_answer, field_check_issues
 from tools.field_check import check_fields, _wall_clock
 from tools.python_executor import execute_python_code
@@ -218,6 +218,8 @@ class LedgerSolver(SingleAgent):
         # Two host-only slots cover the initial and revised final source checks
         # after tool batches. Actual model calls remain capped at 20.
         super().__init__(parent.model, max_iterations=22, verbose=parent.verbose, base_url=parent.base_url)
+        # The V3/V8/V9 solver retrieves only through its scoped ledger; the V10 link tool is not part of it.
+        self.tools = [t for t in self.tools if t["function"]["name"] != LINK_TOOL]
         self._phase = phase
         self._llm_call = self._solver_llm_call
         self._take_tool_call = self._solver_take_tool_call

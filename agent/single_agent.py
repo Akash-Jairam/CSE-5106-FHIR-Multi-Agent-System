@@ -8,12 +8,15 @@ from .analysis_agent import AnalysisAgent
 from .framework import RETRIEVAL_TOOLS, _model_tool_reply
 from .ehr_semantics import SEMANTIC_GUIDANCE
 from .output_schema import ANSWER_FORMAT_INSTRUCTIONS, has_json_answer, parse_final_message
-from tools import get_tool_definitions
+from tools import get_tool, get_tool_definitions
 from tools.field_check import check_fields
 from tools.perturbation import get_perturbed_starting_packet
 from tools.starting_packet import get_starting_packet
 from tools.resource_tools import supported_types
 from utils import parse_question_context
+
+# Follows one record's references (specimen, hasMember, derivedFrom, medication, ingredient); V10 shared retrieval
+LINK_TOOL = "get_linked_resources"
 
 OUTPUT_GUIDANCE = f"""
 
@@ -44,7 +47,9 @@ STARTING PACKET AND OUTPUT FORMAT (these override the 'The final answer is:' for
 
 SINGLE_SYSTEM_PROMPT = f"""You answer questions about one patient's FHIR records using one conversation and tools.
 Use get_resources_by_patient_fhir_id to fetch required resource types, get_resources_by_resource_id for linked
-records, execute_python_code to inspect/filter/order/calculate, and check_fields to verify exact source citations.
+records, get_linked_resources to follow one record's references (an Observation's specimen, hasMember children or
+derivedFrom parent; a prescription's medicationReference; a mix's ingredients), execute_python_code to
+inspect/filter/order/calculate, and check_fields to verify exact source citations.
 Available resource types: {', '.join(supported_types)}. Retrieve only the patient in the question. Fetch the
 patient-owned event records before linked Medication or Location metadata. Do not infer missing details from
 resource IDs or assume the starting packet is the complete record.
@@ -91,7 +96,8 @@ class SingleAgent(MultiTurnCodeResourceAgent):
 
     def __init__(self, model: str, max_iterations: int = 30, verbose: bool = False, base_url=None):
         super().__init__(model, max_iterations=max_iterations, verbose=verbose, base_url=base_url)
-        self.tools = self.tools + [t for t in get_tool_definitions() if t["function"]["name"] == "check_fields"]
+        self.tools = self.tools + [t for name in ("check_fields", LINK_TOOL)
+                                   for t in get_tool_definitions() if t["function"]["name"] == name]
         self.system_msg = [{"role": "system", "content": SINGLE_SYSTEM_PROMPT}]
         self.final_computation = None
         self.last_execution = None
@@ -120,8 +126,10 @@ class SingleAgent(MultiTurnCodeResourceAgent):
 
     def _handle_tool_call(self, tool_call, retrieved_resources):
         name = tool_call.function.name
-        if name in RETRIEVAL_TOOLS:
+        if name in RETRIEVAL_TOOLS or name == LINK_TOOL:
             self._invalidate_computation("Retrieval requires a new final computation")
+        if name == LINK_TOOL:
+            return self._linked_retrieval(tool_call, retrieved_resources)
         mode, workspace, code = "auto", None, None
         if name == "execute_python_code":
             try:
@@ -187,6 +195,38 @@ class SingleAgent(MultiTurnCodeResourceAgent):
         result = self._check(args["citations"], args.get("encounter_id"))
         return {"tool_call_id": tool_call.id, "role": "tool", "name": "check_fields",
                 "content": json.dumps(result, default=str)}
+
+    def _linked_retrieval(self, tool_call, retrieved_resources):
+        """Run get_linked_resources and add the patient's linked records to the workspace (point-fetch merge)."""
+        try:
+            args = json.loads(tool_call.function.arguments)
+            if not isinstance(args, dict) or set(args) - {"resource_type", "resource_id", "field"}:
+                raise ValueError("Arguments must be an object with resource_type, resource_id and field")
+        except (ValueError, TypeError) as exc:
+            return self._tool_error(tool_call, str(exc))
+        output = get_tool(LINK_TOOL)(**{key: args.get(key) for key in ("resource_type", "resource_id", "field")})
+        if not isinstance(output, dict) or "error" in output:
+            return self._tool_error(tool_call, output.get("error") if isinstance(output, dict)
+                                    else "The retrieval tool returned an invalid result")
+        stored, linked = {}, set(output.get("linked_ids") or [])
+        for rtype in supported_types:
+            for record in output.get(rtype) or []:
+                key = f"{rtype}/{record.get('id')}"
+                owner = (record.get("subject") or record.get("patient") or {}).get("reference", "")
+                if rtype not in ("Medication", "Location") and owner.rstrip("/").split("/")[-1] != self._patient_fhir_id:
+                    if key == output.get("source"):
+                        return self._tool_error(tool_call, "Retrieve only the patient identified in this question")
+                    linked.discard(key)
+                    continue
+                merged = {r["id"]: r for r in retrieved_resources.get(rtype, [])}
+                merged[record["id"]] = {**record, "resourceType": rtype}
+                retrieved_resources[rtype] = list(merged.values())
+                stored.setdefault(rtype, []).append(key)
+        return {"tool_call_id": tool_call.id, "role": "tool", "name": LINK_TOOL,
+                "content": json.dumps({"stored_as": {rtype: f"retrieved_resources['{rtype}'] "
+                                                            f"({len(retrieved_resources[rtype])} items)"
+                                                     for rtype in stored},
+                                       "source": output.get("source"), "linked_ids": sorted(linked)})}
 
     def _check(self, citations, encounter_id=None):
         """Re-fetch original fields; model-generated code can mutate its working copy."""
