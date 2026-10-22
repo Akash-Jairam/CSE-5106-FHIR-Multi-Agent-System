@@ -1,0 +1,109 @@
+Design B2: does the V9 verified team help when the base model is weaker?
+Substantial fixed 300-question comparison on a weaker base model; frozen before any B2 held_out result is known
+
+Question
+
+On a weaker base model, does the V9 verified team (multi_agent_v9) improve typed
+accuracy over the single agent with the same tools and the same 200,000-token /
+30-tool aggregate ceiling? Nine same-model designs (V1-V9) and one protected-set
+confirmation (V9: team 249 vs single 250, -0.3 [-2.8, +1.9]) did not beat the
+single agent on gpt-6-luna. The base model is the last proposal-stated condition
+left untested. Plan: docs/diagnosis_v8/plan_b2.md.
+
+Model choice (recorded before the run; no held_out question was looked at)
+
+  chosen          gpt-5.4-nano (OpenAI, same endpoint, key and SDK path as gpt-6-luna;
+                  the smallest nano tier on the account; treated as a reasoning model
+                  by utils.core_utils.is_reasoning_llm, provider-default reasoning effort,
+                  no temperature)
+  check_setup     scripts/check_setup.py --model gpt-5.4-nano: passes
+  pilot smoke     output/smoke/b2_gpt-5.4-nano_pilot5 (5 pilot questions, all three arms):
+                  15/15 runs complete, 0 errors, 0 schema errors, 0 nulls;
+                  correct direct 3/5, single 4/5, team 4/5; team policies agree_primary 5;
+                  mean tokens direct 5.1k, single 29.0k, team 46.3k
+  rejected        none smoked. gpt-4.1-nano (previous-generation small model) also passes
+                  check_setup and is the fallback if gpt-5.4-nano is not weak enough;
+                  per plan_b2.md section 6 the model choice is not iterated more than once.
+  "weaker" check  the plan's criterion (direct accuracy clearly below luna's 208/300,
+                  69.3 %; within 3 pts = not weaker) can only be read from the held_out
+                  run without looking at held_out while choosing. It is evaluated after
+                  the run as H-B2a.
+
+Code: unchanged V9-confirmation code (code_hash 8d7f01c9...a9e51, branch
+experiments/dual-solver-v9 at a3a3340 for agent/utils/tools/run_agent.py/fhir_client.py).
+Only the --model argument differs. No prompt, guide, check or controller edits between
+this freeze and scoring.
+
+Hypotheses
+
+  H-B2a (headroom)  On gpt-5.4-nano the direct LLM and the single agent drop
+                    substantially versus gpt-6-luna (direct < 208 - 9 = 199, i.e. more
+                    than 3 pts below 69.3 %; single < 244, the lower luna single),
+                    and single - direct is wider than luna's dev gap (244 - 208 = 36).
+  H-B2b (team gain) team - single > 0 with patient-block 95 % CI lower bound > -2 pts,
+                    AND the mechanism record attributes the gain to the controller:
+                    (null_rule_recompute + adjudicated_recompute) W->R minus R->W > 0,
+                    and |team primary (draft) correct - fresh single correct| <= 2
+                    (the gain is not primary run-to-run variance).
+  H-B2c (optional)  heterogeneous verifier (nano primary, luna recompute/adjudicator).
+                    Not part of this record. If run, it needs a code flag, hence a new
+                    code_hash, and is frozen separately as design-b2het-<date>,
+                    compared against this record's nano single. Never promoted without
+                    its own confirmation.
+
+Pre-registered prediction (written before launch)
+
+On luna the controller's realised net effect was +0 (dev) and +1 (confirmation);
+team-vs-single differences beyond that were primary run-to-run variance (+5, -2).
+On nano the single answers with fewer tokens (smoke mean 29k vs luna 75k), so the
+recompute should run on nearly every question, and the single should abstain and
+err more, which gives the null rule and adjudication more to act on. Same-model
+recompute shares the primary's convention errors, so most disagreements remain
+both-wrong.
+
+  predicted team - single     +1 point (+3 questions), plausible range -2 to +4 pts
+  predicted controller net    +2 to +5 questions (released correct minus draft correct)
+  predicted H-B2a             holds (direct well below 199; single well below 244)
+  predicted H-B2b             does not hold (CI includes 0; controller net too small to
+                              clear run-to-run variance)
+  If H-B2b held, the expected size would be +3 to +6 points.
+
+Verdict rule (frozen)
+
+H-B2b supported -> one confirmation on the protected manifests/confirmation_v9.json
+sample with gpt-5.4-nano (single + team, 600 attempts, scored once). Not supported ->
+final negative; no further runs on this question. H-B2a failing -> the model was not
+weak enough; reported, and the model choice is changed at most once (gpt-4.1-nano)
+under a new frozen record. H-B2c is reported but never promoted without its own
+confirmation.
+
+Treatment and controls
+
+Arms on the 300 split.json held_out questions (tenth exposure; exploratory by
+definition), all on gpt-5.4-nano, one first attempt each, terminal errors wrong,
+no retries, no best-attempt replacement:
+  ordinary_direct_llm     direct LLM, no tools (the starting packet only)
+  ordinary_single_agent   SingleAgent, tools, 200,000 tokens / 30 tools
+  ordinary_multi_agent    multi_agent_v9 (agent/dual_solver_agent.py, protocol
+                          dual-solver-v9), same aggregate ceiling; unchanged V9
+                          controller (agreement, null rule, adjudication with a
+                          verified check; design_v9.txt)
+enable_cache true, gzip audit storage, 4 workers for every arm, same harness retries
+as V8/V9. caffeinate -i; latency is void for any period the machine slept.
+
+Operational rule (written before scoring, from the V9 confirmation precedent): if
+attempts fail with a provider billing error ("no credits remaining"), the raw file is
+kept, only those billing failures are retried after a top-up into a derived
+*.billing_retried.json, and both the strict first-attempt score and the
+billing-retried score are reported.
+
+Analysis
+
+scripts/run_experiments.py analyze/revisions (--team_strategy multi_agent_v9
+--audit_storage gzip); scripts/compare_runs.py for paired team - single,
+direct - single, direct - team (patient-block bootstrap, seed 5106);
+scripts/replay_v9_controller.py mechanism for release policies, W->R / R->W per
+policy, adjudication outcomes and per-phase tokens; team primary (draft) vs fresh
+single. Per arm and family: accuracy with CIs, budget stops, terminal errors, mean
+tokens and observed cost, cache hit rate. Accuracy-vs-tokens plot with the luna
+arms on the same axes. Rows added to report.md section 2 / 5.
