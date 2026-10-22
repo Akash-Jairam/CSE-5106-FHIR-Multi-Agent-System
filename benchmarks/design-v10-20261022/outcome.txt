@@ -70,3 +70,9 @@ Cost
 
 Next (per design_v10.txt): if the gate is read as passed, one confirmation on the protected
 manifests/confirmation_v9.json sample with nano (single + team, 600 attempts, scored once).
+
+Decision (2026-10-22, by the investigator, after the dev scoring above and before any
+confirmation attempt): the gate is read on the billing-retried r1, following the V9
+confirmation precedent and the B2 billing rule that V10 adopted unchanged. All four clauses
+pass, so the once-only confirmation is run. The strict reading (clause 2 fails in r1) stays
+reported, and the report states that this choice was made after the dev result was known.
