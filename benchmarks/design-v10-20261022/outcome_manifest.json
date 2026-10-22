@@ -1,0 +1,55 @@
+{
+  "recorded_at_utc": "2026-10-22T23:01:55.439377+00:00",
+  "arms": {
+    "ordinary_single_agent": {
+      "result_sha256": "5df778a9adff1c76d41012ef0c4fd87063ae9fdd103b91987f42fdcb4b285a36",
+      "run_identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-5.4-nano",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "e13cb7b48b98c80ac98fb8ff5dfa6e85de376dc1a49f1c4f9a1e5c03dac960e9",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_path": "/Users/akashjairam/Downloads/Git/CSE-5106-FHIR-Multi-Agent-System-v9/output/experiments/gpt-5.4-nano/v10_300q_r1/ordinary_single_agent.json"
+    },
+    "ordinary_multi_agent": {
+      "result_sha256": "d0aaf152d12573a700c1deefe45b556a8db3c778e8fd1b20cd4a3953cb8e1a48",
+      "run_identity": {
+        "version": 2,
+        "agent_strategy": "multi_agent_v10",
+        "model": "gpt-5.4-nano",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "e13cb7b48b98c80ac98fb8ff5dfa6e85de376dc1a49f1c4f9a1e5c03dac960e9",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_path": "/Users/akashjairam/Downloads/Git/CSE-5106-FHIR-Multi-Agent-System-v9/output/experiments/gpt-5.4-nano/v10_300q_r1/ordinary_multi_agent.json"
+    }
+  },
+  "provider_binding": null,
+  "report_sha256": "ce9a7019b2243c1b0cd031df7c9dd6571c60189bf22ed061a9cc96bbf4fb029c"
+}
