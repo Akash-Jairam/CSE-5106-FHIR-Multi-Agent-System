@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="viz-root" viewBox="0 0 680 420" width="680" height="420" role="img" aria-labelledby="t d">
+<style>
+.viz-root{color-scheme:light;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--muted:#898781;--grid:#e1e0d9;
+--axis:#c3c2b7;--direct_llm:#2a78d6;--single_agent:#eb6834;--multi_agent:#1baf7a;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme: dark){:root:where(:not([data-theme="light"])) .viz-root{color-scheme:dark;--surface:#1a1a19;--ink:#ffffff;--ink-2:#c3c2b7;--grid:#2c2c2a;--axis:#383835;--direct_llm:#3987e5;--single_agent:#d95926;--multi_agent:#199e70;}}
+:root[data-theme="dark"] .viz-root{color-scheme:dark;--surface:#1a1a19;--ink:#ffffff;--ink-2:#c3c2b7;--grid:#2c2c2a;--axis:#383835;--direct_llm:#3987e5;--single_agent:#d95926;--multi_agent:#199e70;}
+.title{font-size:15px;font-weight:600;fill:var(--ink)} .sub{font-size:12px;fill:var(--ink-2)}
+.tick{font-size:11px;fill:var(--muted);font-variant-numeric:tabular-nums} .label{font-size:12px;fill:var(--ink-2)}
+.grid{stroke:var(--grid);stroke-width:1} .axis{stroke:var(--axis);stroke-width:1}
+.point:hover .hit{fill:var(--grid);fill-opacity:.6}
+</style>
+<rect width="680" height="420" fill="var(--surface)"/>
+<text id="t" class="title" x="16" y="26">Accuracy vs tokens per question</text>
+<text id="d" class="sub" x="16" y="44">300 held_out (dev) questions; V10 pools two repeats (r1 billing-retried); whiskers: patient-clustered 95% CIs</text>
+<circle cx="21" cy="62" r="5" fill="var(--Direct, luna)"/><text class="label" x="30" y="66">Direct, luna</text>
+<circle cx="147" cy="62" r="5" fill="var(--Single, luna)"/><text class="label" x="156" y="66">Single, luna</text>
+<circle cx="273" cy="62" r="5" fill="var(--Team V9, luna)"/><text class="label" x="282" y="66">Team V9, luna</text>
+<circle cx="407" cy="62" r="5" fill="var(--Direct, nano)"/><text class="label" x="416" y="66">Direct, nano</text>
+<circle cx="533" cy="62" r="5" fill="var(--Team V9, nano)"/><text class="label" x="542" y="66">Team V9, nano</text>
+<circle cx="667" cy="62" r="5" fill="var(--Single V10, nano)"/><text class="label" x="676" y="66">Single V10, nano</text>
+<circle cx="825" cy="62" r="5" fill="var(--Team V10, nano)"/><text class="label" x="834" y="66">Team V10, nano</text>
+<line class="grid" x1="64" x2="560" y1="368.0" y2="368.0"/><text class="tick" x="56" y="372.0" text-anchor="end">50%</text>
+<line class="grid" x1="64" x2="560" y1="297.0" y2="297.0"/><text class="tick" x="56" y="301.0" text-anchor="end">60%</text>
+<line class="grid" x1="64" x2="560" y1="226.0" y2="226.0"/><text class="tick" x="56" y="230.0" text-anchor="end">70%</text>
+<line class="grid" x1="64" x2="560" y1="155.0" y2="155.0"/><text class="tick" x="56" y="159.0" text-anchor="end">80%</text>
+<line class="grid" x1="64" x2="560" y1="84.0" y2="84.0"/><text class="tick" x="56" y="88.0" text-anchor="end">90%</text>
+<line class="grid" x1="64.0" x2="64.0" y1="84" y2="368"/><text class="tick" x="64.0" y="386" text-anchor="middle">5k</text>
+<line class="grid" x1="157.2" x2="157.2" y1="84" y2="368"/><text class="tick" x="157.2" y="386" text-anchor="middle">10k</text>
+<line class="grid" x1="250.4" x2="250.4" y1="84" y2="368"/><text class="tick" x="250.4" y="386" text-anchor="middle">20k</text>
+<line class="grid" x1="373.6" x2="373.6" y1="84" y2="368"/><text class="tick" x="373.6" y="386" text-anchor="middle">50k</text>
+<line class="grid" x1="466.8" x2="466.8" y1="84" y2="368"/><text class="tick" x="466.8" y="386" text-anchor="middle">100k</text>
+<line class="grid" x1="560.0" x2="560.0" y1="84" y2="368"/><text class="tick" x="560.0" y="386" text-anchor="middle">200k</text>
+<line class="axis" x1="64" x2="560" y1="368" y2="368"/>
+<text class="tick" x="312.0" y="408" text-anchor="middle">Mean tokens per question (log scale)</text>
+<text class="tick" transform="translate(16 226.0) rotate(-90)" text-anchor="middle">Accuracy</text>
+<g class="point"><title>Direct, luna: accuracy 69.3% (95% CI 64.0% to 74.7%); 6,471 tokens per question (95% CI unavailable: fewer than 2 patients); 300 questions, 58 patients</title><circle class="hit" cx="98.7" cy="230.7" r="14" fill="transparent"/>
+<line x1="98.7" x2="98.7" y1="268.5" y2="192.7" stroke="var(--Direct, luna)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="98.7" cy="230.7" r="5" fill="var(--Direct, luna)" stroke="var(--surface)" stroke-width="2"/><text class="label" x="108.7" y="222.7">Direct, luna 69%</text></g>
+<g class="point"><title>Single, luna: accuracy 81.3% (95% CI 76.0% to 85.9%); 75,076 tokens per question (95% CI 68,615 to 81,656); 300 questions, 58 patients</title><circle class="hit" cx="428.3" cy="145.5" r="14" fill="transparent"/>
+<line x1="428.3" x2="428.3" y1="183.2" y2="113.1" stroke="var(--Single, luna)" stroke-width="2" stroke-linecap="round"/>
+<line x1="416.2" x2="439.6" y1="145.5" y2="145.5" stroke="var(--Single, luna)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="428.3" cy="145.5" r="5" fill="var(--Single, luna)" stroke="var(--surface)" stroke-width="2"/><text class="label" x="438.3" y="137.5">Single, luna 81%</text></g>
+<g class="point"><title>Team V9, luna: accuracy 83.0% (95% CI 77.8% to 87.4%); 110,025 tokens per question (95% CI 102,391 to 117,316); 300 questions, 58 patients</title><circle class="hit" cx="479.6" cy="133.7" r="14" fill="transparent"/>
+<line x1="479.6" x2="479.6" y1="170.8" y2="102.2" stroke="var(--Team V9, luna)" stroke-width="2" stroke-linecap="round"/>
+<line x1="470.0" x2="488.3" y1="133.7" y2="133.7" stroke="var(--Team V9, luna)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="479.6" cy="133.7" r="5" fill="var(--Team V9, luna)" stroke="var(--surface)" stroke-width="2"/><text class="label" x="489.6" y="125.7">Team V9, luna 83%</text></g>
+<g class="point"><title>Direct, nano: accuracy 56.7% (95% CI 51.3% to 62.3%); 6,527 tokens per question (95% CI 5,907 to 7,095); 300 questions, 58 patients</title><circle class="hit" cx="99.8" cy="320.7" r="14" fill="transparent"/>
+<line x1="99.8" x2="99.8" y1="358.9" y2="280.8" stroke="var(--Direct, nano)" stroke-width="2" stroke-linecap="round"/>
+<line x1="86.4" x2="111.1" y1="320.7" y2="320.7" stroke="var(--Direct, nano)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="99.8" cy="320.7" r="5" fill="var(--Direct, nano)" stroke="var(--surface)" stroke-width="2"/><text class="label" x="109.8" y="312.7">Direct, nano 57%</text></g>
+<g class="point"><title>Team V9, nano: accuracy 74.0% (95% CI 68.6% to 79.4%); 75,080 tokens per question (95% CI 69,002 to 81,504); 300 questions, 58 patients</title><circle class="hit" cx="428.3" cy="197.6" r="14" fill="transparent"/>
+<line x1="428.3" x2="428.3" y1="235.6" y2="159.4" stroke="var(--Team V9, nano)" stroke-width="2" stroke-linecap="round"/>
+<line x1="416.9" x2="439.3" y1="197.6" y2="197.6" stroke="var(--Team V9, nano)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="428.3" cy="197.6" r="5" fill="var(--Team V9, nano)" stroke="var(--surface)" stroke-width="2"/><text class="label" x="438.3" y="189.6">Team V9, nano 74%</text></g>
+<g class="point"><title>Single V10, nano: accuracy 72.3% (95% CI 67.2% to 77.2%); 55,958 tokens per question (95% CI 51,386 to 60,545); 600 questions, 58 patients</title><circle class="hit" cx="388.7" cy="209.4" r="14" fill="transparent"/>
+<line x1="388.7" x2="388.7" y1="245.7" y2="175.0" stroke="var(--Single V10, nano)" stroke-width="2" stroke-linecap="round"/>
+<line x1="377.3" x2="399.3" y1="209.4" y2="209.4" stroke="var(--Single V10, nano)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="388.7" cy="209.4" r="5" fill="var(--Single V10, nano)" stroke="var(--surface)" stroke-width="2"/><text class="label" x="398.7" y="201.4">Single V10, nano 72%</text></g>
+<g class="point"><title>Team V10, nano: accuracy 76.5% (95% CI 72.0% to 80.6%); 106,026 tokens per question (95% CI 99,466 to 112,879); 600 questions, 58 patients</title><circle class="hit" cx="474.7" cy="179.9" r="14" fill="transparent"/>
+<line x1="474.7" x2="474.7" y1="211.8" y2="150.4" stroke="var(--Team V10, nano)" stroke-width="2" stroke-linecap="round"/>
+<line x1="466.1" x2="483.1" y1="179.9" y2="179.9" stroke="var(--Team V10, nano)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="474.7" cy="179.9" r="5" fill="var(--Team V10, nano)" stroke="var(--surface)" stroke-width="2"/><text class="label" x="484.7" y="171.9">Team V10, nano 76%</text></g>
+</svg>
