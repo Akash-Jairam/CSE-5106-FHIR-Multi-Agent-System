@@ -1,0 +1,32 @@
+Confirmation outcome: design-v10-20261022, once-only protected sample, gpt-5.4-nano, run 2026-10-22
+
+Sample: manifests/confirmation_v9.json (300 family-stratified protected questions on 26
+patients, drawn once for V9 at 7a5c491; used once before, for the V9 luna confirmation; first
+use with nano). Same settings as the dev repeats (200,000 tokens / 30 tools, 4 workers, gzip
+audits, code 283112c). Run once, after the gate decision was recorded (7fcd665). Scored once.
+600/600 first attempts, 0 terminal errors, 0 billing failures, no retries.
+
+Result (typed scorer, patient-block bootstrap, seed 5106)
+  single (fresh)           233 / 300  77.7 %   budget stops 3   49.9k tokens   $1.61   15 s median
+  team (multi_agent_v10)   240 / 300  80.0 %   budget stops 4   94.3k tokens   $2.97   31 s median
+  team - single  +2.3 pts, 95 % CI [-0.7, +5.4], wins / losses 14 / 7
+  by family: temporal_selection 133 vs 126 (+7); lookup_counting 76 vs 76;
+             numerical_aggregation 31 vs 31
+  -> confirmation PASSES on the V9 criterion (team beats the single), and every dev gate clause
+     also holds here: CI lower bound -0.7 > -2; finisher right->wrong 0 <= wrong->right 6;
+     draw 1 229 within +/-6 of 233. The CI includes 0. The confirmation shows a consistent
+     positive direction, not a significant improvement.
+
+Mechanism (confirmation_mechanism.json)
+  votes            agree2 258, majority3 13, split 23, single_draw 6
+  policies         vote_candidate 287, finisher_replaced 8, adjudicated_draw1 3, adjudicated_other 2
+  draw 1 -> released  229 -> 240 (+11): finishers 6 W->R / 2 W->W / 0 R->W (T001 +2, T054 +2,
+                   T051 +1, T052 +1); vote 6 W->R / 1 R->W; adjudication 1 W->R / 1 R->W
+  team draw 1 vs fresh single  229 vs 233 (-4, inside the +/-6 noise band)
+
+Reading
+  On questions and patients never used for development, the team is +7 over the single, with
+  the gain entirely in temporal selection, where the first/last-drug, specimen and count
+  finishers apply. The finishers again made no harmful replacement. The effect (+2.3 pts) is
+  smaller than on dev (+3.3 to +4.2), consistent with dev-fitted finishers transferring partly.
+  Costs: 1.9x tokens and about 2x latency of the single.
