@@ -1,0 +1,78 @@
+Outcome: design-v10-20261022, two repeats of the paired 300 held_out questions, gpt-5.4-nano, run 2026-10-22
+
+Settings as frozen: 200,000 tokens / 30 tools per question for every arm, 4 workers, gzip
+audits, code 283112c (record committed 96f3799). Scored once, after both repeats finished,
+with the unchanged typed scorer and patient-block bootstrap (seed 5106).
+
+Deviations during the run (decided before any scoring)
+  r1 team: the OpenAI account ran out of credits near the end; 7 team first attempts failed
+  with "RateLimitError ... no credits remaining" (3 with zero usage, 4 mid-question). The raw
+  file was kept unchanged (ordinary_multi_agent.json, sha256 d0aaf152...); after a top-up
+  only those 7 were retried, and the derived ordinary_multi_agent.billing_retried.json holds
+  the retried attempts with the billing attempts removed (B2 billing rule). Both scores are
+  reported below.
+  r2: one terminal ContentPolicyViolationError in each arm (different questions). Not billing
+  failures: kept as wrong, not retried.
+
+Result (correct / 300)
+                         r1 strict   r1 billing-retried   r2     mean (strict / retried)
+  fresh single           217         217                  217    217 / 217
+  team (multi_agent_v10) 220         225                  234    227 / 229.5
+  team draw 1            212         217                  217    214.5 / 217
+  team - single (pts)    +1.0 [-3.6, +5.7]  +2.7 [-1.6, +7.3]  +5.7 [+1.4, +10.0]
+  wins / losses          22 / 19     23 / 15              28 / 11
+  single_r2 - single_r1  0.0 [-3.1, +2.9] (14 / 14): measured draw noise
+  team_r2 - team_r1      +4.7 [+0.6, +8.8] (23 / 9)
+
+Frozen gate
+  1. mean team > mean single              strict 227 > 217 PASS; retried 229.5 > 217 PASS
+  2. CI lower bound > -2 pts, each repeat strict r1 -3.6 FAIL, r2 +1.4 PASS;
+                                          retried r1 -1.6 PASS, r2 +1.4 PASS
+  3. finisher right_to_wrong <= wrong_to_right, each repeat
+                                          r1 0 <= 10 PASS; r2 0 <= 13 PASS
+  4. mean draw-1 within +/-6 of mean single
+                                          strict 214.5 vs 217 PASS; retried 217 vs 217 PASS
+  -> With the billing-retried r1 (the V9-confirmation precedent: billing attempts discarded,
+     strict score reported for completeness) all four clauses PASS. On the strict
+     first-attempt score clause 2 FAILS in r1, only because the 7 billing failures count as
+     wrong. design_v10.txt says to report both scores but does not say which one decides the
+     gate. That choice is recorded here, before confirmation, as a decision for the
+     investigator.
+
+Mechanism (mechanism_r*.json)
+  votes            r1 agree2 230, majority3 23, split 37, single_draw 10;
+                   r2 agree2 231, majority3 23, split 38, single_draw 8
+  policies         r1 vote_candidate 275, finisher_replaced 16, adjudicated_draw1 6,
+                   adjudicated_other 3 (retried); r2 vote_candidate 272, finisher_replaced 17,
+                   adjudicated_draw1 4, adjudicated_other 5, adjudication_defaulted 1,
+                   terminal_error 1
+  finishers        replaced 16 (r1) / 17 (r2): wrong->right 10 / 13, wrong->wrong 6 / 4,
+                   right->wrong 0 / 0 (r2 also 1 right->right); by template r1 / r2:
+                   T051 +3 / +2, T052 +2 / +2, T054 +1 / +4, T055 +3 / +4, T001 +1 / +1,
+                   T064 and T073 0 (every candidate already used the convention field)
+  draw 1 -> released  r1 +8 (retried), r2 +17; the finishers account for 10 and 13; the vote
+                   and adjudication account for the rest (r2 vote_candidate 6 W->R / 3 R->W,
+                   adjudicated_other 2 W->R)
+  adjudication     9 / 10 cases, all with a verified check except one malformed reply in r2
+
+Against the pre-registered prediction
+  Predicted team about 236-239 against a fresh single of 224 +/- 6 (+12 to +15). Realised:
+  the fresh single scored 217 in both repeats, 7 below B2's 224 although it now has
+  get_linked_resources, so the shared tool did not lift the single. The team gained +10
+  (strict) / +12.5 (retried) over it, at the low end of the predicted gain; the finishers
+  delivered +10 / +13 against +11 to +14 measured offline, with zero harmful replacements.
+  The two team repeats differ by 9 questions (225 vs 234), more than the singles (0).
+
+Cost
+  team mean tokens 102.8k-107.0k vs single 54.0k-57.9k (1.9x); cache hit rate about 80 %
+  in both arms; provider cost unavailable for one or more attempts. Median latency team
+  34-35 s vs single 17-19 s.
+
+Next (per design_v10.txt): if the gate is read as passed, one confirmation on the protected
+manifests/confirmation_v9.json sample with nano (single + team, 600 attempts, scored once).
+
+Decision (2026-10-22, by the investigator, after the dev scoring above and before any
+confirmation attempt): the gate is read on the billing-retried r1, following the V9
+confirmation precedent and the B2 billing rule that V10 adopted unchanged. All four clauses
+pass, so the once-only confirmation is run. The strict reading (clause 2 fails in r1) stays
+reported, and the report states that this choice was made after the dev result was known.

@@ -93,3 +93,27 @@ as exposed by earlier phases; this makes the V8 inspection explicit.
   exposure. Every V9 number on them is exploratory; only the protected-set
   confirmation (run only if the gate passes) is confirmatory. The direct LLM arm
   is reused from run C rather than re-run, so it adds no exposure.
+
+## V10 design (plan V10, finisher team)
+
+- **What was read**: the B2 per-question rows (`output/experiments/gpt-5.4-nano/b2_300q`,
+  single and V9 team arms): typed correctness of the single's released answer and
+  of the team primary, the cited resource types, per-phase tokens and tools.
+  `scripts/replay_v10.py predict` computes the two-draw statistics, the residual
+  availability and per-template finisher signatures (gold-set membership for
+  T051/T052, the gold day for T064/T073) from them, and outputs counts only.
+  `scripts/validate_finishers_live.py` ran the finishers without any model call on
+  live FHIR records: `audit` on the 49 `root_causes.csv` questions (gold and
+  typical-wrong drafts, as in the V8 calibration), and `candidates` on the B2
+  single and team-primary answers for the seven finisher templates. Reference
+  answers entered only through the typed scorer's 0/1.
+- **What changed because of it**: the V10 design itself (`agent/finishers.py`,
+  `agent/template_router.py`, `agent/finisher_team_agent.py`, the shared
+  `get_linked_resources` tool, `design_v10.txt`). The router's wording rules were
+  fitted to the full question manifest (all 2,931 questions, not only held_out),
+  so its exactness is by construction. The prediction in `design_v10.txt` is
+  fitted on the B2 rows and is an in-sample expectation, not a test.
+- **Status of the 300 dev questions**: the V10 two-repeat paired run would be their
+  **eleventh** exposure. Every V10 number on them is exploratory. Only the
+  protected-set confirmation (run only if the gate passes) is confirmatory. The
+  5-question smoke used pilot questions only.

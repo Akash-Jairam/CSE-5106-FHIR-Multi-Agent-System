@@ -1,0 +1,79 @@
+{
+  "recorded_at_utc": "2026-10-22T13:42:46.484638+00:00",
+  "arms": {
+    "ordinary_direct_llm": {
+      "result_sha256": "ce69439252e63ebb37979f94135b4d6fb80383b4bcb18b3f51c73bb1a7aa2497",
+      "run_identity": {
+        "version": 2,
+        "agent_strategy": "direct_llm",
+        "model": "gpt-5.4-nano",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "8d7f01c95456c82cbbd67181c85e51695110538ce1a06668586e247c424e9a51",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_path": "/Users/akashjairam/Downloads/Git/CSE-5106-FHIR-Multi-Agent-System-v9/output/experiments/gpt-5.4-nano/b2_300q/ordinary_direct_llm.json"
+    },
+    "ordinary_single_agent": {
+      "result_sha256": "2e1d326dd71580613a05ddf02b919c8d9b0c86440b0e02df4b4d96fbdfdd0bac",
+      "run_identity": {
+        "version": 2,
+        "agent_strategy": "single_agent",
+        "model": "gpt-5.4-nano",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "8d7f01c95456c82cbbd67181c85e51695110538ce1a06668586e247c424e9a51",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_path": "/Users/akashjairam/Downloads/Git/CSE-5106-FHIR-Multi-Agent-System-v9/output/experiments/gpt-5.4-nano/b2_300q/ordinary_single_agent.json"
+    },
+    "ordinary_multi_agent": {
+      "result_sha256": "853859dddf20337ecc7c57a8b62537e8d6f74f6293e7b324145f70c6982bc906",
+      "run_identity": {
+        "version": 2,
+        "agent_strategy": "multi_agent_v9",
+        "model": "gpt-5.4-nano",
+        "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "max_total_tokens": 200000,
+        "max_tool_calls": 30,
+        "add_patient_fhir_id": true,
+        "enable_cache": true,
+        "input_hash": "25e57321644744d5c0718c949c1f90e8be4f53b8aadce4d0118843a99c7b96ce",
+        "code_hash": "8d7f01c95456c82cbbd67181c85e51695110538ce1a06668586e247c424e9a51",
+        "split": "held_out",
+        "split_manifest_hash": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+        "condition": null,
+        "perturbations_hash": null,
+        "subset_hash": null,
+        "repeat": null,
+        "audit_storage": "gzip",
+        "audit_artifact_schema": 2
+      },
+      "result_path": "/Users/akashjairam/Downloads/Git/CSE-5106-FHIR-Multi-Agent-System-v9/output/experiments/gpt-5.4-nano/b2_300q/ordinary_multi_agent.json"
+    }
+  },
+  "provider_binding": null,
+  "report_sha256": "4c3330aef61af8e0e85bf7a01841482636b1e9a58ebf5f1f79dc24bee352064d"
+}

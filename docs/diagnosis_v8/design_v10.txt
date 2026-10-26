@@ -1,0 +1,255 @@
+Design V10: self-consistent, finisher-verified team on gpt-5.4-nano
+Substantial fixed 300-question comparison, two repeats per arm; frozen before any V10 accuracy result is known
+
+Question
+
+On gpt-5.4-nano, where B2 showed headroom (single 224/300, direct 170) but no
+gain from the V9 controller (team 222, -0.7 [-4.4, +3.2]), does a team that
+spends the unused budget on independent same-scaffold draws, and applies the
+benchmark's data conventions in code instead of asking the model to, beat the
+single agent with the same tools and the same 200,000-token / 30-tool ceiling?
+Plan: plan V10 (finisher team). B2's verdict rule closed the question for the
+V9 team on nano. V10 is a new prespecified design and, like everything run on
+the 300 development questions, exploratory until its confirmation.
+
+Why this design (B2 rows, scripts/replay_v10.py predict; counts only)
+
+  fresh single 224, team primary (the single scaffold, second draw) 218, two-draw
+  oracle 237: the two same-scaffold draws disagree in correctness on 29 questions
+  (13 draw-1-only right, 16 draw-2-only right), so draw noise is about +/-6.
+  A perfect pick between the V9 scaffolds reaches 229 (+5). Selection cannot
+  produce a CI-robust win. The primary has to improve.
+  The single uses 51.4k of 200k tokens on average (median 39.4k, p90 94.6k); three
+  times its tokens fit under 185k on 221/300 questions.
+  Of the single's 38 misses on the seven finisher templates, 21 carry the audited
+  signature that a finisher's replacement condition reaches (by template:
+  T051 4 bare tie members, T054 8 Observation-only, T055 5 null/single organism,
+  T001 3 counts citing prescriptions, T073 1 timestamp on the gold day; T052 0,
+  T064 0). Ten right single answers are also reached by a replacement condition
+  (harm exposure). These signatures are offline approximations. The live
+  calibration below measures what the finishers actually do.
+
+Live calibration (scripts/validate_finishers_live.py; no model call, live FHIR records)
+
+  candidates  the finisher run on the B2 answers and their cited ids, for the 67
+              questions of the seven finisher templates:
+                fresh single   replaced 17: 11 wrong->right, 6 wrong->wrong, 0 right->wrong;
+                               confirmed 39, no anchor 11
+                team primary   replaced 25: 14 wrong->right, 11 wrong->wrong, 0 right->wrong;
+                               confirmed 32, no anchor 10
+              by template (single): T051 +3, T054 +4 (4 more wrong->wrong: the cited
+              test itself was the wrong selection), T055 +3, T001 +1, T052 0
+              (1 wrong->wrong), T064 and T073 0 (every timestamp candidate already
+              used the convention field)
+  audit       the 33 root_causes.csv questions of the finisher templates: on the
+              reference answer citing the reference ids, 0 replacements (every
+              finisher confirmed it or stood down); on the audit's typical wrong
+              answer, 18 wrong->right and 1 wrong->wrong replacements (T051 5,
+              T052 2, T054 8, T064 2, T073 1). The T001 wrong drafts cite no
+              prescription and are skipped by design.
+  T001 fix    the first audit run replaced 2 reference counts with wrong ones.
+              Diagnosis on those questions: (a) a question without a current time
+              lets the closure hold prescriptions the reference does not count;
+              (b) prescriptions without validityPeriod.start are counted by the
+              reference in some windows and not in others. The finisher now skips
+              a count without a current time ("no_current_time"), and skips a
+              windowed count when an undated prescription, dated by authoredOn
+              inside the window, carries a name not otherwise counted
+              ("undated_prescriptions_in_window"). Both rules are fitted on the
+              calibration questions; the numbers above are after the fix.
+
+Smoke (output/smoke/v10_pilot5, 5 pilot questions, gpt-5.4-nano, final code)
+
+  10/10 runs complete, 0 terminal errors, 0 budget stops; every team row has protocol
+  finisher-team-v10 and known vote / policy / finisher values (replay_v10.py
+  mechanism: unknown_* all empty). Votes agree2 4, split 1 (three draws; the T064
+  finisher recomputed the same answer, so no adjudication). Policies vote_candidate 5.
+  Team tokens mean 66.8k (max 100.8k), tools max 17; observed cost $0.025 team.
+
+Treatment
+
+multi_agent_v10 (agent/finisher_team_agent.py, protocol finisher-team-v10). Same
+base model, one aggregate accountant (200,000 tokens / 30 tools, identical to the
+single):
+
+  1 analysis      the unchanged SingleAgent scaffold runs as independent draws with
+                  no shared transcript. The provider's default sampling is used:
+                  nano is a reasoning model and takes no temperature, and no seed
+                  is set. Draw 1 has the full allowance. Draw 2 runs on the
+                  residual minus a 10,000-token / 3-tool finisher reserve; it is
+                  skipped if that allowance is below 25,000 tokens or 4 tools
+                  (vote "single_draw"). If the two typed-normalised answers
+                  (verification_agent._canonical) differ and at least 60,000
+                  tokens and 8 tools remain, draw 3 runs on the residual minus
+                  the finisher reserve and the V9 adjudication reserve (15,000 /
+                  2). Vote: agree2 (draws 1 and 2 agree), majority3 (two of
+                  three agree), split (no majority, or no third draw), or
+                  single_draw. The candidate is the agreeing answer, with the
+                  union of the agreeing draws' cited evidence. On a split it is
+                  draw 1.
+  2 verification  one deterministic finisher (agent/finishers.py), routed by
+                  agent/template_router.classify_template on the question text.
+                  The router is exact on all 2,931 benchmark questions
+                  (tests/test_template_router.py). The finisher runs only if the
+                  candidate cites a record of the expected type. It makes at most
+                  2 patient-wide retrievals through the shared scope validator
+                  (other-patient and post-current-time records excluded), each
+                  charged as one tool call. It never releases a null, and it
+                  releases its result only if the template's replacement
+                  condition holds and every citation it builds verifies against
+                  the fetched records (utils.evidence_scorer.check_citation):
+                    T051/T052  every distinct linked drug name at the cited
+                               prescriptions' shared validityPeriod.start minute
+                               (same encounter; T052 the cited route). Replace if
+                               the candidate is a strict subset of that tie set.
+                    T054       cited test -> Observation.specimen ->
+                               Specimen.type display. Replace if the candidate
+                               equals the test's code display or cites no
+                               Specimen.
+                    T055       code displays of the cited test's hasMember
+                               children (a cited child is first walked up
+                               derivedFrom to its test). Replace if the candidate
+                               is null or a single string.
+                    T001       distinct linked drug names (mixes expand to their
+                               components) of the complete patient
+                               MedicationRequest -> Medication closure,
+                               prescriptions of an encounter, start inside the
+                               question window (tools.field_check.
+                               question_time_window; window_source is
+                               recorded). Replace if the candidate count differs.
+                               Skipped: an encounter scope, an unparseable
+                               window, no current time, a zero count, or an
+                               undated prescription inside the window with a
+                               name not otherwise counted.
+                    T064       the parent test's effectiveDateTime, substituted
+                               when the candidate is that date only or a cited
+                               child finding's time.
+                    T073       the cited prescription's validityPeriod.start,
+                               substituted when the candidate equals its
+                               authoredOn minute or its start date only.
+                  The finisher record is finisher in {none, skipped_no_anchor,
+                  confirmed_primary, replaced}, with a reason for
+                  confirmed_primary (result_equals_primary, condition_not_met,
+                  evidence_unverified, tool_budget, fetch_failed, ...).
+  3 adjudication  only when the vote is split and no finisher decided ("decided"
+                  means the finisher replaced the candidate or recomputed the same
+                  answer). The unchanged V9 adjudicator chooses between draw 1 and
+                  the first later draw with a different non-null answer, with the
+                  verified-check requirement and default-to-draw-1. It is skipped
+                  when draw 1 is null.
+
+Release policies: vote_candidate, finisher_replaced, adjudicated_draw1,
+adjudicated_other, adjudication_defaulted. When a draw's answer is released, that
+draw's output contract (error, budget stop) is reproduced. The revision record
+holds every draw, the vote and vote group, the candidate, the finisher record,
+the adjudication record, the budget plan and per-phase usage. revision.draft is
+draw 1.
+
+Shared tools (fairness)
+
+Every arm gets the same retrieval. get_resources_by_patient_fhir_id already
+returns the complete paged patient set and the complete Medication closure, so
+nothing changes there. The new tools.resource_tools.get_linked_resources tool
+(Observation specimen / hasMember / derivedFrom, MedicationRequest
+medicationReference, Medication ingredient) is added to the SingleAgent, so both
+the single and every team draw have it. It is withheld only from the V3/V8/V9
+LedgerSolver, which V10 does not use. The guide (CONVENTION_GUIDANCE) is
+unchanged and identical for all arms. The team's advantage is that a fixed
+controller applies a convention in code where the single asks a weak model to.
+This is the proposal's "verification by independent recomputation", with the
+recomputation made deterministic. The finishers are derived from the development
+set, with the same provenance as CONVENTION_GUIDANCE and the V8 checks. Only the
+confirmation tests transfer. If the single, which now has the shared tools,
+closes the gap, the finding is "tooling, not coordination". The two-repeat
+single arm under the V10 fingerprint is that control.
+
+Deviations from plan V10, stated for the report
+
+- Draw-2 skip: the plan does not say what happens when draw 2 cannot run. Here
+  draw 2 is skipped below 25,000 tokens / 4 tools after the finisher reserve
+  (V9's MIN_RESIDUAL_TOKENS / MIN_RECOMPUTE_TOOLS), and the vote is
+  "single_draw" (no adjudication).
+- T001 window: read from the parsed question only (window_source
+  "question_window" or "question_unrestricted"). The primary's executed program
+  does not keep its bound variables after the run, so the plan's first source is
+  not available. Encounter-scoped count questions are skipped.
+- T054/T055 ties: the finisher follows only the cited tests (several cited tests
+  must share one effectiveDateTime). It does not expand to uncited tests at the
+  same time.
+- Majority of three: when draws 2 and 3 agree against draw 1, the candidate is
+  draw 2's answer, with draw 2's and draw 3's evidence.
+
+Pre-registered prediction (written before any V10 run)
+
+  fresh single                224 +/- 6 (B2 draws: 224 and 218)
+  vote over draw 1            +2.0 (replay: 35 of 57 disagreements leave room for
+                              draw 3; a third draw reproduces either earlier answer
+                              with equal probability)
+  finishers                   +10.6 by the plan's assumptions on the replay signatures
+                              (60 % of 21 reachable, minus 2 harmful); +11 measured live
+                              on the B2 single's own candidates (11 W->R, 0 R->W), +14 on
+                              the team primary's (14 W->R, 0 R->W); see Live calibration
+  adjudication                +0 to +2
+  team                        about 236-239 (+12 to +15, +4 to +5 pts). The vote and
+                              finisher gains overlap on some questions, and both
+                              estimates are fitted on these rows (in-sample), so the
+                              lower end is the planning value
+  tokens                      two draws on the B2 rows: mean 101.0k, median 85.5k, p90
+                              185.1k (2.0x the single); with draw 3 on ~12 % of
+                              questions, about 2.1-2.3x. Cache hit rate near the
+                              single's 76 % (same scaffold and prompt prefix); the
+                              finishers make no model call.
+
+Frozen gate
+
+On the 300 split.json held_out questions (eleventh exposure), with gpt-5.4-nano,
+two repeats of each arm (single and team, 1,200 first attempts) under one frozen
+record and one code fingerprint, unchanged typed scorer, all scheduled first
+attempts in the denominator, terminal errors incorrect, no retries and no
+best-attempt replacement (B2 billing rule unchanged), all four must hold:
+
+  1. team correct > fresh single correct, as the mean over the two repeats;
+  2. patient-block bootstrap 95 % CI lower bound of (team - single) > -2 points,
+     in each repeat (scripts/compare_runs.py, seed 5106);
+  3. among finisher_replaced releases, right_to_wrong <= wrong_to_right
+     (candidate -> released; scripts/replay_v10.py mechanism,
+     finisher_replacements.total), in each repeat;
+  4. noise check, on the mean over the two repeats: mean team draw-1 correct
+     within +/-6 of mean fresh single correct. Outside it, the comparison is
+     noise-dominated: it is reported, not interpreted, and the gate fails. Each
+     repeat's draw-1 - single difference is reported but is not a gate item.
+     (Changed before the freeze from a per-repeat check: one same-scaffold draw
+     differs from another by about +/-5.5 questions, so a per-repeat bound
+     failed about 40 % of noise-only outcomes across two repeats.)
+
+Report the mean and both per-repeat paired differences, and the single_r1 -
+single_r2 difference (measured draw noise). Only if all four hold: one
+confirmation on the protected manifests/confirmation_v9.json sample (used once,
+for the V9 luna confirmation; first use with nano), single + team, scored once.
+Otherwise V10 is reported as a negative result beside V2-V9 and B2. The gate is
+not changed after results. If calibration or a run shows that a finisher
+replaces correct answers, that finisher is dropped in a new frozen record. The
+gate is never loosened.
+
+Controls and settings
+
+Model gpt-5.4-nano (provider-default reasoning effort, no temperature), 200,000
+aggregate tokens and 30 aggregate logical tools per question for every system,
+enable_cache true, gzip audit storage, 4 workers for every arm, caffeinate -i. The
+direct LLM arm is not re-run; B2's ordinary_direct_llm.json (170/300) is
+compared only through compare_runs.py. No stronger model, question-ID routing,
+gold-answer or reference-SQL access, or larger ceiling is used by any arm.
+Self-consistency over the same scaffold is part of the team's design and is
+charged to the same ceiling.
+
+Analysis
+
+scripts/run_experiments.py analyze/revisions (--team_strategy multi_agent_v10
+--audit_storage gzip) per repeat; scripts/compare_runs.py per repeat and over
+all four arms; scripts/replay_v10.py mechanism per repeat (votes, policies,
+finisher outcomes and reasons per template, finisher replacements
+right/wrong per template, draw-1 vs released transitions, adjudication
+outcomes, per-phase tokens). Report accuracy, tokens (including repeated
+context), cost, cache hit rate, tool calls, latency, terminal errors, budget
+stops and the accuracy-vs-tokens plot with the luna and B2 arms on the same
+axes (report.md §2/§5).

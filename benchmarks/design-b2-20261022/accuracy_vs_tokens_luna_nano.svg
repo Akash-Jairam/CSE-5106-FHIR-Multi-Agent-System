@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" width="720" height="440" font-family="system-ui,sans-serif">
+<style>@media (prefers-color-scheme: dark){.bg{fill:#1a1a19}.ink{fill:#fff}.g{stroke:#2c2c2a}}</style>
+<rect class="bg" width="720" height="440" fill="#fcfcfb"/>
+<text class="ink" x="16" y="26" font-size="16" font-weight="600" fill="#0b0b0b">Accuracy vs tokens per question: gpt-6-luna and gpt-5.4-nano</text>
+<text x="16" y="46" font-size="12" fill="#898781">300 held_out questions; whiskers are patient-clustered 95% CIs. Filled = luna, hollow = nano.</text>
+<line class="g" x1="64" x2="570" y1="352.7" y2="352.7" stroke="#e1e0d9"/><text x="56" y="356.7" font-size="11" text-anchor="end" fill="#898781">50%</text>
+<line class="g" x1="64" x2="570" y1="282.0" y2="282.0" stroke="#e1e0d9"/><text x="56" y="286.0" font-size="11" text-anchor="end" fill="#898781">60%</text>
+<line class="g" x1="64" x2="570" y1="211.3" y2="211.3" stroke="#e1e0d9"/><text x="56" y="215.3" font-size="11" text-anchor="end" fill="#898781">70%</text>
+<line class="g" x1="64" x2="570" y1="140.7" y2="140.7" stroke="#e1e0d9"/><text x="56" y="144.7" font-size="11" text-anchor="end" fill="#898781">80%</text>
+<line class="g" x1="64" x2="570" y1="70.0" y2="70.0" stroke="#e1e0d9"/><text x="56" y="74.0" font-size="11" text-anchor="end" fill="#898781">90%</text>
+<line class="g" y1="70" y2="388" x1="64.0" x2="64.0" stroke="#e1e0d9"/><text x="64.0" y="404" font-size="11" text-anchor="middle" fill="#898781">3k</text>
+<line class="g" y1="70" y2="388" x1="209.1" x2="209.1" stroke="#e1e0d9"/><text x="209.1" y="404" font-size="11" text-anchor="middle" fill="#898781">10k</text>
+<line class="g" y1="70" y2="388" x1="341.4" x2="341.4" stroke="#e1e0d9"/><text x="341.4" y="404" font-size="11" text-anchor="middle" fill="#898781">30k</text>
+<line class="g" y1="70" y2="388" x1="486.5" x2="486.5" stroke="#e1e0d9"/><text x="486.5" y="404" font-size="11" text-anchor="middle" fill="#898781">100k</text>
+<line class="g" y1="70" y2="388" x1="570.0" x2="570.0" stroke="#e1e0d9"/><text x="570.0" y="404" font-size="11" text-anchor="middle" fill="#898781">200k</text>
+<text x="317.0" y="428" font-size="12" text-anchor="middle" fill="#898781">Mean tokens per question (log)</text>
+<line x1="156.6" x2="156.6" y1="254.1" y2="179.3" stroke="#2a78d6"/>
+<line y1="216.0" y2="216.0" x1="144.1" x2="166.6" stroke="#2a78d6"/>
+<circle cx="156.6" cy="216.0" r="5.5" fill="#2a78d6" stroke="#2a78d6" stroke-width="2"><title>gpt-6-luna Direct: 69.3% (63.9 to 74.5), 6.5k tokens</title></circle>
+<text class="ink" x="165.6" y="209.0" font-size="11" fill="#52514e">Direct, luna 69.3%</text>
+<line x1="451.9" x2="451.9" y1="170.4" y2="99.4" stroke="#eb6834"/>
+<line y1="131.2" y2="131.2" x1="441.3" x2="461.8" stroke="#eb6834"/>
+<circle cx="451.9" cy="131.2" r="5.5" fill="#eb6834" stroke="#eb6834" stroke-width="2"><title>gpt-6-luna Single: 81.3% (75.8 to 85.8), 75.1k tokens</title></circle>
+<text class="ink" x="460.9" y="124.2" font-size="11" fill="#52514e">Single, luna 81.3%</text>
+<line x1="498.0" x2="498.0" y1="156.4" y2="87.7" stroke="#1baf7a"/>
+<line y1="119.5" y2="119.5" x1="489.7" x2="505.6" stroke="#1baf7a"/>
+<circle cx="498.0" cy="119.5" r="5.5" fill="#1baf7a" stroke="#1baf7a" stroke-width="2"><title>gpt-6-luna Team (V9): 83.0% (77.8 to 87.5), 110.0k tokens</title></circle>
+<text class="ink" x="507.0" y="112.5" font-size="11" fill="#52514e">Team (V9), luna 83.0%</text>
+<line x1="157.7" x2="157.7" y1="343.2" y2="266.8" stroke="#2a78d6"/>
+<line y1="305.6" y2="305.6" x1="145.2" x2="167.7" stroke="#2a78d6"/>
+<circle cx="157.7" cy="305.6" r="5.5" fill="none" stroke="#2a78d6" stroke-width="2"><title>gpt-5.4-nano Direct: 56.7% (51.3 to 62.2), 6.5k tokens</title></circle>
+<text class="ink" x="166.7" y="298.6" font-size="11" fill="#52514e">Direct, nano 56.7%</text>
+<line x1="406.2" x2="406.2" y1="212.5" y2="144.6" stroke="#eb6834"/>
+<line y1="178.4" y2="178.4" x1="392.6" x2="418.8" stroke="#eb6834"/>
+<circle cx="406.2" cy="178.4" r="5.5" fill="none" stroke="#eb6834" stroke-width="2"><title>gpt-5.4-nano Single: 74.7% (69.8 to 79.4), 51.4k tokens</title></circle>
+<text class="ink" x="415.2" y="171.4" font-size="11" fill="#52514e">Single, nano 74.7%</text>
+<line x1="452.0" x2="452.0" y1="220.9" y2="143.9" stroke="#1baf7a"/>
+<line y1="183.1" y2="183.1" x1="442.0" x2="461.7" stroke="#1baf7a"/>
+<circle cx="452.0" cy="183.1" r="5.5" fill="none" stroke="#1baf7a" stroke-width="2"><title>gpt-5.4-nano Team (V9): 74.0% (68.7 to 79.5), 75.1k tokens</title></circle>
+<text class="ink" x="461.0" y="176.1" font-size="11" fill="#52514e">Team (V9), nano 74.0%</text>
+</svg>

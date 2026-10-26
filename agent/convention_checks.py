@@ -114,16 +114,40 @@ def check_tie_completeness(question, draft, workspace, **_):
     if not items or isinstance(draft.get("answer"), (int, float, bool)) or all(_minute(i) for i in items):
         # a dose, count or time answer is not a drug/route selection
         return []
-    by_id = _by_id(workspace)
     cited = _cited(draft, workspace, "MedicationRequest")
-    starts = {_minute(_request_start(r)) for r in cited} - {None}
-    if len(starts) != 1:
-        return []
-    selected = next(iter(starts))
-    encounters = {_ref(r.get("encounter")) for r in cited}
     by_route = ROUTE_RE.search(question) and not DRUG_RE.search(question)
     # "drug ... via the iv route": the tie set is restricted to the cited route string
-    routes = {_norm(_request_route(r)) for r in cited} if ROUTE_RE.search(question) and not by_route else None
+    tie = tie_set(cited, workspace, by_route=by_route,
+                  same_route=bool(ROUTE_RE.search(question) and not by_route))
+    if tie is None:
+        return []
+    selected, tied = tie
+    tied = {key: rid for key, (_, rid) in tied.items()}
+    missing = sorted(set(tied) - {_norm(i) for i in items})
+    if not missing:
+        return []
+    what = "routes" if by_route else "drugs"
+    return [_issue("tie_completeness", "wrong_filter", "analysis",
+                   f"{len(tied)} distinct {what} share the selected start time {selected} but the answer "
+                   f"lists {len(items)}; a first/last selection returns every tied value",
+                   record=tied[missing[0]], field="dispenseRequest.validityPeriod.start")]
+
+
+def tie_set(cited, workspace, by_route=False, same_route=False):
+    """(start minute, {normalised value: (released value, "MedicationRequest/<id>")}) or None.
+
+    Every distinct drug name (or route) of a held prescription that starts at the
+    one start minute shared by the `cited` prescriptions, within their encounters
+    and, with `same_route`, their route strings. None when the cited
+    prescriptions do not share exactly one start minute.
+    """
+    by_id = _by_id(workspace)
+    starts = {_minute(_request_start(r)) for r in cited} - {None}
+    if len(starts) != 1:
+        return None
+    selected = next(iter(starts))
+    encounters = {_ref(r.get("encounter")) for r in cited}
+    routes = {_norm(_request_route(r)) for r in cited} if same_route else None
     tied = {}
     for request in workspace.get("MedicationRequest", []):
         if _minute(_request_start(request)) != selected:
@@ -135,15 +159,8 @@ def check_tie_completeness(question, draft, workspace, **_):
         values = [_request_route(request)] if by_route else _request_names(request, by_id)
         for value in values:
             if value:
-                tied.setdefault(_norm(value), f"MedicationRequest/{request['id']}")
-    missing = sorted(set(tied) - {_norm(i) for i in items})
-    if not missing:
-        return []
-    what = "routes" if by_route else "drugs"
-    return [_issue("tie_completeness", "wrong_filter", "analysis",
-                   f"{len(tied)} distinct {what} share the selected start time {selected} but the answer "
-                   f"lists {len(items)}; a first/last selection returns every tied value",
-                   record=tied[missing[0]], field="dispenseRequest.validityPeriod.start")]
+                tied.setdefault(_norm(value), (value, f"MedicationRequest/{request['id']}"))
+    return selected, tied
 
 
 def check_specimen_field(question, draft, workspace, **_):

@@ -31,6 +31,22 @@ tokens. The checks fired on only 19 questions; the 6 released repairs were
 revisions turned 6 right drafts wrong, so the arm's net transitions are 5 vs 6.
 No confirmation is run ([`outcome.txt`](../../benchmarks/design-v8-20261016/outcome.txt)).
 
+**Final (V9 and B2).** The V9 dual-solver team passed its dev gate on run-to-run
+variance and then failed its protected confirmation (249 vs 250). On the weaker
+`gpt-5.4-nano` it again did not beat the single (222 vs 224, −0.7 [−4.4, +3.2]),
+although its controller was net +4 there. The hypothesis is not supported at
+either capability level (§5a, §5b).
+
+**V10 (finisher team, gpt-5.4-nano).** A team that spends the budget the weak
+model leaves unused on independent same-scaffold draws, and applies the
+benchmark's conventions in deterministic code ("finishers") rather than asking
+the model to, is the first design to beat the single on the protected set:
+240 vs 233 (+2.3 pts, 95 % CI [−0.7, +5.4]). On dev it was +10 / +12.5 questions
+over two repeats. The finishers never turned a right answer wrong. The CI
+includes 0, the gate passed only under the billing-retried reading (chosen
+after the dev result), and the gain comes from convention code rather than
+model coordination, at 1.9× the tokens (§5c).
+
 ## 2. Completed paired runs (300 `held_out` questions, gpt-6-luna, 200k tokens / 30 tools)
 
 All first attempts; terminal errors count as wrong; patient-block bootstrap
@@ -140,6 +156,7 @@ no further dev-set iteration.
 | C' — heterogeneous verifier | breaks shared-model error correlation | prepared (§3) | **TBD** |
 | B1 — recovery, 50 × intact/omitted × single/team | §5.3: does a team recover an omitted resource better? Archived hint: single −14 pts, team −4 pts, confounded by a 54 % team | prepared (§4) | **TBD** |
 | B2 — weaker base model, 900 runs | verification pays when the base model has headroom (direct LLM is already 67 % on Luna) | model fixed before launch: `gpt-5-mini` (first candidate; check_setup and 5-question pilot smoke passed 2026-10-16); done 2026-10-17, 900 attempts, 3 terminal errors (2 direct invalid output, 1 team provider 520) counted wrong | **not supported**: team 230 (76.7 %) vs single 234 (78.0 %), −1.3 [−4.6, +2.1], wins/losses 12/16; direct 221 (73.7 %). V8 repairs 6 released (5 W→R, 1 W→W, 0 R→W) but team abstained on 51 vs single 40; 53.8k vs 60.5k tokens; median latency 110 s vs 40 s |
+| B2 (V9) — V9 team on `gpt-5.4-nano`, 900 runs | same question with the V9 controller and a weaker model (`plan_b2.md`) | frozen `design-b2-20261022`; done 2026-10-22, 900/900, 0 errors | **not supported**: team 222 (74.0 %) vs single 224 (74.7 %), −0.7 [−4.4, +3.2]; direct 170 (56.7 %). Controller net +4 over its own primary, but primary 218 vs fresh single 224; see §5b |
 | Confirmation | generalisation off the burned 300 | not run: gate failed | — |
 
 ## 5a. Run-C ablation and the V9 design
@@ -197,11 +214,108 @@ exhausted API credit balance and were retried once after a top-up, decided
 before scoring; strict first-attempt scoring gives 134 vs 250. V9 joins V2–V8
 as a negative result.
 
+## 5b. B2 with the V9 team on a weaker model (`design-b2-20261022`)
+
+[`plan_b2.md`](plan_b2.md), frozen in [`design_b2.txt`](design_b2.txt) with a
+pre-registered prediction (team − single +1, range −2 to +4; controller net
++2 to +5; H-B2a holds, H-B2b fails). Model `gpt-5.4-nano`, the smallest nano
+tier on the account, chosen on a 5-question pilot smoke without looking at
+held_out. Code identical to the V9 confirmation (same `code_hash`).
+
+| Model | Direct | Single | Team (V9) | Δ team − single (95 % CI) | Controller net | Tokens team / single |
+|---|---|---|---|---|---|---|
+| gpt-6-luna (dev, run C / V9) | 208 | 244–250 | 241 / 249 | −1.7 … +1.7 (dev), −0.3 [−2.8, +1.9] (confirmation) | +0 dev, +1 confirmation | 1.5× |
+| gpt-5.4-nano (dev) | 170 | 224 | 222 | −0.7 [−4.4, +3.2] | +4 (6 W→R, 2 R→W) | 75.1k / 51.4k = 1.46× |
+| gpt-5.4-nano + luna verifier (H-B2c) | — | same | not run | — | — | — |
+
+**H-B2a holds**: the direct LLM drops 38 questions and the single 20, and the
+single − direct gap widens from 36 to 54. **H-B2b fails**: the team does not
+beat the single and the CI lower bound is −4.4. Every number landed inside the
+pre-registered ranges. The mechanism is the most favourable of the series:
+nano disagrees with its own recompute more often (32 adjudications, 31 with a
+verified check), and the adjudicator's picks were net +3, so the controller
+released 4 more correct answers than its primary had. That was smaller than
+the primary's own run-to-run gap to the fresh single (218 vs 224), which is
+the same variance that produced V9's +5 on luna. Per the plan's template:
+the failure is not about headroom. A same-model controller adds at most a few
+questions, which the 300-question design cannot separate from run-to-run
+noise, at about 1.5× the tokens. No confirmation is run; this closes the
+project. Plot: [`accuracy_vs_tokens_luna_nano.svg`](../../benchmarks/design-b2-20261022/accuracy_vs_tokens_luna_nano.svg);
+record: [`outcome.txt`](../../benchmarks/design-b2-20261022/outcome.txt).
+
+## 5c. V10 finisher team on gpt-5.4-nano (`design-v10-20261022`)
+
+Branch `experiments/finisher-team-v10`; frozen in [`design_v10.txt`](design_v10.txt)
+(commit 96f3799), launched per [`launch_v10.md`](launch_v10.md). B2 showed that
+a perfect pick between two scaffolds adds at most +5. That is below the
+single's own draw noise (±6), so V10 tries to improve the primary instead:
+
+- **analysis:** the unchanged single-agent scaffold runs as 2–3 independent
+  draws under the same 200k / 30 ceiling, with a typed-normalised vote;
+- **verification:** one deterministic **finisher** per convention-sensitive
+  template, routed by question text (exact on all 2,931 questions), recomputes
+  the last step from the candidate's cited record. Finishers make at most 2
+  charged fetches, never release a null, and release only with verified
+  citations. They cover T051/T052 tie sets, T054 Specimen.type, T055 hasMember
+  organisms, T001 complete-closure counts, and T064/T073 timestamp fields;
+- **adjudication:** the V9 adjudicator, only for split votes the finisher did
+  not decide.
+
+Every arm also gets a new `get_linked_resources` retrieval tool.
+
+| gpt-5.4-nano | Single | Team (V10) | Δ team − single (95 % CI) | Team tokens / single |
+|---|---|---|---|---|
+| dev r1, strict | 217 | 220 | +1.0 [−3.6, +5.7] | 102.8k / 54.0k |
+| dev r1, billing-retried | 217 | 225 | +2.7 [−1.6, +7.3] | 105.0k / 54.0k |
+| dev r2 | 217 | 234 | **+5.7 [+1.4, +10.0]** | 107.0k / 57.9k |
+| **confirmation (protected)** | **233** | **240** | **+2.3 [−0.7, +5.4]** | 94.3k / 49.9k |
+
+Fresh single r2 − r1: 0.0 [−3.1, +2.9]. The B2 single (no link tool) scored 224
+and the V9 team 222 on the same dev questions.
+
+**Gate.** Mean team > mean single; CI lower bound > −2 pts in each repeat;
+finisher right→wrong ≤ wrong→right; mean draw 1 within ±6 of the mean single.
+On the strict score r1's lower bound is −3.6 and the gate fails, only because 7
+r1 team attempts failed when the account ran out of credits. With those 7
+retried (the V9-confirmation precedent and the B2 billing rule) every clause
+passes. That reading was chosen after the dev result was known and recorded
+before the confirmation ([`outcome.txt`](../../benchmarks/design-v10-20261022/outcome.txt)).
+The once-only confirmation on `manifests/confirmation_v9.json` (first use with
+nano) then ran with 0 errors and no retries. The team beat the single and every
+gate clause also held there
+([`confirmation_outcome.txt`](../../benchmarks/design-v10-20261022/confirmation_outcome.txt)).
+
+| Mechanism | dev r1 (retried) | dev r2 | confirmation |
+|---|---|---|---|
+| votes agree2 / majority3 / split / single draw | 230 / 23 / 37 / 10 | 231 / 23 / 38 / 8 | 258 / 13 / 23 / 6 |
+| finisher replacements W→R / W→W / **R→W** | 10 / 6 / **0** | 13 / 4 / **0** | 6 / 2 / **0** |
+| adjudications (verified check) | 9 (9) | 10 (9) | 5 (5) |
+| draw 1 → released | 217 → 225 | 217 → 234 | 229 → 240 |
+
+The finishers carry most of the gain: T051/T052 tie sets, T054 specimen and
+T055 organisms on dev, T001 and T054 on confirmation. T064/T073 never fired,
+because every timestamp candidate already used the convention field. On the
+confirmation all +7 are in temporal selection (133 vs 126); lookup/counting
+and numerical aggregation are tied.
+
+**Reading.** This is a small, consistent, but not significant improvement. It
+transfers partly from dev (+3.3 to +4.2 pts) to the protected set (+2.3 pts),
+as expected for dev-derived finishers. It answers the proposal only in part.
+The gain comes from a fixed controller applying conventions in code, which is
+the proposal's verification-by-independent-recomputation made deterministic,
+not from model-to-model coordination. The single had the same tools and guide
+and did not close the gap. It costs 1.9× the tokens and about 2× the latency.
+Pre-registered prediction 236–239 against 224; realised +10 / +12.5 over a
+single that scored 217, at the low end of the predicted gain. Plot (dev, V10
+repeats pooled): [`accuracy_vs_tokens_luna_nano_v10.svg`](../../benchmarks/design-v10-20261022/accuracy_vs_tokens_luna_nano_v10.svg).
+Cost of the study: about $10 for the two dev repeats and $4.60 for the
+confirmation.
+
 ## 6. Caveats
 
-- The 300 `held_out` questions have been reused for eight design
-  iterations; every number in §2 and any V8 number is exploratory. Only the
-  confirmation run is confirmatory.
+- The 300 `held_out` questions have been reused for eleven design
+  exposures (V10 is the eleventh); every number on them is exploratory. Only
+  the confirmation runs are confirmatory.
 - Gold SQL was inspected for 45 development questions (36 patients) during
   the audit; agents never see it. The conventions in `CONVENTION_GUIDANCE`
   are therefore dev-set-derived and may not transfer to templates absent
@@ -209,9 +323,14 @@ as a negative result.
 - 3–14 terminal errors per arm in every run were provider timeouts, not
   design failures; first-attempt scoring keeps them as wrong for
   comparability. Report both when writing up.
-- No run in this document was launched from the diagnosis machine (no
-  credentials or FHIR store); all V8/B1/B2 numbers come from the team's
-  credentialed launcher following `launch.md`.
+- The V8/B1 numbers come from the team's credentialed launcher following
+  `launch.md`. The V10 runs (live calibration, smoke, both dev repeats and the
+  confirmation) ran on this machine with credentials, following
+  `launch_v10.md`.
+- V10's finishers and router were fitted on development questions (and the
+  T001 count rules on two calibration questions), and the gate's
+  billing-retried reading was chosen after the dev result; the protected-set
+  confirmation is the only clean test, and its CI includes 0.
 
 ## 7. Files
 
@@ -225,3 +344,7 @@ as a negative result.
 | `agent/convention_checks.py`, `agent/convention_verified_agent.py` | V8 |
 | `agent/ehr_semantics.py`, `agent/direct_llm_agent.py` | B3 shared guide |
 | `agent/dual_solver_agent.py`, `scripts/replay_v9_controller.py`, `design_v9.txt`, `launch_v9.md` | V9 (§5a) |
+| `scripts/build_confirmation_split.py`, `manifests/confirmation_v9.json` | V9 confirmation sample (§5a) |
+| `plan_b2.md`, `design_b2.txt`, `benchmarks/design-b2-20261022/` | B2 on gpt-5.4-nano with the V9 team (§5b) |
+| `agent/finisher_team_agent.py`, `agent/finishers.py`, `agent/template_router.py`, `tools/resource_tools.get_linked_resources` | V10 team, finishers, router, shared link tool (§5c) |
+| `scripts/replay_v10.py`, `scripts/validate_finishers_live.py`, `design_v10.txt`, `launch_v10.md`, `benchmarks/design-v10-20261022/` | V10 replay, live calibration, design, launch, outcomes (§5c) |
