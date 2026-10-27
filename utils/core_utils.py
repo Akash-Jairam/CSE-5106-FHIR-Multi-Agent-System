@@ -137,6 +137,7 @@ def validate_config(model: str, base_url: str=None) -> bool:
             model_ok = False
         else:
             model_ok = True
+            print(f"✅ {provider.title()} endpoint for model '{model}': {base_url}")
     else:
         model_ok = validate_model_api_key(model)    
         print(f"✅ {provider.title()} API key available for model '{model}'" if model_ok else 
@@ -383,6 +384,26 @@ def _is_luna_chat_model(model):
     return model.removeprefix("openai/") == "gpt-6-luna"
 
 
+def _is_qwen_model(model):
+    return "qwen" in model.lower()
+
+
+def _strip_think(content):
+    """Drop Qwen3 <think>...</think> reasoning (and an unclosed trailing block) from a reply."""
+    if not content:
+        return content
+    return re.sub(r"<think>.*?(?:</think>|$)", "", content, flags=re.DOTALL).strip()
+
+
+def _qwen_message(message):
+    """Ollama returns parsed tool_calls; raw endpoints (e.g. vLLM) leave <tool_call> text in content."""
+    content = _strip_think(message.content)
+    if not getattr(message, "tool_calls", None) and content and "<tool_call>" in content:
+        return litellm.Message(**qwen_parse_tool_calls(content))
+    message.content = content
+    return message
+
+
 def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_calls=True, max_retries=5, max_tokens=32000, base_url=None, max_completion_tokens=None):
     """Safe LLM API call with context length validation and retry logic."""
     
@@ -398,6 +419,12 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
         try:
             # The pinned registry predates Luna; extra_body preserves its tool-compatible mode.
             limits = {"extra_body": {"reasoning_effort": "none"}} if _is_luna_chat_model(model) else {}
+            if _is_qwen_model(model):
+                # Ollama's switch for hybrid Qwen3 builds; thinking-only builds ignore it and still return
+                # reasoning in a separate field. reasoning_effort="none" would leak it into content instead.
+                limits = {"extra_body": {"think": False}}
+                # The OpenAI client insists on a key; Ollama ignores it. Never forward the real OpenAI key.
+                limits["api_key"] = "ollama"
             if max_completion_tokens is not None:
                 key = "max_completion_tokens" if is_reasoning_llm(model) else "max_tokens"
                 limits[key] = max_completion_tokens
@@ -435,13 +462,16 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                                           "usage_available": output.usage is not None})
             captured_usage = True
 
-            if 'qwen' in model.lower():
-                response = litellm.Message(**qwen_parse_tool_calls(output.choices[0].message.content))
+            if len(output.choices) > 0 and _is_qwen_model(model):
+                output.choices[0].message = _qwen_message(output.choices[0].message)
+                # A reply that was only <think> reasoning is empty once stripped.
+                empty = not output.choices[0].message.content and not getattr(output.choices[0].message, "tool_calls", None)
             else:
-                if len(output.choices) == 0 or (output.choices[0].finish_reason == "stop" and output.choices[0].message.content is None):
-                    messages = messages + [{"role": "user", "content": "I got an empty response. Please try again to generate a valid response."}]
-                    raise Exception("EXCEPTION: Empty or None output.")
-                response = output.choices[0].message
+                empty = len(output.choices) > 0 and output.choices[0].finish_reason == "stop" and output.choices[0].message.content is None
+            if len(output.choices) == 0 or empty:
+                messages = messages + [{"role": "user", "content": "I got an empty response. Please try again to generate a valid response."}]
+                raise Exception("EXCEPTION: Empty or None output.")
+            response = output.choices[0].message
             return response, None, usage_info
         
         except BadRequestError as e:
