@@ -72,7 +72,7 @@ class QwenTransportTests(unittest.TestCase):
         kwargs = completion.call_args.kwargs
         self.assertEqual(kwargs["custom_llm_provider"], "openai")
         self.assertEqual(kwargs["base_url"], "http://localhost:11434/v1")
-        self.assertEqual(kwargs["extra_body"], {"think": False})
+        self.assertEqual(kwargs["extra_body"], {"think": False, "reasoning_effort": "none"})
         self.assertEqual(kwargs["api_key"], "ollama")
         self.assertEqual(kwargs["temperature"], 0.0)
         self.assertEqual(kwargs["max_tokens"], 50)

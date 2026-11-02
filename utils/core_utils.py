@@ -420,9 +420,9 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
             # The pinned registry predates Luna; extra_body preserves its tool-compatible mode.
             limits = {"extra_body": {"reasoning_effort": "none"}} if _is_luna_chat_model(model) else {}
             if _is_qwen_model(model):
-                # Ollama's switch for hybrid Qwen3 builds; thinking-only builds ignore it and still return
-                # reasoning in a separate field. reasoning_effort="none" would leak it into content instead.
-                limits = {"extra_body": {"think": False}}
+                # Ollama's /v1 endpoint (0.40.11-0.40.13) ignores think=False; reasoning_effort="none" turns
+                # thinking off for qwen3:32b, though qwen3:4b may still leak some reasoning into content.
+                limits = {"extra_body": {"think": False, "reasoning_effort": "none"}}
                 # The OpenAI client insists on a key; Ollama ignores it. Never forward the real OpenAI key.
                 limits["api_key"] = "ollama"
             if max_completion_tokens is not None:
