@@ -407,6 +407,16 @@ def main(argv=None):
             collect(pool.imap(run_agent_with_input, jobs))
     save_results_json(results, output_file)
     print_usage_summary(results)
+    return check_model_calls(results.loc[indexes, "error"].tolist())
+
+
+def check_model_calls(errors):
+    """1 when every attempt that reached the model failed in the provider (e.g. a bad model name or no
+    credits), so callers stop before scoring a run with no answers; input-token rejections never call it."""
+    reached = [e for e in errors if not (isinstance(e, str) and e.startswith("Input tokens exceeded"))]
+    if reached and all(isinstance(e, str) and "litellm." in e for e in reached):
+        print(f"❌ All {len(reached)} attempts that called the model failed. First error: {reached[0][:300]}")
+        return 1
     return 0
 
 
