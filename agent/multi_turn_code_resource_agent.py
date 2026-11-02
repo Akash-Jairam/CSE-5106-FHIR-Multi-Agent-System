@@ -8,6 +8,15 @@ from tools.resource_tools import supported_types
 class MultiTurnCodeResourceAgent(BaseAgent):
     """Multi-step ReAct agent that iteratively uses FHIR resource tools to retrieve patient data and perform reasoning via Python code execution."""
 
+    # Searches that miss a record were answered "No" (exact name match, wrong date field).
+    # SingleAgent clears this so the Phase 3 systems keep their recorded prompts.
+    search_guidance = """
+
+Searching the retrieved data:
+- The question's wording may not match the data exactly (e.g. it adds "treatment" or shortens a drug name). Do not rely on exact string equality: normalize case, whitespace and punctuation, and count a resource as a match when one name contains the other or they share most words.
+- Read dates from the field each resource type uses (Procedure: performedDateTime or performedPeriod; MedicationRequest: authoredOn; Observation: effectiveDateTime; Encounter: period). Print one resource's keys first if unsure.
+- Before answering No, none or 0, print the candidates your filter considered (e.g. distinct display names and dates) and check that the search was not too narrow."""
+
     def __init__(self, model: str, max_iterations: int = 30, verbose: bool = False, base_url=None):
         super().__init__(model, verbose, base_url)
 
@@ -163,7 +172,7 @@ Reasoning steps:
 - Filtered Condition.encounter references.
 - Counted 13 records, extracted 12 unique displays.
 
-Follow these examples to structure your approach: retrieve relevant FHIR resources first, then use Python code to analyze and process the data systematically."""}]
+Follow these examples to structure your approach: retrieve relevant FHIR resources first, then use Python code to analyze and process the data systematically.""" + self.search_guidance}]
 
         self.max_iterations = max_iterations
 
