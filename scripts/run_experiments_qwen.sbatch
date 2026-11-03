@@ -1,0 +1,43 @@
+#!/bin/bash
+# Phase 3 experiment with qwen3:32b as a Slurm batch job on RIS Compute2.
+# Starts Ollama on the job's GPU, runs scripts/run_experiments.py against it on
+# the same node, then stops Ollama. Rerunning resumes where the last job stopped.
+# Setup and usage: docs/compute2-gpu.md, "Batch job: the full Phase 3 experiment".
+#
+# Usage (from the repository root on the login node):
+#   sbatch scripts/run_experiments_qwen.sbatch                        # every group
+#   sbatch scripts/run_experiments_qwen.sbatch --arms ordinary        # extra args go to run_experiments.py
+#SBATCH --job-name=phase3-qwen
+#SBATCH --account=compute2-di2cap
+#SBATCH --partition=general-gpu
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=64G
+#SBATCH --time=36:00:00
+#SBATCH --output=logs/%x-%j.out
+set -uo pipefail
+
+model="${MODEL:-qwen3:32b}"
+workers="${WORKERS:-4}"  # parallel questions; Ollama gets one slot per worker
+port=11434
+base_url="http://127.0.0.1:${port}/v1"  # keep identical across jobs: result files are bound to it
+
+# Loopback only: nothing outside this node can reach the unauthenticated API
+OLLAMA_HOST="127.0.0.1:${port}" OLLAMA_CONTEXT_LENGTH=32768 OLLAMA_NUM_PARALLEL="$workers" \
+  "$HOME/ollama/bin/ollama" serve > "logs/ollama-${SLURM_JOB_ID}.log" 2>&1 &
+ollama_pid=$!
+trap 'kill "$ollama_pid" 2>/dev/null' EXIT
+
+for _ in $(seq 60); do
+  curl -sf "http://127.0.0.1:${port}/api/tags" > /dev/null && break
+  sleep 2
+done
+curl -sf "http://127.0.0.1:${port}/api/tags" > /dev/null || { echo "Ollama did not start"; exit 1; }
+
+echo "Node $(hostname), GPU $(nvidia-smi --query-gpu=name --format=csv,noheader), $workers workers"
+source .venv/bin/activate
+
+common=(--model "$model" --base_url "$base_url" --max_total_tokens 200000 --max_tool_calls 30 --split held_out)
+# Exits non-zero while any question has failed; the status below says whether to resubmit
+python scripts/run_experiments.py run "${common[@]}" --num_processes "$workers" "$@"
+python scripts/run_experiments.py status "${common[@]}" "$@"
