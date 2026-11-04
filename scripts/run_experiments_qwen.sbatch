@@ -37,6 +37,10 @@ curl -sf "http://127.0.0.1:${port}/api/tags" > /dev/null || { echo "Ollama did n
 echo "Node $(hostname), GPU $(nvidia-smi --query-gpu=name --format=csv,noheader), $workers workers"
 source .venv/bin/activate
 
+# The agents' answers depend on the Python sandbox; stop now rather than after hours of runs without it
+python -c 'from tools.python_executor import execute_python_code as run; r = run("answer = 1 + 1"); assert r == {"answer": 2}, r' \
+  || { echo "Python sandbox does not work on this node"; exit 1; }
+
 common=(--model "$model" --base_url "$base_url" --max_total_tokens 200000 --max_tool_calls 30 --split held_out)
 # Exits non-zero while any question has failed; the status below says whether to resubmit
 python scripts/run_experiments.py run "${common[@]}" --num_processes "$workers" "$@"
