@@ -1,0 +1,123 @@
+# Phase 3 Results: qwen3:32b
+
+Nov 5, 2026 · Akash Jairam
+
+## Summary
+
+With qwen3:32b, the single agent matched the direct baseline (52.7% vs 55.3% on 300 held-out questions, difference not significant), and the multi-agent system trailed both at 28.7%.
+
+The multi-agent gap comes mostly from its verification step, not its analysis. Verification withheld 61 correct answers to block 38 wrong ones. Had they been released, multi-agent accuracy would have been 49.0%, close to but still below the other two systems. That figure is a post-hoc what-if, not a measured result.
+
+Neither tool-using system reliably recovers a record that is missing from its starting packet: the single agent fell from 76% to 26% when one was removed.
+
+## Setup
+
+All three systems ran on the same base model, budget and tool cache, as the Phase 3 protocol requires.
+
+| Item | Value |
+| --- | --- |
+| Model | qwen3:32b (Q4_K_M), served by Ollama, thinking off |
+| Context window | 32,768 tokens |
+| Hardware | One NVIDIA H100 80GB on WashU RIS Compute2 (c2-gpu-009) |
+| Budget per question | 200,000 tokens and 30 tool calls |
+| Systems | direct_llm (one call, no tools), single_agent, multi_agent |
+| Ordinary runs | 300 held-out questions per system, 58 patients (900 runs) |
+| Recovery runs | 50 perturbed questions, intact and omitted packets, tool-using systems only (200 runs) |
+| Variability runs | 20-question subset, 5 repeats per system (300 runs) |
+| Scoring | Typed scorer; 95% CIs from a patient-clustered bootstrap |
+| Code | Branch fix/boolean-closing-verdict at commit 42eb617 |
+
+The run took four Slurm jobs on 4-5 November 2026: one 7 h 16 min job, then three short follow-ups that retried failed questions.
+
+## Main comparison
+
+The direct baseline and the single agent are statistically tied; the multi-agent system is about 25 points behind both.
+
+| System | Accuracy (95% CI) | Median latency | p95 latency | Mean tokens / question | Failed runs |
+| --- | --- | --- | --- | --- | --- |
+| direct_llm | 55.3% [49.4, 61.4] | 14.0 s | 123.9 s | 7,618 | 3 |
+| single_agent | 52.7% [46.6, 58.6] | 42.8 s | 194.3 s | 47,801 | 8 |
+| multi_agent | 28.7% [23.0, 34.7] | 93.3 s | 302.7 s | 37,832 | 41 |
+
+Paired differences on the same 300 questions (95% CI):
+
+- multi_agent − single_agent: −24.0 points [−30.3, −17.8]
+- multi_agent − direct_llm: −26.7 points [−35.1, −18.6]
+- single_agent − direct_llm: −2.7 points [−10.4, +4.5]
+
+Failed runs count as wrong. The single agent costs about 6 times the tokens of the baseline for no accuracy gain.
+
+Accuracy by question type (95% CI):
+
+| Question type | direct_llm | single_agent | multi_agent |
+| --- | --- | --- | --- |
+| Counting (n=92) | **80.4%** [72.4, 87.6] | 56.5% [46.1, 67.0] | 44.6% [34.8, 54.3] |
+| Aggregation (n=49) | 49.0% [34.7, 63.0] | **57.1%** [40.4, 71.7] | 30.6% [14.0, 47.2] |
+| Time-based (n=159) | 42.8% [34.8, 51.1] | **49.1%** [41.0, 57.8] | 18.9% [11.9, 26.2] |
+
+The overall tie between the baseline and the single agent hides a split: the baseline is far ahead on counting, while tool use helps on time-based questions.
+
+## Recovery from omitted records
+
+Removing one needed record from the starting packet cut the single agent's accuracy by 50 points, so it rarely went back to the FHIR store to find what was missing.
+
+| System | Intact packet | Record omitted | Omitted − intact (95% CI) |
+| --- | --- | --- | --- |
+| single_agent | 76.0% | 26.0% | −50.0 points [−64.6, −35.6] |
+| multi_agent | 14.0% | 4.0% | −10.0 points [−19.1, −2.3] |
+
+50 questions per condition, 27 patients. The multi-agent drop is smaller only because it starts near the floor; with the record omitted it is still 22 points below the single agent [−35.1, −8.3]. Omitted-record accuracy for the single agent held up best on counting questions (53%) and collapsed on time-based ones (5%).
+
+## Repeatability
+
+The direct baseline gave the same result in all 5 repeats; both agent systems varied, and the multi-agent system abstained or errored in 82% of its runs.
+
+| System | Mean accuracy (range) | Abstention rate | Error rate | Always / never / sometimes correct | Identical answers in every repeat |
+| --- | --- | --- | --- | --- | --- |
+| direct_llm | 60% (60–60) | 6% | 0% | 12 / 8 / 0 | 95% |
+| single_agent | 60% (50–65) | 41% | 1% | 9 / 7 / 4 | 45% |
+| multi_agent | 28% (25–35) | 55% | 27% | 4 / 13 / 3 | 40% |
+
+20 questions, 5 repeats each. On this subset the single agent ties the baseline on average but swings by 15 points between repeats.
+
+## Why multi_agent underperforms
+
+On first attempts, the verification agent withheld 190 of 300 answers, and most of the withheld answers were correct.
+
+Each withheld result keeps the answer the system reached before the gate: the revised answer, or the draft when there was none. Scoring those with the same typed scorer, on first attempts as in the official analysis:
+
+| | Ordinary (300) | Recovery, intact (50) |
+| --- | --- | --- |
+| Runs that failed outright (counted wrong) | 41 | 8 |
+| Answers withheld (null) | 190 | 29 |
+| Withheld with an answer before the gate | 99 | 23 |
+| That answer was correct | 61 | 19 |
+| That answer was wrong (verification right to block) | 38 | 4 |
+| Accuracy as reported | 28.7% | 14.0% |
+| Accuracy if those answers had been released | 49.0% | 52.0% |
+
+The checks that most often fired on correct answers were recompute_mismatch (33), where the verifier's own Python result disagreed; missing_evidence (31), where the verifier judged needed records missing; and independent_check (25), where the verifier could not complete its own fetch and recomputation. All three rest on the verifier model's judgment, not the deterministic field check. One answer can trigger several checks.
+
+The 49.0% is a post-hoc what-if on held-out data. It shows where the accuracy is lost, but a gentler verifier is a new system that must be tuned on the dev split and then run once on held-out.
+
+## Run integrity
+
+The first full run (3 November) is invalid for both tool-using systems and is excluded; these results come from the rerun.
+
+- **Cause:** RIS Compute2 ships bubblewrap 0.4.1, which rejects the `--clearenv` option the Python sandbox passed. Every sandbox call failed, touching 290 of 300 single_agent questions and all 300 multi_agent questions. direct_llm uses no tools and was unaffected (56.3% then, 55.3% in the rerun).
+- **Fix:** commit 42eb617 drops `--clearenv`, since the sandbox already receives a minimal explicit environment. The real sandbox tests (no network, no workspace access, no inherited environment) pass on the cluster. The Slurm job now refuses to start if the sandbox fails a self-test.
+- **Check:** the rerun's results contain zero sandbox failures in every arm.
+- **Fingerprints:** five LangGraph dependencies are now pinned, so laptop and cluster produce the same code fingerprint (55ae0ef…).
+- **Retries:** the three follow-up jobs retried failed questions: 69 retries for multi_agent, 15 for single_agent, 7 for direct_llm. Remaining failures count as wrong.
+
+The invalid results are kept on the cluster under `output/experiments/qwen3:32b/held_out_old_bwrap_sandbox_broken`.
+
+## Caveats and next steps
+
+These results describe one 32B model with a 32k context; they do not show how the systems compare with a stronger model.
+
+- **Context limit:** with 32k tokens, some patients' records do not fit, which hurts the systems that load whole record sets.
+- **One model judges nothing here:** accuracy comes from the typed scorer, so no LLM grades its own answers.
+- **Retries:** accuracy uses each question's first attempt, as in the official analysis; the follow-up jobs' retries (69 for multi_agent) only add to the cost totals.
+- **Verifier variant:** three release rules were fixed in advance: strict (as built), field_check (withhold only on a deterministic field-check issue) and always. The best on the 50-question dev split will be applied once to the saved held-out runs (`scripts/release_policy.py`); no agent rerun is needed.
+- **Stronger model:** the same three systems will be rerun with gpt-oss:120b (65 GB), the largest candidate checked that fits on one H100, to test whether the verifier's cost shrinks as the model improves.
