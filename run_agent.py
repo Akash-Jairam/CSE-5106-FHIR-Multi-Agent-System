@@ -43,7 +43,7 @@ def build_parser():
                         help="Base model; default: $MODEL, then MODEL in config.yml, then gpt-6-luna")
     parser.add_argument("--base_url", default=None,
                         help="OpenAI-compatible endpoint; default: $BASE_URL, then BASE_URL in config.yml, "
-                             "then local Ollama for Qwen models")
+                             "then local Ollama for Qwen and gpt-oss models")
     parser.add_argument("--input", default="final_dataset/questions_answers_sql_fhir.csv")
     parser.add_argument("--output", default=None)
     parser.add_argument("--date", default=None, help="Retained for compatibility")

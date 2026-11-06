@@ -201,3 +201,32 @@ Results go to `output/experiments/qwen3:32b/held_out/`. Score them with
 `python scripts/run_experiments.py analyze --model qwen3:32b --base_url http://127.0.0.1:11434/v1 --max_total_tokens 200000 --max_tool_calls 30 --split held_out`,
 or copy the folder back to the laptop with `rsync` and run `analyze` there with
 the same arguments.
+
+If a 36-hour job waits for days, shorter jobs start sooner: Slurm can fit them
+into gaps. Lower a pending job's limit, allow the preemptible partition, and
+chain follow-ups (each resumes where the last stopped):
+
+```bash
+scontrol update JobId=<jobid> TimeLimit=8:00:00 Partition=general-gpu,general-preempt-gpu
+for i in 1 2 3; do
+  sbatch --time=8:00:00 --partition=general-gpu,general-preempt-gpu --dependency=singleton \
+         scripts/run_experiments_qwen.sbatch
+done
+```
+
+### Other models and splits
+
+The script takes `MODEL`, `SPLIT` and `OLLAMA_MODELS` from the environment, and
+pulls the model on the GPU node if it is missing. `gpt-oss:120b` (65 GB) does not
+fit the 47 GB home quota, so keep it on the lab's scratch space, and give the job
+more memory for loading it. Give each model its own job name, so `singleton`
+chains don't mix models:
+
+```bash
+MODEL=gpt-oss:120b OLLAMA_MODELS=/scratch2/fs1/di2cap/$USER/ollama-models \
+  sbatch --job-name=phase3-gpt-oss --mem=128G scripts/run_experiments_qwen.sbatch
+SPLIT=dev sbatch --job-name=phase3-qwen-dev scripts/run_experiments_qwen.sbatch --arms ordinary_multi_agent
+```
+
+Results go to `output/experiments/<model>/<split>/`. To compare release rules for
+multi_agent's verification gate on saved results, see `scripts/release_policy.py`.

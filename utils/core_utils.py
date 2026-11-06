@@ -89,6 +89,9 @@ def get_model_provider(model: str) -> str:
     # Gemini models  
     elif any(name in model_lower for name in ['gemini']):
         return 'gemini'
+    # gpt-oss (OpenAI's open-weight models, served locally)
+    elif 'gpt-oss' in model_lower:
+        return 'gpt-oss'
     # Qwen models
     elif any(name in model_lower for name in ['qwen']):
         return 'qwen'
@@ -131,7 +134,7 @@ def validate_config(model: str, base_url: str=None) -> bool:
 
     # If a specific model is provided, check if its provider is configured
     provider = get_model_provider(model)    
-    if provider == "qwen" or provider == "meta-llama":
+    if provider in ("qwen", "meta-llama", "gpt-oss"):
         if base_url is None:
             print(f"❌ {provider.title()} base URL required for model '{model}' but not provided")
             model_ok = False
@@ -388,6 +391,15 @@ def _is_qwen_model(model):
     return "qwen" in model.lower()
 
 
+def _is_gpt_oss_model(model):
+    return "gpt-oss" in model.lower()
+
+
+# gpt-oss always reasons; fix the level so runs are reproducible. Ollama returns the reasoning
+# in a separate field, so the content needs no stripping.
+GPT_OSS_REASONING_EFFORT = "medium"
+
+
 def _strip_think(content):
     """Drop Qwen3 <think>...</think> reasoning (and an unclosed trailing block) from a reply."""
     if not content:
@@ -425,6 +437,8 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                 limits = {"extra_body": {"think": False, "reasoning_effort": "none"}}
                 # The OpenAI client insists on a key; Ollama ignores it. Never forward the real OpenAI key.
                 limits["api_key"] = "ollama"
+            elif _is_gpt_oss_model(model):
+                limits = {"extra_body": {"reasoning_effort": GPT_OSS_REASONING_EFFORT}, "api_key": "ollama"}
             if max_completion_tokens is not None:
                 key = "max_completion_tokens" if is_reasoning_llm(model) else "max_tokens"
                 limits[key] = max_completion_tokens

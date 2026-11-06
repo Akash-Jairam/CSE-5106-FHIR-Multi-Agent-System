@@ -10,7 +10,7 @@ one command; scripts/run_experiments.py passes its one model to every arm.
 
 get_default_base_url() picks the OpenAI-compatible endpoint the same way:
 $BASE_URL, then BASE_URL in config.yml, then a local Ollama server for Qwen
-models (e.g. qwen3:4b), else None (the provider's hosted API).
+and gpt-oss models (e.g. qwen3:4b, gpt-oss:120b), else None (the provider's hosted API).
 
 Run as a script to print the model; the shell launchers do this. It imports
 nothing from the project so that it stays fast.
@@ -22,6 +22,7 @@ import yaml
 
 DEFAULT_MODEL = "gpt-6-luna"
 DEFAULT_OLLAMA_BASE_URL = "http://localhost:11434/v1"
+LOCAL_MODEL_FAMILIES = ("qwen", "gpt-oss")  # open-weight models served by Ollama
 CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.yml"
 
 
@@ -51,11 +52,11 @@ def get_default_model():
 
 
 def get_default_base_url(model):
-    """The endpoint for `model`: $BASE_URL, then BASE_URL in config.yml, then Ollama for Qwen, else None."""
+    """The endpoint for `model`: $BASE_URL, then BASE_URL in config.yml, then Ollama for local models, else None."""
     configured = _from_environment_or_config("BASE_URL")
     if configured:
         return configured
-    return DEFAULT_OLLAMA_BASE_URL if "qwen" in (model or "").lower() else None
+    return DEFAULT_OLLAMA_BASE_URL if any(family in (model or "").lower() for family in LOCAL_MODEL_FAMILIES) else None
 
 
 if __name__ == "__main__":
