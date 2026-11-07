@@ -416,6 +416,18 @@ def _qwen_message(message):
     return message
 
 
+def _rejected_tool_call(error):
+    """The parser's reason when Ollama refused a reply whose tool-call arguments were not valid JSON, else None.
+
+    Ollama answers such a reply (seen with gpt-oss:120b) with HTTP 500 instead of returning the call.
+    """
+    text = str(error)
+    if "error parsing tool call" not in text:
+        return None
+    reason = text.rpartition("err=")[2].strip() if "err=" in text else ""
+    return reason[:200] or "unparseable tool call"
+
+
 def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_calls=True, max_retries=5, max_tokens=32000, base_url=None, max_completion_tokens=None):
     """Safe LLM API call with context length validation and retry logic."""
     
@@ -501,6 +513,13 @@ def safe_llm_call(model, messages, tools=None, temperature=0.0, parallel_tool_ca
                                               "usage_available": False})
             if attempt < max_retries - 1:
                 print(f"[LLM] Retrying ({attempt + 1}/{max_retries}): {e}")
+                rejected = _rejected_tool_call(e)
+                if rejected:
+                    # Resending the same request would fail the same way; let the model correct its call
+                    messages = messages + [{"role": "user", "content": (
+                        f"Your last tool call was rejected because its arguments were not valid JSON ({rejected}). "
+                        "Call the tool again with valid JSON arguments.")}]
+                    continue
                 time.sleep(5)
             else:
                 return None, f"Max retries exceeded: {e}", usage_info

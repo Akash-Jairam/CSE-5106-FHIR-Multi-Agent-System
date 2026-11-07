@@ -55,6 +55,29 @@ class GptOssTransportTests(unittest.TestCase):
         self.assertEqual(kwargs["extra_body"], {"reasoning_effort": core.GPT_OSS_REASONING_EFFORT})
         self.assertEqual(kwargs["api_key"], "ollama")
 
+    def test_a_rejected_tool_call_is_sent_back_for_correction(self):
+        # Ollama 0.40.13 answers gpt-oss's malformed tool-call JSON with HTTP 500
+        rejected = Exception("litellm.InternalServerError: OpenAIException - error parsing tool call: "
+                             "raw='{\"code\":\"answer = 1\"], \"timeout\": 10}', "
+                             "err=invalid character ']' after object key:value pair")
+        with patch.object(core.litellm, "completion", side_effect=[rejected, response()]) as completion, \
+                patch.object(core.time, "sleep") as sleep:
+            message, error, usage = core.safe_llm_call("gpt-oss:120b", MESSAGES, base_url="http://localhost:11434/v1")
+        self.assertIsNone(error)
+        self.assertEqual(message.content, "ok")
+        self.assertEqual(usage["llm_calls"], 2)
+        sleep.assert_not_called()
+        retry = completion.call_args_list[1].kwargs["messages"]
+        self.assertEqual(retry[:-1], MESSAGES)
+        self.assertIn("invalid character ']' after object key:value pair", retry[-1]["content"])
+        self.assertEqual(MESSAGES, [{"role": "user", "content": "q"}])  # the caller's history is untouched
+
+    def test_other_errors_resend_the_same_request(self):
+        with patch.object(core.litellm, "completion", side_effect=[Exception("timeout"), response()]) as completion, \
+                patch.object(core.time, "sleep"):
+            core.safe_llm_call("gpt-oss:120b", MESSAGES, base_url="http://localhost:11434/v1")
+        self.assertEqual(completion.call_args_list[1].kwargs["messages"], MESSAGES)
+
 
 if __name__ == "__main__":
     unittest.main()
