@@ -6,7 +6,7 @@ Nov 5, 2026 · Akash Jairam
 
 With qwen3:32b, the single agent matched the direct baseline (52.7% vs 55.3% on 300 held-out questions, difference not significant), and the multi-agent system trailed both at 28.7%.
 
-The multi-agent gap comes mostly from its verification step, not its analysis. Verification withheld 61 correct answers to block 38 wrong ones. Had they been released, multi-agent accuracy would have been 49.0%, close to but still below the other two systems. That figure is a post-hoc what-if, not a measured result.
+The multi-agent gap comes mostly from its verification step, not its analysis. Verification withheld 61 correct answers to block 38 wrong ones. Releasing whatever answer it reached, a rule chosen in advance on the dev split, raises multi-agent accuracy to 46.7%, still 6.0 points below the single agent. That figure is a post-hoc what-if applied to the saved runs, not a new run.
 
 Neither tool-using system reliably recovers a record that is missing from its starting packet: the single agent fell from 76% to 26% when one was removed.
 
@@ -93,12 +93,12 @@ Each withheld result keeps the answer the system reached before the gate: the re
 | Withheld with an answer before the gate | 99 | 23 |
 | That answer was correct | 61 | 19 |
 | That answer was wrong (verification right to block) | 38 | 4 |
-| Accuracy as reported | 28.7% | 14.0% |
-| Accuracy if those answers had been released | 49.0% | 52.0% |
+| Accuracy as reported (strict rule) | 28.7% | 14.0% |
+| Accuracy releasing every answer reached (always rule) | 46.7% | 52.0% |
 
 The checks that most often fired on correct answers were recompute_mismatch (33), where the verifier's own Python result disagreed; missing_evidence (31), where the verifier judged needed records missing; and independent_check (25), where the verifier could not complete its own fetch and recomputation. All three rest on the verifier model's judgment, not the deterministic field check. One answer can trigger several checks.
 
-The 49.0% is a post-hoc what-if on held-out data. It shows where the accuracy is lost, but a gentler verifier is a new system that must be tuned on the dev split and then run once on held-out.
+The always rule gains less than the 61 correct answers suggest: some withheld answers were correct abstentions on questions whose true answer is empty, and releasing a draft there turns them wrong. The rule was chosen on dev before being applied to held-out. Of three rules fixed in advance, always scored best on the 50 dev questions (46.0%, against 42.0% for field_check and 32.0% for strict). Applied once to held-out it gives 46.7% [40.6, 52.8]: 6.0 points below the single agent [−12.4, +0.7] and 8.7 below the baseline [−16.1, −1.6].
 
 ## Run integrity
 
@@ -119,5 +119,5 @@ These results describe one 32B model with a 32k context; they do not show how th
 - **Context limit:** with 32k tokens, some patients' records do not fit, which hurts the systems that load whole record sets.
 - **One model judges nothing here:** accuracy comes from the typed scorer, so no LLM grades its own answers.
 - **Retries:** accuracy uses each question's first attempt, as in the official analysis; the follow-up jobs' retries (69 for multi_agent) only add to the cost totals.
-- **Verifier variant:** three release rules were fixed in advance: strict (as built), field_check (withhold only on a deterministic field-check issue) and always. The best on the 50-question dev split will be applied once to the saved held-out runs (`scripts/release_policy.py`); no agent rerun is needed.
+- **Verifier variant:** three release rules were fixed in advance: strict (as built), field_check (withhold only on a deterministic field-check issue) and always. always scored best on the 50-question dev split and, applied once to the saved held-out runs (`scripts/release_policy.py`), gives 46.7%; no agent rerun was needed.
 - **Stronger model:** the same three systems will be rerun with gpt-oss:120b (65 GB), the largest candidate checked that fits on one H100, to test whether the verifier's cost shrinks as the model improves.
