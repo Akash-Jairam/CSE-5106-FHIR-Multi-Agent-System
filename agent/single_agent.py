@@ -30,6 +30,8 @@ class SingleAgent(MultiTurnCodeResourceAgent):
     deterministic starting packet, with the field-check tool and one revision after an
     automatic check of its first answer. Returns the common output contract."""
 
+    search_guidance = ""
+
     def __init__(self, model: str, max_iterations: int = 30, verbose: bool = False, base_url=None):
         super().__init__(model, max_iterations=max_iterations, verbose=verbose, base_url=base_url)
         self.tools = self.tools + [t for t in get_tool_definitions() if t["function"]["name"] == "check_fields"]

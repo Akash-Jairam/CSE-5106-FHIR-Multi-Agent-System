@@ -8,6 +8,7 @@ from agent.direct_llm_agent import DirectLLMAgent
 from agent.multi_turn_code_resource_agent import MultiTurnCodeResourceAgent
 from agent.output_schema import parse_final_message
 from agent.single_agent import SingleAgent
+from agent.single_turn_resource_agent import SingleTurnResourceAgent
 from tools import cache, resource_tools
 from tools.field_check import check_fields
 
@@ -255,6 +256,34 @@ class ToolDispatchTests(unittest.TestCase):
         final = {"answer": "correct", "evidence": [{"value": {"answer": "nested"}}], "limitation": None}
         answer, _, _ = parse_final_message(json.dumps(final))
         self.assertEqual(answer, "correct")
+
+
+class SearchGuidanceTests(unittest.TestCase):
+    def test_code_agent_gets_search_guidance_but_single_agent_prompt_is_unchanged(self):
+        with patch("agent.base_agent.setup_api_keys"):
+            code_prompt = MultiTurnCodeResourceAgent("test-model").system_msg[0]["content"]
+            single_prompt = SingleAgent("test-model").system_msg[0]["content"]
+        self.assertIn("Do not rely on exact string equality", code_prompt)
+        self.assertIn("performedDateTime", code_prompt)
+        self.assertNotIn("Searching the retrieved data", single_prompt)
+
+
+class SingleTurnResourceAgentTests(unittest.TestCase):
+    def test_a_tool_request_instead_of_an_answer_is_asked_once_to_answer(self):
+        with patch("agent.base_agent.setup_api_keys"):
+            agent = SingleTurnResourceAgent("test-model")
+        fetch = SimpleNamespace(role="assistant", content=None,
+                                tool_calls=[tool_call("get_resources_by_patient_fhir_id", patient_fhir_id=PATIENT, resource_type="Procedure")])
+        again = SimpleNamespace(role="assistant", content=None,
+                                tool_calls=[tool_call("get_resources_by_patient_fhir_id", patient_fhir_id=PATIENT, resource_type="Encounter")])
+        answer = SimpleNamespace(role="assistant", content="Yes.", tool_calls=None)
+        agent._llm_call = Mock(side_effect=[(fetch, None, None), (again, None, None), (answer, None, None)])
+        with patch("agent.single_turn_resource_agent.get_tool", return_value=lambda **args: {"Procedure": []}):
+            output = agent._run("Did the patient have a procedure?")
+        self.assertEqual(output["final_answer"], "Yes.")
+        self.assertEqual(agent._llm_call.call_count, 3)
+        self.assertNotIn(again, output["trace"])
+        self.assertIsNone(agent._llm_call.call_args.kwargs.get("tools"))
 
 
 if __name__ == "__main__":

@@ -121,7 +121,13 @@ Follow these examples to structure your approach: retrieve relevant FHIR resourc
 
         # 2. Reason about the retrieved data
         final_message, final_error, final_usage_info = self._llm_call(self.messages)
-        
+        if not final_error and not (final_message.content or "").strip():
+            # No tools are offered here, but some models (e.g. Gemini 3) still ask for one instead of answering.
+            # Drop that reply so no unanswered tool call stays in the history, and ask once for the answer.
+            self.messages.append({"role": "user", "content": "Answer the question now using only the data "
+                                  "already retrieved. Do not request more tools."})
+            final_message, final_error, final_usage_info = self._llm_call(self.messages)
+
         self.messages.append(final_message)
         
         if final_error:

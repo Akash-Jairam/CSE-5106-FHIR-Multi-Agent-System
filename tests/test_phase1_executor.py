@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from tools.python_executor import execute_python_code
+from tools.python_executor import _sandbox_command, execute_python_code
 
 
 class ExecutorTests(unittest.TestCase):
@@ -48,6 +48,14 @@ class ExecutorTests(unittest.TestCase):
         with patch("tools.python_executor._sandbox_command", return_value=None):
             result = execute_python_code("answer = 1")
         self.assertIn("unavailable", result["error"])
+
+    def test_linux_sandbox_runs_on_bubblewrap_0_4(self):
+        # --clearenv needs bubblewrap 0.5; with 0.4.1 every sandbox call failed
+        with patch("tools.python_executor.sys.platform", "linux"), \
+                patch("tools.python_executor.shutil.which", return_value="/usr/bin/bwrap"):
+            command = _sandbox_command(tempfile.gettempdir())
+        self.assertEqual(command[0], "bwrap")
+        self.assertNotIn("--clearenv", command)
 
     def test_network_is_denied(self):
         result = execute_python_code("import socket; s = socket.socket(); s.connect(('127.0.0.1', 9)); answer = 1")

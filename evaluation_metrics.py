@@ -10,7 +10,7 @@ import argparse
 import datetime
 import csv
 from collections import Counter
-from utils import get_default_model, safe_llm_call
+from utils import get_default_base_url, get_default_model, safe_llm_call
 
 import pandas as pd
 from tqdm import tqdm
@@ -88,7 +88,7 @@ def call_model(model, prompt):
     """Call LLM with appropriate settings"""
     try:
         messages = [{"role": "user", "content": prompt}]
-        response, error, _ = safe_llm_call(model, messages, max_retries=1)
+        response, error, _ = safe_llm_call(model, messages, max_retries=1, base_url=get_default_base_url(model))
         if error or response is None:
             raise ValueError(error or "No model response")
         return response.content.strip()
