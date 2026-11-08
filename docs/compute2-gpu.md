@@ -230,3 +230,38 @@ SPLIT=dev sbatch --job-name=phase3-qwen-dev scripts/run_experiments_qwen.sbatch 
 
 Results go to `output/experiments/<model>/<split>/`. To compare release rules for
 multi_agent's verification gate on saved results, see `scripts/release_policy.py`.
+
+### Serving gpt-oss with vLLM
+
+Ollama 0.40.13 rejects a gpt-oss reply whose tool-call arguments are not valid
+JSON with HTTP 500, so the call never reaches the agent; in the Ollama run this
+failed 50 single_agent and 103 multi_agent questions on the first attempt.
+`scripts/run_experiments_vllm.sbatch` serves gpt-oss with vLLM instead, which
+returns such a call, and the agents send the model a tool error as they do for
+any other model. It keeps the 32k context and uses port 8000, so its results
+never mix with the Ollama run's.
+
+One-time setup on the login node (vLLM and the weights go on scratch, about 75 GB):
+
+```bash
+S=/scratch2/fs1/di2cap/$USER
+/cm/local/apps/python312/bin/python3 -m venv $S/vllm-venv
+$S/vllm-venv/bin/pip install vllm==0.33.0
+HF_HOME=$S/hf $S/vllm-venv/bin/hf download openai/gpt-oss-120b --exclude "original/*" "metal/*"
+```
+
+Run it from a separate checkout, so a model already running from the main copy
+keeps its code fingerprint:
+
+```bash
+git worktree add ~/fhir-gptoss-vllm <commit>
+cd ~/fhir-gptoss-vllm && ln -s ~/CSE-5106-FHIR-Multi-Agent-System/.venv .venv
+cp ~/CSE-5106-FHIR-Multi-Agent-System/config.yml . && mkdir -p logs
+for i in 1 2 3; do
+  sbatch --job-name=phase3-gpt-oss-vllm --dependency=singleton scripts/run_experiments_vllm.sbatch
+done
+SPLIT=dev sbatch --job-name=phase3-gpt-oss-vllm --dependency=singleton --time=2:00:00 \
+  scripts/run_experiments_vllm.sbatch --arms ordinary_multi_agent
+```
+
+vLLM's own log is `logs/vllm-<jobid>.log`.
