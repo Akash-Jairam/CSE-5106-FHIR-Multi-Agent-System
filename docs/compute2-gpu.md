@@ -247,7 +247,7 @@ One-time setup on the login node (vLLM and the weights go on scratch, about 75 G
 S=/scratch2/fs1/di2cap/$USER
 /cm/local/apps/python312/bin/python3 -m venv $S/vllm-venv
 $S/vllm-venv/bin/pip install vllm==0.33.0
-HF_HOME=$S/hf $S/vllm-venv/bin/hf download openai/gpt-oss-120b --exclude "original/*" "metal/*"
+HF_HOME=$S/hf $S/vllm-venv/bin/hf download openai/gpt-oss-120b --exclude "original/*" --exclude "metal/*"
 ```
 
 Run it from a separate checkout, so a model already running from the main copy
