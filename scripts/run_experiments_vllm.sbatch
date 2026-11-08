@@ -27,6 +27,8 @@ scratch="/scratch2/fs1/di2cap/$USER"
 vllm_venv="${VLLM_VENV:-$scratch/vllm-venv}"
 # Weights are downloaded once on the login node; the job reads them offline
 export HF_HOME="${HF_HOME:-$scratch/hf}" HF_HUB_OFFLINE=1
+# vLLM compiles FlashInfer kernels at startup with the venv's ninja and the node's nvcc; keep its caches off home
+export PATH="$vllm_venv/bin:$PATH" CUDA_HOME="${CUDA_HOME:-/usr/local/cuda}" XDG_CACHE_HOME="$scratch/cache"
 workers="${WORKERS:-4}"
 port=8000
 base_url="http://127.0.0.1:${port}/v1"  # keep identical across jobs: result files are bound to it
