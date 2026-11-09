@@ -1,4 +1,4 @@
-# Phase 3 Results: qwen3:32b
+# Phase 3 Results: qwen3:32b, qwen3.5:122b and gpt-oss:120b
 
 Nov 5, 2026 · Akash Jairam
 
@@ -10,7 +10,7 @@ The multi-agent gap comes mostly from its verification step, not its analysis. V
 
 Neither tool-using system reliably recovers a record that is missing from its starting packet: the single agent fell from 76% to 26% when one was removed.
 
-A larger model, qwen3.5:122b, keeps the same ranking: direct_llm 62.0%, single_agent 57.3% (a tie) and multi_agent 22.0% as built, 47.7% releasing every answer. gpt-oss:120b reached 71.0% without tools, but Ollama rejected many of its tool calls, so its agent results are not comparable.
+Two larger models keep the same ranking. With qwen3.5:122b, direct_llm scores 62.0% and single_agent 57.3% (a tie); multi_agent scores 22.0% as built and 47.7% releasing every answer. With gpt-oss:120b served by vLLM, direct_llm scores 71.0% and single_agent 72.3% (a tie); multi_agent scores 19.3% as built and 51.0% releasing every answer, 21 points behind the single agent.
 
 ## Setup
 
@@ -106,20 +106,20 @@ The always rule gains less than the 61 correct answers suggest: some withheld an
 
 A larger model lifts the direct baseline more than the agents, so the ranking holds: with qwen3.5:122b the single agent ties the baseline and the multi-agent system trails both, even after releasing every answer it reached.
 
-Both models ran the same protocol as qwen3:32b (same 300 held-out questions, budget, tool cache, 32k context and typed scorer). qwen3.5:122b (81 GB, thinking off) ran on two H100s at commit 8503cf6, 5-8 November 2026. gpt-oss:120b (65 GB, reasoning effort medium) ran on one H100 at commit a5cd295, 7-8 November 2026.
+Both models ran the same protocol as qwen3:32b (same 300 held-out questions, budget, tool cache, 32k context and typed scorer). qwen3.5:122b (81 GB, thinking off) ran on two H100s at commit 8503cf6, 5-8 November 2026. gpt-oss:120b (65 GB, reasoning effort medium) was served by vLLM 0.33.0 on one H100 at commit 4c46421 (same agent code as a5cd295), 8-9 November 2026.
 
-| Held-out result | qwen3:32b | qwen3.5:122b | gpt-oss:120b (see below) |
+| Held-out result | qwen3:32b | qwen3.5:122b | gpt-oss:120b (vLLM) |
 | --- | --- | --- | --- |
-| direct_llm | 55.3% | **62.0%** [57.0, 67.0] | 71.0% [66.4, 75.3] |
-| single_agent | 52.7% | **57.3%** [51.7, 62.6] | 61.3% [55.7, 67.0] |
-| multi_agent, strict rule (as built) | 28.7% | **22.0%** [16.2, 27.8] | 7.3% [4.3, 10.7] |
-| multi_agent, always rule | 46.7% | **47.7%** [42.0, 53.1] | 17.3% [13.5, 21.5] |
-| single_agent − direct_llm | −2.7 [−10.4, +4.5] | −4.7 [−10.3, +0.6] | −9.7 [−14.8, −4.6] |
-| multi_agent (always) − single_agent | −6.0 [−12.4, +0.7] | −9.7 [−15.1, −4.0] | −44.0 [−50.5, −37.1] |
-| single_agent recovery, intact → omitted | 76% → 26% | 74% → 30% | 76% → 20% |
-| multi_agent failed first attempts (of 300) | 41 | 107 | 227 |
-| single_agent median latency | 42.8 s | 205.7 s | 22.7 s |
-| single_agent mean tokens / question | 47,801 | 102,001 | 29,891 |
+| direct_llm | 55.3% | 62.0% [57.0, 67.0] | 71.0% [66.7, 75.0] |
+| single_agent | 52.7% | 57.3% [51.7, 62.6] | **72.3%** [68.0, 76.5] |
+| multi_agent, strict rule (as built) | 28.7% | 22.0% [16.2, 27.8] | 19.3% [14.1, 24.9] |
+| multi_agent, always rule | 46.7% | 47.7% [42.0, 53.1] | 51.0% [45.9, 56.1] |
+| single_agent − direct_llm | −2.7 [−10.4, +4.5] | −4.7 [−10.3, +0.6] | +1.3 [−1.7, +4.5] |
+| multi_agent (always) − single_agent | −6.0 [−12.4, +0.7] | −9.7 [−15.1, −4.0] | −21.3 [−26.9, −15.7] |
+| single_agent recovery, intact → omitted | 76% → 26% | 74% → 30% | 90% → 50% |
+| multi_agent failed first attempts (of 300) | 41 | 107 | 95 |
+| single_agent median latency | 42.8 s | 205.7 s | 9.4 s |
+| single_agent mean tokens / question | 47,801 | 102,001 | 34,128 |
 
 Accuracy with 95% patient-clustered CIs; differences in points. Failed runs count as wrong.
 
@@ -131,26 +131,26 @@ Accuracy with 95% patient-clustered CIs; differences in points. Failed runs coun
 
 **Recovery.** Removing one needed record cut the single agent from 74% to 30% (−44.0 points [−60.8, −26.5]), the same pattern as qwen3:32b. With the record omitted, multi_agent (22%) and single_agent are no longer significantly different (−8.0 [−23.8, +8.9]).
 
-## gpt-oss:120b: tool-using results not comparable
+## gpt-oss:120b served by vLLM
 
-gpt-oss:120b's direct baseline (71.0%) is the best score of any system on any model, but its tool-using results mostly measure Ollama rejecting its tool calls, not the systems.
+Served by vLLM, gpt-oss:120b is the strongest model tested: the single agent ties the baseline (72.3% vs 71.0%), and the multi-agent system trails both by over 20 points even when every answer is released.
 
-Ollama 0.40.13 answers a gpt-oss reply whose tool-call arguments are not valid JSON with HTTP 500, so the call never reaches the agent. Most rejected calls are Python code arguments written as `"code":"…"]` with a stray bracket.
+The first gpt-oss run, served by Ollama 0.40.13, is excluded. Ollama answered any tool call with invalid JSON arguments with HTTP 500, so the call never reached the agent and the question failed. vLLM passes such a call through, and the agents return a tool error to the model, as they do for every other model. gpt-oss made 338 such calls in multi_agent's first attempts and 19 in single_agent's, and carried on after each.
 
-| First attempts that failed (of 300) | single_agent | multi_agent |
-| --- | --- | --- |
-| Tool call rejected by Ollama | 50 | 103 |
-| Turn limit reached without a final reply | 0 | 85 |
-| Output format or validation error | 1 | 37 |
-| Context limit | 1 | 2 |
-| **Total** | **52** | **227** |
+| First attempts that failed (of 300) | single_agent, Ollama | single_agent, vLLM | multi_agent, Ollama | multi_agent, vLLM |
+| --- | --- | --- | --- | --- |
+| Tool call rejected by the server | 50 | 0 | 103 | 0 |
+| Turn limit reached without a final reply | 0 | 0 | 85 | 51 |
+| Output format or validation error | 1 | 2 | 37 | 38 |
+| Empty reply or context limit | 1 | 0 | 2 | 6 |
+| **Total** | **52** | **2** | **227** | **95** |
 
-- **Fix attempted:** commit a5cd295 sends the rejection reason back to the model and asks it to call again. It did not help: at temperature 0 the model repeated the same malformed call on all five tries.
-- **Client-side repair:** removing a stray bracket after a string value would fix 411 of the 541 rejected calls saved so far (76%). The rest are varied (unescaped quotes, plain text instead of JSON).
-- **Release rule:** always scored best on dev (22.0%, against 20.0% field_check and 10.0% strict) and gives 17.3% on held-out; most multi_agent runs fail before reaching an answer.
-- **Repeatability (20 questions, 5 repeats):** direct_llm 69% (65-70%), single_agent 56% (50-60%) with 18% errors, multi_agent 1% with 83% errors.
+- **Release rule:** always scored best on dev (40.0%, against 36.0% field_check and 20.0% strict) and gives 51.0% on held-out, 21.3 points below the single agent [−26.9, −15.7]. field_check gives 42.3%. On intact recovery packets the rules give 10.0%, 56.0% and 60.0%.
+- **Recovery:** removing one needed record cut the single agent from 90% to 50% (−40.0 points [−53.2, −26.0]). 50% with the record omitted is the best of any model, but the drop is as large as before; it held up on counting (80%) and fell on time-based questions (30%).
+- **Repeatability (20 questions, 5 repeats):** direct_llm 65% (60-70%), single_agent 65% in every repeat, multi_agent 16% (10-20%) with 56% abstentions and 41% errors.
+- **Speed:** median latency was 5.1 s for direct_llm, 9.4 s for single_agent and 32.2 s for multi_agent. vLLM is much faster than Ollama, so latencies are comparable within this model only.
 
-The 85 turn-limit failures are gpt-oss's own behaviour and would remain under any fix. A fair rerun would serve gpt-oss with vLLM, which implements its tool-call format directly, or add the client-side repair; neither has been run.
+The Ollama results are kept on the cluster (`~/fhir-gptoss-rerun`) and are not used here.
 
 ## Run integrity
 
@@ -172,4 +172,4 @@ These results describe one 32B model with a 32k context; they do not show how th
 - **One model judges nothing here:** accuracy comes from the typed scorer, so no LLM grades its own answers.
 - **Retries:** accuracy uses each question's first attempt, as in the official analysis; the follow-up jobs' retries (69 for multi_agent) only add to the cost totals.
 - **Verifier variant:** three release rules were fixed in advance: strict (as built), field_check (withhold only on a deterministic field-check issue) and always. always scored best on the 50-question dev split and, applied once to the saved held-out runs (`scripts/release_policy.py`), gives 46.7%; no agent rerun was needed.
-- **Stronger model:** qwen3.5:122b confirms the qwen3:32b ranking (see Larger models). gpt-oss:120b's tool-using results are not comparable until it is served without Ollama's tool-call rejections.
+- **Stronger model:** qwen3.5:122b and gpt-oss:120b confirm the qwen3:32b ranking (see Larger models). gpt-oss ran on vLLM because Ollama rejected its malformed tool calls; latencies differ between the two servers, so compare them within a model only.
