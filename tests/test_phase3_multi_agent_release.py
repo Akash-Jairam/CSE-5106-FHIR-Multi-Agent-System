@@ -63,6 +63,11 @@ class ReleaseTests(unittest.TestCase):
                                         verification=[verdict(5, [MISMATCH]), verdict(5)]))
         self.assertEqual((output["answer"], output["revision"]["release"]["winner"]), (5, "repaired"))
 
+    def test_a_repair_without_support_does_not_displace_the_draft(self):
+        output = self.run_team(StubTeam(analysis=[draft(), draft(5)],
+                                        verification=[verdict(9, [MISMATCH]), verdict(9, [MISMATCH])]))
+        self.assertEqual((output["answer"], output["revision"]["release"]["winner"]), (7, "draft"))
+
     def test_packet_reading_and_verifier_outvote_the_analysis(self):
         output = self.run_team(StubTeam(direct=draft(5, ()), analysis=[draft(), draft(9)],
                                         verification=[verdict(5, [MISMATCH]), verdict(5, [MISMATCH])]))

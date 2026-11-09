@@ -11,10 +11,10 @@ ceiling, and tool-call ceiling.
 - Verification re-checks the cited fields and recomputes the answer; its
   issues route one repair, as before, but never withhold an answer.
 
-Release is a vote among the answers the team produced: the analysis answer
-(after repair, then the original draft), the packet reading and the
-verifier's recomputation. Abstentions do not vote; ties go to the earlier
-voter. A deterministic finisher (agent/finishers.py) then applies the
+Release is a vote among the answers the team produced: the original draft,
+the repaired answer, the packet reading and the verifier's recomputation.
+Abstentions do not vote; ties go to the earlier voter, so a repair prompted
+by an unreliable verifier does not displace the draft on a tie. A deterministic finisher (agent/finishers.py) then applies the
 benchmark's conventions for the seven templates it covers. A role failure
 after a draft or packet answer exists is recorded, not the run's error.
 """
@@ -47,10 +47,10 @@ class MultiAgentSystem(FixedController):
         """(voter, candidate) pairs in tie-break order."""
         draft, final = state["draft"], state["final"]
         pairs = []
-        if final is not None and final is not draft and state["revised"]:
-            pairs.append(("repaired", final))
         if draft is not None:
             pairs.append(("draft", draft))
+        if final is not None and final is not draft and state["revised"]:
+            pairs.append(("repaired", final))
         direct = self._retrieval.direct_candidate
         if direct is not None:
             pairs.append(("direct", direct))
