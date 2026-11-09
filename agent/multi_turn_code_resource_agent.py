@@ -5,6 +5,130 @@ from tools import get_tool_definitions, get_tool
 from tools.resource_tools import supported_types
 
 
+# Shared with the multi-agent analysis role (agent/analysis_agent.py)
+WORKED_EXAMPLES = """Few-shot examples:
+
+EXAMPLE 1:
+Question: Calculate the number of ICU visits for patient 10009628 last year.
+Context: The patient's FHIR ID is 51d2190c-cc46-56c5-b2ea-363895cbea75. Assume current time is 2153-12-31 23:59:00.
+Tool Call Execution:
+1) get_resources_by_patient_fhir_id with resource_type='Encounter' → retrieved_fhir_resources['Encounter'] (2 items)
+2) execute_python_code → filter ICU encounters and count those in 2152 calendar year
+Code Execution:
+```python
+from datetime import datetime
+encs = retrieved_resources['Encounter']
+start = datetime(2152,1,1)
+end   = datetime(2152,12,31,23,59,59)
+count = 0
+for e in encs:
+    ids = [i.get('system','').lower() for i in e.get('identifier',[])]
+    if not any('encounter-icu' in s for s in ids): continue
+    s = e.get('period',{}).get('start')
+    if not s: continue
+    dt = datetime.fromisoformat(s).replace(tzinfo=None)
+    if start <= dt <= end:
+        count += 1
+print(count)
+```
+The final answer is: 0 ICU visits during last calendar year (01/01/2152–12/31/2152).
+Reasoning steps:
+- Retrieved all Encounter resources.
+- Filtered those with identifier.system containing 'encounter-icu.'
+- Parsed period.start, counted those with year 2152.
+- Result: 0.
+
+EXAMPLE 2:
+Question: Count how many times during their first hospital encounter patient 10018423 experienced the bypass coronary artery, one artery from left internal mammary with autologous arterial tissue, open approach procedure.
+Context: The patient's FHIR ID is bbad4581-d089-54a7-b7a0-8d986c5fb5ec. Account for case-insensitive/whitespace variations.
+Tool Call Execution:
+1) get_resources_by_patient_fhir_id with resource_type='Encounter' → retrieved_fhir_resources['Encounter'] (4 items)
+2) get_resources_by_patient_fhir_id with resource_type='Procedure' → retrieved_fhir_resources['Procedure'] (35 items)
+3) execute_python_code → identify first hospital encounter, normalize target, count matching procedures
+Code Execution:
+```python
+from datetime import datetime
+import re
+encs = retrieved_resources['Encounter']
+procs = retrieved_resources['Procedure']
+# first hospital encounter
+hosp = [e for e in encs
+        if any('encounter-hosp' in i.get('system','').lower()
+               for i in e.get('identifier',[]))]
+first = sorted(hosp, key=lambda e: datetime.fromisoformat(e['period']['start']).replace(tzinfo=None))[0]
+ref = f"Encounter/{first['id']}"
+# normalize function
+norm = lambda s: re.sub(r'\\s+',' ',(s or '').strip().lower())
+target = norm("bypass coronary artery, one artery from left internal mammary with autologous arterial tissue, open approach")
+# count matches
+count = 0
+for p in procs:
+    if p.get('encounter',{}).get('reference') != ref: continue
+    for c in p.get('code',{}).get('coding',[]):
+        if norm(c.get('display')) == target:
+            count += 1
+            break
+print(count)
+```
+The final answer is: During the patient's first hospital encounter, that procedure occurred 1 time.
+Reasoning steps:
+- Retrieved Encounters and Procedures.
+- Selected first 'encounter-hosp' by start date.
+- Normalized display strings for target and each procedure.
+- Counted exact matches → 1.
+
+EXAMPLE 3:
+Question: Did patient 10022041 have any diagnosis in their last hospital visit?
+Context: The patient's FHIR ID is 52462b6a-9b39-5460-9ee6-1a2d7a20394e.
+Tool Call Execution:
+1) get_resources_by_patient_fhir_id with resource_type='Encounter' → retrieved_fhir_resources['Encounter'] (3 items)
+2) get_resources_by_patient_fhir_id with resource_type='Condition' → retrieved_fhir_resources['Condition'] (13 items)
+3) execute_python_code → find last hospital encounter (by identifier.system or class.code), include child encounters, count & list conditions
+Code Execution:
+```python
+from datetime import datetime
+import dateutil.parser as dp
+encs  = retrieved_resources['Encounter']
+conds = retrieved_resources['Condition']
+# find hospital encounters
+hosp = [e for e in encs
+        if any('encounter-hosp' in i.get('system','').lower()
+               for i in e.get('identifier',[]))]
+# if none, use class.code == 'IMP'
+if not hosp:
+    hosp = [e for e in encs if e.get('class',{}).get('code','').upper()=='IMP']
+# last by period.start
+hosp_sorted = sorted(hosp, key=lambda e: dp.isoparse(e['period']['start']).replace(tzinfo=None))
+last = hosp_sorted[-1]
+pid_set = {last['id']}
+# include children
+for e in encs:
+    if e.get('partOf',{}).get('reference','').endswith(last['id']):
+        pid_set.add(e['id'])
+# match conditions
+matches = []
+for c in conds:
+    ref = c.get('encounter',{}).get('reference','').split('/')[-1]
+    if ref in pid_set:
+        code = c.get('code',{}).get('coding',[])
+        matches.append(code[0].get('display'))
+unique = sorted(set(matches))
+print(len(matches), unique)
+```
+The final answer is: Yes. There were 13 Condition records (12 unique diagnoses) recorded during the patient's last hospital visit. The diagnoses were:
+- 78039 — Other convulsions
+- 78097 — Altered mental status
+- 4019  — Unspecified essential hypertension
+... (total 12 unique)
+Reasoning steps:
+- Retrieved Encounters and Conditions.
+- Found last 'encounter-hosp' or IMP.
+- Collected encounter + child encounter IDs.
+- Filtered Condition.encounter references.
+- Counted 13 records, extracted 12 unique displays.
+
+Follow these examples to structure your approach: retrieve relevant FHIR resources first, then use Python code to analyze and process the data systematically."""
+
 class MultiTurnCodeResourceAgent(BaseAgent):
     """Multi-step ReAct agent that iteratively uses FHIR resource tools to retrieve patient data and perform reasoning via Python code execution."""
 
@@ -51,128 +175,7 @@ If you cannot find the answer or relevant patient data, clearly state that you c
 Do not guess attributes; instead, use the provided tool to retrieve the data.
 Do not get stuck or repeat the same action.
 
-Few-shot examples:
-
-EXAMPLE 1:
-Question: Calculate the number of ICU visits for patient 10009628 last year.
-Context: The patient's FHIR ID is 51d2190c-cc46-56c5-b2ea-363895cbea75. Assume current time is 2153-12-31 23:59:00.
-Tool Call Execution:
-1) get_resources_by_patient_fhir_id with resource_type='Encounter' → retrieved_fhir_resources['Encounter'] (2 items)
-2) execute_python_code → filter ICU encounters and count those in 2152 calendar year
-Code Execution:
-```python
-from datetime import datetime
-encs = retrieved_resources['Encounter']
-start = datetime(2152,1,1)
-end   = datetime(2152,12,31,23,59,59)
-count = 0
-for e in encs:
-    ids = [i.get('system','').lower() for i in e.get('identifier',[])]
-    if not any('encounter-icu' in s for s in ids): continue
-    s = e.get('period',{{}}).get('start')
-    if not s: continue
-    dt = datetime.fromisoformat(s).replace(tzinfo=None)
-    if start <= dt <= end:
-        count += 1
-print(count)
-```
-The final answer is: 0 ICU visits during last calendar year (01/01/2152–12/31/2152).
-Reasoning steps:
-- Retrieved all Encounter resources.
-- Filtered those with identifier.system containing 'encounter-icu.'
-- Parsed period.start, counted those with year 2152.
-- Result: 0.
-
-EXAMPLE 2:
-Question: Count how many times during their first hospital encounter patient 10018423 experienced the bypass coronary artery, one artery from left internal mammary with autologous arterial tissue, open approach procedure.
-Context: The patient's FHIR ID is bbad4581-d089-54a7-b7a0-8d986c5fb5ec. Account for case-insensitive/whitespace variations.
-Tool Call Execution:
-1) get_resources_by_patient_fhir_id with resource_type='Encounter' → retrieved_fhir_resources['Encounter'] (4 items)
-2) get_resources_by_patient_fhir_id with resource_type='Procedure' → retrieved_fhir_resources['Procedure'] (35 items)
-3) execute_python_code → identify first hospital encounter, normalize target, count matching procedures
-Code Execution:
-```python
-from datetime import datetime
-import re
-encs = retrieved_resources['Encounter']
-procs = retrieved_resources['Procedure']
-# first hospital encounter
-hosp = [e for e in encs
-        if any('encounter-hosp' in i.get('system','').lower()
-               for i in e.get('identifier',[]))]
-first = sorted(hosp, key=lambda e: datetime.fromisoformat(e['period']['start']).replace(tzinfo=None))[0]
-ref = f"Encounter/{{first['id']}}"
-# normalize function
-norm = lambda s: re.sub(r'\\s+',' ',(s or '').strip().lower())
-target = norm("bypass coronary artery, one artery from left internal mammary with autologous arterial tissue, open approach")
-# count matches
-count = 0
-for p in procs:
-    if p.get('encounter',{{}}).get('reference') != ref: continue
-    for c in p.get('code',{{}}).get('coding',[]):
-        if norm(c.get('display')) == target:
-            count += 1
-            break
-print(count)
-```
-The final answer is: During the patient's first hospital encounter, that procedure occurred 1 time.
-Reasoning steps:
-- Retrieved Encounters and Procedures.
-- Selected first 'encounter-hosp' by start date.
-- Normalized display strings for target and each procedure.
-- Counted exact matches → 1.
-
-EXAMPLE 3:
-Question: Did patient 10022041 have any diagnosis in their last hospital visit?
-Context: The patient's FHIR ID is 52462b6a-9b39-5460-9ee6-1a2d7a20394e.
-Tool Call Execution:
-1) get_resources_by_patient_fhir_id with resource_type='Encounter' → retrieved_fhir_resources['Encounter'] (3 items)
-2) get_resources_by_patient_fhir_id with resource_type='Condition' → retrieved_fhir_resources['Condition'] (13 items)
-3) execute_python_code → find last hospital encounter (by identifier.system or class.code), include child encounters, count & list conditions
-Code Execution:
-```python
-from datetime import datetime
-import dateutil.parser as dp
-encs  = retrieved_resources['Encounter']
-conds = retrieved_resources['Condition']
-# find hospital encounters
-hosp = [e for e in encs
-        if any('encounter-hosp' in i.get('system','').lower()
-               for i in e.get('identifier',[]))]
-# if none, use class.code == 'IMP'
-if not hosp:
-    hosp = [e for e in encs if e.get('class',{{}}).get('code','').upper()=='IMP']
-# last by period.start
-hosp_sorted = sorted(hosp, key=lambda e: dp.isoparse(e['period']['start']).replace(tzinfo=None))
-last = hosp_sorted[-1]
-pid_set = {{last['id']}}
-# include children
-for e in encs:
-    if e.get('partOf',{{}}).get('reference','').endswith(last['id']):
-        pid_set.add(e['id'])
-# match conditions
-matches = []
-for c in conds:
-    ref = c.get('encounter',{{}}).get('reference','').split('/')[-1]
-    if ref in pid_set:
-        code = c.get('code',{{}}).get('coding',[])
-        matches.append(code[0].get('display'))
-unique = sorted(set(matches))
-print(len(matches), unique)
-```
-The final answer is: Yes. There were 13 Condition records (12 unique diagnoses) recorded during the patient's last hospital visit. The diagnoses were:
-- 78039 — Other convulsions
-- 78097 — Altered mental status
-- 4019  — Unspecified essential hypertension
-... (total 12 unique)
-Reasoning steps:
-- Retrieved Encounters and Conditions.
-- Found last 'encounter-hosp' or IMP.
-- Collected encounter + child encounter IDs.
-- Filtered Condition.encounter references.
-- Counted 13 records, extracted 12 unique displays.
-
-Follow these examples to structure your approach: retrieve relevant FHIR resources first, then use Python code to analyze and process the data systematically.""" + self.search_guidance}]
+{WORKED_EXAMPLES}""" + self.search_guidance}]
 
         self.max_iterations = max_iterations
 
