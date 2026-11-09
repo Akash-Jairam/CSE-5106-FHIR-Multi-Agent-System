@@ -238,7 +238,7 @@ JSON with HTTP 500, so the call never reaches the agent; in the Ollama run this
 failed 50 single_agent and 103 multi_agent questions on the first attempt.
 `scripts/run_experiments_vllm.sbatch` serves gpt-oss with vLLM instead, which
 returns such a call, and the agents send the model a tool error as they do for
-any other model. It keeps the 32k context and uses port 8000, so its results
+any other model. It keeps the 32k context and uses its own port (28431), so its results
 never mix with the Ollama run's.
 
 One-time setup on the login node (vLLM and the weights go on scratch, about 75 GB):

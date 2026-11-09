@@ -30,25 +30,36 @@ export HF_HOME="${HF_HOME:-$scratch/hf}" HF_HUB_OFFLINE=1
 # vLLM compiles FlashInfer kernels at startup with the venv's ninja and the node's nvcc; keep its caches off home
 export PATH="$vllm_venv/bin:$PATH" CUDA_HOME="${CUDA_HOME:-/usr/local/cuda}" XDG_CACHE_HOME="$scratch/cache"
 workers="${WORKERS:-4}"
-port=8000
-base_url="http://127.0.0.1:${port}/v1"  # keep identical across jobs: result files are bound to it
+# Not 8000: other users' servers on a shared node often hold it. Keep the port fixed across jobs,
+# because result files are bound to the base URL
+port=28431
+base_url="http://127.0.0.1:${port}/v1"
+if curl -s --max-time 5 "http://127.0.0.1:${port}/" > /dev/null; then
+  echo "Port $port is already in use on $(hostname)"; exit 1
+fi
 
 # Loopback only and the same 32k context as the Ollama runs
-"$vllm_venv/bin/vllm" serve "$hf_model" --served-model-name "$model" --host 127.0.0.1 --port "$port" \
-  --max-model-len 32768 --max-num-seqs "$workers" \
+"$vllm_venv/bin/vllm" serve "$hf_model" --served-model-name "$model" --host 127.0.0.1 \
+  --port "$port" --max-model-len 32768 --max-num-seqs "$workers" \
   --tool-call-parser openai --enable-auto-tool-choice \
   > "logs/vllm-${SLURM_JOB_ID}.log" 2>&1 &
 vllm_pid=$!
 trap 'kill "$vllm_pid" 2>/dev/null' EXIT
 
-# Loading 65 GB of weights and compiling takes several minutes
-for _ in $(seq 180); do
-  curl -sf "http://127.0.0.1:${port}/v1/models" > /dev/null && break
+# Loading 65 GB of weights and compiling takes several minutes. The reply must name our model,
+# so another server on the same port is never mistaken for it
+ready() { curl -sf --max-time 10 "http://127.0.0.1:${port}/v1/models" | grep -q "\"$model\""; }
+for _ in $(seq 360); do
+  ready && break
   kill -0 "$vllm_pid" 2>/dev/null || break
   sleep 5
 done
-curl -sf "http://127.0.0.1:${port}/v1/models" > /dev/null \
-  || { echo "vLLM did not start; see logs/vllm-${SLURM_JOB_ID}.log"; exit 1; }
+if ! ready; then
+  echo "vLLM did not start; see logs/vllm-${SLURM_JOB_ID}.log"
+  curl -sS -v --max-time 10 "http://127.0.0.1:${port}/v1/models" 2>&1 | tail -20
+  ss -ltnp 2>/dev/null | grep ":${port} "
+  exit 1
+fi
 
 echo "Node $(hostname), GPU $(nvidia-smi --query-gpu=name --format=csv,noheader), $model via vLLM, $split split, $workers workers"
 source .venv/bin/activate
