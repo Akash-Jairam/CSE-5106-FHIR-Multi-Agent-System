@@ -10,10 +10,18 @@ References use `path:line` and point at the definition. Line numbers are
 accurate as of the commit below. They will drift, so search for the named
 symbol if a line has moved.
 
-> **Current as of `d87ae5a`** (PR #75, CC-28, closes #31). All three systems
-> now share **one configured base model**, which defaults to `gpt-6-luna`. Its
-> requests go through a dedicated Luna transport, and errors about the
-> configuration file are redacted. See [§4 Configuration and the model layer](#4-configuration-and-the-model-layer).
+> **Current as of `5ceb466`** (branch `feat/multi-agent-v2`, PR #79). The
+> multi-agent system is now **v2**:
+>
+> - retrieval loads complete records;
+> - analysis gets the full context;
+> - the answer is released by a vote, then passed through deterministic
+>   finishers.
+>
+> See [§8.3](#83-multi_agent-multiagentsystem-agentmulti_agentpy31). Open-weight
+> models (Qwen3 on Ollama, gpt-oss on vLLM) run on the same model layer
+> ([§4.6](#46-local-open-weight-models)). All three systems still share **one
+> configured base model** (CC-28, `d87ae5a`).
 
 ---
 
@@ -54,7 +62,7 @@ per-question budget:
 |---|---|---|
 | Direct LLM | `direct_llm` | One LLM call over a deterministic "starting packet" of the patient's record. No tools. |
 | Single agent | `single_agent` | One ReAct agent with FHIR retrieval, sandboxed Python and a field checker. Its first answer is checked automatically and it may revise once. |
-| Multi-agent | `multi_agent` | A fixed, non-LLM controller runs **retrieval → analysis → verification**, routes at most one repair, and releases an answer only after a clean verification. |
+| Multi-agent | `multi_agent` | A fixed, non-LLM controller runs **retrieval → analysis → verification** and routes at most one repair. Retrieval loads the patient's complete records of each relevant type. The released answer is a **vote** among the team's answers, then a deterministic finisher applies benchmark conventions for seven question templates (§8.3.5). |
 
 Six older single-turn and multi-turn agents from FHIR-AgentBench are still
 runnable as baselines. They are not part of the Phase 3 comparison.
@@ -110,12 +118,12 @@ check.
 | Path | Role |
 |---|---|
 | `run_agent.py` | CLI runner. Handles batching, resume, run identity and result storage. |
-| `agent/` | All agent strategies. `base_agent.py` holds the shared contract and budget. `framework.py` and `controller.py` hold the multi-agent machinery. There is one file per role and per baseline. |
+| `agent/` | All agent strategies. `base_agent.py` holds the shared contract and budget. `framework.py` and `controller.py` hold the multi-agent machinery. There is one file per role and per baseline. `multi_agent.py` holds the v2 release vote. `finishers.py` and `template_router.py` hold the deterministic finishers, and `ehr_semantics.py` the shared conventions guide (§8.3). |
 | `tools/` | Tools that register themselves (FHIR search, raw request, sandboxed Python, field check), the tool cache, the starting-packet builder and the perturbation loader. |
 | `utils/` | `core_utils.py` (config, LLM transport, agent factory, I/O), `model_config.py` (the shared base model), `answer_scorer.py` (typed scorer), `evidence_scorer.py` (citation resolution), `metrics_utils.py`, `fhir_utils.py` and `sql_to_fhir_utils.py` (dataset construction). |
 | `fhir_client.py` | Client for the Google Cloud Healthcare FHIR API, with pagination. |
 | `evaluation_metrics.py` | Scores one result file: retrieval, evidence, typed accuracy and the LLM judge. |
-| `scripts/` | Data setup, manifest builders, the Phase 3 orchestrator and its analysis modules, setup checks and per-strategy launchers. |
+| `scripts/` | Data setup, manifest builders, the Phase 3 orchestrator and its analysis modules, setup checks, per-strategy launchers and the Slurm jobs for RIS Compute2 (`run_experiments_{qwen,vllm}.sbatch`). |
 | `demo/` | Streamlit demo: `app.py` (UI) and `backend.py` (logic, no Streamlit). |
 | `manifests/` | Frozen, hash-pinned experiment inputs: the split, families, starting packets, perturbations and the variability subset. |
 | `final_dataset/` | The question/answer/FHIR-ID datasets built offline. |
@@ -260,9 +268,9 @@ mixing versions. The demo applies the same rule when it loads patients
 
 ## 4. Configuration and the model layer
 
-This section covers the **latest merged change, PR #75 / CC-28**
-(`d87ae5a` = `7ba863a` + `b86ea69`), along with the configuration plumbing it
-builds on.
+This section covers the shared-model change, PR #75 / CC-28 (`d87ae5a` =
+`7ba863a` + `b86ea69`), and the configuration plumbing it builds on.
+§4.6 covers the later support for local open-weight models.
 
 ### 4.1 `config.yml`
 
@@ -287,9 +295,9 @@ The helpers in `utils/core_utils.py` read it:
   keys to the environment. Environment variables take precedence.
 - `get_model_provider` (`utils/core_utils.py:82`) maps a model name to openai
   (`gpt-N`, `oN`), gemini, qwen or meta-llama.
-- `get_fhir_config` (`utils/core_utils.py:117`) reads the `FHIR_*` environment
+- `get_fhir_config` (`utils/core_utils.py:120`) reads the `FHIR_*` environment
   variables first, then `FHIR_CONFIG`.
-- `validate_config` (`utils/core_utils.py:129`) requires a key for the model's
+- `validate_config` (`utils/core_utils.py:132`) requires a key for the model's
   provider and a complete FHIR config. Qwen and Llama also require `base_url`;
   for Qwen it defaults to a local Ollama server (`get_default_base_url` in
   `utils/model_config.py`: `$BASE_URL`, then `BASE_URL` in config.yml, then
@@ -306,13 +314,13 @@ had its own hardcoded default (`o4-mini` in most of them), and
 **How.** `utils/model_config.py` is now the single source of the default:
 
 ```python
-DEFAULT_MODEL = "gpt-6-luna"                              # utils/model_config.py:19
+DEFAULT_MODEL = "gpt-6-luna"                              # utils/model_config.py:23
 
-def get_default_model():                                  # utils/model_config.py:30
+def get_default_model():                                  # utils/model_config.py:50
     # 1. $MODEL   2. MODEL in config.yml   3. DEFAULT_MODEL
 ```
 
-- `_configured` (`utils/model_config.py:23`) treats empty strings and
+- `_configured` (`utils/model_config.py:29`) treats empty strings and
   `config.example.yml` placeholders (`your-…`) as unset, so the lookup falls
   through to the next source.
 - The module imports nothing from the project, so it is fast and safe to run
@@ -340,10 +348,10 @@ This prevents mixing models after the fact.
 
 ### 4.3 The LLM transport: `safe_llm_call`
 
-All LLM traffic goes through `safe_llm_call` (`utils/core_utils.py:386`). This
+All LLM traffic goes through `safe_llm_call` (`utils/core_utils.py:431`). This
 includes every agent, every role and the evaluation judge.
 
-1. **Prompt cap.** `count_tokens_in_messages` (`utils/core_utils.py:353`)
+1. **Prompt cap.** `count_tokens_in_messages` (`utils/core_utils.py:357`)
    estimates the prompt plus tool schemas. If the estimate is above
    `max_tokens=32000`, the call returns an error and makes no request.
 2. **Request.** It calls `litellm.completion` with temperature 0, with the
@@ -354,8 +362,10 @@ includes every agent, every role and the evaluation judge.
 4. **Retries.** It retries up to `max_retries` times (default 5), sleeping 5 s
    between attempts. A `BadRequestError` is **not** retried. An empty or
    `None` reply triggers a retry with a nudge appended.
-5. **Qwen.** Qwen requests (e.g. `qwen3:4b` on Ollama) go through the OpenAI
-   transport with a placeholder API key and `think: false`. Native
+5. **Qwen and gpt-oss.** Qwen requests (e.g. `qwen3:32b` on Ollama) go through the OpenAI
+   transport with a placeholder API key, `think: false` and
+   `reasoning_effort: "none"`. gpt-oss requests use the same transport with
+   `reasoning_effort: "medium"` (§4.6). For Qwen, native
    `tool_calls` are kept; `qwen_parse_tool_calls` is only a fallback for raw
    `<tool_call>` text. `<think>` blocks are stripped, and a reply that was only
    reasoning is retried as empty.
@@ -368,11 +378,11 @@ Luna is a reasoning model, and could send parameters Luna rejects. The fix has
 four parts:
 
 - **Hard-coded reasoning detection.** `is_reasoning_llm`
-  (`utils/core_utils.py:465`) returns `True` for `o4-mini` and `gpt-6-luna`
+  (`utils/core_utils.py:528`) returns `True` for `o4-mini` and `gpt-6-luna`
   (with or without an `openai/` prefix) **before** consulting
   `litellm.supports_reasoning`. If the registry lookup fails, the function now
   returns `False` instead of guessing.
-- **Luna request shape.** `_is_luna_chat_model` (`utils/core_utils.py:382`)
+- **Luna request shape.** `_is_luna_chat_model` (`utils/core_utils.py:386`)
   marks Luna requests. For those requests, `safe_llm_call`:
   - sends `extra_body={"reasoning_effort": "none"}`. This is Luna's supported
     Chat Completions tool-calling mode, and `extra_body` keeps the setting
@@ -409,13 +419,34 @@ cap is sent, LiteLLM's own retries are disabled (`num_retries=0`).
 | `tests/test_phase3_luna_transport.py` | Sends Luna requests through **real LiteLLM and OpenAI SDK parameter mapping** over an offline transport: with and without tools, with and without a budget, the actual secondary judge, the `openai/` prefix, and independence from registry metadata or lookup failures. Also checks that non-reasoning OpenAI models keep their own parameters. |
 | `tests/test_phase3_model_readiness.py` | Luna stays a reasoning model when the registry has no entry for it. A malformed-config error does not echo secret source lines. |
 
+### 4.6 Local open-weight models
+
+The Phase 3 results use open-weight models on WashU RIS Compute2 GPUs.
+`docs/compute2-gpu.md` has the cluster recipe.
+
+- **Endpoint.** `get_default_base_url` (`utils/model_config.py:54`) uses
+  `$BASE_URL`, then `BASE_URL` in `config.yml`. For Qwen and gpt-oss models
+  it then falls back to a local Ollama server (`http://localhost:11434/v1`).
+  Any other model gets `None`, the provider's hosted API.
+- **Provider.** `get_model_provider` maps `gpt-oss*` to its own provider.
+  Like Qwen and Llama, it needs a `base_url`.
+- **gpt-oss on vLLM.** `scripts/run_experiments_vllm.sbatch` serves gpt-oss
+  with vLLM on port 28431, because port 8000 is often taken on shared nodes.
+  Ollama is not used for gpt-oss: it answers a tool call whose arguments are
+  not valid JSON with HTTP 500. `safe_llm_call` sends such a rejected call
+  back to the model to correct, instead of retrying the same request.
+- **Qwen on Ollama.** `scripts/run_experiments_qwen.sbatch` serves Qwen
+  with Ollama. Both jobs run `scripts/run_experiments.py` with a fixed
+  `base_url`, because the URL is part of the run identity (§5.3). Both jobs
+  refuse to start if the Python sandbox does not work on the node.
+
 ---
 
 ## 5. The runner: `run_agent.py`
 
 ### 5.1 CLI
 
-`build_parser` (`run_agent.py:39`) defines the CLI.
+`build_parser` (`run_agent.py:40`) defines the CLI.
 
 | Flag | Meaning |
 |---|---|
@@ -429,16 +460,16 @@ cap is sent, LiteLLM's own retries are disabled (`num_retries=0`).
 | `--enable_cache` | Turn the on-disk tool cache on or off (§7.5). |
 | `--num_processes`, `--save_interval` | Parallelism and checkpoint frequency. |
 
-### 5.2 Flow of `main` (`run_agent.py:339`)
+### 5.2 Flow of `main` (`run_agent.py:342`)
 
 1. Validate flag combinations. For example, perturbations require
    `--split held_out`.
-2. `load_inputs` (`run_agent.py:95`) reads the CSV. `select_split`
-   (`run_agent.py:113`) applies the split manifest and checks its source hash.
-3. `run_identity` (`run_agent.py:222`) builds this run's identity (§5.3).
-4. `prepare_results` (`run_agent.py:279`) loads any existing output. It
+2. `load_inputs` (`run_agent.py:98`) reads the CSV. `select_split`
+   (`run_agent.py:116`) applies the split manifest and checks its source hash.
+3. `run_identity` (`run_agent.py:225`) builds this run's identity (§5.3).
+4. `prepare_results` (`run_agent.py:282`) loads any existing output. It
    **refuses to resume** if the saved `.run.json` identity is different.
-5. `curate_input_dataset` (`utils/core_utils.py:259`) builds each prompt string:
+5. `curate_input_dataset` (`utils/core_utils.py:263`) builds each prompt string:
 
    ```
    Question: <question>
@@ -447,26 +478,26 @@ cap is sent, LiteLLM's own retries are disabled (`num_retries=0`).
    <assumption, e.g. "Assume the current time is 2137-05-04 12:00:00.">
    ```
 
-   `parse_question_context` (`utils/core_utils.py:277`) reverses this format.
+   `parse_question_context` (`utils/core_utils.py:281`) reverses this format.
    Agents use it to recover `(question, patient_fhir_id, current_time)`.
-6. `is_done` (`run_agent.py:181`) skips rows that already have a result.
+6. `is_done` (`run_agent.py:184`) skips rows that already have a result.
    `validate_config` and `check_tool_credentials` fail fast on bad
    credentials.
 7. The remaining rows run through `multiprocessing.Pool.imap` over
-   `run_agent_with_input` (`utils/core_utils.py:337`). For each row it:
+   `run_agent_with_input` (`utils/core_utils.py:341`). For each row it:
    - sets `tools.cache.CACHE_ENABLED`;
-   - creates the agent with `create_agent` (`utils/core_utils.py:295`, the
+   - creates the agent with `create_agent` (`utils/core_utils.py:299`, the
      strategy → class registry);
    - calls `set_budget` and `set_perturbation`;
-   - makes **one** attempt through `run_agent_safe` (`utils/core_utils.py:319`);
-   - converts the output with `parse_outputs` (`utils/core_utils.py:218`) into
-     `RESULT_COLUMNS` (`utils/core_utils.py:214`).
-8. `store_attempt` (`run_agent.py:303`) writes the result into the row. A
+   - makes **one** attempt through `run_agent_safe` (`utils/core_utils.py:323`);
+   - converts the output with `parse_outputs` (`utils/core_utils.py:222`) into
+     `RESULT_COLUMNS` (`utils/core_utils.py:218`).
+8. `store_attempt` (`run_agent.py:306`) writes the result into the row. A
    previous failed attempt is kept in `attempt_history`, so retry costs stay
    visible.
-9. Results are written atomically by `_write_json` (`run_agent.py:248`) every
+9. Results are written atomically by `_write_json` (`run_agent.py:251`) every
    `--save_interval` rows and at the end. `print_usage_summary`
-   (`run_agent.py:318`) reports tokens, cost and latency.
+   (`run_agent.py:321`) reports tokens, cost and latency.
 
 Default output path: `output/{agent_strategy}_{model}_results.json`, plus
 `….json.run.json`.
@@ -480,9 +511,9 @@ Default output path: `output/{agent_strategy}_{model}_results.json`, plus
 - a hash of the input rows, plus hashes of the split manifest, perturbation
   manifest and variability subset;
 - the split, condition and repeat;
-- a **code fingerprint** from `code_fingerprint` (`run_agent.py:141`). This is
+- a **code fingerprint** from `code_fingerprint` (`run_agent.py:144`). This is
   a hash of every source file in `agent/`, `tools/` and `utils/`, plus runtime
-  dependency versions from `runtime_dependency_versions` (`run_agent.py:156`).
+  dependency versions from `runtime_dependency_versions` (`run_agent.py:159`).
 
 The effect is that changing code, a manifest, the model or the budget makes
 existing result files **stale**. They cannot be resumed into, and the
@@ -544,10 +575,10 @@ agent and the direct baseline get.
 |---|---|---|
 | Per-question token ceiling | `--max_total_tokens` | `agent/base_agent.py:107` |
 | Per-question tool-call ceiling | `--max_tool_calls` | `agent/base_agent.py:138` |
-| Prompt cap per LLM call | 32,000 tokens | `utils/core_utils.py:386` |
+| Prompt cap per LLM call | 32,000 tokens | `utils/core_utils.py:431` |
 | LLM retries | 5 with 5 s sleep; 1 with a token budget; none on `BadRequestError` | `safe_llm_call`, `_llm_call` |
-| Role turns | retrieval 8, analysis 10, verification 10 | `agent/retrieval_agent.py:52`, `agent/analysis_agent.py:73`, `agent/verification_agent.py:167` |
-| ReAct iterations | 30 | multi-turn agents, `agent/single_agent.py:33` |
+| Role turns | retrieval 4 in `multi_agent` (8 by default), analysis 12, verification 10; the last turn is always tool-free | `agent/multi_agent.py:35`, `agent/retrieval_agent.py:76`, `agent/analysis_agent.py:99`, `agent/verification_agent.py:169` |
+| ReAct iterations | 30 | multi-turn agents, `agent/single_agent.py:35` |
 | Graph steps | 16 | `agent/framework.py:43` |
 | Repairs / revisions | 1 / 1 | `agent/controller.py:37`, `SingleAgent._run` |
 | Retrieval reply shown to the model | 32 IDs, 8,000 chars | `agent/framework.py:31-32` |
@@ -730,9 +761,9 @@ The direct baseline cannot, which is why it has no recovery arm.
 
 ## 8. The systems under comparison
 
-The strategy registry is `create_agent` (`utils/core_utils.py:295`).
+The strategy registry is `create_agent` (`utils/core_utils.py:299`).
 
-### 8.1 `direct_llm`: `DirectLLMAgent` (`agent/direct_llm_agent.py:8`)
+### 8.1 `direct_llm`: `DirectLLMAgent` (`agent/direct_llm_agent.py:19`)
 
 The direct baseline makes one `_llm_call` with no tools. The prompt is the
 question, the context, the starting packet's `text` (or the perturbed
@@ -749,22 +780,44 @@ adds:
 - **The `check_fields` tool** and `OUTPUT_GUIDANCE` (`agent/single_agent.py:12`),
   which asks for the JSON answer format and tells the model its answer will be
   checked automatically once.
-- **A patient guard.** `_handle_tool_call` (`:38`) refuses fetches for other
+- **A patient guard.** `_handle_tool_call` (`:40`) refuses fetches for other
   patients.
-- **A seeded workspace.** `_run` (`:85`) starts the workspace from the
+- **A seeded workspace.** `_run` (`:87`) starts the workspace from the
   starting packet, or the perturbed packet in recovery runs.
 - **An automatic check.** On the first final answer, `_automatic_check`
-  (`:66`) records a synthetic `check_fields` call. If it finds issues, one
+  (`:68`) records a synthetic `check_fields` call. If it finds issues, one
   revision message is injected and the next final answer is checked again.
   Issues that remain after that make the agent abstain (`answer = None`) and
   list them in `limitation`.
-- **A revision record**, built by `_revision` (`:171`).
+- **A revision record**, built by `_revision` (`:173`).
 
-### 8.3 `multi_agent`: `MultiAgentSystem` (`agent/multi_agent.py:13`)
+### 8.3 `multi_agent`: `MultiAgentSystem` (`agent/multi_agent.py:31`)
 
-`MultiAgentSystem` subclasses `FixedController`. Its only job is to provide
-the three roles in `build_roles`. The verifier is deliberately **not** given
-the shared workspace.
+`MultiAgentSystem` subclasses `FixedController`. It provides the three roles
+in `build_roles` (`:33`) and overrides two hooks:
+
+- `_verify` (`:40`) also keeps the verifier's own recomputed answer whenever the
+  check actually completed, so the answer can vote at release.
+- `release` (`:61`) replaces the controller's default rule ("release only a
+  clean final answer") with a vote and a finisher (§8.3.5).
+
+The roles are configured as follows:
+
+- **Retrieval** runs with `prefetch=True`, `direct=True` and 4 turns. It
+  fetches the patient's complete records before the model looks for
+  anything, and reads the starting packet once without tools.
+- **Analysis** shares retrieval's workspace and also gets the starting
+  packet.
+- **Verification** gets a `seed` that copies the team's workspace at the
+  start of each check. It still has its own workspace, so its fetches and
+  computations cannot change the team's records.
+
+This is the v2 design (`262eca1`, `dc0e37a`). The original design ran the
+same pipeline, but retrieval searched record by record, analysis saw only
+previews, and verification withheld any answer with an open issue. On held-out
+questions the original system scored 19–29%. See
+[the Phase 3 results](results/phase3-qwen3-32b.md#multi-agent-v2) for the
+comparison.
 
 #### 8.3.1 Framework building blocks (`agent/framework.py`)
 
@@ -775,7 +828,7 @@ the shared workspace.
 | `Toolbox` | `:106` | A per-role allow-list over the registry (§8.3.2). |
 | `RoleResult` | `:282` | `content` or `error`. |
 | `_model_tool_reply` | `:287` | Shortens retrieval replies the model sees to 32 IDs and 8,000 characters. The audit trace keeps the full reply. |
-| `Role` | `:317` | One LLM role. Each `run` (`:328`) starts from a fresh system and user context and loops up to `max_turns`. Calls go through the host's `_llm_call` and `_take_tool_call`, so usage, budget and trace all collect on the one host agent. |
+| `Role` | `:317` | One LLM role. Each `run` (`:328`) starts from a fresh system and user context and loops up to `max_turns`. The last turn is offered **without tools**, so a role that is still searching must answer from what it has. An optional `check(content)` callback can reject a reply once with a reason, and the role then gets one correction turn. Calls go through the host's `_llm_call` and `_take_tool_call`, so usage, budget and trace all collect on the one host agent. |
 
 #### 8.3.2 `Toolbox` scoping
 
@@ -813,9 +866,7 @@ sequenceDiagram
     A-->>C: draft (answer, evidence, operation, contributing_ids)
     C->>V: draft
     V-->>C: verdict (issues)
-    alt no issues
-        C-->>C: release answer
-    else repairable issues and repairs < 1
+    opt repairable issues and repairs < 1
         C->>C: route → earliest responsible role
         C->>R: (if retrieval) repair task + issues
         R-->>C: records
@@ -823,10 +874,9 @@ sequenceDiagram
         A-->>C: revised draft
         C->>V: revised draft
         V-->>C: final verdict
-        C-->>C: release only if final verdict is clean, else abstain
-    else unrepairable issue
-        C-->>C: abstain with limitation
     end
+    C->>C: release(state)
+    Note over C: base controller: release only a clean final answer<br/>MultiAgentSystem: vote, then finisher (§8.3.5)
 ```
 
 **The pipeline.** `_pipeline` (`agent/controller.py:154`) builds the graph
@@ -864,12 +914,15 @@ role:
 - Otherwise the **earliest** role in pipeline order wins. A retrieval repair
   reruns analysis and verification as well.
 
-**Release rule.** `_run` (`agent/controller.py:205`) releases `final` only if
-`final_check_issues == []`. Otherwise:
+**Release rule.** `_run` (`agent/controller.py:205`) asks `release` (`:253`)
+for the candidate to release, the run's error and release details. The base
+rule releases `final` only if `final_check_issues == []`, and any role failure
+is the run's error. `MultiAgentSystem` overrides this rule (§8.3.5). When
+nothing is released:
 
 - `answer` is `None`;
 - the evidence from the last candidate is kept;
-- `_unverified_reason` (`:257`) writes a limitation that lists the remaining
+- `_unverified_reason` (`:265`) writes a limitation that lists the remaining
   issues and any stop reason.
 
 **The `revision` record** has these fields:
@@ -878,67 +931,175 @@ role:
   reason);
 - `revised`, `answer_changed`, `final`, `final_check_issues` and
   `revision_error`;
+- `release`: each voter's candidate answer, the `winner`, its vote count and
+  the finisher's outcome (`None` under the base rule);
 - the full Bus `messages`.
 
 `scripts/revisions.py` and the demo both read this record.
 
 #### 8.3.4 The roles
 
-**`RetrievalAgent`** (`agent/retrieval_agent.py:49`, 8 turns, retrieval
-tools only):
+**`RetrievalAgent`** (`agent/retrieval_agent.py:73`, retrieval tools only;
+4 turns in `multi_agent`, 8 by default):
 
-- On its first call it seeds the workspace from the starting packet (or the
-  perturbed packet).
-- Its system prompt explains MIMIC's encounter layout: hospital visits are
-  Encounters whose identifier system ends in `encounter-hosp`, and ICU stays
-  end in `encounter-icu` and link to the visit through `partOf`. It forbids
-  computing the answer.
-- On a repair, `_prompt` (`:80`) appends the verifier's issues and the current
-  workspace counts.
-- `_result` (`:91`) returns
-  `{record_ids, resource_types, scope{patient_fhir_id, current_time, encounter_ids}, limitation}`,
+- **Seeding.** On its first call it seeds the workspace from the starting
+  packet (or the perturbed packet).
+- **Packet reading** (`direct=True`). `_read_packet` (`:116`) makes one
+  tool-free call with the direct baseline's own `SYSTEM_PROMPT`
+  (`agent/direct_llm_agent.py`). The answer becomes the `direct` candidate in
+  the release vote and is returned in the report as `direct`.
+- **Prefetch** (`prefetch=True`). `_prefetch` (`:141`) fetches the patient's
+  complete records of every type in `_wanted_types` (`:134`):
+  - always `Encounter`, first, so undated Conditions can be resolved;
+  - the event types present in the packet;
+  - the types the question's wording points to (`TYPE_KEYWORDS`, `:60`).
+
+  It then fetches `Medication` when a request or administration has a
+  `medicationReference`, and `Specimen` when an Observation has a `specimen`.
+  `_fetch` (`:151`) charges each fetch as a tool call and records it in the
+  trace. It stops after `PREFETCH_LIMIT = 8` types, or when only
+  `TOOL_RESERVE = 12` tool calls remain for the later roles and the
+  finishers.
+- **The LLM loop.** It is then told which types are already complete and
+  fetches only other types. Its system prompt explains MIMIC's encounter
+  layout: hospital visits are Encounters whose identifier system ends in
+  `encounter-hosp`, and ICU stays end in `encounter-icu` and link to the
+  visit through `partOf`. It forbids computing the answer.
+- **Failure.** If the model loop fails after a prefetch, the report is
+  still returned with a limitation, because the prefetched types are
+  complete.
+- **Repairs.** On a repair, `_prompt` (`:171`) appends the verifier's issues
+  and the current workspace counts.
+- **Report.** `_result` (`:186`) returns
+  `{record_ids, resource_types, scope{patient_fhir_id, current_time, encounter_ids}, limitation[, direct]}`,
   after validating the types and encounter IDs.
 
-**`AnalysisAgent`** (`agent/analysis_agent.py:70`, 10 turns,
-`execute_python_code` only):
+**`AnalysisAgent`** (`agent/analysis_agent.py:94`, 12 turns,
+`execute_python_code` plus the retrieval tools):
 
-- `_prompt` (`:84`) gives it the retrieval report, counts per resource type and
-  a sample record per type (up to `PREVIEW_CHARS=1500`). On a repair it also
-  gets the previous draft and the issues.
-- It is told to use `effectiveDateTime` and
-  `dispenseRequest.validityPeriod.start`.
-- `_draft` (`:102`) validates `{answer, evidence, operation, contributing_ids, limitation}`:
-  - each citation needs a valid ID and path;
-  - every cited ID must be in `contributing_ids`, and every contributing ID
-    must be in the workspace;
-  - a non-null answer needs an `operation`.
+- **System prompt.** It includes:
+  - the code agent's search guidance;
+  - `SEMANTIC_GUIDANCE` (`agent/ehr_semantics.py:39`), a shared guide to
+    EHR conventions such as which time field to use, specimen and organism
+    fields, and verbatim coded displays;
+  - the `WORKED_EXAMPLES` the single agent also sees
+    (`agent/multi_turn_code_resource_agent.py:9`).
 
-**`VerificationAgent`** (`agent/verification_agent.py:164`, 10 turns,
-retrieval tools plus Python, **its own workspace** cleared on every check).
-`__call__` (`:177`) runs these steps:
+  It answers 0 or false for an established absence, and null only when the
+  records establish nothing.
+- **User message.** `_prompt` (`:113`) gives it:
+  - the patient ID and current time;
+  - the retrieval report;
+  - counts per resource type, with a sample record per type (up to
+    `PREVIEW_CHARS=1500`);
+  - the full starting packet.
 
-1. **Deterministic field check.** `_field_check` (`:241`) runs `check_fields`
+  On a repair it also gets the previous draft and the issues, and is told to
+  keep its answer if a recheck shows it is right.
+- **Fetching.** It may fetch a type that is still missing. The fetch goes
+  into the shared workspace.
+- **Reply checks.** `reply_problem` (`:84`) is the role's `check`. A reply
+  without a JSON `answer`, or with an invalid answer shape, gets one
+  correction turn.
+- **Lenient metadata.** `_draft` (`:138`) never discards an answer because
+  of its metadata:
+  - invalid citations are dropped;
+  - `contributing_ids` is completed from the citations and filtered to the
+    records in the workspace;
+  - a missing `operation` gets a default.
+
+**`VerificationAgent`** (`agent/verification_agent.py:166`, 10 turns,
+retrieval tools plus Python). It has **its own workspace**, which is cleared
+on every check. In `multi_agent` the workspace is then reseeded with a copy
+of the team's records. `__call__` (`:182`) runs these steps:
+
+1. **Deterministic field check.** `_field_check` (`:261`) runs `check_fields`
    on the draft's citations, which costs one tool call. `field_check_issues`
-   (`:143`) turns its output into issues. If the tool budget is already used
-   up, a `source_check` issue is raised.
+   (`:144`) turns its output into issues. `no_evidence` is raised only for
+   answers other than 0, false or `[]`, since an established absence can
+   have nothing to cite. If the tool budget is already used up, a
+   `source_check` issue is raised.
 2. **Early exit.** If any issue cannot be repaired, the verifier returns
    immediately.
-3. **Independent recompute.** The LLM role fetches the records again and
-   computes the answer itself. `VerificationToolbox` (`:111`) tracks what was
-   actually fetched and computed, and any new fetch invalidates an earlier
-   computation.
+3. **Independent recompute.** The LLM role recomputes the answer itself from
+   the seeded copy, fetching a type again only if it may be incomplete.
+   `VerificationToolbox` (`:112`) tracks what was actually fetched and
+   computed, and any new fetch invalidates an earlier computation.
+   `_reply_problem` (`:245`) requires `issues` and `recomputed_answer`, and
+   gives one correction turn.
 4. **Merge rules.** The verifier adds:
    - `source_check` for a budget stop or unresolved scope;
    - `independent_check` when no real computation backs the result, or the
      reported result differs from what was computed;
    - `recompute_mismatch` when the recomputed answer differs from the draft.
-     Answers are compared through `_canonical` (`:62`), which accounts for
+     Answers are compared through `_canonical` (`:63`), which accounts for
      timestamp precision.
 
    It drops `no_evidence` when an empty answer is independently confirmed, and
    removes duplicate issues. Deterministic, unrepairable findings win.
-5. **Failures.** If verification itself fails, `_failed_verdict` (`:237`)
+5. **Failures.** If verification itself fails, `_failed_verdict` (`:257`)
    returns a `verification_failure` issue with no repair role.
+
+In `multi_agent`, the verifier's issues still route the one repair, but
+they **never withhold** an answer. Its `recomputed_answer` is a voter
+instead.
+
+#### 8.3.5 Release: vote, then finisher
+
+**The vote.** `MultiAgentSystem.release` (`agent/multi_agent.py:61`) collects
+candidates with `candidates` (`:46`), in tie-break order:
+
+| Voter | Source | Present when |
+|---|---|---|
+| `draft` | analysis's first draft | analysis produced one |
+| `repaired` | analysis's answer after the repair | a repair ran |
+| `direct` | retrieval's packet reading | the packet reading returned a valid answer |
+| `verifier` | the verifier's last `recomputed_answer` | the check completed (no `FAILED_CHECKS` issue, `:28`) |
+
+- **Grouping.** Abstentions (`null`) do not vote. The other answers are
+  grouped by `_canonical`.
+- **Winner.** The group with the most votes wins. Among equal groups, the
+  one holding the earliest voter wins, so a repair the verifier prompted
+  cannot displace the draft on a tie (`dc0e37a`).
+- **Citations.** The released candidate takes its citations from the first
+  voter in the winning group that has any.
+- **No answers at all.** If there are no candidates, the run's error stands
+  and remains retryable. If every candidate abstained, the answer is null
+  with no error.
+- **Late failures.** A failed model call after an answer exists, for example
+  in verification, is cleared, so it cannot void the answer.
+
+**The finisher.** `run_finisher` (`agent/finishers.py:367`) then runs on the
+winner. It calls no model and consults no reference answer:
+
+1. **Routing.** `classify_template` (`agent/template_router.py:35`) maps the
+   question's wording to one of seven templates (T001, T051, T052, T054,
+   T055, T064, T073), or to None.
+   `tests/test_template_router.py` checks it against every question in
+   `manifests/question_families.csv`.
+2. **Anchor.** The finisher needs the candidate to cite a record of the
+   template's anchor type; otherwise it skips (`skipped_no_anchor`).
+3. **Recompute.** It recomputes the convention-sensitive last step in code,
+   with at most `FETCH_LIMIT = 2` patient-scoped fetches through `Fetcher`
+   (`:58`). Each fetch is charged to the shared tool budget. The steps are:
+   - every drug that ties on the start minute (T051/T052);
+   - the Specimen type display (T054);
+   - the organisms among the `hasMember` children (T055);
+   - distinct drugs over the complete prescription → Medication closure
+     (T001);
+   - the parent test's or prescription's start time (T064/T073).
+4. **Replace.** The finisher's result replaces the answer only when:
+   - it is non-null;
+   - every citation it builds verifies against the fetched records;
+   - it differs from the candidate's answer;
+   - the template's replacement condition holds.
+
+   Otherwise the candidate is released unchanged, and the outcome
+   (`confirmed_primary` with a reason) is recorded in `revision.release`.
+
+The finishers reuse helpers from `agent/convention_checks.py`. Those are
+deterministic convention checks from an earlier experiment, and the v2
+verifier does not run them.
 
 ### 8.4 Older baselines
 
@@ -962,32 +1123,35 @@ which `BaseAgent.run` converts to the contract.
 scripts/run_multi_agent.sh
   model=$(python utils/model_config.py)                 # §4.2
   python run_agent.py --agent_strategy multi_agent --model $model ...
-run_agent.main                                            run_agent.py:339
-  load_inputs / select_split                              run_agent.py:95 / :113
-  run_identity → prepare_results                          run_agent.py:222 / :279
-  curate_input_dataset → "Question: …\nContext:\nPatient FHIR ID is …"   utils/core_utils.py:259
-  Pool.imap(run_agent_with_input)                         utils/core_utils.py:337
-    create_agent("multi_agent") → MultiAgentSystem        utils/core_utils.py:295
+run_agent.main                                            run_agent.py:342
+  load_inputs / select_split                              run_agent.py:98 / :116
+  run_identity → prepare_results                          run_agent.py:225 / :282
+  curate_input_dataset → "Question: …\nContext:\nPatient FHIR ID is …"   utils/core_utils.py:263
+  Pool.imap(run_agent_with_input)                         utils/core_utils.py:341
+    create_agent("multi_agent") → MultiAgentSystem        utils/core_utils.py:299
     agent.set_budget(...); agent.set_perturbation(...)    agent/base_agent.py:58 / :66
-    run_agent_safe → BaseAgent.run                        utils/core_utils.py:319, agent/base_agent.py:152
+    run_agent_safe → BaseAgent.run                        utils/core_utils.py:323, agent/base_agent.py:152
       FixedController._run                                agent/controller.py:205
         question_context(question)                        agent/controller.py:108
-        build_roles → Retrieval / Analysis / Verification agent/multi_agent.py:13
+        build_roles → Retrieval / Analysis / Verification agent/multi_agent.py:33
         FixedWorkflow.run(state)                          agent/framework.py:60
           retrieval node → _ask("retrieval")              agent/controller.py:115
             RetrievalAgent: seed packet                   tools/starting_packet.py:425
-            Role.run loop                                 agent/framework.py:328
-              host._llm_call → safe_llm_call → litellm    agent/base_agent.py:107, utils/core_utils.py:386
+            _read_packet: one tool-free call → "direct"   agent/retrieval_agent.py:116
+            _prefetch: Encounter + needed types in full   agent/retrieval_agent.py:141
+            Role.run loop (last turn tool-free)           agent/framework.py:328
+              host._llm_call → safe_llm_call → litellm    agent/base_agent.py:107, utils/core_utils.py:431
               Toolbox.call → _retrieve → resource_tools → FHIRClient → GCP store
           analysis node → AnalysisAgent → execute_python_code (sandbox)   tools/python_executor.py:31
-          verification node → VerificationAgent
+          verification node → VerificationAgent (seeded copy of the workspace)
             check_fields                                  tools/field_check.py:277
-            independent fetch + recompute; merge issues
+            recompute; merge issues; keep recomputed_answer   agent/multi_agent.py:40
           repair node → route() → END | retrieval | analysis (≤ 1)        agent/controller.py:90
-        release if final_check_issues == [] else abstain
+        release: vote draft / repaired / direct / verifier   agent/multi_agent.py:61
+          run_finisher (template-routed, no model)         agent/finishers.py:367
       contract: tokens, tool_calls, latency, budget; validate_output       agent/output_schema.py:159
-    parse_outputs → RESULT_COLUMNS                        utils/core_utils.py:218
-  store_attempt → _write_json                             run_agent.py:303 / :248
+    parse_outputs → RESULT_COLUMNS                        utils/core_utils.py:222
+  store_attempt → _write_json                             run_agent.py:306 / :251
 → output/multi_agent_<model>_results.json (+ .run.json)
 ```
 
@@ -1011,7 +1175,7 @@ run_agent.main                                            run_agent.py:339
    `valid_evidence_fraction`, `evidence_issues`, `evidence_precision` and
    `evidence_recall`.
 5. **Typed accuracy (primary).** `calculate_typed_metrics` (`:515`) calls
-   `score_answer` (`utils/answer_scorer.py:456`). It infers the answer type
+   `score_answer` (`utils/answer_scorer.py:458`). It infers the answer type
    (boolean, timestamp, number, category, set or empty) from the reference and
    compares deterministically:
    - numbers within `REL_TOL = ABS_TOL = 0.01`, with unit conversion;
@@ -1102,11 +1266,21 @@ output/experiments/<model>/<split>[_limit<N>]/
 - **Confidence intervals.** `scripts/experiment_stats.py` computes a
   **patient-clustered percentile bootstrap**: 95%, 10,000 resamples, using
   multinomial patient weights seeded from the split seed. The functions are
-  `clustered_mean` (`:51`), `paired_difference` (`:70`) and `latency_summary`
+  `clustered_mean` (`:58`), `paired_difference` (`:77`) and `latency_summary`
   (median and p95, `:85`). There is no CI when fewer than 2 patients are
   present.
 - **Chart.** `scripts/experiment_plots.py` writes a self-contained
   accuracy-vs-tokens SVG with CI whiskers. It has no plotting dependency.
+- **McNemar (supplementary).** `mcnemar_exact`
+  (`scripts/experiment_stats.py:92`) is an exact two-sided McNemar test on
+  paired 0/1 outcomes. `scripts/paired_tests.py <output_dir> [...]` runs it
+  between the three ordinary arms of each model, and on all models pooled.
+  It treats questions as independent, so the clustered intervals remain the
+  primary result.
+- **Release rules (post hoc).** `scripts/release_policy.py` applies
+  alternative release rules (`strict`, `field_check`, `always`) to saved
+  results from the original multi-agent design, without rerunning the
+  agents.
 
 ### 11.3 Variability: `scripts/variability.py`
 
@@ -1162,7 +1336,9 @@ defaults to the shared base model.
     cover every held-out question exactly once.
   - **Status badge.** `verification_status` (`:204`) maps an output to
     verified, verified-empty (`accepted_empty_result`, `:194`), unverified,
-    unchecked (always for direct_llm), abstained or error.
+    unchecked (always for direct_llm), abstained or error. Since v2,
+    multi_agent can release an answer whose check left issues open. The
+    badge then reads "Not verified … the answer was released".
   - **Citations.** `cited_fields` (`:247`) marks each citation as ok, not
     confirmed, or with its issue type.
 
@@ -1186,8 +1362,11 @@ defaults to the shared base model.
    - the agents: patient guards;
    - the field check: `patient_scope`, `current_time`, `time_window` and
      `encounter_link`.
-5. **Answer only when verified.** The single agent and the multi-agent system
-   abstain rather than release an answer that failed its check.
+5. **Check, then decide.** The single agent abstains rather than release an
+   answer that failed its check. The original multi-agent design did the
+   same, but on dev it withheld more right answers than wrong ones. v2
+   therefore uses the verifier's issues only to route a repair, and releases
+   the answer that wins a vote among the team's answers (§8.3.5).
 6. **Fail closed.** The Python sandbox does not run without kernel isolation.
    Unverifiable budgets stop the run. Unrepairable issues stop the repair.
 7. **Reproducibility.** Manifest hash chains (§3.3), run identities with code
@@ -1202,7 +1381,7 @@ defaults to the shared base model.
 Run the full suite with:
 
 ```bash
-python -m unittest discover -s tests -p 'test_phase*.py'
+python -m unittest discover -s tests
 ```
 
 The suites use mocked models and FHIR stores. The exceptions are the real
@@ -1215,6 +1394,7 @@ perturbation tests, which need `FHIR_NDJSON_DIR`.
 | Phase 1: data, sandbox, scoring | `test_phase1_data.py`, `test_phase1_executor.py`, `test_phase1_scoring.py` |
 | Phase 2: framework and controller | `test_phase2_framework.py`, `test_phase2_framework_resume.py`, `test_phase2_controller.py`, `test_phase2_routing*.py` |
 | Phase 2: roles | `test_phase2_retrieval*.py`, `test_phase2_analysis*.py`, `test_phase2_verification*.py` |
+| Multi-agent v2: release and finishers | `test_phase3_multi_agent_release.py`, `test_finishers.py`, `test_template_router.py`, `test_convention_checks.py` |
 | Phase 2: field check, packets, perturbations | `test_phase2_field_check.py`, `test_phase2_packets_review.py`, `test_phase2_perturbations*.py` |
 | Phase 3: orchestration and tool replies | `test_phase3_orchestration.py`, `test_phase3_retrieval_preview.py` |
 | Phase 3: analysis | `test_phase3_variability*.py`, `test_phase3_statistics.py`, `test_phase3_family_reporting.py`, `test_phase3_revisions.py`, `test_phase3_revision_reporting.py` |
@@ -1245,6 +1425,10 @@ them changes experiment results.
   current launcher produces.
 - `utils/core_utils.py` has older copies of `retrieval_recall` and
   `retrieval_precision` alongside the ones in `utils/metrics_utils.py`.
-- [Phase 3 notes](phase3_experiments.md) say the full live experiment has not
-  been run yet. All Phase 3 reporting has been checked only with synthetic or
-  mocked results.
+- [Phase 3 notes](phase3_experiments.md) still say the full live experiment
+  has not been run. It has now been run with qwen3:32b, qwen3.5:122b and
+  gpt-oss:120b; see [the Phase 3 results](results/phase3-qwen3-32b.md).
+- `test_perturbed_packets_rebuild_from_the_source_records` fails when the
+  local FHIR NDJSON does not match the frozen omission manifest.
+- `scripts/release_policy.py` reads the original design's revision record.
+  It does not model the v2 vote.
