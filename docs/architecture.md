@@ -1425,9 +1425,9 @@ them changes experiment results.
   current launcher produces.
 - `utils/core_utils.py` has older copies of `retrieval_recall` and
   `retrieval_precision` alongside the ones in `utils/metrics_utils.py`.
-- [Phase 3 notes](phase3_experiments.md) still say the full live experiment
-  has not been run. It has now been run with qwen3:32b, qwen3.5:122b and
-  gpt-oss:120b; see [the Phase 3 results](results/phase3-qwen3-32b.md).
+- The phase notes are a log of each change as it was built and tested; their
+  "no live run" remarks describe that change. Experiment results are in
+  [the Phase 3 results](results/phase3-qwen3-32b.md).
 - `test_perturbed_packets_rebuild_from_the_source_records` fails when the
   local FHIR NDJSON does not match the frozen omission manifest.
 - `scripts/release_policy.py` reads the original design's revision record.
