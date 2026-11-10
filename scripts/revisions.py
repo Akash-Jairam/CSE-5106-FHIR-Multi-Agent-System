@@ -32,6 +32,7 @@ import os
 from utils.answer_scorer import is_abstention, score_answer
 from utils.evidence_scorer import check_citation, get_cited_resource, parse_citation
 from scripts.variability import attempts, first_attempt, is_failed
+from tools.perturbation import removed_pairs
 
 TRANSITIONS = ("right_to_right", "right_to_wrong", "wrong_to_right", "wrong_to_wrong")
 LOG_COLUMNS = ["arm", "question_id", "family", "attempt_count", "failed_attempts", "error", "answered", "abstained",
@@ -193,20 +194,33 @@ def question_record(arm, row, reference, perturbation=None, resources=None):
         if not evidence and verified_empty is None and _bus_payloads(revision, "verification", "verdict"):
             record["unsupported"] = None
     if perturbation is not None:
-        rtype, rid = perturbation["removed"]["resource_type"], perturbation["removed"]["id"]
+        # Several removed records (version-3 perturbations) count only if every one qualifies
+        pairs = removed_pairs(perturbation)
         workspace = row.get("agent_fhir_resources") if isinstance(row.get("agent_fhir_resources"), dict) else None
-        record["omitted_resource"] = f"{rtype}/{rid}"
-        workspace_ids = workspace.get(rtype, []) if workspace is not None else None
-        record["omitted_retrieved"] = rid in workspace_ids if isinstance(workspace_ids, list) else None
-        record["omitted_fetched"] = (True if record["omitted_retrieved"] or f"{rtype}/{rid}" in fetched
-                                     else False if id_trace_complete and isinstance(row.get("trace"), list) else None)
-        record["omitted_cited"] = False if failed else _cites(evidence, rtype, rid, workspace or {}, resources)
         used = _used_ids(row, revision)
-        record["omitted_used"] = False if not answered else f"{rtype}/{rid}" in used if used is not None else None
-        record["omitted_verifier_only"] = (f"{rtype}/{rid}" in verifier_fetched and not record["omitted_retrieved"]
-                                            if verifier_fetched is not None and workspace is not None else None)
+        flags = {key: [] for key in ("retrieved", "fetched", "cited", "used", "verifier_only")}
+        for rtype, rid in pairs:
+            workspace_ids = workspace.get(rtype, []) if workspace is not None else None
+            retrieved = rid in workspace_ids if isinstance(workspace_ids, list) else None
+            flags["retrieved"].append(retrieved)
+            flags["fetched"].append(True if retrieved or f"{rtype}/{rid}" in fetched
+                                    else False if id_trace_complete and isinstance(row.get("trace"), list) else None)
+            flags["cited"].append(False if failed else _cites(evidence, rtype, rid, workspace or {}, resources))
+            flags["used"].append(False if not answered else f"{rtype}/{rid}" in used if used is not None else None)
+            flags["verifier_only"].append(f"{rtype}/{rid}" in verifier_fetched and not retrieved
+                                          if verifier_fetched is not None and workspace is not None else None)
+        record["omitted_resource"] = ",".join(f"{rtype}/{rid}" for rtype, rid in pairs)
+        for key, values in flags.items():
+            record[f"omitted_{key}"] = _all(values)
         record["omitted_recovered"] = _joint(record["omitted_retrieved"], record["omitted_used"], bool(correct))
     return record
+
+
+def _all(values):
+    """True if every value is True, False if any is False, otherwise None (unknown)."""
+    if any(value is False for value in values):
+        return False
+    return True if values and all(value is True for value in values) else None
 
 
 def _rate(numerator, denominator):
