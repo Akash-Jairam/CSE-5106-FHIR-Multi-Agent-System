@@ -9,9 +9,16 @@ A paired difference compares two arms on the same questions:
 each resample takes the same patients for both, so between-question
 variation cancels.
 
+An exact McNemar test is also available as a supplementary check on a
+paired difference. It treats questions as independent, so it overstates
+the evidence when a patient's questions succeed or fail together; the
+clustered interval remains the primary result.
+
 All resamples come from one seeded generator per call, so the results are
 reproducible. Inputs are per-question arrays; nothing here sees answers.
 """
+from math import comb
+
 import numpy as np
 
 DEFAULT_BOOTSTRAP = 10_000
@@ -80,6 +87,24 @@ def paired_difference(a, b, patients, n_boot=DEFAULT_BOOTSTRAP, seed=0):
     a, patients = _validated_inputs(a, patients, n_boot)
     b, _ = _validated_inputs(b, patients, n_boot)
     return clustered_mean(a - b, patients, n_boot, seed)
+
+
+def mcnemar_exact(a, b):
+    """Exact two-sided McNemar test of paired 0/1 outcomes on the same questions.
+
+    Only discordant questions count: those a got right and b wrong, and the
+    reverse. Under no difference each is equally likely, so the p-value is
+    the two-sided binomial tail at one half, capped at 1.
+    """
+    a, b = np.asarray(a, dtype=float), np.asarray(b, dtype=float)
+    if a.ndim != 1 or a.shape != b.shape:
+        raise ValueError("McNemar needs both arms on the same questions")
+    if not np.isin(a, (0, 1)).all() or not np.isin(b, (0, 1)).all():
+        raise ValueError("McNemar needs 0/1 outcomes")
+    only_a, only_b = int(((a == 1) & (b == 0)).sum()), int(((a == 0) & (b == 1)).sum())
+    n = only_a + only_b
+    p = min(1.0, 2 * sum(comb(n, k) for k in range(min(only_a, only_b) + 1)) / 2 ** n) if n else 1.0
+    return {"n": int(len(a)), "only_a": only_a, "only_b": only_b, "p_value": p}
 
 
 def latency_summary(latencies):

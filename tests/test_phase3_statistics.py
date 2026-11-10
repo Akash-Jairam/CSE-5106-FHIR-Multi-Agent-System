@@ -19,7 +19,7 @@ import run_agent as runner
 from scripts import analysis
 from scripts import run_experiments as experiments
 from scripts.experiment_plots import accuracy_vs_tokens_svg
-from scripts.experiment_stats import clustered_mean, latency_summary, paired_difference
+from scripts.experiment_stats import clustered_mean, latency_summary, mcnemar_exact, paired_difference
 
 
 class BootstrapTests(unittest.TestCase):
@@ -54,6 +54,21 @@ class BootstrapTests(unittest.TestCase):
         self.assertNotIn("p_bootstrap", tiny)
         with self.assertRaisesRegex(ValueError, "same questions"):
             paired_difference([1, 0], [1], ["a", "a"])
+
+    def test_mcnemar_counts_only_discordant_questions(self):
+        result = mcnemar_exact([1, 1, 1, 0, 0, 1], [1, 0, 0, 0, 0, 1])
+        self.assertEqual((result["n"], result["only_a"], result["only_b"]), (6, 2, 0))
+        self.assertAlmostEqual(result["p_value"], 0.5)  # 2 * (1/2)^2
+        self.assertEqual(mcnemar_exact([1, 0], [1, 0])["p_value"], 1.0)
+        self.assertEqual(mcnemar_exact([1, 0], [0, 1])["p_value"], 1.0)  # capped at 1
+        # 10 discordant all one way: 2 / 2^10
+        self.assertAlmostEqual(mcnemar_exact([1] * 10, [0] * 10)["p_value"], 2 / 1024)
+        # Matches the published counts: 37 vs 10 discordant gives p just under 1e-4
+        self.assertAlmostEqual(mcnemar_exact([1] * 37 + [0] * 10, [0] * 37 + [1] * 10)["p_value"], 9.8e-5, delta=1e-6)
+        with self.assertRaisesRegex(ValueError, "same questions"):
+            mcnemar_exact([1, 0], [1])
+        with self.assertRaisesRegex(ValueError, "0/1"):
+            mcnemar_exact([1, 0.5], [1, 0])
 
     def test_empty_inputs_and_latency(self):
         self.assertIsNone(clustered_mean([], [])["estimate"])

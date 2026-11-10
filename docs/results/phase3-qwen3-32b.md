@@ -1,10 +1,12 @@
 # Phase 3 Results: qwen3:32b, qwen3.5:122b and gpt-oss:120b
 
-Nov 5, 2026 · Akash Jairam
+Nov 5, 2026 (multi-agent v2 added Nov 10, 2026) · Akash Jairam
 
 ## Summary
 
-With qwen3:32b, the single agent matched the direct baseline (52.7% vs 55.3% on 300 held-out questions, difference not significant), and the multi-agent system trailed both at 28.7%.
+**Update, Nov 10: the redesigned multi-agent system (v2) is now the most accurate system on both models tested.** On the 300 held-out questions it scores 81.0% with gpt-oss:120b and 61.0% with qwen3:32b. That beats the single agent by 9.0 points [+5.2, +12.8] and 11.3 points [+4.9, +18.1]. It also beats the direct baseline on gpt-oss:120b (+9.3 [+4.8, +13.9]); on qwen3:32b the gain over the baseline (+5.3 [+0.0, +10.2]) is borderline. See [Multi-agent v2](#multi-agent-v2). The rest of this summary and the sections after v2 describe the original multi-agent system.
+
+With qwen3:32b, the single agent matched the direct baseline (52.7% vs 55.3% on 300 held-out questions, difference not significant), and the original multi-agent system trailed both at 28.7%.
 
 The multi-agent gap comes mostly from its verification step, not its analysis. Verification withheld 61 correct answers to block 38 wrong ones. Releasing whatever answer it reached, a rule chosen in advance on the dev split, raises multi-agent accuracy to 46.7%, still 6.0 points below the single agent. That figure is a post-hoc what-if applied to the saved runs, not a new run.
 
@@ -12,7 +14,78 @@ Neither tool-using system reliably recovers a record that is missing from its st
 
 Two larger models keep the same ranking. With qwen3.5:122b, direct_llm scores 62.0% and single_agent 57.3% (a tie); multi_agent scores 22.0% as built and 47.7% releasing every answer. With gpt-oss:120b served by vLLM, direct_llm scores 71.0% and single_agent 72.3% (a tie); multi_agent scores 19.3% as built and 51.0% releasing every answer, 21 points behind the single agent.
 
+## Multi-agent v2
+
+The redesigned multi-agent system answers 81.0% of held-out questions with gpt-oss:120b and 61.0% with qwen3:32b, significantly ahead of the single agent on both models.
+
+**What changed.** v2 (branch feat/multi-agent-v2, commit dc0e37a) changes how the roles share records and how the team releases an answer:
+
+- Retrieval fetches the patient's complete records of every relevant type, rather than searching for individual records.
+- Analysis sees those records, the starting packet, the single agent's worked examples and a shared guide to EHR conventions.
+- Release is a vote among the analysis draft, its repair, a direct reading of the packet and the verifier's recomputation. Ties go to the draft, so the verifier can no longer withhold an answer on its own.
+- Deterministic finishers then apply the benchmark's conventions for seven question templates.
+
+The single agent and direct baseline prompts are unchanged.
+
+**Protocol.** v2 was designed and tuned on the 50 dev questions only; the held-out split was run once, after the design was fixed. All three systems were rerun together at commit dc0e37a with the same settings as before (200,000 tokens and 30 tool calls per question, 32k context, typed scorer, first attempts, failed runs count as wrong). gpt-oss:120b ran on vLLM on one H100 (c2-gpu-010, 1 h 18 min) and qwen3:32b on Ollama on one H100 (c2-gpu-007, 5 h 17 min), 9-10 November 2026. Recovery and repeatability runs were not repeated for v2.
+
+| Held-out result (300 questions, 58 patients) | gpt-oss:120b | qwen3:32b |
+| --- | --- | --- |
+| **multi_agent v2** | **81.0%** [76.7, 85.3] | **61.0%** [55.5, 66.5] |
+| single_agent | 72.0% [67.4, 76.3] | 49.7% [43.9, 55.2] |
+| direct_llm | 71.7% [67.3, 75.7] | 55.7% [49.7, 61.7] |
+| multi_agent v2 − single_agent | +9.0 [+5.2, +12.8] | +11.3 [+4.9, +18.1] |
+| multi_agent v2 − direct_llm | +9.3 [+4.8, +13.9] | +5.3 [+0.0, +10.2] |
+| single_agent − direct_llm | +0.3 [−2.7, +3.3] | −6.0 [−13.6, +0.9] |
+| Failed first attempts: multi / single / direct | 0 / 4 / 1 | 1 / 6 / 4 |
+| Median latency: multi / single / direct | 37.1 / 9.4 / 4.3 s | 114.6 / 39.2 / 13.3 s |
+| Mean tokens per question: multi / single / direct | 78,945 / 33,183 / 6,522 | 69,105 / 47,137 / 7,631 |
+
+Accuracy with 95% patient-clustered CIs; differences in points (`run_experiments.py analyze`).
+
+**Exact McNemar tests** (`scripts/paired_tests.py`) count the questions only one system answered correctly. They treat questions as independent, so they are a supplementary check on the clustered intervals above, not a replacement.
+
+| Comparison | gpt-oss:120b | qwen3:32b | Both models pooled |
+| --- | --- | --- | --- |
+| multi v2 vs single | 37 vs 10, p = 0.0001 | 69 vs 35, p = 0.001 | 106 vs 45, p < 10⁻⁶ |
+| multi v2 vs direct | 39 vs 11, p = 0.0001 | 39 vs 23, p = 0.056 | 78 vs 34, p < 10⁻⁴ |
+| single vs direct | 16 vs 15, p = 1.0 | 42 vs 60, p = 0.092 | — |
+
+Both methods agree. multi_agent v2 beats the single agent on each model, which survives a Bonferroni correction for the eight tests (threshold 0.006). It beats the baseline on gpt-oss:120b but only marginally on qwen3:32b. The single agent and the baseline are still tied.
+
+Accuracy by question type:
+
+| Question type | gpt-oss: multi v2 | single | direct | qwen3: multi v2 | single | direct |
+| --- | --- | --- | --- | --- | --- | --- |
+| Counting (n=92) | **91.3%** | 76.1% | 87.0% | 78.3% | 52.2% | **80.4%** |
+| Aggregation (n=49) | **83.7%** | 77.6% | 79.6% | 53.1% | **57.1%** | 49.0% |
+| Time-based (n=159) | **74.2%** | 67.9% | 60.4% | **53.5%** | 45.9% | 43.4% |
+
+The gain is largest on time-based questions, which make up over half the held-out set. On counting, where the single agent lost badly to the baseline, v2 beats the baseline on gpt-oss:120b and comes within 2 points of it on qwen3:32b.
+
+**Inside the team.** Each answer source the vote considers, scored on its own:
+
+| Answer source | gpt-oss:120b | qwen3:32b |
+| --- | --- | --- |
+| Released answer (vote, then finishers) | 81.0% | 61.0% |
+| Analysis draft | 78.3% | 61.0% |
+| Analysis after repair | 78.0% | 59.7% |
+| Direct reading of the packet | 70.3% | 55.3% |
+| Verifier's recomputation | 25.3% | 37.0% |
+| Best source on each question (upper bound) | 82.3% | 75.0% |
+| Vote won by: draft / repair / packet reading / no answer | 259 / 0 / 11 / 30 | 230 / 4 / 59 / 6 |
+
+- **The analysis draft carries the system.** It wins most votes and alone scores above the single agent on both models. Full records plus the worked examples and conventions are what made the difference.
+- **Repairs do not help.** The verifier is wrong more often than right, so repairs it triggers score slightly below the draft. Letting the draft win ties, chosen on dev, keeps them from doing harm.
+- **The vote and finishers add a little.** Finishers replaced 13 answers on gpt-oss:120b and 24 on qwen3:32b. Together with the packet-reading votes they lift gpt-oss:120b from the draft's 78.3% to 81.0%; the two contributions were not separated. On qwen3:32b the released answer ties the draft.
+- **qwen3:32b leaves 14 points on the table.** Picking the right source on each question would reach 75.0%, so a better selection rule could still help the smaller model. On gpt-oss:120b the gap is about 1 point.
+- **Cost.** v2 uses 2.4 times the single agent's tokens and 4 times its latency on gpt-oss:120b, and 1.5 and 3 times on qwen3:32b.
+
+**Baseline reruns.** direct_llm and single_agent were rerun at the new commit and land within a few points of their earlier runs (gpt-oss:120b: 71.0 → 71.7% and 72.3 → 72.0%; qwen3:32b: 55.3 → 55.7% and 52.7 → 49.7%). Their prompts did not change, so this is run-to-run variation, in line with the repeatability results below.
+
 ## Setup
+
+This and the following sections describe the original multi-agent system.
 
 All three systems ran on the same base model, budget and tool cache, as the Phase 3 protocol requires.
 
@@ -166,7 +239,7 @@ The invalid results are kept on the cluster under `output/experiments/qwen3:32b/
 
 ## Caveats and next steps
 
-These results describe one 32B model with a 32k context; they do not show how the systems compare with a stronger model.
+These caveats were written for the original qwen3:32b results; the 32k context limit also applies to multi-agent v2.
 
 - **Context limit:** with 32k tokens, some patients' records do not fit, which hurts the systems that load whole record sets.
 - **One model judges nothing here:** accuracy comes from the typed scorer, so no LLM grades its own answers.
