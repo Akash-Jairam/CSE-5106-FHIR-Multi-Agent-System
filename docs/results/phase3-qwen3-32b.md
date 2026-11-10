@@ -49,9 +49,9 @@ Accuracy with 95% patient-clustered CIs; differences in points (`run_experiments
 | --- | --- | --- | --- |
 | multi v2 vs single | 37 vs 10, p = 0.0001 | 69 vs 35, p = 0.001 | 106 vs 45, p < 10⁻⁶ |
 | multi v2 vs direct | 39 vs 11, p = 0.0001 | 39 vs 23, p = 0.056 | 78 vs 34, p < 10⁻⁴ |
-| single vs direct | 16 vs 15, p = 1.0 | 42 vs 60, p = 0.092 | — |
+| single vs direct | 16 vs 15, p = 1.0 | 42 vs 60, p = 0.092 | 58 vs 75, p = 0.17 |
 
-Both methods agree. multi_agent v2 beats the single agent on each model, which survives a Bonferroni correction for the eight tests (threshold 0.006). It beats the baseline on gpt-oss:120b but only marginally on qwen3:32b. The single agent and the baseline are still tied.
+Both methods agree. multi_agent v2 beats the single agent on each model, which survives a Bonferroni correction for the nine tests (threshold 0.0056). It beats the baseline on gpt-oss:120b but only marginally on qwen3:32b. The single agent and the baseline are still tied.
 
 Accuracy by question type:
 
