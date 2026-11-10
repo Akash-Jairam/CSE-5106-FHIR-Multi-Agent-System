@@ -10,13 +10,17 @@ the omitted packet's result differs and scores wrong.
                the query's main table links to (the omission also redacts
                the reference, as tools.perturbation.omit_from_packet does),
                so the drug name or specimen type must be fetched
-  tie_peer     multi-value answers (tie sets, e.g. T051/T052): keep one
-               cited record of the tie and leave out the other k-1
+  tie_peer     multi-value answers (tie sets, e.g. T051/T052/T055): keep one
+               tied record in the packet and leave out the other shown ones.
+               The reference is checked over the patient's full record
+               (scripts/fhir_oracle.py), since truncated packets rarely show
+               a whole tie; `intact_packet_reproduces` records whether the
+               intact packet did
   k_record     counts, existence checks and aggregates: leave out the
                smallest k (2..--max-k) cited records that changes the answer
 
-Except for link targets, a removed record must have no incoming references
-from other visible clinical records. Up to --size questions per kind are
+Except for link targets and tie peers, a removed record must have no
+incoming references from other visible clinical records. Up to --size questions per kind are
 sampled with the split seed, in proportion to family; each question gets at
 most one kind (rarest kind first), since the runtime keys omissions by question.
 
@@ -43,6 +47,7 @@ from scripts.build_perturbations import (DEFAULT_PACKETS, SHARED_TYPES, _scalars
                                          event_gold, references, same_result, sample)
 from scripts.build_starting_packets import (DEFAULT_FHIR_DIR, DEFAULT_FAMILIES, DEFAULT_INPUT, DEFAULT_SPLIT,  # noqa: E402
                                             file_sha256, index_patient_lines, load_record)
+from scripts.fhir_oracle import RecordQuery, full_packet, release  # noqa: E402
 from scripts.packet_query import PacketQuery, UnsupportedQuery, visible_resources  # noqa: E402
 from tools.perturbation import omit_from_packet, text_sha256  # noqa: E402
 from tools.starting_packet import PACKET_VERSION, _reference_key, _resource_time, build_starting_packet  # noqa: E402
@@ -59,8 +64,11 @@ def _answer(result):
     return result[0] if len(result) == 1 else result or None
 
 
-def removal_sets(kind, question, oracle, original, by_id, values):
-    """Candidate removal sets [(resourceType, id), ...] for one kind, most plausible first."""
+def removal_sets(kind, question, oracle, original, by_id, values, tied=None):
+    """Candidate removal sets [(resourceType, id), ...] for one kind, most plausible first.
+
+    `tied`: for tie_peer, the tied records the full-record oracle cites.
+    """
     gold = ast.literal_eval(question["true_fhir_ids"]) if isinstance(question["true_fhir_ids"], str) else {}
     annotated = set(event_gold(gold))
     resources = visible_resources(original)
@@ -85,9 +93,12 @@ def removal_sets(kind, question, oracle, original, by_id, values):
                    key=lambda r: (_resource_time(by_id[_reference_key(r)]), _reference_key(r)))
     pairs = [(r["resourceType"], r["id"]) for r in cited]
     if kind == "tie_peer":
-        if len(values) < 2 or oracle.rule != "selection" or len(pairs) < 2:
+        # Tied organisms are referenced by their test (hasMember); leaving one out is the test itself
+        shown = sorted((r for r in candidates if (r["resourceType"], r["id"]) in set(tied or ())),
+                       key=lambda r: (_resource_time(by_id[_reference_key(r)]), _reference_key(r)))
+        if len(values) < 2 or oracle.rule != "selection" or len(shown) < 2:
             return []
-        return [pairs[1:]]  # keep the earliest cited record of the tie
+        return [[(r["resourceType"], r["id"]) for r in shown[1:]]]  # keep the earliest shown tied record
     if kind == "k_record":
         if oracle.rule == "selection":
             return []
@@ -95,13 +106,22 @@ def removal_sets(kind, question, oracle, original, by_id, values):
     raise ValueError(f"Unknown kind {kind}")
 
 
-def prepare(question, packet_row, record):
-    """(original packet, by_id, oracle, visible result) for one question, or (None, exclusion reason)."""
+def prepare(question, packet_row, record, full=None, built=None):
+    """The original packet, oracle and visible result for one question, or (None, exclusion reason).
+
+    With `full` (a scripts.fhir_oracle.full_packet), the reference is checked
+    over the full record instead of the visible packet, and the tied records
+    the full-record query cites are returned too. `built` caches rebuilt
+    packets by question across kinds.
+    """
     if answer_type(question["true_answer"], question["template"]) == "empty":
         return None, "empty answer"
     by_id = {_reference_key(r): r for items in record.values() for r in items}
-    original = build_starting_packet(question["question"], record, question["patient_fhir_id"],
-                                     packet_row["max_tokens"], packet_row["current_time"])
+    built = {} if built is None else built
+    if question["question_id"] not in built:
+        built[question["question_id"]] = build_starting_packet(question["question"], record, question["patient_fhir_id"],
+                                                               packet_row["max_tokens"], packet_row["current_time"])
+    original = built[question["question_id"]]
     if _sha256(original["text"]) != packet_row["packet_text_sha256"]:
         raise ValueError(f"Rebuilt packet for {question['question_id']} does not match the frozen manifest")
     try:
@@ -109,20 +129,33 @@ def prepare(question, packet_row, record):
         before = oracle.run(original)
     except UnsupportedQuery as exc:
         return None, str(exc)
-    if not same_result(parse_reference(question["true_answer"]), before):
-        return None, "visible query does not reproduce reference"
-    return (original, by_id, oracle, before), None
+    values = parse_reference(question["true_answer"])
+    prepared = {"original": original, "by_id": by_id, "oracle": oracle, "before": before,
+                "reproduces": same_result(values, before), "tied": None}
+    if full is None:
+        return (prepared, None) if prepared["reproduces"] else (None, "visible query does not reproduce reference")
+    if len(values) < 2:
+        return None, "single-value answer"
+    try:
+        answer, cited = RecordQuery(question, full).run_traced()
+    except UnsupportedQuery as exc:
+        return None, str(exc)
+    if not same_result(values, answer):
+        return None, "full-record query does not reproduce reference"
+    main = oracle.primary_types[oracle.main_table]
+    prepared["tied"] = [(main, rid) for rid in cited.get(main, [])]
+    return prepared, None
 
 
 def evaluate(question, packet_row, prepared, family, template, kind):
     """(entry, None) for an eligible question of this kind, or (None, exclusion reason).
 
-    `prepared` comes from prepare().
+    `prepared` comes from prepare() (with `full` for tie_peer).
     """
-    original, by_id, oracle, before = prepared
+    original, by_id, oracle, before = (prepared[k] for k in ("original", "by_id", "oracle", "before"))
     values = parse_reference(question["true_answer"])
     patient, now = question["patient_fhir_id"], packet_row["current_time"]
-    for removed in removal_sets(kind, question, oracle, original, by_id, values):
+    for removed in removal_sets(kind, question, oracle, original, by_id, values, prepared["tied"]):
         trial = omit_from_packet(original, removed)
         try:
             after = oracle.run(trial)
@@ -137,9 +170,12 @@ def evaluate(question, packet_row, prepared, family, template, kind):
                 carries(v, leaf) for v in values for r in visible_resources(trial)
                 for leaf in _scalars(r)):
             continue
+        extra = ({"reference_check": "full-record", "intact_packet_reproduces": prepared["reproduces"]}
+                 if prepared["tied"] is not None else {})
         return {
             "question_id": question["question_id"],
             "kind": kind,
+            **extra,
             "family": family,
             "template_id": question["template_id"],
             "patient_fhir_id": patient,
@@ -180,9 +216,12 @@ def evaluate_all(df, packets, fhir_dir, kinds):
     eligible, reasons = {kind: [] for kind in kinds}, {kind: Counter() for kind in kinds}
     for patient, questions in df.groupby("patient_fhir_id", sort=True):
         record = load_record(shared, offsets[patient])
+        full = full_packet(record, patient) if "tie_peer" in kinds else None
+        built = {}
         for q in questions.to_dict("records"):
-            prepared, reason = prepare(q, packets[q["question_id"]], record)
             for kind in kinds:
+                prepared, reason = prepare(q, packets[q["question_id"]], record, full if kind == "tie_peer" else None,
+                                           built)
                 if prepared:
                     entry, reason = evaluate(q, packets[q["question_id"]], prepared, q["family"], q["template"], kind)
                 else:
@@ -191,6 +230,8 @@ def evaluate_all(df, packets, fhir_dir, kinds):
                     eligible[kind].append(entry)
                 else:
                     reasons[kind][reason] += 1
+        if full is not None:
+            release(full)
     return eligible, reasons
 
 
@@ -210,7 +251,8 @@ def verify_manifest(path, args):
         patient = q["patient_fhir_id"]
         if patient not in records:
             records[patient] = load_record(shared, offsets[patient])
-        prepared, reason = prepare(q, packets[q["question_id"]], records[patient])
+        full = full_packet(records[patient], patient) if expected["kind"] == "tie_peer" else None
+        prepared, reason = prepare(q, packets[q["question_id"]], records[patient], full)
         entry = None
         if prepared:
             entry, reason = evaluate(q, packets[q["question_id"]], prepared, q["family"], q["template"],

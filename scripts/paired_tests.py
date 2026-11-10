@@ -11,6 +11,13 @@ With several models, the pairs are also tested on all their questions pooled.
 
 Scoring matches `run_experiments.py analyze`: first attempt, typed scorer,
 failed runs count as wrong. Prints aggregates only, never answers.
+
+For a generated question bank, pass the inputs the suite ran with:
+
+    python scripts/paired_tests.py output/experiments/gpt-oss:120b/suite_paraphrases \
+        --input final_dataset/generated/paraphrases.csv \
+        --split_manifest manifests/generated/paraphrases.split.json \
+        --families manifests/generated/paraphrases.families.csv
 """
 import argparse
 import json
@@ -28,13 +35,17 @@ ARMS = ("multi_agent", "single_agent", "direct_llm")
 PAIRS = [("multi_agent", "single_agent"), ("multi_agent", "direct_llm"), ("single_agent", "direct_llm")]
 
 
-def arm_scores(path, references=None):
-    """Per-question 0/1 correctness of one result file, keyed by question ID."""
+def arm_scores(path, references=None, inputs=None):
+    """Per-question 0/1 correctness of one result file, keyed by question ID.
+
+    `inputs`: (input, split_manifest, families) paths; the released dataset by default.
+    """
     with open(path, encoding="utf-8") as stream:
         rows = {row["question_id"]: first_attempt(row) for row in json.load(stream)}
     if references is None:
-        references = load_references(Namespace(input=DEFAULT_INPUT, split_manifest=DEFAULT_SPLIT,
-                                               families=DEFAULT_FAMILIES), list(rows))
+        dataset, split_manifest, families = inputs or (DEFAULT_INPUT, DEFAULT_SPLIT, DEFAULT_FAMILIES)
+        references = load_references(Namespace(input=dataset, split_manifest=split_manifest,
+                                               families=families), list(rows))
     return {qid: 0 if is_failed(row) else score_row(row, references[qid]) for qid, row in rows.items()}, references
 
 
@@ -54,13 +65,17 @@ def _line(label, a, b, test):
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Exact McNemar tests between ordinary arms.")
     parser.add_argument("output_dirs", nargs="+", help="One experiment output directory per model")
+    parser.add_argument("--input", default=DEFAULT_INPUT)
+    parser.add_argument("--split_manifest", default=DEFAULT_SPLIT)
+    parser.add_argument("--families", default=DEFAULT_FAMILIES)
     args = parser.parse_args(argv)
+    inputs = (args.input, args.split_manifest, args.families)
 
     pooled = {arm: {} for arm in ARMS}
     for directory in args.output_dirs:
         scores, references = {}, None
         for arm in ARMS:
-            scores[arm], references = arm_scores(os.path.join(directory, f"ordinary_{arm}.json"), references)
+            scores[arm], references = arm_scores(os.path.join(directory, f"ordinary_{arm}.json"), references, inputs)
             pooled[arm].update({(directory, qid): value for qid, value in scores[arm].items()})
         label = os.path.basename(os.path.dirname(os.path.normpath(directory)))
         for a, b in PAIRS:

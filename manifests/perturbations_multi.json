@@ -3,13 +3,13 @@
  "packet_version": 3,
  "split": "held_out",
  "seed": 5106,
- "size": 38,
+ "size": 39,
  "source_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
  "split_sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
  "families_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
  "packets_sha256": "25bdd33ad8c4572ca59788a177ec905fc06920b71f57e4372b5c146591949184",
- "builder_sha256": "ab700f4d17a0bf2b8436114c69b292c28c700551a56a494ee11dfb2ba04fb5a1",
- "oracle_sha256": "6b4416066a03ef146a4887aca22e1dfb56952cc4320dcdb290bd23b2aae16b84",
+ "builder_sha256": "5ab9da2023d072beaf68d5b35b205f2f26e1782926c45c77347c7de408c16a99",
+ "oracle_sha256": "5e089c8f60cb32a98184beb216661bbf4b5d48d2c1bd2e4eaaf4b8d4dbc36dc2",
  "omitter_sha256": "2a61691dec3ebafe81bb8747926e4888c7bd772dff4f24266d88afbd7ebdcd59",
  "scorer_sha256": "d0f66f425358cfcfdef434f9b079fcce015253371ccd64eb2d8db6ea855e20f6",
  "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
@@ -33,19 +33,20 @@
    }
   },
   "tie_peer": {
-   "eligible": 1,
+   "eligible": 2,
    "eligible_by_family": {
-    "temporal_selection": 1
+    "temporal_selection": 2
    },
    "excluded_by_reason": {
     "admission_type is not recoverable from normalized FHIR priority": 4,
     "empty answer": 42,
+    "full-record query does not reproduce reference": 3,
     "microbiology hospital membership is absent from the visible FHIR fields": 12,
     "mixed prescription doses are not attributable to individual drugs": 14,
-    "no tie_peer omission changes the visible query": 184,
+    "no tie_peer omission changes the visible query": 10,
     "query could not be evaluated from visible packet fields": 3,
     "query uses a relation without a visible FHIR projection": 6,
-    "visible query does not reproduce reference": 34
+    "single-value answer": 204
    }
   },
   "k_record": {
@@ -69,11 +70,11 @@
  "selected_by_kind": {
   "k_record": 18,
   "link_target": 19,
-  "tie_peer": 1
+  "tie_peer": 2
  },
  "removed_records": {
   "1": 11,
-  "2": 12,
+  "2": 13,
   "3": 6,
   "4": 1,
   "5": 1,
@@ -1825,6 +1826,8 @@
   {
    "question_id": "77b6bd619a1302c0e9f16e66",
    "kind": "tie_peer",
+   "reference_check": "full-record",
+   "intact_packet_reproduces": true,
    "family": "temporal_selection",
    "template_id": "T052",
    "patient_fhir_id": "8e77dd0b-932d-5790-9ba6-5c6df8434457",
@@ -1898,6 +1901,105 @@
     "query_sha256": "88195efb3768a8ebd1672e6bfa51735bc09de8ce0d9f038c13042b712b9d2b80",
     "original_result_sha256": "c2959fcf8a61914a4c9870289c1a7baae226e2b6f5bb0f5098720a9aa4656682",
     "perturbed_result_sha256": "75acded10fa76281e789a856f1c64075113c2f44da0bf75564f3ad0dd9b4d08f",
+    "perturbed_typed_correct": 0,
+    "oracle": "visible-packet-sql-v1"
+   }
+  },
+  {
+   "question_id": "967175d0df47b1226680f9bc",
+   "kind": "tie_peer",
+   "reference_check": "full-record",
+   "intact_packet_reproduces": true,
+   "family": "temporal_selection",
+   "template_id": "T055",
+   "patient_fhir_id": "3bbb6aec-41a3-5825-b6cf-422832002f96",
+   "current_time": null,
+   "rule": "selection",
+   "packet_version": 3,
+   "max_tokens": 8000,
+   "question_sha256": "847b82e738d2eefae5f7ad99bc40efc42800551548f725703eb786b1df612967",
+   "fhir_source_sha256": "f698a76748a4afe3aa3935855caf1fbef08ef549d616f6a00fbc44b38a89584a",
+   "removed": [
+    {
+     "resource_type": "Observation",
+     "id": "d6d4b7a4-b8e7-5f78-9b41-ee21dae5aec8"
+    },
+    {
+     "resource_type": "Observation",
+     "id": "e052a04b-ec1e-5374-8c67-c46f40e3f948"
+    }
+   ],
+   "original_packet_sha256": "9ef4ca0ad98a65bd54b6bcd4ea8dbf0fe6c2a31a3eaa34e5f118bf3b892c36da",
+   "perturbed_packet_sha256": "450859875e16d4d408465e4b20ab185072cc639aa2ed4e355421a783d495cdb6",
+   "perturbed_resource_ids": {
+    "Patient": [
+     "3bbb6aec-41a3-5825-b6cf-422832002f96"
+    ],
+    "Encounter": [
+     "187d974e-ab48-53b7-8247-f6598322e566",
+     "808b10b9-b302-5171-9478-be9e648db00b",
+     "790e7533-cc83-55aa-8a0c-ddc1189f8d78"
+    ],
+    "Location": [
+     "9152585d-31b9-50ca-9476-a4db49030917",
+     "dbba2bef-57a7-582f-8d86-a7a6d7fea258"
+    ],
+    "Observation": [
+     "3ef83a95-7f00-54de-a8a1-f01d7b0eb4f3",
+     "de2bbde0-a292-585c-bedf-038971fa9487",
+     "91320a96-00a2-53f6-b390-ba8ed3fe7975",
+     "209b7067-4c70-5b3b-99a8-dde32b33561a",
+     "135dbad9-0dff-5240-a9de-8153adcf979a",
+     "5b69d396-e27f-535c-8686-352562f37735",
+     "c136e15e-7ab9-59e7-b3ef-1f9dd0ca2fc2",
+     "f7abbbec-3ec9-505b-baca-204c024df30f",
+     "f32d12fc-b519-55eb-8ba9-95465909dac9",
+     "5dda551a-7c8e-5ef0-9ecc-f1610964f634",
+     "9b5ca233-c150-5fa1-8cbf-fad23b7e23b6",
+     "1c9d4340-7a8b-5a17-ae3d-d506ebec8597",
+     "be09c03e-3d29-5f6f-9975-1c5c400d4eb2",
+     "d6d8248a-8977-5dc5-a712-689697a4524e",
+     "807203ab-f3e7-5d5d-9006-0c069a5142af",
+     "fba6f5b0-ede5-5ff4-821b-e3f9887634a1",
+     "297c8253-a8de-5b38-8e68-472efa6fb7c9",
+     "deada1a0-8be8-5b30-96f8-80707ac0ebc7",
+     "ec0bcb60-6770-59e2-8906-89f24575d107",
+     "2936fee1-0790-5f5f-a427-7b57dae399b7",
+     "db4bfb9e-0f85-5b35-a030-bbd2d5f947ab",
+     "76bbda24-f1ac-55bf-a698-bc30bc3026af",
+     "cca21d06-4ae6-55d2-b208-790718a3e45b",
+     "eb27b9ad-4702-50a7-997e-7361d4a4f25d",
+     "aecb4775-02e9-5aed-ad04-15f01d8aed1a",
+     "11b6c996-43b4-5e91-a8cb-fa819fc7af07",
+     "e9b3648f-8213-55a7-8407-ca82d1ae8903",
+     "55386ff9-6a85-5694-a2f3-114dfa819767",
+     "dc93576b-0d2f-5f84-a4f0-ef9192384a9c",
+     "e9d2c227-4854-5f78-94f4-3619941d2063",
+     "9286ba1e-b9b0-5b4e-b9f8-f009ecd614db",
+     "5949dfdb-c996-5911-80d6-7a7ea0e2ae0b",
+     "5744208e-c3fc-5dc2-9159-05b6d57a17de",
+     "4e6329f0-6ee8-5ebe-af5e-2898457f954e",
+     "d98bbd43-e661-5fad-bab0-bc433f68fc21",
+     "9041c2c3-40d8-5546-addb-15f1706a7005",
+     "2d03dddb-0915-55df-be55-5537febf23f6",
+     "b2e5593b-0d59-5013-b739-839de88077f6"
+    ],
+    "Specimen": [
+     "2d9cfdcf-44f9-5c7e-b124-e5844d9bdc9a",
+     "55c727ec-e914-5746-924f-f58a7f0e225e",
+     "0e648448-c71e-5bc3-9bf2-6fbd16d77dab",
+     "fa329286-497d-59cb-93b2-32fe0da23e78",
+     "9383be1f-9512-5d74-baab-259fcff28ffb",
+     "76bb6923-e922-50db-86e1-d2eb3e663592",
+     "be037373-3b9c-58c9-bc4a-0d7c4853cfa7",
+     "1a70dafa-34b1-5679-8932-9b3bdca84e1b"
+    ]
+   },
+   "perturbed_n_tokens": 7065,
+   "proof": {
+    "query_sha256": "2c4e536f4352a7ed8ada8276761cda8c9b7e0c56ddab86f3fa43db1482df2a4f",
+    "original_result_sha256": "ab23641470ca99884dfbeaea0d3e4d0f9d58ddaa2037d23d297253b853dee568",
+    "perturbed_result_sha256": "7a4566c08927e6579b406fe3f01988e64f671b2005bb4a296284f909bd024495",
     "perturbed_typed_correct": 0,
     "oracle": "visible-packet-sql-v1"
    }

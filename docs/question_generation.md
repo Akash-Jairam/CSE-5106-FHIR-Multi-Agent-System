@@ -1,13 +1,15 @@
 # New question sources
 
-This build log covers the question sources added after the multi-agent v2 results: extra pools drawn from questions the split left unsampled, FHIR-native generated questions, finisher paraphrases, multi-record perturbations, and graded demo questions. Only the multi-record perturbations touch the runtime: `tools/perturbation.py` now also loads version-3 manifests. Because `tools/` is part of the code fingerprint, result files written before that change show as stale, and `manifests/perturbations.json` was rebuilt for the new omitter hash. Everything else lives in `scripts/` and `demo/`.
+This build log covers the question sources added after the multi-agent v2 results: extra pools drawn from questions the split left unsampled, FHIR-native generated questions, finisher paraphrases, multi-record perturbations, and graded demo questions.
+
+Only the multi-record perturbations touch the runtime: `tools/perturbation.py` now also loads version-3 manifests. Because `tools/` is part of the code fingerprint, result files written before that change show as stale. `scripts/restamp_run_identities.py` moves them to the new fingerprint (see [Re-stamping](#re-stamping-saved-results)). `manifests/perturbations.json` was rebuilt for the new omitter and oracle hashes, with identical entries. Everything else lives in `scripts/` and `demo/`.
 
 Each source is a split manifest with the same patient pools as `manifests/split.json`, so it runs through the unchanged runner. `scripts/run_experiments.py` enforces the 900/200/300 run sizes only for `manifests/split.json`.
 
 ```bash
 python scripts/run_experiments.py run --arms ordinary \
     --split_manifest manifests/pools/held_out_v2.json \
-    --output_dir output/experiments/<model>/held_out_v2 \
+    --output_dir output/experiments/<model>/suite_pool_held_out_v2 \
     --max_total_tokens 200000 --max_tool_calls 30
 
 # A generated bank also needs its own input and family manifest
@@ -15,11 +17,11 @@ python scripts/run_experiments.py run --arms ordinary \
     --input final_dataset/generated/fhir_native.csv \
     --split_manifest manifests/generated/fhir_native.split.json \
     --families manifests/generated/fhir_native.families.csv \
-    --output_dir output/experiments/<model>/fhir_native \
+    --output_dir output/experiments/<model>/suite_generated \
     --max_total_tokens 200000 --max_tool_calls 30
 ```
 
-Only `ordinary` arms apply. The recovery and variability arms are tied to the frozen split.
+Only `ordinary` arms apply; the recovery and variability arms are tied to the frozen split. Name output directories `suite_<name>`: `held_out_v2` is already the directory of the frozen multi-agent v2 results. `scripts/submit_question_suites.sh` prints (or, with `SUBMIT=1`, submits) every suite for one model on Compute2, one job at a time.
 
 ## Pools of unsampled released questions
 
@@ -42,63 +44,92 @@ The `out_of_scope` pool asks question types the proposal excluded. Report it sep
 
 ## Full-record oracle
 
-`scripts/fhir_oracle.py` (`RecordQuery`) extends `scripts/packet_query.py` as a subclass, because `packet_query.py` is pinned by hash in the frozen perturbation manifest. It evaluates a released EHRSQL query over the patient's complete FHIR record instead of a packet, and traces citations. Each main-table row is attributed to the resource that produced it, using the difference in projected rows with and without that resource. The query is then rewritten to select that source column:
+`scripts/fhir_oracle.py` (`RecordQuery`) extends `scripts/packet_query.py` as a subclass, through class attributes and three hooks. Those hooks were a behaviour-preserving refactor of `packet_query.py`; the rebuilt perturbation manifests have identical entries. The oracle evaluates a released EHRSQL query over the patient's complete FHIR record instead of a packet, and traces citations.
+
+Each main-table row is attributed to the resource that produced it, using the difference in projected rows with and without that resource. The query is then rewritten to select that source column:
 
 - selections cite the selected rows;
 - counts, existence checks and aggregates cite every row they reduce;
 - paired differences and comparisons cite each subquery's rows;
-- linked Medication, Specimen and parent microbiology resources are added to the citations.
+- linked Medication, Specimen and parent microbiology resources are added, and for transfers the Location of each answered care unit.
 
-`packet_query.py` does not trace resource IDs and has no `diagnoses_icd` relation, contrary to the planning notes. Diagnosis questions therefore remain unsupported.
+Beyond the packet oracle, the record projection adds:
+
+- **`diagnoses_icd` and `d_icd_diagnoses`**, from Condition resources (T008, T018: 35 released questions);
+- **`transfers`**, from hospital Encounter location periods named by Location (T026, T042);
+- **microbiology `test_name`**, and, when a query asks for them, antibiotic susceptibility columns: `ab_name`, `dilution_comparison`, `dilution_value`, and `interpretation` (the FHIR display, such as "Resistant"). These come from the test → organism → susceptibility Observation chain;
+- **prescription corrections.** 2,327 provider order entries (`medication-request-poe`) are MedicationRequests but not prescriptions, so they are left out. 651 pharmacy prescriptions have no `dispenseRequest.validityPeriod`; they start at `authoredOn`, truncated to the minute. These two causes, not mix naming or stay semantics, explained the earlier T001 and T051 gaps. The packet oracle still includes the order entries, which keeps the frozen perturbation proofs unchanged. Agents are not told about either kind, which may cost them prescription questions.
+
+**Stay semantics follow the agents' guidance** (`agent/ehr_semantics.py`): a stay still open at the assumed current time is the current stay, with no end, so it is not the "last" (completed) visit. The released labels were computed on the static database, where that stay already has its discharge. `RecordQuery(..., static=True)` evaluates that reading. A row is semantics-sensitive if the two readings differ. All the low T023–T027 agreement came from this: the static reading reproduces all 139 labels, which are all empty.
 
 `python scripts/fhir_oracle.py` checks the oracle against all 2,931 released labels:
 
-- **Supported:** 2,392 of 2,931 rows. The rest are unsupported, mostly because microbiology hospital membership is absent from FHIR (192), mixed prescription doses cannot be attributed to individual drugs (145), or the query uses an unprojected relation such as diagnoses or transfers (89).
-- **Agreement:** 95.1% of supported rows reproduce the SQL label.
-- **Citations:** mean gold-ID recall is 86.5%.
-- **Divergent templates:** T001 (73%), T051 (79%), T003, T006 and T066 (86%), and the durations T023, T024, T025 and T027 (29–43%). There, the FHIR projection and the raw MIMIC SQL disagree, for example on medication names inside mixes and on stay and prescription end times.
+- **Supported:** 2,540 of 2,931. Unsupported rows: microbiology hospital membership absent from FHIR (192), mixed prescription doses (145), and admission type (47).
+- **Left out:** 11 selections that order by an approximated prescription start.
+- **Agreement:** the oracle reproduces 96.1% of the remaining labels. Counting the static reading for semantics-sensitive rows (3.0%), it explains 99.2%.
+- **Citations:** mean gold-ID recall is 97.5%.
+- **Templates below 90% explained:** T003 and T066 (86%). T001 is now 100% and T051 94%.
+
+The planning notes' fixes for T001/T051 (keep discharge times; emit parent and component mix names) were measured and rejected. Neither changes T001 or T051 agreement, and emitting parent names drops T001 to 26%.
 
 ## FHIR-native generated questions (plan methods 2 and 3)
 
 `scripts/generate_fhir_questions.py` re-instantiates released questions for other patients. It does not need the raw MIMIC SQLite database or the EHRSQL parameter file, which are not in the repository. It uses the 2,931 released rows as skeletons (wording, SQL and slots). For each target patient it:
 
 1. swaps in the patient's subject ID and their most common released current-time anchor;
-2. redraws slot values from the patient's own record: lab, vital, output, drug (including the three-drug template), route, procedure, specimen, care unit, admission route, and a vital threshold at the patient's median value;
+2. redraws slot values from the patient's own record: lab, vital, output, drug (including the three-drug template), route, ICD procedure, diagnosis, specimen, antibiotic, care unit, admission route, and a vital threshold at the patient's median value. Slots of one table, such as specimen and antibiotic, are drawn from the same row, so they co-occur;
 3. evaluates the rewritten SQL with `RecordQuery`, which gives the answer and citations from the FHIR fields.
+
+Three **authored templates** cover multi-hop questions no released template asks (plan 4B):
+
+| Template | Question | Hops |
+| --- | --- | --- |
+| T076 | Susceptibility of the organism in the last {specimen} culture with susceptibility results to {antibiotic} | Culture → organism → susceptibility |
+| T077 | Antibiotics that organism was resistant to | Culture → organism → susceptibility |
+| T078 | Diagnosis {name} during the hospital stay of the last ICU visit | ICU stay → hospital admission → diagnosis |
+
+They have no released labels, so they skip the agreement gate. `tests/test_question_generation.py` checks them on a synthetic record.
 
 Safeguards:
 
-- A skeleton is used only if the oracle reproduces its own label, and its template reaches at least 90% agreement (`--min-agreement`). This excludes the divergent templates above.
-- Skeletons with absolute dates ("in 11/2161") are skipped.
-- Per (template, patient), at most one question with a non-empty answer is kept, plus one whose answer is empty, 0 or False for a concept present elsewhere in the patient's record. These scope tests are the positive/negative pairing from the plan.
-- Generated questions that repeat a released question are dropped.
+- **Agreement gate.** A skeleton is used only if the oracle explains its own label, and its template has at least 90% of supported labels explained (`--min-agreement`).
+- **No absolute dates.** Skeletons with absolute dates ("in 11/2161") are skipped.
+- **Approximated starts.** Selections that order by an approximated prescription start are not generated.
+- **Polarity pairing.** Per (template, patient), at most one question with a non-empty answer is kept, plus one whose answer is empty, 0 or False for a concept present elsewhere in the patient's record.
+- **No repeats.** Generated questions that repeat a released question are dropped.
+- **Answers follow the agents' stay semantics.** `semantics_sensitive` marks the 149 questions whose static-database answer differs. All are out-of-scope durations; none is in the in-scope samples.
 
 Outputs:
 
-- `final_dataset/generated/fhir_native.csv`: the released columns plus `source_question_id`, `polarity`, and `features`.
-- `manifests/generated/fhir_native.families.csv`: the family manifest.
-- `manifests/generated/fhir_native.split.json`: per patient pool, a family-stratified sample of 20 / 50 / 300 questions, plus each template's oracle agreement.
+- `final_dataset/generated/fhir_native.csv`: the released columns plus `source_question_id`, `polarity`, `features` and `semantics_sensitive`;
+- `manifests/generated/fhir_native.families.csv`;
+- `manifests/generated/fhir_native.split.json`: per patient pool, a family-stratified sample of 20 / 50 / 300 in-scope questions (`--split-families` to change), plus each template's agreement;
+- `manifests/generated/fhir_native.positive.split.json`: the same pools, positive questions only, taken one template at a time (held out: 300 questions over 60 templates, at most a handful each).
 
-`features` tags the reference hops each answer needs (`medication_mix`, `specimen_link`, `micro_organism_chain`, `icu_to_hospital`), so multi-hop subsets (plan 4B) can be cut from the bank. Questions about susceptibility and ICU-to-hospital diagnoses are not generated, because the projection has no relations for them.
-
-Of the 2,931 released rows, 1,498 serve as skeletons, covering 57 of the 69 templates the oracle supports. The bank holds 7,340 questions over all 94 patients:
+Of the 2,931 released rows, 1,798 serve as skeletons, covering 70 of the 74 supported templates. The bank holds 9,264 questions over all 94 patients and 73 templates:
 
 | Family | Positive | Negative | Total |
 | --- | --- | --- | --- |
-| lookup_counting | 1,445 | 1,108 | 2,553 |
-| numerical_aggregation | 552 | 670 | 1,222 |
-| temporal_selection | 1,394 | 1,253 | 2,647 |
-| out_of_scope | 485 | 433 | 918 |
-| **All** | **3,876** | **3,464** | **7,340** |
+| lookup_counting | 1,933 | 1,377 | 3,310 |
+| numerical_aggregation | 568 | 674 | 1,242 |
+| temporal_selection | 1,744 | 1,521 | 3,265 |
+| out_of_scope | 639 | 808 | 1,447 |
+| **All** | **4,884** | **4,380** | **9,264** |
 
-Feature tags: `icu_to_hospital` 2,446, `specimen_link` 1,199, `medication_mix` 207, `micro_organism_chain` 6. Organism chains are rare because most organism questions need microbiology hospital membership, which the FHIR record does not carry.
+That includes 163 T001, 144 T051, 93–124 per duration template (T023–T027), and 347 authored questions (77 T076, 118 T077, 152 T078).
 
-The split manifest samples the three in-scope families only (`--split-families` to change); out-of-scope rows stay in the bank.
+Feature tags, for cutting multi-hop subsets:
 
-- **Held out:** 300 questions (119 / 57 / 124), 153 positive and 147 negative; answer kinds 208 value, 62 empty, 30 null value. Filter on `polarity` for a positive-only set.
-- **Pilot / dev:** 20 and 50 questions.
+- `icu_to_hospital` 2,544
+- `specimen_link` 1,465
+- `medication_mix` 316
+- `susceptibility_chain` 195
+- `icu_to_diagnosis` 152
+- `micro_organism_chain` 109
 
-Procedure slots draw only ICD-coded procedures. The projection also files ED and ICU procedure events under `procedures_icd`, and those names are not EHRSQL procedures. `--resplit` rebuilds the split manifest from an existing bank without regenerating.
+The balanced held-out sample has 300 questions (127 / 48 / 125), 161 positive and 139 negative.
+
+Procedure slots draw only ICD-coded procedures. The projection also files ED and ICU procedure events under `procedures_icd`, and those names are not EHRSQL procedures. `--resplit` rebuilds both split manifests from an existing bank without regenerating.
 
 ## Finisher paraphrases (plan 6A)
 
@@ -116,14 +147,23 @@ The router's verdict on every rewrite is checked. All 994 rewrites of 497 questi
 | Kind | Eligible | Selected | Description |
 | --- | --- | --- | --- |
 | `link_target` | 22 | 19 | A Medication or Specimen that a visible main-table record links to |
-| `tie_peer` | 1 | 1 | A tie set keeps its earliest cited record; the rest are removed |
+| `tie_peer` | 2 | 2 | A tie set (T052, T055) keeps its earliest shown tied record; the other shown ones are removed |
 | `k_record` | 18 | 18 | The smallest k (2–5) most recent cited records that changes a count, existence check or aggregate |
 
-The runtime keys omissions by question, so each question gets at most one kind, assigned rarest kind first. That leaves 38 entries.
+The runtime keys omissions by question, so each question gets at most one kind, assigned rarest kind first. That leaves 39 entries.
 
 `--verify-manifest` rebuilds every entry from local sources.
 
-Only 17 frozen held-out questions have multi-value answers, and most of them (T051) fail the visible-query reproduction check. That is why `tie_peer` yields a single question.
+Tie-set references are checked over the full record with `RecordQuery`, not over the truncated packet. Each tie entry records `intact_packet_reproduces`. Tied organisms may be removed even though their test references them.
+
+The frozen held-out split still yields only 2 tie sets:
+
+- only 17 of its questions have multi-value answers;
+- 4 are min/max/avg ties, not selections;
+- 3 fail the full-record check and 2 need microbiology hospital membership;
+- the rest show fewer than two tied records in the packet.
+
+More would need perturbations outside the frozen 300, which `load_perturbations` does not allow.
 
 `omit_from_packet` also redacts references to an omitted resource, so a link-target omission hides the link as well as the name.
 
@@ -132,11 +172,19 @@ Only 17 frozen held-out questions have multi-value answers, and most of them (T0
 ```bash
 python scripts/run_experiments.py run --arms recovery \
     --perturbations manifests/perturbations_multi.json \
-    --output_dir output/experiments/<model>/held_out_multi \
+    --output_dir output/experiments/<model>/suite_multi_perturbations \
     --max_total_tokens 200000 --max_tool_calls 30
 ```
 
-This runtime change alters the code fingerprint, so result files written before it now show as stale. `manifests/perturbations.json` was rebuilt for the new omitter hash; its 50 entries are unchanged.
+This runtime change alters the code fingerprint, so result files written before it now show as stale. `manifests/perturbations.json` was rebuilt for the new omitter and oracle hashes; its 50 entries are unchanged.
+
+## Re-stamping saved results
+
+`scripts/restamp_run_identities.py <output dirs>` moves saved run identities to the current code fingerprint. It prints a dry run unless `--apply` is given. It refuses unless the fingerprinted files differ from `4ecbe0d~1` only in `tools/perturbation.py`, and it re-stamps only identities whose `code_hash` equals that commit's fingerprint in the current environment (same package versions).
+
+A recovery identity also needs its `perturbations_hash` to be the old manifest's, with identical entries in the new one. Each changed file keeps a `.bak` copy, and `restamp_log.json` records what changed.
+
+The planning notes counted 1,400 stale baseline runs. Those are v1-era results produced by different agent code, so they are left alone. Only the multi-agent v2 `held_out_v2` results, whose code hash is `4ecbe0d~1`'s fingerprint, can be re-stamped honestly.
 
 ## Graded demo questions (plan 6B)
 
@@ -145,9 +193,9 @@ This runtime change alters the code fingerprint, so result files written before 
 ## Rebuilding
 
 ```bash
-python scripts/fhir_oracle.py                       # oracle agreement with the released labels (~3 min)
+python scripts/fhir_oracle.py                       # oracle agreement with the released labels (~5 min)
 python scripts/build_question_pools.py              # manifests/pools/*.json (~2 min)
-python scripts/generate_fhir_questions.py           # final_dataset/generated/fhir_native.csv (~25-45 min)
+python scripts/generate_fhir_questions.py           # final_dataset/generated/fhir_native.csv (~60 min)
 python scripts/build_paraphrases.py                 # final_dataset/generated/paraphrases.csv
 python scripts/build_multi_perturbations.py         # manifests/perturbations_multi.json (~4 min)
 python scripts/build_multi_perturbations.py --verify-manifest manifests/perturbations_multi.json

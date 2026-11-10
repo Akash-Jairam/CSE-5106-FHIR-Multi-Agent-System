@@ -30,6 +30,10 @@ Writes, under --name (default fhir_native):
                                               patient pools as split.json,
                                               sampling in-scope families
                                               (--split-families to change)
+  manifests/generated/<name>.positive.split.json
+                                              the same pools, positive
+                                              questions only, spread evenly
+                                              over templates
 
 --resplit rebuilds only the split manifest from an existing bank.
 
@@ -73,7 +77,47 @@ SLOT_SOURCES = {
     "spec_name": ("microbiologyevents", "spec_type_desc"),
     "careunit": ("icustays", "first_careunit"),
     "admission_route": ("admissions", "admission_location"),
+    "diagnosis_name": ("d_icd_diagnoses", "long_title"),
+    "ab_name": ("microbiologyevents", "ab_name"),
 }
+# Authored templates for multi-hop questions no released template asks (plan 4B):
+# culture -> organism -> susceptibility, and ICU stay -> hospital admission -> diagnosis.
+# They have no released labels, so they skip the agreement gate.
+PLACEHOLDER_PATIENT = 99999999
+_LAST_SUSCEPTIBILITY_CULTURE = (
+    "microbiologyevents.charttime = ( SELECT microbiologyevents.charttime FROM microbiologyevents WHERE "
+    f"microbiologyevents.subject_id = {PLACEHOLDER_PATIENT} AND microbiologyevents.spec_type_desc = 'SPEC0' AND "
+    "microbiologyevents.ab_name IS NOT NULL ORDER BY microbiologyevents.charttime DESC LIMIT 1 )")
+AUTHORED = [
+    {"template_id": "T076", "family": "temporal_selection", "main_table_name": "microbiologyevents",
+     "template": "What was the susceptibility of the organism in patient {patient_id}'s last {spec_name} culture "
+                 "with susceptibility results to {ab_name}?",
+     "question": f"What was the susceptibility of the organism in patient {PLACEHOLDER_PATIENT}'s last spec0 culture "
+                 "with susceptibility results to ab0?",
+     "sql_query": "SELECT DISTINCT microbiologyevents.interpretation FROM microbiologyevents WHERE "
+                  f"microbiologyevents.subject_id = {PLACEHOLDER_PATIENT} AND microbiologyevents.spec_type_desc = "
+                  f"'SPEC0' AND microbiologyevents.ab_name = 'AB0' AND {_LAST_SUSCEPTIBILITY_CULTURE}",
+     "slots": {"spec_name": "spec0", "ab_name": "ab0"}},
+    {"template_id": "T077", "family": "temporal_selection", "main_table_name": "microbiologyevents",
+     "template": "Which antibiotics was the organism in patient {patient_id}'s last {spec_name} culture with "
+                 "susceptibility results resistant to?",
+     "question": f"Which antibiotics was the organism in patient {PLACEHOLDER_PATIENT}'s last spec0 culture with "
+                 "susceptibility results resistant to?",
+     "sql_query": "SELECT DISTINCT microbiologyevents.ab_name FROM microbiologyevents WHERE "
+                  f"microbiologyevents.subject_id = {PLACEHOLDER_PATIENT} AND microbiologyevents.spec_type_desc = "
+                  f"'SPEC0' AND microbiologyevents.interpretation = 'Resistant' AND {_LAST_SUSCEPTIBILITY_CULTURE}",
+     "slots": {"spec_name": "spec0"}},
+    {"template_id": "T078", "family": "lookup_counting", "main_table_name": "diagnoses_icd",
+     "template": "Has_verb patient {patient_id} been diagnosed with {diagnosis_name} during the hospital stay of "
+                 "their last icu visit?",
+     "question": f"Has patient {PLACEHOLDER_PATIENT} been diagnosed with diag0 during the hospital stay of their "
+                 "last ICU visit?",
+     "sql_query": "SELECT COUNT(*)>0 FROM diagnoses_icd WHERE diagnoses_icd.icd_code IN ( SELECT "
+                  "d_icd_diagnoses.icd_code FROM d_icd_diagnoses WHERE d_icd_diagnoses.long_title = 'DIAG0' ) AND "
+                  "diagnoses_icd.hadm_id IN ( SELECT icustays.hadm_id FROM icustays WHERE icustays.subject_id = "
+                  f"{PLACEHOLDER_PATIENT} AND icustays.outtime IS NOT NULL ORDER BY icustays.intime DESC LIMIT 1 )",
+     "slots": {"diagnosis_name": "diag0"}},
+]
 FIXED_SLOTS = ("patient_id", "vital_value")
 RELATIVE_TIME = re.compile(r"^(null|exact-|rel-|mix-)")
 MAX_TRIALS = 12  # slot assignments evaluated per (skeleton, patient)
@@ -103,10 +147,23 @@ def relative_only(values):
     return all(RELATIVE_TIME.match(t.get("type", "")) for t in values.get("time_placeholder", {}).values())
 
 
+def authored_skeletons():
+    """The authored templates as skeleton rows in the released dataset's columns."""
+    return pd.DataFrame([{
+        "question_id": f"authored-{t['template_id']}", "question": t["question"], "sql_query": t["sql_query"],
+        "true_answer": "[]", "assumption": None, "patient_fhir_id": None, "template": t["template"],
+        "val_dict": repr({"val_placeholder": {"patient_id": PLACEHOLDER_PATIENT, **t["slots"]}, "op_placeholder": {},
+                          "time_placeholder": {}}),
+        "proc_query": None, "main_table_name": t["main_table_name"], "mappable_to_fhir": True, "true_fhir_ids": "{}",
+        "family": t["family"], "template_id": t["template_id"], "excluded_reason": "", "split": "authored",
+    } for t in AUTHORED])
+
+
 def record_values(query, packet):
-    """{slot kind: sorted distinct values} present in the patient's projected record."""
+    """{slot kind: sorted distinct values} present in the patient's projected record, plus the
+    projected `rows` so slots read from one table can be drawn together."""
     rows = query._rows(packet)
-    values = {}
+    values = {"rows": rows}
     for kind, (table, column, *where) in SLOT_SOURCES.items():
         found = {row.get(column) for row in rows.get(table, [])
                  if row.get(column) and (not where or row.get(where[0]) == where[1])}
@@ -198,6 +255,10 @@ def features(query, cited, packet):
         tags.add("micro_organism_chain")
     if query.main_table in ("icustays", "chartevents", "outputevents") and "admissions" in query.tables:
         tags.add("icu_to_hospital")
+    if query.susceptibility:
+        tags.add("susceptibility_chain")
+    if query.main_table == "diagnoses_icd" and "icustays" in query.tables:
+        tags.add("icu_to_diagnosis")
     return sorted(tags)
 
 
@@ -209,6 +270,14 @@ def slot_assignments(skeleton, available, rng):
     if not slots:
         return [{}]
     choices = []
+    tables = {SLOT_SOURCES[slot_kind(name)][0] for name in slots}
+    if len(slots) > 1 and len(tables) == 1 and "rows" in available:
+        # Slots of one table (specimen and antibiotic) are drawn from the same row, so they co-occur
+        columns = {name: SLOT_SOURCES[slot_kind(name)][1] for name in slots}
+        rows = [r for r in available["rows"].get(tables.pop(), []) if all(r.get(c) for c in columns.values())]
+        combos = sorted({tuple(r[columns[name]] for name in slots) for r in rows})
+        rng.shuffle(combos)
+        choices = [dict(zip(slots, combo)) for combo in combos[:MAX_TRIALS // 2]]
     for _ in range(MAX_TRIALS * 3):
         picked, used = {}, set()
         for name in slots:
@@ -254,12 +323,15 @@ def generate_for_patient(skeletons, patient, anchor, packet, rng, existing=froze
                     values, cited = query.run_traced()
                 except UnsupportedQuery:
                     continue
+                if query.inferred_start and query.rule == "selection":
+                    continue  # ordering by an approximated prescription start is not reliable
                 polarity = "negative" if is_negative(values) else "positive"
                 if polarity in kept:
                     continue
                 kept[polarity] = {**row, "source_question_id": skeleton["question_id"], "polarity": polarity,
                                   "true_answer": format_answer(values), "true_fhir_ids": repr(cited),
                                   "features": ",".join(features(query, cited, packet)),
+                                  "semantics_sensitive": semantics_sensitive(row, packet, values),
                                   "split": "generated", "mappable_to_fhir": True}
                 if len(kept) == 2:
                     break
@@ -269,23 +341,46 @@ def generate_for_patient(skeletons, patient, anchor, packet, rng, existing=froze
     return rows
 
 
-def valid_skeletons(df, packets, min_agreement=MIN_AGREEMENT):
-    """Rows whose own label the full-record oracle reproduces, without absolute dates, from
-    templates where the oracle reproduces at least `min_agreement` of the labels it supports.
+def semantics_sensitive(row, packet, values):
+    """Whether the static-database reading of stays open at the current time gives another answer."""
+    try:
+        static, _ = RecordQuery(row, packet, static=True).run_traced()
+    except UnsupportedQuery:
+        return True
+    return format_answer(static) != format_answer(values)
 
-    Returns (skeletons, {template_id: agreement among supported rows}).
+
+def label_agrees(values, q):
+    reference = parse_reference(q["true_answer"])
+    single = values[0] if len(values) == 1 else values or None
+    return bool((not values and not reference)
+                or score_answer(single, q["true_answer"], q["question"], q["template"])["typed_correct"])
+
+
+def valid_skeletons(df, packets, min_agreement=MIN_AGREEMENT):
+    """Rows whose own label the full-record oracle explains, without absolute dates, from templates
+    where it explains at least `min_agreement` of the labels it supports.
+
+    A label is explained if the oracle reproduces it, or if it is the static-database
+    answer of a semantics-sensitive row (a stay open at the current time; the
+    generated answers follow the agents' guidance instead). Selections that order
+    by an approximated prescription start (no validityPeriod) are left out. Returns
+    (skeletons, {template_id: share of supported labels explained}).
     """
     outcomes = []
     for q in df.to_dict("records"):
+        packet = packets[q["patient_fhir_id"]]
         try:
-            answer, _ = RecordQuery(q, packets[q["patient_fhir_id"]]).run_traced()
+            query = RecordQuery(q, packet)
+            answer, _ = query.run_traced()
+            static, _ = RecordQuery(q, packet, static=True).run_traced()
         except UnsupportedQuery:
             continue
-        reference = parse_reference(q["true_answer"])
-        single = answer[0] if len(answer) == 1 else answer or None
-        agrees = bool((not answer and not reference)
-                      or score_answer(single, q["true_answer"], q["question"], q["template"])["typed_correct"])
-        outcomes.append((q["question_id"], q["template_id"], agrees, relative_only(ast.literal_eval(q["val_dict"]))))
+        if query.inferred_start and query.rule == "selection":
+            continue  # selection by an approximated prescription start: neither evidence for nor against
+        explained = label_agrees(answer, q) or (format_answer(static) != format_answer(answer)
+                                                and label_agrees(static, q))
+        outcomes.append((q["question_id"], q["template_id"], explained, relative_only(ast.literal_eval(q["val_dict"]))))
     outcomes = pd.DataFrame(outcomes, columns=["question_id", "template_id", "agrees", "relative"])
     agreement = outcomes.groupby("template_id").agrees.mean()
     trusted = set(agreement[agreement >= min_agreement].index)
@@ -376,6 +471,7 @@ def main():
         release(packet)
     print(f"{len(skeletons)} of {len(df)} released questions are usable skeletons "
           f"({skeletons.template_id.nunique()} of {len(agreement)} supported templates)")
+    skeletons = pd.concat([skeletons, authored_skeletons()], ignore_index=True)
 
     rng = random.Random(seed)
     rows = []
@@ -385,13 +481,15 @@ def main():
                                          rng, existing))
         release(packets[patient_fhir_id])
     generated = pd.DataFrame(rows).drop_duplicates("question_id").sort_values("question_id")
-    columns = list(pd.read_csv(args.input, nrows=0).columns) + ["source_question_id", "polarity", "features"]
+    columns = list(pd.read_csv(args.input, nrows=0).columns) + ["source_question_id", "polarity", "features",
+                                                                "semantics_sensitive"]
     generated = generated[columns]
 
     os.makedirs(GENERATED_DATA, exist_ok=True)
     os.makedirs(GENERATED_MANIFESTS, exist_ok=True)
     generated.to_csv(data_path, index=False)
-    source = families.set_index("question_id")
+    source = pd.concat([families.set_index("question_id"),
+                        authored_skeletons().set_index("question_id")[["family", "excluded_reason", "template_id"]]])
     family_rows = pd.DataFrame({
         "question_id": generated.question_id,
         "split": generated.split,
@@ -411,6 +509,38 @@ def main():
                    agreement, args.min_agreement)
 
 
+def template_spread(pool, size, seed):
+    """Up to `size` rows taking one per template in turn (seeded order within each template)."""
+    rng = random.Random(seed)
+    queues = {}
+    for template_id, group in pool.sort_values("question_id").groupby("template_id", sort=True):
+        rows = list(group.index)
+        rng.shuffle(rows)
+        queues[template_id] = rows
+    chosen = []
+    while len(chosen) < size and any(queues.values()):
+        for template_id in sorted(queues):
+            if queues[template_id] and len(chosen) < size:
+                chosen.append(queues[template_id].pop())
+    return pool.loc[chosen]
+
+
+def positive_manifest(generated, families, manifest, sampled, seed):
+    """A copy of `manifest` whose splits ask positive questions only, spread evenly over templates."""
+    merged = generated.merge(families[["question_id", "family", "template_id", "answer_kind"]], on="question_id")
+    merged = merged[merged.family.isin(sampled) & (merged.polarity == "positive")].reset_index(drop=True)
+    positive = json.loads(json.dumps(manifest))
+    for name, entry in positive["splits"].items():
+        patients = {p["patient_fhir_id"] for p in entry["patients"]}
+        chosen = template_spread(merged[merged.patient_fhir_id.isin(patients)], SPLIT_SIZES[name], seed)
+        entry.update({"question_ids": sorted(chosen.question_id),
+                      "family_counts": chosen.family.value_counts().sort_index().to_dict(),
+                      "answer_kind_counts": chosen.answer_kind.value_counts().sort_index().to_dict(),
+                      "template_counts": chosen.template_id.value_counts().sort_index().to_dict()})
+    positive["polarity"] = "positive"
+    return positive
+
+
 def write_manifest(generated, family_rows, split, args, data_path, families_path, split_path, seed, agreement,
                    min_agreement):
     manifest = split_manifest(generated, family_rows, split, args.split, data_path, families_path, seed,
@@ -420,6 +550,13 @@ def write_manifest(generated, family_rows, split, args, data_path, families_path
     with open(split_path, "w", encoding="utf-8") as stream:
         json.dump(manifest, stream, indent=2)
         stream.write("\n")
+    positive = positive_manifest(generated, family_rows, manifest, args.split_families, seed)
+    with open(split_path.replace(".split.json", ".positive.split.json"), "w", encoding="utf-8") as stream:
+        json.dump(positive, stream, indent=2)
+        stream.write("\n")
+    for name, entry in positive["splits"].items():
+        print(f"{name:9s} {len(entry['question_ids']):4d} positive questions over "
+              f"{len(entry['template_counts'])} templates")
     for name, entry in manifest["splits"].items():
         print(f"{name:9s} {len(entry['question_ids']):4d} questions  families={entry['family_counts']}")
 

@@ -19,7 +19,7 @@ from scripts.build_paraphrases import FINISHER_TEMPLATES, paraphrase_rows, rewri
 from scripts.build_question_pools import POOLS, per_template, pool_manifest, stratified
 from scripts.build_split import file_sha256
 from scripts.fhir_oracle import RecordQuery, format_answer, full_packet, release
-from scripts.generate_fhir_questions import instantiate, is_negative, slot_assignments, sql_literal
+from scripts.generate_fhir_questions import instantiate, is_negative, slot_assignments, sql_literal, template_spread
 
 from tools.perturbation import load_perturbations, omit_from_packet, removed_pairs, text_sha256, verified_omission
 from tools.starting_packet import build_starting_packet
@@ -100,6 +100,80 @@ class OracleTests(unittest.TestCase):
         self.assertEqual(format_answer([]), "[]")
 
 
+def extended_record():
+    """record() plus a diagnosis, a care-unit history and a culture with an organism and two results."""
+    base = record()
+    base["Encounter"][0]["location"] = [
+        {"location": {"reference": "Location/l1"}, "period": {"start": "2150-01-01T00:00:00", "end": "2150-01-02T00:00:00"}},
+        {"location": {"reference": "Location/l2"}, "period": {"start": "2150-01-02T00:00:00", "end": "2150-01-05T00:00:00"}}]
+    base["Location"] = [{"resourceType": "Location", "id": "l1", "name": "Emergency Department"},
+                        {"resourceType": "Location", "id": "l2", "name": "Medicine"}]
+    base["Condition"] = [{"resourceType": "Condition", "id": "c1", "subject": {"reference": f"Patient/{PATIENT}"},
+                          "encounter": {"reference": "Encounter/h1"},
+                          "code": {"coding": [{"system": "x/mimic-diagnosis-icd9", "code": "5715",
+                                               "display": "Cirrhosis of liver without mention of alcohol"}]}}]
+    micro = "http://mimic.mit.edu/fhir/mimic/CodeSystem/mimic-microbiology-"
+    subject, visit = {"reference": f"Patient/{PATIENT}"}, {"reference": "Encounter/h1"}
+    base["Specimen"] = [{"resourceType": "Specimen", "id": "s1", "subject": subject,
+                         "type": {"coding": [{"display": "Urine"}]}}]
+    base["Observation"] += [
+        {"resourceType": "Observation", "id": "t1", "subject": subject, "encounter": visit,
+         "specimen": {"reference": "Specimen/s1"}, "effectiveDateTime": "2150-01-02T10:00:00",
+         "code": {"coding": [{"system": micro + "test", "display": "URINE CULTURE"}]}},
+        {"resourceType": "Observation", "id": "o1", "subject": subject, "derivedFrom": [{"reference": "Observation/t1"}],
+         "effectiveDateTime": "2150-01-02T10:00:00",
+         "code": {"coding": [{"system": micro + "organism", "display": "ESCHERICHIA COLI"}]}}] + [
+        {"resourceType": "Observation", "id": rid, "subject": subject, "derivedFrom": [{"reference": "Observation/o1"}],
+         "effectiveDateTime": "2150-01-02T10:00:00", "code": {"coding": [{"system": micro + "antibiotic", "display": name}]},
+         "valueCodeableConcept": {"coding": [{"code": code, "display": {"S": "Susceptible", "R": "Resistant"}[code]}]},
+         "extension": [{"url": "x/dilution-details", "valueQuantity": {"value": value, "comparator": "<="}}]}
+        for rid, name, code, value in (("a1", "CEFAZOLIN", "S", 4), ("a2", "AMPICILLIN", "R", 32))]
+    return base
+
+
+class ExtendedOracleTests(unittest.TestCase):
+    def setUp(self):
+        self.packet = full_packet(extended_record(), PATIENT)
+
+    def tearDown(self):
+        release(self.packet)
+
+    def run_sql(self, sql, main, **options):
+        q = {**question(sql), "main_table_name": main}
+        return RecordQuery(q, self.packet, **options).run_traced()
+
+    def test_diagnoses_come_from_conditions(self):
+        answer, cited = self.run_sql(
+            "SELECT COUNT(*)>0 FROM diagnoses_icd WHERE diagnoses_icd.icd_code = ( SELECT d_icd_diagnoses.icd_code "
+            "FROM d_icd_diagnoses WHERE d_icd_diagnoses.long_title = 'Cirrhosis of liver without mention of alcohol' )",
+            "diagnoses_icd")
+        self.assertEqual(answer, [1])
+        self.assertEqual(cited, {"Condition": ["c1"]})
+
+    def test_transfers_come_from_hospital_care_unit_periods(self):
+        answer, cited = self.run_sql("SELECT transfers.careunit FROM transfers WHERE transfers.careunit IS NOT NULL "
+                                     "ORDER BY transfers.intime DESC LIMIT 1", "transfers")
+        self.assertEqual(answer, ["Medicine"])
+        self.assertEqual(cited, {"Encounter": ["h1"], "Location": ["l2"]})
+
+    def test_susceptibility_rows_only_when_asked_for(self):
+        answer, cited = self.run_sql("SELECT microbiologyevents.interpretation FROM microbiologyevents WHERE "
+                                     "microbiologyevents.ab_name = 'AMPICILLIN'", "microbiologyevents")
+        self.assertEqual(answer, ["Resistant"])
+        self.assertEqual(sorted(cited["Observation"]), ["a2", "o1", "t1"])
+        self.assertEqual(cited["Specimen"], ["s1"])
+        answer, _ = self.run_sql("SELECT microbiologyevents.org_name FROM microbiologyevents", "microbiologyevents")
+        self.assertEqual(answer, ["ESCHERICHIA COLI"])  # one organism row, not one per antibiotic
+        answer, _ = self.run_sql("SELECT microbiologyevents.test_name FROM microbiologyevents", "microbiologyevents")
+        self.assertEqual(answer, ["URINE CULTURE"])
+
+    def test_static_semantics_keep_the_discharge_of_a_stay_open_at_the_current_time(self):
+        sql = ("SELECT COUNT(*) FROM admissions WHERE admissions.subject_id = 1 AND admissions.dischtime IS NOT NULL")
+        q = {**question(sql), "main_table_name": "admissions", "assumption": "Assume the current time is 2150-03-02 00:00:00."}
+        self.assertEqual(RecordQuery(q, self.packet).run_traced()[0], [1])
+        self.assertEqual(RecordQuery(q, self.packet, static=True).run_traced()[0], [2])
+
+
 class GeneratorTests(unittest.TestCase):
     SKELETON = {
         "question_id": "q1", "patient_fhir_id": "source",
@@ -141,8 +215,33 @@ class GeneratorTests(unittest.TestCase):
         choices = slot_assignments(skeleton, {"drug_name": ["X", "Y", "Z"]}, random.Random(0))
         self.assertTrue(choices)
         self.assertTrue(all(c["drug_name1"] != c["drug_name2"] for c in choices))
-        unknown = {"val_dict": repr({"val_placeholder": {"patient_id": 1, "diagnosis_name": "x"}})}
+        unknown = {"val_dict": repr({"val_placeholder": {"patient_id": 1, "insurance_name": "x"}})}
         self.assertEqual(slot_assignments(unknown, {}, random.Random(0)), [])
+
+    def test_slots_of_one_table_are_drawn_from_the_same_row(self):
+        skeleton = {"val_dict": repr({"val_placeholder": {"patient_id": 1, "spec_name": "s", "ab_name": "a"}})}
+        rows = {"microbiologyevents": [{"spec_type_desc": "URINE", "ab_name": "AMPICILLIN"},
+                                       {"spec_type_desc": "BLOOD CULTURE", "ab_name": "VANCOMYCIN"}]}
+        available = {"rows": rows, "spec_name": ["BLOOD CULTURE", "URINE"], "ab_name": ["AMPICILLIN", "VANCOMYCIN"]}
+        choices = slot_assignments(skeleton, available, random.Random(0))
+        self.assertEqual(sorted(map(str, choices[:2])), sorted(map(str, [
+            {"spec_name": "URINE", "ab_name": "AMPICILLIN"}, {"spec_name": "BLOOD CULTURE", "ab_name": "VANCOMYCIN"}])))
+
+    def test_authored_templates_answer_from_the_record(self):
+        from scripts.generate_fhir_questions import AUTHORED, PLACEHOLDER_PATIENT, authored_skeletons
+        packet = full_packet(extended_record(), PATIENT)
+        record_patient = {"patient_fhir_id": PATIENT, "subject_id": 1}
+        expected = {"T076": ({"spec_name": "URINE", "ab_name": "AMPICILLIN"}, ["Resistant"]),
+                    "T077": ({"spec_name": "URINE"}, ["AMPICILLIN"])}
+        for skeleton in authored_skeletons().to_dict("records"):
+            if skeleton["template_id"] not in expected:
+                continue
+            slots, answer = expected[skeleton["template_id"]]
+            row = instantiate(skeleton, record_patient, None, slots)
+            self.assertNotIn(str(PLACEHOLDER_PATIENT), row["question"] + row["sql_query"])
+            self.assertEqual(RecordQuery(row, packet).run_traced()[0], answer, skeleton["template_id"])
+        self.assertEqual({t["template_id"] for t in AUTHORED}, {"T076", "T077", "T078"})
+        release(packet)
 
     def test_generated_bank_is_runnable_when_built(self):
         path = ROOT / "manifests" / "generated" / "fhir_native.split.json"
@@ -153,6 +252,47 @@ class GeneratorTests(unittest.TestCase):
         self.assertEqual(len(frame), len(manifest["splits"]["held_out"]["question_ids"]))
         released = pd.read_csv(ROOT / "final_dataset" / "questions_answers_sql_fhir.csv", usecols=["question_id"])
         self.assertFalse(set(frame.question_id) & set(released.question_id))
+
+
+class PositiveSplitTests(unittest.TestCase):
+    def test_template_spread_takes_templates_in_turn(self):
+        pool = pd.DataFrame({"question_id": [f"q{i}" for i in range(12)], "template_id": ["T1"] * 9 + ["T2"] * 2 + ["T3"]})
+        chosen = template_spread(pool, 6, 0)
+        self.assertEqual(chosen.template_id.value_counts().to_dict(), {"T1": 3, "T2": 2, "T3": 1})
+        self.assertEqual(len(template_spread(pool, 50, 0)), 12)
+
+
+class SourceAndRestampTests(unittest.TestCase):
+    def test_decompressed_sources_match_their_frozen_archives(self):
+        from scripts.build_perturbations import source_matches
+        with tempfile.TemporaryDirectory() as directory:
+            source = os.path.join(directory, "source.json")
+            Path(source).write_text(json.dumps({"fhir_source_sha256": "h", "files": [
+                {"file": "MimicPatient.ndjson.gz", "sha256": "x"}, {"file": "MimicCondition.ndjson.gz", "sha256": "y"}]}))
+            fhir = os.path.join(directory, "fhir")
+            os.makedirs(fhir)
+            Path(fhir, "MimicPatient.ndjson").write_text("{}\n")
+            self.assertFalse(source_matches(fhir, "h", source))  # a frozen file is missing
+            Path(fhir, "MimicCondition.ndjson").write_text("{}\n")
+            self.assertTrue(source_matches(fhir, "h", source))
+            self.assertFalse(source_matches(fhir, "other", source))
+
+    def test_restamp_moves_only_identities_of_the_old_code(self):
+        from scripts.restamp_run_identities import plan
+        with tempfile.TemporaryDirectory() as directory:
+            for name, identity in {"old.json.run.json": {"code_hash": "old"},
+                                   "recovery.json.run.json": {"code_hash": "old", "perturbations_hash": "p-old"},
+                                   "other.json.run.json": {"code_hash": "older"},
+                                   "stale.json.run.json": {"code_hash": "old", "perturbations_hash": "p-other"},
+                                   "current.json.run.json": {"code_hash": "new"}}.items():
+                Path(directory, name).write_text(json.dumps(identity))
+            changes, skipped = plan(directory, "old", "new", ("p-old", "p-new"))
+            self.assertEqual({p.name: sorted(f) for p, f in changes},
+                             {"old.json.run.json": ["code_hash"],
+                              "recovery.json.run.json": ["code_hash", "perturbations_hash"]})
+            self.assertEqual(sorted(p.name for p in skipped), ["other.json.run.json", "stale.json.run.json"])
+            changes, _ = plan(directory, "old", "new", None)  # manifest entries changed: recovery stays stale
+            self.assertEqual([p.name for p, _ in changes], ["old.json.run.json"])
 
 
 class PoolTests(unittest.TestCase):
