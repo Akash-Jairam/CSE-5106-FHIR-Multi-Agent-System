@@ -1,0 +1,995 @@
+question_id,split,family,excluded_reason,template_id,template,main_table_name,answer_kind
+00abc0678bfaafe13ffbfbdc,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+01248ce32a385bac70dca8b1,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+013a9640a58b1469f033ba84,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+0175bf6039f34b82b8d7171c,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+01d70b4af468df35d3eda78d,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+01ee8da724b1f0f88b84ee10,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+02820141ed1ac8cfcd37e6c5,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+02ad4150ea4778a357c490c9,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+02b2925cbfa03b847d9fb123,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+032e1ddffa676ad50950674f,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+034dd0931d97f61c9d348d06,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+0382e46cef10c7e70b8a4b48,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+0426bb66bd103eda82f9c700,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+042d27cc1f4b8551fac2f2c4,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+044955b5c241bcc6191c8e38,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+04539ea95e2022965778b104,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+04a9b01d96e6391855d3c3d7,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+04d31cbf28c4cffc9d4a0bef,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+051e726b902b5776d54cad96,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+052742f37f618abbc7108ddd,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+052b9c208a1f4d240c7849f0,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+0549c8ea042e84538b2255b4,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+054e5154c2f257d8c9c0a14f,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+05551693b1c8d5f000740a1c,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+055da9ab273a8d0b3236af17,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+057a0010c29251449dc5729f,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+05d3cf73873b158e071bfeb6,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+063abaf72a3edddb59f54844,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+066ab785ff069e100fd5a9b3,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+068cb6a30b7af7286af16a06,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+06c0b9b456e39c7d55f59996,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+06ee9593ad474190ce21be73,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+070e9009e5a67fcc209e93c4,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+0719b473883a5e345e1574cd,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+0786cb3c4ff3521db910babc,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+079322a142f72f5e82d50d10,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+07bb08cbbd6c96bae8edf1c2,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+07dabf3249a3390c5683d8d8,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+082d76acf229dc7bb9dc8884,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+0834a367fce3117dd7d06e63,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+08721b6a164b105832f8cbcf,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+08b02676fbc7f4823098f49d,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+08fcd561b4f673fdee38655c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+0910a09d929290b19c0e33f7,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+091420f03d759023d4ca3026,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+09e496c1230bbf3b49a0547a,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+0a2510d1acc28beefb9a43e7,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+0a5b84ad5bf7016e58754d02,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+0a7a1c6275c1df3340908924,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+0adb3b70109844119af32c84,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+0b44b57f80af3d29059ed04f,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+0badd5766a97c7503de88c10,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+0c789f25e70fcf887b23b9ad,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+0d476c9d373e6a41be6918ad,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+0d6229741516fe6f4a44b79c,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+0e309e5e39f219c1632c5bdb,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+0e5c86c6d80a1408851ca218,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+0e6ba86340646e8c7ceb92e3,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+0e7b6f1995d54221aaf1b591,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+0edce39992f2bf1051365432,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+0ee2183d12baa8d4bf64fefe,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+0eea1516bfc6230b0151564c,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+0f6653f71bca36185bf39f56,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+0f794e370a3da58b6c8df6fc,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+0f88b815ad338c1a988459cb,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+0f8a70f7d9e1370c28dfc363,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+0fa2cd89a0a44fec2a9f8f02,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+10be20266411eb7a00341823,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+10f3d16c0b71bc5a757221a0,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+1145285e2ab38b2917f795b9,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+117af262171a71eb405e8d75,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+1239df86e29c21f6458af2aa,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1243a45bade345ee3d7aa265,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+12e63a261c381f52884d4be9,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+134b2f63e159db91c280a81e,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1370d37c5db2668e6d2c3c60,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+13b15b81c6bede681d0d2ee0,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+13e3f7c536fcb110ba2be070,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+142c8625af6fde79e9c23ab6,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+146c706e5808c13cfec0822f,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+146d4c1b862aefff62d7ff49,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+148e3fa6686865658f34dc29,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+14e1c591b66e7f1935bca3e8,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+14e508d4003957bc488227bc,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+1555702fe651e916ed1a9151,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+157ffbdd5341a612dddd3748,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+15b145aa30d8f5313b9f97cf,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+15e29f5a079ebcd6ee082563,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+160b6e7860b999658920adb1,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+160e3748770ee7ddd6910625,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+162c342d6db2bc3eaf1c392f,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+169829efc48a77f7e3e19b9b,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+16a215ad3848f3e96f2f562b,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+17301bbc3052b455c89e5b17,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+174dae306073cd70de92ea23,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+1768f6378280b4b9cd63f114,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+178b65a76824aa991d181038,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1799581b5fa902f8707f96c7,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+17f19a5875dd45efb14e31cd,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+1819721c961ffcfefe366a63,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+18aa7f44f8608ab3916773f8,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+18f5ea988239d35032d33ef6,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+190a320f2b3e986775218994,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+192b0d16f57ffa159bd109a0,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+192e45be4fe0cc9465240d72,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+19433f4746e22ee795dbb787,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+19a8ff87fae1ff2af375108c,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+19e9f5640f7c53df8b11760f,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1a4dabbb4880a9042434618e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+1aade867f90688278395d01b,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+1ac0288d568a25e1dbf9a83c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+1ace4d87f5c9abe09aae3492,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1ae2c46f709c2bc3fb3df782,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+1afbfd7543138496d084a83f,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1b43cb0b3187dd2da357f1e9,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+1b92a4d9289ead9c4f5c8fd6,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1ba520ab3cac5f8618d31bef,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1c13d77e55030e9e797186bd,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+1c5aa24f515ef9fe18db1b6f,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1c6a0511a5c84703ba70c1ce,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1c9600587ac4969c02a15787,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+1c9785714f824811fb4f4508,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1c98e4296cff9c36c16e6dfc,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+1d72ce4316ebb82ea4ca467f,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+1dc582712033765c50c8fdc5,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+1dde5bbf70eda71d828f6d33,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+1de9e11a8b01af914c807726,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+1e3e4e4a456530bdfa1b1bbe,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1e53a6bc26b0e55d34ea16d9,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+1e5571178042470bab9596ba,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+1e734a9b4bc2962f04ca9bca,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1e7ac6230cad70b761e4dab5,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+1e83d2db30c8bf609662da84,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1e90d599b631d87045d4b5b3,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+1eb2d203b4d38ab557170fe0,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+1eb8096bf76c2f1b9db81465,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+1f5f1c40b82e9ae7c9d372dc,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+1fdbd33089fa77b75943e72d,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+2035418f91340ae6e2290b35,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+20c9f21e7af15d3b6b212409,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+218f94620a3d7dcdb40e7fc8,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+21e2c4c64074b3fea7903751,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+21e8bb85d3ec09eeee75561d,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+221715096bd151d96255564b,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+22264ebfae5e852c8669dcf2,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+22b0e80c7301e31c5882bb33,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+22c77776cba9028ab95c3ba1,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+231330e58801b56b5f0b8b25,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+2316abddc88d1ec133b9a142,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+2332ebd967460d80cdf7a8d0,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+23604afa0a9e51420623d8da,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+2365aa8a7ea205c6d48bb158,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+23bb8db19575115ea9e0d8c7,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+247ee4921e4cf1760ef9c220,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+24dfd2bd28d650faf319921d,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+256e38fbbc6a2c206c4156aa,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+25b7873171353acbb5ceeb1b,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+25f7ac211199e885f0b4aba7,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+26725566b35d2aa564497494,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+27a71929ac38dc34c2f94587,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+27c97f0da5b88e12145d041c,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+27cf558adecb781a7fdaf8c0,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+27ecedf97ddc8103ed82cce3,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+27f9bad46693e2e8b48edfed,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+2822d124e45d932c3247eddf,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+288d8de7781db5867a9f87d2,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+28e9ae2a8167c970640196ad,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+28ee6871a4e780364ff79404,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+29d480b2051399f54b4ce11f,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+2a4f9af6ca81335bfb396852,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+2aa8112acf7cd7587ca9880e,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+2aaf415d99f8c7a686ce1334,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+2abc6a6c2722fcbbe1ef520b,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+2b3964fb11dcfd16b3e85e9c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+2b774927ec8f77f7c9bf82d8,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+2b8dcbdc6adf1fc3980bb3a0,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+2bc40eeeded3509a679c9861,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+2be1564c21ffccda4ad6746d,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+2c849bb4a644568e331da6b5,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+2d4c1b99edf6f24ba4bc188f,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+2d70e2ce7ddcfe66a4e7127b,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+2de3273a356603a5f4f0a50c,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+2ded0a46668a9467b4992d33,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+2df49150450304e0a74df9d0,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+2e11d6f12d907f875822d167,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+2e2eaaa7a315c92d61f7f021,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+2e6c1d1b2d8aa84375b45ac0,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+2eb385dc961c10a40a9d67c4,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+2f29829aa558e498ebf96580,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+2f8a03675ac69b6e71289d7d,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+2fa1891a2bccfa9917b6a5fb,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+2fd16dfdeb3bdad1b2b9c038,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+3026f94ebde124b50ad961da,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+30b174dd6c0e9d4b78575a9f,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+30e1cf0e3cf5f6f2858d409a,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+313c5bb5bc395b9ac7eb6a0b,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+316c2c5e414b29fa15bfd305,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+31716f1b712c5a8f402858ca,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+319751cc527b45a24fe47c8d,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+31fdca1329def9dc7cf910b2,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+323cbd82dd6fb382a9213945,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+323cbdaa99829b450186508c,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+3243246839aa5dd3c8081cd4,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+32788bedc13fde4adaee0af6,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+32c93a577c97120c113acd2e,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+335668ba1c4eeb7a54f476e8,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+3361684496d6cbbaa097c4b0,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+3388eb1ba91ed3b6edfa24f0,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+34a80412f127493a66035879,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+34b8e583f04ebbd2d7260bb6,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+34ed6487741f0423356d927d,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+35042fdfc9995cb9f292a19e,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+352e2ee44b89f32c93932f3a,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+35831e6e24f0b6cc1328ac62,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+35b5559adbc5295dd4a03b22,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+35f7e302239feaff3deb5d04,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+35fcc7aee9e0326a55e19890,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+361931ef6f404171e1b4d65c,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+362e3345c0145ba8f480548b,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+3676d3cfb2a41cf3f6d65a09,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+3738dda4562bb51a9fbe17a7,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+376c2e081f1c7d69c9c4f6eb,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+3778c3a86a986a89cf673530,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+37a80a2f5cebd36db0c16d25,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+37bd9eafedac94f4c3cc3abe,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+37d50c020c5f68a3c5c5f43d,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+37dd1b33337497ba6fd61483,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+38692ef9f85681bcfa93777f,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+38ca0afd5c7033a9c9604ed7,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+38fe4f3eb5456b83bc61d746,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+393b17e3ee1e2bcd3160e79f,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+39903a63440b4c79df9892b2,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+39b0263086a6e1478c2b1152,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+39bada10a06872d31d114c4c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+3a077455bee12514decbfe1c,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+3a5c2fb0f4010077541a5e9c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+3a6f1916424127e8619a6cb0,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+3aebc8c5b4447e79dbf97f42,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+3b060fc91babe4aa4b9f3060,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+3b51003e202da4dc313c69ae,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+3b51a4cad2c421e7ffd22a5a,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+3b562faf0e129eef039692c3,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+3bbbbfbfd288cf4cc1dc16d5,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+3c23fc2c9d162f42b4211a09,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+3c987883edb3853daf04d912,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+3cfcea4a4722d867c2536d4d,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+3d04954538fc4bd4993b47b5,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+3d5ad8c4921b2ede47ea6c57,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+3d878533f166e276752b515e,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+3dd0e461a3b6c8a701247c61,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+3df79cd803329592a321f6ea,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+3e740914ca8b12a387d499e5,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+3ed8776ad95d667f29201c42,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+3f42a7bc31598fab310e79bd,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+3f46e166fb6573cb3b98d00f,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+3f6bd774758f60ba64214555,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+3f9d09299ab74c6a92b3418a,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+3feba0f5883873bfef8149ea,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+40029ae49db2d37ea876bada,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+40944b01126a8745d74260f5,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+40b10ffdc45d8d5011889d9a,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+40dc0861229fada14a901fec,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+40f2113218e237b65333d9a6,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+41429130bfb269472076faf2,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+41bd2d3199cbbdad9cae4f9a,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+41cf5256ff395fe3dfde990c,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+41dd8d95026fc000b8ae70ed,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+41ffe5860c5faabee3920c13,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+4285ac4dd518fbd1a8c7f624,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+42bb8602760e815dd731a704,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+43f640e8d74758f151cf39a4,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+4402b680a78a04eb63720b1d,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+440e4a46bb112b5804075c26,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+44318259769fac5026627ee3,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+444effde6d642afb6e6bad3c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+44650fb4021db696cd678a2d,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+44e7a2734b9f8067218317c0,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+451a717c1c39c89ed79e9f8c,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+452ef93711a1ac3edb5213fd,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+4558ac81b1588b9d99ddc865,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+4567ad766eabfaa83e5f27ed,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+459426e4b301aeb5cf800960,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+45a2da34777bfe03b496c909,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+4608c9639cab42cc71d14295,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+4632ff8a13b237b2ae719679,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+464643adf223cf676c9ed6f3,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+464991bd5440f9a2f0e7aaef,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+469698566f1f60ee6614335a,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+46a424bee60b9087900b71af,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+46c44432559dda0c52c20f55,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+46d7966ca83dcfef19a5afe1,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+472cd652403a9a9011cc40fc,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+4799e9ecd0d2ee52692dd4eb,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+47f69cb0ef6f3c5d1cda2770,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+48045e615b3c9a4d8c6f3d9c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+483af74bb23e8dcb1f37dce0,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+48701ccb57aabb4941775af2,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+48b41ab4835541f1b3258c30,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+48c0172b8028d7a000e672d2,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+48fb4e83fed049e936544cd8,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+4908c6e5567ea8ea16a53d35,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+4913059770435cbcf8fcc1cb,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+49397676571138c76b653cf3,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+4ae7949993fa5e87411e2024,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+4b24113ec3b6ffe6b04d7fc5,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+4b2cb0c1aca32d6952b12647,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+4b57dc45c0e8bcbfb63c93ec,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+4b639ac60e6aae91de537bb9,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+4c13f4082621c086dc2567ff,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+4c7ba2f499dbfdce416dc1fd,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+4c946a25dc87ed60d3e3859e,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+4cad5926705490c06ea0736f,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+4cc7bb8f7f1ff7099735193f,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+4cf5ec149f2caf35f5b56041,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+4d0d72b500d4b3f7910e89f6,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+4d30ce1e8a3516573e76e9d2,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+4d80a5100cfeb85d0139dd6f,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+4d9803266fd7adc50f1df342,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+4e34e2e91c48f633476d3c3e,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+4e7c65c6231082d0ef629b14,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+4ebf2a3544505b22b96f4923,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+4f3806d144a4eae7938900fa,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+500a7025c6ebf8e1cda10752,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+5013c84407bd2b00de071370,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+507cbc382cc41f28dfb660e4,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+508b4e114882c1842161acfb,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+51055a56661d13e60c8c9065,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+5117602bfd15734eef221764,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+51d220c2241baf1f97ea8918,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+52a9cdbab0c72a061996a054,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+52cd4fd55c76d4f4675bb4e4,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+53033d6637dc12807eefbfd6,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+530f9cdc3f01fba82045673f,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+536d99042781b7cdfbaf9e33,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+538bb03117e362a0aa81bcf0,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+53b4fb6f72bfd386986be974,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+540c1e8f503450fc80a94867,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+5555aa3b9aa42f337fa9479b,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+5555e9d8d4920ec139f326b1,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+559b657ef4843cb0ae9f20ea,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+55e148eb31836e36eaa3fc63,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+55f3a652f37868877b44ca93,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+568bee9a925f5e130759cbf3,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+56d7ac558dd7a6f8f3f99244,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+56e73d7e6e4228e95af85622,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+573df608b6ebcf9984dfc9d2,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+575ba1d7b8cd6153b7840b15,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+57619a4012190b3c78fa2b97,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+57a782ad0ebe889abf58d6b8,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+5801dc6c6e4b1c99a06fb6c3,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+5834f997bbd38e27436e095f,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+587bcd6c499a3f16e98e4bfe,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+58a587ee8081274d26e7de01,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+58c6cdc64222aa531b351273,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+58d862ff9a209b68ca16575c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+59089d0cf502130e37730943,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+592be6c13fd8799a64a60456,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+593fed94b1d30483f6122117,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+5a3907228a3c03abd44e6cd8,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+5abb36c3a7fe9f79ac387de8,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+5b152aa13bd7fbd7e4071d03,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+5b35f70f5398a924f50dfc23,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+5b488d7fda0796d91d283838,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+5b5f991090620c21e4ea0d11,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+5b767344c2f369057ff10d98,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+5b99d0474f4f401f86b85f84,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+5bb84aacbc327cd6c32ad381,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+5bc6fb4bca3905bc7bd90237,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+5bf82709fab5adaadcae5687,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+5c075b633be9fc06e1fccc9a,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+5c4c26182a315fc0e73ce0b7,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+5c8f90c28a0dcef383f67359,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+5c9e4af3d506506dd2e4a9b9,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+5ce9644c2fdb542b765d7e65,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+5daeb7de8fa22bfadf424642,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+5dfe03d901c0a70113663270,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+5e100cbc11022e4e5c44dd2f,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+5e97016943ac56a06e7dec38,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+5ecb668483fb79a3645189b0,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+5f36ceaeae2310e8b7a570ca,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+5f39ff902172db17003d14df,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+5f9a61e12afa7e6e687e0de9,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+600e9178229f0b99cacf2cb7,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+600fdbdd9d3c985d3b4aedd2,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+6091b7dae07c2f4ab8eb9eea,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+6096ea77bdf215f03363c5b2,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+611769112e732aef41141b2c,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+611ad6053567d2fa3fd695ae,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+611eb19dc051e9fc1d778aee,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+61497b3f249c5ec8d7b3170f,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+616eba909ca2b0eb365370a2,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+617d119fabf09125346c849b,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+61897babb70cc124f075c7c7,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+61bb0f0a6e32c39ec1a67fb5,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+61d51d5740922b001f7bb08d,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+6258957859040ceafe033719,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+6295739b8ca9727743da5b22,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+62fb130ce5bf1b3fd0cd4e3a,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+636031ec5744625ac6f79f8f,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+63c5beb767b077bb0f4bf131,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+6434fb1e80a194ab7864dc21,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+643777f2d93e587631f99b38,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+6463168baf4007d4aa25d459,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+64a062bc83725e24308b8f3e,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+64ff7bcc60aa3e281857da0e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+653c7cc46f4ec77c3a4e4e93,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+6563a7f76ce499e1bd9fed7c,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+658b8a3159c1c58ce03858df,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+6597d8a6074149b3020213bb,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+65f484cfa3b94540166b1a93,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+65f66553dbe0d309d833d776,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+6646a8430f767ab991bb3cc0,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+6691cb2260cb47bea67a70c1,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+66b5391c84bd1f4d81750565,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+66b8cb6fa8620c93491e45a7,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+66bdc7afdc2a08f54abdb776,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+66c40e19f6a756114d1629c9,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+66fffbe07c11f8fd39edff33,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+673550d271c649d55fd56939,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+678c8d6b91ccd339bb54d7c0,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+67b6dd7caad7fe6be7b81dd8,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+67c8482bcf49bf046c92cfb8,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+68519fb4c6b5b3c6e84f272b,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+68e263cc6265ecb27883a22d,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+6916d1bd155c44782e446eb0,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+699db8d9049a784ea54dd762,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+6a5a52c00afe300eee0799e1,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+6a87d199e0d0f8c4bdfcaa1d,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+6b37d8b60c446776c677e51f,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+6b4e77e6b270326faeb05783,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+6c63736a40bf0454304d96ff,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+6c6d240873d7f8b9c16d3ee4,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+6ca4c028ba78bcfcc09c7ac5,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+6d565c90d5705e75c3d158e2,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+6eb920d76c44331cedd1c7ab,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+6ec73ccdcec62173ac3fff02,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+6eed6f59ca356cc5ce6b5ffd,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+700b804bc6073a2db530e21b,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+70518b5da5cd7073eb5d53d9,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+7060d98210c5ddfe43069bb7,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+714daf05a08a02286bd29f83,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+719e51009ff9b66ddd2349df,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+71e7f25e648680027a474611,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+723c00745735dacf0d756e9d,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+724011e64213ee0ec2bbd0fb,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+725b3fd695c5f18d0ee1aa9e,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+73a7112534a5dbe8ae469550,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+73ae5e42baf6a4d371afcb5a,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+73d5d9afb5626234b084a2e0,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+73e53d6c8bb05e82891bce3c,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+740bec4743722527d4bbbd14,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+746fb1fec7197231862de540,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+74796017edda019bda2b775b,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+74c3429176a2ce521c64eb61,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+750336e30e62a5d6f2a1aab3,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+75136a6364db4b9f77b7b1e8,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+75491ac8bd45448fccb26b5d,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+75dae1bd923125e79817c94f,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+7608015c17625470bc603688,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+7649b895f83a8638e7802324,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+7699bc8f18895614b39d0b71,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+76c6bcdbe46bc69d448557bc,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+770280a655df3614b92ae723,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+777fd7df19cf5fc49ec668c6,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+7782ea2c652fabd6a942d243,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+77890652149e4a942181a654,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+783b5670cff171826d0cfea0,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+7841c34d1f94caf29eeeb95a,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+785d85572682bc4136427a36,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+7879403bdf085cdac6b7a526,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+78b16acfb159ae7115569aa9,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+78f07b5a05fd1c6bf01ba18b,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+7936088aaf590dd2df7b4169,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+793867bb9d4da8b98676cf6a,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+795562ce99b701294d325f72,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+7a110375c7a040d08c56d836,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+7a400283f5e34794daa06d4e,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+7a628c81cc536bee420cbbf0,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+7b11b05134966a3b002dd248,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+7b14589aded0467e03fc8f66,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+7b21280afd10cacc6c8db7a3,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+7b91b3bf49cc256b18e2ee56,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+7c2a01c32dc6521f260e2619,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+7ccbec6aac2c379ed15a1d56,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+7cd230b8e855dfad12a53fa1,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+7cf48e2dccf08c54d34ec741,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+7d61d0ddd7d2dc1496f7f15b,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+7d97aae50030bb669d08655e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+7db4574bdad8248bc8e03d22,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+7dcbb1ab31f9f72a862227a0,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+7df91afc8667f0942433d360,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+7e1b5dcc92fc875b9052011a,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+7e6c2e8c1270156ec50810dd,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+7e87e14910b55b2fdd9c5ba0,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+7e8804cb9c77d5934b211106,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+7ea5f47557710229b3d9e731,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+7ef0ce4de941087dad0ddf94,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+7f18147700841597964b68bd,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+7fe175ec7698c18459791a8b,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+7fee44b2de998028634aff04,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+800498e0b6d977f1dc5d2b1d,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+8051be52e054dd04646a3635,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+80adee008f9ed6f94df8ca2f,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+80da3f2f15f4b432d7c64fb5,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+811a88b0012a99600dba92d5,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+81a678e72bf551cd91d1f35d,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+81b41fd9e8d9cfdf7a65567d,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+81df77fcb06fdbea496e1274,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+81fb54baae151f2ae60796f9,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+8225f0564a802b20ba26e679,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+82a694751e613f7446454cd9,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+82f1d04116f258903726e496,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+832880972336174bd8d08bdb,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+8369fa53324539dab259f5e4,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+84035c1d4591dcd3e96b5e28,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+84ca3d2b16abf5bc6672ce90,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+84f2c29740a280c91dad1c57,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+852a83d9e6c1bd0213e28d70,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+855a64b279e4dc363b202312,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+855e3cba9cdfe6fe676adfbf,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+856b048254ec63ed201f65f6,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+8571103ec2ea72524d016fa6,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+8580de7f6188d79ecae2aff1,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+863be634e96011d2d3f2b5e5,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+8678a267de579ee7b49b7829,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+8692a6d9cb9dd4e24ea13eb3,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+8702891cf06fb6a28786b905,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+8785f10c6f6931579278b296,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+8799534cd26f1faca7f54def,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+87cd4aabfcc2598cda78da0c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+87d243200fc40aeb457cdcf5,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+87e0d56f3272879763a646dc,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+88b6731c9ea37f0d05c1936e,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+89488ddb8f36ec2e3a69caa1,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+89951f3920709c81ba5c347b,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+89f6be8639ed04eda58c3705,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+8a21febcf8a2a8e17d2c4301,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+8ac3ce02a13eac05ed87e19f,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+8b0fb17c308f73f7f9186919,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+8b884d88e9360e521b7bbcda,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+8b974d010bd19dc9b5c5eb9b,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+8bb5f39c6b5ba9eb4e19df6b,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+8bf1e1a8362c6c862de3bd8c,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+8bf753cc6c0321202a0df97b,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+8c0046ac8466e5baff11f9e8,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+8cbbf3b46af82fa81604f008,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+8d55d9d76b492c1c541c2d95,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+8dd47083f39351684537a4c1,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+8e16317d8551fab8d034be28,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+8e6aa66fd7d2d6860ccd325c,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+8e6d5be5378d78ceadfb88e4,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+8eb8e599542e017a060032b3,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+8f13ef153e248a68e992475f,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+8fc36d47c487db309deb24d6,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+8ffa79d5b07bcda58edb119b,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+90ba3dc6825161ca9ecb3fd0,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+90dab2c87827ce69fd6279e7,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+917b2380535a9d281ef511d0,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+9186e6894dbb52eca108620d,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+92099e27b552dd2f900bb5f9,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+923565e42dd1c26987cee4e6,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+92e8b3b4cbb230141a5f925e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+931457025e93e97e7cbad111,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+932a773fcbc4684c6936402a,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+937fc58c4b239b2596acaadc,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+93cfb3d913b06b93284e777d,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+94473f45dad1a2d6c736823c,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+949cea946413de65bc96f6ac,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+952916d0dd4bd9ffd4c01e8a,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+95319cac95c3eceb2fa374a5,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+959ea0a3de69c40a2fb2cf5a,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+96365a379df8ecb29ab48c7f,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+969c238954924b5df95c62f3,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+96a836f660792df1b615fa2d,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+96d37a9d69f81de74ede24c3,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+970bb3ed933600c885f95604,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+973ba3fbd5f866dc5043701a,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+97db0a4abeb0331f16887d42,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+97f77d6cbaf83019f8835d0e,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+983d4f78c6dfd0d47e8a7afd,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+984e7c0b926fba60552d784d,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+98addfe94891b7384956dcb8,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+98fcf26a8d1ddcdec9f6ad21,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+991873c92f3a90a60ca20ccf,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+992bb88a3b9ff966985c81e4,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+996c5cb15534f409e3342025,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+997799330eca758dbaec90f7,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+99d83d6b6fa907bfea148fca,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+9a3316c7ec63a838a873735e,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+9a74e222d0ed104234efd7ed,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+9aab8887a2ee15b16ba725e9,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+9af15a8624838e055883edf6,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+9b17ce5df12bf2748896bd45,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+9b3333cc98d4e80ff0ba0109,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+9ba834a281f0d8b44f83ddeb,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+9bda4f79db821d058d43e226,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+9bf49eddc90dc6bf22aa9c2e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+9c1287ef7d51408cf03633b4,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+9c62e1f3463b61b38225719f,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+9de6a09e68a58dd92454c964,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+9f4b0dd4c5f13be95ff9ead6,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+9fd3eca8d35de6dae42285b8,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+9fd958483a97b562bd85696b,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+a00496f9f184ee8ffeef698d,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a0140c76544e97bb2483e022,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+a0150ca100380c8d41125423,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+a0222be2092634eef80ab020,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+a024d026a850bd7ad703ed81,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+a05157885ef5cfd6811f3ea6,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+a12dd5b71beb814f00594195,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a15e457a2accc4087f7eb45c,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+a1b206c55136101cd8f92300,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a1e9e99d2a79536fb6b8f4e3,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+a2324f67d4c188534b162e33,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a288c82369ba752ea623d21a,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a2acf455f4ee02ed2bc990ea,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+a2de5fbe13206cad8f92819a,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a2f3be1e8eec845967b3313c,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a3002bdaad1c9d60a65fa42a,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+a3adb94d4b3082580d9625a3,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a3b2b076498dff1fd397e164,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+a43a7c3ef0f4a6882bc5bb06,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+a48600d1d9375273b9c05e0c,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+a48fd5fef6e34ac9ebc054da,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+a4ab7c4c12133156033883a1,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+a4fc51cc42d41650f56bf7be,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+a53cb28c5c7b0e68ed720170,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+a5dd9b6db0da2131b66a0cac,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+a620539adcae1706b042d22d,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a6d56ed5687fd670a2ad8f25,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+a6dcab216ed0a31af1874c70,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a6edbcf0ca70cdc337f40dd7,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+a6fcee57ad67a9ff3e101268,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+a735aa51dbe12a4f91a250dd,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+a814e751fb808865b01ba681,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a81bf38e55163b94b43e0f16,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a84651fd0620cadab5b39de6,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+a8486acac9de980088466abc,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a8d6eda0f84ddde09ad11b72,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a92fc457f442b65ae927a4ce,valid,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+a95c2dddbba1d63372c6cd29,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+a96a1b4561fd7b4374a222eb,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+a99c3040840713d7816fb6f3,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+aa3dc184edf765df99efb02d,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+aa41f89975d4cf476a319e58,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+aa48938fe80e1e1139333801,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+aa73f94f7ab70e5aee852a4c,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+aac728e5bae905d6ffa4cd6d,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+aacd7185d0fd6c79fa8e100d,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+aae38f38df56746c8c366c9c,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+ab18f38cc9bd3f0218bde37d,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+ab1dcc68c42b5034dd08811f,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+ab47b1d81c97b58e9aad0e0d,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+abb88a166e4c357d0bea6c06,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+ac800b4913d3228a4fa2a771,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+ac992579e95bfc7170078da0,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+ad004ec478d0c9dcdfac75c2,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+ad0150612ab3be6ec7ffc2d7,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+ad3d358a1a1fa90757908523,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+adc99118afd2c033f2b91859,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+ae901942142d6d3d9123920b,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+ae97bf83a9b9904acb672fae,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+aea07231e342090f477b70ba,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+aeb90888a3eff396a98f05b8,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+aed4ec7acd419280d678c808,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+af35810367c63bcba34211d3,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+afd7a0476de2827fe8b76e79,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+b01db1449759db75b1d6bcf5,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+b06d25cb93ee1404c530c7a9,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+b080622eb1c521f0d1814b44,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+b0ab76bcfb9eb2762cc32f87,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+b0bda7bb55a054af86c76069,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+b0ca90280760e86940c74cb0,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+b0d41c737e413efbaee372e9,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+b1cb63b462146af592fdd761,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+b1ce32594ddd616c6af518ca,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+b27a142cb10b8bfd2c454243,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+b28199b677d963c6d6ba498c,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+b2a667361494293037a46797,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+b2d18371614d091fc8f10b86,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+b319677a5c71ce8b6b9d39dc,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+b32dea82c946fffbde2c145c,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+b3439fe6e04074a54a62012e,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+b357c7b05356faab413f69f0,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+b361e3b746e5cd4bad250e5f,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+b37eaa7a8169e710f87e5147,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+b3aea9af7d650dbd6fbbd51b,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+b3b353fe6ac077162a28d94a,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+b41c128c2e796162eafa8722,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+b4ad5881603910a530126acb,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+b4b3b69309e1f95be8f757b8,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+b4df824fcd2b0d4aad0b47e1,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+b53443fb3764c64344e9b8f8,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+b6174439c72609d633335534,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+b639964649dfcdcb91a8e04c,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+b69f724035d9ba30e69fd7de,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+b6b024a392167546e6ae5d61,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+b731a9aa25a2d875f63112b5,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+b75adc66849f2ab58c1c630f,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+b78fe53019374b58ec9ef4cd,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+b7f665533d46c895d46e764e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+b80614e0cf5b8764096f36d0,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+b8097aa16de1d59241a150da,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+b81e16406153a8e1b77edc78,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+b84cfb8dd530e3fc8ca195db,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+b8929d0f5db931106becd86d,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+b8d9b7f5b39e6918825b4c91,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+b9488d8f83cda78b4c6d3331,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+b97766bb8bb8a4344b6d0627,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+b98cb98b2f48c7ff868b475f,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+b9a1c40d544e7a215c352e84,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+b9ce538888044ac75c9e92d3,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+b9f82570a422c8c1f2fdebab,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+ba0c12f85aa2febd97f286d4,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+ba1ed17efb37b59724a4a802,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+ba771bc713777db253fcaeab,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+ba7d85aa19b62377fc0fa888,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+bb59ce135c4f062da3a60570,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+bc320bcf209b0a2431e27011,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+bd2d2136ab69a3af88abddca,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+bd3ef862c3d285c1cf433484,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+bd83638cca682ea9ce16458c,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+bdc4708965c96b827358cde4,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+bdc8874a8b4edef56e4b174f,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+be10df4050b044c9e40dba52,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+be6e2dcf1b2880bfe0c83f43,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+bec0f537b2899147000ce614,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+becc480c8b7a6b2730c5638f,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+bf2f3e1e1085307f2e67150c,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+bf5ccde65672fbbf94a5e24d,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+bf9579b9b52b39b8a1c4bc2e,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+bfd69a70f9322e69c6ba1a97,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+bffbecc69fd2383d995623f8,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+c013ea6a9379c4b34f43b5b9,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+c022245f8c07a54a01d0f8a2,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+c023bb3aedee2611c9fabc58,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+c0400a30405ad8f1172e3339,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+c0af3b4effefdbfe21817fdb,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+c0c11fc7e91aed8c1806d330,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+c0da82a3d4faa7a35d99fdd2,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+c0dafe3a1955dfec74a2ba6c,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+c16b51b7e063992ad5a576be,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+c17093a7c2858b2ad64b11dd,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+c1dd56c494c24c9ef825d9b1,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+c20a205f3297e06060cd2b26,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+c21ea5b7f2d1c6b281e4d400,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+c233237a2be0fd8ff96c153e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+c2734156616fba5d96387f54,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+c2804d9ff5a82ae13a10a9c3,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+c29f8e9cc502675e97813ce7,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+c336a45403af78a187b18459,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+c34e60e59f503cc63c2539ae,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+c36ff713e4ba8b50b8b1578a,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+c3b5be9848f6ab013cd86948,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+c3c82bade93c5423374313e0,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+c4a1553b42e432c93a073edd,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+c4d97908825b1c5beba30ab6,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+c4e1e6d0dc404e7f7e519b17,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+c5330d6122535bae9d297989,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+c55eea6953bc223b8ab6242e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+c55f793dad7cb100e4d94867,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+c5d7575c2edf5e051b7d0e7e,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+c5f4bd1598fb2f13750da953,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+c63b33d9d135520ef5024ec6,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+c6468a6a485e5e1e0f5a714f,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+c66dde9f1b58eba32f18ff20,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+c6824a84a3820cef657b7088,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+c7966eb30cbd3ec3886dda36,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+c8236e129cc2c1cc5c2093d1,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+c8a1bc2a4fe6a1ab9e1fe1d9,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+c8baab9a10c3c9250525920a,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+c8dafadb2d951219867aec06,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+c9161b76106979d21b2e1099,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+c925fcee0752fabe302ecaa3,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+c97f97023b63671b578437b8,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+c986b5e63657061d2033e812,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+ca07f332b11be08d28d05da2,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+ca1cc6f47ddff0125c447523,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+ca3ee52e60d165d49b902956,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+ca793b66ebdf8eb1f1fbc5b3,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+ca82812d4202887ca9671ccc,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+caa1977dea4b9a1e05652c29,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+cac64fbfeeba7df4e8319c76,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+cacdc692579be8355356c498,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+cad170e1b9f33ad08f884cb2,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+cafdf08b73b9fdb57ef3fc8e,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+cb34d4a6225af3e51942fffe,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+cb3544e6585f6f75cfd4ad7c,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+cb37eb2e77fdd506d004fb5c,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+cb93783f8cbda87cfd59367d,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+cbac8bc7e0403490d6ff1f2e,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+cc253dd5be12594526983ea6,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+ccba727984d1e053540abec3,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+ccc3a9b1f6794e81f3f8421e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+cd5018b7f35ee43814e9bc8c,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+cd7639b149c57651134c2a04,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+cdd033da8a5ba41a87ce95de,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+cdffded7403f5b4418660fb9,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+ce26200ad162c026ed0391bb,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+ce6797f0c76d4f0c900bd3db,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+ce6d814655a949e566b592e6,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+cec623e99176d4cd8664c46a,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+ceceff91371ae81283598e5f,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+cf01fab05cb06beb3136a69d,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+cf13e9de77642a6313553d0c,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+cf18c641e394352c93cf506b,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+cf8dc091ef81f4fed24214ba,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d0007fcbedd0cc3a0ddd82e8,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d00f539fcabd4fab46017460,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+d034357c91bba75570f9e235,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+d048af3cc3db629d0d45af91,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+d04bd2c5bd1405cf3e6819a2,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d0ccc64b2ddd73e2cb1fab75,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+d0df2e52878f2b09d5d8a737,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+d186e1561ce0a5b9a70d3945,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+d201b7f5c57f54d7bd76bed6,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+d2d2001b5894f5700e4e00ec,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+d2ed2017b7064aa2481dd8fc,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d31cccc5c87d4be6b245c20c,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+d3391012c4f9dfff859e0f3e,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+d3835811435820af4fd69428,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d3bdc04e76ae9349b4cb6b62,test,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+d3c98d27936cdf7de9570cbe,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+d3d5f9d1a9325751db4a91fb,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+d41272abf40e2d8e77cdeef0,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+d4292410c6e4a832a9d33869,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+d438687d2bb1db4aa53ebd5d,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d44cd3bb235ed5fa299a8556,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d463e3cc977ca01ad9ab2eff,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+d470fd22c43a0b963988b0ab,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+d4b733b887b63350e87aaf6d,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+d53eec56b7fa45e526df47b8,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+d5582044ed581ab2098d3541,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+d55b301ef5606345260c4621,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+d5677056a2b82844b3053787,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+d581af99476e3a26d931e3a2,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+d5876442362dc96cc08d0918,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+d5a6f79e0ca5719b162da433,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+d5ae187e69bc3d45536d85fd,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+d6b25f7203f8a20bc7ee6a1b,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+d6e345dd20e1801520810023,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d706e1e89722c4c314027ad5,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d708e0031883358d8eba6ad5,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+d78b61df41935a37f017c78c,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+d7be2dc0d482f332d83680a4,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+d7e904a8064f6b51214b1c67,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+d7fb300c080c7fb68cb626f1,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d8877cb4130d156b94f40ae4,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+d8ed1517280bcc86cadc1e50,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+d93cce2918b93dfea8773520,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+d9ad31097ef851144c619754,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+d9fa1a6e05d871d418ce8755,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+da20bc9720883fe4f004f58a,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+da68be65d5837e4d39ae82f8,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+daada8106ee961b70124bf70,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+dab8edf0788e5c5ff822a068,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+db8397709049ac36ffe26765,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+db93cc76db6e073b85856a67,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+dba8a537e7b8ff71663c5252,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+dbb695c2e5d81830a48e8191,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+dbc6144940f8f9af58b5ff42,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+dc333c02d1e36c43812f611a,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+dc6ca9715216778c35d9a8ae,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+dc6dff607b39064baaf10d4c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+dc9bdc7aa44188c4b058b6cf,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+dcbb67dccedc4fa988041705,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+dcee260a9db2528da6905e4d,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+dd102d71befe85d355348ec5,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+de12065049c60bf7af7a169d,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+de732bc66f0fa841412d1c29,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+de916424631147d6c0962c68,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+df68eca8de34b9fec6cbf636,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+dfaea17b57ff2c16054520ad,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+dfc5cfb1d9070050f472fc62,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+dfcb237420508c7d3cda93a7,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+e05537aa92f09cfb51049d3e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+e0a55801303ff53896e98677,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,empty
+e11def9f4ccbcfb35373c053,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+e122393cdae7090bb09c6c43,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+e185b81e5326e1aefc54e8fa,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+e28948c9c2976f2ba6d0b16b,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+e2a99e405dab2a0fb81bd0a8,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+e2d4f487bcff80f79f5f41ce,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+e33ceaeace91f310589ec4ea,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+e37f5e329ed79c25fc36802a,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+e3dcdbebacf0d045f8ef9d8d,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+e4525558bd5cbc0a061c0066,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+e482f216a4c30a54e5a66ca1,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+e4fb4ba28a314c220d01b92b,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+e51ba2584cc04eb0ff95d8a5,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+e5a019727b2f6407df5762c3,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+e5e890757bd0f94ac61e403a,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+e6254c448e8dba72b8d1123c,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+e67486e5bd39af8580c02862,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+e70b8f0404bd74c9310d86bb,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+e71e9b2c04e6f7562d134401,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+e764b3caba5bf41bd726efa4,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+e84b98923a591c262fd98201,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+e902d3c43ccac59a79a42cdc,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+e9066bcdead9e70d86e9e25d,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+e9736713c641757fe50dca28,valid,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+e9e48924f56c1f98db383202,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+ea6211ec2fa5af79dbf38fe3,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+ead1a068b74b2d43f3654d35,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,empty
+eb1784c4336a10336ac0f2ce,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+eb3e6e54b53675caff1879f8,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+eb59b6d921830684c5c297ad,valid,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+ec37ef09d4d1003f3ff38b85,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+ec65cc4a83acbb379b3fab93,test,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+ec70e8af4856d3e7d25289ee,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+ecb9f2de5640adf0e7280f1f,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+eccab2ae3bb290de720161d7,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+ed37843db44b462c5251d7d5,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+ee0537287630680f29de8d65,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+ee3e29b5ece2a5c2b997275f,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+ee40470fc5aca9f38f23d4a9,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+ee42a663d6d5e30f94b3c9a5,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+ee4b6604368abcd1cb9bbed5,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+ee6e1bf05ab37523e72b4391,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+ee8df766890fd11e5118acd2,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+eecdf768dc52a48ea14dfb99,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+eece77749dbb13d491965c3e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+ef1035129e9ccd93cea8af8d,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+ef78e0b324e208c14be411f4,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+efcc8c86b7a244a50c56099d,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+efe7f1e9a2aa5100a82c2150,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f00b495385dba22dff4b914c,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+f02d219d086ac4a125d461ef,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f0962892ad9e4177304ab0a8,test,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+f0aec9bbbf21884b18a7d9e9,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+f0e0f3cf40e2e3aa1ee2f374,valid,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,empty
+f0f0aa14d65d61f6a27150b5,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f174dd2cbe453a7d64d94a07,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+f1d1fc2898c3d51b994475f5,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+f265a06d1445bc60332760ff,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+f28a69ed981ac951fb5a9fe6,test,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f2d0dfbee0e98cdcc8e7c252,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+f320b4bcd22d793ffe0c26f2,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f367ba452b3c8faa301bc9e6,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f475ee95c829a71172e61b73,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+f48e119bf9a19c2826d210e1,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+f4bec93f0d55c81c6ffd5b85,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+f5139c248b974dcf2b47016a,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f593143e67bb62b7fcdd0683,valid,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+f5be284dfcaffc07063089a0,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+f5de23acd4463a59f97e6adb,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f6625257c0ac1b3cf20527cd,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+f6884182cc2cff452a1b55a1,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+f6b31bafd70dbc7e7e9977a8,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+f6bcf56a386e06f4a0b9a418,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f6bf871f2c38aa97fa5be207,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+f70c370c52df9821efa65fd6,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+f712bd1cc049c25b54a14144,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+f79cf62a8e9287681de134f5,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f7dbd4d90e119538189f8bfb,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+f7ef80d038aab19367298d3c,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f80df4a9443d115c060cf0cd,valid,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+f827b98d4968e96d5ada0c71,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+f85a87696482ee745959c76d,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+f876f2a37991355851b0c807,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f934ab1b049748e0a0e2cdef,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f9793b8dd9d1c051ea21a129,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+f9933295a6eb96f781de6272,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+f9f450a9c574f9554de541b1,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+f9f551748fbc9a51b43e2db0,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+fa26e33bac0c6b24cb629738,test,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+fa5976dbad167267c0dd538c,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+fa6de7c0c113f48473641771,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+fabc266833459abea52d423b,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+fad7e47b2f3082467bb9d617,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+faeaa9e6798cce1198103242,test,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+fafe825f931268f8f7beb3f2,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+fb12303ad673f1dc05d567fc,test,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+fb29d6cebbff08f39139c217,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,empty
+fb4a455d8d5ecf61be847345,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+fb7eafe1f63b851a843a9064,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+fbb70bd9218ee5a6afe49a20,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+fbd5527007ad90be62b422f0,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+fbdd05f8614a08f428c4ef3f,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,empty
+fc457fe7276b76b4a4238bd9,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+fc566c7e2f8d2eff256ed1c0,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+fcad52a88fdf79e4f58dd5bc,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+fd5cc33ab677d36242b1a562,train,temporal_selection,,T073,When was the [time_filter_exact1] time that patient {patient_id} was prescribed a medication via {drug_route} route [time_filter_global1]?,prescriptions,value
+fe4d0a5b2af451d553ccf8a6,train,lookup_counting,,T001,Count the number of drugs patient {patient_id} were prescribed [time_filter_global1].,prescriptions,value
+fe962b6b042f644f12d4e87f,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+fea45233816581063d1b4e08,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+fee5762be96734004cc64415,valid,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+fee5b9a410b00909881c8576,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+fef33c22c2be8a7f6e86b58e,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value
+fef601c6f3a3f648c5a61be6,train,temporal_selection,,T064,When was the [time_filter_exact1] microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+fef95b54688027a47b9932cf,train,temporal_selection,,T055,What was the organism name found in the [time_filter_exact1] {spec_name} microbiology test of patient {patient_id} [time_filter_global1]?,microbiologyevents,value
+ff54462b111d052f8443e945,train,temporal_selection,,T054,What was the name of the specimen that patient {patient_id} was [time_filter_exact1] tested [time_filter_global1]?,microbiologyevents,value
+ffbedc643558debf2caee97a,train,temporal_selection,,T051,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed [time_filter_global1]?,prescriptions,value
+ffe21b3cbe7db732e6f72883,train,temporal_selection,,T052,What was the name of the drug that patient {patient_id} was [time_filter_exact1] prescribed via {drug_route} route [time_filter_global1]?,prescriptions,value

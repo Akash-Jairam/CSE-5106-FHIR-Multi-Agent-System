@@ -7,6 +7,9 @@ full identity and complete result batch of the matching ordinary arm.
 Identity validation reads reference labels offline through the runner;
 they are never sent to the page or model. Example questions come from the
 non-held-out splits by default, and the picker parses only context columns.
+
+Generated questions (scripts/generate_fhir_questions.py) are graded: their
+reference is read only after a run, and never for held-out patients.
 """
 import hashlib
 from datetime import datetime
@@ -29,6 +32,7 @@ DEFAULT_SPLITS = ("pilot", "dev")
 CURRENT_TIME_RE = re.compile(r"current time is (\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?)")
 TIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?$")
 CONTEXT_COLUMNS = ["question_id", "question", "assumption", "patient_fhir_id"]
+DEFAULT_GENERATED = os.path.join(ROOT, "final_dataset", "generated", "fhir_native.csv")
 
 
 def _file_hash(path):
@@ -60,6 +64,31 @@ def load_patients(input_file, split_manifest, splits=DEFAULT_SPLITS):
                 {"question_id": r.question_id, "question": r.question,
                  "current_time": current_time_of(r.assumption)} for r in rows.itertuples()]})
     return patients
+
+
+def generated_questions(patient, path=DEFAULT_GENERATED):
+    """A patient's generated questions (context only), or [] for held-out patients or without a generated file."""
+    if patient.get("split") == "held_out" or not os.path.exists(path):
+        return []
+    frame = pd.read_csv(path, usecols=CONTEXT_COLUMNS)
+    rows = frame[frame["patient_fhir_id"] == patient["patient_fhir_id"]].sort_values("question")
+    return [{"question_id": r.question_id, "question": r.question, "current_time": current_time_of(r.assumption)}
+            for r in rows.itertuples()]
+
+
+def grade(question_id, patient, answer, path=DEFAULT_GENERATED):
+    """Score a released answer against a generated question's reference, after the run."""
+    from utils.answer_scorer import score_answer
+
+    if patient.get("split") == "held_out":
+        raise ValueError("Held-out patients' generated questions are not graded in the demo")
+    frame = pd.read_csv(path, usecols=["question_id", "question", "true_answer", "template", "patient_fhir_id"])
+    row = frame[frame["question_id"] == question_id]
+    if len(row) != 1 or row.iloc[0]["patient_fhir_id"] != patient["patient_fhir_id"]:
+        raise ValueError("Unknown generated question for this patient")
+    row = row.iloc[0]
+    scored = score_answer(answer, row["true_answer"], row["question"], row["template"])
+    return {"correct": bool(scored["typed_correct"]), "reference": row["true_answer"], "reason": scored["typed_reason"]}
 
 
 def current_time_of(assumption):

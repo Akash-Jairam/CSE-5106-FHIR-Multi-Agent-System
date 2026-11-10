@@ -5,7 +5,9 @@
 Use the same settings as scripts/run_experiments.py. The header then shows
 whether the code, model, and budget match the evaluated run. Example
 questions come from the pilot and dev patients (`--splits` to change).
-Reference answers are never shown.
+Reference answers of dataset questions are never shown; generated
+questions (`--generated`, from scripts/generate_fhir_questions.py) are
+graded after the run.
 """
 import argparse
 import contextlib
@@ -34,6 +36,7 @@ def settings_from_argv(argv):
     parser.add_argument("--output_dir", default=None, help="Evaluated results; default as in run_experiments.py")
     parser.add_argument("--input", default=os.path.join(backend.ROOT, "final_dataset", "questions_answers_sql_fhir.csv"))
     parser.add_argument("--split_manifest", default=os.path.join(backend.ROOT, "manifests", "split.json"))
+    parser.add_argument("--generated", default=backend.DEFAULT_GENERATED, help="Generated questions to grade")
     args, _ = parser.parse_known_args(argv)
     args.base_url = args.base_url or get_default_base_url(args.model)
     for key in ("max_total_tokens", "max_tool_calls"):
@@ -84,8 +87,17 @@ else:
     match = "⚠ differs from the evaluated run: " + ", ".join(differing)
 st.caption(f"{backend.SYSTEMS[system]} · {args.model} · {budget} · tool cache on · {match}")
 
-mode = st.radio("Question", ["Example", "Custom"], horizontal=True, label_visibility="collapsed")
-if mode == "Example":
+generated = backend.generated_questions(patient, args.generated)
+modes = ["Example"] + (["Generated (graded)"] if generated else []) + ["Custom"]
+mode = st.radio("Question", modes, horizontal=True, label_visibility="collapsed")
+graded_id = None
+if mode == "Generated (graded)":
+    choices = {q["question_id"]: q for q in generated}
+    graded_id = st.selectbox(f"Generated question for patient {patient['subject_id']}", list(choices),
+                             format_func=lambda i: choices[i]["question"])
+    question, current_time = choices[graded_id]["question"], choices[graded_id]["current_time"]
+    st.caption(f"Assumed current time: {current_time or 'not stated'} · graded against the FHIR-derived answer")
+elif mode == "Example":
     examples = {q["question_id"]: q for q in patient["questions"]}
     example = examples[st.selectbox(f"Example question for patient {patient['subject_id']}", list(examples),
                                     format_func=lambda i: examples[i]["question"])]
@@ -116,7 +128,8 @@ if asked:
             with st.spinner(f"Running the {backend.SYSTEMS[system].lower()}…"):
                 output = backend.ask(system, input_str, settings)
             st.session_state["result"] = {"system": system, "question": question, "patient": patient["subject_id"],
-                                          "current_time": current_time, "output": output, "context": request_context}
+                                          "current_time": current_time, "output": output, "context": request_context,
+                                          "graded_id": graded_id}
 
 result = st.session_state.get("result")
 if result:
@@ -132,6 +145,10 @@ if result:
         st.metric("Answer", show_answer(output.get("agent_answer"), status.get("empty_result", False)))
         if output.get("limitation"):
             st.caption(f"Limitation: {output['limitation']}")
+        if result.get("graded_id"):
+            grade = backend.grade(result["graded_id"], patient, output.get("agent_answer"), args.generated)
+            (st.success if grade["correct"] else st.error)(
+                f"{'Correct' if grade['correct'] else 'Incorrect'} — reference {grade['reference']}")
     with right:
         st.markdown("**Cited fields**")
         rows = backend.cited_fields(output)
