@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from utils import get_default_model, validate_config
+from utils import get_default_base_url, get_default_model, validate_config
 
 # Patient used by check_tool_credentials() and the first questions in the dataset
 SMOKE_PATIENT_FHIR_ID = "dd2bf984-33c3-5874-8f68-84113327877e"
@@ -29,7 +29,7 @@ def main():
     args = parser.parse_args()
 
     print("1. Config")
-    if not validate_config(args.model):
+    if not validate_config(args.model, get_default_base_url(args.model)):
         print("   Fill in config.yml (see config.example.yml) or set the matching environment variables.")
         sys.exit(1)
 

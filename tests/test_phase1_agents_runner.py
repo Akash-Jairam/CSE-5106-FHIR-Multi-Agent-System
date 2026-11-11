@@ -111,6 +111,18 @@ class RunnerTests(unittest.TestCase):
         self.assertIn("cost unavailable", output.getvalue())
         self.assertIn("Tool calls executed: 1", output.getvalue())
 
+    def test_run_fails_only_when_every_model_call_failed(self):
+        provider = "Max retries exceeded: litellm.NotFoundError: model is no longer available"
+        too_big = "Input tokens exceeded: 7422248 > 32000"
+        with contextlib.redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(runner.check_model_calls([provider, provider]), 1)
+            self.assertEqual(runner.check_model_calls([too_big, provider]), 1)
+        self.assertIn("No longer available".lower(), output.getvalue().lower())
+        self.assertEqual(runner.check_model_calls([too_big, None]), 0)
+        self.assertEqual(runner.check_model_calls([provider, None]), 0)
+        self.assertEqual(runner.check_model_calls([too_big]), 0)
+        self.assertEqual(runner.check_model_calls([]), 0)
+
     def test_boolean_false_is_parsed_as_false(self):
         args = runner.build_parser().parse_args(["--agent_strategy", "single_agent", "--enable_cache", "false",
                                                "--add_patient_fhir_id", "false"])
