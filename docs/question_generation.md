@@ -294,6 +294,23 @@ By kind, omitted given intact correct:
 - **The mechanism is the full-record fetch.** Multi-agent fetched the omitted records in 39 of 39 runs for both models; single-agent in about half. Multi-agent cites them less often (9/39 for gpt-oss, 3/39 for qwen3), so it often answers right without citing what it recovered.
 - **Two tie sets are too few to conclude anything.**
 
+### Failed runs
+
+Failed first attempts count as wrong, and they fall mostly on single-agent and direct, so they add to multi-agent's lead. `python scripts/suite_breakdowns.py <model dir> --only errors` counts them by kind for every suite and arm.
+
+| Model | Arm | Failed (all ordinary suites) | Main kinds |
+| --- | --- | --- | --- |
+| gpt-oss | multi | 7 of 2,079 | input too long 5, empty reply 2 |
+| | single | 52 of 2,079 | invalid output 50 |
+| | direct | 19 of 2,079 | invalid output |
+| qwen3 | multi | 7 of 2,079 | unusable analysis draft 6 |
+| | single | 96 of 2,079 | invalid output 60, empty reply 32 |
+| | direct | 61 of 2,079 | invalid output |
+
+- **"Invalid output" is a final answer that failed the output schema**, for example evidence without `resource_id` or a non-JSON reply.
+- **An "empty reply" is usually a tool call that was not valid JSON.** Replaying the qwen3:8b single-agent failures through Ollama's own template, with raw generation, showed the model writing Python with double quotes inside the `"code"` string (`f'Encounter/{enc.get("id")}'`) without escaping them. Ollama's tool-call parser cannot read the call and returns an empty message, with no error, although it generated the tokens. `safe_llm_call` then asks again with "I got an empty response", which does not say what was wrong, and the model usually repeats the call until its retries run out. Ollama returns an HTTP error for gpt-oss in the same situation, which `_rejected_tool_call` already turns into a specific correction.
+- **The weaker the model, the bigger this effect.** Partway through the smaller-model runs, empty replies ended 141 of 1,033 qwen3:8b single-agent runs (14%), against 1.5% for qwen3:32b, and almost no multi-agent runs. The runtime was left unchanged so that every model runs the same code. Fixing the retry message would change the code fingerprint, so it belongs in a round that reruns every model.
+
 ### Cost
 
 Mean per question, including retries, on pool_held_out_v2. `cost` is not recorded for local models, so GPU time is approximated by latency.

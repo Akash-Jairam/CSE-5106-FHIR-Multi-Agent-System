@@ -7,11 +7,15 @@ For one model's experiment directory, prints:
     released (held_out_v2), routed and unrouted, with exact McNemar tests between variants;
   - generated: accuracy by polarity, feature and semantics sensitivity, for the generated
     and positive-only suites;
-  - multi_perturbations: intact and omitted accuracy of each recovery system by kind.
+  - multi_perturbations: intact and omitted accuracy of each recovery system by kind;
+  - errors: failed first attempts of every suite and arm, by kind. An "empty reply" is
+    usually a tool call that was not valid JSON, which Ollama drops without an error.
 Scoring matches `analyze`: first attempt, typed scorer, failed runs count as wrong.
 Intervals are patient-clustered bootstraps. Prints aggregates only, never answers.
 """
 import argparse
+import collections
+import glob
 import json
 import os
 import sys
@@ -23,6 +27,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from scripts.experiment_stats import clustered_mean, mcnemar_exact  # noqa: E402
 from scripts.paired_tests import ARMS, arm_scores  # noqa: E402
 from scripts.run_experiments import RECOVERY_SYSTEMS  # noqa: E402
+from scripts.variability import first_attempt, is_failed  # noqa: E402
 
 PARAPHRASES = ("final_dataset/generated/paraphrases.csv", "manifests/generated/paraphrases.split.json",
                "manifests/generated/paraphrases.families.csv")
@@ -110,13 +115,34 @@ def multi_perturbations(model_dir):
                   f"omitted given intact right {sum(omitted[q] for q in kept)}/{len(kept)}")
 
 
+ERROR_KINDS = (("empty reply", "Empty or None output"), ("invalid output", "Invalid"), ("timeout", "Timeout"),
+               ("input too long", "Input tokens exceeded"))
+
+
+def _error_kind(error):
+    return next((kind for kind, marker in ERROR_KINDS if marker in error), "other")
+
+
+def errors(model_dir):
+    for directory in sorted(glob.glob(os.path.join(model_dir, "suite_*"))):
+        for path in sorted(glob.glob(os.path.join(directory, "*.json"))):
+            if path.endswith(".run.json"):
+                continue
+            with open(path, encoding="utf-8") as stream:
+                rows = [first_attempt(row) for row in json.load(stream)]
+            failed = collections.Counter(_error_kind(str(row["error"])) for row in rows if is_failed(row))
+            arm = os.path.basename(path).removesuffix(".json")
+            print(f"  {os.path.basename(directory):<28} {arm:<30} {sum(failed.values()):>3}/{len(rows):<3} "
+                  + ", ".join(f"{kind} {n}" for kind, n in failed.most_common()))
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("model_dir", help="output/experiments/<model>")
-    parser.add_argument("--only", choices=["paraphrases", "generated", "multi_perturbations"])
+    parser.add_argument("--only", choices=["paraphrases", "generated", "multi_perturbations", "errors"])
     args = parser.parse_args(argv)
     for name, report in (("paraphrases", paraphrases), ("generated", generated),
-                         ("multi_perturbations", multi_perturbations)):
+                         ("multi_perturbations", multi_perturbations), ("errors", errors)):
         if args.only in (None, name):
             print(f"\n== {name}: {args.model_dir}")
             report(args.model_dir)
