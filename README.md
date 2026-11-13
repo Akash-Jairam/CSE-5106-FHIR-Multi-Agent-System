@@ -297,7 +297,7 @@ Rerunning `run` resumes from the saved results and retries failed questions. Use
 
 ### More questions
 
-Extra held-out pools from the unsampled released questions (`scripts/build_question_pools.py`), FHIR-native generated questions (`scripts/generate_fhir_questions.py`), finisher paraphrases (`scripts/build_paraphrases.py`), and multi-record perturbations (`scripts/build_multi_perturbations.py`) are split manifests over the same patient pools. Pass one with `--split_manifest` (plus `--input` and `--families` for a generated bank) to run its `ordinary` arms. See [the question generation notes](docs/question_generation.md).
+Extra held-out pools from the unsampled released questions (`scripts/build_question_pools.py`), FHIR-native generated questions (`scripts/generate_fhir_questions.py`), finisher paraphrases (`scripts/build_paraphrases.py`), and multi-record perturbations (`scripts/build_multi_perturbations.py`) are split manifests over the same patient pools. Pass one with `--split_manifest` (plus `--input` and `--families` for a generated bank) to run its `ordinary` arms. See [the question generation notes](docs/question_generation.md), which also report the results for gpt-oss:120b and qwen3:32b on all ten suites.
 
 Generated Python runs with copied retrieved resources, no repository credentials or network, and a real deadline. It requires `sandbox-exec` on macOS or `bubblewrap` (`bwrap`) on Linux and fails closed without a supported sandbox. See [the review and verification notes](docs/phase1_review.md).
 

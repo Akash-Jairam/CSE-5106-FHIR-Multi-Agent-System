@@ -190,6 +190,148 @@ The planning notes counted 1,400 stale baseline runs. Those are v1-era results p
 
 `demo/app.py --generated <csv>` (default `final_dataset/generated/fhir_native.csv`) adds a "Generated (graded)" question mode for pilot and dev patients. After a run, `demo.backend.grade` scores the released answer with the typed scorer and shows the FHIR-derived reference. Generated questions are never listed or graded for held-out patients.
 
+## Suite results (plan 4.2)
+
+All ten suites ran on Compute2 for gpt-oss:120b (vLLM) and qwen3:32b (Ollama) at commit 9da4131, with 200,000 tokens and 30 tool calls per question. Every question was attempted. Failed runs count as wrong: up to 6% per arm, except qwen3 single-agent on the disagreement pool (14 of 99). The frozen `held_out_v2` results were re-stamped first (see [Re-stamping](#re-stamping-saved-results)).
+
+Accuracy is the first attempt under the typed scorer. Intervals are 95% patient-clustered bootstraps from `run_experiments.py analyze`. p is the exact McNemar test from `scripts/paired_tests.py`, which treats questions as independent.
+
+### Ordinary arms
+
+| Suite | n | Model | Multi | Single | Direct | Multi − single | p | Multi − direct | p |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| pool_held_out_v2 | 300 | gpt-oss | 75.0% | 68.0% | 63.7% | +7.0 [+1.8, +12.1] | 0.005 | +11.3 [+7.0, +15.5] | 3e-7 |
+| | | qwen3 | 58.3% | 43.0% | 48.0% | +15.3 [+8.3, +22.2] | 2e-5 | +10.3 [+5.2, +15.3] | 2e-4 |
+| pool_template_balanced | 272 | gpt-oss | 78.3% | 71.0% | 69.9% | +7.4 [+3.8, +11.2] | 0.003 | +8.5 [+3.4, +13.4] | 0.001 |
+| | | qwen3 | 62.5% | 50.7% | 51.5% | +11.8 [+6.2, +17.5] | 0.001 | +11.0 [+6.3, +15.6] | 1e-4 |
+| pool_zero_finisher | 300 | gpt-oss | 82.7% | 78.0% | 75.3% | +4.7 [+0.3, +9.5] | 0.07 | +7.3 [+3.6, +11.0] | 3e-4 |
+| | | qwen3 | 64.0% | 55.0% | 58.0% | +9.0 [+1.2, +16.9] | 0.01 | +6.0 [+1.1, +10.5] | 0.03 |
+| pool_truncation | 161 | gpt-oss | 57.8% | 49.7% | 40.4% | +8.1 [+1.4, +14.8] | 0.02 | +17.4 [+10.4, +23.9] | 6e-8 |
+| | | qwen3 | 47.2% | 21.1% | 41.0% | +26.1 [+19.2, +34.2] | 5e-10 | +6.2 [+1.1, +11.9] | 0.05 |
+| pool_disagreement | 99 | gpt-oss | 77.8% | 70.7% | 74.7% | +7.1 [+1.9, +13.0] | 0.07 | +3.0 [−3.2, +9.9] | 0.58 |
+| | | qwen3 | 59.6% | 40.4% | 66.7% | +19.2 [+8.5, +29.4] | 6e-4 | −7.1 [−21.6, +6.4] | 0.31 |
+| pool_out_of_scope | 213 | gpt-oss | 78.9% | 77.5% | 73.2% | +1.4 [−3.3, +6.9] | 0.68 | +5.6 [+0.9, +11.1] | 0.04 |
+| | | qwen3 | 47.4% | 42.7% | 23.5% | +4.7 [−4.3, +14.8] | 0.26 | +23.9 [+17.3, +31.8] | 2e-9 |
+| paraphrases | 134 | gpt-oss | 65.7% | 44.0% | 44.0% | +21.6 [+13.6, +29.0] | 5e-6 | +21.6 [+10.8, +32.4] | 5e-6 |
+| | | qwen3 | 41.0% | 22.4% | 34.3% | +18.7 [+6.5, +30.1] | 5e-4 | +6.7 [+0.8, +13.5] | 0.05 |
+| generated | 300 | gpt-oss | 83.3% | 73.7% | 77.0% | +9.7 [+4.8, +14.8] | 2e-4 | +6.3 [+3.1, +9.6] | 0.004 |
+| | | qwen3 | 58.0% | 56.0% | 51.3% | +2.0 [−4.8, +8.7] | 0.63 | +6.7 [+0.6, +12.7] | 0.03 |
+| generated_positive | 300 | gpt-oss | 80.3% | 78.3% | 76.3% | +2.0 [−1.3, +5.4] | 0.42 | +4.0 [+0.3, +7.8] | 0.10 |
+| | | qwen3 | 67.7% | 51.3% | 66.3% | +16.3 [+12.1, +20.5] | 7e-10 | +1.3 [−3.2, +5.9] | 0.71 |
+
+- **Multi-agent wins on released questions it was not tuned on.** On the unsampled pools (held_out_v2, template_balanced, zero_finisher, truncation), multi-agent beats both baselines for both models, and every interval excludes zero.
+- **The gain does not come from the finishers.** On pool_zero_finisher, where no finisher template is asked, multi-agent still gains 4.7 (gpt-oss) and 9.0 (qwen3) over single-agent.
+- **Truncated packets favour multi-agent most.** Multi-agent fetches the record beyond the packet. With qwen3, single-agent drops to 21% on these questions while multi-agent keeps 47%.
+- **On the disagreement pool, qwen3 direct beats both agents.** The direct LLM scores 66.7%, versus 59.6% for multi-agent and 40.4% for single-agent.
+- **On out-of-scope questions, the agents tie.** Neither multi-agent difference from single-agent is significant. The intervals are wide because the 213 questions cluster in 53 patients.
+- **On generated questions, the two models disagree.** gpt-oss's multi-agent gain is on negative (empty-answer) questions; on the positive-only suite it shrinks to +2.0 (p=0.42). qwen3 shows the reverse: no gain on the mixed suite and +16.3 on the positive-only one. See [Generated breakdown](#generated-breakdown).
+
+### Paraphrase ablation
+
+The 67 frozen held-out finisher questions, as released (from `held_out_v2`), as routed paraphrases (the finisher still fires) and as unrouted paraphrases (no finisher). The released column comes from an earlier batch, so the original-vs-paraphrase comparisons also include batch-to-batch variation; routed vs unrouted ran in the same batch.
+
+| Model | Arm | Original | Routed | Unrouted | Routed − unrouted (p) |
+| --- | --- | --- | --- | --- | --- |
+| gpt-oss | multi | 53.7% | 64.2% | 67.2% | −2 of 67 (0.79) |
+| | single | 41.8% | 40.3% | 47.8% | −5 of 67 (0.30) |
+| | direct | 37.3% | 41.8% | 46.3% | −3 of 67 (0.51) |
+| qwen3 | multi | 41.8% | 43.3% | 38.8% | +3 of 67 (0.55) |
+| | single | 16.4% | 17.9% | 26.9% | −6 of 67 (0.18) |
+| | direct | 25.4% | 32.8% | 35.8% | −2 of 67 (0.69) |
+
+- **Removing the finisher cue does not hurt.** No arm loses accuracy when the finisher stops firing. The only significant change is qwen3 single-agent, which scores higher on unrouted than on original wording (+7 of 67, p=0.039).
+- **The multi-agent lead survives without finishers.** Multi-agent minus single-agent on unrouted paraphrases is +13 of 67 for gpt-oss (p=0.004) and +8 of 67 for qwen3 (p=0.08). On routed paraphrases it is +16 (p=0.0009) and +17 (p=0.005).
+- **Wording alone moves accuracy by several points.** Original-vs-paraphrase differences of 5–10 points (none significant at 67 questions) are a floor on how much these results depend on phrasing.
+
+### Generated breakdown
+
+`generated` mixes 161 positive and 139 negative questions; `generated_positive` has 300 positive ones. No sampled question is semantics-sensitive.
+
+| Model | Subset | n | Multi | Single | Direct | Multi − single (p) |
+| --- | --- | --- | --- | --- | --- | --- |
+| gpt-oss | negative | 139 | 74.1% | 58.3% | 68.3% | +22 of 139 (7e-4) |
+| | positive | 161 | 91.3% | 87.0% | 84.5% | +7 of 161 (0.14) |
+| qwen3 | negative | 139 | 42.4% | 52.5% | 23.7% | −14 of 139 (0.12) |
+| | positive | 161 | 71.4% | 59.0% | 75.2% | +20 of 161 (0.002) |
+
+By relation feature (positive-only suite):
+
+| Feature | n | gpt-oss multi / single / direct | qwen3 multi / single / direct |
+| --- | --- | --- | --- |
+| none | 116 | 93.1 / 90.5 / 79.3 | 72.4 / 59.5 / 70.7 |
+| icu_to_hospital | 71 | 76.1 / 74.6 / 76.1 | 78.9 / 53.5 / 67.6 |
+| specimen_link | 69 | 76.8 / 78.3 / 81.2 | 69.6 / 56.5 / 62.3 |
+| medication_mix | 17 | 52.9 / 52.9 / 47.1 | 35.3 / 35.3 / 47.1 |
+| micro_organism_chain, specimen_link | 12 | 83.3 / 50.0 / 66.7 | 66.7 / 16.7 / 66.7 |
+| … + susceptibility_chain | 10 | 20.0 / 80.0 / 60.0 | 0.0 / 0.0 / 50.0 |
+| icu_to_diagnosis | 5 | 100 / 0 / 100 | 20 / 0 / 100 |
+
+- **Susceptibility chains are a multi-agent weakness.** On gpt-oss, multi-agent gets 2 of 10 right where single-agent gets 8 (all 6 discordant favour single-agent, p=0.031). On qwen3 neither agent answers any; direct gets 5.
+- **ICU-to-diagnosis questions defeat single-agent.** Single-agent gets 0 of 5 with both models. The cells are small.
+- **Medication mixes are hard for every arm** (35–53%).
+
+### Multi-record perturbations
+
+39 held-out questions, each run from the intact and from the omitted packet (`manifests/perturbations_multi.json`). Recovery flags come from `run_experiments.py revisions` without evidence fetching, so `cited` and `used` are lower bounds.
+
+| Model | System | Intact | Omitted | Omitted − intact | Omitted correct given intact correct |
+| --- | --- | --- | --- | --- | --- |
+| gpt-oss | multi | 79.5% | 74.4% | −5.1 [−14.3, +5.3] | 28/31 (90%) |
+| | single | 66.7% | 46.2% | −20.5 [−38.5, −2.7] | 15/26 (58%) |
+| qwen3 | multi | 53.8% | 48.7% | −5.1 [−23.1, +11.1] | 15/21 (71%) |
+| | single | 28.2% | 10.3% | −17.9 [−32.5, −2.9] | 3/11 (27%) |
+
+By kind, omitted given intact correct:
+
+| Kind | n | gpt-oss multi | gpt-oss single | qwen3 multi | qwen3 single |
+| --- | --- | --- | --- | --- | --- |
+| k_record | 18 | 15/17 | 7/15 | 8/12 | 3/10 |
+| link_target | 19 | 11/12 | 8/10 | 7/9 | 0/1 |
+| tie_peer | 2 | 2/2 | 0/1 | 0/0 | 0/0 |
+
+- **Multi-agent tolerates missing records; single-agent does not.** Both models' multi-agent lose 5 points when several records are removed; single-agent loses 18–21. Omitted-packet multi − single is +28.2 [+12.5, +43.9] (gpt-oss) and +38.5 [+20.6, +56.5] (qwen3).
+- **Removing the most recent k records hurts single-agent most.** Single-agent keeps 7 of 15 (gpt-oss) where multi-agent keeps 15 of 17.
+- **The mechanism is the full-record fetch.** Multi-agent fetched the omitted records in 39 of 39 runs for both models; single-agent in about half. Multi-agent cites them less often (9/39 for gpt-oss, 3/39 for qwen3), so it often answers right without citing what it recovered.
+- **Two tie sets are too few to conclude anything.**
+
+### Cost
+
+Mean per question, including retries, on pool_held_out_v2. `cost` is not recorded for local models, so GPU time is approximated by latency.
+
+| Model | Arm | Tokens | Prompt share | Model calls | Tool calls | Median latency |
+| --- | --- | --- | --- | --- | --- | --- |
+| gpt-oss | multi | 79.3k | 94% | 11.8 | 11.9 | 37 s |
+| | single | 33.0k | 96% | 3.4 | 3.4 | 9.5 s |
+| | direct | 6.6k | 90% | 1.0 | 0 | 4.4 s |
+| qwen3 | multi | 75.1k | 97% | 10.1 | 9.8 | 142 s |
+| | single | 44.2k | 98% | 4.1 | 4.1 | 42 s |
+| | direct | 7.6k | 95% | 1.0 | 0 | 17 s |
+
+- **Multi-agent costs 1.7–2.4× single-agent's tokens and 3–4× its latency.** The ratio holds across suites (2.1–3.5× tokens on gpt-oss). Truncation and paraphrase questions are the most expensive: 88–117k tokens for multi-agent.
+- **Almost all of it is re-sent prompt.** Prefix caching or a smaller hand-off between agents would remove most of the overhead.
+
+### Reproducing
+
+On the cluster, from `~/fhir-ma-v2` (vLLM runs use `--base_url http://127.0.0.1:28431/v1`, Ollama runs `:11434/v1`; both identify the saved runs):
+
+```bash
+python scripts/run_experiments.py analyze --arms ordinary --model qwen3:32b \
+    --base_url http://127.0.0.1:11434/v1 --max_total_tokens 200000 --max_tool_calls 30 \
+    --split_manifest manifests/pools/truncation.json \
+    --output_dir output/experiments/qwen3:32b/suite_pool_truncation
+python scripts/paired_tests.py output/experiments/qwen3:32b/suite_pool_truncation \
+    --split_manifest manifests/pools/truncation.json
+# Recovery flags for the multi-record suite
+python scripts/run_experiments.py revisions --arms recovery \
+    --perturbations manifests/perturbations_multi.json --model qwen3:32b \
+    --base_url http://127.0.0.1:11434/v1 --max_total_tokens 200000 --max_tool_calls 30 \
+    --output_dir output/experiments/qwen3:32b/suite_multi_perturbations
+# Paraphrase, generated and perturbation-kind breakdowns
+python scripts/suite_breakdowns.py output/experiments/qwen3:32b
+```
+
+The generated and paraphrase suites also take their `--input`, `--families` and `--split_manifest` (see `scripts/submit_question_suites.sh`).
+
 ## Rebuilding
 
 ```bash
