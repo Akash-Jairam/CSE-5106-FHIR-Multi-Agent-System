@@ -8,12 +8,20 @@
 #   scripts/submit_question_suites.sh gpt-oss:120b            # print
 #   SUBMIT=1 scripts/submit_question_suites.sh qwen3:32b      # submit
 #   SUITES="pool_held_out_v2 paraphrases" scripts/submit_question_suites.sh gpt-oss:120b
+#   OLLAMA_MODELS=/scratch2/fs1/di2cap/$USER/ollama-models SUBMIT=1 scripts/submit_question_suites.sh qwen3:8b
 set -euo pipefail
 
 model="${1:?usage: $0 MODEL (gpt-oss:120b or qwen3:32b)}"
 case "$model" in
   gpt-oss:*) script=scripts/run_experiments_vllm.sbatch ;;
-  *) script=scripts/run_experiments_qwen.sbatch ;;
+  *) script=scripts/run_experiments_qwen.sbatch
+     export MODEL="$model"
+     # Each Ollama model gets its own port, so two models' jobs can share a node; the port is
+     # part of the saved run identity, so analyze with --base_url http://127.0.0.1:$PORT/v1.
+     if [ "$model" = qwen3:32b ]; then default_port=11434; else
+       default_port=$((11500 + $(printf %s "$model" | cksum | cut -d' ' -f1) % 400)); fi
+     export PORT="${PORT:-$default_port}"
+     echo "# $model: Ollama port $PORT" >&2 ;;
 esac
 out="output/experiments/$model"
 generated=(--input final_dataset/generated/fhir_native.csv --families manifests/generated/fhir_native.families.csv)

@@ -25,7 +25,7 @@ split="${SPLIT:-held_out}"
 # Models too large for the 47 GB home quota go on scratch, e.g. gpt-oss:120b (65 GB)
 export OLLAMA_MODELS="${OLLAMA_MODELS:-$HOME/.ollama/models}"
 workers="${WORKERS:-4}"  # parallel questions; Ollama gets one slot per worker
-port=11434
+port="${PORT:-11434}"  # nodes have 4 GPUs: give jobs that may share a node different ports
 base_url="http://127.0.0.1:${port}/v1"  # keep identical across jobs: result files are bound to it
 
 # Loopback only: nothing outside this node can reach the unauthenticated API
