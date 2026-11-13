@@ -1,5 +1,8 @@
 # One base model for all three systems (CC-28); $MODEL overrides it, and --model overrides both
 MODEL: "gpt-6-luna"
+# Local alternative: MODEL: "qwen3:4b" runs on Ollama (see README) and needs no API key.
+# BASE_URL overrides the endpoint; Qwen models default to http://localhost:11434/v1.
+# BASE_URL: "http://localhost:11434/v1"
 OPENAI_API_KEY: "your-api-key"
 GEMINI_API_KEY: "your-api-key"
 FHIR_CONFIG:

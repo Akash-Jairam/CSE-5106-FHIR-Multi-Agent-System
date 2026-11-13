@@ -317,10 +317,18 @@ def print_status(statuses):
 
 
 def check_sizes(statuses, arms, args):
-    """The full experiment must be exactly 900 ordinary, 200 recovery and 300 variability runs."""
+    """The full experiment must be exactly 900 ordinary, 200 recovery and 300 variability runs.
+
+    Other split manifests (manifests/pools, generated question banks) and other
+    perturbation manifests (manifests/perturbations_multi.json) have their own sizes.
+    """
     if args.split != HELD_OUT or args.limit is not None:
         return
+    if os.path.abspath(args.split_manifest) != os.path.abspath(DEFAULT_SPLIT):
+        return
     for group, expected in EXPECTED.items():
+        if group == "recovery" and os.path.abspath(args.perturbations) != os.path.abspath(DEFAULT_PERTURBATIONS):
+            continue
         if all(arm in arms for arm in ARMS if arm.group == group):
             total = sum(s["questions"] for s in statuses if s["group"] == group)
             if total != expected:

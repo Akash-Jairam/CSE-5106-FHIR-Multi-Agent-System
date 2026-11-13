@@ -1,8 +1,10 @@
-"""Missing-evidence perturbations (P2-18): starting packets with one resource held back.
+"""Missing-evidence perturbations (P2-18): starting packets with resources held back.
 
-manifests/perturbations.json lists, for each perturbed question, one
-(resourceType, id) to leave out of its starting packet. The FHIR store is
-not changed, so a system can recover the evidence by fetching it.
+manifests/perturbations.json (version 2) lists, for each perturbed question,
+one (resourceType, id) to leave out of its starting packet.
+manifests/perturbations_multi.json (version 3, scripts/build_multi_perturbations.py)
+lists one or more per question. The FHIR store is not changed, so a system
+can recover the evidence by fetching it.
 """
 import json
 import hashlib
@@ -13,6 +15,8 @@ from pathlib import Path
 from .starting_packet import PACKET_MAX_TOKENS, PACKET_VERSION, build_starting_packet, count_tokens
 
 DEFAULT_PATH = "manifests/perturbations.json"
+# version -> (builder script, required sample size; None: any size)
+PROTOCOLS = {2: ("scripts/build_perturbations.py", 50), 3: ("scripts/build_multi_perturbations.py", None)}
 ROOT = Path(__file__).resolve().parent.parent
 COUNT_RE = re.compile(r"\((\d+) of (\d+)(; truncated)?\)")
 _REMOVED = object()
@@ -27,6 +31,13 @@ def _file_sha256(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
+def removed_pairs(specification):
+    """The (resourceType, id) pairs a specification leaves out: one (version 2) or a list (version 3)."""
+    removed = specification.get("removed")
+    items = removed if isinstance(removed, list) else [removed] if isinstance(removed, dict) else []
+    return [(item.get("resource_type"), item.get("id")) for item in items if isinstance(item, dict)]
+
+
 def without_resources(record, removed):
     """`record` (resource type -> resources) minus the (resourceType, id) pairs in `removed`."""
     removed = {tuple(pair) for pair in removed}
@@ -38,13 +49,15 @@ def load_perturbations(path=DEFAULT_PATH):
     """Validated {question_id: frozen specification}; never discard packet hashes."""
     with open(path, encoding="utf-8") as stream:
         manifest = json.load(stream)
-    if manifest.get("version") != 2 or manifest.get("packet_version") != PACKET_VERSION:
+    version = manifest.get("version")
+    if version not in PROTOCOLS or manifest.get("packet_version") != PACKET_VERSION:
         raise ValueError("Rebuild perturbations for the current omission protocol and packet version")
-    if manifest.get("split") != "held_out" or manifest.get("size") != 50:
-        raise ValueError("The experiment requires 50 frozen held-out perturbations")
+    builder, size = PROTOCOLS[version]
+    if manifest.get("split") != "held_out" or (size is not None and manifest.get("size") != size):
+        raise ValueError("The experiment requires " + (f"{size} " if size else "") + "frozen held-out perturbations")
     artifacts = {"source_sha256": "final_dataset/questions_answers_sql_fhir.csv", "split_sha256": "manifests/split.json",
                  "families_sha256": "manifests/question_families.csv", "packets_sha256": "manifests/starting_packets.jsonl",
-                 "builder_sha256": "scripts/build_perturbations.py", "oracle_sha256": "scripts/packet_query.py",
+                 "builder_sha256": builder, "oracle_sha256": "scripts/packet_query.py",
                  "omitter_sha256": "tools/perturbation.py", "scorer_sha256": "utils/answer_scorer.py"}
     for key, relative in artifacts.items():
         if manifest.get(key) != _file_sha256(ROOT / relative):
@@ -61,7 +74,10 @@ def load_perturbations(path=DEFAULT_PATH):
         if qid in selected or qid not in held_out or qid not in packets:
             raise ValueError("Perturbation IDs must be distinct frozen held-out questions")
         original = packets[qid]
-        removed = entry.get("removed") or {}
+        removed = removed_pairs(entry)
+        if (not removed or len(set(removed)) != len(removed)
+                or (version == 2 and not isinstance(entry.get("removed"), dict))):
+            raise ValueError("Perturbation must name distinct removed resources")
         proof = entry.get("proof") or {}
         hashes = [entry.get("question_sha256"), entry.get("perturbed_packet_sha256"),
                   proof.get("query_sha256"), proof.get("original_result_sha256"), proof.get("perturbed_result_sha256")]
@@ -78,13 +94,13 @@ def load_perturbations(path=DEFAULT_PATH):
                 or entry.get("fhir_source_sha256") != original["fhir_source_sha256"]
                 or manifest.get("fhir_source_sha256") != original["fhir_source_sha256"]
                 or original.get("retriever_sha256") != _file_sha256(ROOT / "tools/starting_packet.py")
-                or removed.get("id") not in original["resource_ids"].get(removed.get("resource_type"), [])):
+                or any(rid not in original["resource_ids"].get(rtype, []) for rtype, rid in removed)):
             raise ValueError("Perturbation does not match its original frozen packet")
-        expected = {rtype: [rid for rid in ids if (rtype, rid) != (removed["resource_type"], removed["id"])]
+        expected = {rtype: [rid for rid in ids if (rtype, rid) not in removed]
                     for rtype, ids in original["resource_ids"].items()}
         expected = {rtype: ids for rtype, ids in expected.items() if ids}
         if entry.get("perturbed_resource_ids") != expected:
-            raise ValueError("Perturbation must remove exactly one resource without replacement")
+            raise ValueError("Perturbation must remove exactly its listed resources without replacement")
         selected[qid] = deepcopy(entry)
     return selected
 
@@ -160,8 +176,7 @@ def verified_omission(original, specification):
     """The same source-snapshot checks used by runtime and offline verification."""
     if text_sha256(original["text"]) != specification.get("original_packet_sha256"):
         raise ValueError("Live starting packet does not match the frozen original")
-    removed = specification["removed"]
-    result = omit_from_packet(original, [(removed["resource_type"], removed["id"])])
+    result = omit_from_packet(original, removed_pairs(specification))
     if (text_sha256(result["text"]) != specification.get("perturbed_packet_sha256")
             or result["resource_ids"] != specification.get("perturbed_resource_ids")
             or result["n_tokens"] != specification.get("perturbed_n_tokens")):

@@ -39,7 +39,7 @@ ABSTAIN_RE = re.compile(
     r"\b(cannot|can ?not|can't|could ?not|couldn't|unable|not enough|insufficient|unknown|"
     r"not (?:be )?determin\w*|undetermin\w*|not available|unavailable|n/a|no answer)\b", re.I)
 NEGATIVE_RE = re.compile(
-    r"^\W*(?:no|none|never|false|zero)\b|"
+    r"^\W*(?:no|none|never|false|zero)\b|\bnone of\b|"
     r"\b(?:has not|have not|hasn't|haven't|had not|hadn't|did not|didn't|was not|were not|wasn't|weren't|"
     r"is not|isn't|not been|never|not (?:been )?(?:found|recorded|documented|observed))\b|"
     r"\bno\s+(?:[\w()/,-]+\s+){0,6}?(?:found|recorded|observed|prescribed|documented|record|records|"
@@ -47,6 +47,8 @@ NEGATIVE_RE = re.compile(
 AFFIRMATIVE_RE = re.compile(r"^\W*(?:yes|true)\b|\b(?:has been|have been|had|was|were|did|received|underwent)\b", re.I)
 # A bare "No." / "Yes," answer; "No heparin was found" is handled as a negative statement
 YES_NO_RE = re.compile(r"^\W*(yes|no|true|false)\b(?=\s*(?:[.,;:!-]|$))", re.I)
+# A verdict that closes the answer: "... **Answer:** No." or a last line that is just "Yes."
+CLOSING_YES_NO_RE = re.compile(r"(?:^|\banswer\b)[\W_]*(yes|no|true|false)[\W_]*\Z", re.I | re.M)
 DECREASE_RE = re.compile(r"\b(decrease[ds]?|dropp?(?:ed|s)?|fell|fall|lower|down|reduc\w*|declin\w*|less)\b", re.I)
 FINAL_ANSWER_RE = re.compile(r"^\s*the final answer is\s*:?\s*", re.I)
 
@@ -312,7 +314,7 @@ def _score_boolean(answer, reference, text):
             return _result(0, "boolean", "unparsed")
         agent = bool(value)
     else:
-        lead = YES_NO_RE.match(text)
+        lead = YES_NO_RE.match(text) or CLOSING_YES_NO_RE.search(text)
         if lead:
             agent = lead.group(1).lower() in ("yes", "true")
         elif ABSTAIN_RE.search(text):
@@ -493,7 +495,7 @@ def _has_value(answer, values, text, question, template):
     """Whether a hedged free-text answer still commits to a value of the expected type."""
     kind = value_type(values, template)
     if kind == "boolean":
-        return bool(YES_NO_RE.match(text))
+        return bool(YES_NO_RE.match(text) or CLOSING_YES_NO_RE.search(text))
     if kind == "number":
         return bool(extract_numbers(text, question))
     if kind == "timestamp":

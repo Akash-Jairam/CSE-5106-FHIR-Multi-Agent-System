@@ -1,0 +1,707 @@
+{
+  "seed": 5106,
+  "source": "final_dataset/questions_answers_sql_fhir.csv",
+  "family_manifest": "manifests/question_families.csv",
+  "source_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+  "family_manifest_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+  "development_exposure": "manifests/development_exposure.json",
+  "development_exposure_sha256": "b56e95cd4429559abe2789214bc3cff700556f0fbfa0cd3247ab36e93c47e902",
+  "in_scope_families": [
+    "lookup_counting",
+    "numerical_aggregation",
+    "temporal_selection"
+  ],
+  "splits": {
+    "pilot": {
+      "patients": [
+        {
+          "patient_fhir_id": "23069939-0c4c-517b-a3ec-baae0d4e3988",
+          "subject_id": 10013049
+        },
+        {
+          "patient_fhir_id": "7d61fb4e-dc5e-5b1b-a7a6-1d96a3818546",
+          "subject_id": 10024043
+        },
+        {
+          "patient_fhir_id": "837b0984-f3bf-5076-baf5-b727decb4bea",
+          "subject_id": 10037975
+        }
+      ],
+      "question_ids": [
+        "0e38c978a69e475449c84fee",
+        "199101dc32631127e35693a6",
+        "233eeb75a432587011a6b1bc",
+        "3cfbe0e30b718f625d69a2c5",
+        "494282796f9c3fdde2f7b727",
+        "571b776d0c624ec21b51af31",
+        "70b43bd19ed867f8f2420003",
+        "72f9afe9d7752f2079ec4df1",
+        "7329fbf5056c86af263e9033",
+        "8022e43f6d6b61363a0e1da2",
+        "89383745e9cd66ac4837c91f",
+        "95a628ad73ca8b9a1ccdf74a",
+        "9eda5afbe00ed4d5f058ec11",
+        "b9709f43c5ff64a2dd1b4d47",
+        "b9dd894208060adb71afcbfc",
+        "bfd437d57f4e32153e438f0c",
+        "c25b681b346061f536aabbe6",
+        "c72069fe9515604ba1be94c3",
+        "e72c9c21aabd74b3648906ef",
+        "e73df961ffb6ab9df8d8eeab"
+      ],
+      "family_counts": {
+        "lookup_counting": 6,
+        "numerical_aggregation": 3,
+        "temporal_selection": 11
+      },
+      "answer_kind_counts": {
+        "empty": 1,
+        "null_value": 1,
+        "value": 18
+      }
+    },
+    "dev": {
+      "patients": [
+        {
+          "patient_fhir_id": "a6e7e991-6801-5425-b435-4ca6b7decfcc",
+          "subject_id": 10001217
+        },
+        {
+          "patient_fhir_id": "4c9069e4-486b-53a6-8a49-b8520d49ef7e",
+          "subject_id": 10001725
+        },
+        {
+          "patient_fhir_id": "568cb149-804c-59e8-bdf5-816e8151cd22",
+          "subject_id": 10004235
+        },
+        {
+          "patient_fhir_id": "4c48ec6f-716c-5bfd-8cee-b9a6b7c6c765",
+          "subject_id": 10004422
+        },
+        {
+          "patient_fhir_id": "b410dd44-7d65-56f9-974f-2751e8aa80e2",
+          "subject_id": 10004457
+        },
+        {
+          "patient_fhir_id": "8d7b633e-0f92-5448-a56d-36c69210e860",
+          "subject_id": 10004733
+        },
+        {
+          "patient_fhir_id": "3886cafb-65f4-5789-9213-64678a202f82",
+          "subject_id": 10005348
+        },
+        {
+          "patient_fhir_id": "a2605b15-4f1b-5839-b4ce-fb7a6bc1005f",
+          "subject_id": 10005817
+        },
+        {
+          "patient_fhir_id": "94abdf17-f13a-5eae-aac0-eca407bbfadd",
+          "subject_id": 10007058
+        },
+        {
+          "patient_fhir_id": "28dcf33b-0c52-587f-83ad-2a3270976719",
+          "subject_id": 10007795
+        },
+        {
+          "patient_fhir_id": "51d2190c-cc46-56c5-b2ea-363895cbea75",
+          "subject_id": 10009628
+        },
+        {
+          "patient_fhir_id": "cb70e6ae-90b1-562b-8ab0-467c65d18d5e",
+          "subject_id": 10014354
+        },
+        {
+          "patient_fhir_id": "1cf9e585-806c-513b-80af-4ca565a28231",
+          "subject_id": 10015860
+        },
+        {
+          "patient_fhir_id": "dd2bf984-33c3-5874-8f68-84113327877e",
+          "subject_id": 10018081
+        },
+        {
+          "patient_fhir_id": "bbad4581-d089-54a7-b7a0-8d986c5fb5ec",
+          "subject_id": 10018423
+        },
+        {
+          "patient_fhir_id": "72d56b49-a7ee-5b9a-a679-25d1c836d3c3",
+          "subject_id": 10018845
+        },
+        {
+          "patient_fhir_id": "c0d83ad6-0b65-5fd6-b241-f50cf552232c",
+          "subject_id": 10019385
+        },
+        {
+          "patient_fhir_id": "aeda7084-be35-510e-b171-f00596aed99f",
+          "subject_id": 10020187
+        },
+        {
+          "patient_fhir_id": "8adbf3e4-47ff-561e-b1b6-746ee32e056d",
+          "subject_id": 10020740
+        },
+        {
+          "patient_fhir_id": "4365e125-c049-525a-9459-16d5e6947ad2",
+          "subject_id": 10021487
+        },
+        {
+          "patient_fhir_id": "22a3e422-663a-561c-b305-a0c04bf42235",
+          "subject_id": 10021666
+        },
+        {
+          "patient_fhir_id": "52462b6a-9b39-5460-9ee6-1a2d7a20394e",
+          "subject_id": 10022041
+        },
+        {
+          "patient_fhir_id": "13df78e7-150e-5eb7-be5f-5f62b2baee87",
+          "subject_id": 10022880
+        },
+        {
+          "patient_fhir_id": "bc2a74ce-4069-5983-9423-1c175f7854d9",
+          "subject_id": 10023239
+        },
+        {
+          "patient_fhir_id": "c3412a5f-f8b9-57d2-9c70-53e3e40c91f0",
+          "subject_id": 10026354
+        },
+        {
+          "patient_fhir_id": "de33a447-3c7f-541d-be72-a744dadcbbac",
+          "subject_id": 10026406
+        },
+        {
+          "patient_fhir_id": "7ec7078a-0593-5a99-9862-ebbff47fd1c5",
+          "subject_id": 10029291
+        },
+        {
+          "patient_fhir_id": "d378a59b-aa80-5bc5-812a-7d59b26e7df4",
+          "subject_id": 10036156
+        },
+        {
+          "patient_fhir_id": "fa5fbf9c-23e3-5ef3-9cfb-24d20a950314",
+          "subject_id": 10037928
+        },
+        {
+          "patient_fhir_id": "1ab119a5-aac8-5002-9d2f-b8ff69623387",
+          "subject_id": 10038933
+        },
+        {
+          "patient_fhir_id": "e635f2dd-aaec-5fef-a100-b9dfb523cbb6",
+          "subject_id": 10038992
+        },
+        {
+          "patient_fhir_id": "5f3dcdb5-bd27-58f5-b990-859b6bcc2d73",
+          "subject_id": 10038999
+        }
+      ],
+      "question_ids": [
+        "02784e491e61842ddb4de275",
+        "02885cc1fb11efec74cb16fd",
+        "06aaefb80b31fdff1837ad61",
+        "09b1b086d491d385b6744dd6",
+        "0fae80f812674773157d9f2a",
+        "129654f0722de6dae2867660",
+        "15f5e817e7a5d3115e1563e0",
+        "19858b1d6157d97c01ffb3cf",
+        "22386e52d5ee964fb29ac28b",
+        "26b5659defc710e97b8055d7",
+        "2ddc53c4a796889b9c40ca78",
+        "3290627f36487b94ca743ca3",
+        "37fa4b05690e4fda0cc395bf",
+        "3897e55dfcc80af6c9948c75",
+        "3bf9272fcc3117ccfaed52f1",
+        "3cf174e9abff40de817ec43c",
+        "45147c4f6c84a8b896ec69ef",
+        "4587dd491b8793e1feba1da6",
+        "4fd17cfcc175d92c67e22fdb",
+        "523b2264acf6a8ceaf29d220",
+        "58a8117dba6b4ae43b573d05",
+        "5bf08c9869d070204f3790e2",
+        "5da552e4bce7844817e8e4ec",
+        "5ec73b90a9326c7868163c73",
+        "61f9f600cf87c85106cb2efd",
+        "653e63e266f88f5e4752d092",
+        "687e1ab45a6ab29b54c44861",
+        "6ed7efd8318499e011227c1c",
+        "70516111809660e05336d719",
+        "78deb17fb4b0f07c1c1b0051",
+        "82922424bd771f502216cfe8",
+        "83d85a4fb249a66c71ea4700",
+        "8cf47ff1a1ec5cf642c7ff41",
+        "934088633430fb5451e8191e",
+        "97a7eba99e8adfa9dfe8aaca",
+        "97acefe23c241af475dc236d",
+        "a0e105397fe459f9ad540eef",
+        "a16e5eeb260d3b031762211d",
+        "a2556a4a997d1f09c6a72589",
+        "a86aa0f3bbf78e814aab9af4",
+        "ad7bed12453ee529baf37784",
+        "b47161883d5f7a57232f66b9",
+        "b60fe48723590c9d8172f6c7",
+        "bd0c2e34f79eadadf992f4e2",
+        "c6a7a43a376d92df5f420f3d",
+        "d5968ba9a98b70f548218263",
+        "d78eee745ce372a0b010f81a",
+        "ecd2a10f46954975185155af",
+        "fbeef7a4b32462cf2f85c7ab",
+        "fbf6757b5a77304084ba36d9"
+      ],
+      "family_counts": {
+        "lookup_counting": 15,
+        "numerical_aggregation": 8,
+        "temporal_selection": 27
+      },
+      "answer_kind_counts": {
+        "empty": 6,
+        "null_value": 2,
+        "value": 42
+      }
+    },
+    "held_out": {
+      "patients": [
+        {
+          "patient_fhir_id": "0a8eebfd-a352-522e-89f0-1d4a13abdebc",
+          "subject_id": 10000032
+        },
+        {
+          "patient_fhir_id": "e1de99bc-3bc5-565e-9ee6-69675b9cc267",
+          "subject_id": 10002428
+        },
+        {
+          "patient_fhir_id": "f5efdf3f-5b53-5c9f-95a6-047275107c46",
+          "subject_id": 10002495
+        },
+        {
+          "patient_fhir_id": "a5d4cb17-db8d-574b-bd88-71473088fd9a",
+          "subject_id": 10002930
+        },
+        {
+          "patient_fhir_id": "a3a12d01-dc21-565b-89e2-da60e7fc80dc",
+          "subject_id": 10003046
+        },
+        {
+          "patient_fhir_id": "77e10fd0-6a1c-5547-a130-fae1341acf36",
+          "subject_id": 10003400
+        },
+        {
+          "patient_fhir_id": "8659a6be-db5c-5f66-b629-1a3b858a487a",
+          "subject_id": 10004720
+        },
+        {
+          "patient_fhir_id": "0c2243d2-987b-5cbd-8eb1-170a80647693",
+          "subject_id": 10005866
+        },
+        {
+          "patient_fhir_id": "158f3a39-e3d7-5e7a-93aa-57af894aadd9",
+          "subject_id": 10005909
+        },
+        {
+          "patient_fhir_id": "a7bbf9a2-f7fe-5815-a637-fa59bd70b374",
+          "subject_id": 10006053
+        },
+        {
+          "patient_fhir_id": "53b0f2d8-24dc-5c82-903c-1bf98e510e96",
+          "subject_id": 10006580
+        },
+        {
+          "patient_fhir_id": "73fb53d8-f1fa-53cd-a25c-2314caccbb99",
+          "subject_id": 10007818
+        },
+        {
+          "patient_fhir_id": "74a2fd87-885b-5eca-9f8b-9141915dba51",
+          "subject_id": 10007928
+        },
+        {
+          "patient_fhir_id": "5ddeb201-5de6-5177-a116-fa82ce8ad2f2",
+          "subject_id": 10008287
+        },
+        {
+          "patient_fhir_id": "dd773280-4157-5168-9481-3d29a5ff82d8",
+          "subject_id": 10008454
+        },
+        {
+          "patient_fhir_id": "2edf1f64-2919-50e3-b98c-7a55dcfda00d",
+          "subject_id": 10009035
+        },
+        {
+          "patient_fhir_id": "735c5ea5-a995-5613-9c30-5421bcc2cf25",
+          "subject_id": 10009049
+        },
+        {
+          "patient_fhir_id": "df756e08-6ea8-5d69-b918-67911945f827",
+          "subject_id": 10010471
+        },
+        {
+          "patient_fhir_id": "c4c29979-f2f5-56db-af5b-1715887727b8",
+          "subject_id": 10011398
+        },
+        {
+          "patient_fhir_id": "8326334a-d5e4-5339-8c54-8463f95786a7",
+          "subject_id": 10012552
+        },
+        {
+          "patient_fhir_id": "f77a5b72-65fd-5b20-8cef-6b6be4791265",
+          "subject_id": 10012853
+        },
+        {
+          "patient_fhir_id": "807d2a03-9c57-55e3-a443-09fc8f1de866",
+          "subject_id": 10014078
+        },
+        {
+          "patient_fhir_id": "f3fc719c-f6e0-5c27-a18f-b4e5afaf279b",
+          "subject_id": 10014729
+        },
+        {
+          "patient_fhir_id": "5f74c4bf-681e-5123-ab4d-225c72be4f9f",
+          "subject_id": 10015272
+        },
+        {
+          "patient_fhir_id": "f5a99b42-365c-5f7e-bcab-4fa33b3cc88e",
+          "subject_id": 10015931
+        },
+        {
+          "patient_fhir_id": "afa7c67f-82b9-5f51-bd04-8b7d7c4456c0",
+          "subject_id": 10016150
+        },
+        {
+          "patient_fhir_id": "2955c958-192a-50eb-b59d-23a29d7d374e",
+          "subject_id": 10016742
+        },
+        {
+          "patient_fhir_id": "8c3ba37b-ba80-576a-8028-5a58eccb6156",
+          "subject_id": 10016810
+        },
+        {
+          "patient_fhir_id": "5d0fc1da-e9bb-5b52-8e17-5930295afd2c",
+          "subject_id": 10017492
+        },
+        {
+          "patient_fhir_id": "71a27b6b-5e41-509f-83a8-8f47e8fb8d78",
+          "subject_id": 10018328
+        },
+        {
+          "patient_fhir_id": "a977f4b6-1eb6-5639-80da-3e025744c4ac",
+          "subject_id": 10018501
+        },
+        {
+          "patient_fhir_id": "76202c51-1b9d-5cc2-a7bc-3dfb2ac3ab32",
+          "subject_id": 10019172
+        },
+        {
+          "patient_fhir_id": "88fcbf73-7d80-52ae-8f11-ee73c71df69b",
+          "subject_id": 10019568
+        },
+        {
+          "patient_fhir_id": "23f959c1-6ac2-562b-9cbe-c111f338e27b",
+          "subject_id": 10019777
+        },
+        {
+          "patient_fhir_id": "e232ee4d-3042-51c6-b730-a79eb8579d42",
+          "subject_id": 10019917
+        },
+        {
+          "patient_fhir_id": "27980ad8-77b7-5360-b211-bf4fac9c468c",
+          "subject_id": 10020306
+        },
+        {
+          "patient_fhir_id": "cd462e42-c070-5235-ae76-c37733a451be",
+          "subject_id": 10020786
+        },
+        {
+          "patient_fhir_id": "a87c1099-8c87-5548-8fc0-56972a82cebf",
+          "subject_id": 10020944
+        },
+        {
+          "patient_fhir_id": "b7b92f05-c913-5a94-9a06-7b015e838f14",
+          "subject_id": 10021118
+        },
+        {
+          "patient_fhir_id": "e7e213ac-81c0-5c7f-8d57-81519132353e",
+          "subject_id": 10021312
+        },
+        {
+          "patient_fhir_id": "af0e5009-d87d-52a8-ac8a-676e471c41f1",
+          "subject_id": 10021938
+        },
+        {
+          "patient_fhir_id": "a0bcbbc0-b432-5f7d-ac63-28212f20dead",
+          "subject_id": 10022017
+        },
+        {
+          "patient_fhir_id": "63bce7d4-9224-5d5d-ab3c-2967424deb0d",
+          "subject_id": 10022281
+        },
+        {
+          "patient_fhir_id": "9c3ebb7e-d087-519e-bea4-31c3d4aac7ff",
+          "subject_id": 10023117
+        },
+        {
+          "patient_fhir_id": "28776290-4349-56d3-8c13-adc554feabb8",
+          "subject_id": 10025463
+        },
+        {
+          "patient_fhir_id": "f572075b-186b-5565-b2d4-1567fe4f925c",
+          "subject_id": 10025612
+        },
+        {
+          "patient_fhir_id": "9111ccb1-fc93-5599-ab7d-35f1e61d4214",
+          "subject_id": 10026255
+        },
+        {
+          "patient_fhir_id": "73eac996-32e6-5b25-96fb-7d7414180af9",
+          "subject_id": 10027445
+        },
+        {
+          "patient_fhir_id": "e2beb281-c44f-579b-8211-a3749c549e92",
+          "subject_id": 10027602
+        },
+        {
+          "patient_fhir_id": "42f0ed8f-d744-5edb-a05d-8e011c1fbd64",
+          "subject_id": 10029484
+        },
+        {
+          "patient_fhir_id": "740b7686-fa6d-5574-9779-f17ed7661cbe",
+          "subject_id": 10031404
+        },
+        {
+          "patient_fhir_id": "3bbb6aec-41a3-5825-b6cf-422832002f96",
+          "subject_id": 10031757
+        },
+        {
+          "patient_fhir_id": "dc332fb6-61f8-552e-8743-765d626f0a4e",
+          "subject_id": 10035185
+        },
+        {
+          "patient_fhir_id": "842680b3-e421-58cc-8050-3b29668b438c",
+          "subject_id": 10037861
+        },
+        {
+          "patient_fhir_id": "91e0e410-0782-5478-90e0-1bedc3aa1525",
+          "subject_id": 10038081
+        },
+        {
+          "patient_fhir_id": "8e77dd0b-932d-5790-9ba6-5c6df8434457",
+          "subject_id": 10039708
+        },
+        {
+          "patient_fhir_id": "752d15e2-bd27-52ed-b055-ed79edb86aba",
+          "subject_id": 10039831
+        },
+        {
+          "patient_fhir_id": "b9a9ae7b-2455-59fe-938d-ce19ef360dd1",
+          "subject_id": 10039997
+        },
+        {
+          "patient_fhir_id": "adde1635-3110-5e92-b9f0-7a6d845a1784",
+          "subject_id": 10040025
+        }
+      ],
+      "question_ids": [
+        "01c441f58a97f89226067a93",
+        "04c847911489606e9cc2a6d2",
+        "0544bc6c320c47d80b7b3c78",
+        "07c7d0b230f28eb2bba883d4",
+        "0874a8eb9ae4f8b6bb50a1d4",
+        "0a0992495803104da30af972",
+        "0af1a06bcce4aacbc5a936f4",
+        "0d93e83a24f730a575941764",
+        "0f03144b28c1a640986c7ffc",
+        "11974f52e559145ce9f812f2",
+        "1452ce7ea3c5edec118c2e61",
+        "1495b796ffe9d906c0df1b75",
+        "163f4af47f19becb80903c30",
+        "1707f8cb73d2f9a0fc881db5",
+        "1844c94cefe167cfc46bbbc8",
+        "19a51debb0c5754456d20d1f",
+        "1a89de1d88c68408b38a9c56",
+        "213a702cca16592f4d19705a",
+        "22458c7e5433bc48eeb5f97c",
+        "224951a256954e9d3b39076e",
+        "228014642a9c756b378d10cc",
+        "27f16675ba7f39ec5b46e3bf",
+        "282f008dd8dfb8f4a1dd6999",
+        "2ace025c677add406539f6bd",
+        "2b9a9c55cdacdabc16a4f556",
+        "2f74275a2c13953fc65e324f",
+        "2f8b95322025bab1d2c8da4f",
+        "304008138415ff886f9fa539",
+        "31cdceeb50d5b9593b6c8055",
+        "3c7e00141c354983c6fb8742",
+        "3f7e59eb07f66f58689fdf28",
+        "407b4851260c5c0836e1d89e",
+        "407ffa4fc0b1f6b83c6a90e4",
+        "411239af52a2ceaa4e79d867",
+        "4171edfb2349dc1b264cd1dd",
+        "41deb2b6334194be2b87c10f",
+        "44142bfb9b0cf7c3ae3ebb6a",
+        "479ae3deb06c95266bad80c8",
+        "47dbc50e60c6491af7433121",
+        "493ddb9a69efd787e0396f81",
+        "49a4cd3cf6fcacac9a3bf922",
+        "4d64d12fe14c8c3ed4e3f73f",
+        "4d79af33c083f4da6c760216",
+        "4e9096d82b904f68fcb8006c",
+        "4f90e141b3068b6b2ff3d1a5",
+        "519da8c653b3284432571957",
+        "535fa7171aca46e1fa19b72d",
+        "555c677326428762a09481c7",
+        "56919090958387812584e77a",
+        "56eab13d0583a58c43247431",
+        "5861ef095f4c08ad236ab8c5",
+        "5969b3f1a95b57d848d81e86",
+        "5a5fd081d30e9927c3c6dad4",
+        "5c292b2eff5ea33b4c5658b2",
+        "5cce095f827f40e0736c9405",
+        "5d5185c385123b16a09f65af",
+        "5d5d324fca23706de226e43a",
+        "5edb9312f6f7f742fcdce8fc",
+        "5fb21a95a15d64c85db2fed8",
+        "60ea85db45d1ad1ad72cf62a",
+        "6256d1fb1cd3aeaba0eb11a8",
+        "65b2855ba05f13d02f85adcd",
+        "675c3bb58c7f84d6c7abcb76",
+        "6b87c27e7eaa3734d66015e0",
+        "6dcff6961c5881f37f24c90d",
+        "6ee64a55e047a6157abffad9",
+        "6fc987dbdba9f552b5be7f44",
+        "708d239b2f7785ac668db27a",
+        "725d74abd24c1af33ef5d212",
+        "7299ff6d3a692b4da823bc87",
+        "72a2d6a35e2ba5c873f1a881",
+        "72e0ab522c86eeb3cfdf64d1",
+        "74d605424dff525f198b0afe",
+        "755568f5da1aa36f192dbdd8",
+        "75687ea1705bf35f720606d4",
+        "776aa437e8c7772107f91170",
+        "7b241688629b0769f326af90",
+        "7b7e0d370650fe79de5ab188",
+        "7c14ad97c239a78381bd7174",
+        "7d56993bcf3d2b526fae33a7",
+        "7edc30d3b6fa3b7308ebcd4a",
+        "801278f003c473902d05fa06",
+        "8140c1e65784238caf1362ad",
+        "8189f1610cb803102103466a",
+        "81aaa658176632cb934fc8b2",
+        "8288ab2fa75b4a191de46940",
+        "828f43dc5831cb08e5ce4ac8",
+        "837a8f55375dcee9e103dbce",
+        "84864ac527ad8527348ec48a",
+        "848a65292fc28285ffa82551",
+        "8567ab1c50977e5114c864e1",
+        "8d3d64b56c340125f70300f3",
+        "8d73f28463798e2fa6a31b3a",
+        "8fa8ed75a85186090d9db649",
+        "90029829a3c76198a7de717b",
+        "9068933037510c1817c920bd",
+        "935b75442d1b950e70d20b8f",
+        "95475af06738ffe0fb4f1c65",
+        "96b1d3fe1090aafcf5bcc954",
+        "96c87d6620403ab5197e010c",
+        "97972bbea1fe2404f8de1b69",
+        "980016183fee2c1f4ae611ae",
+        "9a6863fb555783adad183af6",
+        "9ae1e99a336fdea068c22d52",
+        "9db928d9e5f6893e61f4f006",
+        "a2c56aa731442cc35b8f88dc",
+        "a3453842fa6d5f908f2e8c6e",
+        "a3fbabc4125bd38ac2aed4db",
+        "a40106b94aad93108e39fdbe",
+        "a5356c6c205e9f088964bb9a",
+        "a69b592f91b063a29a0fb688",
+        "a6cec8e8e6020c8b18e14f57",
+        "aa2c37cca4ef58130e2faadd",
+        "ad08e146a6e37e3a138c8c78",
+        "ae413e6191c531e7f585a405",
+        "b07f1b0cf6f5838302e27ea2",
+        "b08e604b0e398d9225a7e1f0",
+        "b26e5939c6b846e6073358d5",
+        "b3c91b713aa0b269e1c13630",
+        "b5f30bce905a467fe3d9be05",
+        "b862c7be7085f5768ab9bd66",
+        "b9e7f10e8737b4fd67bc29db",
+        "ba5d2c366e08023fec9bfbe5",
+        "babb2410ee949a2d7a609b15",
+        "be808f9b9ff6628170faba78",
+        "c06d5f1b8c8e4396f73f77c8",
+        "c3fd367fdc390db8d0461dff",
+        "c4b26c0ae57a5f77fcd0c46d",
+        "c66b8f121c0ec0bc328c5dad",
+        "c68f338d371ce9d209a15844",
+        "c6de512d1247fb7333ad1c80",
+        "c7a42a6138402a2496be2e3d",
+        "cada9d0e90575a50cef72fe4",
+        "cbf01f06a75320ed354d25af",
+        "ce3af199fd7438f9504a0ed5",
+        "d60412f228f0e3b6df5b6d8c",
+        "d8c4bcdab05c48a114af4957",
+        "d9585c679577af82dd88c509",
+        "d9cc62f7c052734452299128",
+        "d9f1d82756382ceba0364eb7",
+        "dce18218fbb62e3b07c34441",
+        "dcfff42d3b4e18800ea55074",
+        "dd637812c5b2444154d1942b",
+        "dd880129ab0eb4dc203813f8",
+        "e0bdf1f255574123e3d82ebc",
+        "e5441310205bb859e8ca31ba",
+        "e5e99a0d4249da9d001cf97b",
+        "e799539afbf0b691d6a01724",
+        "ea58b388c8e0a4f382814580",
+        "ec318c164a262760140ba3ff",
+        "ed91e258dd31d6431b37bd91",
+        "ee04db0976616af28ba6a8a5",
+        "f0f7a54c7ede3f83d04bd4df",
+        "f2545d14686ea54127cc9c44",
+        "f294c7fe72b5826f97ff068a",
+        "f3bebe99a5275c408f17b181",
+        "f46885deabda4129f8960805",
+        "f870fc9332fe7c3778488b46",
+        "f99e58fee0562c646b3dc682",
+        "fa4dfaaf2645d182bd7337d2",
+        "fff1f1751b80965886ad5fbd"
+      ],
+      "family_counts": {
+        "lookup_counting": 88,
+        "numerical_aggregation": 16,
+        "temporal_selection": 57
+      },
+      "answer_kind_counts": {
+        "value": 161
+      }
+    }
+  },
+  "pool": {
+    "name": "truncation",
+    "criteria": "truncated starting packet that omits at least one cited non-context record",
+    "base_split": "manifests/split.json",
+    "base_split_sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+    "builder_sha256": "909b8e16e16118273fd65f5648be5c7bee7bf7b481980ca9b41cfed557a1e69e",
+    "questions": 161,
+    "patients": 49,
+    "templates": 26,
+    "template_counts": {
+      "T001": 29,
+      "T003": 1,
+      "T009": 30,
+      "T010": 3,
+      "T015": 1,
+      "T016": 1,
+      "T018": 3,
+      "T019": 20,
+      "T040": 1,
+      "T041": 3,
+      "T047": 1,
+      "T048": 1,
+      "T049": 3,
+      "T051": 10,
+      "T052": 6,
+      "T055": 9,
+      "T057": 9,
+      "T058": 3,
+      "T059": 1,
+      "T063": 1,
+      "T064": 1,
+      "T065": 1,
+      "T067": 1,
+      "T070": 11,
+      "T073": 4,
+      "T075": 7
+    }
+  }
+}

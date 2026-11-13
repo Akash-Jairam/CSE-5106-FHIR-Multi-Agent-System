@@ -5,6 +5,8 @@ This repository contains the code and dataset for FHIR-AgentBench.
 
 ## 📁 Project Structure
 
+For an in-depth walkthrough of how the data pipeline, agents, tools, evaluation, experiments and demo fit together, see [docs/architecture.md](docs/architecture.md).
+
 ```
 FHIR-AgentBench/
 ├── scripts/                          # Bash scripts for data setup, agent inference, and evaluation
@@ -182,6 +184,19 @@ You can enable the required APIs and verify access using the [gcloud CLI](https:
 
    `MODEL` is the one base model for all three systems (direct LLM, single agent, multi-agent), so they always run on the same LLM. `run_agent.py`, `scripts/run_experiments.py`, the demo, `scripts/check_setup.py`, the LLM judge, and every `scripts/run_*.sh` launcher take their default from it (`utils/model_config.py`). The order is `$MODEL`, then `MODEL` in `config.yml`, then `gpt-6-luna`. `--model` overrides it for one command, and `scripts/run_experiments.py` passes its one model to every arm.
 
+   **Local model (Qwen3-4B via Ollama).** To run without an API key, serve `qwen3:4b` locally and select it with `MODEL=qwen3:4b` (or `MODEL: "qwen3:4b"` in `config.yml`):
+
+   ```bash
+   brew install ollama            # or see https://ollama.com/download
+   # Ollama's default context window is 4096 tokens and longer prompts are silently truncated.
+   # 16k with a q8 KV cache needs ~5 GB of memory; raise it if you have the RAM.
+   OLLAMA_CONTEXT_LENGTH=16384 OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q8_0 ollama serve
+   ollama pull qwen3:4b           # in another terminal
+   MODEL=qwen3:4b bash scripts/run_smoke_test.sh
+   ```
+
+   Qwen models talk to `http://localhost:11434/v1` by default; `$BASE_URL`, `BASE_URL` in `config.yml`, or `--base_url` point them elsewhere. `qwen3:4b` is a thinking model: Ollama returns its reasoning separately, so answers stay clean, but reasoning tokens count toward `--max_total_tokens`. Local runs report cost as unknown (`None`).
+
    Each collaborator chooses their own model and provider configuration. Keep personal launchers, provider adapters, deployment settings, and credential files local (for example, under the ignored `.local-setup/` directory); shared agents must not depend on them. Commit reusable code, tests, placeholder-only configuration templates, and project-wide reproducibility manifests. Virtual environments, caches, downloaded data, and run outputs remain local.
 
 6) Quick setup check
@@ -279,6 +294,10 @@ python scripts/run_experiments.py revisions --max_total_tokens 200000 --max_tool
 `bash scripts/run_demo.sh --max_total_tokens 200000 --max_tool_calls 30` starts the demo: pick a patient and an example or custom question, and see the answer, its cited fields, and its verification status from the same pipeline.
 
 Rerunning `run` resumes from the saved results and retries failed questions. Use `--split pilot --limit 2 --arms ordinary` for a smoke run, and `--arms` to run a subset. See [the Phase 3 notes](docs/phase3_experiments.md).
+
+### More questions
+
+Extra held-out pools from the unsampled released questions (`scripts/build_question_pools.py`), FHIR-native generated questions (`scripts/generate_fhir_questions.py`), finisher paraphrases (`scripts/build_paraphrases.py`), and multi-record perturbations (`scripts/build_multi_perturbations.py`) are split manifests over the same patient pools. Pass one with `--split_manifest` (plus `--input` and `--families` for a generated bank) to run its `ordinary` arms. See [the question generation notes](docs/question_generation.md), which also report the results for gpt-oss:120b and qwen3:32b on all ten suites.
 
 Generated Python runs with copied retrieved resources, no repository credentials or network, and a real deadline. It requires `sandbox-exec` on macOS or `bubblewrap` (`bwrap`) on Linux and fails closed without a supported sandbox. See [the review and verification notes](docs/phase1_review.md).
 
