@@ -4,7 +4,8 @@
 
 For one model's experiment directory, prints:
   - paraphrases: accuracy of each ordinary arm on the 67 held-out finisher questions as
-    released (held_out_v2), routed and unrouted, with exact McNemar tests between variants;
+    released (held_out_v2, when the model has it), routed and unrouted, with exact McNemar
+    tests between variants;
   - generated: accuracy by polarity, feature and semantics sensitivity, for the generated
     and positive-only suites;
   - multi_perturbations: intact and omitted accuracy of each recovery system by kind;
@@ -58,20 +59,25 @@ def paraphrases(model_dir):
         scores, references = arm_scores(os.path.join(model_dir, "suite_paraphrases", f"ordinary_{arm}.json"),
                                         inputs=PARAPHRASES)
         asked = frame[frame["question_id"].isin(scores)]
-        original, original_refs = arm_scores(os.path.join(model_dir, "held_out_v2", f"ordinary_{arm}.json"))
-        by_variant = {"original": {q: original[q] for q in asked["source_question_id"]}}
+        by_variant = {}
         for variant, rows in asked.groupby("variant"):
             by_variant[variant] = dict(zip(rows["source_question_id"], (scores[q] for q in rows["question_id"])))
+        sources = sorted(by_variant["routed"])
+        source_patients = {source: references[q]["patient"]
+                           for source, q in zip(asked["source_question_id"], asked["question_id"])}
+        if os.path.exists(original_path := os.path.join(model_dir, "held_out_v2", f"ordinary_{arm}.json")):
+            original, _ = arm_scores(original_path)
+            by_variant = {"original": {q: original[q] for q in sources}, **by_variant}
         variants[arm] = by_variant
-        sources = sorted(by_variant["original"])
-        patients = [original_refs[q]["patient"] for q in sources]
+        patients = [source_patients[q] for q in sources]
         print(f"\n  {arm}")
-        for variant in ("original", "routed", "unrouted"):
+        for variant in by_variant:
             print(f"    {variant:<9} {_rate([by_variant[variant][q] for q in sources], patients)}")
         for a, b in (("original", "routed"), ("original", "unrouted"), ("routed", "unrouted")):
-            print(f"    {a} - {b}: {_mcnemar([by_variant[a][q] for q in sources], [by_variant[b][q] for q in sources])}")
-    sources = sorted(variants[ARMS[0]]["original"])
-    for variant in ("original", "routed", "unrouted"):
+            if a in by_variant:
+                print(f"    {a} - {b}: {_mcnemar([by_variant[a][q] for q in sources], [by_variant[b][q] for q in sources])}")
+    sources = sorted(variants[ARMS[0]]["routed"])
+    for variant in variants[ARMS[0]]:
         pick = lambda arm: [variants[arm][variant][q] for q in sources]  # noqa: E731
         print(f"  {variant:<9} multi - single: {_mcnemar(pick('multi_agent'), pick('single_agent'))}")
 
