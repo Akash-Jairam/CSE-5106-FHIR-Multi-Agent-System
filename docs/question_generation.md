@@ -396,17 +396,17 @@ Multi-agent on gpt-oss with one component removed at a time, on 100 questions fr
 | Variant | What is removed | Accuracy | − full | Discordant (gained / lost) | p | Mean tokens |
 | --- | --- | --- | --- | --- | --- | --- |
 | full | nothing | 87.0% [80.6, 92.7] | | | | 67.1k |
-| no_prefetch | retrieval's prefetch of the complete records | 86.0% | −1.0 [−4.3, +2.2] | | 1 | 75.3k |
+| no_prefetch | retrieval's prefetch of the complete records | 86.0% | −1.0 [−4.3, +2.2] | 2 / 3 | 1 | 75.3k |
 | no_packet | the starting packet shown to analysis | 82.0% | −5.0 [−10.8, +0.0] | 2 / 7 | 0.18 | 87.1k |
 | no_guidance | search guidance, semantic guidance and worked examples in analysis's prompt (14.7k → 2.2k characters) | 81.0% | −6.0 [−12.6, +0.0] | 1 / 7 | 0.07 | 60.6k |
-| no_verifier | the verifier, so no repair or vote follows | 86.0% | −1.0 [−5.9, +4.3] | | 1 | 44.8k |
+| no_verifier | the verifier, so no repair or vote follows | 86.0% | −1.0 [−5.9, +4.3] | 3 / 4 | 1 | 44.8k |
 
 The release step records every candidate answer, so the draft can also be scored on its own from the same runs:
 
 | Questions | Released | Draft | Draft, else repaired | Released − draft (p) | Repairs | Verifier answers |
 | --- | --- | --- | --- | --- | --- | --- |
 | ablation subset (100) | 87.0% | 89.0% | 89.0% | −2.0, 0 / 2 discordant (0.5) | 6 | 30 (26 right) |
-| whole `generated` suite (300) | 83.3% | 84.0% | 84.0% | −0.7 (0.73) | 13 | 66 |
+| whole `generated` suite (300) | 83.3% | 84.0% | 84.0% | −0.7, 3 / 5 discordant (0.73) | 13 | 66 |
 
 - **Analysis's prompt and its packet carry the system.** Removing the guidance and worked examples costs 6 points, and hiding the packet costs 5. Neither difference is significant with 100 questions, but almost all discordant questions go against the ablation. Without the packet, analysis searches more and spends 30% more tokens.
 - **Verification, repair and the vote add nothing measurable on generated questions.** Removing the verifier costs 1 point and saves a third of the tokens; the unrepaired draft scores as well as the released answer on all 300 questions. The multi-record perturbations above are where verification might still matter, and they were not ablated.
