@@ -10,6 +10,7 @@
 # Usage (from the repository root on the login node):
 #   sbatch --job-name=phase3-gpt-oss-vllm scripts/run_experiments_vllm.sbatch
 #   SPLIT=dev sbatch --job-name=phase3-gpt-oss-vllm scripts/run_experiments_vllm.sbatch --arms ordinary_multi_agent
+#   RUNNER=scripts/run_ablations.py sbatch --job-name=ablations-gpt-oss scripts/run_experiments_vllm.sbatch
 #SBATCH --job-name=phase3-vllm
 #SBATCH --account=compute2-di2cap
 #SBATCH --partition=general-gpu
@@ -23,6 +24,7 @@ set -uo pipefail
 model="${MODEL:-gpt-oss:120b}"            # the name the runner and results use
 hf_model="${HF_MODEL:-openai/gpt-oss-120b}"
 split="${SPLIT:-held_out}"
+runner="${RUNNER:-scripts/run_experiments.py}"  # or scripts/run_ablations.py, which takes the same run/status flags
 scratch="/scratch2/fs1/di2cap/$USER"
 vllm_venv="${VLLM_VENV:-$scratch/vllm-venv}"
 # Weights are downloaded once on the login node; the job reads them offline
@@ -70,5 +72,5 @@ python -c 'from tools.python_executor import execute_python_code as run; r = run
 
 common=(--model "$model" --base_url "$base_url" --max_total_tokens 200000 --max_tool_calls 30 --split "$split")
 # Exits non-zero while any question has failed; the status below says whether to resubmit
-python scripts/run_experiments.py run "${common[@]}" --num_processes "$workers" "$@"
-python scripts/run_experiments.py status "${common[@]}" "$@"
+python "$runner" run "${common[@]}" --num_processes "$workers" "$@"
+python "$runner" status "${common[@]}" "$@"
