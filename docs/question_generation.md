@@ -391,27 +391,39 @@ Mean per question, including retries, on pool_held_out_v2. `cost` is not recorde
 
 ### Component ablations
 
-Multi-agent on gpt-oss with one component removed at a time, on 100 questions from the `generated` suite: 46 negative and 54 positive, from 51 patients, stratified by polarity with seed 5106 (`manifests/generated/fhir_native.ablation_subset.json`). The variants are subclasses in `scripts/run_ablations.py`, so the code fingerprint is unchanged and `full` is an ordinary multi-agent run. All 500 runs finished with no failures. Intervals are patient-clustered bootstraps; p values come from exact McNemar tests against `full`.
+Multi-agent with one component removed at a time, on gpt-oss and qwen3:32b, on 100 questions from the `generated` suite: 46 negative and 54 positive, from 51 patients, stratified by polarity with seed 5106 (`manifests/generated/fhir_native.ablation_subset.json`). The variants are subclasses in `scripts/run_ablations.py`, so the code fingerprint is unchanged and `full` is an ordinary multi-agent run. gpt-oss finished all 500 runs; qwen3:32b failed 3 (one each in full, no_prefetch and no_verifier), counted as wrong. Intervals are patient-clustered bootstraps; p values come from exact McNemar tests against `full`. Each cell gives accuracy, the difference from full with its interval, gained / lost questions and p.
 
-| Variant | What is removed | Accuracy | − full | Discordant (gained / lost) | p | Mean tokens |
-| --- | --- | --- | --- | --- | --- | --- |
-| full | nothing | 87.0% [80.6, 92.7] | | | | 67.1k |
-| no_prefetch | retrieval's prefetch of the complete records | 86.0% | −1.0 [−4.3, +2.2] | 2 / 3 | 1 | 75.3k |
-| no_packet | the starting packet shown to analysis | 82.0% | −5.0 [−10.8, +0.0] | 2 / 7 | 0.18 | 87.1k |
-| no_guidance | search guidance, semantic guidance and worked examples in analysis's prompt (14.7k → 2.2k characters) | 81.0% | −6.0 [−12.6, +0.0] | 1 / 7 | 0.07 | 60.6k |
-| no_verifier | the verifier, so no repair or vote follows | 86.0% | −1.0 [−5.9, +4.3] | 3 / 4 | 1 | 44.8k |
+| Variant | What is removed | gpt-oss | qwen3:32b | Mean tokens (gpt-oss / qwen3:32b) |
+| --- | --- | --- | --- | --- |
+| full | nothing | 87.0% [80.6, 92.7] | 69.0% [60.6, 77.0] | 67.1k / 64.1k |
+| no_prefetch | retrieval's prefetch of the complete records | 86.0%; −1.0 [−4.3, +2.2]; 2 / 3; p=1 | 68.0%; −1.0 [−6.2, +4.2]; 4 / 5; p=1 | 75.3k / 68.2k |
+| no_packet | the starting packet shown to analysis | 82.0%; −5.0 [−10.8, +0.0]; 2 / 7; p=0.18 | 64.0%; −5.0 [−11.4, +1.1]; 4 / 9; p=0.27 | 87.1k / 49.1k |
+| no_guidance | search guidance, semantic guidance and worked examples in analysis's prompt (14.7k → 2.2k characters) | 81.0%; −6.0 [−12.6, +0.0]; 1 / 7; p=0.07 | 64.0%; −5.0 [−10.2, +0.0]; 1 / 6; p=0.12 | 60.6k / 66.1k |
+| no_verifier | the verifier, so no repair and no verifier vote | 86.0%; −1.0 [−5.9, +4.3]; 3 / 4; p=1 | 68.0%; −1.0 [−5.6, +3.2]; 2 / 3; p=1 | 44.8k / 41.6k |
 
-The release step records every candidate answer, so the draft can also be scored on its own from the same runs:
+The release step records every candidate answer, so the draft can also be scored on its own from the same runs. An abstention (a null answer) is scored like any other answer, so it counts as right on a negative question whose answer is that nothing matches.
 
-| Questions | Released | Draft | Draft, else repaired | Released − draft (p) | Repairs | Verifier answers |
-| --- | --- | --- | --- | --- | --- | --- |
-| ablation subset (100) | 87.0% | 89.0% | 89.0% | −2.0, 0 / 2 discordant (0.5) | 6 | 30 (26 right) |
-| whole `generated` suite (300) | 83.3% | 84.0% | 84.0% | −0.7, 3 / 5 discordant (0.73) | 13 | 66 |
+| Model | Questions | Released | Draft | Draft, else repaired | Released − draft, gained / lost (p) | Repairs | Verifier answers |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| gpt-oss | ablation subset (100) | 87.0% | 89.0% | 89.0% | −2.0, 0 / 2 (0.5) | 6 | 30 (26 right) |
+| | whole `generated` suite (300) | 83.3% | 84.0% | 84.0% | −0.7, 3 / 5 (0.73) | 13 | 66 |
+| qwen3:32b | ablation subset (100) | 69.0% | 77.0% | 81.0% | −8.0, 3 / 11 (0.057) | 30 (22 right) | 77 (56 right) |
+| | whole `generated` suite (300) | 58.0% | 66.3% | 69.7% | −8.3, 9 / 34 (2e-4) | 97 (60 right) | 246 (155 right) |
 
-- **Analysis's prompt and its packet carry the system.** Removing the guidance and worked examples costs 6 points, and hiding the packet costs 5. Neither difference is significant with 100 questions, but almost all discordant questions go against the ablation. Without the packet, analysis searches more and spends 30% more tokens.
-- **Verification, repair and the vote add nothing measurable on generated questions.** Removing the verifier costs 1 point and saves a third of the tokens; the unrepaired draft scores as well as the released answer on all 300 questions. The multi-record perturbations above are where verification might still matter, and they were not ablated.
+Tracing the 43 questions of the qwen3:32b suite where the released answer and the draft disagree (`release.winner` and `release.finisher` in each run's revision):
+
+- **31 of the 34 losses are negative questions where the draft correctly abstained and the packet reading answered anyway.** Abstentions do not vote, so the packet reading wins alone (29), or with the repaired answer (1), or the repaired answer wins alone (1). gpt-oss loses 5 questions the same way.
+- **The other 3 losses are positive questions** where the repaired answer, with the verifier or the packet reading, outvoted a correct draft.
+- **The 9 gains are 4 positive questions where the draft abstained and the packet reading was right, and 5 where the finisher replaced a wrong answer.** The finisher never turned a right answer wrong.
+- Letting an abstention vote, so that the draft wins its tie with a lone packet reading, would have recovered about 30 of these questions and given up the 4 gains: about +26 (to roughly 67%) on qwen3:32b and +3 on gpt-oss. This is an estimate from the recorded candidates, not a run; the change would alter the code fingerprint, so it belongs in a round that reruns every model.
+
+Findings:
+
+- **Analysis's prompt and its packet carry the system on both models.** Removing the guidance and worked examples costs 5–6 points, and hiding the packet costs 5. None of these differences is significant with 100 questions, but most discordant questions go against the ablation on both models.
+- **The verifier adds nothing measurable on generated questions.** Removing it costs 1 point on both models and saves a third of the tokens. It does not explain qwen3:32b's release loss either, because without the verifier the packet reading still outvotes an abstaining draft. The multi-record perturbations above are where verification might still matter, and they were not ablated.
+- **The release vote costs qwen3:32b 8 points on generated questions**, almost entirely through abstentions that cannot vote (above). On gpt-oss, whose packet reading rarely answers a negative question, the vote costs under a point.
 - **Prefetching the complete records makes no difference here.** Without it, retrieval asks for the records itself and uses more tokens.
-- **Only differences of about 6 points or more are detectable at this size**, so "no difference" means no large one. These results are for gpt-oss on generated questions only.
+- **Only differences of about 6 points or more are detectable at this size**, so "no difference" means no large one. These results are for generated questions only.
 
 ### Reproducing
 
@@ -435,10 +447,12 @@ python scripts/suite_breakdowns.py output/experiments/qwen3:32b
 
 The generated and paraphrase suites also take their `--input`, `--families` and `--split_manifest` (see `scripts/submit_question_suites.sh`).
 
-The component ablations run as one vLLM job and are analyzed with the same flags:
+The component ablations run as one job per model and are analyzed with the same flags:
 
 ```bash
 RUNNER=scripts/run_ablations.py sbatch --job-name=ablations-gpt-oss scripts/run_experiments_vllm.sbatch
+RUNNER=scripts/run_ablations.py OLLAMA_MODELS=/scratch2/fs1/di2cap/$USER/ollama-models \
+    sbatch --job-name=ablations-qwen3-32b scripts/run_experiments_qwen.sbatch
 python scripts/run_ablations.py analyze --model gpt-oss:120b \
     --base_url http://127.0.0.1:28431/v1 --max_total_tokens 200000 --max_tool_calls 30
 ```
