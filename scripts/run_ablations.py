@@ -20,6 +20,8 @@ Each differs from the full system in one component:
   no_packet     analysis is not shown the starting packet (the packet reading still votes)
   no_guidance   analysis prompt without the search guidance, EHR conventions and worked examples
   no_verifier   verification never runs: no repair and no verifier vote
+  abstain_vote  not an ablation: an abstention votes in the release, so a draft that finds nothing
+                keeps its tie with a lone packet reading (a candidate fix, docs/question_generation.md)
 
 `analyze` scores each variant against `full` (first attempt, typed scorer, failed runs wrong) with
 patient-clustered intervals and exact McNemar tests. It also scores, post hoc, each candidate the full
@@ -47,7 +49,7 @@ from agent.ehr_semantics import SEMANTIC_GUIDANCE  # noqa: E402
 from agent.multi_agent import MultiAgentSystem  # noqa: E402
 from agent.multi_turn_code_resource_agent import WORKED_EXAMPLES, MultiTurnCodeResourceAgent  # noqa: E402
 from agent.retrieval_agent import RetrievalAgent  # noqa: E402
-from agent.verification_agent import VerificationAgent  # noqa: E402
+from agent.verification_agent import VerificationAgent, _canonical  # noqa: E402
 from scripts.experiment_stats import clustered_mean, mcnemar_exact, paired_difference  # noqa: E402
 from scripts.run_experiments import load_references  # noqa: E402
 from scripts.variability import first_attempt, is_failed, score_row  # noqa: E402
@@ -60,7 +62,7 @@ SUBSET = os.path.join(ROOT, "manifests", "generated", "fhir_native.ablation_subs
 SPLIT = "held_out"
 SIZE = 100
 SEED = 5106
-VARIANTS = ("full", "no_prefetch", "no_packet", "no_guidance", "no_verifier")
+VARIANTS = ("full", "no_prefetch", "no_packet", "no_guidance", "no_verifier", "abstain_vote")
 VOTERS = ("draft", "repaired", "direct", "verifier")
 
 
@@ -97,10 +99,34 @@ class NoVerifier(MultiAgentSystem):
         return []
 
 
+class AbstainVote(MultiAgentSystem):
+    """Abstentions form a voting group of their own. When that group wins (same rule: most votes, ties
+    to the earliest voter), nothing is released, as when every candidate abstains; otherwise the
+    winner is the one the full system's vote picks, since the largest answer group is unchanged."""
+
+    def release(self, state):
+        question = self._context["question"]
+        pairs = self.candidates(state)
+        groups = {}
+        for voter, candidate in pairs:
+            answer = candidate.get("answer")
+            groups.setdefault(None if answer is None else repr(_canonical(answer, question)), []).append(voter)
+        if None in groups and len(groups) > 1:
+            order = {voter: index for index, (voter, _) in enumerate(pairs)}
+            key = max(groups, key=lambda k: (len(groups[k]), -min(order[v] for v in groups[k])))
+            if key is None:
+                details = {"candidates": {voter: c.get("answer") for voter, c in pairs},
+                           "winner": groups[None][0], "votes": len(groups[None]), "finisher": None}
+                self.last_llm_error = None
+                return None, None, details
+        return super().release(state)
+
+
 STRATEGIES = {"full": ("multi_agent", None), "no_prefetch": ("multi_agent_no_prefetch", NoPrefetch),
               "no_packet": ("multi_agent_no_packet", NoPacket),
               "no_guidance": ("multi_agent_no_guidance", NoGuidance),
-              "no_verifier": ("multi_agent_no_verifier", NoVerifier)}
+              "no_verifier": ("multi_agent_no_verifier", NoVerifier),
+              "abstain_vote": ("multi_agent_abstain_vote", AbstainVote)}
 ABLATION_CLASSES = {strategy: cls for strategy, cls in STRATEGIES.values() if cls is not None}
 
 

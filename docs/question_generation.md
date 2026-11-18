@@ -415,13 +415,22 @@ Tracing the 43 questions of the qwen3:32b suite where the released answer and th
 - **31 of the 34 losses are negative questions where the draft correctly abstained and the packet reading answered anyway.** Abstentions do not vote, so the packet reading wins alone (29), or with the repaired answer (1), or the repaired answer wins alone (1). gpt-oss loses 5 questions the same way.
 - **The other 3 losses are positive questions** where the repaired answer, with the verifier or the packet reading, outvoted a correct draft.
 - **The 9 gains are 4 positive questions where the draft abstained and the packet reading was right, and 5 where the finisher replaced a wrong answer.** The finisher never turned a right answer wrong.
-- Letting an abstention vote, so that the draft wins its tie with a lone packet reading, would have recovered about 30 of these questions and given up the 4 gains: about +26 (to roughly 67%) on qwen3:32b and +3 on gpt-oss. This is an estimate from the recorded candidates, not a run; the change would alter the code fingerprint, so it belongs in a round that reruns every model.
+- Letting an abstention vote, so that the draft wins its tie with a lone packet reading, would have recovered about 30 of these questions and given up the 4 gains: about +26 (to roughly 67%) on qwen3:32b and +3 on gpt-oss, estimated from the recorded candidates.
+
+The `abstain_vote` variant tests that fix. Abstentions form a voting group of their own; when that group wins (most votes, ties to the earliest voter), nothing is released, as when every candidate abstains, and otherwise the vote is unchanged. It was run fresh on the same 100 questions:
+
+| Model | full | abstain_vote | − full | Gained / lost | p | Mean tokens |
+| --- | --- | --- | --- | --- | --- | --- |
+| gpt-oss | 87.0% | 91.0% [85.1, 96.1] | +4.0 [+1.0, +8.0] | 4 / 0 | 0.12 | 67.1k → 71.5k |
+| qwen3:32b | 69.0% | 78.0% [70.0, 85.6] | +9.0 [+4.1, +14.7] | 11 / 2 | 0.022 | 64.1k → 68.9k |
+
+The qwen3:32b gain matches the estimate and brings the released answer to the draft's level (77% on this subset); it is the only significant difference in these ablations. Some of the discordant questions are run-to-run variation, since the variant is a fresh run. Adopting the fix means changing `MultiAgentSystem.release`, which alters the code fingerprint, so the multi-agent arm of every suite and model would need rerunning; single-agent and direct would not.
 
 Findings:
 
 - **Analysis's prompt and its packet carry the system on both models.** Removing the guidance and worked examples costs 5–6 points, and hiding the packet costs 5. None of these differences is significant with 100 questions, but most discordant questions go against the ablation on both models.
 - **The verifier adds nothing measurable on generated questions.** Removing it costs 1 point on both models and saves a third of the tokens. It does not explain qwen3:32b's release loss either, because without the verifier the packet reading still outvotes an abstaining draft. The multi-record perturbations above are where verification might still matter, and they were not ablated.
-- **The release vote costs qwen3:32b 8 points on generated questions**, almost entirely through abstentions that cannot vote (above). On gpt-oss, whose packet reading rarely answers a negative question, the vote costs under a point.
+- **The release vote costs qwen3:32b 8 points on generated questions**, almost entirely through abstentions that cannot vote (above). Letting abstentions vote recovers 9 points on qwen3:32b (p=0.022) and adds 4 on gpt-oss.
 - **Prefetching the complete records makes no difference here.** Without it, retrieval asks for the records itself and uses more tokens.
 - **Only differences of about 6 points or more are detectable at this size**, so "no difference" means no large one. These results are for generated questions only.
 
@@ -456,6 +465,8 @@ RUNNER=scripts/run_ablations.py OLLAMA_MODELS=/scratch2/fs1/di2cap/$USER/ollama-
 python scripts/run_ablations.py analyze --model gpt-oss:120b \
     --base_url http://127.0.0.1:28431/v1 --max_total_tokens 200000 --max_tool_calls 30
 ```
+
+Pass `--variants abstain_vote` (after the job script, or to `run`) to run a single variant; `analyze --variants full abstain_vote` compares just those two.
 
 ## Rebuilding
 
