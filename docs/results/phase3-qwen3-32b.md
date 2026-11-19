@@ -83,6 +83,8 @@ The gain is largest on time-based questions, which make up over half the held-ou
 
 **Baseline reruns.** direct_llm and single_agent were rerun at the new commit and land within a few points of their earlier runs (gpt-oss:120b: 71.0 → 71.7% and 72.3 → 72.0%; qwen3:32b: 55.3 → 55.7% and 52.7 → 49.7%). Their prompts did not change, so this is run-to-run variation, in line with the repeatability results below.
 
+**Guided baselines.** How much of this lead remains when the baselines get the analysis role's instructions: [guided-baselines.md](guided-baselines.md).
+
 ## Setup
 
 This and the following sections describe the original multi-agent system.
