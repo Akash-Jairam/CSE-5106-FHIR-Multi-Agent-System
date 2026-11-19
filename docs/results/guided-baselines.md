@@ -108,7 +108,71 @@ Result files on Compute2: `~/fhir-ma-v2/output/experiments/<model>/guided_held_o
 
 ## Stage 2: the fresh 300
 
-Pending.
+**Verdict.** With gpt-oss:120b, multi-agent v2 leads the guided single agent by 2.3 points [−3.0, +7.4]: these data do not show a lead beyond the instructions, which is not proof that there is none. With qwen3:32b the lead is 6.3 points [+0.6, +12.0]: a lead remains that the instructions do not explain. This is the reverse of Stage 1.
+
+**Runs.** All five arms ran in one batch per model at commit cdbc037 (code fingerprint `78f297746133`, no stale warning), 19 November 2026, after Stage 1 was written up: gpt-oss:120b on vLLM in 1 h 37 min (job 4606603), qwen3:32b on Ollama in 7 h 12 min (job 4606604). Every arm attempted all 300 questions; nothing was resubmitted and no failed question was retried.
+
+Accuracy over 300 questions (58 patients), with 95% patient-clustered CIs:
+
+| Arm | gpt-oss:120b | qwen3:32b |
+| --- | --- | --- |
+| multi_agent | **72.7%** [67.6, 77.6] | **54.7%** [49.8, 59.5] |
+| single_agent_guided | 70.3% [65.9, 74.7] | 48.3% [42.2, 54.5] |
+| single_agent | 66.0% [61.9, 70.3] | 46.3% [40.4, 52.6] |
+| direct_llm_guided | 68.3% [63.8, 73.1] | 50.0% [44.6, 55.3] |
+| direct_llm | 64.0% [59.0, 69.3] | 48.0% [42.5, 53.5] |
+
+Paired differences in points, with 95% patient-clustered CIs, over the same 300 questions, with the exact McNemar test (questions only a / only b got right):
+
+| Comparison | gpt-oss:120b | qwen3:32b |
+| --- | --- | --- |
+| **multi_agent − single_agent_guided** (primary) | **+2.3 [−3.0, +7.4]**; 27 / 20, p = 0.38 | **+6.3 [+0.6, +12.0]**; 56 / 37, p = 0.06 |
+| single_agent_guided − single_agent | +4.3 [+1.4, +7.5]; 18 / 5, p = 0.011 | +2.0 [−2.3, +6.3]; 22 / 16, p = 0.42 |
+| multi_agent − direct_llm_guided | +4.3 [+1.0, +7.6]; 25 / 12, p = 0.047 | +4.7 [−0.7, +9.8]; 39 / 25, p = 0.10 |
+| direct_llm_guided − direct_llm | +4.3 [+1.1, +7.5]; 21 / 8, p = 0.024 | +2.0 [−0.4, +4.6]; 13 / 7, p = 0.26 |
+| multi_agent − single_agent | +6.7 [+2.0, +11.0]; 34 / 14, p = 0.0055 | +8.3 [+2.7, +13.6]; 62 / 37, p = 0.015 |
+| multi_agent − direct_llm | +8.7 [+4.1, +13.2]; 36 / 10, p = 0.0002 | +6.7 [+1.3, +11.8]; 42 / 22, p = 0.017 |
+
+Accuracy by question family (multi / single guided / single / direct guided / direct):
+
+| Family | gpt-oss:120b | qwen3:32b |
+| --- | --- | --- |
+| Counting (n=92) | 81.5 / 71.7 / 69.6 / 76.1 / 73.9 | 70.7 / 48.9 / 47.8 / 63.0 / 64.1 |
+| Aggregation (n=49) | 59.2 / 61.2 / 57.1 / 57.1 / 61.2 | 32.7 / 38.8 / 38.8 / 34.7 / 26.5 |
+| Time-based (n=159) | 71.7 / 72.3 / 66.7 / 67.3 / 59.1 | 52.2 / 50.9 / 47.8 / 47.2 / 45.3 |
+
+Failed first attempts (counted as wrong) and cost per question:
+
+| Arm | gpt-oss: failed | mean tokens | median latency | qwen3:32b: failed | mean tokens | median latency |
+| --- | --- | --- | --- | --- | --- | --- |
+| multi_agent | 1 (input too long) | 81,729 | 35.0 s | 4 (analysis reply not a usable draft) | 75,081 | 124.5 s |
+| single_agent_guided | 10 (invalid output) | 36,587 | 8.5 s | 17 (invalid output 12, empty reply 3, timeout 2) | 51,158 | 40.1 s |
+| single_agent | 12 (invalid output 10, input too long 2) | 37,431 | 9.1 s | 15 (invalid output 8, empty reply 5, input too long 1, timeout 1) | 50,294 | 36.6 s |
+| direct_llm_guided | 1 (invalid output) | 7,893 | 4.3 s | 6 (invalid output) | 8,907 | 14.8 s |
+| direct_llm | 5 (invalid output) | 6,523 | 3.9 s | 10 (invalid output) | 7,645 | 14.7 s |
+
+Findings:
+
+- **On fresh questions the guided single agent comes within 2.3 points of multi-agent on gpt-oss:120b.** The lead over the single agent falls from 6.7 to 2.3 points, and the guided single agent matches multi-agent on time-based (72.3 vs 71.7%) and aggregation (61.2 vs 59.2%) questions. On qwen3:32b the lead falls from 8.3 to 6.3 points and stays significant on the interval, though the McNemar test is not (p = 0.06).
+- **What remains of the lead is counting, on both models.** Multi-agent leads the guided single agent on counting by 9.8 points on gpt-oss:120b and 21.8 on qwen3:32b, and by at most 1.3 points on any other family (it trails on aggregation on both). Stage 1 showed the same pattern on qwen3:32b. On counting the direct baselines also beat both single-agent arms, so this looks like a weakness of the single agent's loop, not something the instructions address.
+- **The instructions still help on questions they were not derived from.** They add 4.3 points to both gpt-oss:120b baselines (single [+1.4, +7.5], direct [+1.1, +7.5]), mostly on time-based questions, and 2.0 points to both qwen3:32b baselines, where neither interval excludes zero. On gpt-oss:120b the single agent gains more here than on the frozen 300 (+4.3 vs +2.7); on qwen3:32b it gains less (+2.0 vs +6.3).
+- **Multi-agent keeps a lead over the guided direct baseline** of 4.3 points on gpt-oss:120b [+1.0, +7.6] and 4.7 on qwen3:32b [−0.7, +9.8], wider on gpt-oss than on the frozen 300 (+1.7).
+- **Cost and failures look like Stage 1.** The guidance adds about 1,300 tokens per question to the direct baseline and changes the single agent's by under 900. Multi-agent uses 2.2× (gpt-oss) and 1.5× (qwen3) the guided single agent's tokens and 3.1–4.1× its latency. The guided arms failed less often than their unguided counterparts in three of the four pairs; qwen3:32b's multi-agent failed 4 times where it failed none on the frozen 300, each an analysis reply with no usable answer.
+
+The unguided arms land near the saved suite batch on these questions (gpt-oss:120b: single 68.0 → 66.0%, direct 63.7 → 64.0%; qwen3:32b: single 43.0 → 46.3%, direct 48.0 → 48.0%), but multi-agent is lower than in that batch on both models (gpt-oss:120b 75.0 → 72.7%, qwen3:32b 58.3 → 54.7%), a larger batch-to-batch shift than the 3 points seen before. These are context only; every comparison above is within this batch.
+
+**Deviations from the design note:** none. No multiple-comparison correction was planned and none is applied; with two models and two question sets there are four primary comparisons, and the qwen3:32b Stage 2 interval's lower end (+0.6) is close to zero.
+
+Result files on Compute2: `~/fhir-ma-v2/output/experiments/<model>/guided_held_out_v2/` (one JSON file per arm, plus `analysis/`). Logs: `logs/guided-gpt-oss-4606603.out`, `logs/guided-qwen3-32b-4606604.out`, `logs/analysis/guided_stage2_*.txt`.
+
+### Both stages
+
+| multi_agent − single_agent_guided | gpt-oss:120b | qwen3:32b |
+| --- | --- | --- |
+| Stage 1, frozen 300 | +6.7 [+2.5, +10.8] | +6.0 [−0.3, +13.4] |
+| Stage 2, fresh 300 | +2.3 [−3.0, +7.4] | +6.3 [+0.6, +12.0] |
+
+Giving the baselines multi-agent's instructions shrinks its lead on every model and question set, from 6.7–12.3 points to 2.3–6.7. Each model has one stage whose interval excludes zero and one whose interval does not, so neither model shows a consistent lead beyond the instructions. The point estimates for qwen3:32b are steady at about 6 points; those for gpt-oss:120b fall to 2.3 on the questions the conventions were not audited on. In both stages and on both models, whatever lead remains comes mostly from counting questions.
 
 ## Reproducing
 
