@@ -5,6 +5,8 @@ This repository contains the code and dataset for FHIR-AgentBench.
 
 ## 📁 Project Structure
 
+**Answer Voting** is the current multi-agent design, called multi-agent v2 in the November run records. It retrieves complete records for relevant FHIR types and votes across candidate answers before applying deterministic finishers. Run it with the `multi_agent` strategy. The [Phase 3 results](docs/results/phase3-qwen3-32b.md#multi-agent-v2), [follow-up suites](docs/question_generation.md#suite-results-plan-42), and [guided-baseline comparison](docs/results/guided-baselines.md) describe its evaluation.
+
 For an in-depth walkthrough of how the data pipeline, agents, tools, evaluation, experiments and demo fit together, see [docs/architecture.md](docs/architecture.md).
 
 ```
@@ -263,7 +265,7 @@ bash scripts/run_direct_llm_agent.sh                # One LLM call on the questi
 bash scripts/run_single_agent.sh                    # Multi-turn code agent started from the packet, with check_fields (tools/field_check.py) and one revision
 
 # Multi-agent system
-bash scripts/run_multi_agent.sh                     # Fixed controller: retrieval → analysis → verification, at most one repair
+bash scripts/run_multi_agent.sh                     # Answer Voting: retrieval, analysis, verification, vote, finishers
 ```
 
 Extra arguments are passed through to `run_agent.py`, e.g. `bash scripts/run_single_turn_resource_agent.sh --limit 5`. Every launcher uses the configured base model; `MODEL=gemini/gemini-2.5-flash bash scripts/...` overrides it for one run.
@@ -338,6 +340,10 @@ Answer correctness has two metrics:
 
 If the agent output has an `evidence` field, each citation `{"resource_id": "Observation/<id>", "field_path": "valueQuantity.value", "value": 98.7}` is resolved against the FHIR store (`utils/evidence_scorer.py`). A citation is valid when the resource exists, the path resolves, and the value matches. The evaluation reports the valid-evidence fraction, the reasons citations were invalid (`malformed`, `missing_resource`, `bad_path`, `value_mismatch`), and the precision/recall of the cited resource ids against `true_fhir_ids`. Use `--evidence_source ndjson` to resolve against the local NDJSON files instead of the store.
 
+
+## Experiment history
+
+The [experiment index](docs/experiment-index.md) links the October V01–V10 designs, frozen run inputs, and results. It also points to the November redesign, follow-up benchmarks, and instruction-matched baseline comparisons.
 
 ## Authorship
 FHIR-AgentBench is a joint research effort between Verily Life Sciences, Korea Advanced Institute of Science & Technology (KAIST), and Massachusetts Institute of Technology (MIT).
