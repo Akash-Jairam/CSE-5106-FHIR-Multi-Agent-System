@@ -20,6 +20,7 @@ repair the issue.
 """
 import json
 import math
+from copy import deepcopy
 
 from .framework import PYTHON_TOOL, RETRIEVAL_TOOLS, Role, Toolbox
 from .output_schema import _json_objects
@@ -156,7 +157,8 @@ def field_check_issues(draft, check):
         for warning in result["warnings"]:
             kind, _, detail = warning.partition(":")
             issues.append(_issue(kind.strip(), record, field, action=detail.strip()))
-    if draft.get("answer") is not None and not draft.get("evidence"):
+    # 0, false or [] can have no record to cite: no matching event exists
+    if not _empty_answer(draft.get("answer")) and not draft.get("evidence"):
         issues.append(_issue("no_evidence", action="Cite the fields that support the answer"))
     return issues
 
@@ -164,9 +166,12 @@ def field_check_issues(draft, check):
 class VerificationAgent:
     """Handler for the controller's verification tasks. Owns its workspace; nothing is shared."""
 
-    def __init__(self, host, context, max_turns=10):
+    def __init__(self, host, context, max_turns=10, seed=None):
+        """`seed()`, if given, returns records to start from (a copy of the team's workspace)
+        instead of an empty workspace; the verifier may still fetch more."""
         self.host = host
         self.context = context
+        self.seed = seed
         self.workspace = {}
         self.checks = 0
         self.toolbox = VerificationToolbox(RETRIEVAL_TOOLS + (PYTHON_TOOL,), self.workspace,
@@ -178,6 +183,9 @@ class VerificationAgent:
         draft = task["draft"]
         self.workspace.clear()
         self.toolbox.reset()
+        if self.seed is not None:
+            self.workspace.update(deepcopy(self.seed()))
+            self.toolbox.fetched = bool(self.workspace)
         issues = self._field_check(draft)
         if issues is None:
             return {"issues": [_issue("source_check", responsible_role=None,
@@ -185,7 +193,7 @@ class VerificationAgent:
         if any(i["responsible_role"] is None for i in issues):
             return {"issues": issues, "recomputed_answer": None}
         budget_stop_before = self.host.budget_stop
-        result = self.role.run(self._prompt(draft, issues))
+        result = self.role.run(self._prompt(draft, issues), check=self._reply_problem)
         refused_budget = self.host.budget_stop and self.host.budget_stop != budget_stop_before
         if refused_budget:
             issues.append(_issue("source_check", responsible_role=None,
@@ -234,6 +242,18 @@ class VerificationAgent:
         return {"issues": list(unique.values()), "recomputed_answer": recomputed}
 
     @staticmethod
+    def _reply_problem(content):
+        verdict = next((obj for obj in _json_objects(content or "") if "issues" in obj), None)
+        if verdict is None:
+            return "it had no JSON object with \"issues\""
+        if not isinstance(verdict["issues"], list) or not all(
+                isinstance(i, dict) and isinstance(i.get("type"), str) and i["type"].strip() for i in verdict["issues"]):
+            return "\"issues\" must be a list of objects, each with a \"type\""
+        if "recomputed_answer" not in verdict or not _valid_answer(verdict["recomputed_answer"]):
+            return "it needs \"recomputed_answer\": a scalar, a list of values, or null"
+        return None
+
+    @staticmethod
     def _failed_verdict(issues, reason):
         return {"issues": issues + [_issue("verification_failure", responsible_role=None, action=reason)],
                 "recomputed_answer": None}
@@ -263,8 +283,11 @@ class VerificationAgent:
 
     def _prompt(self, draft, issues):
         shown = {k: draft.get(k) for k in ("answer", "evidence", "operation", "contributing_ids", "limitation")}
+        held = {rtype: len(items) for rtype, items in self.workspace.items() if items}
+        seeded = ["", "`retrieved_resources` already holds a copy of the team's retrieved records (records per type): "
+                      f"{json.dumps(held)}. Fetch a type again only if it may be incomplete."] if held else []
         return "\n".join([
             f"Question: {self.context['question']}", f"Context: {self.context.get('assumptions', '')}", "",
             "Draft to verify:", json.dumps(shown, default=str), "",
             "Automatic field check of the draft's citations (already reported):",
-            json.dumps(issues, default=str) if issues else "no problems found"])
+            json.dumps(issues, default=str) if issues else "no problems found"] + seeded)

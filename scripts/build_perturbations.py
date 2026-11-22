@@ -45,6 +45,7 @@ from utils.answer_scorer import answer_type, parse_reference, score_answer  # no
 
 DEFAULT_PACKETS = os.path.join(ROOT, "manifests", "starting_packets.jsonl")
 DEFAULT_OUTPUT = os.path.join(ROOT, "manifests", "perturbations.json")
+DEFAULT_SOURCE = os.path.join(ROOT, "manifests", "starting_packets.source.json")
 SAMPLE_SIZE = 50
 SHARED_TYPES = ("Patient", "Medication", "Location")
 TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}")
@@ -237,6 +238,30 @@ def sample(eligible, size, seed):
     return sorted(chosen, key=lambda e: e["question_id"])
 
 
+def source_matches(fhir_dir, expected, source_path=DEFAULT_SOURCE):
+    """Whether the local NDJSON files are the frozen FHIR source.
+
+    Either their checksums reproduce `expected`, or every frozen archive is
+    present decompressed (archive checksums cannot be checked on decompressed
+    copies). In the second case the caller must rebuild each packet and match
+    its frozen text hash, which checks the content the experiment used.
+    """
+    paths = ndjson_paths(fhir_dir)
+    files = [{"file": os.path.basename(p), "sha256": file_sha256(p)} for p in paths]
+    if text_sha256(json.dumps(files, sort_keys=True)) == expected:
+        return True
+    if not os.path.exists(source_path):
+        return False
+    with open(source_path, encoding="utf-8") as stream:
+        source = json.load(stream)
+    if source.get("fhir_source_sha256") != expected:
+        return False
+    def stem(name):
+        return name.removesuffix(".gz")
+    return ({stem(f["file"]) for f in source["files"]} == {stem(os.path.basename(p)) for p in paths}
+            and all(not p.endswith(".gz") for p in paths))
+
+
 def verify_manifest(fhir_dir, path=DEFAULT_OUTPUT, input_path=DEFAULT_INPUT, families_path=DEFAULT_FAMILIES,
                     packets_path=DEFAULT_PACKETS):
     """Verify every frozen entry against source, visible SQL and the runtime path.
@@ -244,9 +269,8 @@ def verify_manifest(fhir_dir, path=DEFAULT_OUTPUT, input_path=DEFAULT_INPUT, fam
     Returns counts only; never prints gold answers or exposes them to agents.
     """
     entries = load_perturbations(path)
-    source_files = [{"file": os.path.basename(p), "sha256": file_sha256(p)} for p in ndjson_paths(fhir_dir)]
-    source_hash = text_sha256(json.dumps(source_files, sort_keys=True))
-    if any(entry["fhir_source_sha256"] != source_hash for entry in entries.values()):
+    # Decompressed sources are accepted here; evaluate() then requires every rebuilt packet to match its frozen hash
+    if any(not source_matches(fhir_dir, h) for h in {entry["fhir_source_sha256"] for entry in entries.values()}):
         raise ValueError("Local FHIR sources do not match the frozen omission experiment")
     with open(packets_path, encoding="utf-8") as stream:
         packets = {p["question_id"]: p for p in map(json.loads, stream)}

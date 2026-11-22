@@ -325,19 +325,36 @@ class Role:
         self.host = host
         self.max_turns = max_turns
 
-    def run(self, content):
+    def run(self, content, check=None):
+        """The role's final reply. The last turn is offered without tools, so a role that is
+        still searching answers from what it has. `check(content)` returns a problem with the
+        reply, or None; one problem is sent back for a corrected reply before giving up."""
         messages = [{"role": "system", "content": self.system_prompt},
                     {"role": "user", "content": content}]
         self.host.messages.extend(deepcopy(messages))
         tools = self.toolbox.definitions or None
-        for _ in range(self.max_turns):
+        corrected = False
+        for turn in range(self.max_turns + 1):
+            if tools and turn >= self.max_turns - 1:
+                tools = None
+                self._say(messages, "You have reached this role's turn limit and cannot call tools any more. "
+                                    "Reply now with only the required JSON object, using the records and results "
+                                    "you already have.")
             response, error, _ = self.host._llm_call(messages, tools=tools)
             if error:
                 return RoleResult(error=error)
             messages.append(response)
             self.host.messages.append(response)
             if not response.tool_calls:
+                problem = check(response.content) if check else None
+                if problem and not corrected:
+                    corrected, tools = True, None
+                    self._say(messages, f"Your reply could not be used: {problem}. "
+                                        "Reply with only the corrected JSON object.")
+                    continue
                 return RoleResult(content=response.content)
+            if tools is None:
+                break
             for tool_call in response.tool_calls:
                 if self.host._take_tool_call():
                     reply = self.toolbox.call(tool_call)
@@ -349,3 +366,8 @@ class Role:
                 messages.append(model_reply)
                 self.host.messages.append(audit_reply)
         return RoleResult(error=f"{self.name}: no final reply within {self.max_turns} turns")
+
+    def _say(self, messages, text):
+        message = {"role": "user", "content": text}
+        messages.append(message)
+        self.host.messages.append(deepcopy(message))

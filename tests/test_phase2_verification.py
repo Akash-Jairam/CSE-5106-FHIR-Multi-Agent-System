@@ -174,8 +174,10 @@ class VerificationTests(unittest.TestCase):
         self.assertEqual(result["issues"], [])
 
     def test_malformed_verdicts_and_model_errors_are_errors(self):
-        self.assertIn("no JSON verdict", self.verify(reply("Looks right to me."))["issues"][-1]["action"])
-        self.assertIn("list of objects with a type", self.verify(verdict(issues=["wrong unit"]))["issues"][-1]["action"])
+        # The one correction turn gets the same malformed reply
+        self.assertIn("no JSON verdict", self.verify(reply("Looks right to me."), reply("Still right."))["issues"][-1]["action"])
+        self.assertIn("list of objects with a type", self.verify(
+            verdict(issues=["wrong unit"]), verdict(issues=["wrong unit"]))["issues"][-1]["action"])
         self.host._llm_call = Mock(return_value=(None, "provider down", None))
         result = self.agent({"context": CONTEXT, "draft": draft()})
         self.assertEqual((result["issues"][-1]["type"], result["issues"][-1]["responsible_role"],
@@ -233,12 +235,13 @@ class VerificationTests(unittest.TestCase):
 
     def test_unverified_empty_result_is_not_treated_as_established(self):
         result = self.verify(verdict(recomputed=0), checked=draft(answer=0, evidence=[]))
-        self.assertEqual({i["type"] for i in result["issues"]}, {"no_evidence", "independent_check"})
+        # 0, false or [] need no citation; the missing recomputation is still reported
+        self.assertEqual({i["type"] for i in result["issues"]}, {"independent_check"})
 
     def test_unresolved_source_scope_cannot_certify_an_empty_result(self):
         self.agent.toolbox.scope_failures = {}
 
-        def incomplete_search(_):
+        def incomplete_search(_, **__):
             self.agent.toolbox.fetched = True
             self.agent.toolbox.computation = {"answer": 0}
             self.agent.toolbox.scope_failures["Observation/undated"] = "unknown_time"
@@ -246,7 +249,7 @@ class VerificationTests(unittest.TestCase):
 
         with patch.object(self.agent.role, "run", side_effect=incomplete_search):
             result = self.agent({"draft": draft(answer=0, evidence=[])})
-        self.assertEqual({i["type"] for i in result["issues"]}, {"no_evidence", "source_check"})
+        self.assertEqual({i["type"] for i in result["issues"]}, {"source_check"})
         source = next(i for i in result["issues"] if i["type"] == "source_check")
         self.assertEqual(source["record"], "Observation/undated")
         self.assertIsNone(source["responsible_role"])
@@ -266,7 +269,7 @@ class VerificationTests(unittest.TestCase):
         self.assertIn("exact value", result["issues"][0]["action"])
 
     def test_role_failures_keep_deterministic_findings_and_are_unrepairable(self):
-        result = self.verify(reply("not JSON"), checked=draft(evidence=[cite(value=99)]))
+        result = self.verify(reply("not JSON"), reply("still not JSON"), checked=draft(evidence=[cite(value=99)]))
         self.assertEqual([i["type"] for i in result["issues"]], ["value_mismatch", "verification_failure"])
         self.assertIsNone(result["issues"][-1]["responsible_role"])
 
@@ -281,8 +284,13 @@ class VerificationTests(unittest.TestCase):
     def test_recomputation_must_be_present_and_finite(self):
         for text in ['{"issues": []}', '{"recomputed_answer": NaN, "issues": []}',
                      '{"recomputed_answer": {"value": 68}, "issues": []}']:
-            result = self.verify(reply(text))
+            result = self.verify(reply(text), reply(text))
             self.assertEqual(result["issues"][-1]["type"], "verification_failure")
+
+    def test_a_malformed_verdict_gets_one_correction_turn(self):
+        result = self.verify(fetch(), call(PYTHON_TOOL, code=MIN_CODE), reply('{"issues": []}'), verdict())
+        self.assertEqual(result["issues"], [])
+        self.assertIn("recomputed_answer", self.host.messages[-2]["content"])
 
     def test_no_tool_budget_for_the_field_check_is_unrepairable(self):
         self.host.set_budget(max_tool_calls=0)

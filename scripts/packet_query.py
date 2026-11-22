@@ -84,7 +84,13 @@ def _micro_type(original):
 
 
 class PacketQuery:
-    """An immutable query contract evaluated only against rendered packet values."""
+    """An immutable query contract evaluated only against rendered packet values.
+
+    Subclasses (scripts/fhir_oracle.py) extend the relations through the class
+    attributes and the _drug_names, _visit_end and _extra_rows hooks.
+    """
+    schemas = SCHEMAS
+    primary_types = PRIMARY_TYPES
 
     def __init__(self, question, source):
         try:
@@ -116,14 +122,14 @@ class PacketQuery:
                             self.micro_hospital_used = True
                         break
                     binding = binding.parent
-        if not self.tables <= set(SCHEMAS):
+        if not self.tables <= set(self.schemas):
             raise UnsupportedQuery("query uses a relation without a visible FHIR projection")
         if any(column.name == "admission_type" for column in self.tree.find_all(exp.Column)):
             # Standardized FHIR priority does not preserve all original MIMIC
             # admission-type categories. It cannot stand in for a known SQL NULL.
             raise UnsupportedQuery("admission_type is not recoverable from normalized FHIR priority")
         self.main_table = question.get("main_table_name")
-        if self.main_table not in PRIMARY_TYPES:
+        if self.main_table not in self.primary_types:
             raise UnsupportedQuery("question has no supported primary relation")
         values = question.get("val_dict")
         values = ast.literal_eval(values) if isinstance(values, str) else values
@@ -149,7 +155,7 @@ class PacketQuery:
             raise UnsupportedQuery("raw microbiology row counts are not represented by collapsed FHIR tests")
 
     def candidate(self, resource):
-        if resource["resourceType"] != PRIMARY_TYPES[self.main_table]:
+        if resource["resourceType"] != self.primary_types[self.main_table]:
             return False
         if self.main_table == "admissions":
             return _identifier(resource, "encounter-hosp") is not None
@@ -169,7 +175,7 @@ class PacketQuery:
     def _rows(self, packet):
         resources = visible_resources(packet)
         by_id = {f"{r['resourceType']}/{r['id']}": r for r in resources}
-        rows = {table: [] for table in SCHEMAS}
+        rows = {table: [] for table in self.schemas}
 
         def insert(table, **row):
             rows[table].append(row)
@@ -183,28 +189,13 @@ class PacketQuery:
                 visit = encounter(visit.get("partOf"))
             return _identifier(visit, "encounter-hosp")
 
-        def drug_names(medication, seen=None):
-            seen = set() if seen is None else seen
-            key = medication.get("id")
-            if key in seen:
-                return []
-            seen.add(key)
-            ingredients = medication.get("ingredient") or []
-            if ingredients:
-                return [name for ingredient in ingredients for name in drug_names(
-                    by_id.get(_ref(ingredient.get("itemReference")), {}), seen)]
-            name = _medication_name(medication)
-            return [name] if name else []
-
         for r in resources:
             rtype, rid = r["resourceType"], r["id"]
             if rtype == "Patient":
                 insert("patients", subject_id=self.patient, gender={"male": "M", "female": "F"}.get(r.get("gender"), r.get("gender")))
             elif rtype == "Encounter":
                 period = r.get("period") or {}
-                end = _clock(period.get("end"))
-                if self.current_time and end and end > self.current_time:
-                    end = None
+                end = self._visit_end(_clock(period.get("end")))
                 hospital, icu = _identifier(r, "encounter-hosp"), _identifier(r, "encounter-icu")
                 if hospital is not None:
                     hospitalization = r.get("hospitalization") or {}
@@ -266,7 +257,7 @@ class PacketQuery:
                            org_name=_coding(r).get("display") if parent else None)
             elif rtype == "MedicationRequest":
                 medication = by_id.get(_ref(r.get("medicationReference")), {})
-                names = drug_names(medication) or [_display(r.get("medicationCodeableConcept"))]
+                names = self._drug_names(medication, by_id) or [_display(r.get("medicationCodeableConcept"))]
                 dosages = r.get("dosageInstruction") or [{}]
                 dosage = dosages[0]
                 dose = (dosage.get("doseAndRate") or [{}])[0].get("doseQuantity") or {}
@@ -282,12 +273,36 @@ class PacketQuery:
                 insert("procedures_icd", subject_id=self.patient, hadm_id=admission(r),
                        charttime=_clock(r.get("performedDateTime")), icd_code=coding.get("code"))
                 insert("d_icd_procedures", icd_code=coding.get("code"), long_title=coding.get("display"))
+        self._extra_rows(rows, resources, by_id, admission)
         return rows
+
+    def _drug_names(self, medication, by_id, seen=None):
+        """Released drug names of a Medication: a mixture expands to its components."""
+        seen = set() if seen is None else seen
+        key = medication.get("id")
+        if key in seen:
+            return []
+        seen.add(key)
+        ingredients = medication.get("ingredient") or []
+        if ingredients:
+            return [name for ingredient in ingredients for name in self._drug_names(
+                by_id.get(_ref(ingredient.get("itemReference")), {}), by_id, seen)]
+        name = _medication_name(medication)
+        return [name] if name else []
+
+    def _visit_end(self, end):
+        """An encounter's end as SQL sees it: a stay still open at the current time has none."""
+        if self.current_time and end and end > self.current_time:
+            return None
+        return end
+
+    def _extra_rows(self, rows, resources, by_id, admission):
+        """Hook for relations a subclass adds; the visible-packet oracle adds none."""
 
     def run(self, packet):
         connection = sqlite3.connect(":memory:")
         try:
-            for table, schema in SCHEMAS.items():
+            for table, schema in self.schemas.items():
                 connection.execute(f"CREATE TABLE {table} ({schema})")
             for table, rows in self._rows(packet).items():
                 # Dictionary metadata can be repeated through several linked records.

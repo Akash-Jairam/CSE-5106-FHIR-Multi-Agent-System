@@ -10,6 +10,8 @@
 #   SPLIT=dev sbatch scripts/run_experiments_qwen.sbatch --arms ordinary_multi_agent
 #   MODEL=gpt-oss:120b OLLAMA_MODELS=/scratch2/fs1/di2cap/$USER/ollama-models \
 #     sbatch --job-name=phase3-gpt-oss scripts/run_experiments_qwen.sbatch
+#   RUNNER=scripts/run_ablations.py OLLAMA_MODELS=/scratch2/fs1/di2cap/$USER/ollama-models \
+#     sbatch --job-name=ablations-qwen3-32b scripts/run_experiments_qwen.sbatch
 #SBATCH --job-name=phase3-qwen
 #SBATCH --account=compute2-di2cap
 #SBATCH --partition=general-gpu
@@ -22,10 +24,11 @@ set -uo pipefail
 
 model="${MODEL:-qwen3:32b}"
 split="${SPLIT:-held_out}"
+runner="${RUNNER:-scripts/run_experiments.py}"  # or scripts/run_ablations.py, which takes the same run/status flags
 # Models too large for the 47 GB home quota go on scratch, e.g. gpt-oss:120b (65 GB)
 export OLLAMA_MODELS="${OLLAMA_MODELS:-$HOME/.ollama/models}"
 workers="${WORKERS:-4}"  # parallel questions; Ollama gets one slot per worker
-port=11434
+port="${PORT:-11434}"  # nodes have 4 GPUs: give jobs that may share a node different ports
 base_url="http://127.0.0.1:${port}/v1"  # keep identical across jobs: result files are bound to it
 
 # Loopback only: nothing outside this node can reach the unauthenticated API
@@ -51,5 +54,5 @@ python -c 'from tools.python_executor import execute_python_code as run; r = run
 
 common=(--model "$model" --base_url "$base_url" --max_total_tokens 200000 --max_tool_calls 30 --split "$split")
 # Exits non-zero while any question has failed; the status below says whether to resubmit
-python scripts/run_experiments.py run "${common[@]}" --num_processes "$workers" "$@"
-python scripts/run_experiments.py status "${common[@]}" "$@"
+python "$runner" run "${common[@]}" --num_processes "$workers" "$@"
+python "$runner" status "${common[@]}" "$@"

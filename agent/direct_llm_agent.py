@@ -5,20 +5,24 @@ from tools.starting_packet import get_starting_packet
 from utils import parse_question_context
 
 
-class DirectLLMAgent(BaseAgent):
-    """Zero-shot baseline: one LLM call with the question and the deterministic
-    starting packet (tools/starting_packet.py). No tools, no further retrieval."""
-
-    def __init__(self, model: str, verbose: bool = False, base_url=None):
-        super().__init__(model, verbose, base_url)
-        self.system_msg = {"role": "system", "content": f"""You are a helpful assistant that answers questions about one patient's FHIR record.
+# Also the multi-agent retrieval role's packet reading (agent/retrieval_agent.py)
+SYSTEM_PROMPT = f"""You are a helpful assistant that answers questions about one patient's FHIR record.
 
 You are given an excerpt of the record (the "starting packet"): the patient, their hospital and ICU encounters, and the resources that best match the question. You cannot retrieve anything else, so answer from the excerpt alone.
 - Use the assumed current time in the context to resolve relative dates ("this year", "last hospital visit").
 - Times in the record carry UTC offsets; report times as they appear (local wall-clock time), without the offset.
 - If the excerpt does not contain what is needed, set "answer" to null and explain in "limitation". Do not guess.
 
-{ANSWER_FORMAT_INSTRUCTIONS}"""}
+{ANSWER_FORMAT_INSTRUCTIONS}"""
+
+
+class DirectLLMAgent(BaseAgent):
+    """Zero-shot baseline: one LLM call with the question and the deterministic
+    starting packet (tools/starting_packet.py). No tools, no further retrieval."""
+
+    def __init__(self, model: str, verbose: bool = False, base_url=None):
+        super().__init__(model, verbose, base_url)
+        self.system_msg = {"role": "system", "content": SYSTEM_PROMPT}
 
     def _run(self, question: str) -> dict:
         bare_question, patient_fhir_id, current_time = parse_question_context(question)

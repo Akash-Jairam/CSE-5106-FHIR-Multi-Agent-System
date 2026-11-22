@@ -219,7 +219,7 @@ class FixedController(BaseAgent):
         check_issues, final_check_issues = state["check_issues"], state["final_check_issues"]
         repair_role, routing, error = state["repair_role"], state["routing"], state["error"]
 
-        released = final if final is not None and final_check_issues == [] else None
+        released, error, release = self.release(state)
         if released is not None:
             answer, evidence, limitation = released["answer"], released.get("evidence") or [], released.get("limitation")
         else:
@@ -244,10 +244,18 @@ class FixedController(BaseAgent):
                 "answer_changed": final is not None and draft is not None and final["answer"] != draft["answer"],
                 "final": self._summary(final),
                 "final_check_issues": final_check_issues,
-                "revision_error": error if draft is not None else None,
+                "revision_error": state["error"] if draft is not None else None,
+                "release": release,
                 "messages": self._bus.to_list(),
             },
         }
+
+    def release(self, state):
+        """(candidate to release or None, run error, release details). By default only a final
+        answer with a clean check is released, and any role failure is the run's error."""
+        final = state["final"]
+        released = final if final is not None and state["final_check_issues"] == [] else None
+        return released, state["error"], None
 
     @staticmethod
     def _summary(draft):

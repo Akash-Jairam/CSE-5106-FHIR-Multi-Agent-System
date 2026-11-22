@@ -59,8 +59,9 @@ class AnalysisTests(unittest.TestCase):
         self.host._llm_call = Mock(side_effect=[(r, None, None) for r in responses])
         return self.agent(task or {"context": CONTEXT, "records": RECORDS})
 
-    def test_only_the_python_sandbox_is_available(self):
-        self.assertEqual(self.agent.role.toolbox.names, ("execute_python_code",))
+    def test_searches_and_the_python_sandbox_are_available(self):
+        self.assertEqual(self.agent.role.toolbox.names, (
+            "get_resources_by_patient_fhir_id", "get_resources_by_resource_id", "execute_python_code"))
 
     def test_computes_in_the_sandbox_and_returns_the_draft(self):
         result = self.analyze(run_python(), draft())
@@ -88,16 +89,24 @@ class AnalysisTests(unittest.TestCase):
         self.assertIsNone(result["answer"])
         self.assertEqual(result["limitation"], "No weight Observations were retrieved")
 
-    def test_malformed_drafts_are_errors(self):
+    def test_a_reply_without_a_usable_answer_is_an_error_after_one_correction(self):
         cases = [
-            (reply("The lowest weight is 68 kg."), "no JSON draft"),
-            (reply('{"answer": NaN, "evidence": []}'), "draft answer must be"),
-            (draft(evidence=[{"resource_id": "Observation/o2", "value": 68}]), "draft evidence must be"),
-            (draft(evidence="Observation/o2"), "draft evidence must be"),
-            (draft(contributing_ids=["o2"]), "contributing_ids must be"),
+            (reply("The lowest weight is 68 kg."), "no JSON object"),
+            (reply('{"answer": NaN, "evidence": []}'), "answer must be"),
         ]
         for response, problem in cases:
-            self.assertIn(problem, self.analyze(response)["error"])
+            self.assertIn(problem, self.analyze(response, response)["error"])
+
+    def test_a_correction_turn_recovers_the_draft(self):
+        result = self.analyze(reply("The lowest weight is 68 kg."), draft())
+        self.assertEqual(result["answer"], 68)
+        self.assertIn("could not be used", self.host.messages[-2]["content"])
+
+    def test_malformed_citations_are_dropped_not_the_answer(self):
+        for evidence in ([{"resource_id": "Observation/o2", "value": 68}], "Observation/o2"):
+            result = self.analyze(draft(evidence=evidence, contributing_ids=["o2", "Observation/o2"]))
+            self.assertEqual((result["answer"], result["evidence"], result["contributing_ids"]),
+                             (68, [], ["Observation/o2"]))
 
     def test_repair_shows_previous_draft_issues_and_updated_records(self):
         self.workspace["Observation"].append(observation("o3", 65))
