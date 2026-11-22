@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "original_records_exact_git_blob_count": 33,
+  "original_archived_source_files_verified": 138,
+  "numeric_csv_roundtrips": [
+    {
+      "file": "per_question.csv",
+      "rows": 600,
+      "columns": 51,
+      "roundtrip_matches_numeric_sources": true
+    },
+    {
+      "file": "paired_measurements.csv",
+      "rows": 300,
+      "columns": 21,
+      "roundtrip_matches_numeric_sources": true
+    },
+    {
+      "file": "metric_statistics.csv",
+      "rows": 72,
+      "columns": 19,
+      "roundtrip_matches_numeric_sources": true
+    },
+    {
+      "file": "accuracy_by_family.csv",
+      "rows": 8,
+      "columns": 9,
+      "roundtrip_matches_numeric_sources": true
+    },
+    {
+      "file": "phase_measurements.csv",
+      "rows": 883,
+      "columns": 10,
+      "roundtrip_matches_numeric_sources": true
+    },
+    {
+      "file": "mechanism_counts.csv",
+      "rows": 27,
+      "columns": 4,
+      "roundtrip_matches_numeric_sources": true
+    },
+    {
+      "file": "phase_summary.csv",
+      "rows": 4,
+      "columns": 6,
+      "roundtrip_matches_numeric_sources": true
+    }
+  ],
+  "offline_single_correct": 238,
+  "frozen_team_correct": 232,
+  "frozen_family_counts_reconciled": true,
+  "paired_counts": {
+    "team_only": 8,
+    "single_only": 14,
+    "both_correct": 224,
+    "both_incorrect": 54
+  },
+  "spreadsheet_authoring_exact_typed_matrices": true,
+  "visual_previews_reviewed": 7,
+  "provider_or_inference_calls": 0,
+  "core_source_changes": false,
+  "raw_archive_parts": 3,
+  "raw_archive_concatenated_sha256_verified": true,
+  "raw_metadata_privacy_review": "raw/metadata_privacy_review.json"
+}

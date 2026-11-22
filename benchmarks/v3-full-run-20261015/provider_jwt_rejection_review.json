@@ -1,0 +1,103 @@
+{
+  "snapshot_utc": "2026-10-16T11:10:42.191030+00:00",
+  "scope": "Frozen adapter construction and safe structured request events only; no raw exception messages, credentials, request/response bodies, answers, or API requests",
+  "frozen_adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+  "source_findings": {
+    "client_cached_per_worker": true,
+    "configured_authentication": "API key supplied to AzureOpenAI constructor; no per-request configuration reload or credential refresh path in adapter",
+    "exception_path": "Append safe diagnostics then re-raise original exception; cached client remains unchanged"
+  },
+  "journal_snapshots": [
+    {
+      "path": "output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/multi_agent/round-0019/azure-diagnostics-53667-02df0d721c4c4c489fccd1c7e52c11f3.jsonl",
+      "sha256": "d23f61700d9c7f7d4e189168171d3067913aeebe1a70d677fc695be47e492ae9",
+      "events": 527
+    },
+    {
+      "path": "output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/multi_agent/round-0019/azure-diagnostics-53668-56c37c5d889447e1a787df0e835bc6c2.jsonl",
+      "sha256": "49561d8d9291bb6f6db9ca84d1e92f04a103e7fd4500de13913a0269de5ea247",
+      "events": 507
+    }
+  ],
+  "completed_requests": 516,
+  "outcomes": {
+    "success": 512,
+    "error": 4
+  },
+  "http_error_status_counts": {
+    "500": 3,
+    "401": 1
+  },
+  "auth_events": [
+    {
+      "pid": 53668,
+      "counter": 205,
+      "started_utc": "2026-10-16T11:08:04.536603+00:00",
+      "finished_utc": "2026-10-16T11:08:04.588097+00:00",
+      "duration_seconds": 0.051491666003130376,
+      "http_status": 401,
+      "exception_classes": [
+        "openai.AuthenticationError"
+      ],
+      "fd_count": 18,
+      "sdk_closed": false,
+      "http_closed": false,
+      "subsequent_completed_requests_same_worker": 48,
+      "subsequent_successful_requests_same_worker": 48,
+      "subsequent_401_same_worker": 0,
+      "same_client_success_count": 48,
+      "next_request": {
+        "counter": 206,
+        "outcome": "success",
+        "duration_seconds": 3.22709279099945,
+        "http_status": null,
+        "started_utc": "2026-10-16T11:08:04.592938+00:00",
+        "finished_utc": "2026-10-16T11:08:07.819991+00:00",
+        "fd_count": 18
+      },
+      "first_success": {
+        "counter": 206,
+        "same_client": true,
+        "started_utc": "2026-10-16T11:08:04.592938+00:00",
+        "finished_utc": "2026-10-16T11:08:07.819991+00:00",
+        "seconds_after_auth_failure": 3.231894,
+        "fd_count": 18
+      }
+    }
+  ],
+  "per_worker": [
+    {
+      "pid": 53667,
+      "completed_requests": 263,
+      "outcomes": {
+        "success": 261,
+        "error": 2
+      },
+      "http_error_status_counts": {
+        "500": 2
+      },
+      "unique_nonnull_client_ids": 1,
+      "closed_observations": 0,
+      "fd_min": 17,
+      "fd_max": 18
+    },
+    {
+      "pid": 53668,
+      "completed_requests": 253,
+      "outcomes": {
+        "success": 251,
+        "error": 2
+      },
+      "http_error_status_counts": {
+        "500": 1,
+        "401": 1
+      },
+      "unique_nonnull_client_ids": 1,
+      "closed_observations": 0,
+      "fd_min": 17,
+      "fd_max": 18
+    }
+  ],
+  "partial_lines": 0,
+  "assessment": "Successful subsequent requests on the same cached client provide evidence against persistent credential failure and support an intermittent authentication rejection. Structured client-side evidence does not identify the backend cause."
+}

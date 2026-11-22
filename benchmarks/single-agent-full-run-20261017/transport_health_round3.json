@@ -1,0 +1,606 @@
+{
+  "captured_at": "2026-10-17T06:05:38.371088+00:00",
+  "scope": "bounded_single_agent_round3_transport_metadata_only",
+  "source_hashes": {
+    "azure-diagnostics-12573-2914e1a794c5439e8b72a767e8ca3c59.jsonl": "d1c4aee4d36d23b90050df3f8d77f2c21d7120458b7b75900313554573091262",
+    "azure-diagnostics-12574-aedc459ee3cc41619c9d4beb3c00b119.jsonl": "060d3503ce175d01cfd0c062585ab0473f5b8029f56dffd187ecbd204f4891a0"
+  },
+  "workers": {
+    "12573": {
+      "starts": 125,
+      "ends": 124,
+      "outcomes": {
+        "error": 2,
+        "success": 122
+      },
+      "outstanding_requests": [
+        {
+          "event": "start",
+          "pid": 12573,
+          "counter": 125,
+          "started_utc": "2026-10-17T06:05:36.947724+00:00",
+          "finished_utc": null,
+          "duration_seconds": null,
+          "outcome": null,
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4757832384,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": [],
+          "age_seconds": 1.423364
+        }
+      ],
+      "errors": [
+        {
+          "event": "end",
+          "pid": 12573,
+          "counter": 1,
+          "started_utc": "2026-10-17T05:58:18.813932+00:00",
+          "finished_utc": "2026-10-17T05:58:21.478138+00:00",
+          "duration_seconds": 2.6642366659980325,
+          "outcome": "error",
+          "http_status": 400,
+          "fd_count": 18,
+          "client_id": 4757832384,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [
+            "openai.BadRequestError"
+          ],
+          "resource_fd_flags": [
+            false
+          ]
+        },
+        {
+          "event": "end",
+          "pid": 12573,
+          "counter": 86,
+          "started_utc": "2026-10-17T06:03:35.286299+00:00",
+          "finished_utc": "2026-10-17T06:04:11.911376+00:00",
+          "duration_seconds": 36.62527729199792,
+          "outcome": "error",
+          "http_status": null,
+          "fd_count": 17,
+          "client_id": 4757832384,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ],
+          "resource_fd_flags": [
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "same_client_recovery": [
+        {
+          "error_counter": 1,
+          "subsequent_same_client_successes": 122,
+          "first_subsequent_same_client_success": {
+            "event": "end",
+            "pid": 12573,
+            "counter": 2,
+            "started_utc": "2026-10-17T05:58:22.298732+00:00",
+            "finished_utc": "2026-10-17T05:58:23.533649+00:00",
+            "duration_seconds": 1.2349359590007225,
+            "outcome": "success",
+            "http_status": null,
+            "fd_count": 18,
+            "client_id": 4757832384,
+            "sdk_closed": false,
+            "http_closed": false,
+            "exception_classes": [],
+            "resource_fd_flags": []
+          }
+        },
+        {
+          "error_counter": 86,
+          "subsequent_same_client_successes": 38,
+          "first_subsequent_same_client_success": {
+            "event": "end",
+            "pid": 12573,
+            "counter": 87,
+            "started_utc": "2026-10-17T06:04:12.811532+00:00",
+            "finished_utc": "2026-10-17T06:04:14.537954+00:00",
+            "duration_seconds": 1.726431874998525,
+            "outcome": "success",
+            "http_status": null,
+            "fd_count": 18,
+            "client_id": 4757832384,
+            "sdk_closed": false,
+            "http_closed": false,
+            "exception_classes": [],
+            "resource_fd_flags": []
+          }
+        }
+      ],
+      "latest_six_ends": [
+        {
+          "event": "end",
+          "pid": 12573,
+          "counter": 119,
+          "started_utc": "2026-10-17T06:05:26.540878+00:00",
+          "finished_utc": "2026-10-17T06:05:28.571605+00:00",
+          "duration_seconds": 2.030748332999792,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4757832384,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        },
+        {
+          "event": "end",
+          "pid": 12573,
+          "counter": 120,
+          "started_utc": "2026-10-17T06:05:28.618136+00:00",
+          "finished_utc": "2026-10-17T06:05:29.629165+00:00",
+          "duration_seconds": 1.0110510409976996,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4757832384,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        },
+        {
+          "event": "end",
+          "pid": 12573,
+          "counter": 121,
+          "started_utc": "2026-10-17T06:05:29.954466+00:00",
+          "finished_utc": "2026-10-17T06:05:31.251206+00:00",
+          "duration_seconds": 1.2967627500001981,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4757832384,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        },
+        {
+          "event": "end",
+          "pid": 12573,
+          "counter": 122,
+          "started_utc": "2026-10-17T06:05:31.863234+00:00",
+          "finished_utc": "2026-10-17T06:05:33.224495+00:00",
+          "duration_seconds": 1.3612859999993816,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4757832384,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        },
+        {
+          "event": "end",
+          "pid": 12573,
+          "counter": 123,
+          "started_utc": "2026-10-17T06:05:33.272561+00:00",
+          "finished_utc": "2026-10-17T06:05:35.265391+00:00",
+          "duration_seconds": 1.9928441669981112,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4757832384,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        },
+        {
+          "event": "end",
+          "pid": 12573,
+          "counter": 124,
+          "started_utc": "2026-10-17T06:05:35.420386+00:00",
+          "finished_utc": "2026-10-17T06:05:36.783384+00:00",
+          "duration_seconds": 1.36301554199963,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4757832384,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        }
+      ],
+      "fd_min": 17,
+      "fd_max": 18,
+      "fd_latest": 18,
+      "any_closed_flag": false,
+      "partial_lines": 0
+    },
+    "12574": {
+      "starts": 138,
+      "ends": 138,
+      "outcomes": {
+        "success": 135,
+        "error": 3
+      },
+      "outstanding_requests": [],
+      "errors": [
+        {
+          "event": "end",
+          "pid": 12574,
+          "counter": 100,
+          "started_utc": "2026-10-17T06:02:23.381158+00:00",
+          "finished_utc": "2026-10-17T06:02:59.111750+00:00",
+          "duration_seconds": 35.73078079200059,
+          "outcome": "error",
+          "http_status": null,
+          "fd_count": 17,
+          "client_id": 4688178896,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ],
+          "resource_fd_flags": [
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "event": "end",
+          "pid": 12574,
+          "counter": 101,
+          "started_utc": "2026-10-17T06:02:59.361992+00:00",
+          "finished_utc": "2026-10-17T06:03:34.979597+00:00",
+          "duration_seconds": 35.61779849999948,
+          "outcome": "error",
+          "http_status": null,
+          "fd_count": 17,
+          "client_id": 4688178896,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ],
+          "resource_fd_flags": [
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "event": "end",
+          "pid": 12574,
+          "counter": 102,
+          "started_utc": "2026-10-17T06:03:35.065956+00:00",
+          "finished_utc": "2026-10-17T06:04:10.679512+00:00",
+          "duration_seconds": 35.613760625001305,
+          "outcome": "error",
+          "http_status": null,
+          "fd_count": 17,
+          "client_id": 4688178896,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [
+            "openai.APITimeoutError",
+            "httpx2.ConnectTimeout",
+            "httpcore2.ConnectTimeout"
+          ],
+          "resource_fd_flags": [
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "same_client_recovery": [
+        {
+          "error_counter": 100,
+          "subsequent_same_client_successes": 36,
+          "first_subsequent_same_client_success": {
+            "event": "end",
+            "pid": 12574,
+            "counter": 103,
+            "started_utc": "2026-10-17T06:04:10.820406+00:00",
+            "finished_utc": "2026-10-17T06:04:12.127019+00:00",
+            "duration_seconds": 1.3066194160019222,
+            "outcome": "success",
+            "http_status": null,
+            "fd_count": 18,
+            "client_id": 4688178896,
+            "sdk_closed": false,
+            "http_closed": false,
+            "exception_classes": [],
+            "resource_fd_flags": []
+          }
+        },
+        {
+          "error_counter": 101,
+          "subsequent_same_client_successes": 36,
+          "first_subsequent_same_client_success": {
+            "event": "end",
+            "pid": 12574,
+            "counter": 103,
+            "started_utc": "2026-10-17T06:04:10.820406+00:00",
+            "finished_utc": "2026-10-17T06:04:12.127019+00:00",
+            "duration_seconds": 1.3066194160019222,
+            "outcome": "success",
+            "http_status": null,
+            "fd_count": 18,
+            "client_id": 4688178896,
+            "sdk_closed": false,
+            "http_closed": false,
+            "exception_classes": [],
+            "resource_fd_flags": []
+          }
+        },
+        {
+          "error_counter": 102,
+          "subsequent_same_client_successes": 36,
+          "first_subsequent_same_client_success": {
+            "event": "end",
+            "pid": 12574,
+            "counter": 103,
+            "started_utc": "2026-10-17T06:04:10.820406+00:00",
+            "finished_utc": "2026-10-17T06:04:12.127019+00:00",
+            "duration_seconds": 1.3066194160019222,
+            "outcome": "success",
+            "http_status": null,
+            "fd_count": 18,
+            "client_id": 4688178896,
+            "sdk_closed": false,
+            "http_closed": false,
+            "exception_classes": [],
+            "resource_fd_flags": []
+          }
+        }
+      ],
+      "latest_six_ends": [
+        {
+          "event": "end",
+          "pid": 12574,
+          "counter": 133,
+          "started_utc": "2026-10-17T06:05:24.116532+00:00",
+          "finished_utc": "2026-10-17T06:05:25.194733+00:00",
+          "duration_seconds": 1.0782218339991232,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4688178896,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        },
+        {
+          "event": "end",
+          "pid": 12574,
+          "counter": 134,
+          "started_utc": "2026-10-17T06:05:25.263880+00:00",
+          "finished_utc": "2026-10-17T06:05:27.093118+00:00",
+          "duration_seconds": 1.8292612080003892,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4688178896,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        },
+        {
+          "event": "end",
+          "pid": 12574,
+          "counter": 135,
+          "started_utc": "2026-10-17T06:05:27.430400+00:00",
+          "finished_utc": "2026-10-17T06:05:30.425340+00:00",
+          "duration_seconds": 2.994965083002171,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4688178896,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        },
+        {
+          "event": "end",
+          "pid": 12574,
+          "counter": 136,
+          "started_utc": "2026-10-17T06:05:30.755749+00:00",
+          "finished_utc": "2026-10-17T06:05:32.468282+00:00",
+          "duration_seconds": 1.7125472910011013,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4688178896,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        },
+        {
+          "event": "end",
+          "pid": 12574,
+          "counter": 137,
+          "started_utc": "2026-10-17T06:05:32.804906+00:00",
+          "finished_utc": "2026-10-17T06:05:35.670264+00:00",
+          "duration_seconds": 2.865381209001498,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4688178896,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        },
+        {
+          "event": "end",
+          "pid": 12574,
+          "counter": 138,
+          "started_utc": "2026-10-17T06:05:36.032671+00:00",
+          "finished_utc": "2026-10-17T06:05:38.131272+00:00",
+          "duration_seconds": 2.098611333000008,
+          "outcome": "success",
+          "http_status": null,
+          "fd_count": 18,
+          "client_id": 4688178896,
+          "sdk_closed": false,
+          "http_closed": false,
+          "exception_classes": [],
+          "resource_fd_flags": []
+        }
+      ],
+      "fd_min": 17,
+      "fd_max": 18,
+      "fd_latest": 18,
+      "any_closed_flag": false,
+      "partial_lines": 0
+    }
+  },
+  "inference_calls": 0,
+  "live_mutations": 0,
+  "completed_requests": 262,
+  "outcomes": {
+    "error": 5,
+    "success": 257
+  },
+  "recent_windows": {
+    "120": {
+      "completed": 76,
+      "outcomes": {
+        "error": 2,
+        "success": 74
+      }
+    },
+    "300": {
+      "completed": 138,
+      "outcomes": {
+        "success": 134,
+        "error": 4
+      }
+    },
+    "600": {
+      "completed": 262,
+      "outcomes": {
+        "error": 5,
+        "success": 257
+      }
+    }
+  },
+  "supervisor": {
+    "phase": "running",
+    "attention": false,
+    "supervisor_pid": 12567,
+    "heartbeat_at": "2026-10-17T06:05:34+00:00",
+    "accepted": {
+      "direct_llm": 0,
+      "single_agent": 108,
+      "multi_agent": 2931
+    },
+    "provider_rejections": {
+      "version": 1,
+      "classifier_version": "v3-infrastructure-v4",
+      "policy": {
+        "version": "azure-prompt-rejection-v1",
+        "category": "provider_policy_rejection",
+        "max_rejections_per_question": 2,
+        "retry_request": "unchanged",
+        "persistent_action": "park_pending_then_attention",
+        "scope": [
+          "single_agent"
+        ]
+      },
+      "updated_at": "2026-10-17T05:58:15+00:00",
+      "source": "reconstructed_from_sealed_immutable_attempts",
+      "rejections": {
+        "single_agent": {
+          "05a8454a6a71435a557db2cc": 1
+        }
+      },
+      "parked_question_ids": {
+        "single_agent": []
+      },
+      "pending_question_ids": {
+        "single_agent": [
+          "05a8454a6a71435a557db2cc"
+        ]
+      }
+    },
+    "active": {
+      "single_agent": {
+        "pid": 12570,
+        "round": 3,
+        "checkpointed_in_batch": 42,
+        "seconds_since_checkpoint": 0
+      }
+    }
+  },
+  "stall_settings": {
+    "heartbeat_seconds": 15,
+    "stall_seconds": 2700
+  },
+  "native_process_observation": {
+    "source": "native ps -p12567,12570,12573,12574 -o pid=,ppid=,stat=,comm=; no arguments read",
+    "observed_before_metadata_capture": true,
+    "processes": [
+      {
+        "pid": 12567,
+        "ppid": 1,
+        "state": "Ss",
+        "comm_basename": "python"
+      },
+      {
+        "pid": 12570,
+        "ppid": 12567,
+        "state": "Ss",
+        "comm_basename": "python"
+      },
+      {
+        "pid": 12573,
+        "ppid": 12570,
+        "state": "S",
+        "comm_basename": "python"
+      },
+      {
+        "pid": 12574,
+        "ppid": 12570,
+        "state": "S",
+        "comm_basename": "python"
+      }
+    ],
+    "all_expected_present": true,
+    "zombies": 0
+  },
+  "frozen_adapter_review": {
+    "sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "client_scope": "one SDK client per worker process, reused across calls",
+    "sdk_timeout_seconds": 60,
+    "sdk_max_retries": 0,
+    "diagnostic_start_and_finish_guarded": true
+  },
+  "conclusion": {
+    "request_progress_recovered": true,
+    "persistent_outage_demonstrated": false,
+    "host_or_client_resource_defect_demonstrated": false,
+    "same_clients_successes_after_last_timeout": 74,
+    "recommendation": "Continue current owned run and frozen retry policy; no evidence requiring restart/settings change.",
+    "causal_limit": "ConnectTimeout identifies connection-establishment transport failure, but metadata does not locate its cause within local network, route, or provider.",
+    "additional_connectivity_probe": "not needed because live requests already demonstrate recovery; no probe performed"
+  }
+}

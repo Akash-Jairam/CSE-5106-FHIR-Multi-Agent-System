@@ -1,0 +1,137 @@
+{
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "snapshot_utc": "2026-10-17T05:47:55.385388+00:00",
+  "scope": "Provider filter codes/booleans, question text intent/hash and execution metadata only; no gold/model-answer content, clinical records, prompts, configs, requests, or mutations",
+  "source_snapshot_sha256": "157fef0bb70f22de415cf8594295b25715c84eadac67dc8a03cadeca38d82a70",
+  "target_attempt_metadata": {
+    "question_id": "05a8454a6a71435a557db2cc",
+    "latency_seconds": 1.658,
+    "error_sha256": "455bc6f946d024bc51f5efcbdb16f2f80e7d35c2e8213919ba51e196973a60c5",
+    "agent_answer_is_null": true,
+    "recorded_usage_counters": {
+      "prompt": 0,
+      "completion": 0,
+      "total": 0,
+      "cached_prompt": 0,
+      "llm_calls": 1,
+      "cost": null
+    },
+    "per_call_usage_available_flags": [
+      false
+    ],
+    "recorded_tool_calls_count": 0,
+    "executed_tool_calls": 0
+  },
+  "provider_filter_metadata": {
+    "outer_code": "content_filter",
+    "inner_code": "ResponsibleAIPolicyViolation",
+    "filter_metadata": {
+      "hate": {
+        "filtered": false,
+        "severity": "safe"
+      },
+      "jailbreak": {
+        "detected": true,
+        "filtered": true
+      },
+      "self_harm": {
+        "filtered": false,
+        "severity": "safe"
+      },
+      "sexual": {
+        "filtered": false,
+        "severity": "safe"
+      },
+      "violence": {
+        "filtered": false,
+        "severity": "safe"
+      }
+    }
+  },
+  "question_text_sha256": "3291f6e605fcc92d815b9c671da8c485d3b41d514e7407bebeb370c5cea3190d",
+  "question_intent_assessment": "Benign clinical benchmark yes/no question about whether a named patient had a specified catheter-placement procedure during the current hospital visit. The question itself contains no instruction to override system rules, disclose secrets or evade safeguards. No full prompt or clinical record inspected.",
+  "same_as_prior_direct_case": {
+    "source_attempt_file": "attempts/direct_llm/round-0001.json",
+    "source_result_sha256": "450c339a0ddfa45d770646cb79c7ca540d272cf3f00c319a1960e4396bb51d89",
+    "question_id_matches": true,
+    "same_authoritative_question_text_by_id": true,
+    "top_error_sha256_matches": true,
+    "structured_filter_codes_match": true,
+    "prior_returned_answer_is_null": true,
+    "prior_usage_available_flags": [
+      false
+    ]
+  },
+  "journal_snapshots": [
+    {
+      "file": "azure-diagnostics-9730-ac60ef8df3d944d0959a97ff5916b077.jsonl",
+      "sha256": "f8455fbc0e6ce2c361e654fab7f0e24a64528f95c734df95429760571ca1d16f",
+      "complete_events": 515
+    },
+    {
+      "file": "azure-diagnostics-9731-f9f5027175c74bc883009541d0cf22b3.jsonl",
+      "sha256": "8087c0f191fcfd93c4d5812fd92c136062af45144c85a992273988d3348ea3b3",
+      "complete_events": 497
+    }
+  ],
+  "provider_request_outcomes": {
+    "success": 504,
+    "error": 1
+  },
+  "http400_events": [
+    {
+      "pid": 9730,
+      "counter": 193,
+      "started_utc": "2026-10-17T05:45:35.192045+00:00",
+      "finished_utc": "2026-10-17T05:45:36.585537+00:00",
+      "duration_seconds": 1.3935138750020997,
+      "http_status": 400,
+      "exception_classes": [
+        "openai.BadRequestError"
+      ],
+      "fd_count": 18,
+      "sdk_closed": false,
+      "http_closed": false,
+      "subsequent_completed_same_worker_calls": 64,
+      "subsequent_successes_same_client": 64,
+      "subsequent_http400_same_worker": 0,
+      "first_subsequent_success": {
+        "counter": 194,
+        "finished_utc": "2026-10-17T05:45:38.254004+00:00",
+        "same_client": true
+      },
+      "reported_usage_on_rejection": {
+        "cached_prompt_tokens": null,
+        "completion_tokens": null,
+        "prompt_tokens": null,
+        "total_tokens": null
+      }
+    }
+  ],
+  "client_health": [
+    {
+      "pid": 9730,
+      "completed_requests": 257,
+      "outcomes": {
+        "success": 256,
+        "error": 1
+      },
+      "unique_client_ids": 1,
+      "fd_min": 17,
+      "fd_max": 18,
+      "closed_flags": 0
+    },
+    {
+      "pid": 9731,
+      "completed_requests": 248,
+      "outcomes": {
+        "success": 248
+      },
+      "unique_client_ids": 1,
+      "fd_min": 17,
+      "fd_max": 18,
+      "closed_flags": 0
+    }
+  ],
+  "assessment": "Structured HTTP400 input content_filter / ResponsibleAIPolicyViolation / jailbreak detected+filtered is a provider-side rejection before a usable model completion. Host records no answer, no reported token usage, and no tool execution. A request was attempted; usage is unavailable, so zero billed usage or zero internal provider computation is not established. Same benign question and identical rejection signature across arms support operational handling independent of answer correctness; repeated blocking must remain pending. No prompt/filter bypass or security-setting change is proposed. The recurrence on the same question across two arms is request-specific evidence; it does not establish that another unchanged retry will succeed or justify treating the filtered request as an answered question."
+}

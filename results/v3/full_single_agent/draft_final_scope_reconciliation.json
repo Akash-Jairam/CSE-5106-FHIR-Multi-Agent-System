@@ -1,0 +1,25 @@
+{
+  "note": "Draft transition counts concern only records with a draft. Final correctness includes records without a draft. Mechanism counters can also use typed stage correctness whereas final correctness includes intrinsic error handling; preserve frozen definitions.",
+  "arms": {
+    "single_agent": {
+      "all_final_correct": 2343,
+      "draft_present_questions": 2806,
+      "draft_present_final_correct": 2301,
+      "draft_absent_final_correct": 42,
+      "draft_present_draft_correct": 2220,
+      "draft_present_wrong_to_right": 96,
+      "draft_present_right_to_wrong": 15,
+      "draft_absent_questions": 123
+    },
+    "multi_agent_v3_matched": {
+      "all_final_correct": 2255,
+      "draft_present_questions": 2912,
+      "draft_present_final_correct": 2250,
+      "draft_absent_final_correct": 5,
+      "draft_present_draft_correct": 2135,
+      "draft_present_wrong_to_right": 171,
+      "draft_present_right_to_wrong": 56,
+      "draft_absent_questions": 17
+    }
+  }
+}

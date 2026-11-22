@@ -1,0 +1,22 @@
+{
+  "launched_at": "2026-10-17T05:58:11.621791+00:00",
+  "supervisor_pid": 12567,
+  "scope": [
+    "single_agent"
+  ],
+  "command": [
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/scripts/launch_v3_full.py",
+    "resume",
+    "--only-arm",
+    "single_agent",
+    "--run-dir",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015"
+  ],
+  "log": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/supervisor-single-agent-recovery-20261017.log",
+  "recovery_amendment": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/amendments/0004-provider-rejection-runtime",
+  "manifest_sha256": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+  "inference_fingerprint": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "v3_rerun": false,
+  "direct_llm_authorized_or_run": false
+}

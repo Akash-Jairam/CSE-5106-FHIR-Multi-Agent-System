@@ -1,0 +1,102 @@
+{
+  "status": "PASS_DEFINITION_ESTABLISHED_DISCLOSURE_RECOMMENDED",
+  "reviewed_at_utc": "2026-10-17T08:05:54.636530+00:00",
+  "scope": "Source/documentation interpretation only; no question, answer, reference, clinical resource, or partial baseline result values read.",
+  "metric": {
+    "raw_field": "tokens.repeated_prompt",
+    "exported_field": "repeated_prompt_tokens",
+    "definition": "sum(min(cur.prompt, prev.prompt + prev.completion) for each adjacent prev,cur pair in the recorded task per_call list)",
+    "first_call_contribution": 0,
+    "implementation_source": "agent/output_schema.py:139",
+    "export_source": "scripts/v3_full_analysis.py:184",
+    "source_itself_labels_estimate": true,
+    "uses_token_sequence_comparison": false,
+    "uses_cache_hit_counts": false,
+    "directly_used_in_cost_formula": false,
+    "interpretation": "Count-only adjacent-call heuristic, not an exact measurement of reused or resent content."
+  },
+  "V3_call_order_scope": {
+    "source": "agent/query_contract_agent.py:128",
+    "parent_accountant": "PhaseHost._llm_call delegates each role to parent BaseAgent._llm_call; BaseAgent._update_usage appends to one parent call_usage list; final BaseAgent output calls to_tokens once.",
+    "includes_adjacent_cross_role_boundaries": true,
+    "phases_in_order": [
+      "contract",
+      "solver",
+      "audit_when_run"
+    ],
+    "limitation": "Adjacent calls can have distinct role contexts; context compaction or other message changes can also break a literal resend interpretation. This review makes no exact overlap or overhead claim."
+  },
+  "cached_prompt_metric": {
+    "raw_field": "tokens.cached_prompt",
+    "exported_field": "cached_prompt_tokens",
+    "provider_source": "utils/core_utils.py:535 reads usage.prompt_tokens_details.cached_tokens, with zero fallback when absent.",
+    "aggregation_source": "agent/output_schema.py:153 sums per-call cached counts.",
+    "cost_source": "scripts/v3_full_analysis.py:82 uses ((prompt-cached)*input_rate + cached*cached_rate + completion*output_rate)/1e6.",
+    "distinction": "Separate provider-reported cache-use accounting; unrelated to the repeated-prompt heuristic calculation. Actual dollar billing remains separate."
+  },
+  "documentation_review": {
+    "benchmarks/v3-full-run-20261015/completed_v3/REPORT.txt": {
+      "sha256": "481f84af680b90cd1469f21ccb764a5141d9c32c54dce321a80005ddf31312ba",
+      "repeated_prompt_semantics_disclosure_line_numbers": [],
+      "explicit_repeated_prompt_heuristic_disclosure_found": false
+    },
+    "benchmarks/v3-full-run-20261015/completed_v3/README.txt": {
+      "sha256": "e5fe65295e07895cddf48e9df2a9c0c68f92caa6abce2c5d8a4783bac9f617e4",
+      "repeated_prompt_semantics_disclosure_line_numbers": [],
+      "explicit_repeated_prompt_heuristic_disclosure_found": false
+    },
+    "benchmarks/v3-full-run-20261015/protocol.txt": {
+      "sha256": "ac4d8add2533654773d1464e315be8bb5aa2313b52b2b079050da782a71b0648",
+      "repeated_prompt_semantics_disclosure_line_numbers": [],
+      "explicit_repeated_prompt_heuristic_disclosure_found": false
+    },
+    "benchmarks/single-agent-full-run-20261017/protocol.txt": {
+      "sha256": "1c84c5a64d9417dc87a8890b5d9b2eecdee7a39fc5b519f28b6705633f233a90",
+      "repeated_prompt_semantics_disclosure_line_numbers": [],
+      "explicit_repeated_prompt_heuristic_disclosure_found": false
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/analysis_interpretation_notes/protocol.txt": {
+      "sha256": "1c84c5a64d9417dc87a8890b5d9b2eecdee7a39fc5b519f28b6705633f233a90",
+      "repeated_prompt_semantics_disclosure_line_numbers": [],
+      "explicit_repeated_prompt_heuristic_disclosure_found": false
+    }
+  },
+  "source_hashes": {
+    "agent/output_schema.py": {
+      "sha256": "daba54d1a63237f7961bce70c89bc064b03708818f6aaa704a958b02bb7b13a6",
+      "matches_frozen_manifest": true
+    },
+    "agent/base_agent.py": {
+      "sha256": "4a83a407520c67c458b371a2b143231114566cfb4956bd69aaa682a92ead7eca",
+      "matches_frozen_manifest": true
+    },
+    "agent/query_contract_agent.py": {
+      "sha256": "98d27d725057498589d22fd22ff279fff45fbec225294970cc5ccaf2159e901a",
+      "matches_frozen_manifest": true
+    },
+    "agent/framework.py": {
+      "sha256": "4ab01c58ec6ab1e39db4633033884ea0cbb0f82301f4e4eded9d4d861dcb12c8",
+      "matches_frozen_manifest": true
+    },
+    "utils/core_utils.py": {
+      "sha256": "e0fa62f8d5093b275a9100ce618c94b03722982d1acd6295f666ab5509c126d0",
+      "matches_frozen_manifest": true
+    },
+    "scripts/v3_full_analysis.py": {
+      "sha256": "24874a5483fe2354d1121c654eec547faead74fba8216371e70fe5f28965b798",
+      "matches_frozen_manifest": true
+    }
+  },
+  "frozen_manifest_sha256": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+  "disclosure_finding": "No explicit repeated-prompt heuristic definition was found in the completed V3 REPORT/README or scanned protocol notes. The REPORT does not explicitly present this metric; existing table field names can be preserved with a companion interpretation note.",
+  "proposed_companion_note": "companion_note.txt",
+  "proposed_note_sha256": "12bab98ff699c75ebad0c2bc642832d7f166fe290c73c5fd69a3e4cf6214695b",
+  "frozen_artifacts_to_preserve": [
+    "inference source",
+    "analyzer source",
+    "existing output column names and values",
+    "completed V3 report/receipts unless a separately labeled companion note is added"
+  ],
+  "no_inference_scorer_provider_calls": true,
+  "no_repo_live_or_settings_edits": true
+}

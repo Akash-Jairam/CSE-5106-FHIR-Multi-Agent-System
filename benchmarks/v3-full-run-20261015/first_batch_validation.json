@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "design": "v3",
+  "checked_at_utc": "2026-10-16T04:42:27.347824+00:00",
+  "status": "PARTIAL_OPERATIONAL_VALIDATION_NOT_FINAL_PERFORMANCE",
+  "raw_first_batch": 100,
+  "accepted": 98,
+  "runtime_failures_excluded": 2,
+  "runtime_failure_kind": "SDK APITimeoutError / ReadTimeout at approximately60seconds",
+  "runtime_failed_question_ids": [
+    "0544bc6c320c47d80b7b3c78",
+    "06c9202911fa52427beba085"
+  ],
+  "retry_status_at_check": {
+    "0544bc6c320c47d80b7b3c78": "accepted",
+    "06c9202911fa52427beba085": "accepted"
+  },
+  "accepted_question_reruns": 0,
+  "raw_batch_sha256": "1db0c560d3a1fb15550f83d9d83fb91318a6106c11d8316c560b6c9bb514946c",
+  "raw_batch_metadata_sha256": "9426b53e5bdbaab6a9338c0698c6bc80b6732b8834d552c7867238c4a76cfc0b",
+  "raw_batch_seal_sha256": "5f0a4ad126998a89080bb5e953ca5f7b2f7ee6d3ee9655fc5a806d30441f3055",
+  "accepted_latency_total_seconds": 2478.811,
+  "accepted_latency_mean_seconds": 25.293989795918367,
+  "accepted_estimated_cost_total_usd": 0.46798912000000004,
+  "accepted_estimated_cost_mean_usd": 0.00477539918367347,
+  "runtime_latency_excluded_seconds": 168.281,
+  "missing_latency": 0,
+  "missing_estimated_cost": 0,
+  "analysis_status": "PARTIAL_PROGRESS_DO_NOT_REPORT_AS_FINAL",
+  "analysis_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/analysis_validation_first_batch",
+  "analysis_artifacts_sha256": {
+    "arm_summary.csv": "1b3a096210732127c9995364dc3c8c0688efe9f35a424f6f7e3862fd005fe4b3",
+    "by_analysis_split.csv": "5031865438837f009ec79fc0d44da9227fdef9c0631dcc393bd5f58f3782497a",
+    "by_answer_type.csv": "704c33796ace7392e4258a466786e2049c4f3c7d3bfc486cecd0ad6b611e4d56",
+    "by_exposure.csv": "dc57e8fb3bdcc232d5464e4e628dc0cb38c58123395589b22d7067af679b60bd",
+    "by_family.csv": "36eb2bb094b10c50eee461fa1a0ed9ba6cf5c58704d29edd22a277c10e6e5534",
+    "by_patient_fhir_id.csv": "da0eb96554b1ddba90c7702d0206012ddbf436506f12db0d39ff53157000f99d",
+    "by_template_id.csv": "8021fdc99f31e92b761622e22afba002f1e2dbf487f2ccf55224bf20c3ad53be",
+    "mechanisms.csv": "3b98ec95cde48b5182947f642aaa4b0a1a2ccc1ec3b6c3d766220dab6a126a3e",
+    "paired_comparisons.csv": "3ce7e1abb17621168e0a7d5e32dc9e0f869e05c628c335d8a4b18a26c4ec6c17",
+    "per_question.csv": "bb81a66e565df0142fce93025ba05cae5e819a12012ea5573a5a5f56f633eef5",
+    "per_question.jsonl": "4df51d78c11d145fa26728003ee168f771ae289d5b6ff0463953ee59dba5faac",
+    "phase_usage.csv": "3ec263f71f07e441605da2fb6a55ec99a0b5f779d724f26ef40012b348e0e58f",
+    "report.txt": "f7848fc1da4fc817a148835e6ddcb459c44738044e57f5b21e31783d57cdbb60",
+    "summary.json": "3ccab88f53b21f92fb85143f23b4dd2836a7998bca2841e9f6262963d3143282"
+  },
+  "independent_audit": "All100 audit artifacts and sealed identities verified; actual provider journal corroborates2 timeout exception chains,600 successful requests;7 intrinsic source/execution/budget outcomes retained."
+}

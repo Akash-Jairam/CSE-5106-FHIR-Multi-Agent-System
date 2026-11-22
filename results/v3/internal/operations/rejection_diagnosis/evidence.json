@@ -1,0 +1,1143 @@
+{
+  "status": "INTERNAL_OFFLINE_CONTEXT_DIAGNOSIS_NOT_CAUSAL_IDENTIFICATION",
+  "created_at_utc": "2026-10-17T16:55:09.057216+00:00",
+  "scope": "Only two round32 failed Single Agent tasks and their completed V3 target traces; no scoring or provider calls",
+  "reporting_scope": "Internal operations only; no incident narrative or IDs intended for main matched-cohort analysis",
+  "source_bindings": {
+    "agent/single_agent.py": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+    "agent/base_agent.py": "4a83a407520c67c458b371a2b143231114566cfb4956bd69aaa682a92ead7eca",
+    "agent/query_contract_agent.py": "98d27d725057498589d22fd22ff279fff45fbec225294970cc5ccaf2159e901a",
+    "agent/framework.py": "4ab01c58ec6ab1e39db4633033884ea0cbb0f82301f4e4eded9d4d861dcb12c8",
+    "agent/output_schema.py": "daba54d1a63237f7961bce70c89bc064b03708818f6aaa704a958b02bb7b13a6",
+    "agent/ehr_semantics.py": "2c6a12e0c2e5428b028c22b3d017bbabd8bc479b874d32facca98612d7055fe4",
+    "agent/multi_turn_code_resource_agent.py": "938a57c1664309e9673c5011c7f1d76b22a5e1d63380322ba6ca34e74e0645e6",
+    "utils/core_utils.py": "e0fa62f8d5093b275a9100ce618c94b03722982d1acd6295f666ab5509c126d0",
+    "tools/registry.py": "0a7fdaf3627517d6e5d3a30ee727ea84eaa5cb43803391434a60a95eb2929dfb",
+    "tools/resource_tools.py": "ed5319a217eeb6c439deb386dbe84e9319082854c5bcfe3e7072d60bd12a568d",
+    "tools/python_executor.py": "87d701913d1505283ce481720bf9f2780e1759d892680d7f8d373fbe039b6c8f",
+    "tools/field_check.py": "53345095c1e489185ff9b280034999c4225748d4c88bc9df939960f3119457c5",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "run_agent.py": "a68b30d8452a636a451ac7a23bb759a893cfa136e7be4f6d8545af65467372c6",
+    "scripts/v3_full_run.py": "b1543ea655e005af6b14c280a0695b877084fc14f19024c569a4f70ebc583f4a",
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/runtime/azure_adapter.py": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/provider_profile.json": "7cfcb5b96ef17973bcf6c2e1a384898b0d7c2895362b52e162b74e513b5a793b"
+  },
+  "manifest_sha256": "a76fcc081d88c7293e69713cf6f95c4b7b721aeaca62704ce10e3fb2ce435f10",
+  "acceptance_snapshot_sha256": "75e98ff69cdc1db50dee0f19787d0d4b1bb4f890a9d73da00d94a37415799a4a",
+  "tool_definition_metadata": {
+    "names": [
+      "get_resources_by_resource_id",
+      "get_resources_by_patient_fhir_id",
+      "execute_python_code",
+      "check_fields"
+    ],
+    "canonical_json_chars": 3647,
+    "canonical_json_sha256": "881da3936097ce1decb49969a4fab62e466c7b068a600bf11812f97ad3c47434",
+    "reconstructed_from_frozen_registry_not_wire_capture": true
+  },
+  "cases": [
+    {
+      "question_id": "05a8454a6a71435a557db2cc",
+      "round32_single": {
+        "trace_components": [
+          {
+            "index": 0,
+            "role": "system",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 10405,
+            "content_sha256": "70777aa0d3af19534822eb9ae7cff33752a991cab3e0eba2259e06b8db8c7420",
+            "model_content_present": false,
+            "instruction_pattern_counts": {
+              "generic_final_format_override": 1
+            },
+            "tool_calls": []
+          },
+          {
+            "index": 1,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 21139,
+            "content_sha256": "9885c8d7583dc9852c0604148a6ca9825d45c383e87ecc05d51a08a01599aa86",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 2,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "NoneType",
+            "content_chars": 0,
+            "content_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [
+              {
+                "name": "execute_python_code",
+                "arguments_chars": 277,
+                "arguments_sha256": "fd0abd596d1fb79c6ecc332f54139363fce8d4d4817478fc3cba801a542ead09",
+                "mode": "inspect",
+                "instruction_pattern_counts": {},
+                "python_AST_node_counts": {
+                  "Assign": 2,
+                  "Call": 6,
+                  "Dict": 2,
+                  "ListComp": 1
+                },
+                "python_syntax_valid": true,
+                "code_chars": 247,
+                "code_sha256": "993b552f49ed382fb6066ba6af5265ae46c32d7af44c373ce9b501e0733fb32b"
+              }
+            ]
+          },
+          {
+            "index": 3,
+            "role": "tool",
+            "phase": null,
+            "tool_name": "execute_python_code",
+            "content_type": "str",
+            "content_chars": 332,
+            "content_sha256": "3f2d65eda049c19a83874c7a7b124eb9d51fe9fccfd010faf3d29115993b47e7",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [],
+            "tool_reply_top_level_keys": [
+              "answer",
+              "mode"
+            ],
+            "tool_reply_JSON_valid": true
+          }
+        ],
+        "successful_call_context": {
+          "roles": [
+            "system",
+            "user"
+          ],
+          "message_count": 2,
+          "message_content_chars": 31544,
+          "canonical_logical_messages_sha256": "de7acad1e87823f596a5a58483822bb6b5829e96a4981600fc137ff18db2c4de",
+          "local_token_estimate_including_tools": 11013,
+          "provider_reported_prompt_tokens": 10922,
+          "provider_reported_completion_tokens": 91
+        },
+        "rejected_call_context": {
+          "roles": [
+            "system",
+            "user",
+            "assistant",
+            "tool"
+          ],
+          "message_count": 4,
+          "message_content_chars": 31876,
+          "canonical_logical_messages_sha256": "5785424c37efe64cc65dcd3b75cee85513d35908c37605de992212354a560ee2",
+          "local_token_estimate_including_tools": 11313,
+          "new_components_since_success": [
+            2,
+            3
+          ],
+          "new_FHIR_retrieval_between_calls": false,
+          "tool_reply_model_content_differs_from_audit": false,
+          "compaction_trigger_not_reached": true,
+          "SDK_assistant_to_tool_link_valid": true,
+          "provider_failed_call_usage_available": false
+        },
+        "per_call_usage_available": [
+          true,
+          false
+        ],
+        "tool_flow": [
+          {
+            "name": "execute_python_code",
+            "mode": "inspect"
+          }
+        ],
+        "request_message_strings_recoverable_as_logical_context": true,
+        "exact_request_wire_bytes_captured": false
+      },
+      "v3_target": {
+        "attempt_file": "attempts/multi_agent/round-0001.json",
+        "accepted_round": 1,
+        "trace_components": [
+          {
+            "index": 0,
+            "role": "system",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 5063,
+            "content_sha256": "f301b22c63052b0b72198f368053afe6430501b1c8c85788b75dae09d3d27d67",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 1,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 398,
+            "content_sha256": "4304d1e14e2193a584aee5efefd6b78679cbfeb6b20a9dbbf686aadb649152dd",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 2,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 278,
+            "content_sha256": "b5b08615e2151d48a5c2a3ee87ddc6b31a71087b0c6e865322a82db8adebd542",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 3,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 1601,
+            "content_sha256": "5c21e22271f6e2822aec46efd3a6c2294ba7f54919547c37a82cee77160ebcdd",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 4,
+            "role": "system",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 10405,
+            "content_sha256": "70777aa0d3af19534822eb9ae7cff33752a991cab3e0eba2259e06b8db8c7420",
+            "model_content_present": false,
+            "instruction_pattern_counts": {
+              "generic_final_format_override": 1
+            },
+            "tool_calls": []
+          },
+          {
+            "index": 5,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 21139,
+            "content_sha256": "9885c8d7583dc9852c0604148a6ca9825d45c383e87ecc05d51a08a01599aa86",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 6,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 239,
+            "content_sha256": "1182dafb7652ebf177a23ed3f0f75f33a082363329d297553c0a4035c6cd51b9",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 7,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "NoneType",
+            "content_chars": 0,
+            "content_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [
+              {
+                "name": "execute_python_code",
+                "arguments_chars": 116,
+                "arguments_sha256": "e639203f8d3f34d479d9c271c21981e24770a55056896fb0c254c46ce451a81b",
+                "mode": "inspect",
+                "instruction_pattern_counts": {},
+                "python_AST_node_counts": {
+                  "Assign": 2,
+                  "Call": 2,
+                  "Dict": 1,
+                  "Subscript": 1
+                },
+                "python_syntax_valid": true,
+                "code_chars": 87,
+                "code_sha256": "0af5fbba6227a1e75df14e3b3c522ca61878ccf308baf87c12aef60cab9bfba3"
+              }
+            ]
+          },
+          {
+            "index": 8,
+            "role": "tool",
+            "phase": null,
+            "tool_name": "execute_python_code",
+            "content_type": "str",
+            "content_chars": 358,
+            "content_sha256": "7d6e9578de37031577b8a1dc239b50c96eadaf043bf0865e2d044102401eed88",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [],
+            "tool_reply_top_level_keys": [
+              "answer",
+              "mode"
+            ],
+            "tool_reply_JSON_valid": true
+          },
+          {
+            "index": 9,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 239,
+            "content_sha256": "d6cd7560c712770ff6599c69b1ee0eba4c1d678c53a52594a3ea8c83bdd1c69c",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 10,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "NoneType",
+            "content_chars": 0,
+            "content_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [
+              {
+                "name": "execute_python_code",
+                "arguments_chars": 1366,
+                "arguments_sha256": "461ee9bb39e94c368d895217a33d2347e507567cf06ca2d51a1875413e87309d",
+                "mode": "final",
+                "instruction_pattern_counts": {},
+                "python_AST_node_counts": {
+                  "Assign": 11,
+                  "For": 3,
+                  "Call": 28,
+                  "If": 2,
+                  "ListComp": 1,
+                  "Subscript": 5,
+                  "Dict": 7
+                },
+                "python_syntax_valid": true,
+                "code_chars": 1322,
+                "code_sha256": "223eba08ea3764399139e8e2ad9b98d7acb6b004cf28285e95a1731293593d99"
+              }
+            ]
+          },
+          {
+            "index": 11,
+            "role": "tool",
+            "phase": null,
+            "tool_name": "execute_python_code",
+            "content_type": "str",
+            "content_chars": 636,
+            "content_sha256": "020340353e6ccdadf9c15dad13683e09add5ecaacfe8847051a269279221288d",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [],
+            "tool_reply_top_level_keys": [
+              "answer",
+              "contributing_ids",
+              "evidence",
+              "limitation",
+              "mode",
+              "operation"
+            ],
+            "tool_reply_JSON_valid": true
+          },
+          {
+            "index": 12,
+            "role": "assistant",
+            "phase": "solver_boundary",
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 77,
+            "content_sha256": "aacb5536a7560feeeb48783726676570655b4265e06f8137e91ce451d162e56a",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 13,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "NoneType",
+            "content_chars": 0,
+            "content_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [
+              {
+                "name": "check_fields",
+                "arguments_chars": 345,
+                "arguments_sha256": "93d425db876d319d601e52c5c0bcd6f2cd76772ddbb6ca2db9dc1b933c3663c2",
+                "mode": null,
+                "instruction_pattern_counts": {}
+              }
+            ]
+          },
+          {
+            "index": 14,
+            "role": "tool",
+            "phase": null,
+            "tool_name": "check_fields",
+            "content_type": "str",
+            "content_chars": 551,
+            "content_sha256": "b1b4c5769b3e5c00abeb74e85c5c6bd3ff33f016b886d05b8ad76a2922716ec3",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [],
+            "tool_reply_top_level_keys": [
+              "issues",
+              "n_valid",
+              "results"
+            ],
+            "tool_reply_JSON_valid": true
+          },
+          {
+            "index": 15,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 300,
+            "content_sha256": "f13b6d549b8c537a90e1848537fc12e7b579f2423dadd758fba77f0ad6700f56",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 16,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 239,
+            "content_sha256": "904c28d649564d505c3513d970fe7bd213e6ddf571527119b4908af0e57bb20a",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 17,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "NoneType",
+            "content_chars": 0,
+            "content_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [
+              {
+                "name": "execute_python_code",
+                "arguments_chars": 560,
+                "arguments_sha256": "554085df2cdfed25ea96c69107b4d43bf8419199b1c6f67e2ffcf1a6a3697a51",
+                "mode": "final",
+                "instruction_pattern_counts": {},
+                "python_AST_node_counts": {
+                  "Assign": 5,
+                  "Dict": 2
+                },
+                "python_syntax_valid": true,
+                "code_chars": 530,
+                "code_sha256": "13c892701a89afdc6fee332bb525b62a8d4e4825945d1bfb5937d950c2cb6ef1"
+              }
+            ]
+          },
+          {
+            "index": 18,
+            "role": "tool",
+            "phase": null,
+            "tool_name": "execute_python_code",
+            "content_type": "str",
+            "content_chars": 579,
+            "content_sha256": "7076346b2fc16897bf10e9987749834708e83515bb1839e02a71a488e207ff13",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [],
+            "tool_reply_top_level_keys": [
+              "answer",
+              "contributing_ids",
+              "evidence",
+              "limitation",
+              "mode",
+              "operation"
+            ],
+            "tool_reply_JSON_valid": true
+          },
+          {
+            "index": 19,
+            "role": "assistant",
+            "phase": "solver_boundary",
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 77,
+            "content_sha256": "aacb5536a7560feeeb48783726676570655b4265e06f8137e91ce451d162e56a",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 20,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "NoneType",
+            "content_chars": 0,
+            "content_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [
+              {
+                "name": "check_fields",
+                "arguments_chars": 322,
+                "arguments_sha256": "aee0306c45ea9fb0171d66e61167bba591412c67a96c4a552f47a60d662db962",
+                "mode": null,
+                "instruction_pattern_counts": {}
+              }
+            ]
+          },
+          {
+            "index": 21,
+            "role": "tool",
+            "phase": null,
+            "tool_name": "check_fields",
+            "content_type": "str",
+            "content_chars": 528,
+            "content_sha256": "0f7d025b97385f331506e2f6e6f095316fe1220b72e665a462d9470042bb588b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [],
+            "tool_reply_top_level_keys": [
+              "issues",
+              "n_valid",
+              "results"
+            ],
+            "tool_reply_JSON_valid": true
+          }
+        ],
+        "model_call_usage_numeric": [
+          {
+            "prompt": 1176,
+            "completion": 325,
+            "cached": 0,
+            "usage_available": true
+          },
+          {
+            "prompt": 10967,
+            "completion": 46,
+            "cached": 2762,
+            "usage_available": true
+          },
+          {
+            "prompt": 11158,
+            "completion": 386,
+            "cached": 2762,
+            "usage_available": true
+          },
+          {
+            "prompt": 12147,
+            "completion": 193,
+            "cached": 2762,
+            "usage_available": true
+          }
+        ],
+        "solver_initial_system_hash_matches_single": true,
+        "solver_initial_user_hash_matches_single": true,
+        "solver_additional_budget_guidance_user_messages": 4,
+        "solver_tool_flow": [
+          {
+            "name": "execute_python_code",
+            "mode": "inspect"
+          },
+          {
+            "name": "execute_python_code",
+            "mode": "final"
+          },
+          {
+            "name": "check_fields",
+            "mode": null
+          },
+          {
+            "name": "execute_python_code",
+            "mode": "final"
+          },
+          {
+            "name": "check_fields",
+            "mode": null
+          }
+        ],
+        "host_only_solver_boundary_count": 2,
+        "logical_trajectory_differs_from_single": true,
+        "exact_request_wire_bytes_captured": false
+      }
+    },
+    {
+      "question_id": "0eb69f6e47ab63c055e2df90",
+      "round32_single": {
+        "trace_components": [
+          {
+            "index": 0,
+            "role": "system",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 10405,
+            "content_sha256": "70777aa0d3af19534822eb9ae7cff33752a991cab3e0eba2259e06b8db8c7420",
+            "model_content_present": false,
+            "instruction_pattern_counts": {
+              "generic_final_format_override": 1
+            },
+            "tool_calls": []
+          },
+          {
+            "index": 1,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 14779,
+            "content_sha256": "57b7362f6c82173cf9adba1c91d4bfe43b5ee1ba20f6d022d2ee94daa0376259",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 2,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "NoneType",
+            "content_chars": 0,
+            "content_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [
+              {
+                "name": "execute_python_code",
+                "arguments_chars": 204,
+                "arguments_sha256": "7587f4e036b0f055bab4c66d5161bde4567762ff5692c9d52ae6582bdb994e52",
+                "mode": "inspect",
+                "instruction_pattern_counts": {},
+                "python_AST_node_counts": {
+                  "Assign": 1,
+                  "Dict": 1,
+                  "Call": 4,
+                  "Subscript": 1
+                },
+                "python_syntax_valid": true,
+                "code_chars": 176,
+                "code_sha256": "f3fb072c385a3b0954096d022c60ae4b5cefad1c5098a7d685302115babb8a03"
+              }
+            ]
+          },
+          {
+            "index": 3,
+            "role": "tool",
+            "phase": null,
+            "tool_name": "execute_python_code",
+            "content_type": "str",
+            "content_chars": 2808,
+            "content_sha256": "55826295dfb78f08fde2dccc0d47ba5265a68d708073d2a6fc49255759ee0f6e",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [],
+            "tool_reply_top_level_keys": [
+              "answer",
+              "mode"
+            ],
+            "tool_reply_JSON_valid": true
+          }
+        ],
+        "successful_call_context": {
+          "roles": [
+            "system",
+            "user"
+          ],
+          "message_count": 2,
+          "message_content_chars": 25184,
+          "canonical_logical_messages_sha256": "e9e11a28fa8ca8108bb70e63b6d4f77828eaffe92f8ffc1ba809ca1cc1c8baed",
+          "local_token_estimate_including_tools": 8723,
+          "provider_reported_prompt_tokens": 8562,
+          "provider_reported_completion_tokens": 58
+        },
+        "rejected_call_context": {
+          "roles": [
+            "system",
+            "user",
+            "assistant",
+            "tool"
+          ],
+          "message_count": 4,
+          "message_content_chars": 27992,
+          "canonical_logical_messages_sha256": "d98fc989221615e49fe2e352d884e9ca63fc6456d61b561d727c19712a6d6e2e",
+          "local_token_estimate_including_tools": 10062,
+          "new_components_since_success": [
+            2,
+            3
+          ],
+          "new_FHIR_retrieval_between_calls": false,
+          "tool_reply_model_content_differs_from_audit": false,
+          "compaction_trigger_not_reached": true,
+          "SDK_assistant_to_tool_link_valid": true,
+          "provider_failed_call_usage_available": false
+        },
+        "per_call_usage_available": [
+          true,
+          false
+        ],
+        "tool_flow": [
+          {
+            "name": "execute_python_code",
+            "mode": "inspect"
+          }
+        ],
+        "request_message_strings_recoverable_as_logical_context": true,
+        "exact_request_wire_bytes_captured": false
+      },
+      "v3_target": {
+        "attempt_file": "attempts/multi_agent/round-0002.json",
+        "accepted_round": 2,
+        "trace_components": [
+          {
+            "index": 0,
+            "role": "system",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 5063,
+            "content_sha256": "f301b22c63052b0b72198f368053afe6430501b1c8c85788b75dae09d3d27d67",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 1,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 384,
+            "content_sha256": "83beeb6052a04cda96fd21c1bd02c840a256960b482bc9d65c931299e9f120f8",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 2,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 278,
+            "content_sha256": "b5b08615e2151d48a5c2a3ee87ddc6b31a71087b0c6e865322a82db8adebd542",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 3,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 785,
+            "content_sha256": "413dcc41ab2e31c0263c5bb25445ee121b65367e289cfcd602121dde81e4a21b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 4,
+            "role": "system",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 10405,
+            "content_sha256": "70777aa0d3af19534822eb9ae7cff33752a991cab3e0eba2259e06b8db8c7420",
+            "model_content_present": false,
+            "instruction_pattern_counts": {
+              "generic_final_format_override": 1
+            },
+            "tool_calls": []
+          },
+          {
+            "index": 5,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 14779,
+            "content_sha256": "57b7362f6c82173cf9adba1c91d4bfe43b5ee1ba20f6d022d2ee94daa0376259",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 6,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 239,
+            "content_sha256": "1182dafb7652ebf177a23ed3f0f75f33a082363329d297553c0a4035c6cd51b9",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 7,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "NoneType",
+            "content_chars": 0,
+            "content_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [
+              {
+                "name": "execute_python_code",
+                "arguments_chars": 1466,
+                "arguments_sha256": "f4a224a21eb2926cce16909d4081a56519bf985f116195431215d61b072d796e",
+                "mode": "final",
+                "instruction_pattern_counts": {},
+                "python_AST_node_counts": {
+                  "Assign": 13,
+                  "If": 1,
+                  "Call": 29,
+                  "ListComp": 3,
+                  "For": 1,
+                  "Subscript": 14,
+                  "Dict": 6
+                },
+                "python_syntax_valid": true,
+                "code_chars": 1424,
+                "code_sha256": "1d84f3482164fb12c5e942f2564d018ecc9dfa86f6ce1453ae6b1129954429d4"
+              }
+            ]
+          },
+          {
+            "index": 8,
+            "role": "tool",
+            "phase": null,
+            "tool_name": "execute_python_code",
+            "content_type": "str",
+            "content_chars": 1089,
+            "content_sha256": "28a4a82380ef78939be56c465f1aea37b6fcd2261a2637c5a6e46ce21cd8127d",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [],
+            "tool_reply_top_level_keys": [
+              "answer",
+              "contributing_ids",
+              "evidence",
+              "limitation",
+              "mode",
+              "operation"
+            ],
+            "tool_reply_JSON_valid": true
+          },
+          {
+            "index": 9,
+            "role": "assistant",
+            "phase": "solver_boundary",
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 77,
+            "content_sha256": "aacb5536a7560feeeb48783726676570655b4265e06f8137e91ce451d162e56a",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 10,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "NoneType",
+            "content_chars": 0,
+            "content_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [
+              {
+                "name": "check_fields",
+                "arguments_chars": 643,
+                "arguments_sha256": "544e071cb0d48043c8b0822fb848891bb1fda69e11ddcce6b32f373f0aec90c0",
+                "mode": null,
+                "instruction_pattern_counts": {}
+              }
+            ]
+          },
+          {
+            "index": 11,
+            "role": "tool",
+            "phase": null,
+            "tool_name": "check_fields",
+            "content_type": "str",
+            "content_chars": 865,
+            "content_sha256": "0acbfd0b58b49159bdfeb2ddd00bfcad1853e5c824d9faa1ec75f9631bff9ead",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": [],
+            "tool_reply_top_level_keys": [
+              "issues",
+              "n_valid",
+              "results"
+            ],
+            "tool_reply_JSON_valid": true
+          },
+          {
+            "index": 12,
+            "role": "system",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 6008,
+            "content_sha256": "841218dd6ee7905561848665e5e227e3556d86799172a4047f93c3579877e16e",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 13,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 7465,
+            "content_sha256": "20f2fae2565b99639b84d1b733f533bfbfaf1d5c14f5f8e8bb6dc03b597b4de3",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 14,
+            "role": "user",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 278,
+            "content_sha256": "b5b08615e2151d48a5c2a3ee87ddc6b31a71087b0c6e865322a82db8adebd542",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          },
+          {
+            "index": 15,
+            "role": "assistant",
+            "phase": null,
+            "tool_name": null,
+            "content_type": "str",
+            "content_chars": 669,
+            "content_sha256": "c1499dddbba11bdcb8e200c8a4aa3e9dad81099f034711a08a29ff89744a701e",
+            "model_content_present": false,
+            "instruction_pattern_counts": {},
+            "tool_calls": []
+          }
+        ],
+        "model_call_usage_numeric": [
+          {
+            "prompt": 1173,
+            "completion": 162,
+            "cached": 0,
+            "usage_available": true
+          },
+          {
+            "prompt": 8607,
+            "completion": 408,
+            "cached": 2762,
+            "usage_available": true
+          },
+          {
+            "prompt": 3862,
+            "completion": 140,
+            "cached": 1165,
+            "usage_available": true
+          }
+        ],
+        "solver_initial_system_hash_matches_single": true,
+        "solver_initial_user_hash_matches_single": true,
+        "solver_additional_budget_guidance_user_messages": 3,
+        "solver_tool_flow": [
+          {
+            "name": "execute_python_code",
+            "mode": "final"
+          },
+          {
+            "name": "check_fields",
+            "mode": null
+          }
+        ],
+        "host_only_solver_boundary_count": 1,
+        "logical_trajectory_differs_from_single": true,
+        "exact_request_wire_bytes_captured": false
+      }
+    }
+  ],
+  "request_recoverability": {
+    "logical_model_message_texts": true,
+    "full_wire_body_bytes": false,
+    "authentication_or_transport_headers": false,
+    "SDK_serialization_exactness_not_proven": true,
+    "adapter_parameter_keys": [
+      "model",
+      "messages",
+      "max_completion_tokens",
+      "reasoning_effort",
+      "tools",
+      "parallel_tool_calls"
+    ],
+    "frozen_max_completion_tokens": 16384,
+    "frozen_reasoning_effort": "none",
+    "no_request_body_logged_by_safe_provider_journals": true
+  },
+  "actual_generic_template_patterns": [
+    {
+      "label": "generic_final_format_override",
+      "source": "agent/single_agent.py:20",
+      "clinical_content": false,
+      "interpretation": "A shared generic output-format priority instruction, not a malicious instruction. It appears in already accepted initial contexts and V3 solver contexts, so it is not an isolated sufficient cause."
+    }
+  ],
+  "causal_limits": [
+    "The new second-call components are assistant-generated Python tool arguments and a small Python tool reply; no intervening FHIR retrieval occurred. This rules out blaming a new retrieval event, not all starting-packet data or generated-result context.",
+    "The same initial system and user/starting-packet strings occur in the V3 solver and Single Agent traces. V3 adds per-call host budget guidance and has different model-generated code/results/phase trajectories. Requests are not identical.",
+    "Provider acceptance of the initial call and V3 trajectories does not identify which second-call component or interaction triggered the policy decision, nor prove malicious intent or provider false positivity.",
+    "Finite lexical-pattern checks cannot certify safety or expose the provider classifier rationale. No counterfactual model/provider requests were made."
+  ],
+  "legitimate_resolution_paths": [
+    "Use the internal safe request IDs/UTCs and logical-context hashes for an authorized Azure administrator/provider false-positive review; do not change safeguards or rewrite clinical context to evade rejection.",
+    "No local malformed-message or broken assistant/tool linkage was found in these saved contexts. There is no demonstrated one-line implementation correction that explains the policy result.",
+    "Any reviewed change to prompts, tool-result encoding, turn construction or stopping/finalization behavior changes benchmark implementation. Preserve the frozen run and use a new declared protocol/version and matched rerun scope; do not silently repair only these two outcomes.",
+    "Main analysis can use the separately declared matched completed cohort with its explicit sample count; original full-cohort completion gate remains unchanged and these saved attempts remain internal/reproducible."
+  ],
+  "debug_asset_inventory": {
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/single_agent/audit/43b4e9efc37dde81994979b51e5c2404df14d1152cb64f52911840eeb1dd8a5d.json.gz": {
+      "sha256": "c7578babad037dd1e026e07ff540b82983ae91e09ce5d911cd43c67035d68278",
+      "bytes": 10315,
+      "kind": "compressed audit",
+      "contains_or_may_contain_clinical_question_answer_reference_data": true,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/multi_agent/audit/ae7ee3642bcb4f35347bc025cebbba73771b5d20e0dfd71931531a0e7c263b14.json.gz": {
+      "sha256": "87fe0462b796064717aaf9e4733d4591aad4be9b6bf3da34e5dfc87d6620b518",
+      "bytes": 12476,
+      "kind": "compressed audit",
+      "contains_or_may_contain_clinical_question_answer_reference_data": true,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/single_agent/audit/0b136a4618ad075ce1b013c87c2f5b69d6abc8ec0d2cd77d344c3b5b60e4ed1f.json.gz": {
+      "sha256": "e4f9e81c0ee63862685994748e6875abf41452d403cc4e0d27bdb7f9808f28ed",
+      "bytes": 8795,
+      "kind": "compressed audit",
+      "contains_or_may_contain_clinical_question_answer_reference_data": true,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/multi_agent/audit/4c7320ab0a26f9eca92ddf4931f9ee6d63bf8f212e6e6d91d28a5e800102975b.json.gz": {
+      "sha256": "f835f1b94c8d016e4c97b0c43b6da83566caed05865d5ff9a6428b60db5b8f9f",
+      "bytes": 13062,
+      "kind": "compressed audit",
+      "contains_or_may_contain_clinical_question_answer_reference_data": true,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/single_agent/round-0032.json": {
+      "sha256": "368b29cf4d071e7978d6c90e7fd649cc61e0c9ee706ceea75722f577d44124be",
+      "bytes": 11693,
+      "kind": "raw round32 compact results",
+      "contains_or_may_contain_clinical_question_answer_reference_data": true,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/single_agent/round-0032.json.run.json": {
+      "sha256": "0ebe5a232ac70ef959cf6f7f54a8815327d67f8b8d1cd9c06695a6e7986ee7fc",
+      "bytes": 639,
+      "kind": "round32 inference identity",
+      "contains_or_may_contain_clinical_question_answer_reference_data": false,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/single_agent/round-0032.batch.json": {
+      "sha256": "c757778a8784ebdf0c1efc0c6b3fc761242fb5e8ab98844f90e7e92bf4cdbec7",
+      "bytes": 2501,
+      "kind": "round32 batch metadata",
+      "contains_or_may_contain_clinical_question_answer_reference_data": false,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/single_agent/round-0032.batch.seal.json": {
+      "sha256": "08e6824186192603e5c8cc52d1d2df9bf49f5164d34a461906a372519e51e366",
+      "bytes": 361,
+      "kind": "round32 immutable seal",
+      "contains_or_may_contain_clinical_question_answer_reference_data": false,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/single_agent/round-0032.log": {
+      "sha256": "3bc6304c42309cedfd19626d1ceae6bd9e2dcf9c014fc7fc29d327cd04381d4f",
+      "bytes": 2327,
+      "kind": "round32 worker log",
+      "contains_or_may_contain_clinical_question_answer_reference_data": true,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/attempts/single_agent/round-0032.csv": {
+      "sha256": "9a91f609faa58d8c7d138d2eb3c26fe28525fb814556383d5dc79f91c7d41a71",
+      "bytes": 3486,
+      "kind": "round32 shard with authoritative inputs",
+      "contains_or_may_contain_clinical_question_answer_reference_data": true,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0032/azure-diagnostics-58093-5a6528d054854870b9435e40215747fa.jsonl": {
+      "sha256": "e4cf470ad9bace04ca1adfa840190ea1ca5e16f3f3bce0ebb24fe6f9077d426f",
+      "bytes": 4692,
+      "kind": "metadata-only provider diagnostic journal",
+      "contains_or_may_contain_clinical_question_answer_reference_data": false,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0032/azure-diagnostics-58094-18629f0df9dc40c19f1ecdf3ed042148.jsonl": {
+      "sha256": "d11b2892631eb9c1f9e44c0efaa4be2b8bdceed317a9812a9780dbec76e6fe50",
+      "bytes": 4690,
+      "kind": "metadata-only provider diagnostic journal",
+      "contains_or_may_contain_clinical_question_answer_reference_data": false,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/run_manifest.json": {
+      "sha256": "a76fcc081d88c7293e69713cf6f95c4b7b721aeaca62704ce10e3fb2ce435f10",
+      "bytes": 12472,
+      "kind": "public runtime/measurement metadata",
+      "contains_or_may_contain_clinical_question_answer_reference_data": false,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/provider_profile.json": {
+      "sha256": "7cfcb5b96ef17973bcf6c2e1a384898b0d7c2895362b52e162b74e513b5a793b",
+      "bytes": 916,
+      "kind": "public runtime/measurement metadata",
+      "contains_or_may_contain_clinical_question_answer_reference_data": false,
+      "content_not_copied_to_diagnosis": true
+    },
+    "output/experiments/gpt-6-luna/v3_full_2931_20261015/pricing.json": {
+      "sha256": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6",
+      "bytes": 805,
+      "kind": "public runtime/measurement metadata",
+      "contains_or_may_contain_clinical_question_answer_reference_data": false,
+      "content_not_copied_to_diagnosis": true
+    }
+  },
+  "debug_asset_total_bytes": 89230,
+  "no_clinical_text_answers_references_credentials_stored_in_this_diagnosis": true,
+  "no_configuration_reads_provider_model_scorer_calls_or_existing_source_canonical_changes": true
+}

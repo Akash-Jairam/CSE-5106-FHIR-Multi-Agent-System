@@ -1,0 +1,129 @@
+V3 COMPLETE: 76.97% accuracy (2,256/2,931 questions; 94 patients)
+95% patient-cluster bootstrap confidence interval: 74.53% to 79.34%.
+
+This report finalizes the complete V3 arm for the midterm. Matched baseline
+work is DEFERRED at the user's request and requires further instructions.
+No baseline results or cross-system comparisons are included.
+
+COHORT AND SCORING
+
+All 2,931 released questions have one accepted first-runtime-clean terminal
+outcome. The unchanged typed answer scorer gives 2,256 correct and 675
+incorrect outcomes: accuracy 0.7697031729785057. Its unrounded 95% interval
+is [0.7452916915171077, 0.7933626867897672].
+
+Intervals resample patients, preserving their questions, with 10,000 bootstrap
+replicates, seed 5106, and percentile bounds. The estimand is the
+question-weighted mean. Standard deviations below are sample standard deviations.
+
+There were 3,012 raw V3 attempts: 2,931 accepted outcomes and 81 excluded
+infrastructure-failed attempts. Those 81 attempts are preserved for audit and
+contribute no incorrect outcomes, latency, tokens or cost to the design results.
+No accepted intrinsic terminal errors or budget stops were recorded. Recovery
+used runtime diagnostics and first-clean selection, never answer correctness.
+
+TIME PER ACCEPTED QUESTION
+
+Summed task latency:              70,504.268 seconds
+Mean:                            24.054680313886045 seconds
+Median:                          20.486 seconds
+95th percentile:                 50.9185 seconds
+Sample standard deviation:       13.98040972187949 seconds
+95% CI for mean:                 [23.105007168443688, 24.996393306668384] seconds
+Missing latency measurements:    0
+
+Summed task latency is not elapsed benchmark wall time. The V3 operational
+interval from first batch start to final batch seal was 40,426 seconds
+(11 hours 13 minutes 46 seconds), including recovery and scheduling overhead.
+The run used two workers. Accepted task latency excludes failed runtime attempts.
+
+ESTIMATED COST PER ACCEPTED QUESTION (USD)
+
+Total:                           $14.81082369
+Mean:                            $0.005053164002047084
+Median:                          $0.00405541
+95th percentile:                 $0.013585405
+Sample standard deviation:       $0.0036432370189902097
+95% CI for mean:                 [$0.0047942288005063125, $0.00532021605820818]
+Missing estimated-cost values:   0
+
+These are usage-based estimates using the frozen official OpenAI price schedule,
+adopted for Azure at the user's instruction: $0.10 per million uncached input
+tokens, $0.01 per million cached input tokens and $0.50 per million output tokens.
+Cached input is a subset of total input and is not charged twice. Failed runtime
+attempts, taxes and other cloud service charges are excluded. Actual billed
+charges were not measured; provider-reported dollar cost is unavailable for all
+2,931 accepted questions. This does not make their token-based estimates missing.
+
+TOKEN USAGE PER ACCEPTED QUESTION
+
+Total:                           156,787,021 tokens
+Mean:                            53,492.67178437393 tokens
+Median:                          42,733 tokens
+95th percentile:                 143,016.5 tokens
+Sample standard deviation:       37,879.21066117136 tokens
+95% CI for mean:                 [50,852.12336339892, 56,206.91347019238] tokens
+Missing primary token values:    0
+
+CORRECTNESS AND THE EMPTY/NO-VALUE FLAG
+
+The saved field named "abstained" is a syntactic empty/no-value flag. It does
+not establish that the agent refused a question or that an execution failed.
+In particular, returning no value is correct when the reference result is empty.
+
+Frozen per-question flag             Correct    Incorrect    Total
+Flag not set (answer provided)         1,834          443     2,277
+Flag set (empty/no-value)                422          232       654
+All accepted outcomes                 2,256          675     2,931
+
+All 422 correct flagged outcomes have empty references; 416 have a null final
+answer. Thus the 654 flagged outcomes must not be described as 654 failures or
+refusals. Overall accuracy includes these correct empty-reference outcomes.
+
+Descriptive answer coverage, defined as flag not set, is 2,277/2,931 = 77.6868%.
+Conditional accuracy among those 2,277 outcomes is 1,834/2,277 = 80.5446%.
+That selected-subset statistic does not replace the overall 76.9703% accuracy.
+Neither flag nor correctness was used to choose reruns.
+
+FROZEN METHOD, VALIDATION AND INTERPRETATION
+
+Design version: V3. Earlier development output and later candidate designs
+are excluded from this result. Runtime strategy: multi_agent_v3;
+model: gpt-6-luna; per-question ceilings: 200,000 total tokens and 30 tool calls;
+cache enabled; lossless gzip audit schema 2.
+
+Frozen inference code fingerprint:
+65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409
+Accepted full-V3 result SHA-256:
+1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c
+Manifest SHA-256 for the completed export:
+0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d
+
+Independent validation reconciled every accepted question to its canonical
+result and first-clean sealed source attempt, verified identities and audit
+ownership/hashes, checked CSV/JSON records, and recalculated aggregates and
+patient-cluster intervals. No primary latency, estimated-cost or token
+measurement is missing. Per-question records retain evidence, draft/final
+revision diagnostics, limitations, detailed usage and raw audit pointers.
+
+The full cohort contains development-exposed questions. Historic exposure labels
+identify 1,234 questions from development-exposed patients and 1,697 labeled
+held-out descriptively. Repeated development and feedback mean those labels do
+not certify an untouched test set. These full-cohort results describe this frozen
+design on the released dataset; they are not confirmatory generalization evidence.
+
+The complete export is stored under:
+output/experiments/gpt-6-luna/v3_complete_2931_20261016/
+Its v3_complete/ directory contains per-question CSV/JSONL and aggregate tables;
+the receipt, independent QA and artifact hashes preserve the validation trail.
+
+SCOPE AT FINALIZATION
+
+V3 is complete. Matched Direct LLM and Single Agent baselines are deferred until
+the user gives further instructions. Existing partial first-batch baseline
+artifacts are saved as operational records, are not final, and are not compared
+with V3 here. This report does not authorize additional baseline work.
+
+The original three-arm final-analysis gate remains unchanged and has not been
+claimed complete. The historical export receipt retains the label
+V3_COMPLETE_CONTROLS_PENDING; this finalized deliverable is COMPLETE V3 ONLY.

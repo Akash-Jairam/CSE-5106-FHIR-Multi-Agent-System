@@ -1,0 +1,2898 @@
+{
+  "schema": "patient_jsonl_xz_canonical_and_owned_audit_v1",
+  "status": "LOSSLESS_PARSED_CANONICAL_AND_AUDIT_PAYLOAD_VERIFIED",
+  "created_at_utc": "2026-10-17T17:11:49.746321+00:00",
+  "source_canonical": {
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/full_single_agent.json",
+    "sha256": "b4c1cb4b824a7395733854e7013ecacd28e85b0d450d4f863b0b464bdee43969",
+    "bytes": 914887946,
+    "rows": 2929
+  },
+  "source_selection_ledger": {
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/acceptance.json",
+    "sha256": "75e98ff69cdc1db50dee0f19787d0d4b1bb4f890a9d73da00d94a37415799a4a",
+    "arm": "single_agent",
+    "arm_choices_semantic_sha256": "723d7bf5bfc66f373728ae743d23a8b465cd34ee40af6134988bff85826b0a18"
+  },
+  "source_inference_identity": {
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/full_single_agent.json.run.json",
+    "sha256": "2cd3caab9676fc2bae7fcc3760757527f44e1683aa87a0477fab2b2176624ef1",
+    "copy": "source_inference_identity.json"
+  },
+  "patient_count": 94,
+  "question_count": 2929,
+  "archive_count": 315,
+  "archives": [
+    {
+      "path": "patient_chunks/patient-001-part-001.jsonl.xz",
+      "sha256": "53ac0e528ee820f9e583e32b085cb5c08768787506df51f790de8002b63d8f71",
+      "bytes": 140868,
+      "envelope_utf8_bytes": 17727111,
+      "rows": 21,
+      "patient_ordinal": 1,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-002-part-001.jsonl.xz",
+      "sha256": "e2272fab96e5a8ee66c9a45a8a36a96166369bbaca373954cfa55f553f75cc6a",
+      "bytes": 335024,
+      "envelope_utf8_bytes": 21565164,
+      "rows": 13,
+      "patient_ordinal": 2,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-003-part-001.jsonl.xz",
+      "sha256": "b87a2bc5115dfef4851d854fa58c5a1e0b4a558ea124a9888cc94ddb59553e65",
+      "bytes": 109720,
+      "envelope_utf8_bytes": 11077433,
+      "rows": 24,
+      "patient_ordinal": 3,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-004-part-001.jsonl.xz",
+      "sha256": "95d588efdf23d45754ba5a528f4e3f5d180e66386457e1868e1e7c5ddbf17f5d",
+      "bytes": 277640,
+      "envelope_utf8_bytes": 56687411,
+      "rows": 34,
+      "patient_ordinal": 4,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-005-part-001.jsonl.xz",
+      "sha256": "6e1148f60ae2772ab248876c255a30ed5934573eb1b88acf146bbdee3152e096",
+      "bytes": 426344,
+      "envelope_utf8_bytes": 64178943,
+      "rows": 26,
+      "patient_ordinal": 5,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-005-part-002.jsonl.xz",
+      "sha256": "599fa041f390f351b507eae7cc670645164af98d2e5816ed183c7103811803ae",
+      "bytes": 364384,
+      "envelope_utf8_bytes": 48141561,
+      "rows": 13,
+      "patient_ordinal": 5,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-006-part-001.jsonl.xz",
+      "sha256": "ba8a8fbdeab8abf7f82977d9400da25a6dd64d4ae742416b9eed8affb0a3c697",
+      "bytes": 399516,
+      "envelope_utf8_bytes": 61235582,
+      "rows": 24,
+      "patient_ordinal": 6,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-006-part-002.jsonl.xz",
+      "sha256": "0a064cdabf4bc4331376ac6b6e3c2d99d3af136f05749b15c1de9da6a8f6f60b",
+      "bytes": 282456,
+      "envelope_utf8_bytes": 13262489,
+      "rows": 3,
+      "patient_ordinal": 6,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-007-part-001.jsonl.xz",
+      "sha256": "1ff331f014ed5a6811533cd66ceec2b150097ccfd0f7424a5cafa3dd127668db",
+      "bytes": 131136,
+      "envelope_utf8_bytes": 16029352,
+      "rows": 26,
+      "patient_ordinal": 7,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-008-part-001.jsonl.xz",
+      "sha256": "f2e53eaaf92808241d0e386bdd4ff8756081ee13feea0cd3e8fbd6461e62e7ac",
+      "bytes": 168800,
+      "envelope_utf8_bytes": 32218099,
+      "rows": 25,
+      "patient_ordinal": 8,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-009-part-001.jsonl.xz",
+      "sha256": "6a584be2337a967dc0bb25f9f51a389276aff12d0b0b12335f5fbd6b3740e51d",
+      "bytes": 482712,
+      "envelope_utf8_bytes": 64308569,
+      "rows": 18,
+      "patient_ordinal": 9,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-009-part-002.jsonl.xz",
+      "sha256": "981d3f386fb7414afa74c41d577151d55a7c33df8b986ccca8e4947a998ce29a",
+      "bytes": 460164,
+      "envelope_utf8_bytes": 63251476,
+      "rows": 12,
+      "patient_ordinal": 9,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-010-part-001.jsonl.xz",
+      "sha256": "c077b628a7410acbc13060e06e0e0adfd99fc3e677535bf325f0718f0124f8ee",
+      "bytes": 61196,
+      "envelope_utf8_bytes": 2347361,
+      "rows": 14,
+      "patient_ordinal": 10,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-011-part-001.jsonl.xz",
+      "sha256": "690fec9a18a9799b6adbe8b5ea2db4a3c4519c761f8ea2627234b924f4a14842",
+      "bytes": 100748,
+      "envelope_utf8_bytes": 5664189,
+      "rows": 12,
+      "patient_ordinal": 11,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-012-part-001.jsonl.xz",
+      "sha256": "30a9702b35a2d3aa10e0e9232f95ea0b63fe018ce6404678dd69ef25af807dd7",
+      "bytes": 230544,
+      "envelope_utf8_bytes": 51041819,
+      "rows": 44,
+      "patient_ordinal": 12,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-013-part-001.jsonl.xz",
+      "sha256": "eafcc9a177a87b74e4b3fad8177fd9c6eaddadde11d07f37fde172f4c405e6de",
+      "bytes": 599068,
+      "envelope_utf8_bytes": 61439051,
+      "rows": 11,
+      "patient_ordinal": 13,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-013-part-002.jsonl.xz",
+      "sha256": "deae289da36fa38f0a576e2019a7ffeebc81b1cfa3fbbf624b4c94556bb325a0",
+      "bytes": 577948,
+      "envelope_utf8_bytes": 60947005,
+      "rows": 6,
+      "patient_ordinal": 13,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-013-part-003.jsonl.xz",
+      "sha256": "6584ae62e1566c82e56c5951d68cb43050fe99656d5f72cdd42ec85ee0fb9395",
+      "bytes": 588964,
+      "envelope_utf8_bytes": 61070821,
+      "rows": 6,
+      "patient_ordinal": 13,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-013-part-004.jsonl.xz",
+      "sha256": "b6cb1ae993eca3cf7ea8daf99fceb9b7c026c2a3a68e98604e3786f9685dd38b",
+      "bytes": 584348,
+      "envelope_utf8_bytes": 61002755,
+      "rows": 8,
+      "patient_ordinal": 13,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-013-part-005.jsonl.xz",
+      "sha256": "e42af21bee9119694f7bc29abbf64be59e7a426c43b6be357aebb24e0a40e398",
+      "bytes": 586636,
+      "envelope_utf8_bytes": 60983915,
+      "rows": 6,
+      "patient_ordinal": 13,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-013-part-006.jsonl.xz",
+      "sha256": "6905de59ba6c08a9c3455506daba9bd7cbba9bb2391c1abb35ad3fe9fc5d07c8",
+      "bytes": 604692,
+      "envelope_utf8_bytes": 49515555,
+      "rows": 7,
+      "patient_ordinal": 13,
+      "part": 6
+    },
+    {
+      "path": "patient_chunks/patient-014-part-001.jsonl.xz",
+      "sha256": "b00f3895b037f3f14524bedce71d8c39dcbf735965291b394bcbbcd9ff2b21a7",
+      "bytes": 139140,
+      "envelope_utf8_bytes": 21708628,
+      "rows": 22,
+      "patient_ordinal": 14,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-015-part-001.jsonl.xz",
+      "sha256": "1539e38d5552150da9cb6414a7eda8dee502542750fa3ef66df9e21a1218788e",
+      "bytes": 202768,
+      "envelope_utf8_bytes": 34715822,
+      "rows": 17,
+      "patient_ordinal": 15,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-016-part-001.jsonl.xz",
+      "sha256": "4cd6aff4f5b8eefcfd111e44d49c128d1a45131c289feea33c7e7c97b50117d5",
+      "bytes": 305992,
+      "envelope_utf8_bytes": 64499483,
+      "rows": 18,
+      "patient_ordinal": 16,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-016-part-002.jsonl.xz",
+      "sha256": "e24c49ae73197f6e3a9289fb0500155eb838f2b14f6c2fe9f8be31972106fa89",
+      "bytes": 311276,
+      "envelope_utf8_bytes": 64152358,
+      "rows": 18,
+      "patient_ordinal": 16,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-017-part-001.jsonl.xz",
+      "sha256": "b4fed2474633b2e14372a9d8fac89a9cc6b856e7fd10062d4a1c0159df85a213",
+      "bytes": 101208,
+      "envelope_utf8_bytes": 11767646,
+      "rows": 23,
+      "patient_ordinal": 17,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-018-part-001.jsonl.xz",
+      "sha256": "b902f740761889c8c7ef657683ae2a2a5a31d11f0460fda90396a2dd2116cb77",
+      "bytes": 1275592,
+      "envelope_utf8_bytes": 56428752,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-018-part-002.jsonl.xz",
+      "sha256": "cf6c0387c83228c1441212879e4834fe4e6fde8a8b9ff33de80668412c1c1641",
+      "bytes": 1274120,
+      "envelope_utf8_bytes": 56385948,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-018-part-003.jsonl.xz",
+      "sha256": "d7df38b0d1710deda89d20cef3c9d58603a78bcc40b17030022e1ac76181fb23",
+      "bytes": 1327556,
+      "envelope_utf8_bytes": 58332157,
+      "rows": 7,
+      "patient_ordinal": 18,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-018-part-004.jsonl.xz",
+      "sha256": "9757320e697e3e5baff87e3a63f4bc0118a07b6afff30ab2528f275ca5ab0748",
+      "bytes": 1275424,
+      "envelope_utf8_bytes": 56415317,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-018-part-005.jsonl.xz",
+      "sha256": "d3c64a1beef9d83dfc612918a8ad5a8e03305743d8127509cb494804617359df",
+      "bytes": 1282356,
+      "envelope_utf8_bytes": 56618389,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-018-part-006.jsonl.xz",
+      "sha256": "2ee53194f8ae001c826bd6bba43a47c5af63c86a0b7781fe5eb89d6e00e71ab1",
+      "bytes": 1310260,
+      "envelope_utf8_bytes": 56981474,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 6
+    },
+    {
+      "path": "patient_chunks/patient-018-part-007.jsonl.xz",
+      "sha256": "d0a30d88e75a380dae4bbdccb17c870689edb7c69bbfe88b7cbf4f8709b3da5a",
+      "bytes": 1275716,
+      "envelope_utf8_bytes": 56421004,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 7
+    },
+    {
+      "path": "patient_chunks/patient-018-part-008.jsonl.xz",
+      "sha256": "26314c4a388f2884f34c88885bf6b203594483156c92da38884fa1a0a3e04c28",
+      "bytes": 1390204,
+      "envelope_utf8_bytes": 59471323,
+      "rows": 6,
+      "patient_ordinal": 18,
+      "part": 8
+    },
+    {
+      "path": "patient_chunks/patient-018-part-009.jsonl.xz",
+      "sha256": "198175ba4e5759c5a57b2d1f60b4873b057710ef7611c144b955bf142c693c60",
+      "bytes": 1322768,
+      "envelope_utf8_bytes": 57434817,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 9
+    },
+    {
+      "path": "patient_chunks/patient-018-part-010.jsonl.xz",
+      "sha256": "b5e86acfd03eb72d1d70a7effca0876926b75b8d54f051fa322c5fd11d3ca37f",
+      "bytes": 1277416,
+      "envelope_utf8_bytes": 56418228,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 10
+    },
+    {
+      "path": "patient_chunks/patient-018-part-011.jsonl.xz",
+      "sha256": "1a20c1ea891e4912df1bd7586659602bae812ff2d4d814c8b8209352aebc8e4e",
+      "bytes": 1311996,
+      "envelope_utf8_bytes": 57054539,
+      "rows": 4,
+      "patient_ordinal": 18,
+      "part": 11
+    },
+    {
+      "path": "patient_chunks/patient-018-part-012.jsonl.xz",
+      "sha256": "92acd07476aabbe1d9248a770ec662b815b9378bc75c1604513b9304df77fdab",
+      "bytes": 1283320,
+      "envelope_utf8_bytes": 56607889,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 12
+    },
+    {
+      "path": "patient_chunks/patient-018-part-013.jsonl.xz",
+      "sha256": "a36d223eb6bca9a919e418fd125ab8576b80d176e40ef59a434a92e946c12d10",
+      "bytes": 1315276,
+      "envelope_utf8_bytes": 57075028,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 13
+    },
+    {
+      "path": "patient_chunks/patient-018-part-014.jsonl.xz",
+      "sha256": "36f77af8fae39727f4e2c766c73f52294ed56949d75dff97352ade351eb64502",
+      "bytes": 1313208,
+      "envelope_utf8_bytes": 57045981,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 14
+    },
+    {
+      "path": "patient_chunks/patient-018-part-015.jsonl.xz",
+      "sha256": "5682e4a15d386cc76e55288c827e91df4fb22fcd2a277b5d50d1a69160c9fe11",
+      "bytes": 1273608,
+      "envelope_utf8_bytes": 56388784,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 15
+    },
+    {
+      "path": "patient_chunks/patient-018-part-016.jsonl.xz",
+      "sha256": "d3334c7bd049da205a671ba7eba0b21b2ca2a31742dd2d355151e5ff72c5181b",
+      "bytes": 1276272,
+      "envelope_utf8_bytes": 56434003,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 16
+    },
+    {
+      "path": "patient_chunks/patient-018-part-017.jsonl.xz",
+      "sha256": "f7c758bb071be1606ff0690d9ceb47b11b0751e14b1da0fb1a367d748d7be4e7",
+      "bytes": 1321564,
+      "envelope_utf8_bytes": 57286014,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 17
+    },
+    {
+      "path": "patient_chunks/patient-018-part-018.jsonl.xz",
+      "sha256": "c1e94b172a4783d8e90f218d4fbb36ac59bfd11cb9b70299d925fffdfd7308d3",
+      "bytes": 1274412,
+      "envelope_utf8_bytes": 56458133,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 18
+    },
+    {
+      "path": "patient_chunks/patient-018-part-019.jsonl.xz",
+      "sha256": "deba7ff8216f1713fd9c1fa4ddaa535eae8fcbb718bde5806f3e83f30d44ff71",
+      "bytes": 1287812,
+      "envelope_utf8_bytes": 56647229,
+      "rows": 4,
+      "patient_ordinal": 18,
+      "part": 19
+    },
+    {
+      "path": "patient_chunks/patient-018-part-020.jsonl.xz",
+      "sha256": "7d1927853f6ee53df74aeff1ee0ae9a6c51b219cbc085ad88d04de64f8e8de79",
+      "bytes": 1281496,
+      "envelope_utf8_bytes": 56535002,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 20
+    },
+    {
+      "path": "patient_chunks/patient-018-part-021.jsonl.xz",
+      "sha256": "5bc9fc3b4eac8d4bd24cbfd6d69c9013cead94fd3812f99fd990044fe4a2fadc",
+      "bytes": 1312152,
+      "envelope_utf8_bytes": 57011000,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 21
+    },
+    {
+      "path": "patient_chunks/patient-018-part-022.jsonl.xz",
+      "sha256": "c4fedcf21462621ef8ac6d0a4161e86e1afdc034213af6e6dcc2561743d5a78e",
+      "bytes": 1309040,
+      "envelope_utf8_bytes": 56974195,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 22
+    },
+    {
+      "path": "patient_chunks/patient-018-part-023.jsonl.xz",
+      "sha256": "c79bfc0501d5b408b1114da4fd57d7a763250629460e03463fdd226d4091f787",
+      "bytes": 1273084,
+      "envelope_utf8_bytes": 56376397,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 23
+    },
+    {
+      "path": "patient_chunks/patient-018-part-024.jsonl.xz",
+      "sha256": "2f63a9cc1485efa99fc882f8bbaccc6af47a6d710611563bd9d5871444de4168",
+      "bytes": 1271628,
+      "envelope_utf8_bytes": 56354735,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 24
+    },
+    {
+      "path": "patient_chunks/patient-018-part-025.jsonl.xz",
+      "sha256": "af08bf45fc655795a6e90c9644bcd51f9ba200235b802b90e299ad43ab115992",
+      "bytes": 1278872,
+      "envelope_utf8_bytes": 56470382,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 25
+    },
+    {
+      "path": "patient_chunks/patient-018-part-026.jsonl.xz",
+      "sha256": "617a9406ba166d01039b738855baceed804764e0a837c6968dab955d59765d95",
+      "bytes": 1305408,
+      "envelope_utf8_bytes": 56909600,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 26
+    },
+    {
+      "path": "patient_chunks/patient-018-part-027.jsonl.xz",
+      "sha256": "9824d29fe016ac40842756ac24c8d5a92b9732a60c2c695a0324831e949c6a79",
+      "bytes": 1293108,
+      "envelope_utf8_bytes": 56759161,
+      "rows": 4,
+      "patient_ordinal": 18,
+      "part": 27
+    },
+    {
+      "path": "patient_chunks/patient-018-part-028.jsonl.xz",
+      "sha256": "f42cde5717c5eeaae298fa0ccb804c3e703eefadc6cc52c7e7dc2d0d1c37975e",
+      "bytes": 1311960,
+      "envelope_utf8_bytes": 57058049,
+      "rows": 4,
+      "patient_ordinal": 18,
+      "part": 28
+    },
+    {
+      "path": "patient_chunks/patient-018-part-029.jsonl.xz",
+      "sha256": "4b6ef3cf581afb96e5be9291e208ff2ab1e20273fb1d90884c7e5f7a08dd162a",
+      "bytes": 1283772,
+      "envelope_utf8_bytes": 56589714,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 29
+    },
+    {
+      "path": "patient_chunks/patient-018-part-030.jsonl.xz",
+      "sha256": "02695685bfbd7fa876b0a1fa9d00a00b933bd546833849067e970680603935a7",
+      "bytes": 1276272,
+      "envelope_utf8_bytes": 56443506,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 30
+    },
+    {
+      "path": "patient_chunks/patient-018-part-031.jsonl.xz",
+      "sha256": "48e2ab588c740d7769d097dc9d0839853a7f2588994e1b4a11d3d53d97ee297f",
+      "bytes": 1282616,
+      "envelope_utf8_bytes": 56629787,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 31
+    },
+    {
+      "path": "patient_chunks/patient-018-part-032.jsonl.xz",
+      "sha256": "19ec6fdbd57253ac55b102c337aa2203b596fdfa8474381aecff4afa9417efe1",
+      "bytes": 1276376,
+      "envelope_utf8_bytes": 56454721,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 32
+    },
+    {
+      "path": "patient_chunks/patient-018-part-033.jsonl.xz",
+      "sha256": "6dacda5d1af41452bf01b86af6a5fbadc5a3590f89b6542f71cb5cbbb389e248",
+      "bytes": 1293664,
+      "envelope_utf8_bytes": 56792419,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 33
+    },
+    {
+      "path": "patient_chunks/patient-018-part-034.jsonl.xz",
+      "sha256": "ffd781d51416bc881284a539ddaeeb1d66b4232f39c93a9282418aa9f567218b",
+      "bytes": 1276428,
+      "envelope_utf8_bytes": 56455187,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 34
+    },
+    {
+      "path": "patient_chunks/patient-018-part-035.jsonl.xz",
+      "sha256": "b4be66d18d1e40fc55f10d64af9b1dd432c0c7057b3cb8d94170c348f8580953",
+      "bytes": 1273480,
+      "envelope_utf8_bytes": 56413068,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 35
+    },
+    {
+      "path": "patient_chunks/patient-018-part-036.jsonl.xz",
+      "sha256": "bca2ef5a9b24f3c0754f5805c1ecb70d843c8c569241272a9409fd9afd016251",
+      "bytes": 1277248,
+      "envelope_utf8_bytes": 56437813,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 36
+    },
+    {
+      "path": "patient_chunks/patient-018-part-037.jsonl.xz",
+      "sha256": "4edeb28cf407732a7b18d4f4d9631721fce8565a0abb078bc6982e8d02d41be2",
+      "bytes": 1283676,
+      "envelope_utf8_bytes": 56549103,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 37
+    },
+    {
+      "path": "patient_chunks/patient-018-part-038.jsonl.xz",
+      "sha256": "fab6f5a9bbb641cff5b1b3af213d78d2d6ded9dda876f47051e8a8e7e00bdfec",
+      "bytes": 1272736,
+      "envelope_utf8_bytes": 56368593,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 38
+    },
+    {
+      "path": "patient_chunks/patient-018-part-039.jsonl.xz",
+      "sha256": "6395c4431fed79ef429e7dbd51a6b0d1bfb76fc6765469e5c8d3604bb93f324d",
+      "bytes": 1279636,
+      "envelope_utf8_bytes": 56481298,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 39
+    },
+    {
+      "path": "patient_chunks/patient-018-part-040.jsonl.xz",
+      "sha256": "6b3ad4ac66d9a39887aec79a122ff7fb3321c4cab2d3d9b7cc004f958d04db9d",
+      "bytes": 1313372,
+      "envelope_utf8_bytes": 57137097,
+      "rows": 5,
+      "patient_ordinal": 18,
+      "part": 40
+    },
+    {
+      "path": "patient_chunks/patient-018-part-041.jsonl.xz",
+      "sha256": "a0b3c66942ed84506ba9e262da5c378214f2f6b2ac3ec2f40c01b3968dd25445",
+      "bytes": 1274408,
+      "envelope_utf8_bytes": 56386171,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 41
+    },
+    {
+      "path": "patient_chunks/patient-018-part-042.jsonl.xz",
+      "sha256": "0487c6e84b905d3be24870ef66d3c2e5bfc9cb54e27cf6623efafce54a8f981e",
+      "bytes": 1273692,
+      "envelope_utf8_bytes": 56392444,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 42
+    },
+    {
+      "path": "patient_chunks/patient-018-part-043.jsonl.xz",
+      "sha256": "6bb2e8b5229222a1edbefec30629a63544eacaabba37bb8d83d3de6cdec6768e",
+      "bytes": 1311780,
+      "envelope_utf8_bytes": 57011718,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 43
+    },
+    {
+      "path": "patient_chunks/patient-018-part-044.jsonl.xz",
+      "sha256": "47cc289239dfc3bbcf312ea8f0124b375b65403b9f5dd36ddd1aa5de63659d4e",
+      "bytes": 1310564,
+      "envelope_utf8_bytes": 57038286,
+      "rows": 3,
+      "patient_ordinal": 18,
+      "part": 44
+    },
+    {
+      "path": "patient_chunks/patient-018-part-045.jsonl.xz",
+      "sha256": "8659d61d19b1c543d76826a1c2fdb3673c4c5605562c97aea9f00985141ed609",
+      "bytes": 1275924,
+      "envelope_utf8_bytes": 56413187,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 45
+    },
+    {
+      "path": "patient_chunks/patient-018-part-046.jsonl.xz",
+      "sha256": "838a764bae7d8137499d1b9a9f1af3462f8a1832a6ea353deacd5d2172b3a96e",
+      "bytes": 1271352,
+      "envelope_utf8_bytes": 56368789,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 46
+    },
+    {
+      "path": "patient_chunks/patient-018-part-047.jsonl.xz",
+      "sha256": "50cfa53121680ce56649eef5a6757adf567ec5d28b0800e4fd67b90f0803b1f7",
+      "bytes": 1274048,
+      "envelope_utf8_bytes": 56402144,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 47
+    },
+    {
+      "path": "patient_chunks/patient-018-part-048.jsonl.xz",
+      "sha256": "1eabb6b010a113d72a4f1201b47f54201ff0a5ad1a4560c9475b04609c90b137",
+      "bytes": 1275924,
+      "envelope_utf8_bytes": 56419798,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 48
+    },
+    {
+      "path": "patient_chunks/patient-018-part-049.jsonl.xz",
+      "sha256": "04841835d4b0f4b40d1ab7afa077fac9a87bbfbbffd0d0375b3aa057983cf2da",
+      "bytes": 1308364,
+      "envelope_utf8_bytes": 57362065,
+      "rows": 4,
+      "patient_ordinal": 18,
+      "part": 49
+    },
+    {
+      "path": "patient_chunks/patient-018-part-050.jsonl.xz",
+      "sha256": "9d9b4b8576fe030701e55d4b6da21e7606ce0c480882dc34992dfb1a3c23bcdf",
+      "bytes": 1280608,
+      "envelope_utf8_bytes": 56566815,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 50
+    },
+    {
+      "path": "patient_chunks/patient-018-part-051.jsonl.xz",
+      "sha256": "c08b8ad6754ee771f3853215e71ba7b7a4acc8dbc46fe23b6f960aa6a169d6c6",
+      "bytes": 1311120,
+      "envelope_utf8_bytes": 57064651,
+      "rows": 4,
+      "patient_ordinal": 18,
+      "part": 51
+    },
+    {
+      "path": "patient_chunks/patient-018-part-052.jsonl.xz",
+      "sha256": "ce495b469231a331c2ed62848bbb3c7e2a15a8590218bc29536d0a33763ed62e",
+      "bytes": 1277964,
+      "envelope_utf8_bytes": 56480313,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 52
+    },
+    {
+      "path": "patient_chunks/patient-018-part-053.jsonl.xz",
+      "sha256": "52f7d518d69e05090da00d47d2a6bc18ff8351c818b9f004b023a613dffb2947",
+      "bytes": 1284676,
+      "envelope_utf8_bytes": 56631639,
+      "rows": 2,
+      "patient_ordinal": 18,
+      "part": 53
+    },
+    {
+      "path": "patient_chunks/patient-018-part-054.jsonl.xz",
+      "sha256": "1f092d83344fe792afaebacbcd6870c88481880213c1cb8ec785494baf06d21f",
+      "bytes": 1268128,
+      "envelope_utf8_bytes": 28223177,
+      "rows": 1,
+      "patient_ordinal": 18,
+      "part": 54
+    },
+    {
+      "path": "patient_chunks/patient-019-part-001.jsonl.xz",
+      "sha256": "aa0b410725e583bb4aa37bd873372c4ae5e48cd34ef2861d09da63a87c3628b0",
+      "bytes": 359016,
+      "envelope_utf8_bytes": 61763816,
+      "rows": 12,
+      "patient_ordinal": 19,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-019-part-002.jsonl.xz",
+      "sha256": "49d581c5b8470bfb3feb5f1a3a6c49fe9fe4c26028aaff3124af651137711e72",
+      "bytes": 368944,
+      "envelope_utf8_bytes": 35391632,
+      "rows": 13,
+      "patient_ordinal": 19,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-020-part-001.jsonl.xz",
+      "sha256": "ff2461fe5c7bb31ee8c51d63be96e553320a04abfe7375bcb65f436a55e169d1",
+      "bytes": 174580,
+      "envelope_utf8_bytes": 21249035,
+      "rows": 29,
+      "patient_ordinal": 20,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-021-part-001.jsonl.xz",
+      "sha256": "06ae7a9e1cb6ef106060b0af8f715d7928f81f839e0108872e757402245fa049",
+      "bytes": 247584,
+      "envelope_utf8_bytes": 53631094,
+      "rows": 24,
+      "patient_ordinal": 21,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-022-part-001.jsonl.xz",
+      "sha256": "702fc01ee9e0f2f302849a0a464bfe976feb29fbae0855d6a6f7ab03b9542ffe",
+      "bytes": 173080,
+      "envelope_utf8_bytes": 16049705,
+      "rows": 22,
+      "patient_ordinal": 22,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-023-part-001.jsonl.xz",
+      "sha256": "ec7dfc756a22de8bfdf7439b30f3351d6b255a0dd940ed4460954c6c1bb59e45",
+      "bytes": 141504,
+      "envelope_utf8_bytes": 19238522,
+      "rows": 33,
+      "patient_ordinal": 23,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-024-part-001.jsonl.xz",
+      "sha256": "59fb4ff16a52f532656eef14d73cb58f26712c4105417c6c7499bc7c1ea41e52",
+      "bytes": 500524,
+      "envelope_utf8_bytes": 63607386,
+      "rows": 16,
+      "patient_ordinal": 24,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-024-part-002.jsonl.xz",
+      "sha256": "e1ade5d1f90568d58ee0f61dfb955b255baecc4899a87114fd2080875db109bb",
+      "bytes": 500664,
+      "envelope_utf8_bytes": 63367886,
+      "rows": 13,
+      "patient_ordinal": 24,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-024-part-003.jsonl.xz",
+      "sha256": "16aa4c39eeb1c172d0398c673f874ba8b3583745b76e6229d7a3e8442fef7814",
+      "bytes": 484696,
+      "envelope_utf8_bytes": 45591398,
+      "rows": 8,
+      "patient_ordinal": 24,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-025-part-001.jsonl.xz",
+      "sha256": "75c2589451ee2c6ecbc3a7956dac20873fe41ebfdddc14df53af976c3013b7f2",
+      "bytes": 118356,
+      "envelope_utf8_bytes": 8491831,
+      "rows": 10,
+      "patient_ordinal": 25,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-026-part-001.jsonl.xz",
+      "sha256": "288c772c4fe912fc0c65d164b8306280e1e7cd9b069f9700bb07817cf2de39ed",
+      "bytes": 138164,
+      "envelope_utf8_bytes": 17831244,
+      "rows": 20,
+      "patient_ordinal": 26,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-027-part-001.jsonl.xz",
+      "sha256": "6663750ff5c36ae30eecb2134bc0d2a9615e00cb8a8a63f96618eab9ace6011d",
+      "bytes": 478384,
+      "envelope_utf8_bytes": 65582972,
+      "rows": 10,
+      "patient_ordinal": 27,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-027-part-002.jsonl.xz",
+      "sha256": "f502c2cdb134536531762975192526ee510ea534097ceb323e73c7d3aa0e8acb",
+      "bytes": 517316,
+      "envelope_utf8_bytes": 66562045,
+      "rows": 12,
+      "patient_ordinal": 27,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-027-part-003.jsonl.xz",
+      "sha256": "fa2737ed30ff69d0d7a4731a43a7c4ac712c77fd604b5a11249c93224e8c0782",
+      "bytes": 461180,
+      "envelope_utf8_bytes": 65395793,
+      "rows": 8,
+      "patient_ordinal": 27,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-027-part-004.jsonl.xz",
+      "sha256": "a0982c513284bba201705db865a424c73766e9e92e525411b6edba4617a5ab42",
+      "bytes": 466664,
+      "envelope_utf8_bytes": 65544367,
+      "rows": 9,
+      "patient_ordinal": 27,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-027-part-005.jsonl.xz",
+      "sha256": "8f67e3a175b82ac19a0b68533a8622c2d17e9a34ab59ba44ffe0b0787f42e88f",
+      "bytes": 444052,
+      "envelope_utf8_bytes": 37345063,
+      "rows": 5,
+      "patient_ordinal": 27,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-028-part-001.jsonl.xz",
+      "sha256": "a42be14c26042a8618f8dfb7e834b67fce9a072502776bab26a37f03e0d4a9f1",
+      "bytes": 149300,
+      "envelope_utf8_bytes": 30047452,
+      "rows": 25,
+      "patient_ordinal": 28,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-029-part-001.jsonl.xz",
+      "sha256": "f9316239c7bc7f540aa53b3cbf9cd1b52956821858bccce175b8a5ed786eaa24",
+      "bytes": 121632,
+      "envelope_utf8_bytes": 11857627,
+      "rows": 18,
+      "patient_ordinal": 29,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-030-part-001.jsonl.xz",
+      "sha256": "b3b0303d4b9925de1bd96a6f5bb2a27313bf9f4052743dd991d3dc992809e87f",
+      "bytes": 439632,
+      "envelope_utf8_bytes": 57856665,
+      "rows": 25,
+      "patient_ordinal": 30,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-031-part-001.jsonl.xz",
+      "sha256": "eb212761cce9485b8ac010bc2994dcd1ef9e1c3e12748925631a57644dd6451a",
+      "bytes": 168336,
+      "envelope_utf8_bytes": 25869450,
+      "rows": 25,
+      "patient_ordinal": 31,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-032-part-001.jsonl.xz",
+      "sha256": "28f7e6973e20d21e7c82a164d8dbd0201b7c965d86fd21c74e6a911e6625b7ef",
+      "bytes": 137432,
+      "envelope_utf8_bytes": 20626952,
+      "rows": 21,
+      "patient_ordinal": 32,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-033-part-001.jsonl.xz",
+      "sha256": "52f1e7df1b058d9937e671216ed42603f2392f97307b5990f45b743f7c17fb11",
+      "bytes": 423056,
+      "envelope_utf8_bytes": 64805864,
+      "rows": 20,
+      "patient_ordinal": 33,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-033-part-002.jsonl.xz",
+      "sha256": "87f418b735205986f4f2b520035b1cf302b1fcafe9dcf5ed98f9e6d168d0e8bb",
+      "bytes": 415824,
+      "envelope_utf8_bytes": 64236213,
+      "rows": 18,
+      "patient_ordinal": 33,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-033-part-003.jsonl.xz",
+      "sha256": "2d2500a9b4db6885df49689e9cd80115c4e27cd9980d54bc1735b5ab8846fe65",
+      "bytes": 349240,
+      "envelope_utf8_bytes": 21500796,
+      "rows": 7,
+      "patient_ordinal": 33,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-034-part-001.jsonl.xz",
+      "sha256": "a04645c45449a623500e7ef0e3fe341ae05acc91788b12e98cabbe25c989d721",
+      "bytes": 1543920,
+      "envelope_utf8_bytes": 34011191,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-034-part-002.jsonl.xz",
+      "sha256": "b84c0d8b2ba720a5b398ac65215d987e27b6244f0d46d22976f78025fb3aa32b",
+      "bytes": 1524424,
+      "envelope_utf8_bytes": 66964154,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-034-part-003.jsonl.xz",
+      "sha256": "2d219b701beb8730c0d2b7007e2e90e259f140e74a65f5821d7ba3d95429a29a",
+      "bytes": 1526672,
+      "envelope_utf8_bytes": 67018055,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-034-part-004.jsonl.xz",
+      "sha256": "eae0e0ecb0ae477f510f29a3121c308c804ae724561c4404f8850ba511f649f0",
+      "bytes": 1550388,
+      "envelope_utf8_bytes": 34708791,
+      "rows": 5,
+      "patient_ordinal": 34,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-034-part-005.jsonl.xz",
+      "sha256": "5682a95710e8105b35475855449f1bc3f7d149debdd8de0ab2fd669a7bc83273",
+      "bytes": 1520488,
+      "envelope_utf8_bytes": 33636046,
+      "rows": 1,
+      "patient_ordinal": 34,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-034-part-006.jsonl.xz",
+      "sha256": "6b6d7ab615731524fbe33147364010325a872c5f7206160657a02d3cf186156b",
+      "bytes": 1527576,
+      "envelope_utf8_bytes": 67038158,
+      "rows": 4,
+      "patient_ordinal": 34,
+      "part": 6
+    },
+    {
+      "path": "patient_chunks/patient-034-part-007.jsonl.xz",
+      "sha256": "f80af328e323134c39eb856aa6fbf5486f5bcd99e0baa4b83208cd400aa6ce65",
+      "bytes": 1522752,
+      "envelope_utf8_bytes": 66942273,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 7
+    },
+    {
+      "path": "patient_chunks/patient-034-part-008.jsonl.xz",
+      "sha256": "7eef97af38bddf91093daebe79ae1c8df69794e0b9c568ecb537000b686517f2",
+      "bytes": 1523648,
+      "envelope_utf8_bytes": 66957956,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 8
+    },
+    {
+      "path": "patient_chunks/patient-034-part-009.jsonl.xz",
+      "sha256": "ec0f50af497d77c27c8d7e7ff6df0978217bd3ea5533fa2e0dad7debbd8e1acf",
+      "bytes": 1654408,
+      "envelope_utf8_bytes": 36882101,
+      "rows": 4,
+      "patient_ordinal": 34,
+      "part": 9
+    },
+    {
+      "path": "patient_chunks/patient-034-part-010.jsonl.xz",
+      "sha256": "ff9d6f4d47500283e36a91fd80ea81ef19a3894b39286ece81d52b2afdc1b2c2",
+      "bytes": 1545140,
+      "envelope_utf8_bytes": 33954749,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 10
+    },
+    {
+      "path": "patient_chunks/patient-034-part-011.jsonl.xz",
+      "sha256": "de75de1e42db1abb2dc71a145be0a5d4aaa5905e28ec8164856973c6857b3076",
+      "bytes": 1524236,
+      "envelope_utf8_bytes": 33687043,
+      "rows": 1,
+      "patient_ordinal": 34,
+      "part": 11
+    },
+    {
+      "path": "patient_chunks/patient-034-part-012.jsonl.xz",
+      "sha256": "b0801629a3be2037864cbe165d9ed242b12d416cbf307e136d9058ea45f9d31e",
+      "bytes": 1524680,
+      "envelope_utf8_bytes": 66999674,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 12
+    },
+    {
+      "path": "patient_chunks/patient-034-part-013.jsonl.xz",
+      "sha256": "d456eaecdb54902c3d94761e8470908ac3eec853c89ed57c815db306af831b3f",
+      "bytes": 1531200,
+      "envelope_utf8_bytes": 67069857,
+      "rows": 3,
+      "patient_ordinal": 34,
+      "part": 13
+    },
+    {
+      "path": "patient_chunks/patient-034-part-014.jsonl.xz",
+      "sha256": "25d61e735ee46e27e3447f90beeb89ae9d6fb5ea91ae2fc62f850cec9d7f62ea",
+      "bytes": 1562824,
+      "envelope_utf8_bytes": 35157025,
+      "rows": 6,
+      "patient_ordinal": 34,
+      "part": 14
+    },
+    {
+      "path": "patient_chunks/patient-034-part-015.jsonl.xz",
+      "sha256": "4aff1d4a5c26cd3cb2557ed45b568e8446592b32d5db7732b8cd4f98d7bbf65f",
+      "bytes": 1526908,
+      "envelope_utf8_bytes": 67076341,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 15
+    },
+    {
+      "path": "patient_chunks/patient-034-part-016.jsonl.xz",
+      "sha256": "6ac2190a10d057d9807ca00379772c048cb5c6d52f9e0323716192b0445b0d0f",
+      "bytes": 1555332,
+      "envelope_utf8_bytes": 34885531,
+      "rows": 4,
+      "patient_ordinal": 34,
+      "part": 16
+    },
+    {
+      "path": "patient_chunks/patient-034-part-017.jsonl.xz",
+      "sha256": "a2140efcf0418124ae0a8691d9d4d6bbe73c2e4ddfac7211e7cb6945658c3b86",
+      "bytes": 1522696,
+      "envelope_utf8_bytes": 33649062,
+      "rows": 1,
+      "patient_ordinal": 34,
+      "part": 17
+    },
+    {
+      "path": "patient_chunks/patient-034-part-018.jsonl.xz",
+      "sha256": "be6f28175135173d014004d73f8eb4db57bf8ba468d65ae5f4eb23bf51bf2d0c",
+      "bytes": 1516520,
+      "envelope_utf8_bytes": 33489233,
+      "rows": 1,
+      "patient_ordinal": 34,
+      "part": 18
+    },
+    {
+      "path": "patient_chunks/patient-034-part-019.jsonl.xz",
+      "sha256": "5d9298bb1e08aaebc4a6a07f81c8d9350d66a52c8a8ca3160a24e03896d3dc38",
+      "bytes": 1550596,
+      "envelope_utf8_bytes": 34342522,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 19
+    },
+    {
+      "path": "patient_chunks/patient-034-part-020.jsonl.xz",
+      "sha256": "ad44678e25c297ec55ebf46e80a4ab4005ac699c13033813511905b69d7f1e89",
+      "bytes": 1539616,
+      "envelope_utf8_bytes": 33876129,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 20
+    },
+    {
+      "path": "patient_chunks/patient-034-part-021.jsonl.xz",
+      "sha256": "49cade0f5bf1fc10b019de0c0b90976891180771c22967e976a51a289cc3f12d",
+      "bytes": 1526500,
+      "envelope_utf8_bytes": 67019457,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 21
+    },
+    {
+      "path": "patient_chunks/patient-034-part-022.jsonl.xz",
+      "sha256": "878cf7188c881207aa8729b0d6aa65ce0bdaa9de3b1d045774948424c9390f38",
+      "bytes": 1551796,
+      "envelope_utf8_bytes": 34491224,
+      "rows": 3,
+      "patient_ordinal": 34,
+      "part": 22
+    },
+    {
+      "path": "patient_chunks/patient-034-part-023.jsonl.xz",
+      "sha256": "2663858cd9130a66df71f1aabcd37f27c250a3dc5eac373d9f1e5f7a3c06f233",
+      "bytes": 1523624,
+      "envelope_utf8_bytes": 66953218,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 23
+    },
+    {
+      "path": "patient_chunks/patient-034-part-024.jsonl.xz",
+      "sha256": "028d2566436a9a0438c8cc1d6c1d905c460278bbb51eac0868dc5dfd0f7ba1e2",
+      "bytes": 1524484,
+      "envelope_utf8_bytes": 66992150,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 24
+    },
+    {
+      "path": "patient_chunks/patient-034-part-025.jsonl.xz",
+      "sha256": "02cba34b032e319257a49533377d83d4cf21ede9549cdd18e2d9c3e812810202",
+      "bytes": 1518040,
+      "envelope_utf8_bytes": 33504033,
+      "rows": 1,
+      "patient_ordinal": 34,
+      "part": 25
+    },
+    {
+      "path": "patient_chunks/patient-034-part-026.jsonl.xz",
+      "sha256": "faf3b18de0ec5b025b03555b13b412193f79c899854b673d3ff892ef6fd7fa92",
+      "bytes": 1576636,
+      "envelope_utf8_bytes": 34712564,
+      "rows": 1,
+      "patient_ordinal": 34,
+      "part": 26
+    },
+    {
+      "path": "patient_chunks/patient-034-part-027.jsonl.xz",
+      "sha256": "56c2eb490e7591d2b7fba28219ce44e839d64b143c5f0905e51a53a7cf3a88a3",
+      "bytes": 1525308,
+      "envelope_utf8_bytes": 66997973,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 27
+    },
+    {
+      "path": "patient_chunks/patient-034-part-028.jsonl.xz",
+      "sha256": "39d3e94fdd0b90256c3e8c38cd7dff7f69737c84c0428db0bdcb37ae0d1698f9",
+      "bytes": 1521320,
+      "envelope_utf8_bytes": 33590590,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 28
+    },
+    {
+      "path": "patient_chunks/patient-034-part-029.jsonl.xz",
+      "sha256": "2092a9e38614dc0a5fd5ae2e7fffffe9045ca8939cb0131a8c1a47e64814729c",
+      "bytes": 1547492,
+      "envelope_utf8_bytes": 34129113,
+      "rows": 2,
+      "patient_ordinal": 34,
+      "part": 29
+    },
+    {
+      "path": "patient_chunks/patient-034-part-030.jsonl.xz",
+      "sha256": "97e68ef3326772ae29de838d7deea8fc57e997e685f2e4404c11783c3087896b",
+      "bytes": 1521508,
+      "envelope_utf8_bytes": 33649679,
+      "rows": 1,
+      "patient_ordinal": 34,
+      "part": 30
+    },
+    {
+      "path": "patient_chunks/patient-035-part-001.jsonl.xz",
+      "sha256": "e0dc4b60c8825c6e3bbf3c9ad55d0bb7ab0e4b8bfadf8d2255c96560313eab63",
+      "bytes": 91604,
+      "envelope_utf8_bytes": 7735460,
+      "rows": 20,
+      "patient_ordinal": 35,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-036-part-001.jsonl.xz",
+      "sha256": "d36341b690f22a93c7154795c2071828f48c73c49da8d8902e33768ac4dc0b6e",
+      "bytes": 193640,
+      "envelope_utf8_bytes": 40975783,
+      "rows": 29,
+      "patient_ordinal": 36,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-037-part-001.jsonl.xz",
+      "sha256": "a3e9d4ddf22b76f8551d98eb133ae23e29fa29623fe548e1fc5abddb457d31e2",
+      "bytes": 226176,
+      "envelope_utf8_bytes": 66170887,
+      "rows": 46,
+      "patient_ordinal": 37,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-037-part-002.jsonl.xz",
+      "sha256": "34c80bb181df02d6ad3dcfc67d1dee5b016ebc68d88fd265fbbe9813da0671d3",
+      "bytes": 138564,
+      "envelope_utf8_bytes": 19174931,
+      "rows": 13,
+      "patient_ordinal": 37,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-038-part-001.jsonl.xz",
+      "sha256": "a5ed210a95c2a3aa915b77fd3822c2b8e2542f25265acabaafd025848ba4c9be",
+      "bytes": 280440,
+      "envelope_utf8_bytes": 63735435,
+      "rows": 32,
+      "patient_ordinal": 38,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-038-part-002.jsonl.xz",
+      "sha256": "cca383eb90cb3803d90113b520a99a251c186da09ba82466220f877111acc03e",
+      "bytes": 268348,
+      "envelope_utf8_bytes": 47871209,
+      "rows": 22,
+      "patient_ordinal": 38,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-039-part-001.jsonl.xz",
+      "sha256": "cac829a41f34088d920d64bf15d41473ef5e5f98a7866121d30840c4a81420f6",
+      "bytes": 1850276,
+      "envelope_utf8_bytes": 42876688,
+      "rows": 7,
+      "patient_ordinal": 39,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-039-part-002.jsonl.xz",
+      "sha256": "af031f87d3476cbdd3b389a61df7e68658331ef670de203ebe525d25c981cf5f",
+      "bytes": 1835272,
+      "envelope_utf8_bytes": 41066669,
+      "rows": 4,
+      "patient_ordinal": 39,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-040-part-001.jsonl.xz",
+      "sha256": "8f119eac90b3a443dc0f3f3e08ca6497b37713b495d64ef08ce6691b211113ae",
+      "bytes": 151328,
+      "envelope_utf8_bytes": 10556086,
+      "rows": 13,
+      "patient_ordinal": 40,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-041-part-001.jsonl.xz",
+      "sha256": "1244e081a7a06150c2164bca940b30227deba9b2a27ed69e5441e3a384e29d7b",
+      "bytes": 751444,
+      "envelope_utf8_bytes": 60354055,
+      "rows": 8,
+      "patient_ordinal": 41,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-041-part-002.jsonl.xz",
+      "sha256": "8950d8116a4461fb5622d0e9076df72a5e35ece117a1b1a1a5ded6f9b21d4999",
+      "bytes": 692932,
+      "envelope_utf8_bytes": 59099757,
+      "rows": 5,
+      "patient_ordinal": 41,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-041-part-003.jsonl.xz",
+      "sha256": "5d1a8cefaa49533a430d522beb16f88b03e308094a84519c7cc23d76c3c12aa2",
+      "bytes": 700752,
+      "envelope_utf8_bytes": 59444119,
+      "rows": 6,
+      "patient_ordinal": 41,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-041-part-004.jsonl.xz",
+      "sha256": "af6a0ae49035631bccacebc3189814afd4acd82e3801dab172df7af0a2453d69",
+      "bytes": 718936,
+      "envelope_utf8_bytes": 59686085,
+      "rows": 9,
+      "patient_ordinal": 41,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-041-part-005.jsonl.xz",
+      "sha256": "0498d691897026a912cb1e0f914eaed19d3cc5f9f94d7b71e3424c42100b318f",
+      "bytes": 685592,
+      "envelope_utf8_bytes": 59170482,
+      "rows": 6,
+      "patient_ordinal": 41,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-041-part-006.jsonl.xz",
+      "sha256": "debd04e5f68846299623bd3dfbb4e44351543c8d70621ba63848a60f7c2e90ac",
+      "bytes": 679724,
+      "envelope_utf8_bytes": 44295465,
+      "rows": 4,
+      "patient_ordinal": 41,
+      "part": 6
+    },
+    {
+      "path": "patient_chunks/patient-042-part-001.jsonl.xz",
+      "sha256": "9c54d7f74dbf4b98a357c147239058d887206e3fc3182566ab93fb32abb41a80",
+      "bytes": 254596,
+      "envelope_utf8_bytes": 48595000,
+      "rows": 29,
+      "patient_ordinal": 42,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-043-part-001.jsonl.xz",
+      "sha256": "dbd5ae4e058e76efa9da26f74fbe7a6c8ab28da88585324ebea86f06f54e3506",
+      "bytes": 215256,
+      "envelope_utf8_bytes": 32512907,
+      "rows": 19,
+      "patient_ordinal": 43,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-044-part-001.jsonl.xz",
+      "sha256": "7b76fb280d0c54a656a2653b9d3ae443dc393dad55c0ce4ddeaa5bfc0f3e1780",
+      "bytes": 340556,
+      "envelope_utf8_bytes": 65663086,
+      "rows": 16,
+      "patient_ordinal": 44,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-044-part-002.jsonl.xz",
+      "sha256": "5cfd3582ea2d79af5dea4ed8e03c4510f62fa753ef746658039550da9e4ce18e",
+      "bytes": 334716,
+      "envelope_utf8_bytes": 26764655,
+      "rows": 6,
+      "patient_ordinal": 44,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-045-part-001.jsonl.xz",
+      "sha256": "dc9d82c236fd1cecaa9d84f194872c7cf48dabb843fd5b73e9c6d174a4dc1ef5",
+      "bytes": 729376,
+      "envelope_utf8_bytes": 60924684,
+      "rows": 14,
+      "patient_ordinal": 45,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-045-part-002.jsonl.xz",
+      "sha256": "bc678d7ae518596b5fb40f8b930c3e027b0f197a36bc60f8c8aba38ddcd517bd",
+      "bytes": 709960,
+      "envelope_utf8_bytes": 58642439,
+      "rows": 10,
+      "patient_ordinal": 45,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-045-part-003.jsonl.xz",
+      "sha256": "d0bf321b656c6c89445d406dc69f3c4f9b87c9d5ef8024708c8c55a8e3343eed",
+      "bytes": 653788,
+      "envelope_utf8_bytes": 28662466,
+      "rows": 2,
+      "patient_ordinal": 45,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-046-part-001.jsonl.xz",
+      "sha256": "f3abe6bb71e1db2c86dd8c01f676fbe81a62ee6dd90843015ec702c64a6c58f3",
+      "bytes": 411060,
+      "envelope_utf8_bytes": 62566760,
+      "rows": 14,
+      "patient_ordinal": 46,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-046-part-002.jsonl.xz",
+      "sha256": "f9da64a78ed85abfddb661165d0bfa6daa8aa65cccc6e0f08968d5f5b0cee295",
+      "bytes": 463344,
+      "envelope_utf8_bytes": 64989411,
+      "rows": 18,
+      "patient_ordinal": 46,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-046-part-003.jsonl.xz",
+      "sha256": "64842c423f66400c4d7e26fd895e7c10bb79949d27c3d9309d66f22a2445965b",
+      "bytes": 406280,
+      "envelope_utf8_bytes": 54929478,
+      "rows": 10,
+      "patient_ordinal": 46,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-047-part-001.jsonl.xz",
+      "sha256": "f1aa7286bae7708bb3698fb75e0254a99d09ee0ee49c5f3cc0bf55a390e14d5c",
+      "bytes": 95336,
+      "envelope_utf8_bytes": 7579111,
+      "rows": 13,
+      "patient_ordinal": 47,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-048-part-001.jsonl.xz",
+      "sha256": "567fee29514360eb76bb432ecb634bbba62ab89ac031f8e8998b400933030f02",
+      "bytes": 1079020,
+      "envelope_utf8_bytes": 47133026,
+      "rows": 6,
+      "patient_ordinal": 48,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-048-part-002.jsonl.xz",
+      "sha256": "0324afd11bbbfd6ceb0ed7709a3ae4217fdeb7b36ab391a6299bc4a7a766fbe7",
+      "bytes": 1048468,
+      "envelope_utf8_bytes": 46004383,
+      "rows": 2,
+      "patient_ordinal": 48,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-048-part-003.jsonl.xz",
+      "sha256": "c6d23e7005412b440f79dd87a7175f0281f581f7eca3635976a89d487a33e9c4",
+      "bytes": 1147796,
+      "envelope_utf8_bytes": 48928174,
+      "rows": 5,
+      "patient_ordinal": 48,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-048-part-004.jsonl.xz",
+      "sha256": "341bf0af4d38564e008a1c81e1c832e06370f398e7790760021a00b9ec5d309d",
+      "bytes": 1104032,
+      "envelope_utf8_bytes": 47823244,
+      "rows": 3,
+      "patient_ordinal": 48,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-048-part-005.jsonl.xz",
+      "sha256": "6b051214b7eb79928f43df8664a82d011e0c4946ed9e50453869cf3ef4ce219f",
+      "bytes": 1079964,
+      "envelope_utf8_bytes": 46536721,
+      "rows": 4,
+      "patient_ordinal": 48,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-048-part-006.jsonl.xz",
+      "sha256": "53fbad2689314bfa696fa492bc3afbd0e5a5b8963fafa6af77ccbabac567313c",
+      "bytes": 1084080,
+      "envelope_utf8_bytes": 47500076,
+      "rows": 7,
+      "patient_ordinal": 48,
+      "part": 6
+    },
+    {
+      "path": "patient_chunks/patient-048-part-007.jsonl.xz",
+      "sha256": "3586de2a58bbed5d77973e15c437b3d862800e2e2d3b4dc59396ddef7e86094a",
+      "bytes": 1052796,
+      "envelope_utf8_bytes": 46064958,
+      "rows": 3,
+      "patient_ordinal": 48,
+      "part": 7
+    },
+    {
+      "path": "patient_chunks/patient-048-part-008.jsonl.xz",
+      "sha256": "eb54a15a68ffb781cf705692b0be258a2a6e0a90a14a53c11171bd511a96effb",
+      "bytes": 1051244,
+      "envelope_utf8_bytes": 46109307,
+      "rows": 3,
+      "patient_ordinal": 48,
+      "part": 8
+    },
+    {
+      "path": "patient_chunks/patient-048-part-009.jsonl.xz",
+      "sha256": "65fef4e842e5deada43a5324ac77345ef2b46cb2574475ef8547f094efc13ed3",
+      "bytes": 1089308,
+      "envelope_utf8_bytes": 47920969,
+      "rows": 7,
+      "patient_ordinal": 48,
+      "part": 9
+    },
+    {
+      "path": "patient_chunks/patient-048-part-010.jsonl.xz",
+      "sha256": "4276bddc5b4ff5e39b5226353b9bf9605854ac46064d161233ff260c5aedbd46",
+      "bytes": 1083228,
+      "envelope_utf8_bytes": 47424235,
+      "rows": 5,
+      "patient_ordinal": 48,
+      "part": 10
+    },
+    {
+      "path": "patient_chunks/patient-048-part-011.jsonl.xz",
+      "sha256": "3ab0df142e20d5dc4e5851de2c608840879084c941aa8c8020e0c4856e0334dc",
+      "bytes": 1073748,
+      "envelope_utf8_bytes": 46468366,
+      "rows": 5,
+      "patient_ordinal": 48,
+      "part": 11
+    },
+    {
+      "path": "patient_chunks/patient-048-part-012.jsonl.xz",
+      "sha256": "dee136e90d9d46a80e3d1fc49ca9f6c3a3e657bd87a0c3d20985f2c1569d9730",
+      "bytes": 1038340,
+      "envelope_utf8_bytes": 22944429,
+      "rows": 1,
+      "patient_ordinal": 48,
+      "part": 12
+    },
+    {
+      "path": "patient_chunks/patient-049-part-001.jsonl.xz",
+      "sha256": "158d0ae39fa2b11deb6fd8b32a855df1aa6fe564061f31afe79ad1912dff3562",
+      "bytes": 207804,
+      "envelope_utf8_bytes": 21862433,
+      "rows": 22,
+      "patient_ordinal": 49,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-050-part-001.jsonl.xz",
+      "sha256": "45be53cde579a37ca1a0f67b69e925fe6a4980289daf5208775ea65c10087696",
+      "bytes": 429516,
+      "envelope_utf8_bytes": 61419433,
+      "rows": 8,
+      "patient_ordinal": 50,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-050-part-002.jsonl.xz",
+      "sha256": "b547308ea438fcb6ee5318b04a973086b34289ec7b7e2df4e6db04f0c8c0c9ea",
+      "bytes": 455404,
+      "envelope_utf8_bytes": 62101778,
+      "rows": 11,
+      "patient_ordinal": 50,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-050-part-003.jsonl.xz",
+      "sha256": "2ae1aaf3cbffe329851482704f8d160621b034333671dd18582cef5c8cf5c8b8",
+      "bytes": 447552,
+      "envelope_utf8_bytes": 61774897,
+      "rows": 10,
+      "patient_ordinal": 50,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-050-part-004.jsonl.xz",
+      "sha256": "69ac80ff97fbe786720928c58bf9d6dd1ef61f3d39dd9eedf382f0e905bee5d1",
+      "bytes": 436568,
+      "envelope_utf8_bytes": 61536285,
+      "rows": 10,
+      "patient_ordinal": 50,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-050-part-005.jsonl.xz",
+      "sha256": "ec64997d3347051cce97bf43066d089944290d9d442f300b1aae7b32ab5f26f2",
+      "bytes": 512152,
+      "envelope_utf8_bytes": 63661340,
+      "rows": 15,
+      "patient_ordinal": 50,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-050-part-006.jsonl.xz",
+      "sha256": "2ee801da1108c104565005df88f02b3e3548746e5b111e7823ba45da4a5e8f28",
+      "bytes": 442752,
+      "envelope_utf8_bytes": 61936045,
+      "rows": 10,
+      "patient_ordinal": 50,
+      "part": 6
+    },
+    {
+      "path": "patient_chunks/patient-050-part-007.jsonl.xz",
+      "sha256": "29158451db9179e8cb0606c7c5b6f26d77e9879bb0a7ce341e80fd46ff2d66ef",
+      "bytes": 480668,
+      "envelope_utf8_bytes": 63039657,
+      "rows": 18,
+      "patient_ordinal": 50,
+      "part": 7
+    },
+    {
+      "path": "patient_chunks/patient-050-part-008.jsonl.xz",
+      "sha256": "ae3279e79ab8abaacea0cbe06e07a7b4043b10e7bafc1564ee8aa693cebb8d90",
+      "bytes": 411332,
+      "envelope_utf8_bytes": 17650738,
+      "rows": 3,
+      "patient_ordinal": 50,
+      "part": 8
+    },
+    {
+      "path": "patient_chunks/patient-051-part-001.jsonl.xz",
+      "sha256": "2a3976afd31c8c05ba0669882988340c84f8ddb5c13d3201620e236cc5208d8f",
+      "bytes": 1703328,
+      "envelope_utf8_bytes": 39653526,
+      "rows": 6,
+      "patient_ordinal": 51,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-051-part-002.jsonl.xz",
+      "sha256": "ad7bb224b1755d997beba2654bb1ff1bb25b803d33495874833330668c40a8c4",
+      "bytes": 1475008,
+      "envelope_utf8_bytes": 66810275,
+      "rows": 2,
+      "patient_ordinal": 51,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-051-part-003.jsonl.xz",
+      "sha256": "dbbfb65ac9b23db5ef2ba60e00a7275aef70ccad1adaa399989c1572fb9eda7d",
+      "bytes": 1479976,
+      "envelope_utf8_bytes": 66915482,
+      "rows": 2,
+      "patient_ordinal": 51,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-051-part-004.jsonl.xz",
+      "sha256": "1e27afea7c59378a2a2810517c438cf9f6e20e22c19071559ae869cba661d39d",
+      "bytes": 1505708,
+      "envelope_utf8_bytes": 34077150,
+      "rows": 2,
+      "patient_ordinal": 51,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-051-part-005.jsonl.xz",
+      "sha256": "4137b0bfd4e73969b45bad82f1d437cddc364469b28ee4a084c48b8632d2f55e",
+      "bytes": 1511592,
+      "envelope_utf8_bytes": 34820067,
+      "rows": 4,
+      "patient_ordinal": 51,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-051-part-006.jsonl.xz",
+      "sha256": "f4a3a62a808765a8fbf154f94e56bfd3106dca48b7f04e5054a6e5b7b0a2a549",
+      "bytes": 1497340,
+      "envelope_utf8_bytes": 33875333,
+      "rows": 2,
+      "patient_ordinal": 51,
+      "part": 6
+    },
+    {
+      "path": "patient_chunks/patient-052-part-001.jsonl.xz",
+      "sha256": "d6fc5392739838d8141d4f2a752c64b1175e9141197ee4b7eee3179e064b8b38",
+      "bytes": 178800,
+      "envelope_utf8_bytes": 17759938,
+      "rows": 19,
+      "patient_ordinal": 52,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-053-part-001.jsonl.xz",
+      "sha256": "092080462b49cb6e623b6dc62252a061ffc32e07522e418eb15d86b59791b6cf",
+      "bytes": 308112,
+      "envelope_utf8_bytes": 65112200,
+      "rows": 24,
+      "patient_ordinal": 53,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-053-part-002.jsonl.xz",
+      "sha256": "11c53c0f88c187b3335e3b4fc1406bdae9b5f0423819a246fa348707874c60e9",
+      "bytes": 267820,
+      "envelope_utf8_bytes": 44244747,
+      "rows": 12,
+      "patient_ordinal": 53,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-054-part-001.jsonl.xz",
+      "sha256": "7115d927c2d745aa00fe61b72bb64e145bffbf7cd9708e8c6ba601930af1ffaa",
+      "bytes": 175148,
+      "envelope_utf8_bytes": 30615031,
+      "rows": 27,
+      "patient_ordinal": 54,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-055-part-001.jsonl.xz",
+      "sha256": "936be4de8a78dd0a007646d3ea240cf4fc5aa38ff6a16463107467629caec551",
+      "bytes": 955444,
+      "envelope_utf8_bytes": 63263235,
+      "rows": 7,
+      "patient_ordinal": 55,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-055-part-002.jsonl.xz",
+      "sha256": "e446304602d15455d3997b2040d783267ad3a5900b8367cd80580ad41946b954",
+      "bytes": 955840,
+      "envelope_utf8_bytes": 42311414,
+      "rows": 9,
+      "patient_ordinal": 55,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-056-part-001.jsonl.xz",
+      "sha256": "5b7777b3f0b7544d09bc912170236cf60e17935623acab704b7ad7ee81f91337",
+      "bytes": 327520,
+      "envelope_utf8_bytes": 50544887,
+      "rows": 31,
+      "patient_ordinal": 56,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-057-part-001.jsonl.xz",
+      "sha256": "96ab3645502854ba2c3f735790beb729ffae47973c53cb353ce36666aebb3ac4",
+      "bytes": 1097760,
+      "envelope_utf8_bytes": 47058050,
+      "rows": 4,
+      "patient_ordinal": 57,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-057-part-002.jsonl.xz",
+      "sha256": "001c6e7030491a4b8276e4e4067e14014f01832084a4c71674437af889fc8f25",
+      "bytes": 1062204,
+      "envelope_utf8_bytes": 46460259,
+      "rows": 2,
+      "patient_ordinal": 57,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-057-part-003.jsonl.xz",
+      "sha256": "79ec67e89eee56b8c54f31a5db52bf7cb0dbf1e414599ed5de0f2b3070e56ba1",
+      "bytes": 1097284,
+      "envelope_utf8_bytes": 47002400,
+      "rows": 3,
+      "patient_ordinal": 57,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-057-part-004.jsonl.xz",
+      "sha256": "8eea7191d29aa91b3ac5128eef6bf6946d61a46441fab954628358169d670067",
+      "bytes": 1189084,
+      "envelope_utf8_bytes": 49017407,
+      "rows": 7,
+      "patient_ordinal": 57,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-057-part-005.jsonl.xz",
+      "sha256": "333aa754f591fca2c9c0a2047ca30546910ebbed4453b74855394fb62df65911",
+      "bytes": 1089912,
+      "envelope_utf8_bytes": 47233999,
+      "rows": 4,
+      "patient_ordinal": 57,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-057-part-006.jsonl.xz",
+      "sha256": "fcaf8ddfc490d60070538453e862034c568f56387e8f8d532ffa389b48361863",
+      "bytes": 1094064,
+      "envelope_utf8_bytes": 46889343,
+      "rows": 4,
+      "patient_ordinal": 57,
+      "part": 6
+    },
+    {
+      "path": "patient_chunks/patient-057-part-007.jsonl.xz",
+      "sha256": "93c786f0b5bf75e05c31a9a463d0398afd9de89ed3820c9ab2d7a609ac9eee89",
+      "bytes": 1120288,
+      "envelope_utf8_bytes": 47397802,
+      "rows": 6,
+      "patient_ordinal": 57,
+      "part": 7
+    },
+    {
+      "path": "patient_chunks/patient-057-part-008.jsonl.xz",
+      "sha256": "61b2d6a5335985dcf3ce29e8712900f2ed4538c86a41cb8d3f4c80b101a750a0",
+      "bytes": 1057216,
+      "envelope_utf8_bytes": 46251879,
+      "rows": 2,
+      "patient_ordinal": 57,
+      "part": 8
+    },
+    {
+      "path": "patient_chunks/patient-057-part-009.jsonl.xz",
+      "sha256": "bd17776cd263f82b422de945e0305d581be1a4f649c1dc29240d2ee23cae34b0",
+      "bytes": 1071600,
+      "envelope_utf8_bytes": 46518896,
+      "rows": 3,
+      "patient_ordinal": 57,
+      "part": 9
+    },
+    {
+      "path": "patient_chunks/patient-057-part-010.jsonl.xz",
+      "sha256": "6971bfe5973456caa337a7ae8b10a1cbf1e349281adc4cdac4b0de2fbca3dead",
+      "bytes": 1059312,
+      "envelope_utf8_bytes": 46297274,
+      "rows": 2,
+      "patient_ordinal": 57,
+      "part": 10
+    },
+    {
+      "path": "patient_chunks/patient-057-part-011.jsonl.xz",
+      "sha256": "1041d51d12c97b01498980e95abf3a75d72e73e4d0aef6a4c0ac56b2755b05f0",
+      "bytes": 1055600,
+      "envelope_utf8_bytes": 46240383,
+      "rows": 2,
+      "patient_ordinal": 57,
+      "part": 11
+    },
+    {
+      "path": "patient_chunks/patient-057-part-012.jsonl.xz",
+      "sha256": "0ce1547a7b828e8fc48a17a5828b148c7ea7edeeaf4f1d0f3b87edf77edd8503",
+      "bytes": 1057760,
+      "envelope_utf8_bytes": 46282764,
+      "rows": 2,
+      "patient_ordinal": 57,
+      "part": 12
+    },
+    {
+      "path": "patient_chunks/patient-057-part-013.jsonl.xz",
+      "sha256": "b514d7256139421d60e1f440d1a0aec995ca3376ae09a6621150664e1555f90a",
+      "bytes": 1071304,
+      "envelope_utf8_bytes": 46641503,
+      "rows": 2,
+      "patient_ordinal": 57,
+      "part": 13
+    },
+    {
+      "path": "patient_chunks/patient-057-part-014.jsonl.xz",
+      "sha256": "ec390e83f41256dfbdbc1cf5353172e2f84fbc6c9dd37e82414f7660baac4b8f",
+      "bytes": 1102784,
+      "envelope_utf8_bytes": 47021742,
+      "rows": 4,
+      "patient_ordinal": 57,
+      "part": 14
+    },
+    {
+      "path": "patient_chunks/patient-057-part-015.jsonl.xz",
+      "sha256": "f668d69ada9185874de3b3febad7768facbfd7a5b12efb99ab9b4edd508cfb98",
+      "bytes": 1101476,
+      "envelope_utf8_bytes": 47078509,
+      "rows": 6,
+      "patient_ordinal": 57,
+      "part": 15
+    },
+    {
+      "path": "patient_chunks/patient-057-part-016.jsonl.xz",
+      "sha256": "8b83eacc023eb72a2938feecaa0b7aa16e83a5854d4bfa6a5239898c2b481a87",
+      "bytes": 1145160,
+      "envelope_utf8_bytes": 48085543,
+      "rows": 3,
+      "patient_ordinal": 57,
+      "part": 16
+    },
+    {
+      "path": "patient_chunks/patient-057-part-017.jsonl.xz",
+      "sha256": "8200d9fde9ed6639bba98f48664ed46c3b2ba3eef8ea005740dc6e0d72596a6b",
+      "bytes": 1089312,
+      "envelope_utf8_bytes": 24191540,
+      "rows": 3,
+      "patient_ordinal": 57,
+      "part": 17
+    },
+    {
+      "path": "patient_chunks/patient-058-part-001.jsonl.xz",
+      "sha256": "2e0fb3bb8e36c7ffb89ad7a4459eb5d59924b1172668f3410e367a7a7db13ef7",
+      "bytes": 223996,
+      "envelope_utf8_bytes": 39077721,
+      "rows": 25,
+      "patient_ordinal": 58,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-059-part-001.jsonl.xz",
+      "sha256": "59626f7d9e0c72a83b763202b2871a9ac5e6d5c2b1619cdc90ae47c22b379111",
+      "bytes": 210924,
+      "envelope_utf8_bytes": 5237795,
+      "rows": 8,
+      "patient_ordinal": 59,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-060-part-001.jsonl.xz",
+      "sha256": "aad058e5bc60f1199934708b9c571c9e5685f80c5e2214e984401d0639beff4e",
+      "bytes": 226580,
+      "envelope_utf8_bytes": 47464938,
+      "rows": 37,
+      "patient_ordinal": 60,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-061-part-001.jsonl.xz",
+      "sha256": "068f93787ef7c91a97e433157af91e40b5032e9797895dd609942d19584a8942",
+      "bytes": 226872,
+      "envelope_utf8_bytes": 57025876,
+      "rows": 33,
+      "patient_ordinal": 61,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-062-part-001.jsonl.xz",
+      "sha256": "0b4443d61a8055749e95afb118cc59f523a4289b7d9c93d282f77d4a01a045c4",
+      "bytes": 573716,
+      "envelope_utf8_bytes": 58940559,
+      "rows": 10,
+      "patient_ordinal": 62,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-062-part-002.jsonl.xz",
+      "sha256": "a72588fdf20a761b6ccd89454795dc1bf7584fc59fd2deb5c58f493b131baccb",
+      "bytes": 587984,
+      "envelope_utf8_bytes": 59432699,
+      "rows": 9,
+      "patient_ordinal": 62,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-062-part-003.jsonl.xz",
+      "sha256": "1da78c3048e37c0992b0c9541efa4788b2456ea59edd068dd2918a7904e3dc22",
+      "bytes": 600936,
+      "envelope_utf8_bytes": 59767886,
+      "rows": 9,
+      "patient_ordinal": 62,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-062-part-004.jsonl.xz",
+      "sha256": "221926ab0e4a2d7926820f4da3a0149b4d932c21b80c07426774edd42a19724c",
+      "bytes": 591424,
+      "envelope_utf8_bytes": 59856722,
+      "rows": 15,
+      "patient_ordinal": 62,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-062-part-005.jsonl.xz",
+      "sha256": "672c951b792f9fea452370a870b767d2add7173f1daa23b9a789dec75bdfcfc0",
+      "bytes": 552420,
+      "envelope_utf8_bytes": 46882089,
+      "rows": 6,
+      "patient_ordinal": 62,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-063-part-001.jsonl.xz",
+      "sha256": "b277c2ca855cb5d5ee034954f7dc2a14e349e44beb881ff01213449a1d9abe65",
+      "bytes": 143000,
+      "envelope_utf8_bytes": 20945777,
+      "rows": 18,
+      "patient_ordinal": 63,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-064-part-001.jsonl.xz",
+      "sha256": "05b045df5cde78a201b3fe28701515956e9212ab7d324fc10f9f8658049a8620",
+      "bytes": 578372,
+      "envelope_utf8_bytes": 40027051,
+      "rows": 12,
+      "patient_ordinal": 64,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-065-part-001.jsonl.xz",
+      "sha256": "8009b6127f807742afcb1eed58e3cfc91961eb3875e97a6365161d8dad700a39",
+      "bytes": 385648,
+      "envelope_utf8_bytes": 66289952,
+      "rows": 17,
+      "patient_ordinal": 65,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-065-part-002.jsonl.xz",
+      "sha256": "95db337a5e4a9bcbd38a93e266ce83bfa7087e34dfd20391063393a183945798",
+      "bytes": 347852,
+      "envelope_utf8_bytes": 36612769,
+      "rows": 11,
+      "patient_ordinal": 65,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-066-part-001.jsonl.xz",
+      "sha256": "430d37091664d4f48b5ca6b48ea5f26f865dccce3987af2996d71ba6ab54864d",
+      "bytes": 213392,
+      "envelope_utf8_bytes": 42953910,
+      "rows": 37,
+      "patient_ordinal": 66,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-067-part-001.jsonl.xz",
+      "sha256": "3a20582e5dcf7a9095fe8734c6487d7fc827b41cd798de0138fc4e6d785c64c5",
+      "bytes": 102688,
+      "envelope_utf8_bytes": 6609495,
+      "rows": 31,
+      "patient_ordinal": 67,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-068-part-001.jsonl.xz",
+      "sha256": "e1c7cf9ca816868cd446a62a4175c3c25700282ad241a585396442547f229ded",
+      "bytes": 154848,
+      "envelope_utf8_bytes": 5806072,
+      "rows": 8,
+      "patient_ordinal": 68,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-069-part-001.jsonl.xz",
+      "sha256": "b809ace6856b5155df8348f84bea9541d7202384c13d60cc81ac4926e97996af",
+      "bytes": 262592,
+      "envelope_utf8_bytes": 65606123,
+      "rows": 53,
+      "patient_ordinal": 69,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-070-part-001.jsonl.xz",
+      "sha256": "85271ecf8f25c5d750a7642b54e72c832a80a510432ba95d1c61c19cf29ce1ae",
+      "bytes": 176160,
+      "envelope_utf8_bytes": 23036104,
+      "rows": 23,
+      "patient_ordinal": 70,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-071-part-001.jsonl.xz",
+      "sha256": "bc2e28484c7ec7de51738a3b44b60199b2e45d7a8ea2002dfe594ff0b65647aa",
+      "bytes": 194084,
+      "envelope_utf8_bytes": 31162738,
+      "rows": 31,
+      "patient_ordinal": 71,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-072-part-001.jsonl.xz",
+      "sha256": "62ecd013f4d0651ac278f9087318baf1cdbd5ce5169ff7f52858d74f0e631615",
+      "bytes": 333604,
+      "envelope_utf8_bytes": 63552669,
+      "rows": 27,
+      "patient_ordinal": 72,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-072-part-002.jsonl.xz",
+      "sha256": "1c08a28ea0ee1a8342108aafe9748a761718d76a30b3bf0a4ce77471035e7b36",
+      "bytes": 238172,
+      "envelope_utf8_bytes": 10375106,
+      "rows": 3,
+      "patient_ordinal": 72,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-073-part-001.jsonl.xz",
+      "sha256": "941d21012d214c159ee7ba6605f4a4557792ad5bc767b10cb434ca2bb9c2126f",
+      "bytes": 209988,
+      "envelope_utf8_bytes": 34734924,
+      "rows": 25,
+      "patient_ordinal": 73,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-074-part-001.jsonl.xz",
+      "sha256": "c70f49e1b99ee6b98eadb64f1a4cc138b04012fc23659e14a8fdde3ff75897d3",
+      "bytes": 164508,
+      "envelope_utf8_bytes": 21037641,
+      "rows": 27,
+      "patient_ordinal": 74,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-075-part-001.jsonl.xz",
+      "sha256": "f6734163c83f13061e70f635a29a6ff5f8c1339f953ff6439976fb60ddfcd4af",
+      "bytes": 233396,
+      "envelope_utf8_bytes": 57818427,
+      "rows": 42,
+      "patient_ordinal": 75,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-076-part-001.jsonl.xz",
+      "sha256": "d835b686efe9e97a8480bf2320bee191ee00effc52b7dabdf1d48807008aa3e8",
+      "bytes": 894148,
+      "envelope_utf8_bytes": 63921719,
+      "rows": 9,
+      "patient_ordinal": 76,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-076-part-002.jsonl.xz",
+      "sha256": "607ba93358aeb8b27d9612615ff1aac92eb64ef1d7c2115c782cae76e660b422",
+      "bytes": 889072,
+      "envelope_utf8_bytes": 61068199,
+      "rows": 7,
+      "patient_ordinal": 76,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-076-part-003.jsonl.xz",
+      "sha256": "b72e3fbcc90514a1cd413caac4bf0708db3bbd558713aee9cdfa9de0e53145f8",
+      "bytes": 1044368,
+      "envelope_utf8_bytes": 64374809,
+      "rows": 4,
+      "patient_ordinal": 76,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-076-part-004.jsonl.xz",
+      "sha256": "097d30062a4d6e6d09c73e05917fb762a69c00e93d36eeec76b64a72cb724bc3",
+      "bytes": 795752,
+      "envelope_utf8_bytes": 59056912,
+      "rows": 4,
+      "patient_ordinal": 76,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-077-part-001.jsonl.xz",
+      "sha256": "6f14e984ac4e99246949cdf3218e3446c56fab0a8fba5e4ab9e91fea553c259a",
+      "bytes": 112652,
+      "envelope_utf8_bytes": 9823576,
+      "rows": 17,
+      "patient_ordinal": 77,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-078-part-001.jsonl.xz",
+      "sha256": "d07466bd874df5ccea1ddae476100536ed0252e74f1e82c228c8225073d0e3d2",
+      "bytes": 118284,
+      "envelope_utf8_bytes": 13487811,
+      "rows": 21,
+      "patient_ordinal": 78,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-079-part-001.jsonl.xz",
+      "sha256": "84656967d77e0589fcf5840fef79e03bd8289d743bc0672c48dc2866df5f3af8",
+      "bytes": 174444,
+      "envelope_utf8_bytes": 24179548,
+      "rows": 25,
+      "patient_ordinal": 79,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-080-part-001.jsonl.xz",
+      "sha256": "5f2d7a8fa578cae4d7a1d8596847b49d9428143a538bea48ec56515aa8ef9c56",
+      "bytes": 1023464,
+      "envelope_utf8_bytes": 66173680,
+      "rows": 5,
+      "patient_ordinal": 80,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-080-part-002.jsonl.xz",
+      "sha256": "54dcb48a92027176c72591caf03fd638e9ab76b11e800a3e5318744eacea966a",
+      "bytes": 991668,
+      "envelope_utf8_bytes": 65038149,
+      "rows": 5,
+      "patient_ordinal": 80,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-080-part-003.jsonl.xz",
+      "sha256": "bd5268446a4c810d340b95ecf54f861bd239bc61f7f5bb8f613929587e08bed3",
+      "bytes": 985768,
+      "envelope_utf8_bytes": 64907250,
+      "rows": 4,
+      "patient_ordinal": 80,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-080-part-004.jsonl.xz",
+      "sha256": "526f387e5cd7ca1f843e99cbde11116239c8ef8acca3069c63ac3f36358e715a",
+      "bytes": 991056,
+      "envelope_utf8_bytes": 65068355,
+      "rows": 4,
+      "patient_ordinal": 80,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-080-part-005.jsonl.xz",
+      "sha256": "33315711df2a7e7dc0f7707ac223eb31febf48874a928abfbb83a193c3e1cba3",
+      "bytes": 985088,
+      "envelope_utf8_bytes": 64893201,
+      "rows": 3,
+      "patient_ordinal": 80,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-080-part-006.jsonl.xz",
+      "sha256": "959fd159b786e1d10fdfa836742849a40f330c298318898b28b3895f6732a367",
+      "bytes": 986752,
+      "envelope_utf8_bytes": 64949532,
+      "rows": 4,
+      "patient_ordinal": 80,
+      "part": 6
+    },
+    {
+      "path": "patient_chunks/patient-080-part-007.jsonl.xz",
+      "sha256": "55d37874d109719afc6d779b44fca0a290a0fbd42a633eb85cb99af4a8259c88",
+      "bytes": 1021708,
+      "envelope_utf8_bytes": 65660637,
+      "rows": 4,
+      "patient_ordinal": 80,
+      "part": 7
+    },
+    {
+      "path": "patient_chunks/patient-080-part-008.jsonl.xz",
+      "sha256": "32e17e2c8ebb1d2f5cf57c6dd67e38dc70d4848a4ac066643ae63696a8aac389",
+      "bytes": 986308,
+      "envelope_utf8_bytes": 64948974,
+      "rows": 4,
+      "patient_ordinal": 80,
+      "part": 8
+    },
+    {
+      "path": "patient_chunks/patient-080-part-009.jsonl.xz",
+      "sha256": "b0cce7faa29743120677ac179b9567e100253208b8be038a03ef510ec6964b4f",
+      "bytes": 996268,
+      "envelope_utf8_bytes": 65132811,
+      "rows": 5,
+      "patient_ordinal": 80,
+      "part": 9
+    },
+    {
+      "path": "patient_chunks/patient-080-part-010.jsonl.xz",
+      "sha256": "9cc3f60df130419388c3751448e1b69ec36ed0cb4844e6eb6bdfc6c3b333e41b",
+      "bytes": 981756,
+      "envelope_utf8_bytes": 64863128,
+      "rows": 3,
+      "patient_ordinal": 80,
+      "part": 10
+    },
+    {
+      "path": "patient_chunks/patient-080-part-011.jsonl.xz",
+      "sha256": "91dbf81a995421a59b46d5afe533bf828eec4ccb744b53a8f12cd5d5bdefe21f",
+      "bytes": 1011392,
+      "envelope_utf8_bytes": 65391741,
+      "rows": 4,
+      "patient_ordinal": 80,
+      "part": 11
+    },
+    {
+      "path": "patient_chunks/patient-080-part-012.jsonl.xz",
+      "sha256": "4a004e0c6f5e0cee53a92a09dde5536d199bb88d9477cbea48dae95f0f2a40a6",
+      "bytes": 986008,
+      "envelope_utf8_bytes": 65031858,
+      "rows": 3,
+      "patient_ordinal": 80,
+      "part": 12
+    },
+    {
+      "path": "patient_chunks/patient-080-part-013.jsonl.xz",
+      "sha256": "576a11e01503346d1dbac49bcdd15137999eabcd36aa4e0049a515ba1397faf8",
+      "bytes": 1035180,
+      "envelope_utf8_bytes": 66623682,
+      "rows": 6,
+      "patient_ordinal": 80,
+      "part": 13
+    },
+    {
+      "path": "patient_chunks/patient-080-part-014.jsonl.xz",
+      "sha256": "16f1d1b1736e0f8a7d8ba374023e9cb28e50c2cde40972fd92149bddf3b14307",
+      "bytes": 1020432,
+      "envelope_utf8_bytes": 65554729,
+      "rows": 4,
+      "patient_ordinal": 80,
+      "part": 14
+    },
+    {
+      "path": "patient_chunks/patient-080-part-015.jsonl.xz",
+      "sha256": "f9c5778be7add7f438ffdf785d929f6e1ae7dcaddc9d7498b4f7571a27018a7d",
+      "bytes": 985616,
+      "envelope_utf8_bytes": 64882806,
+      "rows": 3,
+      "patient_ordinal": 80,
+      "part": 15
+    },
+    {
+      "path": "patient_chunks/patient-080-part-016.jsonl.xz",
+      "sha256": "5016aa89d9efa4373df69b1a4e7ec3a4dbfd591228774c026ea87517b69b4d1e",
+      "bytes": 999908,
+      "envelope_utf8_bytes": 65213432,
+      "rows": 5,
+      "patient_ordinal": 80,
+      "part": 16
+    },
+    {
+      "path": "patient_chunks/patient-080-part-017.jsonl.xz",
+      "sha256": "153df1f116dfbd04dbfc6eac4efd299dbe2178bae80b67acb0606706933e4649",
+      "bytes": 1023032,
+      "envelope_utf8_bytes": 65505037,
+      "rows": 4,
+      "patient_ordinal": 80,
+      "part": 17
+    },
+    {
+      "path": "patient_chunks/patient-080-part-018.jsonl.xz",
+      "sha256": "cd53178346385ce7cf094eae76508dfccfe5daf46425739c51156623cffa1dfb",
+      "bytes": 992880,
+      "envelope_utf8_bytes": 65194492,
+      "rows": 5,
+      "patient_ordinal": 80,
+      "part": 18
+    },
+    {
+      "path": "patient_chunks/patient-080-part-019.jsonl.xz",
+      "sha256": "d1003bd961eec7e16fc84f0b57e5ed1f73769d2d0d4ecb322942a5db337a320e",
+      "bytes": 986208,
+      "envelope_utf8_bytes": 64978889,
+      "rows": 4,
+      "patient_ordinal": 80,
+      "part": 19
+    },
+    {
+      "path": "patient_chunks/patient-080-part-020.jsonl.xz",
+      "sha256": "82a08e0e05d0badf452f96a3a0e754d6d263568ee59e32b80eca7ca943c9f8d6",
+      "bytes": 1013596,
+      "envelope_utf8_bytes": 65389827,
+      "rows": 5,
+      "patient_ordinal": 80,
+      "part": 20
+    },
+    {
+      "path": "patient_chunks/patient-080-part-021.jsonl.xz",
+      "sha256": "dbb1312ca940720b98b7c19fcf5eb68f0cf1c6bf8097fe3319d83e2753fb68f7",
+      "bytes": 981704,
+      "envelope_utf8_bytes": 64866008,
+      "rows": 3,
+      "patient_ordinal": 80,
+      "part": 21
+    },
+    {
+      "path": "patient_chunks/patient-080-part-022.jsonl.xz",
+      "sha256": "c9a02d499147a3dd6723399f1f3e4892e8ef8a40b2cef8440939aa72ff75470d",
+      "bytes": 984556,
+      "envelope_utf8_bytes": 64882232,
+      "rows": 3,
+      "patient_ordinal": 80,
+      "part": 22
+    },
+    {
+      "path": "patient_chunks/patient-080-part-023.jsonl.xz",
+      "sha256": "4c06c4fc8237c2822b0def925e5d838a87b7228784fe37490a7209b63ffdb8c9",
+      "bytes": 990812,
+      "envelope_utf8_bytes": 65031346,
+      "rows": 4,
+      "patient_ordinal": 80,
+      "part": 23
+    },
+    {
+      "path": "patient_chunks/patient-080-part-024.jsonl.xz",
+      "sha256": "59cc977a122ae7ef3377d32597020897da3a5a0c3e04202c0b893b7c83586810",
+      "bytes": 1025164,
+      "envelope_utf8_bytes": 65580963,
+      "rows": 5,
+      "patient_ordinal": 80,
+      "part": 24
+    },
+    {
+      "path": "patient_chunks/patient-080-part-025.jsonl.xz",
+      "sha256": "2d878dbf6bd58f9f09d515bf7ad57766c165572978636e442a431620a0481c34",
+      "bytes": 996300,
+      "envelope_utf8_bytes": 65402477,
+      "rows": 3,
+      "patient_ordinal": 80,
+      "part": 25
+    },
+    {
+      "path": "patient_chunks/patient-080-part-026.jsonl.xz",
+      "sha256": "dec5acb9cf23424d8eaa17448796b3753fe9c2ab7e184640901a661b5ba03c5d",
+      "bytes": 994640,
+      "envelope_utf8_bytes": 65125289,
+      "rows": 5,
+      "patient_ordinal": 80,
+      "part": 26
+    },
+    {
+      "path": "patient_chunks/patient-081-part-001.jsonl.xz",
+      "sha256": "73258389b3da366224a461a517cab11f7a03d9846587f32b3e40a23284989ca0",
+      "bytes": 349744,
+      "envelope_utf8_bytes": 65443848,
+      "rows": 16,
+      "patient_ordinal": 81,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-081-part-002.jsonl.xz",
+      "sha256": "ec1b6f39d1278e59ebd443125f6b121ee0d27bbeac1125946560359066fef392",
+      "bytes": 346800,
+      "envelope_utf8_bytes": 65220639,
+      "rows": 13,
+      "patient_ordinal": 81,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-081-part-003.jsonl.xz",
+      "sha256": "3dd129ee46fc024e989611cf5d920be52e4fce38b2b09224ffb4e1a7475d6b2a",
+      "bytes": 322676,
+      "envelope_utf8_bytes": 64398352,
+      "rows": 12,
+      "patient_ordinal": 81,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-082-part-001.jsonl.xz",
+      "sha256": "96b85a608bf3c3cc88975ae4687b0d0285f600fceb321b6374af92b933b9ec32",
+      "bytes": 109948,
+      "envelope_utf8_bytes": 7368433,
+      "rows": 16,
+      "patient_ordinal": 82,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-083-part-001.jsonl.xz",
+      "sha256": "2f7bcf71c96df6f5c17607a8665ca2e1aeff27496279a06181d24e55c91b5c0a",
+      "bytes": 263804,
+      "envelope_utf8_bytes": 65739881,
+      "rows": 29,
+      "patient_ordinal": 83,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-083-part-002.jsonl.xz",
+      "sha256": "3429d46fce2fa7c83d55729dacfd868c2f3a407f9ef0d958dc07c8432552c296",
+      "bytes": 280268,
+      "envelope_utf8_bytes": 51235926,
+      "rows": 23,
+      "patient_ordinal": 83,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-084-part-001.jsonl.xz",
+      "sha256": "d7e0539458a93db596a833fef1ec58bad65e9c678b36d4c6435a463e06ebd25d",
+      "bytes": 1334048,
+      "envelope_utf8_bytes": 57582578,
+      "rows": 3,
+      "patient_ordinal": 84,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-084-part-002.jsonl.xz",
+      "sha256": "97226271314615563a06dc815078cfd06c0ae4dfafe1cf30f8c62520b44d9f80",
+      "bytes": 1312932,
+      "envelope_utf8_bytes": 57281891,
+      "rows": 3,
+      "patient_ordinal": 84,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-084-part-003.jsonl.xz",
+      "sha256": "3d375a4b528e4639bcc3c8d73da4d083b92d3ccab7485e8126ed5d7546e2fd5e",
+      "bytes": 1367616,
+      "envelope_utf8_bytes": 58381063,
+      "rows": 4,
+      "patient_ordinal": 84,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-084-part-004.jsonl.xz",
+      "sha256": "30c4f571784d0dfe7efdaf5cb696dd1d26b207888c433aa9d673f573ba518f38",
+      "bytes": 1310396,
+      "envelope_utf8_bytes": 57162596,
+      "rows": 2,
+      "patient_ordinal": 84,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-084-part-005.jsonl.xz",
+      "sha256": "85f5d241afc75ac3a6d6302490291954a81cbf6b17b85b5c2675ce57ed6cfa08",
+      "bytes": 1339936,
+      "envelope_utf8_bytes": 29669444,
+      "rows": 3,
+      "patient_ordinal": 84,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-085-part-001.jsonl.xz",
+      "sha256": "9da662ce2219be9aca7162af2d414d51682834cf9675d258d651a16bea1a7129",
+      "bytes": 69000,
+      "envelope_utf8_bytes": 2226654,
+      "rows": 10,
+      "patient_ordinal": 85,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-086-part-001.jsonl.xz",
+      "sha256": "7b2b0da554adbc93caf874b74cac73ef1d1b318854f60f0b512631c0c85fac0c",
+      "bytes": 1048312,
+      "envelope_utf8_bytes": 67033652,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-086-part-002.jsonl.xz",
+      "sha256": "98367fbce740a45856a8301a4a14c7e3823a7f053270bf61883a1a8bb37ca3a2",
+      "bytes": 1044816,
+      "envelope_utf8_bytes": 66917106,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-086-part-003.jsonl.xz",
+      "sha256": "4c22f8f2cc1e594569eb8626b9b47c1f4c416878bb5e701417747840663d3b4a",
+      "bytes": 1049560,
+      "envelope_utf8_bytes": 66990444,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-086-part-004.jsonl.xz",
+      "sha256": "667198d43b39d541f2567c79196b9b3d49ab5f4ffc16d8b03678f490d7109a80",
+      "bytes": 1059028,
+      "envelope_utf8_bytes": 44995284,
+      "rows": 4,
+      "patient_ordinal": 86,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-086-part-005.jsonl.xz",
+      "sha256": "891bae2bd0fcfee9b94e54f989d5a7db6ca402e8db3481aee6c5d4a4bf06a0ae",
+      "bytes": 1052292,
+      "envelope_utf8_bytes": 67063014,
+      "rows": 4,
+      "patient_ordinal": 86,
+      "part": 5
+    },
+    {
+      "path": "patient_chunks/patient-086-part-006.jsonl.xz",
+      "sha256": "9a5154f9d383e988362a9edbfa8b28525695ec03757705a03063e131b6eea7aa",
+      "bytes": 1050496,
+      "envelope_utf8_bytes": 45521896,
+      "rows": 2,
+      "patient_ordinal": 86,
+      "part": 6
+    },
+    {
+      "path": "patient_chunks/patient-086-part-007.jsonl.xz",
+      "sha256": "6850cfe00f884fef219f064be2de735ad37463d36ccf52ae6d4494f3c57b8f18",
+      "bytes": 1045608,
+      "envelope_utf8_bytes": 66958324,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 7
+    },
+    {
+      "path": "patient_chunks/patient-086-part-008.jsonl.xz",
+      "sha256": "0cb21b28905fd950fa9d0464e56ce8761829995ae373c213b586d410c96f0542",
+      "bytes": 1046308,
+      "envelope_utf8_bytes": 66948091,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 8
+    },
+    {
+      "path": "patient_chunks/patient-086-part-009.jsonl.xz",
+      "sha256": "c6212e6168fca6ba69310aa87d158a228002baf2ad670eb2c393ccd03c51921c",
+      "bytes": 1047044,
+      "envelope_utf8_bytes": 66960893,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 9
+    },
+    {
+      "path": "patient_chunks/patient-086-part-010.jsonl.xz",
+      "sha256": "99bd982ca3dd4c88fdf7523a4dd031ec52ace0105616c141044624dfcfa431ae",
+      "bytes": 1063340,
+      "envelope_utf8_bytes": 45465380,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 10
+    },
+    {
+      "path": "patient_chunks/patient-086-part-011.jsonl.xz",
+      "sha256": "23b2bc4f5cf5ea3479e7461d6a824723bb8110b2feaf4012b4bfe9ae82132a5b",
+      "bytes": 1051696,
+      "envelope_utf8_bytes": 44841261,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 11
+    },
+    {
+      "path": "patient_chunks/patient-086-part-012.jsonl.xz",
+      "sha256": "11ff9626ac164abc43b58cd409470ae10006cb819adcaff4e715ac333a250a20",
+      "bytes": 1057216,
+      "envelope_utf8_bytes": 44952175,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 12
+    },
+    {
+      "path": "patient_chunks/patient-086-part-013.jsonl.xz",
+      "sha256": "21b2f00755cc08a429695e4838f34cb66c08327c604b0b3408444570d60cd080",
+      "bytes": 1047220,
+      "envelope_utf8_bytes": 67011455,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 13
+    },
+    {
+      "path": "patient_chunks/patient-086-part-014.jsonl.xz",
+      "sha256": "2bb620f1e0d3914afab3e580f3a91b17edb0e7b5e9f071d308140a5a851e8593",
+      "bytes": 1046148,
+      "envelope_utf8_bytes": 66973272,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 14
+    },
+    {
+      "path": "patient_chunks/patient-086-part-015.jsonl.xz",
+      "sha256": "55710455306b13a64462b2cf56a41372a2c9a5de3f4597c44a8d97355a36b998",
+      "bytes": 1048728,
+      "envelope_utf8_bytes": 67032288,
+      "rows": 4,
+      "patient_ordinal": 86,
+      "part": 15
+    },
+    {
+      "path": "patient_chunks/patient-086-part-016.jsonl.xz",
+      "sha256": "2e1fae224bec137cd87fbf3e79b99ed6533edd1b613efaee16a67694b6a3ac91",
+      "bytes": 1049640,
+      "envelope_utf8_bytes": 67017624,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 16
+    },
+    {
+      "path": "patient_chunks/patient-086-part-017.jsonl.xz",
+      "sha256": "59d1e7d597557852d3308a4e8e03be98d6562966ccc15b8f592483204a41f0d8",
+      "bytes": 1049452,
+      "envelope_utf8_bytes": 67063650,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 17
+    },
+    {
+      "path": "patient_chunks/patient-086-part-018.jsonl.xz",
+      "sha256": "e83cb21540538b16da402dbbc03b88f52e364bd5fcee158ad794a406e3a56284",
+      "bytes": 1062140,
+      "envelope_utf8_bytes": 44983562,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 18
+    },
+    {
+      "path": "patient_chunks/patient-086-part-019.jsonl.xz",
+      "sha256": "e3604a8c992ad9783f691fa3d302b68148ee2bf23fc906bc137b81c35062a3d8",
+      "bytes": 1049680,
+      "envelope_utf8_bytes": 67014201,
+      "rows": 4,
+      "patient_ordinal": 86,
+      "part": 19
+    },
+    {
+      "path": "patient_chunks/patient-086-part-020.jsonl.xz",
+      "sha256": "df3c4dbefc6f683439cf5117fa59b6a6058fc85220087626a7e26200462d8570",
+      "bytes": 1055872,
+      "envelope_utf8_bytes": 45321893,
+      "rows": 3,
+      "patient_ordinal": 86,
+      "part": 20
+    },
+    {
+      "path": "patient_chunks/patient-086-part-021.jsonl.xz",
+      "sha256": "f287e0239f0ea09513fd873117d56e5a59e89a012c014be35629c35c2d25e52c",
+      "bytes": 1057592,
+      "envelope_utf8_bytes": 44965581,
+      "rows": 4,
+      "patient_ordinal": 86,
+      "part": 21
+    },
+    {
+      "path": "patient_chunks/patient-086-part-022.jsonl.xz",
+      "sha256": "a8af67bfbb435a369f45abf48e65bfba987c91c3f68bb4b699244a8d4134e65c",
+      "bytes": 1033764,
+      "envelope_utf8_bytes": 22362530,
+      "rows": 1,
+      "patient_ordinal": 86,
+      "part": 22
+    },
+    {
+      "path": "patient_chunks/patient-087-part-001.jsonl.xz",
+      "sha256": "d6cc42f45bae644b369877aedabb9d85eb2071d05602f3f6734725debfe408d9",
+      "bytes": 193060,
+      "envelope_utf8_bytes": 32070327,
+      "rows": 23,
+      "patient_ordinal": 87,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-088-part-001.jsonl.xz",
+      "sha256": "624188f7972e4741d85391c372beb2f6382001fc7526a4d85c92eb25592a12da",
+      "bytes": 193792,
+      "envelope_utf8_bytes": 22510246,
+      "rows": 34,
+      "patient_ordinal": 88,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-089-part-001.jsonl.xz",
+      "sha256": "4908d2c85ac2d0cdfaf3adfbc6bbcdd0fe116f7b4df06a2e2dfae955c9a6c446",
+      "bytes": 278768,
+      "envelope_utf8_bytes": 65154797,
+      "rows": 29,
+      "patient_ordinal": 89,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-089-part-002.jsonl.xz",
+      "sha256": "a1f684d57bdec1a17fa42fb82079468fc72f94eac0209e35f342b4dfa5c31d98",
+      "bytes": 249416,
+      "envelope_utf8_bytes": 9308916,
+      "rows": 3,
+      "patient_ordinal": 89,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-090-part-001.jsonl.xz",
+      "sha256": "3fe972f09b4be9ad24362028367d591a2954cb6fde59264c82ceebc6b6f1f5de",
+      "bytes": 297112,
+      "envelope_utf8_bytes": 56669160,
+      "rows": 21,
+      "patient_ordinal": 90,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-091-part-001.jsonl.xz",
+      "sha256": "b93e461a24aa003a0abc92635185d80ae2e19c0de6aa71eda97053b798fd9f59",
+      "bytes": 577988,
+      "envelope_utf8_bytes": 65388399,
+      "rows": 8,
+      "patient_ordinal": 91,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-091-part-002.jsonl.xz",
+      "sha256": "79e498572576dccec72890088fdae23b34f84ac2aa8a9dadd4dd4c1fed449df9",
+      "bytes": 603828,
+      "envelope_utf8_bytes": 59117797,
+      "rows": 13,
+      "patient_ordinal": 91,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-091-part-003.jsonl.xz",
+      "sha256": "82996c4198fc64ba039af1ee9cd2175e694dcf2cd331cc36625e08fdc824b865",
+      "bytes": 494760,
+      "envelope_utf8_bytes": 63645696,
+      "rows": 7,
+      "patient_ordinal": 91,
+      "part": 3
+    },
+    {
+      "path": "patient_chunks/patient-091-part-004.jsonl.xz",
+      "sha256": "a8f925a2136c6abb6c9eee091c8e02713498b36192f232f2540eafc556a07529",
+      "bytes": 512700,
+      "envelope_utf8_bytes": 32388763,
+      "rows": 7,
+      "patient_ordinal": 91,
+      "part": 4
+    },
+    {
+      "path": "patient_chunks/patient-092-part-001.jsonl.xz",
+      "sha256": "8a4916c469c88478de1305389127606be2d6f6ecea505784c82a81b2fa8a427c",
+      "bytes": 333736,
+      "envelope_utf8_bytes": 66974902,
+      "rows": 22,
+      "patient_ordinal": 92,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-092-part-002.jsonl.xz",
+      "sha256": "7fe3486f5ad82b42fb76d4cd7455242a28915be1ef88602801eec8325123b0a7",
+      "bytes": 317996,
+      "envelope_utf8_bytes": 66155596,
+      "rows": 16,
+      "patient_ordinal": 92,
+      "part": 2
+    },
+    {
+      "path": "patient_chunks/patient-093-part-001.jsonl.xz",
+      "sha256": "c44fd4907d7a4d90efbb7f57fded1efcb7d682dabc69980c5c8c603046b28527",
+      "bytes": 317984,
+      "envelope_utf8_bytes": 13616004,
+      "rows": 19,
+      "patient_ordinal": 93,
+      "part": 1
+    },
+    {
+      "path": "patient_chunks/patient-094-part-001.jsonl.xz",
+      "sha256": "8533fcbf03d3bb750285028410746a3499a01469335e6330b6c3f2b2d660089d",
+      "bytes": 245544,
+      "envelope_utf8_bytes": 40392571,
+      "rows": 8,
+      "patient_ordinal": 94,
+      "part": 1
+    }
+  ],
+  "archive_total_bytes": 267394408,
+  "original_owned_audit_compressed_bytes_referenced": 923941740,
+  "original_owned_audit_uncompressed_bytes": 13377878208,
+  "question_index": {
+    "path": "question_index.jsonl",
+    "sha256": "b01d5101c49798f6908c11209d6bd4eab0d84a6d928443bd1fb0eca68740dc6c",
+    "bytes": 2459215
+  },
+  "rows_semantic_digest_sorted_by_question_id": "d0e07e67e2310901b4d00e46c3836d8eaa599f9b2097c84250cd8803bb93bcf6",
+  "compression": {
+    "format": "XZ",
+    "check": "CRC64",
+    "preset": 4,
+    "dictionary_bytes": 67108864,
+    "target_max_envelope_bytes_per_chunk": 67108864,
+    "compressed_file_limit_bytes_exclusive": 90000000,
+    "sort": "patient_fhir_id then question_id"
+  },
+  "losslessness": {
+    "all_parsed_original_canonical_fields": true,
+    "original_canonical_row_order_recoverable_via_source_row_index": true,
+    "owned_audit_utf8_payload_bytes": true,
+    "original_canonical_whitespace_reproduced": false,
+    "original_gzip_container_bytes_headers_reproduced": false,
+    "source_compressed_and_uncompressed_hashes_retained": true,
+    "no_discarded_attempts_in_primary_accepted_archive": true
+  },
+  "verification": {
+    "restored_question_count": 2929,
+    "every_parsed_row_semantic_hash_matches": true,
+    "every_audit_utf8_payload_bytes_hash_matches": true,
+    "source_canonical_and_every_source_gzip_hash_reobserved_unchanged": true,
+    "every_archive_below_file_limit": true
+  },
+  "packager_source_sha256": "39564dcdc60857413d49104665804ccc93c4b90b9838f21dc472f737d11d1d60",
+  "elapsed_seconds": 569.74
+}

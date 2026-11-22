@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-16T14:58:47.935830+00:00",
+  "status": "PASS",
+  "original_preflight": {
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/benchmarks/v3-full-run-20261015/preflight.json",
+    "recorded_at_utc": "2026-10-16T04:14:04.704844+00:00",
+    "sha256": "dcc42f85a4307605189e752df8606fbffa5681f578b9b39b0c3eaed1be593c9a"
+  },
+  "live_preflight": {
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/preflight.json",
+    "sha256": "dcc42f85a4307605189e752df8606fbffa5681f578b9b39b0c3eaed1be593c9a",
+    "byte_identical_to_original": true
+  },
+  "resource_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase2-fhir",
+  "expected_file_count": 24,
+  "current_resource_file_count": 24,
+  "compressed_bytes_total": 47166674,
+  "missing_files": [],
+  "extra_resource_files": [],
+  "original_inventory_sha256": "73d124984301062835e7ca8263cafad1238def7a57aed184b3250e8951a4e44a",
+  "current_inventory_sha256": "73d124984301062835e7ca8263cafad1238def7a57aed184b3250e8951a4e44a",
+  "per_file": [
+    {
+      "file": "MimicCondition.ndjson.gz",
+      "original_sha256": "6be462199daf68c7ffc72f3a6f71eae803e5b69c2ecdb2c6c82c5f52aec08ec8",
+      "current_sha256": "6be462199daf68c7ffc72f3a6f71eae803e5b69c2ecdb2c6c82c5f52aec08ec8",
+      "matches_original": true,
+      "compressed_bytes": 228796,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicConditionED.ndjson.gz",
+      "original_sha256": "82e0ef0f68b53aa92a9d8d0ff47cbad630751ef361becb904610eecca1b58eed",
+      "current_sha256": "82e0ef0f68b53aa92a9d8d0ff47cbad630751ef361becb904610eecca1b58eed",
+      "matches_original": true,
+      "compressed_bytes": 34167,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicEncounter.ndjson.gz",
+      "original_sha256": "01d3583e4c8b9fbfde87baa8a6cf1cc6bf53c1db45c0b64120fcb80c34e6b17b",
+      "current_sha256": "01d3583e4c8b9fbfde87baa8a6cf1cc6bf53c1db45c0b64120fcb80c34e6b17b",
+      "matches_original": true,
+      "compressed_bytes": 38527,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicEncounterED.ndjson.gz",
+      "original_sha256": "4652aad7121ee1e5cdcc559017518437611d16a4b021e91d540796ad96c270dc",
+      "current_sha256": "4652aad7121ee1e5cdcc559017518437611d16a4b021e91d540796ad96c270dc",
+      "matches_original": true,
+      "compressed_bytes": 19443,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicEncounterICU.ndjson.gz",
+      "original_sha256": "ce9b1e04dce0806f5c36965e7d4057e46a9cb15b82c551660a2ed81c220ba38d",
+      "current_sha256": "ce9b1e04dce0806f5c36965e7d4057e46a9cb15b82c551660a2ed81c220ba38d",
+      "matches_original": true,
+      "compressed_bytes": 15607,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicLocation.ndjson.gz",
+      "original_sha256": "e474e95a0b0061d92e00aad38b29caf3652386366de79a5ffed390b3f2c0627d",
+      "current_sha256": "e474e95a0b0061d92e00aad38b29caf3652386366de79a5ffed390b3f2c0627d",
+      "matches_original": true,
+      "compressed_bytes": 1454,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicMedication.ndjson.gz",
+      "original_sha256": "dd9373fb1fd55d66696f23753225f7b442de849cdd4c10f87a51804f14148d6a",
+      "current_sha256": "dd9373fb1fd55d66696f23753225f7b442de849cdd4c10f87a51804f14148d6a",
+      "matches_original": true,
+      "compressed_bytes": 84187,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicMedicationMix.ndjson.gz",
+      "original_sha256": "2d211a9bcb0c08072c56921db88e57c1adb93837def3535fe8ef16f482c4c35b",
+      "current_sha256": "2d211a9bcb0c08072c56921db88e57c1adb93837def3535fe8ef16f482c4c35b",
+      "matches_original": true,
+      "compressed_bytes": 28165,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicMedicationRequest.ndjson.gz",
+      "original_sha256": "3f446cd92a820dff3623c674f4d1f13ea6cc7f3c157f3584e9c17d8502f33456",
+      "current_sha256": "3f446cd92a820dff3623c674f4d1f13ea6cc7f3c157f3584e9c17d8502f33456",
+      "matches_original": true,
+      "compressed_bytes": 1321916,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicObservationChartevents.ndjson.gz",
+      "original_sha256": "8222f1cbd5f62b9568c5efa69fa7890be1d604bb503699c82d69fd1fd59c4887",
+      "current_sha256": "8222f1cbd5f62b9568c5efa69fa7890be1d604bb503699c82d69fd1fd59c4887",
+      "matches_original": true,
+      "compressed_bytes": 35295711,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicObservationDatetimeevents.ndjson.gz",
+      "original_sha256": "675c78a67b8872b54bcc9bb74f2bc4beee254a8931ca35f7a0851a1947602a01",
+      "current_sha256": "675c78a67b8872b54bcc9bb74f2bc4beee254a8931ca35f7a0851a1947602a01",
+      "matches_original": true,
+      "compressed_bytes": 590894,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicObservationED.ndjson.gz",
+      "original_sha256": "fb5bfc78fa8022e538f33d65f0aa1235f607e4c73ead8c1fad8de07f354f3f22",
+      "current_sha256": "fb5bfc78fa8022e538f33d65f0aa1235f607e4c73ead8c1fad8de07f354f3f22",
+      "matches_original": true,
+      "compressed_bytes": 144134,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicObservationLabevents.ndjson.gz",
+      "original_sha256": "89dcedb9bcddd6e2dff442bb1b4ed84c2a4b21e64cd3bbecb070a263acb154cb",
+      "current_sha256": "89dcedb9bcddd6e2dff442bb1b4ed84c2a4b21e64cd3bbecb070a263acb154cb",
+      "matches_original": true,
+      "compressed_bytes": 7762824,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicObservationMicroOrg.ndjson.gz",
+      "original_sha256": "a58c90beb665b7a73775771d2d7b445f5180e45b4ecb20a16401226fef4fa0ef",
+      "current_sha256": "a58c90beb665b7a73775771d2d7b445f5180e45b4ecb20a16401226fef4fa0ef",
+      "matches_original": true,
+      "compressed_bytes": 49523,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicObservationMicroSusc.ndjson.gz",
+      "original_sha256": "b33e1a207c5b499869503767edeb13233076c77b9bd49a4b4dc09098c4d2a511",
+      "current_sha256": "b33e1a207c5b499869503767edeb13233076c77b9bd49a4b4dc09098c4d2a511",
+      "matches_original": true,
+      "compressed_bytes": 54079,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicObservationMicroTest.ndjson.gz",
+      "original_sha256": "7b37da4326c09ccb90f135b26c9603b61c404547682dad2da9e2c415f668bbce",
+      "current_sha256": "7b37da4326c09ccb90f135b26c9603b61c404547682dad2da9e2c415f668bbce",
+      "matches_original": true,
+      "compressed_bytes": 156629,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicObservationOutputevents.ndjson.gz",
+      "original_sha256": "ffbe0f6dccdf8551225e45452837ecd64a154a4bf4c87e5285aa8876fe7faf96",
+      "current_sha256": "ffbe0f6dccdf8551225e45452837ecd64a154a4bf4c87e5285aa8876fe7faf96",
+      "matches_original": true,
+      "compressed_bytes": 384951,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicObservationVitalSignsED.ndjson.gz",
+      "original_sha256": "389451325750c1aacde2fca67c8501ca959855640ae1a007358a67120500b19b",
+      "current_sha256": "389451325750c1aacde2fca67c8501ca959855640ae1a007358a67120500b19b",
+      "matches_original": true,
+      "compressed_bytes": 296595,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicPatient.ndjson.gz",
+      "original_sha256": "f64c61f64aaed317ddb013276515deaf9ca69815d5c0d70ca372f2a75284ce16",
+      "current_sha256": "f64c61f64aaed317ddb013276515deaf9ca69815d5c0d70ca372f2a75284ce16",
+      "matches_original": true,
+      "compressed_bytes": 6220,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicProcedure.ndjson.gz",
+      "original_sha256": "1b24c38a3ad87ab4c1706a5c4848bffb0c64091c1ce0eeffdb88d157e9ee3f98",
+      "current_sha256": "1b24c38a3ad87ab4c1706a5c4848bffb0c64091c1ce0eeffdb88d157e9ee3f98",
+      "matches_original": true,
+      "compressed_bytes": 42903,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicProcedureED.ndjson.gz",
+      "original_sha256": "4e08331a4942456af66bbe5687859f23e3f51065cb2b59bbd5e4b6bca00e0792",
+      "current_sha256": "4e08331a4942456af66bbe5687859f23e3f51065cb2b59bbd5e4b6bca00e0792",
+      "matches_original": true,
+      "compressed_bytes": 49029,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicProcedureICU.ndjson.gz",
+      "original_sha256": "0491ea7c87f8e1d45633477353e34e850700d73c8a716a52efcf200ce28b2db8",
+      "current_sha256": "0491ea7c87f8e1d45633477353e34e850700d73c8a716a52efcf200ce28b2db8",
+      "matches_original": true,
+      "compressed_bytes": 77270,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicSpecimen.ndjson.gz",
+      "original_sha256": "3429ad1ced3672be4597636fd925130717192efc917be6ab405d76ab1867c24d",
+      "current_sha256": "3429ad1ced3672be4597636fd925130717192efc917be6ab405d76ab1867c24d",
+      "matches_original": true,
+      "compressed_bytes": 60057,
+      "stable_during_hash": true
+    },
+    {
+      "file": "MimicSpecimenLab.ndjson.gz",
+      "original_sha256": "e0b9e36e3723a1a28755278f44cb75decd328082bf5b6945a167c9c209c0228d",
+      "current_sha256": "e0b9e36e3723a1a28755278f44cb75decd328082bf5b6945a167c9c209c0228d",
+      "matches_original": true,
+      "compressed_bytes": 423593,
+      "stable_during_hash": true
+    }
+  ],
+  "auxiliary_preflight_input_checks": [
+    {
+      "file": "final_dataset/questions_answers_sql_fhir.csv",
+      "original_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+      "current_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+      "matches_original": true
+    },
+    {
+      "file": "manifests/question_families.csv",
+      "original_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+      "current_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+      "matches_original": true
+    },
+    {
+      "file": "manifests/split.json",
+      "original_sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+      "current_sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015",
+      "matches_original": true
+    },
+    {
+      "file": "manifests/starting_packets.source.json",
+      "original_sha256": "889142f6f4e1aa8b73fc0c0d7e018f846c9b34fc4a2c0c7e469c7f390436a60b",
+      "current_sha256": "889142f6f4e1aa8b73fc0c0d7e018f846c9b34fc4a2c0c7e469c7f390436a60b",
+      "matches_original": true
+    },
+    {
+      "file": "benchmarks/design-v3b-20261014/source.zip",
+      "original_sha256": "496b6c5334beb4c94ebc060be4aeb26e6ebf96ac9a4ea6e13008d45f10f6cd82",
+      "current_sha256": "496b6c5334beb4c94ebc060be4aeb26e6ebf96ac9a4ea6e13008d45f10f6cd82",
+      "matches_original": true
+    }
+  ],
+  "limitations": [
+    "Byte/hash equality is relative to the original preflight inventory; it does not independently authenticate upstream dataset origin or prove semantic correctness.",
+    "This is an at-check comparison; it does not by itself attest every intervening read, live cloud FHIR-store state, tool cache, or provider payload.",
+    "Compressed resource files were hashed without printing their records; no answer scoring, configuration/credential access, API call, or live source/process mutation occurred."
+  ]
+}

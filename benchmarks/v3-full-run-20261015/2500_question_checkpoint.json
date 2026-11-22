@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "at_utc": "2026-10-16T13:41:12.333445+00:00",
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "milestone": "More than 2500 runtime-clean v3 questions",
+  "accepted": {
+    "direct_llm": 0,
+    "single_agent": 0,
+    "multi_agent": 2535
+  },
+  "expected_questions_per_arm": 2931,
+  "v3_fraction": 0.8648925281473899,
+  "remaining_v3_questions": 396,
+  "counts": {
+    "direct_llm": {
+      "raw_attempts": 0,
+      "runtime_failures": 0,
+      "intrinsic_errors": 0
+    },
+    "single_agent": {
+      "raw_attempts": 0,
+      "runtime_failures": 0,
+      "intrinsic_errors": 0
+    },
+    "multi_agent": {
+      "raw_attempts": 2600,
+      "runtime_failures": 65,
+      "intrinsic_errors": 0
+    }
+  },
+  "active": {
+    "multi_agent": {
+      "pid": 62220,
+      "round": 27,
+      "checkpointed_in_batch": 1,
+      "seconds_since_checkpoint": 60
+    }
+  },
+  "original_start_at": "2026-10-16T04:16:57+00:00",
+  "latest_resume_at": "2026-10-16T11:17:06+00:00",
+  "operational_elapsed_seconds": 33855.333445,
+  "operational_time_notice": "Wall clock includes pauses, retries and concurrent execution; primary question latency and cost include accepted attempts only. No partial accuracy is reported.",
+  "classifier_version": "v3-infrastructure-v3",
+  "manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+  "inference_code_fingerprint": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "frozen_sources_and_provider_files_verified": true,
+  "latest_sealed_batch_validation": {
+    "version": 1,
+    "at_utc": "2026-10-16T13:40:53.399803+00:00",
+    "status": "IN_PROGRESS_NOT_FINAL",
+    "arm": "multi_agent",
+    "sealed_round": 26,
+    "accepted": 2535,
+    "expected_questions_per_arm": 2931,
+    "counts": {
+      "raw_attempts": 2600,
+      "runtime_failures": 65,
+      "intrinsic_errors": 0
+    },
+    "batch_classifications": {
+      "accepted": 100
+    },
+    "batch_seal_result_identity_input_and_audits_verified": 100,
+    "canonical_ledger_ids_match": true,
+    "all_runtime_questions_scheduled": true,
+    "accepted_rerun_overlap": 0,
+    "supervisor_pid": 55406,
+    "active": {
+      "multi_agent": {
+        "pid": 62220,
+        "round": 27,
+        "checkpointed_in_batch": 1,
+        "seconds_since_checkpoint": 45
+      }
+    },
+    "native_live_states": {
+      "55406": "Ss",
+      "62220": "Ss"
+    },
+    "successful_terminal_state_verified": false,
+    "native_liveness_required": true,
+    "supervisor_phase": "running",
+    "analysis_return_code": null,
+    "attention": false,
+    "provider_error_events": [],
+    "manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+    "correctness_used_for_scheduling": false,
+    "verifier_sha256": "d6d08e33411bf362525088db5bf65ba410a012adab8afa583bb31a77e2bca856"
+  },
+  "accepted_artifact_sha256": {
+    "full_multi_agent.json": "e78c643977c1b8406632ad57ac02abada6f8397b342323d1a970593080315acb",
+    "acceptance.json": "4c21094a8c5a8c8542732f8f26a6ae4e91b4eca7959accad86b89ec48e91b713"
+  },
+  "controls": "Queued after v3; fresh single-agent and direct-LLM matched runs required before final analysis",
+  "correctness_used_for_scheduling": false
+}

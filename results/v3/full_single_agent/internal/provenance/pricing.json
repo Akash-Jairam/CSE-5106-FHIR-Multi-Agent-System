@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "model": "gpt-6-luna",
+  "currency": "USD",
+  "label": "Official OpenAI standard short-context prices, adopted for Azure by user instruction; usage-based estimate, not verified billing",
+  "per_million_tokens": {
+    "input": 0.1,
+    "cached_input": 0.01,
+    "output": 0.5
+  },
+  "sources": [
+    "https://developers.openai.com/api/docs/models/gpt-6-luna",
+    "https://developers.openai.com/api/docs/pricing"
+  ],
+  "frozen_at": "2026-10-16T04:13:52.058805+00:00",
+  "source_checked_local_date": "2026-10-15",
+  "azure_rate_assumption": "User confirmed using official OpenAI prices",
+  "formula": "((prompt-cached_prompt)*input+cached_prompt*cached_input+completion*output)/1000000",
+  "excluded": "Earlier infrastructure-failed attempts; no taxes or other cloud service charges"
+}

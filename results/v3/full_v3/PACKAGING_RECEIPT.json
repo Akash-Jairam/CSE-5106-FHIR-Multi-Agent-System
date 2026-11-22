@@ -1,0 +1,61 @@
+{
+  "schema": "v3_full_accepted_consolidation_receipt_v1",
+  "created_at_utc": "2026-10-17T17:15:07.168889+00:00",
+  "status": "ALL_ORIGINAL_ACCEPTED_DATA_AND_SAVED_NUMERIC_EVIDENCE_PRESERVED",
+  "cohort": {
+    "design": "V3",
+    "questions": 2931,
+    "patients": 94
+  },
+  "source_canonical": {
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/full_multi_agent.json",
+    "sha256": "1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c",
+    "bytes": 838997548,
+    "rows": 2931
+  },
+  "source_inference_identity_sha256": "b281be4700bb65aa585a7cc3d7c75a558a705a9844a883f97e726975d53ce6c1",
+  "archive_manifest": {
+    "path": "data_archive/ARCHIVE_MANIFEST.json",
+    "sha256": "ad027fcbfa67ca5e62d03452354d57982048e48933e7d2ed0e010ddb81cf46d9"
+  },
+  "portable_verification": {
+    "path": "PORTABLE_VERIFICATION.json",
+    "sha256": "6427077e49a63abd7a260acce6438d455abf83145cd646415479e2eb35ae526e",
+    "status": "PORTABLE_ARCHIVE_VERIFIED",
+    "questions": 2931,
+    "patients": 94,
+    "archives": 311,
+    "audit_payload_bytes": 12271848432,
+    "all_parsed_canonical_fields_and_owned_audit_bytes_match": true,
+    "original_canonical_whitespace_or_gzip_container_bytes_claimed": false
+  },
+  "numeric_evidence": {
+    "source_hashes": "numeric_evidence/SOURCE_HASHES.json",
+    "sha256": "b5871bf4d85b841730b2fda9e64429270c5786fcb20ed2268f521849cb6e03ec",
+    "original_file_count": 17,
+    "original_file_bytes": 36205320,
+    "copied_file_hashes_rechecked": true,
+    "new_scoring_or_recalculation": false
+  },
+  "archive_compressed_parts": {
+    "files": 311,
+    "bytes": 286469212,
+    "largest_part_bytes": 2002708,
+    "every_file_below_90000000_bytes": true
+  },
+  "original_audit_payload_bytes": 12271848432,
+  "scripts": {
+    "pack_archive.py": "39564dcdc60857413d49104665804ccc93c4b90b9838f21dc472f737d11d1d60",
+    "archive_tools.py": "1fede24047c4a1b814205f3d8d61c5ba73fffae9fa6a33b0145c90bd4de1c7e1"
+  },
+  "losslessness": {
+    "all_parsed_original_canonical_fields": true,
+    "original_canonical_row_order_recoverable_via_source_row_index": true,
+    "owned_audit_utf8_payload_bytes": true,
+    "original_canonical_whitespace_reproduced": false,
+    "original_gzip_container_bytes_headers_reproduced": false,
+    "source_compressed_and_uncompressed_hashes_retained": true,
+    "no_discarded_attempts_in_primary_accepted_archive": true
+  },
+  "scope": "Original full V3 accepted cohort; separate matched comparison has its own declared sample count. Source originals unchanged; no inference or scoring calls during packaging."
+}

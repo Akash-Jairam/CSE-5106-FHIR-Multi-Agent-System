@@ -1,0 +1,5 @@
+Cache metadata limitation
+
+The frozen cached_prompt_tokens column sums normalized cached-input counts. Omitted or null provider cache details become zero in tokens.per_call.cached, so a recorded zero does not establish an explicitly reported zero. usage_available indicates the presence of the overall usage object; it does not separately certify cache-detail availability.
+
+The adapter's separate diagnostic journals preserve a nullable cache count per provider event: a valid reported zero remains zero, while unavailable/invalid detail is null. These best-effort events lack a question ID and canonical per_call entries lack their request-ID/counter/PID join, so event coverage and per-question linkage must be established before claiming cache completeness. No such cohort audit was performed in this code-only review. The frozen values and cost formula remain unchanged; estimates depend on the recorded cache metadata.

@@ -1,0 +1,210 @@
+utils/core_utils.py
+530: 
+531:             call_usage = {
+532:                 'prompt_tokens': getattr(output.usage, 'prompt_tokens', 0) if output.usage else 0,
+533:                 'completion_tokens': getattr(output.usage, 'completion_tokens', 0) if output.usage else 0,
+534:                 'total_tokens': getattr(output.usage, 'total_tokens', 0) if output.usage else 0,
+535:                 'cached_prompt_tokens': (getattr(getattr(output.usage, 'prompt_tokens_details', None), 'cached_tokens', 0) or 0)
+536:                                         if output.usage else 0,
+537:                 'cost': cost
+538:             }
+539:             for key, value in call_usage.items():
+540:                 if key == "cost" and (value is None or usage_info[key] is None):
+541:                     usage_info[key] = None
+542:                 else:
+543:                     usage_info[key] += value
+544:             usage_info["per_call"].append({"prompt": call_usage["prompt_tokens"],
+545:                                           "completion": call_usage["completion_tokens"],
+546:                                           "cached": call_usage["cached_prompt_tokens"],
+547:                                           "usage_available": output.usage is not None})
+
+utils/core_utils.py
+552:             else:
+553:                 if len(output.choices) == 0 or (output.choices[0].finish_reason == "stop" and output.choices[0].message.content is None):
+554:                     messages = messages + [{"role": "user", "content": "I got an empty response. Please try again to generate a valid response."}]
+
+agent/base_agent.py
+89:     def _update_usage(self, usage_info):
+90:         """Update total usage statistics."""
+91:         if usage_info:
+92:             self.total_usage['prompt_tokens'] += usage_info.get('prompt_tokens', 0)
+93:             self.total_usage['completion_tokens'] += usage_info.get('completion_tokens', 0)
+94:             self.total_usage['total_tokens'] += usage_info.get('total_tokens', 0)
+95:             # Not rounded per call: cheap calls (< $0.00005) would otherwise count as $0
+96:             cost = usage_info.get('cost', 0.0)
+97:             if cost is None or self.total_usage['cost'] is None:
+98:                 self.total_usage['cost'] = None
+99:             else:
+100:                 self.total_usage['cost'] += cost
+101:             self.total_usage['llm_calls'] += usage_info.get('llm_calls', 1)
+102:             self.call_usage.extend(usage_info.get('per_call') or [{
+103:                 'prompt': usage_info.get('prompt_tokens', 0),
+104:                 'completion': usage_info.get('completion_tokens', 0),
+105:                 'cached': usage_info.get('cached_prompt_tokens', 0),
+106:             }])
+
+agent/output_schema.py
+139: def to_tokens(usage, per_call=()):
+140:     """Token usage for one question. In a multi-turn run every call re-sends the conversation
+141:     so far; `repeated_prompt` estimates that share as, for each call after the first, the
+142:     previous call's prompt plus completion (capped at the call's prompt)."""
+143:     usage = usage or {}
+144:     per_call = list(per_call)
+145:     repeated = sum(min(cur["prompt"], prev["prompt"] + prev["completion"])
+146:                    for prev, cur in zip(per_call, per_call[1:]))
+147:     return {
+148:         "prompt": usage.get("prompt_tokens", 0),
+149:         "completion": usage.get("completion_tokens", 0),
+150:         "total": usage.get("total_tokens", 0),
+151:         "cost": usage.get("cost", 0.0),
+152:         "llm_calls": usage.get("llm_calls", 0),
+153:         "cached_prompt": sum(c.get("cached", 0) for c in per_call),
+154:         "repeated_prompt": repeated,
+155:         "per_call": per_call,
+
+scripts/audit_store.py
+113:     owner = question_id if question_id is not None else output.get("question_id")
+114:     payload = {"_audit_meta": {"question_id": owner,
+115:                               "audit_artifacts_was_present": "audit_artifacts" in output}}
+116:     fields = []
+117:     if "trace" in output:
+118:         payload["trace"] = output["trace"]
+119:         fields.append("trace")
+120:     if "retrieved_fhir_resources" in output:
+121:         payload["retrieved_fhir_resources"] = output["retrieved_fhir_resources"]
+122:         fields.append("retrieved_fhir_resources")
+123:     revision = output.get("revision")
+124:     if isinstance(revision, dict) and "messages" in revision:
+125:         payload["revision.messages"] = revision["messages"]
+126:         fields.append("revision.messages")
+127:     if not fields or (not any(payload[field] for field in fields)
+128:                       and output.get("latency") is None and not output.get("error")):
+129:         return result
+130:     reference = {**_save_artifact(payload, output_dir), "version": 2,
+131:                  "fields": fields, "question_id": owner}
+
+scripts/v3_full_analysis.py
+82: def cost_estimate(tokens, pricing):
+83:     """Cached tokens are a subset of prompt tokens, charged at their own rate."""
+84:     rates = pricing.get("per_million_tokens") or {}
+85:     prompt, completion, cached = (numeric(tokens.get(key)) for key in ("prompt", "completion", "cached_prompt"))
+86:     unknown = any(call.get("usage_available") is False for call in tokens.get("per_call") or []
+87:                   if isinstance(call, dict))
+88:     values = (prompt, completion, cached, rates.get("input"), rates.get("cached_input"), rates.get("output"))
+89:     if unknown or any(not finite(value) for value in values) or cached > prompt:
+90:         return None
+91:     return ((prompt - cached) * rates["input"] + cached * rates["cached_input"]
+92:             + completion * rates["output"]) / 1_000_000
+93: 
+
+scripts/v3_full_analysis.py
+147:     primary_present = isinstance(primary, dict) and "answer" in primary
+148:     per_call = tokens.get("per_call")
+149:     usage_unknown = any(call.get("usage_available") is False for call in per_call or []
+150:                         if isinstance(call, dict))
+
+frozen_runtime/azure_adapter.py
+155: def _response_metadata(response=None, error=None):
+156:     usage = _attribute(response, "usage")
+157:     counts = {name: _attribute(usage, name) for name in ("prompt_tokens", "completion_tokens", "total_tokens")}
+158:     counts["cached_prompt_tokens"] = _attribute(_attribute(usage, "prompt_tokens_details"), "cached_tokens")
+159:     counts = {name: value if type(value) is int and value >= 0 else None for name, value in counts.items()}
+160:     http_response = _attribute(error, "response")
+161:     status = _attribute(error, "status_code")
+162:     if type(status) is not int:
+163:         status = _attribute(http_response, "status_code")
+164:     headers = _attribute(http_response, "headers")
+165:     identifiers = {}
+166:     for name in _REQUEST_ID_HEADERS:
+167:         try:
+168:             value = headers.get(name) if headers is not None else None
+169:         except Exception:
+170:             value = None
+171:         if name == "x-request-id" and value is None:
+172:             value = _attribute(response, "_request_id") or _attribute(error, "request_id")
+173:         if isinstance(value, str) and re.fullmatch(r"[A-Za-z0-9_.:-]{1,160}", value):
+174:             identifiers[name] = value
+175:     return {"usage": counts, "http_status": status if type(status) is int and 100 <= status <= 599 else None,
+176:             "request_ids": identifiers}
+
+frozen_runtime/azure_adapter.py
+185: def _diagnostic_start(client):
+186:     directory = os.getenv(_DIAGNOSTIC_ENV)
+187:     if not directory:
+188:         return None
+189:     try:
+190:         global _diagnostic_pid, _diagnostic_session, _diagnostic_counter, _diagnostic_lock
+191:         pid = os.getpid()
+192:         if _diagnostic_pid != pid:
+193:             _diagnostic_pid, _diagnostic_session, _diagnostic_counter = pid, uuid.uuid4().hex, 0
+194:             _diagnostic_lock = threading.Lock()
+195:         if not _diagnostic_lock.acquire(timeout=0.05):
+196:             return None
+197:         try:
+198:             _diagnostic_counter += 1
+199:             base = {"version": 1, "pid": pid, "ppid": os.getppid(),
+200:                     "counter": _diagnostic_counter, "process_session": _diagnostic_session,
+201:                     "started_utc": datetime.now(timezone.utc).isoformat()}
+202:             state = {"base": base, "started_monotonic": time.monotonic(),
+203:                      "path": Path(directory) / f"azure-diagnostics-{pid}-{_diagnostic_session}.jsonl"}
+204:             _diagnostic_append(state["path"], {**base, "event": "start",
+205:                                 "client": _client_metadata(client), "fd_count": _fd_count()})
+206:             return state
+207:         finally:
+208:             _diagnostic_lock.release()
+209:     except Exception:
+210:         return None
+211: 
+
+frozen_runtime/azure_adapter.py
+213: def _diagnostic_finish(state, client, response=None, error=None):
+214:     if state is None:
+215:         return
+216:     try:
+217:         record = {**state["base"], "event": "end", "finished_utc": datetime.now(timezone.utc).isoformat(),
+218:                   "duration_seconds": max(0.0, time.monotonic() - state["started_monotonic"]),
+219:                   "outcome": "error" if error is not None else "success",
+220:                   "client": _client_metadata(client), "fd_count": _fd_count(),
+221:                   "exception_chain": _exception_chain(error), **_response_metadata(response, error)}
+222:         if not _diagnostic_lock.acquire(timeout=0.05):
+223:             return
+224:         try:
+225:             _diagnostic_append(state["path"], record)
+226:         finally:
+227:             _diagnostic_lock.release()
+228:     except Exception:
+229:         pass
+230: 
+
+frozen_runtime/azure_adapter.py
+272:         response = _client.chat.completions.create(**request)
+273:         output = litellm.ModelResponse(**response.model_dump(exclude_none=True))
+274:         # LiteLLM otherwise fills absent SDK usage with a synthetic zero Usage.
+275:         if response.usage is None:
+276:             output.usage = None
+277:     except Exception as error:
+278:         _diagnostic_finish(diagnostic, _client, response=response, error=error)
+279:         raise
+280:     _diagnostic_finish(diagnostic, _client, response=response)
+
+local_SDK/openai/types/completion_usage.py
+36: 
+37: class PromptTokensDetails(BaseModel):
+38:     """Breakdown of tokens used in the prompt."""
+39: 
+40:     audio_tokens: Optional[int] = None
+41:     """Audio input tokens present in the prompt."""
+42: 
+43:     cache_write_tokens: Optional[int] = None
+44:     """The unadjusted number of prompt tokens written to cache."""
+45: 
+46:     cached_tokens: Optional[int] = None
+47:     """Cached tokens present in the prompt."""
+48: 
+49:     image_tokens: Optional[int] = None
+50:     """Image input tokens present in the prompt."""
+
+local_SDK/openai/types/completion_usage.py
+70: 
+71:     prompt_tokens_details: Optional[PromptTokensDetails] = None
+72:     """Breakdown of tokens used in the prompt."""

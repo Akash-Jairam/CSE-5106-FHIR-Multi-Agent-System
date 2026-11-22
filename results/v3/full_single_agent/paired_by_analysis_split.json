@@ -1,0 +1,178 @@
+[
+  {
+    "group": "dev",
+    "left": "single_agent",
+    "right": "multi_agent",
+    "matched_questions": 50,
+    "left_only": 0,
+    "right_only": 0,
+    "left_wins": 2,
+    "right_wins": 1,
+    "both_correct": 36,
+    "both_wrong": 11,
+    "accuracy_difference": {
+      "n": 50,
+      "patients": 26,
+      "estimate": 0.02,
+      "ci_low": -0.045454545454545456,
+      "ci_high": 0.08888888888888889
+    },
+    "latency_seconds_difference_observed_pairs": {
+      "n": 50,
+      "patients": 26,
+      "estimate": -6.250400000000001,
+      "ci_low": -9.69530412529551,
+      "ci_high": -2.7396687820512824
+    },
+    "latency_seconds_missing_pairs": 0,
+    "estimated_cost_usd_difference_observed_pairs": {
+      "n": 50,
+      "patients": 26,
+      "estimate": -0.0027617622,
+      "ci_low": -0.0036576150454545463,
+      "ci_high": -0.0018645057079081642
+    },
+    "estimated_cost_usd_missing_pairs": 0,
+    "total_tokens_difference_observed_pairs": {
+      "n": 50,
+      "patients": 26,
+      "estimate": 21659.0,
+      "ci_low": 12365.899162679429,
+      "ci_high": 31295.787986752304
+    },
+    "total_tokens_missing_pairs": 0,
+    "difference_convention": "single_agent minus multi_agent_v3 (left minus right)"
+  },
+  {
+    "group": "held_out",
+    "left": "single_agent",
+    "right": "multi_agent",
+    "matched_questions": 300,
+    "left_only": 0,
+    "right_only": 0,
+    "left_wins": 18,
+    "right_wins": 9,
+    "both_correct": 219,
+    "both_wrong": 54,
+    "accuracy_difference": {
+      "n": 300,
+      "patients": 58,
+      "estimate": 0.03,
+      "ci_low": -0.0033112582781456954,
+      "ci_high": 0.06734096281968621
+    },
+    "latency_seconds_difference_observed_pairs": {
+      "n": 300,
+      "patients": 58,
+      "estimate": -6.505976666666667,
+      "ci_low": -8.134359411163063,
+      "ci_high": -4.7884505349864135
+    },
+    "latency_seconds_missing_pairs": 0,
+    "estimated_cost_usd_difference_observed_pairs": {
+      "n": 300,
+      "patients": 58,
+      "estimate": -0.0027919094333333336,
+      "ci_low": -0.0031769788748641542,
+      "ci_high": -0.0023728053238434165
+    },
+    "estimated_cost_usd_missing_pairs": 0,
+    "total_tokens_difference_observed_pairs": {
+      "n": 300,
+      "patients": 58,
+      "estimate": 16166.393333333333,
+      "ci_low": 12190.19033152735,
+      "ci_high": 20247.036911042804
+    },
+    "total_tokens_missing_pairs": 0,
+    "difference_convention": "single_agent minus multi_agent_v3 (left minus right)"
+  },
+  {
+    "group": "pilot",
+    "left": "single_agent",
+    "right": "multi_agent",
+    "matched_questions": 20,
+    "left_only": 0,
+    "right_only": 0,
+    "left_wins": 2,
+    "right_wins": 2,
+    "both_correct": 13,
+    "both_wrong": 3,
+    "accuracy_difference": {
+      "n": 20,
+      "patients": 3,
+      "estimate": 0.0,
+      "ci_low": -0.1111111111111111,
+      "ci_high": 0.14285714285714285
+    },
+    "latency_seconds_difference_observed_pairs": {
+      "n": 20,
+      "patients": 3,
+      "estimate": -3.9561499999999996,
+      "ci_low": -8.598714285714285,
+      "ci_high": -1.1140000000000008
+    },
+    "latency_seconds_missing_pairs": 0,
+    "estimated_cost_usd_difference_observed_pairs": {
+      "n": 20,
+      "patients": 3,
+      "estimate": -0.0020828365,
+      "ci_low": -0.0025351985714285714,
+      "ci_high": -0.0009858624999999998
+    },
+    "estimated_cost_usd_missing_pairs": 0,
+    "total_tokens_difference_observed_pairs": {
+      "n": 20,
+      "patients": 3,
+      "estimate": 32673.15,
+      "ci_low": 17986.571428571428,
+      "ci_high": 40585.5
+    },
+    "total_tokens_missing_pairs": 0,
+    "difference_convention": "single_agent minus multi_agent_v3 (left minus right)"
+  },
+  {
+    "group": "unassigned",
+    "left": "single_agent",
+    "right": "multi_agent",
+    "matched_questions": 2559,
+    "left_only": 0,
+    "right_only": 0,
+    "left_wins": 159,
+    "right_wins": 81,
+    "both_correct": 1894,
+    "both_wrong": 425,
+    "accuracy_difference": {
+      "n": 2559,
+      "patients": 94,
+      "estimate": 0.03048065650644783,
+      "ci_low": 0.017269704567049494,
+      "ci_high": 0.04372707912995844
+    },
+    "latency_seconds_difference_observed_pairs": {
+      "n": 2559,
+      "patients": 94,
+      "estimate": -6.097510746385307,
+      "ci_low": -6.9665342171628675,
+      "ci_high": -5.221270779288163
+    },
+    "latency_seconds_missing_pairs": 0,
+    "estimated_cost_usd_difference_observed_pairs": {
+      "n": 2559,
+      "patients": 94,
+      "estimate": -0.0027400500937866355,
+      "ci_low": -0.0029125489803318782,
+      "ci_high": -0.002567689433132263
+    },
+    "estimated_cost_usd_missing_pairs": 0,
+    "total_tokens_difference_observed_pairs": {
+      "n": 2559,
+      "patients": 94,
+      "estimate": 20044.246580695584,
+      "ci_low": 16254.916896715291,
+      "ci_high": 24142.8618266329
+    },
+    "total_tokens_missing_pairs": 0,
+    "difference_convention": "single_agent minus multi_agent_v3 (left minus right)"
+  }
+]

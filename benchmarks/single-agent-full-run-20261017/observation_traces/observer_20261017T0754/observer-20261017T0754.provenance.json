@@ -1,0 +1,19 @@
+{
+  "created_at_utc": "2026-10-17T07:54:38.921214+00:00",
+  "observer_source_sha256": "c95ee748e000d144c9b5bdd2f78e1384d2933c4054bf160d693eb108fa2e7b3f",
+  "permanent_monitor_sha256": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+  "trace_file": "observer-20261017T0754.jsonl",
+  "window_seconds": 2400,
+  "interval_seconds": 55,
+  "legacy_until_accepted_argument_is_unused": true,
+  "stop_conditions": [
+    "attention",
+    "selected_scope_complete",
+    "observer_window_elapsed",
+    "monitor_refusal_or_native_supervisor_missing"
+  ],
+  "observation_expiry_is_not_benchmark_failure": true,
+  "benchmark_process_started_or_restarted": false,
+  "trace_contains_only_safe_progress_and_owned_native_process_metadata": true,
+  "coverage_note": "This continuous trace starts with the renewed observation window; earlier checks remain in prior verifier receipts/tool records."
+}

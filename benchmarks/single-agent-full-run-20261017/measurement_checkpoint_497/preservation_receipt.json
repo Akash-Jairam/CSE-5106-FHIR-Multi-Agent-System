@@ -1,0 +1,51 @@
+{
+  "captured_at_utc": "2026-10-17T07:14:57.809069+00:00",
+  "label": "IN_PROGRESS_NOT_FINAL",
+  "accepted_measurements": 497,
+  "full_cohort": 2931,
+  "source_capture_byte_copies": true,
+  "independent_captured_statistics_review": "PASS_WITH_PROVENANCE_LIMITATION",
+  "external_sealed_raw_hashes_reobserved": {
+    "attempts/single_agent/round-0001.json": {
+      "sha256": "7575337dcb963c0e6879c23146d7519286424aa5aa466a697766868c7471b18c",
+      "bytes": 2585682,
+      "selected_rows": 10
+    },
+    "attempts/single_agent/round-0002.json": {
+      "sha256": "154e71819c154c322188829f12b63769bb62e42f603044df6f371b87d45b88a8",
+      "bytes": 19105826,
+      "selected_rows": 98
+    },
+    "attempts/single_agent/round-0003.json": {
+      "sha256": "28b443efbb4b29311268a864ea44e3870a16cc18fa17e4196747d29dc61ee221",
+      "bytes": 24536560,
+      "selected_rows": 94
+    },
+    "attempts/single_agent/round-0004.json": {
+      "sha256": "b2e67f0f257a87cc2bfd87043351373c17fa3fff9b00a877eae5a7032f40b6df",
+      "bytes": 36826976,
+      "selected_rows": 97
+    },
+    "attempts/single_agent/round-0005.json": {
+      "sha256": "60552fb975464cb23784ad51c5a45f156c341f4616b82c130caa0593053d6b87",
+      "bytes": 27893678,
+      "selected_rows": 99
+    },
+    "attempts/single_agent/round-0006.json": {
+      "sha256": "6e1376eff9cab81fa4795a7a2045fd5b8ac4bf74c7f0ffbc79e464104fa4b292",
+      "bytes": 36306399,
+      "selected_rows": 99
+    }
+  },
+  "first_clean_proof_sha256_reobserved": "302bef9e57d233579cafd8d11d7275e80eb1d8fa4bd512456ae320c5f8e1b198",
+  "original_canonical_ledger_pricing_hashes": {
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/full_single_agent.json": "0788deaeacdfb1698adf61b22d8c5635a9a4392adbb87987654cb1491a97901d",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/acceptance.json": "4aa4592fd947fceb64c67fe47453b7b3955370118132bcb16fa4547bd0b697d4",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/pricing.json": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6"
+  },
+  "original_canonical_bytes_in_capture": false,
+  "raw_content_duplicated_in_capture": false,
+  "accuracy_evaluated": false,
+  "public_push_authorized": false,
+  "note": "Independent review is limited to captured measurements. Separate copied first-clean validation and retained sealed raw files establish operational selection; their current hashes were re-observed without reading answer values."
+}

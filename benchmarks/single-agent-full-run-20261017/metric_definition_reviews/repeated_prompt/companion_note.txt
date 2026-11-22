@@ -1,0 +1,5 @@
+Interpretation of repeated prompt tokens
+
+The exported repeated_prompt_tokens column is a count-based heuristic. For each accepted task it sums min(current prompt tokens, previous prompt tokens + previous completion tokens) over adjacent recorded model calls; the first call contributes zero. It does not compare token sequences or measure exact repeated content. V3 aggregates contract, solver, and audit calls in one call list, so the calculation also crosses role/context boundaries. Context changes and compaction can therefore affect its relation to actual content reuse.
+
+The separate cached_prompt_tokens column sums cached input counts reported in provider usage (the frozen collector uses zero when that detail is absent). Cached input is a subset of prompt input and enters the frozen cost formula at the cached-input rate; repeated_prompt_tokens is not used in that formula. Do not interpret the heuristic as cache hits, an additional token charge, measured token savings, or an exact communication-overhead measure. The existing source, analyzer, table column names, and recorded values remain unchanged.

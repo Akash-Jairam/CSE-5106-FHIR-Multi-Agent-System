@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "captured_at_utc": "2026-10-17T13:38:27.238539+00:00",
+  "scope": "NATURAL_ROUND31_RUNTIME_RETRY_SCHEDULING_METADATA",
+  "round30_failed_attempts_excluded_from_ledger": true,
+  "round30_runtime_question_ids": [
+    "f19baaf7b04bf9e553dd2cbf"
+  ],
+  "all_runtime_ids_queued_in_round31": true,
+  "next_batch": {
+    "relative_path": "attempts/single_agent/round-0031.batch.json",
+    "sha256": "e4628db02856f608907da0bc646618034403113c799875a8a38035d7ead35199",
+    "shard_input_sha256": "f83f40e9076ac50c48040c7ca70890d5ecfeb9e3bb8b57d344a8c5ed32d64284",
+    "frozen_identity_matches": true,
+    "question_count": 70,
+    "snapshot_not_round31_final_seal": true
+  },
+  "acceptance_snapshot_sha256": "a60cac04a69c223080a92ac01dfd14697cc413fdcd3efaae3e3604acdbe1018f",
+  "no_accepted_or_parked_question_reruns_in_next_batch": true,
+  "round30_review_sha256": "a83d6b0e57ac16a755fc3e7e9ef9663dcf016e81add26120bbc33c5e90fb4465",
+  "review_code_sha256": "457d696e214d9051c12887f37f5ec6d4ec28624368f8a1246b4fa14569eadf2c",
+  "no_scoring_inference_or_live_mutation": true
+}

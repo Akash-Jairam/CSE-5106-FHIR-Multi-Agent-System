@@ -1,0 +1,31 @@
+{
+  "status": "SEALED_RUNTIME_SELECTION_CHECK",
+  "at_utc": "2026-10-17T08:38:27.016430+00:00",
+  "round": 12,
+  "accepted_total": 1089,
+  "runtime_attempts_excluded_total": 23,
+  "sealed_batch_runtime_failures": [
+    {
+      "question_id": "57c595ed27d732fb9989f76d",
+      "classification": {
+        "status": "runtime",
+        "reason": "allowlisted_infrastructure_failure",
+        "diagnostic_paths": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "provider_rejections_replayed": {
+    "05a8454a6a71435a557db2cc": 2,
+    "0eb69f6e47ab63c055e2df90": 2
+  },
+  "parked_question_ids": [
+    "05a8454a6a71435a557db2cc",
+    "0eb69f6e47ab63c055e2df90"
+  ],
+  "raw_result_sha256": "913dd49d9e8ba79b7a4fbc12ab8c0ac2cf89cc58b8fabe760aa1f3642e5540cc",
+  "first_clean_validation_sha256": "4f6a38e7cd88ec9b9fd8760bf9ce100b009aaa0df9d03f2cd69cbd36331a5730",
+  "accuracy_inspected": false,
+  "inference_or_source_changed": false
+}

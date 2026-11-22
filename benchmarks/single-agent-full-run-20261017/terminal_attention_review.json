@@ -1,0 +1,13 @@
+{
+  "status": "READ_ONLY_DOCUMENTATION_REVIEW_PASSED_PRE_TERMINAL",
+  "recorded_at_utc": "2026-10-17T13:24:22.484927+00:00",
+  "reviewer": "/root/audit_v3",
+  "guide_relative_path": "benchmarks/single-agent-full-run-20261017/analysis_when_complete.txt",
+  "guide_sha256": "0016516bf9f106c3270757897802231b11efb52b1a7f844ab7f95953828cde4f",
+  "monitor_sha256": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+  "scope": "Existing terminal-attention command behavior and documentation; no benchmark-completion validation",
+  "review_conclusion": "Exact plain-verify attention refusal establishes only preceding integrity checks with stable source and file bindings. Later assertions and native checks are unreached; unsealed-round inventory and current source/public pins require separate verification. Guidance does not authorize full scoring/export, state suppression or additional parked-question attempts.",
+  "terminal_commands_executed": false,
+  "terminal_state_observed": false,
+  "run_or_source_settings_changed": false
+}

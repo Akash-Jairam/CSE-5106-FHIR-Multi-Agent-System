@@ -1,0 +1,24 @@
+{
+  "at_utc": "2026-10-17T05:31:29.038204+00:00",
+  "purpose": "Read-only current FHIR/provider setup preflight before authorized single-agent resume",
+  "return_code": 0,
+  "passed": true,
+  "FHIR_resource_counts": {
+    "Patient": 100,
+    "Encounter": 637,
+    "Observation": 580140,
+    "MedicationRequest": 17552
+  },
+  "smoke_patient_found": true,
+  "model_inference_calls": 0,
+  "raw_output_printed_or_saved": false,
+  "search_totals_interpretation": {
+    "source": "https://docs.cloud.google.com/healthcare-api/docs/how-tos/best-practices-fhir-search",
+    "checked_at_utc": "2026-10-17T05:32:53.209768+00:00",
+    "rule": "Cloud Healthcare API Bundle.total is estimated until the final page; this setup check queries only _count=1.",
+    "original_Observation_first_page_estimate": 606723,
+    "current_Observation_first_page_estimate": 580140,
+    "interpretation": "Difference in first-page estimates is not an observed data-change proof. All 24 original local resource file hashes match, and the same configured store is reachable.",
+    "limitations": "The setup count does not prove a full live-store resource/value inventory or historical continuity."
+  }
+}

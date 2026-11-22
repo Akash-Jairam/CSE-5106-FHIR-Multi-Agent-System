@@ -1,0 +1,18 @@
+{
+  "status": "EXPLORATORY_EXPOSURE_OVERLAP_DESCRIPTIVE_ONLY",
+  "matched_questions": 2929,
+  "fresh300_questions": 300,
+  "fresh300_patients": 58,
+  "fresh300_question_ids_in_matched": 300,
+  "matched_questions_with_fresh300_seen_patient": 1678,
+  "matched_patients_with_fresh300_seen_patient": 58,
+  "frozen_heldout_label_questions_with_fresh300_seen_patient": 1678,
+  "frozen_heldout_label_patients_with_fresh300_seen_patient": 58,
+  "known_union_patients": 93,
+  "frozen_source": "manifests/split.json through unchanged analyzer exposure_index; dev or pilot patient membership only",
+  "fresh300_sources": {
+    "output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_single_agent.json": "b25288e96eacfabb26a37cf4c2ceeec51a28863b4dbf774f8b046303ec849d07",
+    "output/experiments/gpt-6-luna/query_contract_v3d_300q/ordinary_multi_agent.json": "89d7cb53378aa14847c703a00a7695c0ba2d6c26c581700da66e49a52a505940"
+  },
+  "note": "Frozen source-split labels do not incorporate later fresh300 development exposure. Neither remaining group is asserted pristine or untouched; union covers only the recorded split and this later development run. Frozen reports/labels remain unchanged. No accuracy or CIs computed for these exploratory overlap labels."
+}

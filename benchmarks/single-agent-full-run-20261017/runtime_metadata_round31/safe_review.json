@@ -1,0 +1,89 @@
+{
+  "status": "SEALED_ROUND31_METADATA_RECONCILED",
+  "captured_at_utc": "2026-10-17T13:51:31.535505+00:00",
+  "scope": "IMMUTABLE_ROUND31_RUNTIME_AND_ROUND30_RECOVERIES",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 31,
+  "saved_classifications": {
+    "accepted": 70
+  },
+  "runtime_attempts": [],
+  "provider_policy_rejection_count_in_captured_round31": 0,
+  "round30_runtime_recoveries": [
+    {
+      "question_id": "f19baaf7b04bf9e553dd2cbf",
+      "prior_sealed_attempts": [
+        {
+          "round": 30,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round31_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round31": true,
+      "selection_persistence": "Immutable sealed raw classification verified; adoption reported separately in final_recoveries."
+    }
+  ],
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "attempts/single_agent/round-0030.json": "82b82c552f3450bddda7dd314c2e216f73b435675d1ca4b4d40ba023043154ac",
+    "attempts/single_agent/round-0030.batch.json": "c1dd0c3e811d3a4dad492f9110d3c6bc07a888369440f70394824299ad2ae23c",
+    "attempts/single_agent/round-0030.batch.seal.json": "637ac51622b23123b95abf92516cc68b7520aedd6a76c456dd2f5efee4ccee64"
+  },
+  "round31_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0031.json",
+    "sha256": "a5697c2e42c9d0c00227dadfecab5a150c7d5bbf30b031f31b9c259053c7f652",
+    "bytes": 26108506,
+    "sha256_at_review_end": "a5697c2e42c9d0c00227dadfecab5a150c7d5bbf30b031f31b9c259053c7f652",
+    "live_checkpoint_may_advance_normally": true
+  },
+  "no_clinical_raw_error_answer_reference_or_correctness_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true,
+  "reconciled_at_utc": "2026-10-17T13:52:29.337423+00:00",
+  "natural_seal": {
+    "batch_sha256": "e4628db02856f608907da0bc646618034403113c799875a8a38035d7ead35199",
+    "seal_sha256": "67f0dd845f1c4e17ab07be6abc460befca113611147c093602b6c16979e8617a",
+    "result_sha256": "a5697c2e42c9d0c00227dadfecab5a150c7d5bbf30b031f31b9c259053c7f652",
+    "identity_sha256": "6967016cac9f34f85bef53640dea2e1046d1046ae5d45e7cf93f01119d8ec19d",
+    "shard_input_sha256": "f83f40e9076ac50c48040c7ca70890d5ecfeb9e3bb8b57d344a8c5ed32d64284",
+    "frozen_identity_matches": true,
+    "question_count": 70
+  },
+  "final_recoveries": [
+    {
+      "question_id": "f19baaf7b04bf9e553dd2cbf",
+      "first_clean_in_sealed_round31": true,
+      "ledger_adopted": true,
+      "selection_metadata_only": {
+        "attempt_file": "attempts/single_agent/round-0031.json",
+        "round": 31,
+        "runtime_failures_before": 1,
+        "selection": "runtime_clean_terminal",
+        "runtime_clean": true
+      }
+    }
+  ],
+  "acceptance_ledger_observation": {
+    "at_utc": "2026-10-17T13:52:29.337423+00:00",
+    "accepted_snapshot_sha256": "2fbf9596c70e201a66d95183d234bfd36e7e5cf3a9d1c0ed89c28d661512e426",
+    "sealed_clean_count": 70,
+    "clean_adopted_count": 70,
+    "prior_round30_recovery_adopted_count": 1,
+    "ledger_transition_complete": true
+  },
+  "all_sealed_runtime_attempts_excluded_from_ledger": true,
+  "review_code_sha256": "1456e2db78bdfd7c05ffefb42cfa477836a03d0d17281b5e1d47f86dc049513a",
+  "classification_review_code_sha256": "0fa546780a206d568bf44ea8018970686c60b5ebe3a0be64327f222da5beb42f",
+  "audit_integrity": {
+    "restored_and_hash_verified_count": 71,
+    "inventory_file": "audit_hash_inventory.json",
+    "inventory_sha256": "51008f2249bb5afed0c09dd72b457cfccc09c4a6206ae757e7792a0bac8b0cb2"
+  },
+  "non_HTTP500_runtime_signatures": []
+}

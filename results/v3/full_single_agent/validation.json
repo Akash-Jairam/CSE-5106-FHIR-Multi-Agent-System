@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "N": 2929,
+  "pair_N": 2929,
+  "shared_qid_patient_exact": true,
+  "first_clean_choices_equal": true,
+  "source_hashes_stable": true,
+  "arithmetic_checks": {
+    "latency_seconds": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "estimated_cost_usd": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "reported_cost_usd": {
+      "observed_n": 0,
+      "missing_n": 2929,
+      "sum_and_mean_reconcile": true
+    },
+    "prompt_tokens": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "completion_tokens": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "total_tokens": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "cached_prompt_tokens": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "uncached_prompt_tokens": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "repeated_prompt_tokens": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "llm_calls": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "tool_calls_executed": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "tool_calls_recorded": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "evidence_count": {
+      "observed_n": 2929,
+      "missing_n": 0,
+      "sum_and_mean_reconcile": true
+    },
+    "evidence_valid": {
+      "observed_n": 0,
+      "missing_n": 2929,
+      "sum_and_mean_reconcile": true
+    },
+    "valid_evidence_fraction": {
+      "observed_n": 0,
+      "missing_n": 2929,
+      "sum_and_mean_reconcile": true
+    },
+    "evidence_precision": {
+      "observed_n": 0,
+      "missing_n": 2929,
+      "sum_and_mean_reconcile": true
+    },
+    "evidence_recall": {
+      "observed_n": 0,
+      "missing_n": 2929,
+      "sum_and_mean_reconcile": true
+    }
+  },
+  "correctness_crosstab_total": 2929,
+  "paired_table_sum": 2929,
+  "frozen_typed_scorer_used": true,
+  "scorer_source_unchanged": true,
+  "provider_calls": false,
+  "clinical_text_printed": false,
+  "new_full_completion_claim": false,
+  "started_at": "2026-10-17T16:59:27.055016+00:00",
+  "finished_at": "2026-10-17T16:59:47.793286+00:00",
+  "package_script_sha256": "79fc3547a58e338a543e7e89d6ea2a109fbd50aa15f08b5d1670d3cd8cac7686"
+}

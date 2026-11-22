@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "qa_exit_code": 0,
+  "fixture_questions": 2931,
+  "synthetic_fixture_root": "/private/tmp/v3-complete-delivery-fixture-a3a_32nc",
+  "export_directory": "/private/tmp/v3-complete-delivery-fixture-a3a_32nc/delivery",
+  "qa_directory": "/private/tmp/v3-complete-delivery-fixture-a3a_32nc/independent_qa",
+  "command": [
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python",
+    "/private/tmp/reconcile_complete_v3.py",
+    "--project-root",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System",
+    "--run-dir",
+    "/private/tmp/v3-complete-delivery-fixture-a3a_32nc/run",
+    "--export-dir",
+    "/private/tmp/v3-complete-delivery-fixture-a3a_32nc/delivery",
+    "--output-dir",
+    "/private/tmp/v3-complete-delivery-fixture-a3a_32nc/independent_qa"
+  ],
+  "helper_sha256": "6b2d27bb745cbfe21a886f90d2b5198df604f4c18e2b1f119ec3bf08c1d05496",
+  "fixture_source_sha256": "118a49baf7ad1cd8c3bb1d21f810f902486180439486221643f7fab8849bf2f5",
+  "actual_live_data_used": false,
+  "log_sha256": "34d00329987f4a1b52b5f89cc49df82e0ba88207f3f0e5f1ae4b5c32eb2486eb"
+}

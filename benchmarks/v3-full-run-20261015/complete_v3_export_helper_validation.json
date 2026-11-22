@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "at_utc": "2026-10-16T14:00:07.107264+00:00",
+  "scope": "Additive complete-V3-arm delivery helper; all frozen inference, runner, analyzer, runtime and scheduling unchanged",
+  "helper_sha256": "b388b45481af63f2397308fec4cb51500a8c63da5542f0669e98fe24600f4282",
+  "status": "APPROVED_FOR_USE_ONLY_AFTER_COMPLETE_V3_GATE",
+  "private_fixture_tests": {
+    "status": "PASS",
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "helper_sha256": "b388b45481af63f2397308fec4cb51500a8c63da5542f0669e98fe24600f4282",
+    "test_source_sha256": "118a49baf7ad1cd8c3bb1d21f810f902486180439486221643f7fab8849bf2f5",
+    "log_sha256": "96f81a605573af000b745031f075dfa790b9fcb7b0b2612a69877e3a6ed90c74",
+    "log_path": "/private/tmp/v3-complete-delivery-private-tests.log",
+    "actual_live_data_scored": false,
+    "fixture_questions": 2931
+  },
+  "independent_live_incomplete_refusal": {
+    "status": "PASS",
+    "refusal": "V3 is incomplete: acceptance ledger does not contain the exact 2,931-question cohort",
+    "analyzer_loader_calls": 0,
+    "modules_loaded_before": {
+      "scripts.v3_full_analysis": false,
+      "utils.answer_scorer": false
+    },
+    "modules_loaded_after": {
+      "scripts.v3_full_analysis": false,
+      "utils.answer_scorer": false
+    },
+    "output_created": false,
+    "live_files_or_processes_modified": false,
+    "partial_accuracy_scoring": false,
+    "helper_sha256": "b388b45481af63f2397308fec4cb51500a8c63da5542f0669e98fe24600f4282"
+  },
+  "root_validation": {
+    "command": "PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python /private/tmp/test_v3_complete_delivery.py",
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "exit_code": 0,
+    "duration_seconds": 25.868,
+    "real_input_identity_matches_manifest": true,
+    "actual_live_data_scored": false
+  },
+  "evidence_archive": "output/experiments/gpt-6-luna/v3_full_2931_20261015/complete_v3_export_helper_validation",
+  "evidence_sha256": {
+    "test_v3_complete_delivery.py": "118a49baf7ad1cd8c3bb1d21f810f902486180439486221643f7fab8849bf2f5",
+    "v3-complete-delivery-private-tests.json": "cffbd59d3d2da98ee670f1642a699b12092d6428606970843b25dfcaadf6378a",
+    "v3-complete-delivery-private-tests.log": "96f81a605573af000b745031f075dfa790b9fcb7b0b2612a69877e3a6ed90c74",
+    "v3-export-independent-review.json": "f06f4c917299ffaebbeb84b42694d9bd20c8d7b39537f3b9557fdb07f86d017d",
+    "v3-complete-live-incomplete-rejection.json": "80e27a146a8545a3749e4305013c25f48758992ae929abcf599d98269e13e31f",
+    "export_complete_v3.py": "b388b45481af63f2397308fec4cb51500a8c63da5542f0669e98fe24600f4282"
+  },
+  "frozen_source_provider_files_and_inference_identity_unchanged": true,
+  "future_delivery_policy": "Require all2931 first-runtime-clean V3 outcomes and immutable provenance before analyzer/scorer import; export V3_COMPLETE_CONTROLS_PENDING with benchmark_complete false. Preserve unchanged globally partial source export, explicitly omit controls and comparisons. Matched full3arm final gate remains unchanged.",
+  "snapshot_notice": "Verified immutable V3 artifacts may use hardlinks; absolute original artifact references remain. Snapshot is read-only and not portable. Use independently serialized v3_complete tables for analysis."
+}

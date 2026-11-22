@@ -1,0 +1,22 @@
+{
+  "checked_at_utc": "2026-10-16T19:23:17.432147+00:00",
+  "method": "Native ps -p <owned PIDs> -o pid=,comm=; executable names only",
+  "checked_pids": {
+    "supervisor": 55406,
+    "owned_caffeinate": 55431,
+    "single_agent_controller": 68138,
+    "direct_llm_controller": 68139,
+    "owned_baseline_workers": [
+      68149,
+      68150,
+      68152,
+      68153
+    ]
+  },
+  "ps_exit_code": 1,
+  "observed_pid_comm_records": [],
+  "all_checked_owned_process_ids_absent": true,
+  "supervisor_state_active": {},
+  "baseline_data_or_processes_modified_by_this_review": false,
+  "scope": "Final read-only checkpoint verification; baseline work deferred by user; no operational amendment or further inference."
+}

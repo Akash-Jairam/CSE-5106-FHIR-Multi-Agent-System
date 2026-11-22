@@ -1,0 +1,22 @@
+{
+  "status": "PREPARATION_ONLY_REVIEWED_MONITOR_PIN_ADAPTATION",
+  "original_four_helper_sha256": {
+    "audit_complete_single_cache.py": "f65ca58e005e73eddb143ee6e3baa8a71adf8ae53ac4a5d4074a0b36f8a2a829",
+    "completed_gate.py": "55a3ce97d1049ad3abf4ddde397c6938c256595fc09ec40ab5da76c5f5907dd3",
+    "bound_completion.py": "5345fe58f5cad0655ffd50db11996096e92ba8aa26b62b7a18f1834e33c909b3",
+    "capture_final_proof.py": "cdafa942e2ccbc821c7ebd63c64c96d585c6323cf7b23d066c37b3e6c5b11b80"
+  },
+  "current_four_helper_sha256": {
+    "audit_complete_single_cache.py": "f65ca58e005e73eddb143ee6e3baa8a71adf8ae53ac4a5d4074a0b36f8a2a829",
+    "completed_gate.py": "55a3ce97d1049ad3abf4ddde397c6938c256595fc09ec40ab5da76c5f5907dd3",
+    "bound_completion.py": "5cda57b75a80c7459e9591e24ec18c82b9b41822ee6145e0d3857164b17276b5",
+    "capture_final_proof.py": "cdafa942e2ccbc821c7ebd63c64c96d585c6323cf7b23d066c37b3e6c5b11b80"
+  },
+  "only_change": "bound_completion.MONITOR_SHA points to independently reviewed exact-two-question retry monitor",
+  "old_monitor_sha256": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+  "new_monitor_sha256": "1e091082d844fcabafb0e6a558d8b41634a26e2f476790b30b31c61033eba3dc",
+  "original_preparation_files_and_manifests_unchanged": true,
+  "completion_gates_and_numeric_cache_matching_unchanged": true,
+  "full_audit_run": false,
+  "requires": "Exact2931 selected completion and newly captured stable final proof, no parked questions"
+}

@@ -1,0 +1,24 @@
+{
+  "status": "STOPPED_PRE_RETRY_STATE_SNAPSHOTTED",
+  "at_utc": "2026-10-17T15:50:40.454022+00:00",
+  "parent_manifest_sha256": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+  "parent_runner_sha256": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+  "pre_apply_source_count": 45,
+  "pre_apply_public_pin_count": 9,
+  "selected_accepted": 2929,
+  "remaining_question_ids": [
+    "05a8454a6a71435a557db2cc",
+    "0eb69f6e47ab63c055e2df90"
+  ],
+  "sealed_rounds": 31,
+  "sealed_prefix_files": 155,
+  "sealed_prefix_inventory_sha256": "745aa44dc7f447f14dd767ec40aa317967b57bcf422eb7df53af3ef9d7c83b89",
+  "terminal_capture_manifest_sha256": "e6519db384fbe607279e39f3140ed1dddee24e65f1a74e8475df243459750dc2",
+  "immutable_canonical_snapshot_method": "hardlinks; do not edit or chmod; later runner consolidation uses atomic replacement",
+  "core_metadata_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "supervisor_state.json": "23c217c81b08d3705f6185c6bcb682f6de0c791a065b7e371e73ced25543141a",
+    "acceptance.json": "2fbf9596c70e201a66d95183d234bfd36e7e5cf3a9d1c0ed89c28d661512e426",
+    "operations.jsonl": "f280ac8c4979be462f4b605ff9d3d7d23ae8c26525ee90d497fe0ae7dfa28a33"
+  }
+}

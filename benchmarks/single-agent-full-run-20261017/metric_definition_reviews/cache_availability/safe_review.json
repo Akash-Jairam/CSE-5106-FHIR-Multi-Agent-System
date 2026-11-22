@@ -1,0 +1,127 @@
+{
+  "status": "PASS_LOSSY_CANONICAL_CACHE_NORMALIZATION_CONFIRMED",
+  "reviewed_at_utc": "2026-10-17T08:08:08.241170+00:00",
+  "source_hashes": {
+    "utils/core_utils.py": {
+      "sha256": "e0fa62f8d5093b275a9100ce618c94b03722982d1acd6295f666ab5509c126d0",
+      "matches_frozen_manifest": true
+    },
+    "agent/base_agent.py": {
+      "sha256": "4a83a407520c67c458b371a2b143231114566cfb4956bd69aaa682a92ead7eca",
+      "matches_frozen_manifest": true
+    },
+    "agent/output_schema.py": {
+      "sha256": "daba54d1a63237f7961bce70c89bc064b03708818f6aaa704a958b02bb7b13a6",
+      "matches_frozen_manifest": true
+    },
+    "scripts/audit_store.py": {
+      "sha256": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+      "matches_frozen_manifest": true
+    },
+    "scripts/v3_full_analysis.py": {
+      "sha256": "24874a5483fe2354d1121c654eec547faead74fba8216371e70fe5f28965b798",
+      "matches_frozen_manifest": true
+    },
+    "frozen_runtime/azure_adapter.py": {
+      "sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+      "matches_pinned_manifest": true
+    },
+    "local_SDK/openai/types/completion_usage.py": {
+      "sha256": "505975694e13d13a3cac7e9b2eff707ef8b125f0de91e32ccc89fc4b7c2161a2",
+      "source_default": "cached_tokens: Optional[int] = None; prompt_tokens_details: Optional[PromptTokensDetails] = None",
+      "dependency_file_byte_pin_not_claimed": true
+    }
+  },
+  "source_evidence_file": "source_evidence.txt",
+  "source_evidence_sha256": "0a0fd5448c26ca8707afe60811864f7e371cc16aa55e887a372e3a829cb32b86",
+  "normalized_per_call_schema": [
+    "prompt",
+    "completion",
+    "cached",
+    "usage_available"
+  ],
+  "separate_canonical_cache_availability_flag": false,
+  "usage_available_meaning": "output.usage is not None, not availability of prompt_tokens_details.cached_tokens",
+  "normalization": "getattr(getattr(output.usage, prompt_tokens_details, None), cached_tokens, 0) or 0, guarded by overall usage presence.",
+  "canonical_zero_ambiguity": "Missing detail, missing cached field, null cached value, and explicit cached zero all normalize to zero.",
+  "raw_audit_metadata_recovery": "Audit externalization stores trace/resource/message fields plus ownership metadata, without an additional raw SDK usage object, cache-field presence flag, or per-call diagnostic join. Restoring those audits does not reverse normalization.",
+  "separate_diagnostic_event_schema": {
+    "cache_field": "usage.cached_prompt_tokens",
+    "value_rule": "Preserve nonnegative int (including explicit zero); otherwise null.",
+    "unavailable_null_does_not_distinguish": "Missing field vs explicit null vs invalid/non-integer/negative source value are not separated.",
+    "metadata_binding": [
+      "pid",
+      "process_session",
+      "counter",
+      "started_utc",
+      "finished_utc",
+      "request_ids"
+    ],
+    "question_id_present": false,
+    "canonical_per_call_diagnostic_join_present": false,
+    "best_effort_caveat": "Diagnostic start/finish return silently if environment is absent, lock acquisition fails, or append/metadata processing fails."
+  },
+  "retrospective_recovery_conclusion": {
+    "from_numeric_canonical_or_measurement_projection_alone": "Cannot distinguish absent cache detail from explicitly reported zero.",
+    "from_ordinary_gzip_audit_metadata_alone": "No separate availability/presence flag is added.",
+    "from_separate_diagnostic_numeric_metadata": "At an available diagnostic-event level, null differs from zero. Accepted per-question linkage and event completeness require an additional proven join; they are not established by this source-only review.",
+    "known_total_usage_is_not_cache_completeness": true
+  },
+  "synthetic_metadata_only_cases": [
+    {
+      "synthetic_case": "overall_usage_absent",
+      "normalized_cached_count": 0,
+      "canonical_usage_available_flag": false,
+      "diagnostic_cached_count": null
+    },
+    {
+      "synthetic_case": "overall_usage_present_details_absent",
+      "normalized_cached_count": 0,
+      "canonical_usage_available_flag": true,
+      "diagnostic_cached_count": null
+    },
+    {
+      "synthetic_case": "details_null",
+      "normalized_cached_count": 0,
+      "canonical_usage_available_flag": true,
+      "diagnostic_cached_count": null
+    },
+    {
+      "synthetic_case": "detail_object_cache_field_absent",
+      "normalized_cached_count": 0,
+      "canonical_usage_available_flag": true,
+      "diagnostic_cached_count": null
+    },
+    {
+      "synthetic_case": "cache_explicit_null",
+      "normalized_cached_count": 0,
+      "canonical_usage_available_flag": true,
+      "diagnostic_cached_count": null
+    },
+    {
+      "synthetic_case": "cache_explicit_zero",
+      "normalized_cached_count": 0,
+      "canonical_usage_available_flag": true,
+      "diagnostic_cached_count": 0
+    },
+    {
+      "synthetic_case": "cache_explicit_positive",
+      "normalized_cached_count": 32,
+      "canonical_usage_available_flag": true,
+      "diagnostic_cached_count": 32
+    }
+  ],
+  "no_wire_API_semantics_inferred": true,
+  "no_current_or_historical_cache_completeness_claim": true,
+  "frozen_metrics_or_settings_changed": false,
+  "proposed_limitation_note": "limitation_note.txt",
+  "proposed_note_sha256": "8ad3713015ebaca230075b9d4fc12935c07698250912a88e4b7173359094105a",
+  "scope": {
+    "actual_clinical_answers_references_or_correctness_values_read": false,
+    "actual_canonical_or_journal_measurement_values_read": false,
+    "source_metadata_only": true,
+    "config_reads": false,
+    "model_provider_scorer_calls": false,
+    "repo_or_live_edits": false
+  }
+}

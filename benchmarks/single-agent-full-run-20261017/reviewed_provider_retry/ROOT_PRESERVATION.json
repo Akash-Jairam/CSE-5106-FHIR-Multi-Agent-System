@@ -1,0 +1,38 @@
+{
+  "status": "REVIEWED_USER_RETRY_RECORDS_PRESERVED_INCOMPLETE",
+  "at_utc": "2026-10-17T16:08:30.501254+00:00",
+  "root_approval_sha256": "890268a0a4cd92ad14ab89231cf32f3a57f7d7a8eed69009f16efb97c1f6b9c9",
+  "core_candidate_author_manifest_sha256": "a35e09030b34bdb39a6ab2fdd96cdc21f224db5ce73ce7e007ac9390eec01d73",
+  "independent_core_review_sha256": "3b9192d502d4dfd648fe5ba176ed95c4461f2ccc55a61baa633a7f9f8728ff4e",
+  "actual_stopped_prefix_replay_sha256": "3f06043ffae88147826a9ffabce5b4a5341e516c7e36e61a6d08430ee008ce4c",
+  "actual_terminal_metadata_sha256": "717d4a4ec8679eca14b44a76fdc13c8cbc0b7300061e61f4efba4de21c7335b6",
+  "round32_outcome_sha256": "05bf6f25f04e3bd45cab37d219fb48ee558399b4309c6620ee383962045df4c4",
+  "round32_provider_packet_manifest_sha256": "d3564d24f6d63cd7b7769c1223f0234f4575aec42eac532e3e1268e5ba9240d8",
+  "independent_closeout_review_sha256": "e31b8526f10587fbf45a13081f2cd94b02d19dcfd31803edf41328ff14d7cf53",
+  "native_stop_observation_sha256": "31d010b204268e12018d55e009b58ce1bc936b064ef2caad04deda0685070932",
+  "selected_accepted": 2929,
+  "expected_full_cohort": 2931,
+  "pending": 2,
+  "recorded_rejections_each": 3,
+  "runtime_attempt_breakdown": {
+    "total": 55,
+    "structured_provider_policy_rejections": 6,
+    "other_infrastructure": 49
+  },
+  "new_clean_outcomes": 0,
+  "wrong_answers_or_accuracy_assessed": false,
+  "first_runtime_clean_measurements_and_choices_preserved": true,
+  "failed_entire_task_measurements_excluded": true,
+  "no_fourth_request_no_provider_safeguard_change_no_public_push": true,
+  "original_terminal_capture_and_cache_preparation_manifests_verified_unchanged": true,
+  "export_preparation_status": "Independently synthetic-tested candidate retained, not applied or run on actual data",
+  "cache_preparation_status": "Only reviewed monitor SHA pin adapted in separate copied helper folder; not executed",
+  "authoritative_local_raw_archive": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015",
+  "publication": "Detailed public push remains pending explicit approval after prior automatic-review rejection",
+  "limits": [
+    "This is an incomplete retry evidence package; no full selected-arm verification success, baseline accuracy, paired analysis or full baseline cache coverage is claimed.",
+    "Request IDs are inferred through unique P/C sequences in best-effort worker journals, not a direct recorded QID/request-ID join.",
+    "Unchanged rerun refers to frozen source/templates/question/route/settings, not proven byte equality of all generated request bodies.",
+    "Raw canonical results, attempts, diagnostic journals and pre/post snapshots remain in the local run; this metadata package does not carry all raw clinical data."
+  ]
+}

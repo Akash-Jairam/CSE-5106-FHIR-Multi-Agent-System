@@ -1,0 +1,77 @@
+{
+  "all_passed": true,
+  "original_monitor_cases": 22,
+  "additional_monitor_cases": 10,
+  "cases": [
+    {
+      "case": "one_rejection_retry_queued",
+      "result": "PASS"
+    },
+    {
+      "case": "mutable_sidecar_cannot_override_sealed_count",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Provider rejection counts/parking differ from sealed replay"
+    },
+    {
+      "case": "false_parking_sidecar_refused",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Provider rejection counts/parking differ from sealed replay"
+    },
+    {
+      "case": "unsealed_sidecar_provenance_refused",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Provider rejection provenance changed"
+    },
+    {
+      "case": "invalid_policy_or_scope_refused",
+      "result": "PASS",
+      "variants": 2
+    },
+    {
+      "case": "authorized_second_attempt_clean_terminal",
+      "result": "PASS"
+    },
+    {
+      "case": "parked_qid_active_third_attempt_refused",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Persistently rejected request scheduled beyond its unchanged-retry limit"
+    },
+    {
+      "case": "parked_sidecar_missing_qid_refused",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Provider rejection counts/parking differ from sealed replay"
+    },
+    {
+      "case": "historical_third_clean_after_two_rejections_refused",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Historical batch exceeded provider rejection unchanged-retry limit"
+    },
+    {
+      "case": "generic_runtime_does_not_consume_provider_limit",
+      "result": "PASS"
+    }
+  ],
+  "source_sha256": {
+    "/private/tmp/v3-provider-rejection-candidate/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "/private/tmp/v3-paired-provider-amendment/monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "/private/tmp/v3-paired-provider-amendment/export_complete_v3_single.py": "2d331615f76ae88506c0d273f799e60359e33a27e3c9bc2fb639a8e196389464"
+  },
+  "AST_dependency_names": [
+    "CLASSIFIER_VERSION",
+    "INTRINSIC",
+    "MAX_ERROR_CHARS",
+    "PROVIDER_JWT_REJECTION",
+    "RUNTIME",
+    "SDK_ERROR_PREFIX",
+    "classify_attempt",
+    "diagnostic_errors",
+    "intrinsic_tool_validation",
+    "is_observed_provider_prompt_rejection",
+    "provider_jwt_paths"
+  ],
+  "AST_dependency_count": 11,
+  "AST_semantic_sha256": "fff987fdba8e836bf77986fe4c5ce6bce678a719afd42bc423b6c6fde9109f67",
+  "no_inference_calls": true,
+  "no_live_data_or_source_mutations": true,
+  "no_actual_answer_scoring": true
+}

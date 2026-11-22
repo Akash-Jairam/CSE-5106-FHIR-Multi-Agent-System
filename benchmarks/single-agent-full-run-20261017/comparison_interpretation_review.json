@@ -1,0 +1,51 @@
+{
+  "status": "CONCISE_LANGUAGE_ADDITIONS_WARRANTED",
+  "source_sha256": {
+    "benchmarks/single-agent-full-run-20261017/protocol.txt": "8291c5701b53e7ddc5e3a50e54ea546949a0280116374ddd88761004f7806515",
+    "benchmarks/single-agent-full-run-20261017/analysis_when_complete.txt": "ca88ec7c76eeb8f184244ac95bc306a72414611bb82899b639e7cfb82ccacaa3"
+  },
+  "findings": [
+    {
+      "topic": "Collection order",
+      "existing_coverage": "The documents distinguish resumed scope timing from historical batch spans, but do not explicitly say the main arm collections were sequential or that the arm schedule was not randomized/interleaved.",
+      "suggested_sentence": "The main run collections were sequential: V3 completed before the single-agent full-run resume. Arm assignment did not follow a randomized or interleaved schedule."
+    },
+    {
+      "topic": "Ten reused outcomes",
+      "existing_coverage": "Recovery and selection already says to reuse ten validated clean outcomes unchanged, but does not explicitly say their original per-question measurements remain in the full-cohort metrics.",
+      "suggested_sentence": "The single-agent cohort includes ten outcomes retained from an earlier partial batch, with their original per-question latency, token usage and cost estimates."
+    },
+    {
+      "topic": "Bootstrap uncertainty",
+      "existing_coverage": "Patient clustering, 10,000 replicates, seed5106 and percentile intervals are specified, but repeated-run/provider-date uncertainty is not distinguished.",
+      "suggested_sentence": "The patient-cluster bootstrap intervals reflect resampling variation across the observed patients, conditional on this collected run and cohort. They do not measure variation across repeated model runs or provider dates."
+    }
+  ],
+  "proposed_protocol_insertion": {
+    "location": "Measurements and final analysis, near the existing bootstrap and comparison-interpretation paragraphs.",
+    "text": "The main run collections were sequential: V3 completed before the single-agent full-run resume. Arm assignment did not follow a randomized or interleaved schedule. The single-agent cohort includes ten outcomes retained from an earlier partial batch, with their original per-question latency, token usage and cost estimates.\n\nThe patient-cluster bootstrap intervals reflect resampling variation across the observed patients, conditional on this collected run and cohort. They do not measure variation across repeated model runs or provider dates."
+  },
+  "proposed_analysis_guide_insertion": {
+    "location": "Step4, following the existing timing-span/deferral note.",
+    "text": "Carry the protocol's collection-order, ten reused outcomes and conditional bootstrap-uncertainty notes into the final comparison report/README. Preserve the frozen analyzer output unchanged."
+  },
+  "chronology_precision": "The wording concerns the resumed bulk collection and explicitly acknowledges the earlier ten-row exception; it does not claim that every historical single-agent attempt occurred after V3 completion.",
+  "already_covered_no_duplicate_language_needed": [
+    "Cache/provider effects on latency",
+    "Unpersisted returned backend revision/system fingerprint",
+    "Development exposure",
+    "Architecture/tools/contracts are not a pure topology effect"
+  ],
+  "not_recommended": [
+    "Editing frozen analyzer or guarded inference/runtime source",
+    "Adding tests or changing inference",
+    "Rerunning any accepted outcome"
+  ],
+  "actions": {
+    "repo_files_modified": false,
+    "live_files_modified": false,
+    "actual_answers_or_correctness_inspected": false,
+    "scorer_or_model_calls": false,
+    "config_inspected": false
+  }
+}

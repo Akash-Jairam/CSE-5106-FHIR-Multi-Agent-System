@@ -1,0 +1,47 @@
+{
+  "single_agent": {
+    "questions": 2929,
+    "drafts": 2806,
+    "draft_correct": 2220,
+    "wrong_to_right": 96,
+    "right_to_wrong": 15,
+    "revised": 103,
+    "answer_changed": 18,
+    "solver_source_revised": 0,
+    "targeted_revised": 0,
+    "targeted_primary_wrong_to_final_right": 0,
+    "targeted_primary_right_to_final_wrong": 0,
+    "source_checks_available": 2806,
+    "source_checks_clean": 2668,
+    "release_policies": {},
+    "proof_statuses": {},
+    "revision_protocols": {},
+    "note": "Source-check flags are agent diagnostics, not independent proof of answer correctness. Targeted proofs establish local constraints only; draft transitions include all revisions."
+  },
+  "multi_agent_v3_matched": {
+    "questions": 2929,
+    "drafts": 2912,
+    "draft_correct": 2135,
+    "wrong_to_right": 171,
+    "right_to_wrong": 56,
+    "revised": 351,
+    "answer_changed": 299,
+    "solver_source_revised": 351,
+    "targeted_revised": 0,
+    "targeted_primary_wrong_to_final_right": 0,
+    "targeted_primary_right_to_final_wrong": 0,
+    "source_checks_available": 2929,
+    "source_checks_clean": 2640,
+    "release_policies": {
+      "source_valid_primary_preserved": 2640,
+      "primary_failed_execution_or_source_contract": 289
+    },
+    "proof_statuses": {
+      "not_run": 2638
+    },
+    "revision_protocols": {
+      "query-contract-v3.2-static-audit": 2929
+    },
+    "note": "Source-check flags are agent diagnostics, not independent proof of answer correctness. Targeted proofs establish local constraints only; draft transitions include all revisions."
+  }
+}

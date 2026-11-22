@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "recorded_at_utc": "2026-10-16T04:53:59.362833+00:00",
+  "status": "refined_before_boundary_apply",
+  "changes": "Also exclude exact host schema/tool-validation templates that echo model-controlled argument names; these are intrinsic, not transport failures. Genuine host/provider timeouts remain eligible.",
+  "candidate_patch_sha256": "0fde9a43655a1f631c1aed628763713848c030ffe2814ffe0949b87e2eeb6082",
+  "private_tests": {
+    "tests_run": 33,
+    "failures": 0,
+    "errors": 0,
+    "success": true,
+    "classifier_version": "v3-infrastructure-v2"
+  },
+  "independent_review": "Approved scope; latest 169 attempts show zero decision changes; no correctness scoring.",
+  "inference_change": false,
+  "benchmark_inference_code_hash": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+  "fingerprint_context_correction": {
+    "earlier_prospective_plan_value": "3d526978bb2a3eaec72b85d9ce8025b9db9debb45453378d06a832b30afe964e",
+    "reason": "The earlier value was computed outside the benchmark dependency context. code_fingerprint includes installed dependency versions. The exact .venv plus phase2-dependencies context matches the original run manifest identities and original dependency versions. No source change occurred.",
+    "exact_context": "PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python",
+    "benchmark_dependency_versions_match_manifest": true
+  }
+}

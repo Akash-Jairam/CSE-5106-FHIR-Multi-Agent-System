@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "captured_at_utc": "2026-10-17T09:20:18.881392+00:00",
+  "scope": "IN_PROGRESS_ROUND15_CLASSIFIER_SNAPSHOT",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 15,
+  "saved_classifications": {
+    "accepted": 100
+  },
+  "runtime_attempts": [],
+  "provider_policy_rejection_count_in_captured_round15": 0,
+  "round14_runtime_recoveries": [
+    {
+      "question_id": "661a2833119e979de4228585",
+      "prior_sealed_attempts": [
+        {
+          "round": 14,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round15_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round15": true,
+      "selection_persistence": "Captured checkpoint decision only; canonical/ledger adoption follows the normal sealed boundary."
+    }
+  ],
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "attempts/single_agent/round-0014.json": "4f1db3245777df3298e40d101702cc7fbb5d3ab9d527de7a9f135c5a5a48575f",
+    "attempts/single_agent/round-0014.batch.json": "0440d4187ba8757f468137b1f804dfe93467057466f912f5aef384df3fd48be1",
+    "attempts/single_agent/round-0014.batch.seal.json": "9d9f89e25d2dbb810938658fbd7359cc912e6b3244600da67b08f8efea2dce2f"
+  },
+  "round15_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0015.json",
+    "sha256": "1e76de180ac87e7abfc86c34546e6eefc43622ec87ad67ce0345535ebad18595",
+    "bytes": 31806874,
+    "sha256_at_review_end": "1e76de180ac87e7abfc86c34546e6eefc43622ec87ad67ce0345535ebad18595",
+    "live_checkpoint_may_advance_normally": true
+  },
+  "referenced_audit_hashes": {
+    "attempts/single_agent/audit/38513c0d4d53bce4100fa9b22e433e2fc1dd388c2f0348fdb6694fdcab9e5767.json.gz": {
+      "compressed_sha256": "23247ddf5dc6e50df71c169765f34b21cdce8d8c640b79ec3b22a3f4b973a108",
+      "uncompressed_sha256": "38513c0d4d53bce4100fa9b22e433e2fc1dd388c2f0348fdb6694fdcab9e5767"
+    },
+    "attempts/single_agent/audit/6487d8c36dca660f86a3a39002ec5540f5ee6cc78e2ce78380847d013992357c.json.gz": {
+      "compressed_sha256": "d248d9968c674086b18ebdbf48db403029ca2bfcc49312edc00bbc936fd60b01",
+      "uncompressed_sha256": "6487d8c36dca660f86a3a39002ec5540f5ee6cc78e2ce78380847d013992357c"
+    }
+  },
+  "no_clinical_raw_error_answer_reference_or_correctness_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true
+}

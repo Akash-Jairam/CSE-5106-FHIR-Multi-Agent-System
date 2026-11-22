@@ -1,0 +1,435 @@
+{
+  "status": "PASS_COMPLETE_V3_OBSERVED_METADATA_ASSOCIATIONS_WITH_EXPLICIT_LIMITS",
+  "reviewed_at_utc": "2026-10-17T08:26:57.829344+00:00",
+  "source_package": "/private/tmp/cache-provenance-v3-complete",
+  "source_package_artifact_manifest_sha256": "82e6686e1c0c58c4c2cdf2fbb510617d717b596a33de4253111f6a4e20d0fa3d",
+  "source_package_artifact_hash_size_checks": 80,
+  "author_code_sha256": "b26bcafdd406acfc6dae3fb529da54e11cb63028aa50dbf678f8b495487b4f5c",
+  "source_completion_receipt_sha256": "2fe6a7de910a79726e135f4815f74a8ba6700d833c19156df6ac969148e77a37",
+  "source_manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+  "source_accepted_ledger_sha256": "ed9c8052a3f24490728b0720bde21f86532f0fcd0bbbc95a4d9deabda7de34e2",
+  "historical_canonical_sha256_declared": "1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c",
+  "captured_provenance_receipt_ledger_manifest_raw_digest_bindings_verified": true,
+  "raw_digest_bindings": 33,
+  "first_pass_equivalent_associations_and_projection_verified": true,
+  "numeric_projection_sha256": "2d19fcc7466c5b2173ea36af93b297fee741e5697e36f1e53e83f418bb35398a",
+  "captured_association_sha256": "e2b3433bc155b6f81f9854bda7b70824c6e224f4fb7d26c47ec13076dc73d714",
+  "selected_questions": 2931,
+  "selected_calls": 17715,
+  "sealed_rounds": 33,
+  "retained_journals": 64,
+  "unique_owned_round_question_sequences": 2931,
+  "global_sequence_candidate_count_distribution": {
+    "1": 2931
+  },
+  "global_ambiguity_qids": [],
+  "cache_not_used_in_match_keys": true,
+  "matching_identity_scope": [
+    "round",
+    "worker PID",
+    "process session",
+    "consecutive counter",
+    "ordered prompt/completion counts"
+  ],
+  "all_recorded_association_identities_and_metadata_reproduced": true,
+  "matched_event_overlap": 0,
+  "single_call_candidate_counts": {
+    "single_call_unique": 17665,
+    "single_call_ambiguous": 50
+  },
+  "matched_provider_duration_sums_fit_question_latency": 2931,
+  "same_worker_temporal_overlap_anomalies": [],
+  "retained_event_coverage": {
+    "starts": 18004,
+    "ends": 18004,
+    "successes": 17923,
+    "errors": 81,
+    "starts_without_end": 0,
+    "ends_without_start": 0,
+    "missing_recorded_counters": 0
+  },
+  "all33round_observed_event_counts_match_author_attested_raw_call_counts": true,
+  "per_round_numeric_reconciliation": {
+    "1": {
+      "selected_questions": 98,
+      "selected_calls": 590,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 602,
+        "usage_available": 600,
+        "usage_unavailable": 2
+      }
+    },
+    "2": {
+      "selected_questions": 100,
+      "selected_calls": 628,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 628,
+        "usage_available": 628,
+        "usage_unavailable": 0
+      }
+    },
+    "3": {
+      "selected_questions": 95,
+      "selected_calls": 566,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 579,
+        "usage_available": 574,
+        "usage_unavailable": 5
+      }
+    },
+    "4": {
+      "selected_questions": 98,
+      "selected_calls": 580,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 584,
+        "usage_available": 582,
+        "usage_unavailable": 2
+      }
+    },
+    "5": {
+      "selected_questions": 96,
+      "selected_calls": 572,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 584,
+        "usage_available": 580,
+        "usage_unavailable": 4
+      }
+    },
+    "6": {
+      "selected_questions": 99,
+      "selected_calls": 607,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 611,
+        "usage_available": 610,
+        "usage_unavailable": 1
+      }
+    },
+    "7": {
+      "selected_questions": 98,
+      "selected_calls": 569,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 574,
+        "usage_available": 572,
+        "usage_unavailable": 2
+      }
+    },
+    "8": {
+      "selected_questions": 99,
+      "selected_calls": 614,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 621,
+        "usage_available": 620,
+        "usage_unavailable": 1
+      }
+    },
+    "9": {
+      "selected_questions": 99,
+      "selected_calls": 574,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 575,
+        "usage_available": 574,
+        "usage_unavailable": 1
+      }
+    },
+    "10": {
+      "selected_questions": 99,
+      "selected_calls": 605,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 613,
+        "usage_available": 612,
+        "usage_unavailable": 1
+      }
+    },
+    "11": {
+      "selected_questions": 98,
+      "selected_calls": 612,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 620,
+        "usage_available": 618,
+        "usage_unavailable": 2
+      }
+    },
+    "12": {
+      "selected_questions": 96,
+      "selected_calls": 556,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 573,
+        "usage_available": 569,
+        "usage_unavailable": 4
+      }
+    },
+    "13": {
+      "selected_questions": 99,
+      "selected_calls": 624,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 634,
+        "usage_available": 633,
+        "usage_unavailable": 1
+      }
+    },
+    "14": {
+      "selected_questions": 99,
+      "selected_calls": 583,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 589,
+        "usage_available": 588,
+        "usage_unavailable": 1
+      }
+    },
+    "15": {
+      "selected_questions": 96,
+      "selected_calls": 636,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 645,
+        "usage_available": 641,
+        "usage_unavailable": 4
+      }
+    },
+    "16": {
+      "selected_questions": 89,
+      "selected_calls": 516,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 547,
+        "usage_available": 536,
+        "usage_unavailable": 11
+      }
+    },
+    "17": {
+      "selected_questions": 93,
+      "selected_calls": 558,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 578,
+        "usage_available": 571,
+        "usage_unavailable": 7
+      }
+    },
+    "18": {
+      "selected_questions": 92,
+      "selected_calls": 554,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 589,
+        "usage_available": 581,
+        "usage_unavailable": 8
+      }
+    },
+    "19": {
+      "selected_questions": 96,
+      "selected_calls": 584,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 593,
+        "usage_available": 589,
+        "usage_unavailable": 4
+      }
+    },
+    "20": {
+      "selected_questions": 100,
+      "selected_calls": 621,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 621,
+        "usage_available": 621,
+        "usage_unavailable": 0
+      }
+    },
+    "21": {
+      "selected_questions": 99,
+      "selected_calls": 585,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 592,
+        "usage_available": 591,
+        "usage_unavailable": 1
+      }
+    },
+    "22": {
+      "selected_questions": 99,
+      "selected_calls": 605,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 607,
+        "usage_available": 606,
+        "usage_unavailable": 1
+      }
+    },
+    "23": {
+      "selected_questions": 100,
+      "selected_calls": 593,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 593,
+        "usage_available": 593,
+        "usage_unavailable": 0
+      }
+    },
+    "24": {
+      "selected_questions": 99,
+      "selected_calls": 600,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 606,
+        "usage_available": 605,
+        "usage_unavailable": 1
+      }
+    },
+    "25": {
+      "selected_questions": 99,
+      "selected_calls": 599,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 600,
+        "usage_available": 599,
+        "usage_unavailable": 1
+      }
+    },
+    "26": {
+      "selected_questions": 100,
+      "selected_calls": 598,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 598,
+        "usage_available": 598,
+        "usage_unavailable": 0
+      }
+    },
+    "27": {
+      "selected_questions": 98,
+      "selected_calls": 599,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 601,
+        "usage_available": 599,
+        "usage_unavailable": 2
+      }
+    },
+    "28": {
+      "selected_questions": 97,
+      "selected_calls": 585,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 600,
+        "usage_available": 597,
+        "usage_unavailable": 3
+      }
+    },
+    "29": {
+      "selected_questions": 94,
+      "selected_calls": 554,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 577,
+        "usage_available": 571,
+        "usage_unavailable": 6
+      }
+    },
+    "30": {
+      "selected_questions": 97,
+      "selected_calls": 578,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 595,
+        "usage_available": 592,
+        "usage_unavailable": 3
+      }
+    },
+    "31": {
+      "selected_questions": 9,
+      "selected_calls": 65,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 69,
+        "usage_available": 68,
+        "usage_unavailable": 1
+      }
+    },
+    "32": {
+      "selected_questions": 0,
+      "selected_calls": 0,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 1,
+        "usage_available": 0,
+        "usage_unavailable": 1
+      }
+    },
+    "33": {
+      "selected_questions": 1,
+      "selected_calls": 5,
+      "observed_end_counts_equal_attested_all_raw_calls": {
+        "calls": 5,
+        "usage_available": 5,
+        "usage_unavailable": 0
+      }
+    }
+  },
+  "observed_successful_cache_counts": {
+    "null": 0,
+    "zero": 6876,
+    "positive": 11047,
+    "invalid": 0
+  },
+  "matched_accepted_cache_counts": {
+    "null": 0,
+    "zero": 6763,
+    "positive": 10952,
+    "invalid": 0
+  },
+  "normalized_cache_disagreements": 0,
+  "matched_token_totals": {
+    "prompt_tokens": 152831666,
+    "completion_tokens": 3955355,
+    "total_tokens": 156787021,
+    "cached_prompt_tokens": 27222449
+  },
+  "captured_projection_token_totals": {
+    "prompt_tokens": 152831666,
+    "completion_tokens": 3955355,
+    "total_tokens": 156787021,
+    "cached_prompt_tokens": 27222449
+  },
+  "all_retained_success_token_totals_operational_only": {
+    "prompt_tokens": 154515153,
+    "completion_tokens": 3995212,
+    "total_tokens": 158510365,
+    "cached_prompt_tokens": 27485853
+  },
+  "unassociated_success_token_totals_excluded_from_accepted_metrics": {
+    "prompt_tokens": 1683487,
+    "completion_tokens": 39857,
+    "total_tokens": 1723344,
+    "cached_prompt_tokens": 263404
+  },
+  "unassociated_successful_events": 208,
+  "successful_requests_without_request_id": 0,
+  "duplicate_nonempty_success_request_id_sets": 0,
+  "visible_barrier_tests": {
+    "visible_success_contiguous_matches": true,
+    "explicit_failed_end_blocks": true,
+    "missing_end_counter_blocks": true,
+    "missing_whole_recorded_counter_blocks": true
+  },
+  "visible_error_or_missing_counter_barriers_crossed": 0,
+  "invisible_log_failure_counterexample": {
+    "canonical_target_sequence": [
+      [
+        100,
+        10
+      ],
+      [
+        200,
+        20
+      ]
+    ],
+    "actual_events": "Target callA is logged atcounter1; target callB is unlogged before counter increment; next question callB is logged atcounter2.",
+    "retained_sequence": [
+      [
+        100,
+        10
+      ],
+      [
+        200,
+        20
+      ]
+    ],
+    "matcher_observes_unique_contiguous_sequence": true,
+    "why_not_identity_proof": "Without a stored question/request join, unique retained numeric sequences do not rule out a completely invisible logging failure and a coincidentally matching neighboring call."
+  },
+  "limitations": [
+    "These are unique observed numeric-sequence associations within the owned round/worker/session, not a directly persisted question/request-ID join. Global candidates are counted explicitly and any ambiguity remains recorded.",
+    "Visible failure events remain nonmatching sentinels; missing ends/counters break consecutive runs. No accepted match crosses a visible barrier. Best-effort logging failure before counter increment can be entirely invisible, so conditional observed coverage is not unconditional logging or identity proof.",
+    "Only captured files were read. The captured canonical/raw byte digests are linked through the original receipt, ledger and inventory; external canonical/raw bytes themselves were not re-read. All-attempt raw-call counts are independently compared to recorded journal counts as captured attestations, rather than recomputed from uncopied raw clinical files.",
+    "The conclusion covers the complete historical V3 cohort represented by this capture. It does not extend to the separately continuing baseline, future provider runs, missing logs or verified actual billing.",
+    "Cache null is never interpreted as an explicit provider zero, and no metric, estimate, prompt, source, setting or process was altered."
+  ],
+  "review_code_sha256": "eddc6cb21d8b51a4308f58036e0d870e4623d09b0f7545ecbb75b6fb796db762",
+  "no_author_script_execution": true,
+  "no_live_reads_or_changes": true,
+  "no_clinical_question_answer_reference_or_correctness_values_read": true,
+  "no_model_provider_scorer_calls": true
+}

@@ -320,5 +320,18 @@ Answer correctness has two metrics:
 If the agent output has an `evidence` field, each citation `{"resource_id": "Observation/<id>", "field_path": "valueQuantity.value", "value": 98.7}` is resolved against the FHIR store (`utils/evidence_scorer.py`). A citation is valid when the resource exists, the path resolves, and the value matches. The evaluation reports the valid-evidence fraction, the reasons citations were invalid (`malformed`, `missing_resource`, `bad_path`, `value_mismatch`), and the precision/recall of the cited resource ids against `true_fhir_ids`. Use `--evidence_source ndjson` to resolve against the local NDJSON files instead of the store.
 
 
+## V03 experiment records
+
+| Run | Cohort | V3 | Single agent | Evidence |
+| --- | --- | ---: | ---: | --- |
+| Development | 300 questions | 232/300 | 238/300 | [Paired development outcome](benchmarks/design-v3d-20261014/outcome.txt) |
+| Full benchmark | 2,929 matched pairs | 2,255/2,929 | 2,343/2,929 | [Full-run archive](results/v3/README.txt), [analysis](results/v3/ANALYSIS.txt), [comparison CSV](results/v3/comparison_summary.csv) |
+
+The full-run archive also includes the 2,931 accepted V3 outputs. The paired comparison uses the 2,929 questions the single agent completed. The archived files retain `results/v3-ful-run` as their original branch name.
+
+Use the [run registry](results/v3/RUN_REGISTRY.json) and [methods](results/v3/METHODS.txt) to reproduce each run. The development run used [`f00804f`](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/commit/f00804f) with a 22-iteration host loop. The full run used [`4c7fbd1`](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/commit/4c7fbd1) with a 21-iteration host loop. Both capped model calls at 20.
+
+[Project experiment index](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/main/docs/experiment-index.md)
+
 ## Authorship
 FHIR-AgentBench is a joint research effort between Verily Life Sciences, Korea Advanced Institute of Science & Technology (KAIST), and Massachusetts Institute of Technology (MIT).

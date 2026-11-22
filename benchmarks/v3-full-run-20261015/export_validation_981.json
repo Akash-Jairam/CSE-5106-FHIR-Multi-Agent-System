@@ -1,0 +1,157 @@
+{
+  "status": "PASS",
+  "export_status": "PARTIAL_PROGRESS_DO_NOT_REPORT_AS_FINAL",
+  "partial_accuracy_not_reported": true,
+  "run_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015",
+  "export_directory": "/private/tmp/v3-analysis-validation-981",
+  "canonical_sha256": {
+    "direct_llm": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "single_agent": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "multi_agent": "5daa0964eab6c0539d14c8f8e63438c9c03f4d1233cf3109dd9787d64cf16021"
+  },
+  "acceptance_sha256": "67a5a54e6d188e18ed7c73d393742c3cdf412235a017f97f54d28c604b8f010b",
+  "pricing_sha256": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6",
+  "accepted_only_reconciliation": {
+    "direct_llm": {
+      "accepted_questions": 0,
+      "latency_seconds": {
+        "total": null,
+        "mean": null,
+        "missing": 0
+      },
+      "estimated_cost_usd": {
+        "total": null,
+        "mean": null,
+        "missing": 0
+      },
+      "total_tokens": {
+        "total": null,
+        "mean": null,
+        "missing": 0
+      },
+      "excluded_runtime_attempts": 0,
+      "sealed_raw_attempts": 0
+    },
+    "single_agent": {
+      "accepted_questions": 0,
+      "latency_seconds": {
+        "total": null,
+        "mean": null,
+        "missing": 0
+      },
+      "estimated_cost_usd": {
+        "total": null,
+        "mean": null,
+        "missing": 0
+      },
+      "total_tokens": {
+        "total": null,
+        "mean": null,
+        "missing": 0
+      },
+      "excluded_runtime_attempts": 0,
+      "sealed_raw_attempts": 0
+    },
+    "multi_agent": {
+      "accepted_questions": 981,
+      "latency_seconds": {
+        "total": 21639.767,
+        "mean": 22.058885830784913,
+        "missing": 0
+      },
+      "estimated_cost_usd": {
+        "total": 4.67663962,
+        "mean": 0.0047672167380224265,
+        "missing": 0
+      },
+      "total_tokens": {
+        "total": 52272583,
+        "mean": 53284.997961264016,
+        "missing": 0
+      },
+      "excluded_runtime_attempts": 19,
+      "sealed_raw_attempts": 1000
+    }
+  },
+  "csv_parse_rows": {
+    "arm_summary.csv": 3,
+    "by_analysis_split.csv": 4,
+    "by_answer_type.csv": 6,
+    "by_exposure.csv": 2,
+    "by_family.csv": 4,
+    "by_patient_fhir_id.csv": 94,
+    "by_template_id.csv": 73,
+    "mechanisms.csv": 3,
+    "paired_comparisons.csv": 3,
+    "per_question.csv": 981,
+    "phase_usage.csv": 3
+  },
+  "jsonl_parse_rows": 981,
+  "checks": [
+    "partial labels verified",
+    "accepted snapshot hashes identical before/after validation",
+    "JSONL and CSV per-question identities/latency/cost/tokens match canonical accepted rows",
+    "all CSV files parse with sys.maxsize field limit",
+    "19 sealed runtime attempts excluded from question/latency/cost/token denominators",
+    "no attempt history included",
+    "official frozen cached-token pricing independently reconciled"
+  ],
+  "artifact_hashes": {
+    "arm_summary.csv": {
+      "bytes": 15072,
+      "sha256": "ec96bc01d4ddd7b2ec7ce34e6dd31531fd8d199adb7cf9144dfa2c7a54902b67"
+    },
+    "by_analysis_split.csv": {
+      "bytes": 21324,
+      "sha256": "662c97e9e8a9f545ca9a71ae34487c9679912c0cc145a9896e52e5f9d5bb47b6"
+    },
+    "by_answer_type.csv": {
+      "bytes": 27364,
+      "sha256": "7f544c08a2dfcaf54051c54c9069f24fbc3bf1c022d5a31a5bb2ea7504f301b7"
+    },
+    "by_exposure.csv": {
+      "bytes": 17219,
+      "sha256": "058321add6bf1ac0ba85b7bf833907595767ab875d1fa49a20869f39b5bd54e9"
+    },
+    "by_family.csv": {
+      "bytes": 22075,
+      "sha256": "df4b9181c2c336b726f9df5cf66575b05cd4f3f0e1c86b17039aa64244f0c3a8"
+    },
+    "by_patient_fhir_id.csv": {
+      "bytes": 215022,
+      "sha256": "bd49905081a3c6a74c90c3600d04186347c78cf2f31f60bb18ce67acf9a8bc2a"
+    },
+    "by_template_id.csv": {
+      "bytes": 163231,
+      "sha256": "5e18c40413ebff7f33e5dd3a6b4aacc099ccbfff1b933cd1c378965e6bc040c4"
+    },
+    "mechanisms.csv": {
+      "bytes": 1134,
+      "sha256": "21c021a7914069dc4825ba48a5d9fb2996da379b5b26305f777523f6c025c2f8"
+    },
+    "paired_comparisons.csv": {
+      "bytes": 1279,
+      "sha256": "d7def75d263fc3a37571710c5e861b0db442f34b4ce36256545ebbdf77e55433"
+    },
+    "per_question.csv": {
+      "bytes": 4846879,
+      "sha256": "e6b55687480081e1edb54c989459ab43091bc91c0a0185607a1cb903c424d96b"
+    },
+    "per_question.jsonl": {
+      "bytes": 6288152,
+      "sha256": "87392ae4ff4b4ab3be911e26f03c4c6b7a5391ebd3f889f6ce4f2a54d3c1eb0b"
+    },
+    "phase_usage.csv": {
+      "bytes": 1522,
+      "sha256": "73dd8084ab430c1592352bba67e71de0bf33d1468bcf967bb03234e843872885"
+    },
+    "report.txt": {
+      "bytes": 2604,
+      "sha256": "8daf35b0e5d5b68b828e90c7f7d773dd0c26d6c63201c2d63c22ffc8e055c2c9"
+    },
+    "summary.json": {
+      "bytes": 2309195,
+      "sha256": "0187e5fc7ac1fb6fc1a71e9042b7e350cd4b0e4fcf258d37a72da92b443e95f6"
+    }
+  }
+}

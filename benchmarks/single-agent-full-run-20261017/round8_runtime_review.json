@@ -1,0 +1,86 @@
+{
+  "status": "PASS",
+  "captured_at_utc": "2026-10-17T07:33:34.734546+00:00",
+  "scope": "IN_PROGRESS_ROUND8_CLASSIFIER_SNAPSHOT",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 8,
+  "saved_classifications": {
+    "accepted": 98,
+    "runtime": 2
+  },
+  "runtime_attempts": [
+    {
+      "question_id": "31cdceeb50d5b9593b6c8055",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "upstream_unavailable_or_reset"
+      ],
+      "HTTP_statuses": [],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "392945487423b16d5daec3fe",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "timeout"
+      ],
+      "HTTP_statuses": [],
+      "new_provider_policy_rejection": false
+    }
+  ],
+  "provider_policy_rejection_count_in_captured_round8": 0,
+  "round7_runtime_recovery": {
+    "question_id": "2f8b95322025bab1d2c8da4f",
+    "prior_sealed_attempts": [
+      {
+        "round": 7,
+        "classification": "runtime",
+        "selection_reason": "allowlisted_infrastructure_failure"
+      }
+    ],
+    "round8_captured_decision": {
+      "question_id": "2f8b95322025bab1d2c8da4f",
+      "classification": "accepted",
+      "selection_reason": "runtime_clean_terminal"
+    },
+    "first_runtime_clean_in_round8": true,
+    "persistence_note": "Round8 is an active checkpoint; this establishes captured runtime-clean classification, not a sealed canonical/ledger selection."
+  },
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "attempts/single_agent/round-0007.json": "33a9091486457a2407533164cd9d85badb44d2ce848a945210fede53f5d8cf23",
+    "attempts/single_agent/round-0007.batch.seal.json": "f018842739d47efb36d064f0d87fcb5473a19c79a96f11ecf3d40ce979cabcee"
+  },
+  "round8_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0008.json",
+    "sha256": "7e289c387bb4c23fe463850c6312ee14e03e832ade9302f566d0659ebe7aedba",
+    "bytes": 31791888,
+    "sha256_at_review_end": "7e289c387bb4c23fe463850c6312ee14e03e832ade9302f566d0659ebe7aedba",
+    "changes_during_review_are_normal_checkpoint_writes": true
+  },
+  "referenced_audit_hashes": {
+    "attempts/single_agent/audit/0b01f53cb4cdfa677692c1a72b91b782d67c2e4185a61f1ce473fc65ccb6f9ef.json.gz": {
+      "compressed_sha256": "d05b99d3754e66a03637f4207436c86f1910a56f8bc858ddc8405d9708051ea7",
+      "uncompressed_sha256": "0b01f53cb4cdfa677692c1a72b91b782d67c2e4185a61f1ce473fc65ccb6f9ef"
+    },
+    "attempts/single_agent/audit/8bfe63cbd71ef5e38095f2f1820ff48cc0a10a1612fae0e8e3b9aae331589d48.json.gz": {
+      "compressed_sha256": "2a2c92a6f51087c7adec2bce87f8eab344f9126ac9f01fc53762d03261d5687c",
+      "uncompressed_sha256": "8bfe63cbd71ef5e38095f2f1820ff48cc0a10a1612fae0e8e3b9aae331589d48"
+    },
+    "attempts/single_agent/audit/31dda2d853d972e6411fc7e56dc37375e641128841f66e7adab6df653c1ab10a.json.gz": {
+      "compressed_sha256": "700aebb8e43b51b15c6e604784620e24053bd8375c456a84e757943140305adf",
+      "uncompressed_sha256": "31dda2d853d972e6411fc7e56dc37375e641128841f66e7adab6df653c1ab10a"
+    }
+  },
+  "no_answers_references_correctness_or_raw_errors_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true,
+  "signature_refinement_source_sha256": "7e289c387bb4c23fe463850c6312ee14e03e832ade9302f566d0659ebe7aedba",
+  "signature_refinement_uses_fixed_allowlist_pattern_only": true
+}

@@ -1,0 +1,346 @@
+{
+  "status": "PASS",
+  "label": "IN_PROGRESS_NOT_FINAL",
+  "accepted_measurements": 497,
+  "questions_in_full_cohort": 2931,
+  "started_at": "2026-10-17T07:10:13.245274+00:00",
+  "finished_at": "2026-10-17T07:10:13.979610+00:00",
+  "source_hashes_before": {
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/full_single_agent.json": "0788deaeacdfb1698adf61b22d8c5635a9a4392adbb87987654cb1491a97901d",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/acceptance.json": "4aa4592fd947fceb64c67fe47453b7b3955370118132bcb16fa4547bd0b697d4",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/pricing.json": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6"
+  },
+  "source_hashes_after": {
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/full_single_agent.json": "0788deaeacdfb1698adf61b22d8c5635a9a4392adbb87987654cb1491a97901d",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/acceptance.json": "4aa4592fd947fceb64c67fe47453b7b3955370118132bcb16fa4547bd0b697d4",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/pricing.json": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6"
+  },
+  "source_stable": true,
+  "selected_raw_measurement_bindings": {
+    "attempts/single_agent/round-0001.json": {
+      "sha256": "7575337dcb963c0e6879c23146d7519286424aa5aa466a697766868c7471b18c",
+      "selected_rows": 10,
+      "round": 1
+    },
+    "attempts/single_agent/round-0002.json": {
+      "sha256": "154e71819c154c322188829f12b63769bb62e42f603044df6f371b87d45b88a8",
+      "selected_rows": 98,
+      "round": 2
+    },
+    "attempts/single_agent/round-0003.json": {
+      "sha256": "28b443efbb4b29311268a864ea44e3870a16cc18fa17e4196747d29dc61ee221",
+      "selected_rows": 94,
+      "round": 3
+    },
+    "attempts/single_agent/round-0004.json": {
+      "sha256": "b2e67f0f257a87cc2bfd87043351373c17fa3fff9b00a877eae5a7032f40b6df",
+      "selected_rows": 97,
+      "round": 4
+    },
+    "attempts/single_agent/round-0005.json": {
+      "sha256": "60552fb975464cb23784ad51c5a45f156c341f4616b82c130caa0593053d6b87",
+      "selected_rows": 99,
+      "round": 5
+    },
+    "attempts/single_agent/round-0006.json": {
+      "sha256": "6e1376eff9cab81fa4795a7a2045fd5b8ac4bf74c7f0ffbc79e464104fa4b292",
+      "selected_rows": 99,
+      "round": 6
+    }
+  },
+  "first_clean_proof_sha256": "302bef9e57d233579cafd8d11d7275e80eb1d8fa4bd512456ae320c5f8e1b198",
+  "runtime_failed_attempts_excluded": 15,
+  "measurement_rows_from_selected_canonical_only": true,
+  "per_call_measurements": 3302,
+  "provider_usage_unknown_rows": 0,
+  "reported_billing_unknown_rows": 497,
+  "metrics": {
+    "latency_seconds": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 8772.733,
+      "mean": 17.651374245472837,
+      "median": 15.098,
+      "p95": 36.3194,
+      "sample_stdev": 9.839741369698757,
+      "min": 3.047,
+      "max": 93.144,
+      "observed_only": {
+        "total": 8772.733,
+        "mean": 17.651374245472837,
+        "median": 15.098,
+        "p95": 36.3194,
+        "sample_stdev": 9.839741369698757,
+        "min": 3.047,
+        "max": 93.144
+      }
+    },
+    "prompt_tokens": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 35797945,
+      "mean": 72028.0583501006,
+      "median": 61144,
+      "p95": 179691.2,
+      "sample_stdev": 45908.15694092189,
+      "min": 7990,
+      "max": 192885,
+      "observed_only": {
+        "total": 35797945,
+        "mean": 72028.0583501006,
+        "median": 61144,
+        "p95": 179691.2,
+        "sample_stdev": 45908.15694092189,
+        "min": 7990,
+        "max": 192885
+      }
+    },
+    "completion_tokens": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 665824,
+      "mean": 1339.6861167002012,
+      "median": 1120,
+      "p95": 3081.399999999999,
+      "sample_stdev": 826.0946001369418,
+      "min": 150,
+      "max": 5632,
+      "observed_only": {
+        "total": 665824,
+        "mean": 1339.6861167002012,
+        "median": 1120,
+        "p95": 3081.399999999999,
+        "sample_stdev": 826.0946001369418,
+        "min": 150,
+        "max": 5632
+      }
+    },
+    "total_tokens": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 36463769,
+      "mean": 73367.74446680081,
+      "median": 62159,
+      "p95": 182006.8,
+      "sample_stdev": 46550.17833128559,
+      "min": 8145,
+      "max": 196207,
+      "observed_only": {
+        "total": 36463769,
+        "mean": 73367.74446680081,
+        "median": 62159,
+        "p95": 182006.8,
+        "sample_stdev": 46550.17833128559,
+        "min": 8145,
+        "max": 196207
+      }
+    },
+    "cached_prompt_tokens": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 30380471,
+      "mean": 61127.70824949698,
+      "median": 49836,
+      "p95": 158589.19999999998,
+      "sample_stdev": 41308.51237957499,
+      "min": 0,
+      "max": 177617,
+      "observed_only": {
+        "total": 30380471,
+        "mean": 61127.70824949698,
+        "median": 49836,
+        "p95": 158589.19999999998,
+        "sample_stdev": 41308.51237957499,
+        "min": 0,
+        "max": 177617
+      }
+    },
+    "uncached_prompt_tokens": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 5417474,
+      "mean": 10900.350100603622,
+      "median": 9875,
+      "p95": 20000.0,
+      "sample_stdev": 11924.488639462335,
+      "min": 1072,
+      "max": 185175,
+      "observed_only": {
+        "total": 5417474,
+        "mean": 10900.350100603622,
+        "median": 9875,
+        "p95": 20000.0,
+        "sample_stdev": 11924.488639462335,
+        "min": 1072,
+        "max": 185175
+      }
+    },
+    "repeated_prompt_tokens": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 30177178,
+      "mean": 60718.66800804829,
+      "median": 48644,
+      "p95": 160397.6,
+      "sample_stdev": 42386.12247536231,
+      "min": 3982,
+      "max": 176983,
+      "observed_only": {
+        "total": 30177178,
+        "mean": 60718.66800804829,
+        "median": 48644,
+        "p95": 160397.6,
+        "sample_stdev": 42386.12247536231,
+        "min": 3982,
+        "max": 176983
+      }
+    },
+    "llm_calls": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 3302,
+      "mean": 6.6438631790744465,
+      "median": 6,
+      "p95": 12.0,
+      "sample_stdev": 2.588733258655302,
+      "min": 2,
+      "max": 17,
+      "observed_only": {
+        "total": 3302,
+        "mean": 6.6438631790744465,
+        "median": 6,
+        "p95": 12.0,
+        "sample_stdev": 2.588733258655302,
+        "min": 2,
+        "max": 17
+      }
+    },
+    "tool_calls_executed": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 3305,
+      "mean": 6.649899396378269,
+      "median": 6,
+      "p95": 12.0,
+      "sample_stdev": 2.5790261723997725,
+      "min": 2,
+      "max": 17,
+      "observed_only": {
+        "total": 3305,
+        "mean": 6.649899396378269,
+        "median": 6,
+        "p95": 12.0,
+        "sample_stdev": 2.5790261723997725,
+        "min": 2,
+        "max": 17
+      }
+    },
+    "tool_calls_recorded": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 3305,
+      "mean": 6.649899396378269,
+      "median": 6,
+      "p95": 12.0,
+      "sample_stdev": 2.5790261723997725,
+      "min": 2,
+      "max": 17,
+      "observed_only": {
+        "total": 3305,
+        "mean": 6.649899396378269,
+        "median": 6,
+        "p95": 12.0,
+        "sample_stdev": 2.5790261723997725,
+        "min": 2,
+        "max": 17
+      }
+    },
+    "estimated_cost_usd": {
+      "n": 497,
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 1.17846411,
+      "mean": 0.0023711551509054325,
+      "median": 0.0020797,
+      "p95": 0.004886755999999999,
+      "sample_stdev": 0.0016292021479110848,
+      "min": 0.00027863,
+      "max": 0.019532,
+      "observed_only": {
+        "total": 1.17846411,
+        "mean": 0.0023711551509054325,
+        "median": 0.0020797,
+        "p95": 0.004886755999999999,
+        "sample_stdev": 0.0016292021479110848,
+        "min": 0.00027863,
+        "max": 0.019532
+      }
+    },
+    "reported_cost_usd": {
+      "n": 497,
+      "observed_n": 0,
+      "missing_n": 497,
+      "total": null,
+      "mean": null,
+      "median": null,
+      "p95": null,
+      "sample_stdev": null,
+      "min": null,
+      "max": null,
+      "observed_only": {
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "sample_stdev": null,
+        "min": null,
+        "max": null
+      }
+    }
+  },
+  "pricing": {
+    "version": 1,
+    "model": "gpt-6-luna",
+    "currency": "USD",
+    "label": "Official OpenAI standard short-context prices, adopted for Azure by user instruction; usage-based estimate, not verified billing",
+    "per_million_tokens": {
+      "input": 0.1,
+      "cached_input": 0.01,
+      "output": 0.5
+    },
+    "sources": [
+      "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "https://developers.openai.com/api/docs/pricing"
+    ],
+    "frozen_at": "2026-10-16T04:13:52.058805+00:00",
+    "source_checked_local_date": "2026-10-15",
+    "azure_rate_assumption": "User confirmed using official OpenAI prices",
+    "formula": "((prompt-cached_prompt)*input+cached_prompt*cached_input+completion*output)/1000000",
+    "excluded": "Earlier infrastructure-failed attempts; no taxes or other cloud service charges"
+  },
+  "partial_accuracy_evaluated": false,
+  "answer_reference_prediction_values_inspected": false,
+  "answer_reference_prediction_values_printed": false,
+  "scorer_or_analyzer_calls": false,
+  "provider_calls": false,
+  "comparison_or_extrapolation_performed": false,
+  "repo_or_live_files_modified": false,
+  "measurement_projection_method": "Standard JSON parsing followed solely by allowlisted measurement/ID access; answer/reference/correctness values unexamined; tool arguments unexamined.",
+  "limitations": [
+    "497 accepted measurements are a partial progress checkpoint, not final statistics or a comparison.",
+    "Raw first-clean classification is established by the separately reviewed round6 proof; this audit independently matches only selected measurement projections.",
+    "Estimated dollar costs use the frozen official OpenAI rates as an Azure proxy; actual billing is unknown when absent."
+  ],
+  "measurement_file_sha256": "9392871794a2a45e9c6e0cf95fdd58b1cc6731c539039aef055bf0f6e1a9c405",
+  "script_sha256": "c4cc1f3d2160cf5e857587dd482e7d35320fd7bae0b49170aa9688c32c08824c"
+}

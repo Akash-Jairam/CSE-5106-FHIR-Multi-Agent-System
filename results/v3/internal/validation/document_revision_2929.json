@@ -1,0 +1,40 @@
+{
+  "status": "PASS_DOCUMENT_REPORTING_REVISION",
+  "at_utc": "2026-10-19T20:40:42.619072+00:00",
+  "scope": "Primary full benchmark comparison uses 2929 completed task pairs from 94 patients for both systems.",
+  "correct": {
+    "single_agent": 2343,
+    "multi_agent_v3": 2255
+  },
+  "source_numeric_records_unchanged": true,
+  "historical_registry_runs_unchanged": true,
+  "unchanged_prior_manifest_leaves_verified": 998,
+  "previous_package_manifest_sha256": "4e26aaf4c19abb3713e6be9acc9ebb7947106f6d9c5ac458da9cc4069f0ade01",
+  "checks": [
+    "Every comparison CSV numeric field equals the respective saved summary",
+    "Primary V3 reference table uses matched summary values",
+    "Matched V3 empty-answer counts reconcile to 2255 correct and 674 wrong",
+    "Independent paired_stats_audit review passed with no required fixes",
+    "All 11 rendered document pages visually inspected at original resolution"
+  ],
+  "historical_execution_scope": {
+    "released_questions": 2931,
+    "v3_original_archive": 2931,
+    "single_agent_completed": 2929
+  },
+  "provider_calls": false,
+  "inference_changes": false,
+  "runtime_source_changes_in_this_revision": false,
+  "artifact_sha256": {
+    "results/v3/ANALYSIS.docx": "65cccc344748fc27fdb5473fc563171ba286d1d5fbbe2b408b944d470cb7e58c",
+    "results/v3/ANALYSIS.txt": "19edd2a0e8349e7f7a866fb40689f16315db84be980c0d17b398f110b168dd32",
+    "results/v3/METHODS.txt": "9265d297cb5e1225cfe226a0b037c82867c1a27e573e7262e4ff7dc9d8a8e1d7",
+    "results/v3/README.txt": "0242c9bee485073761b0e31d6c2fb844ba6695ea258864d5a73346bf3221a715",
+    "results/v3/RUN_REGISTRY.json": "93fe96b4865b2764c67a9e8b594bb2e85bf7780505c73efdcc3e5bf0b7e7fb61",
+    "results/v3/comparison_summary.csv": "3c9a24a2211297f79c8390af24520ea9666e364aff768b692c0da8995e4ac3e1",
+    "results/v3/reproduce/build_analysis.py": "0529945ac41919fcd00e7c50b6bae474eba3d6930eb51b343ca72953e396d254",
+    "results/v3/internal/validation/document_quality_review.json": "16085ef71db34516a770407885224918e744f79a19160830d91e2d20f505e617"
+  },
+  "prior_consolidation_review": "results/v3/internal/validation/consolidation_review.json",
+  "prior_review_scope": "Historical numerical validation and original October 17 document hashes; this receipt and document_quality_review.json validate the reporting revision."
+}

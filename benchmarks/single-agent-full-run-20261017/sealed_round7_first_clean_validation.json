@@ -1,0 +1,159 @@
+{
+  "status": "SELECTED_SCOPE_IN_PROGRESS",
+  "selected_arms": [
+    "single_agent"
+  ],
+  "selected_accepted": 596,
+  "questions_per_selected_arm": 2931,
+  "selected_scope_complete": false,
+  "original_three_arm_benchmark_complete": false,
+  "analysis_status": "not_started",
+  "preserved_unselected": {
+    "multi_agent": {
+      "files_byte_identical_sha256": {
+        "full_multi_agent.json": "1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c",
+        "full_multi_agent.json.run.json": "b281be4700bb65aa585a7cc3d7c75a558a705a9844a883f97e726975d53ce6c1"
+      },
+      "ledger_choices_semantic_sha256": "4c14237a91042b1e91da695542331066dce36e9391fa3c09e0b9250a372397da",
+      "ledger_counts_semantic_sha256": "259a4735465e918e70ea67a5c6bff5b569bfc13ae9ee1f4eec063ecca1a816a7",
+      "unchanged": true
+    },
+    "direct_llm": {
+      "files_byte_identical_sha256": {
+        "full_direct_llm.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "full_direct_llm.json.run.json": "0f3a0dc5f4bab16544c381b4f9d6f90d66e61749584f0af0e4115d6e2bc385a4"
+      },
+      "ledger_choices_semantic_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "ledger_counts_semantic_sha256": "de9c1d4c0555abe3f5181b519332722d7bd0ef0f3cfc968976f671cb87a6c5dd",
+      "unchanged": true
+    }
+  },
+  "replayed_counts": {
+    "raw_attempts": 612,
+    "runtime_failures": 16,
+    "intrinsic_errors": 0
+  },
+  "sealed_batches": [
+    {
+      "round": 1,
+      "scheduled": 100,
+      "classifications": {
+        "accepted": 10,
+        "runtime": 2,
+        "pending": 88
+      },
+      "audits_verified": 12,
+      "provider_rejections": {},
+      "result_sha256": "7575337dcb963c0e6879c23146d7519286424aa5aa466a697766868c7471b18c",
+      "seal_sha256": "19f245656bfa3ff4fb241ec4ed4047004e451bcef96531ab74f4be6629380694"
+    },
+    {
+      "round": 2,
+      "scheduled": 100,
+      "classifications": {
+        "accepted": 98,
+        "runtime": 2
+      },
+      "audits_verified": 100,
+      "provider_rejections": {
+        "05a8454a6a71435a557db2cc": 1
+      },
+      "result_sha256": "154e71819c154c322188829f12b63769bb62e42f603044df6f371b87d45b88a8",
+      "seal_sha256": "4065f7a1c65ab7c187c710d329f4a9caf0b554879aee4483505102f7fa4ad64a"
+    },
+    {
+      "round": 3,
+      "scheduled": 100,
+      "classifications": {
+        "runtime": 6,
+        "accepted": 94
+      },
+      "audits_verified": 100,
+      "provider_rejections": {
+        "05a8454a6a71435a557db2cc": 1,
+        "0eb69f6e47ab63c055e2df90": 1
+      },
+      "result_sha256": "28b443efbb4b29311268a864ea44e3870a16cc18fa17e4196747d29dc61ee221",
+      "seal_sha256": "e07d022f32b9bdcd7dc7b01827919b1bf207310b2538dfa7c5b996a0c94379bb"
+    },
+    {
+      "round": 4,
+      "scheduled": 100,
+      "classifications": {
+        "accepted": 97,
+        "runtime": 3
+      },
+      "audits_verified": 100,
+      "provider_rejections": {
+        "0eb69f6e47ab63c055e2df90": 1
+      },
+      "result_sha256": "b2e67f0f257a87cc2bfd87043351373c17fa3fff9b00a877eae5a7032f40b6df",
+      "seal_sha256": "3e06216c8c53ec06afa7f8f4e83a21a244b000779a734925a35b1e86ac1090bd"
+    },
+    {
+      "round": 5,
+      "scheduled": 100,
+      "classifications": {
+        "accepted": 99,
+        "runtime": 1
+      },
+      "audits_verified": 100,
+      "provider_rejections": {},
+      "result_sha256": "60552fb975464cb23784ad51c5a45f156c341f4616b82c130caa0593053d6b87",
+      "seal_sha256": "0afec710870b96fcbc24c77affc44b9cbc93c5dd7a6062b97a4131fc28342099"
+    },
+    {
+      "round": 6,
+      "scheduled": 100,
+      "classifications": {
+        "accepted": 99,
+        "runtime": 1
+      },
+      "audits_verified": 100,
+      "provider_rejections": {},
+      "result_sha256": "6e1376eff9cab81fa4795a7a2045fd5b8ac4bf74c7f0ffbc79e464104fa4b292",
+      "seal_sha256": "69e8678ebcfeee81bd03266a0b1b076d9b3a7253684597d312d96d47f35013f5"
+    },
+    {
+      "round": 7,
+      "scheduled": 100,
+      "classifications": {
+        "accepted": 99,
+        "runtime": 1
+      },
+      "audits_verified": 100,
+      "provider_rejections": {},
+      "result_sha256": "33a9091486457a2407533164cd9d85badb44d2ce848a945210fede53f5d8cf23",
+      "seal_sha256": "f018842739d47efb36d064f0d87fcb5473a19c79a96f11ecf3d40ce979cabcee"
+    }
+  ],
+  "canonical_first_clean_verified": true,
+  "provider_rejections_replayed": {
+    "05a8454a6a71435a557db2cc": 2,
+    "0eb69f6e47ab63c055e2df90": 2
+  },
+  "parked_pending_question_ids": [
+    "05a8454a6a71435a557db2cc",
+    "0eb69f6e47ab63c055e2df90"
+  ],
+  "accepted_reruns": 0,
+  "current_native": {
+    "required": true,
+    "pid_comm": {
+      "12567": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python",
+      "12569": "/usr/bin/caffeinate",
+      "19330": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python"
+    },
+    "pid_states": {
+      "12567": "Ss",
+      "12569": "Ss",
+      "19330": "Ss"
+    },
+    "ps_exit_code": 0
+  },
+  "state_phase": "running",
+  "at_utc": "2026-10-17T07:21:32.707790+00:00",
+  "monitor_sha256": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+  "manifest_sha256": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+  "correctness_used_for_scheduling": false
+}

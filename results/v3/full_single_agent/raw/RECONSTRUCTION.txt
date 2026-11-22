@@ -1,0 +1,38 @@
+Portable Single Agent accepted-result archive (2929 rows,94 patients)
+
+ARCHIVE_MANIFEST.json and question_index.jsonl define the complete patient XZ
+archive. Each UTF8 JSONL line has exactly {'canonical':..., 'audit_json':...}.
+The first value is the entire original parsed canonical result. The second is
+the exact original decompressed audit JSON UTF8 string, including ownership meta.
+Patient then QID order improves compression; source_row_index records the original
+canonical row order. Every archive file is below90MB, includes CRC64 and has SHA256.
+
+From the repository root verify the whole archive without project dependencies:
+
+python3 results/v3/full_v3/archive_tools.py verify --archive results/v3/full_single_agent/raw
+
+Reconstruct into a NEW directory (replace the example path with a new destination):
+
+python3 results/v3/full_v3/archive_tools.py reconstruct --archive results/v3/full_single_agent/raw --output /private/tmp/reconstructed-single-agent-2929
+
+The shared archive tool uses only Python's standard library; use Python3.10+ for reconstruction (verify alone also supports3.9). It verifies archive,
+parsed-row and exact uncompressed-payload hashes and writes reconstructed canonical
+JSON plus content-addressed audit gzip files when requested. It does not invoke
+inference, provider setup, scoring or credentials. Original parsed fields and
+payload UTF8 bytes are retained; canonical whitespace and gzip headers/container
+bytes are new. Thus the original source-file SHA or original compressed-audit SHA
+is historical provenance and does not equal a newly serialized/recompressed copy.
+
+To read without the tool: lzma.open each patient_chunks/*.jsonl.xz in text mode,
+then json.loads each line. Parse audit_json to recover trace,retrieval and revision
+messages according to canonical.audit_artifacts.fields; revision.messages is the
+only declared nested field. Payload _audit_meta and the descriptor identify QID
+ownership. Standard hashlib.sha256(audit_json.encode('utf-8')) must match the index's
+audit_uncompressed_sha256. Retain original canonical and payload as separate values
+when checking their hashes; merging large fields changes the canonical row hash.
+
+This accepted archive contains no discarded runtime attempts. Separate internal/
+diagnostic archives preserve those records; they never enter primary accepted
+statistics. The original whole-arm completion condition is not claimed here.
+
+The exact shared archive-generation utility is preserved at results/v3/full_v3/pack_archive.py (also standard-library only). Its SHA is recorded by ARCHIVE_MANIFEST.json. A freshly reconstructed canonical JSON may have different source-file bytes even though every parsed row and original audit payload is unchanged.

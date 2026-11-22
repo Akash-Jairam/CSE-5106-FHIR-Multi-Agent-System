@@ -1,0 +1,19 @@
+{
+  "status": "REVIEWED_RETRY_CORE_APPLIED_NOT_YET_LAUNCHED",
+  "applied_at_utc": "2026-10-17T15:56:24.589200+00:00",
+  "root_approval_sha256": "890268a0a4cd92ad14ab89231cf32f3a57f7d7a8eed69009f16efb97c1f6b9c9",
+  "runner_sha256": "b1543ea655e005af6b14c280a0695b877084fc14f19024c569a4f70ebc583f4a",
+  "monitor_sha256": "1e091082d844fcabafb0e6a558d8b41634a26e2f476790b30b31c61033eba3dc",
+  "manifest_sha256": "a76fcc081d88c7293e69713cf6f95c4b7b721aeaca62704ce10e3fb2ce435f10",
+  "only_live_source_change": "scripts/v3_full_run.py",
+  "only_live_manifest_changes": [
+    "source_sha256.scripts/v3_full_run.py",
+    "provider_rejection_policy"
+  ],
+  "source_pins_verified": 45,
+  "public_pins_verified": 9,
+  "prior_state_ledger_stop_events_unchanged": true,
+  "prior_31_sealed_rounds_155_files_rehashed_before_apply": true,
+  "provider_calls_in_this_step": false,
+  "source_and_manifest_replaced_atomically": true
+}

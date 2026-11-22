@@ -1,0 +1,28 @@
+{
+  "status": "APPROVED_OPERATIONAL_RECOVERY_ONLY",
+  "approved_at": "2026-10-17T05:57:53.405753+00:00",
+  "runner_sha256": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+  "manifest_sha256": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+  "inference_unchanged": true,
+  "historical_accepted_choices_unchanged": true,
+  "all_v3_decisions_unchanged": true,
+  "source_files_changed": [
+    "scripts/v3_full_run.py"
+  ],
+  "manifest_changes": [
+    "classifier_version",
+    "provider_rejection_policy",
+    "source_sha256.scripts/v3_full_run.py"
+  ],
+  "offline_tests_passed": 55,
+  "sealed_replay_sha256": "1df4c0183b8ba615e9fbb31074c48fbbfcb09005e4df1936cf4da2a321d8c9d4",
+  "independent_root_tests_sha256": "29476544147f62f76bb3ea4bb62a07414ef2b367bea481e8c240160c82ed2958",
+  "sealed_raw_inventory_rechecked": 3300,
+  "native_prior_owned_pids_absent": true,
+  "single_clean_before": 108,
+  "v3_clean_before": 2931,
+  "direct_ledger_clean_before": 0,
+  "comparison_or_answer_correctness_used": false,
+  "provider_settings_or_safeguards_or_prompts_changed": false,
+  "publication_authorized": false
+}

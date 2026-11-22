@@ -1,0 +1,153 @@
+{
+  "scope": "ROUND32_REVIEWED_UNCHANGED_REQUESTS_REJECTED_AGAIN_INCOMPLETE",
+  "captured_at_utc": "2026-10-17T16:02:32.410904+00:00",
+  "associations": [
+    {
+      "question_id": "05a8454a6a71435a557db2cc",
+      "journal": "diagnostics/single_agent/round-0032/azure-diagnostics-58093-5a6528d054854870b9435e40215747fa.jsonl",
+      "candidate_count_in_owned_round": 1,
+      "successful_prefix_prompt_completion_key": [
+        [
+          10922,
+          91
+        ]
+      ],
+      "method": "INFERRED_unique_owned_worker_successful_prefix_PC_then_next_error_counter",
+      "direct_question_id_request_join": false,
+      "rejected_call": {
+        "pid": 58093,
+        "ppid": 58085,
+        "process_session": "5a6528d054854870b9435e40215747fa",
+        "counter": 2,
+        "started_utc": "2026-10-17T15:58:06.301142+00:00",
+        "finished_utc": "2026-10-17T15:58:12.257121+00:00",
+        "duration_seconds": 5.955990374997782,
+        "http_status": 400,
+        "request_ids": {
+          "apim-request-id": "bb149ae8-e200-408e-b888-444d52a4fbe0"
+        },
+        "fd_count": 18,
+        "exception_classes": [
+          "openai.BadRequestError"
+        ],
+        "sdk_closed": false,
+        "http_closed": false,
+        "all_failed_call_usage_fields_null": true
+      },
+      "structured_filter_metadata": {
+        "code": "content_filter",
+        "param": "prompt",
+        "status": 400,
+        "inner_code": "ResponsibleAIPolicyViolation",
+        "jailbreak_detected": true,
+        "jailbreak_filtered": true
+      },
+      "successful_call_before_rejection": {
+        "counter": 1,
+        "started_utc": "2026-10-17T15:58:03.657596+00:00",
+        "finished_utc": "2026-10-17T15:58:06.248460+00:00",
+        "usage_available": true,
+        "prompt_tokens": 10922,
+        "completion_tokens": 91,
+        "cached_prompt_tokens": 0,
+        "cached_field_explicit_in_journal": true,
+        "estimated_cost_USD_frozen_rates": 0.0011377
+      },
+      "rejected_call_usage_available": false
+    },
+    {
+      "question_id": "0eb69f6e47ab63c055e2df90",
+      "journal": "diagnostics/single_agent/round-0032/azure-diagnostics-58094-18629f0df9dc40c19f1ecdf3ed042148.jsonl",
+      "candidate_count_in_owned_round": 1,
+      "successful_prefix_prompt_completion_key": [
+        [
+          8562,
+          58
+        ]
+      ],
+      "method": "INFERRED_unique_owned_worker_successful_prefix_PC_then_next_error_counter",
+      "direct_question_id_request_join": false,
+      "rejected_call": {
+        "pid": 58094,
+        "ppid": 58085,
+        "process_session": "18629f0df9dc40c19f1ecdf3ed042148",
+        "counter": 2,
+        "started_utc": "2026-10-17T15:58:05.872176+00:00",
+        "finished_utc": "2026-10-17T15:58:12.799881+00:00",
+        "duration_seconds": 6.927729041999555,
+        "http_status": 400,
+        "request_ids": {
+          "apim-request-id": "4247ae90-0d2b-44dc-b149-2bc540bbe3f2"
+        },
+        "fd_count": 18,
+        "exception_classes": [
+          "openai.BadRequestError"
+        ],
+        "sdk_closed": false,
+        "http_closed": false,
+        "all_failed_call_usage_fields_null": true
+      },
+      "structured_filter_metadata": {
+        "code": "content_filter",
+        "param": "prompt",
+        "status": 400,
+        "inner_code": "ResponsibleAIPolicyViolation",
+        "jailbreak_detected": true,
+        "jailbreak_filtered": true
+      },
+      "successful_call_before_rejection": {
+        "counter": 1,
+        "started_utc": "2026-10-17T15:58:03.553322+00:00",
+        "finished_utc": "2026-10-17T15:58:05.821399+00:00",
+        "usage_available": true,
+        "prompt_tokens": 8562,
+        "completion_tokens": 58,
+        "cached_prompt_tokens": 0,
+        "cached_field_explicit_in_journal": true,
+        "estimated_cost_USD_frozen_rates": 0.0008852
+      },
+      "rejected_call_usage_available": false
+    }
+  ],
+  "observed_request_totals": {
+    "starts": 4,
+    "ends": 4,
+    "success": 2,
+    "HTTP400_errors": 2
+  },
+  "journal_bindings": {
+    "diagnostics/single_agent/round-0032/azure-diagnostics-58093-5a6528d054854870b9435e40215747fa.jsonl": {
+      "sha256": "e4cf470ad9bace04ca1adfa840190ea1ca5e16f3f3bce0ebb24fe6f9077d426f",
+      "bytes": 4692,
+      "observed_after_batch_seal_snapshot_not_covered_by_batch_seal": true
+    },
+    "diagnostics/single_agent/round-0032/azure-diagnostics-58094-18629f0df9dc40c19f1ecdf3ed042148.jsonl": {
+      "sha256": "d11b2892631eb9c1f9e44c0efaa4be2b8bdceed317a9812a9780dbec76e6fe50",
+      "bytes": 4690,
+      "observed_after_batch_seal_snapshot_not_covered_by_batch_seal": true
+    }
+  },
+  "original_sealed_attempt_bindings": {
+    "batch_sha256": "c757778a8784ebdf0c1efc0c6b3fc761242fb5e8ab98844f90e7e92bf4cdbec7",
+    "seal_sha256": "08e6824186192603e5c8cc52d1d2df9bf49f5164d34a461906a372519e51e366",
+    "result_sha256": "368b29cf4d071e7978d6c90e7fd649cc61e0c9ee706ceea75722f577d44124be",
+    "identity_sha256": "0ebe5a232ac70ef959cf6f7f54a8815327d67f8b8d1cd9c06695a6e7986ee7fc",
+    "shard_input_sha256": "9a91f609faa58d8c7d138d2eb3c26fe28525fb814556383d5dc79f91c7d41a71",
+    "frozen_inference_identity_matches": true
+  },
+  "source_bindings": {
+    "run_manifest.json": "a76fcc081d88c7293e69713cf6f95c4b7b721aeaca62704ce10e3fb2ce435f10",
+    "scripts/v3_full_run.py": "b1543ea655e005af6b14c280a0695b877084fc14f19024c569a4f70ebc583f4a",
+    "monitor_single_agent.py": "1e091082d844fcabafb0e6a558d8b41634a26e2f476790b30b31c61033eba3dc",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf"
+  },
+  "frozen_pricing_sha256": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6",
+  "limitations": [
+    "Question-to-journal identity is inferred from a unique within-owned-round successful-prefix prompt/completion sequence plus the next error counter, not a direct logged QID/request-ID join. Cached counts are not used in matching keys.",
+    "Exactly two observed worker streams cover the two question tasks, with paired consecutive counters, matching timestamps, no visible barrier/overlap and SDK durations within task latency. Best-effort diagnostics cannot rule out invisible logging loss.",
+    "Batch seals cover batch/result/identity, not diagnostic journal files. Journal hashes are stable post-seal observations, not cryptographic seal coverage.",
+    "Each discarded task includes a successful model call before its HTTP400 rejection; only the rejected call has unavailable usage. Actual provider billing is unknown.",
+    "These reviewed requests retained the same provider route, prompts and safeguards; this packet does not authorize another request or provider-setting change."
+  ],
+  "no_clinical_prompt_answer_reference_raw_provider_message_or_credentials": true
+}

@@ -1,0 +1,38 @@
+Independent consolidated V3 analysis QA: PASS
+
+194,209 checks passed with no unresolved findings. Checked development600 numeric
+rows/300pairs, baseline2929 and question/patient-matched V32929, plus the original
+complete V32931. Correctness flags were counted, not rescored; no clinical answer
+or reference values were inspected.
+
+All17 full metrics,72 development metric summaries, token/cached/call balances,
+frozen-rate cost formulas, observed/missing scopes, score/empty cross-tabs,
+paired signs and draft scope arithmetic reconcile. Independently recomputed
+patient-cluster10000/seed5106 intervals reproduce full main accuracy/time/cost/
+token contrasts, four family accuracy contrasts, and development accuracy and
+measurement intervals. Development local cluster labels sort numerically;
+full FHIR cluster identifiers sort lexically, preserving each saved recipe.
+
+Full pair files use Single minus V3. Development pairs and the handoff use V3
+minus Single. One overly broad sign sentence was corrected in the handoff and
+its generator. No numerical correction was required.
+
+The analysis distinguishes complete V32931 from the posthoc matched2929 cohort,
+retains the incomplete baseline denominator, separates development first-attempt
+selection from full first-clean selection, and does not treat four arm records
+as independent repetitions. It states conditional patient uncertainty, sequential
+execution/cache limits, estimated rather than invoiced costs, and observational
+mechanism limits. Exposure labels independently reconcile:300 reused development
+questions,58 later development patients plus35 original dev/pilot patients give
+93 of94 known-exposed patients. No untouched-holdout claim is made.
+
+All57 declared shared source files were hashed at the two recorded Git commits;
+56 match. The sole difference is LedgerSolver host-loop bound21 versus22, with
+model calls still capped at20. Both42-source fingerprints reproduce using the
+recorded21-version map. Tracked git diff from f71a8d9 was empty; only restored
+benchmark/results additions were observed.
+
+Raw archives/final package manifests were still being built and are outside this
+review. DOCX visual verification belongs to root. No provider calls, secrets,
+source changes, commits or pushes occurred. See numeric_qa.json and
+consolidation_review.json for exact bindings and limitations.

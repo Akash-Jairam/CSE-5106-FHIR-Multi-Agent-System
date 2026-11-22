@@ -1,0 +1,83 @@
+{
+  "status": "PASS_CONSOLIDATED_NUMERIC_AND_SCIENTIFIC_SCOPE_REVIEW",
+  "at_utc": "2026-10-17T17:09:44.322996+00:00",
+  "reviewer": "paired_stats_audit",
+  "numeric_checks_passed": 194209,
+  "unresolved_findings": [],
+  "corrected_during_review": [
+    {
+      "issue": "An unqualified paired JSON sign sentence could incorrectly include development tables.",
+      "resolution": "Full paired JSON identified as Single minus V3; development paired tables and handoff identified as V3 minus Single. Corrected in current text and generating source; no numeric data changed."
+    }
+  ],
+  "numeric_scope": {
+    "development_rows": 600,
+    "development_matched_pairs": 300,
+    "development_patients": 58,
+    "single_agent_available_rows": 2929,
+    "matched_v3_rows": 2929,
+    "full_v3_original_rows": 2931,
+    "full_patients": 94,
+    "descriptives": "All17 frozen full metrics for each of3full scopes and all72 development arm/family/metric rows; observed/missing counts, complete/observed totals, mean, median, linear p95, sampleSD and extrema; additional development saved quantiles.",
+    "per_question_checks": "Prompt+completion=total, cached subset and uncached balance; all full per-call usage sums/counts/cache subsets; official frozen proxy-cost formula and development null-vs-known-cost handling.",
+    "correctness_checks": "Retained typed correctness counts, paired wins/losses/both outcomes, empty-flag correctness cross-tabs, matched-ID/patient joins and originalV3 subset equality, draft-present/absent final arithmetic.",
+    "bootstrap": "Independent patient grouping and aggregation with10000 multinomial resamples/default_rng seed5106; full accuracy/time/cost/token individual and paired endpoints; four family accuracy contrasts; all development accuracy intervals and five paired measurement intervals reproduce.",
+    "development_cluster_order": "Local numeric patient_cluster labels sorted numerically, as retained derive_development.py. Full patient FHIR identifiers sorted lexically. This preserves the respective saved seed-to-label mapping.",
+    "signs": "Full paired JSON Single Agent minus V3; development pairs and handoff V3 minus Single Agent.",
+    "cost_sensitivity": "Fixed measured usage, cached subset priced once, no-cache accounting totals/ratios recomputed; not an inference scenario."
+  },
+  "scientific_scope_review": {
+    "complete_v3_2931_separated_from_matched2929": true,
+    "baseline_incomplete_not_scored_as2931": true,
+    "posthoc_available_cohort_and_missing_two_not_wrong_explicit": true,
+    "historical_development_first_attempt_vs_full_first_clean_explicit": true,
+    "four_arm_records_not_independent_repetitions_explicit": true,
+    "conditional_patient_uncertainty_and_sequential_dates_limits_explicit": true,
+    "no_pure_topology_or_causal_cache_claim": true,
+    "cost_proxy_actual_billing_unknown_and_cache_coverage_limits_explicit": true,
+    "empty_flag_not_refusal_or_conditional_accuracy": true,
+    "draft_mechanisms_scope_and_observational_limits_correct": true,
+    "known_exposure_union": {
+      "fresh_questions_in_matched": 300,
+      "fresh_patients": 58,
+      "older_dev_pilot_patients": 35,
+      "known_union": 93,
+      "full_patients": 94,
+      "untouched_holdout_claim": false
+    },
+    "main_analysis_focuses_design_results_rather_than_incident_narrative": true
+  },
+  "source_scope_review": {
+    "shared_declared_files_independently_hashed_from_git_commits": 57,
+    "equal": 56,
+    "different": [
+      "agent/query_contract_agent.py"
+    ],
+    "source_diff_read": "LedgerSolver host-loop max_iterations21 full versus22 development; actual model-call cap20 retained.",
+    "both_recorded_fingerprints_independently_reproduced": true,
+    "fingerprint_source_files": 42,
+    "recorded_dependency_version_map": 21,
+    "tracked_diff_from_f71a8d9": [],
+    "branch_observed": "results/v3-ful-run",
+    "untracked_scope_observed": [
+      "benchmarks/design-v3d-20261014/",
+      "results/"
+    ]
+  },
+  "evidence_sha256": {
+    "internal/validation/numeric_qa.json": "46508fc341eed41b7e01645ad0206011c21e671b617c1217e50e17056f09446e",
+    "internal/validation/independent_numeric_qa.py": "749bae4c0484927a35c7a38c9beab4533978978186f1309e7fbefd86d3a70fd9",
+    "ANALYSIS.txt": "9cf3d26d8a351eaa561257bf183e69fe579dc57b8fa822dd3e9a637bbe35f2f0",
+    "METHODS.txt": "0a40f8a13dad86b004c491333c8b37e88a63d7dd2ad3633014ed08e9ec3b4e25",
+    "reproduce/build_analysis.py": "38629d4b303d20287e22872c072ebf81c01ad62f4784c89d546f10424d988858",
+    "RUN_REGISTRY.json": "60d56c4a3cf18013a1293baa725757fa6703e144372ab261b683334b674ba64c",
+    "reproduce/development/derive_development.py": "9fdb37ff814c3d5727d07f8c44707b4bf5b9941e0759cf890389296f728da8ca"
+  },
+  "limits": [
+    "This review independently recomputes numeric statistics from retained correctness flags; it does not independently rerun the typed scorer or inspect clinical answer/reference strings.",
+    "Source comparison concerns57 declared shared runtime files and42 fingerprint sources with21 recorded dependency versions; it is not equality of all repository/runtime/package bytes.",
+    "No raw archives, archive manifests under construction or final root package manifest are validated here. Separate archive QA and final packaging checks remain owned by the packaging agents/root.",
+    "DOCX visual layout is outside this numerical/scientific review. Current text and generator were reviewed; root owns document rendering verification.",
+    "No provider/model/inference calls, config/secret reads, implementation changes, commits or pushes. Only files under results/v3/internal/validation were written."
+  ]
+}

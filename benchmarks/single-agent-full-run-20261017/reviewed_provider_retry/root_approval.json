@@ -1,0 +1,45 @@
+{
+  "status": "APPROVED_OPERATIONAL_RECOVERY_ONLY",
+  "approved_at_utc": "2026-10-17T15:56:24.585181+00:00",
+  "authorization_source": "Direct human request on 2026-10-17 to try again after checking the V3 comparison",
+  "runner_sha256": "b1543ea655e005af6b14c280a0695b877084fc14f19024c569a4f70ebc583f4a",
+  "monitor_sha256": "1e091082d844fcabafb0e6a558d8b41634a26e2f476790b30b31c61033eba3dc",
+  "manifest_sha256": "a76fcc081d88c7293e69713cf6f95c4b7b721aeaca62704ce10e3fb2ce435f10",
+  "parent_manifest_sha256": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+  "inference_unchanged": true,
+  "historical_accepted_choices_unchanged": true,
+  "classifier_AST_unchanged": true,
+  "classifier_version": "v3-infrastructure-v4",
+  "selected_arms": [
+    "single_agent"
+  ],
+  "policy": {
+    "version": "azure-prompt-rejection-v2-reviewed-retry",
+    "category": "provider_policy_rejection",
+    "max_rejections_per_question": 3,
+    "prior_max_rejections_per_question": 2,
+    "reviewed_question_ids": [
+      "05a8454a6a71435a557db2cc",
+      "0eb69f6e47ab63c055e2df90"
+    ],
+    "first_reviewed_round": 32,
+    "retry_request": "unchanged",
+    "persistent_action": "park_pending_then_attention",
+    "scope": [
+      "single_agent"
+    ]
+  },
+  "sealed_prefix_inventory_sha256": "745aa44dc7f447f14dd767ec40aa317967b57bcf422eb7df53af3ef9d7c83b89",
+  "authorization_sha256": "2ebcc3400ba37674d5d8ddb555ed613ec917a63124010236e9ce921bca345947",
+  "pre_apply_binding_sha256": "dfbfc3aee9901e8bf6885857665c954b6269b373fd75bebcac2818fda25bdea5",
+  "static_transition_proof_sha256": "8348dc5e15d7f62b92970a407658ed7634cb7f7ab138bf57421ed7029badf42b",
+  "actual_stopped_prefix_replay_sha256": "3f06043ffae88147826a9ffabce5b4a5341e516c7e36e61a6d08430ee008ce4c",
+  "independent_core_review_sha256": "3b9192d502d4dfd648fe5ba176ed95c4461f2ccc55a61baa633a7f9f8728ff4e",
+  "v3_provider_comparison_sha256": "b992c78b8ae3681b7efa9210ccb3a5a77cdd52933f93894c038a2755ccc5ea3c",
+  "accepted_results_protected": 2929,
+  "provider_safeguards_or_prompts_or_settings_modified": false,
+  "generic_infrastructure_retry_rules_unchanged": true,
+  "scoring_or_correctness_used_to_choose_retry": false,
+  "public_push_authorized": false,
+  "scope_note": "One additional unchanged provider-rejection allowance for exactly two ordinary benchmark questions from round32, retaining the historical cap2 and rejecting scheduling after a third provider rejection. This is a user-reviewed local operational amendment, not provider approval or a guarantee of acceptance. Exporter/bound completion source reviews are separate."
+}

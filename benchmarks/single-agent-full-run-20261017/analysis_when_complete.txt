@@ -1,0 +1,167 @@
+COMPLETE-COHORT V3 + SINGLE AGENT ANALYSIS
+
+Current 17 October status: a human-reviewed unchanged retry under amendment
+0005 again ended incomplete at 2,929 outcomes. Both questions remain pending at
+three provider rejections. No full analysis or complete cache audit may run.
+The commands below retain the earlier 0003/0004 lineage. The separately validated
+0005 exporter in reviewed_provider_retry/export_preparation/ is preparation only,
+not applied to the live exporter. It adds --reviewed-provider-retry-amendment-dir
+and exact historical-prefix/authorization pins; do not weaken the live gates.
+reviewed_provider_retry/final_cache_audit/ contains the companion four helpers
+with only the reviewed monitor SHA updated. Its actual complete audit has not run.
+Any future recovery must be reviewed against its own final source/manifest pins
+before these full-cohort commands become executable. Historical cap2 remains;
+only the two explicitly reviewed IDs at round32 or later had a cap3 exception.
+
+Do not evaluate partial baseline answers. The additive exporter refuses to
+import the scorer/analyzer until both exact 2,931-question first-clean cohorts,
+identities, immutable source attempts and audits validate. It also verifies
+the historical V3 manifest/receipt, the selected-arm scheduling amendment and
+the reviewed provider-rejection recovery amendment, shared inference/settings/inputs, frozen
+pricing, and all nine public runtime/protocol pins.
+The classifier transition is explicit: replay must preserve every V3 decision
+and allow only the narrow single-agent provider attention-to-runtime change.
+Historical attempts beyond the two-rejection limit must fail validation.
+
+When the selected supervisor has completed all 2,931 Single Agent outcomes:
+
+1. Capture the reviewed final execution verifier with stable before/after byte
+   and exact sealed-round inventory bindings. Use a NEW sibling directory:
+   PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python \
+     benchmarks/single-agent-full-run-20261017/final_cache_audit_preparation/capture_final_proof.py \
+     --project-root . \
+     --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015 \
+     --output-dir output/experiments/gpt-6-luna/single_agent_final_monitor_capture_20261017
+
+   This invokes the unchanged monitor verify --final-arm without writing to the
+   live run. Preserve proof.json and binding.json together. Both outcome
+   completeness and exact current canonical/ledger/state/source/round bindings
+   must validate; a stale receipt cannot authorize the cache audit below.
+
+2. Export to a NEW sibling directory; never overwrite the live run or the
+   original completed V3 export:
+   PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python \
+     benchmarks/single-agent-full-run-20261017/export_complete_v3_single.py \
+     --project-root . \
+     --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015 \
+     --historical-v3-export output/experiments/gpt-6-luna/v3_complete_2931_20261016 \
+     --operational-amendment-dir output/experiments/gpt-6-luna/v3_full_2931_20261015/amendments/0003-single-agent-only-resume \
+     --provider-rejection-amendment-dir output/experiments/gpt-6-luna/v3_full_2931_20261015/amendments/0004-provider-rejection-runtime \
+     --output-dir output/experiments/gpt-6-luna/v3_single_complete_2931_20261017
+
+   If that output directory already exists, inspect its receipt/hashes and
+   determine whether the export succeeded before deciding any next action.
+   Never rerun inference because an analysis or observation command failed.
+
+3. Independently reconcile the full per-question table against canonical
+   outcomes and the selected acceptance ledger. Check time/token/cached-token
+   and cost sums, means, coverage, missingness and confidence intervals. Review
+   correctness versus the syntactic empty/no-value flag; correct empty answers
+   are not refusals. Verify paired wins/losses and the comparison sign.
+   The frozen analyzer uses left minus right, explicitly labeled in each row.
+
+   Run the separately implemented statistical verifier on the completed export:
+   PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python \
+     benchmarks/single-agent-full-run-20261017/reconcile_final_pair.py \
+     --export-dir output/experiments/gpt-6-luna/v3_single_complete_2931_20261017 \
+     --output output/experiments/gpt-6-luna/v3_single_complete_2931_20261017_independent_qa.json
+
+   The QA output must be new and outside the immutable export. This checks all
+   17 measurement fields, group/phase aggregates, cached-input pricing, CSV/JSONL,
+   exact matched identities, paired signs and patient-cluster intervals. It
+   reconciles frozen scorer correctness flags; it does not independently re-score
+   answers. The exporter retains responsibility for full raw-attempt/audit replay.
+   Validation sources and both author/root synthetic evidence are archived under
+   independent_stats_validation/. They retain their original test-machine paths.
+
+   Establish full-baseline cache-diagnostic coverage using the newly bound proof:
+   PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python \
+     benchmarks/single-agent-full-run-20261017/final_cache_audit_preparation/audit_complete_single_cache.py \
+     --project-root . \
+     --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015 \
+     --completion-proof output/experiments/gpt-6-luna/single_agent_final_monitor_capture_20261017/proof.json \
+     --completion-binding output/experiments/gpt-6-luna/single_agent_final_monitor_capture_20261017/binding.json \
+     --output-dir output/experiments/gpt-6-luna/single_agent_complete_cache_metadata_20261017
+
+   The output must be NEW and outside the live run. Keep the four prepared code
+   files together and verify their saved checksums first. The helper has passed
+   15 synthetic adversarial tests and real incomplete-run refusal checks; its
+   full audit has not yet run. A complete outcome cohort does not guarantee
+   complete diagnostic associations. Report missing, ambiguous and null cache
+   coverage explicitly. Malformed journals or changed sources can abort after
+   partial files exist: only a valid final safe_evidence.json establishes a
+   completed coverage report. Preserve and diagnose an aborted audit; never
+   rerun inference or change frozen metrics because this analysis failed.
+
+4. Preserve the full per-question CSV/JSONL, aggregate and subgroup tables,
+   paired comparisons, report, receipts, provenance and file checksums. Keep raw
+   attempts/audits/diagnostics in the local run. Summed accepted task latency is
+   distinct from wall time. The original single-agent batch preceded a user
+   deferral; report the selected-resume interval separately from the historical
+   first-to-last batch span, which includes that gap.
+
+   Carry the protocol's sequential collection order, ten reused outcomes with
+   original per-question measurements, and conditional bootstrap uncertainty
+   notes into the final comparison report/README. Preserve the frozen analyzer
+   output unchanged; these interpretation notes belong in the companion report.
+   Include metric_interpretation.txt and any cache-diagnostic coverage audit.
+   Label repeated_prompt_tokens as a length heuristic and distinguish recorded
+   cached counts from independently established cache-detail availability.
+   The reconstructed 891-question diagnostic audit is an interim checkpoint.
+   Establish corresponding coverage for each full cohort before making a full
+   cache-detail claim; otherwise report its missing/ambiguous coverage and the
+   collector's normalization limits. Preserve frozen values and label any
+   reconstructed token-sequence associations as inferred, not direct ID joins.
+   Full V3 cache reconciliation is already preserved and independently checked
+   in ../v3-full-run-20261015/cache_metadata_reconciliation_20261017. Verify its
+   hashes when carrying it forward. The baseline audit currently covers 891
+   outcomes only; the prepared bound helper above extends metadata analysis to
+   its full completed cohort without rerunning inference or changing recorded
+   measurements. Its inferred-identity and best-effort logging limits still apply.
+
+5. After validating the matched pair, disable the single-agent heartbeat and
+   report measured results. Do not run Direct LLM or rerun V3. Detailed public
+   GitHub publication still requires the user's outstanding explicit approval.
+
+The paired delivery status is V3_SINGLE_COMPLETE_DIRECT_PENDING with
+paired_scope_complete=true and benchmark_complete=false. Use paired_complete/
+for the complete matched pair. global_partial/ retains the frozen analyzer's
+original global three-arm partial label. Direct LLM is omitted from the
+snapshot, scoring and comparisons. The original three-arm final gate is
+unchanged and must not be claimed complete.
+
+Snapshots may contain hardlinks to immutable local results/audits and retain
+absolute historical source paths; they are not portable archives. Do not edit
+or chmod snapshot files. Work from the exported tables and preserve their hashes.
+The helper and its eleven-check synthetic full-cohort validation are archived
+locally; the original fixture source retains its test-machine paths.
+The recovery revision additionally passed a full 2,931-per-arm synthetic export,
+32 independent monitor checks and seven independent scorer-free paired gates.
+Persistent provider-rejected questions remain pending. An arm with any pending
+question is incomplete and must not pass this export gate or be scored as full.
+
+If the supervisor stops with provider_policy_review_required instead of selected
+completion, preserve that incomplete state and do not run the numbered full-
+cohort commands above. The unchanged observer can record terminal attention:
+  PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python -B \
+    benchmarks/single-agent-full-run-20261017/monitor_single_agent.py observe \
+    --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015 --skip-native
+Check the known supervisor/worker processes separately and retain the actual
+terminal state, finished_at, empty active set and supervisor_stopped event.
+Skipping native observation does not prove process termination or data integrity.
+
+A plain verify command, without --skip-native, --final-arm or --append-validation,
+is expected to exit 2 with REFUSED / Supervisor requests attention at the current
+monitor's attention guard. With stable source, manifest, state, ledger, canonical,
+input and exact round/seal inventory bindings before and after, that precise
+refusal establishes only
+the integrity checks preceding the guard: sealed-attempt/audit replay, first-
+clean ledger/counters/canonical equality, provider parking and V3/Direct
+preservation. It is not a verifier success or cohort-completion receipt. Later
+requested-round/count assertions and native/active-successor checks are not
+reached. Replay skips unsealed attempts, so independently verify the exact final
+round/seal inventory and final batch adoption. The monitor also does not validate
+all current source/public pins; retain those separate bindings. Preserve actual
+output and exit status, including any unexpected refusal, without changing state
+or weakening a gate. Provider review and a reviewed legitimate recovery amendment
+remain necessary before further attempts of parked questions.

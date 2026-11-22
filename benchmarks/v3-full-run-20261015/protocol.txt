@@ -1,0 +1,96 @@
+Corrected V3 full released-cohort benchmark
+Authorized 15 October 2026 (America/Chicago).
+
+Purpose
+Produce the complete ordinary benchmark and reusable analysis data for the
+midterm report and presentation. This task does not author either deliverable.
+The user selected V3; designs V4 and later
+are outside this benchmark.
+
+Frozen design
+Branch: runs/v3-full-run, starting at 780f9bc.
+Inference commit: 4c7fbd13c1fd6e0b38abd002b072af8654837f28.
+The user-facing design name is V3. Historic paths containing 'v3b' below are
+immutable source provenance identifiers, not a different reported version.
+The source ZIP and manifest in benchmarks/design-v3b-20261014 preserve the
+original design and SDK message-serialization correction. The V3 inference,
+prompts, tools, limits and typed scorer are unchanged by the new supervisor.
+The later 21-to-22 host-boundary fix is deliberately not incorporated: its rare
+source-check allocation limitation remains an intrinsic design outcome.
+
+Cohort and controls
+All 2,931 released questions, with one accepted result per question for each
+of direct_llm, single_agent and multi_agent_v3: 8,793 accepted task results.
+Shared Azure gpt-6-luna deployment, reasoning effort none, 200,000 accounted
+tokens and 30 executed tools per task, 32,000 estimated input guard, cache
+enabled, request completion ceiling 16,384, SDK timeout 60 seconds and no SDK
+retries. Each task's model/tool behavior remains governed by the frozen code.
+Two workers per arm; every completed question is checkpointed. Raw traces and
+retrieved resources are retained in lossless, content-addressed gzip audits.
+Run V3 first. Then run the direct and single-agent controls under this same
+frozen setup. Original-paper aggregate scores cannot replace a matched control
+using our model, tool/verification substrate, budgets and answer scorer.
+
+Runtime recovery policy
+The user's current instructions replace earlier experiment notes that counted
+every first-attempt provider failure as wrong or required another subset gate.
+Preserve immutable raw attempts. Retry only explicit infrastructure failures,
+including provider/network timeouts and service unavailability, without using
+gold labels, correctness or a favorable answer to decide eligibility. Include
+auxiliary contract/audit phase failures even when the primary was preserved.
+The accepted result is the first completed attempt without runtime failure.
+Completed incorrect answers, legitimate empty answers, abstentions, malformed
+agent outputs, source-check failures and exhausted design budgets are final
+outcomes. Unknown failures require investigation instead of silent scoring.
+Unresolved runtime failures remain pending; never convert them into wrong rows.
+Retries use the same frozen question, model/settings, architecture and budgets.
+
+Primary time and cost
+Per-question latency and token usage belong only to the accepted attempt;
+earlier runtime attempts are excluded from primary accuracy, time and cost.
+Operational records retain retry counts and failures independently. Summed
+question latencies differ from elapsed parallel benchmark wall time: report
+both with explicit labels. Missing usage/cost stays unknown, never zero.
+
+The user authorized official OpenAI prices, assuming the Azure deployment has
+the same prices. Adopt GPT-6 Luna standard short-context rates, USD per million:
+uncached input 0.10, cached input 0.01, output 0.50. The 32k request input guard
+keeps requests in the short-context band. Calculate estimated cost as
+((prompt-cached)*0.10 + cached*0.01 + completion*0.50)/1,000,000.
+This is a usage-based estimate, not a provider billing receipt. Preserve the
+schedule and source URLs in pricing.json, and raw per-call usage for recalculation.
+Sources checked 15 October 2026 local date:
+https://developers.openai.com/api/docs/models/gpt-6-luna
+https://developers.openai.com/api/docs/pricing
+
+Analysis and reporting
+Keep accepted predictions, question/patient/family/template identities, typed
+correctness, citations, limitations, usage and tools, draft/final transitions,
+source checks, contract/audit/targeted-repair diagnostics, and full audit pointers.
+Report accuracy and paired differences with 95% patient-clustered bootstrap
+intervals (10,000 replicates, seed 5106), paired wins/losses, helpful/harmful
+revisions, empty/nonempty reference cases, budget stops and source limitations.
+Report count/missingness, total, mean, median, standard deviation and p95 of
+latency, tokens and estimated cost overall and by system/family/patient.
+Retain question-level data for later plots, error analysis and a blinded audit.
+Where local originals are available, validate cited fields and report evidence
+validity and annotation overlap separately from answer correctness.
+
+Interpretation
+The full released cohort includes development-exposed questions and patients.
+It is descriptive full-cohort performance, not a fresh held-out confirmation of
+design superiority. Record original split/exposure labels for subgroup analysis.
+Source-valid answers can still be semantically wrong. Model-shared errors and
+cohort reuse limit any causal claim about independent verification or topology.
+The full ordinary run does not establish the separate missing-evidence recovery
+experiment or repeated-run variability; those require their own data.
+
+Monitoring and preservation
+Freeze exact inference/source hashes, input/manifests, public provider settings,
+runtime adapter/bootstrap, package versions, launch commands and timestamps.
+Never record credentials or read secret-bearing files during manual inspection.
+The configured launcher may read credentials internally during authorized runs.
+Monitor accepted/pending/retry counts, owned process health, recent progress,
+source integrity, audit references and disk headroom. Use checkpoints to resume
+after runtime interruptions without repeating completed model/design outcomes.
+Save final accepted tables, summary/report, operational logs and their hashes.

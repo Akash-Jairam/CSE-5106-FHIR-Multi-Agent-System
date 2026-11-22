@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "classifier_definitions_AST_identical": [
+    "CLASSIFIER_VERSION",
+    "INTRINSIC",
+    "PROVIDER_JWT_REJECTION",
+    "RUNTIME",
+    "classify_attempt",
+    "diagnostic_errors",
+    "intrinsic_tool_validation",
+    "provider_jwt_paths"
+  ],
+  "changed_frozen_source_files": [
+    "scripts/v3_full_run.py"
+  ],
+  "new_runner_sha256": "880694880ddc03f0e1d1c3743868051cb0e0b4228fdd1c7f501513df85038eeb",
+  "unchanged_public_pins": 9,
+  "inference_code_hashes": {
+    "direct_llm": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+    "single_agent": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+    "multi_agent": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409"
+  }
+}

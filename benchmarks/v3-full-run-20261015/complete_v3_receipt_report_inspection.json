@@ -1,0 +1,144 @@
+{
+  "status": "PASS",
+  "at_utc": "2026-10-16T15:53:58.411209+00:00",
+  "scope": "COMPLETE_V3_ARM_ONLY_CONTROLS_PENDING",
+  "benchmark_complete": false,
+  "questions": 2931,
+  "patients": 94,
+  "correct": 2256,
+  "accuracy": {
+    "n": 2931,
+    "patients": 94,
+    "estimate": 0.7697031729785057,
+    "ci_low": 0.7452916915171077,
+    "ci_high": 0.7933626867897672
+  },
+  "primary_measurements": {
+    "latency_seconds": {
+      "total": 70504.268,
+      "mean": 24.054680313886045,
+      "median": 20.486,
+      "p95": 50.9185,
+      "stdev": 13.98040972187949,
+      "missing_n": 0,
+      "mean_95_percent_patient_cluster_CI": {
+        "ci_low": 23.105007168443688,
+        "ci_high": 24.996393306668384
+      }
+    },
+    "estimated_cost_usd": {
+      "total": 14.810823690000001,
+      "mean": 0.005053164002047084,
+      "median": 0.004055410000000001,
+      "p95": 0.013585405,
+      "stdev": 0.0036432370189902097,
+      "missing_n": 0,
+      "mean_95_percent_patient_cluster_CI": {
+        "ci_low": 0.0047942288005063125,
+        "ci_high": 0.00532021605820818
+      }
+    },
+    "total_tokens": {
+      "total": 156787021,
+      "mean": 53492.67178437393,
+      "median": 42733,
+      "p95": 143016.5,
+      "stdev": 37879.21066117136,
+      "missing_n": 0,
+      "mean_95_percent_patient_cluster_CI": {
+        "ci_low": 50852.12336339892,
+        "ci_high": 56206.91347019238
+      }
+    }
+  },
+  "missing_measurements": {
+    "latency_seconds": 0,
+    "estimated_cost_usd": 0,
+    "reported_cost_usd": 2931,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "cached_prompt_tokens": 0,
+    "uncached_prompt_tokens": 0,
+    "repeated_prompt_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls_executed": 0,
+    "tool_calls_recorded": 0,
+    "evidence_count": 0,
+    "evidence_valid": 0,
+    "valid_evidence_fraction": 794,
+    "evidence_precision": 206,
+    "evidence_recall": 113
+  },
+  "runtime_attempts_excluded": {
+    "raw_attempts": 3012,
+    "runtime_failures": 81,
+    "intrinsic_errors": 0
+  },
+  "v3_operational_wall_time": {
+    "first_batch_started_at": "2026-10-16T04:16:57+00:00",
+    "last_batch_sealed_at": "2026-10-16T15:30:43+00:00",
+    "wall_clock_seconds": 40426.0
+  },
+  "controls": {
+    "status": "PENDING_MATCHED_FINAL_ANALYSIS",
+    "included_in_delivery": false,
+    "accepted_counts_at_gate": {
+      "direct_llm": 0,
+      "single_agent": 0
+    },
+    "accepted_counts_after": {
+      "direct_llm": 0,
+      "single_agent": 0
+    }
+  },
+  "report_scope_checks": {
+    "only_multi_agent_present": true,
+    "comparison_results_absent": true,
+    "combined_arm_totals_absent": true,
+    "global_partial_label_retained": true,
+    "full_v3_rows_runtime_selection_verified": true
+  },
+  "independent_full_reconciliation": {
+    "path": "/private/tmp/v3-complete-export-independent-reconciliation/reconciliation.json",
+    "sha256": "2570a620c3bcc91bc7f7dda8d854ace3ddbdba23f4f5cf864ba663e9bce085ec",
+    "status": "PASS",
+    "all_group_aggregates_verified": 186,
+    "artifact_hashes_verified": 6146
+  },
+  "source_hashes": {
+    "receipt": "2fe6a7de910a79726e135f4815f74a8ba6700d833c19156df6ac969148e77a37",
+    "v3_summary": "2eebd0f7d5c00e8be00b374f900b53f3d07995bb759f8f8e459ccbb0ea9599d2",
+    "live_manifest": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+    "export_hash_manifest": "9afc1cb12a45bdfb1d3bf58acc0c8f13b5760f530b2e5d952ff797a97a9404be"
+  },
+  "complete_export_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_complete_2931_20261016",
+  "fixture_source": {
+    "path": "/private/tmp/test_v3_complete_delivery.py",
+    "sha256": "118a49baf7ad1cd8c3bb1d21f810f902486180439486221643f7fab8849bf2f5"
+  },
+  "note": "No original receipt, live accepted files, source, classifier, manifest, processes or scheduling changed. Actual full-cohort exported flags inspected; no answer scorer invoked.",
+  "correctness_by_abstention": {
+    "n": 2931,
+    "abstained": {
+      "correct": 422,
+      "wrong": 232,
+      "total": 654
+    },
+    "answer_provided": {
+      "correct": 1834,
+      "wrong": 443,
+      "total": 2277
+    },
+    "overall_accuracy": 0.7697031729785057,
+    "answer_coverage": 0.7768679631525077,
+    "abstention_rate": 0.22313203684749233,
+    "accuracy_conditional_on_answer_provided": 0.8054457619675011,
+    "has_correct_abstentions": true,
+    "interpretation": "Descriptive cross-tab using frozen per-question abstained/correct flags. Correct abstentions are retained in overall accuracy under the typed scorer for empty references. Conditional answer-provided accuracy is a separate selected-subset statistic and does not replace overall accuracy or direct any reruns.",
+    "correct_abstentions_by_reference_type": {
+      "empty": 422
+    },
+    "correct_abstentions_with_null_final_answer": 416
+  }
+}

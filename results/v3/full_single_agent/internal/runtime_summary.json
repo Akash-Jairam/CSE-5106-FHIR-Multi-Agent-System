@@ -1,0 +1,379 @@
+{
+  "status": "EXCLUDED_DIAGNOSTICS_ONLY",
+  "counts": {
+    "other_infrastructure": 49,
+    "provider_policy_rejection": 6
+  },
+  "measurements": {
+    "questions": 55,
+    "patients": 33,
+    "metrics": {
+      "latency_seconds": {
+        "n": 55,
+        "observed_n": 55,
+        "missing_n": 0,
+        "total": 1704.953,
+        "mean": 30.999145454545452,
+        "median": 9.434,
+        "p95": 78.42399999999999,
+        "stdev": 37.1630742805066,
+        "min": 0.204,
+        "max": 165.033,
+        "observed_only": {
+          "total": 1704.953,
+          "mean": 30.999145454545452,
+          "median": 9.434,
+          "p95": 78.42399999999999,
+          "stdev": 37.1630742805066,
+          "min": 0.204,
+          "max": 165.033
+        }
+      },
+      "estimated_cost_usd": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "reported_cost_usd": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "prompt_tokens": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "completion_tokens": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "total_tokens": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "cached_prompt_tokens": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "uncached_prompt_tokens": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "repeated_prompt_tokens": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "llm_calls": {
+        "n": 55,
+        "observed_n": 55,
+        "missing_n": 0,
+        "total": 205,
+        "mean": 3.727272727272727,
+        "median": 3,
+        "p95": 9.0,
+        "stdev": 2.6905496165388287,
+        "min": 1,
+        "max": 11,
+        "observed_only": {
+          "total": 205,
+          "mean": 3.727272727272727,
+          "median": 3,
+          "p95": 9.0,
+          "stdev": 2.6905496165388287,
+          "min": 1,
+          "max": 11
+        }
+      },
+      "tool_calls_executed": {
+        "n": 55,
+        "observed_n": 55,
+        "missing_n": 0,
+        "total": 151,
+        "mean": 2.7454545454545456,
+        "median": 2,
+        "p95": 8.0,
+        "stdev": 2.716330461937792,
+        "min": 0,
+        "max": 10,
+        "observed_only": {
+          "total": 151,
+          "mean": 2.7454545454545456,
+          "median": 2,
+          "p95": 8.0,
+          "stdev": 2.716330461937792,
+          "min": 0,
+          "max": 10
+        }
+      },
+      "tool_calls_recorded": {
+        "n": 55,
+        "observed_n": 55,
+        "missing_n": 0,
+        "total": 151,
+        "mean": 2.7454545454545456,
+        "median": 2,
+        "p95": 8.0,
+        "stdev": 2.716330461937792,
+        "min": 0,
+        "max": 10,
+        "observed_only": {
+          "total": 151,
+          "mean": 2.7454545454545456,
+          "median": 2,
+          "p95": 8.0,
+          "stdev": 2.716330461937792,
+          "min": 0,
+          "max": 10
+        }
+      },
+      "evidence_count": {
+        "n": 55,
+        "observed_n": 55,
+        "missing_n": 0,
+        "total": 0,
+        "mean": 0.0,
+        "median": 0,
+        "p95": 0.0,
+        "stdev": 0.0,
+        "min": 0,
+        "max": 0,
+        "observed_only": {
+          "total": 0,
+          "mean": 0.0,
+          "median": 0,
+          "p95": 0.0,
+          "stdev": 0.0,
+          "min": 0,
+          "max": 0
+        }
+      },
+      "evidence_valid": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "valid_evidence_fraction": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "evidence_precision": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "evidence_recall": {
+        "n": 55,
+        "observed_n": 0,
+        "missing_n": 55,
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "stdev": null,
+        "min": null,
+        "max": null,
+        "observed_only": {
+          "total": null,
+          "mean": null,
+          "median": null,
+          "p95": null,
+          "stdev": null,
+          "min": null,
+          "max": null
+        }
+      }
+    }
+  },
+  "rich_archive": [
+    {
+      "path": "internal/runtime_details/runtime-0001.jsonl.gz",
+      "records": 55,
+      "sha256": "eee7d1d34fc1adde6643af051576419757b6e0235c0218c591a9e08a1553e36d",
+      "bytes": 11069444
+    }
+  ],
+  "note": "No failed measurements enter primary summaries. Unknown usage and billed costs remain unknown."
+}

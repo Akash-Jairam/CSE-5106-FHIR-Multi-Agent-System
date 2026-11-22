@@ -1,0 +1,366 @@
+{
+  "status": "PASS",
+  "label": "IN_PROGRESS_NOT_FINAL",
+  "accepted_measurements": 891,
+  "questions_in_full_cohort": 2931,
+  "started_at": "2026-10-17T08:04:36.999614+00:00",
+  "finished_at": "2026-10-17T08:04:38.264993+00:00",
+  "source_hashes_before": {
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/full_single_agent.json": "9109c7e22c027b2c42674e9410107539c1560eff3080d38e39cb69efbf1a39c1",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/acceptance.json": "a96e1cfe7ef1ded514431c97be1d04bd5f3a39bef9258824968fa31add584b36",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/pricing.json": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6"
+  },
+  "source_hashes_after": {
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/full_single_agent.json": "9109c7e22c027b2c42674e9410107539c1560eff3080d38e39cb69efbf1a39c1",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/acceptance.json": "a96e1cfe7ef1ded514431c97be1d04bd5f3a39bef9258824968fa31add584b36",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/pricing.json": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6"
+  },
+  "source_stable": true,
+  "selected_raw_measurement_bindings": {
+    "attempts/single_agent/round-0001.json": {
+      "sha256": "7575337dcb963c0e6879c23146d7519286424aa5aa466a697766868c7471b18c",
+      "selected_rows": 10,
+      "round": 1
+    },
+    "attempts/single_agent/round-0002.json": {
+      "sha256": "154e71819c154c322188829f12b63769bb62e42f603044df6f371b87d45b88a8",
+      "selected_rows": 98,
+      "round": 2
+    },
+    "attempts/single_agent/round-0003.json": {
+      "sha256": "28b443efbb4b29311268a864ea44e3870a16cc18fa17e4196747d29dc61ee221",
+      "selected_rows": 94,
+      "round": 3
+    },
+    "attempts/single_agent/round-0004.json": {
+      "sha256": "b2e67f0f257a87cc2bfd87043351373c17fa3fff9b00a877eae5a7032f40b6df",
+      "selected_rows": 97,
+      "round": 4
+    },
+    "attempts/single_agent/round-0005.json": {
+      "sha256": "60552fb975464cb23784ad51c5a45f156c341f4616b82c130caa0593053d6b87",
+      "selected_rows": 99,
+      "round": 5
+    },
+    "attempts/single_agent/round-0006.json": {
+      "sha256": "6e1376eff9cab81fa4795a7a2045fd5b8ac4bf74c7f0ffbc79e464104fa4b292",
+      "selected_rows": 99,
+      "round": 6
+    },
+    "attempts/single_agent/round-0007.json": {
+      "sha256": "33a9091486457a2407533164cd9d85badb44d2ce848a945210fede53f5d8cf23",
+      "selected_rows": 99,
+      "round": 7
+    },
+    "attempts/single_agent/round-0008.json": {
+      "sha256": "7e289c387bb4c23fe463850c6312ee14e03e832ade9302f566d0659ebe7aedba",
+      "selected_rows": 98,
+      "round": 8
+    },
+    "attempts/single_agent/round-0009.json": {
+      "sha256": "e92d96f413c244c97f55fa1efe90b73b62efa7b26424b707cafde77a4b846bb9",
+      "selected_rows": 97,
+      "round": 9
+    },
+    "attempts/single_agent/round-0010.json": {
+      "sha256": "1879356308a4c02f924378d6759a3340fc18cfa8a13519b69deedeb66c8aa65c",
+      "selected_rows": 100,
+      "round": 10
+    }
+  },
+  "first_clean_proof_sha256": "32cee962f1bbc37af3bda55fa3a7893fed3d3cef81c9d42d18aa55004f94c77c",
+  "runtime_failed_attempts_excluded": 21,
+  "measurement_rows_from_selected_canonical_only": true,
+  "per_call_measurements": 5858,
+  "provider_usage_unknown_rows": 0,
+  "reported_billing_unknown_rows": 891,
+  "metrics": {
+    "latency_seconds": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 15140.182,
+      "mean": 16.99234792368126,
+      "median": 14.608,
+      "p95": 34.906000000000006,
+      "sample_stdev": 9.15791524729105,
+      "min": 3.047,
+      "max": 93.144,
+      "observed_only": {
+        "total": 15140.182,
+        "mean": 16.99234792368126,
+        "median": 14.608,
+        "p95": 34.906000000000006,
+        "sample_stdev": 9.15791524729105,
+        "min": 3.047,
+        "max": 93.144
+      }
+    },
+    "prompt_tokens": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 63450176,
+      "mean": 71212.31874298542,
+      "median": 59390,
+      "p95": 178358.0,
+      "sample_stdev": 45216.594933165565,
+      "min": 7691,
+      "max": 193098,
+      "observed_only": {
+        "total": 63450176,
+        "mean": 71212.31874298542,
+        "median": 59390,
+        "p95": 178358.0,
+        "sample_stdev": 45216.594933165565,
+        "min": 7691,
+        "max": 193098
+      }
+    },
+    "completion_tokens": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 1217022,
+      "mean": 1365.905723905724,
+      "median": 1106,
+      "p95": 3206.5,
+      "sample_stdev": 876.5976541617065,
+      "min": 150,
+      "max": 6646,
+      "observed_only": {
+        "total": 1217022,
+        "mean": 1365.905723905724,
+        "median": 1106,
+        "p95": 3206.5,
+        "sample_stdev": 876.5976541617065,
+        "min": 150,
+        "max": 6646
+      }
+    },
+    "total_tokens": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 64667198,
+      "mean": 72578.22446689113,
+      "median": 60387,
+      "p95": 181208.0,
+      "sample_stdev": 45882.84296488797,
+      "min": 7847,
+      "max": 196800,
+      "observed_only": {
+        "total": 64667198,
+        "mean": 72578.22446689113,
+        "median": 60387,
+        "p95": 181208.0,
+        "sample_stdev": 45882.84296488797,
+        "min": 7847,
+        "max": 196800
+      }
+    },
+    "cached_prompt_tokens": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 54118775,
+      "mean": 60739.36588103255,
+      "median": 49135,
+      "p95": 158229.5,
+      "sample_stdev": 40722.57463112234,
+      "min": 0,
+      "max": 177617,
+      "observed_only": {
+        "total": 54118775,
+        "mean": 60739.36588103255,
+        "median": 49135,
+        "p95": 158229.5,
+        "sample_stdev": 40722.57463112234,
+        "min": 0,
+        "max": 177617
+      }
+    },
+    "uncached_prompt_tokens": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 9331401,
+      "mean": 10472.952861952863,
+      "median": 9863,
+      "p95": 19553.0,
+      "sample_stdev": 9670.315026881173,
+      "min": 1072,
+      "max": 185175,
+      "observed_only": {
+        "total": 9331401,
+        "mean": 10472.952861952863,
+        "median": 9863,
+        "p95": 19553.0,
+        "sample_stdev": 9670.315026881173,
+        "min": 1072,
+        "max": 185175
+      }
+    },
+    "repeated_prompt_tokens": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 53396060,
+      "mean": 59928.2379349046,
+      "median": 47359,
+      "p95": 158995.5,
+      "sample_stdev": 41800.13699662457,
+      "min": 3833,
+      "max": 176983,
+      "observed_only": {
+        "total": 53396060,
+        "mean": 59928.2379349046,
+        "median": 47359,
+        "p95": 158995.5,
+        "sample_stdev": 41800.13699662457,
+        "min": 3833,
+        "max": 176983
+      }
+    },
+    "llm_calls": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 5858,
+      "mean": 6.574635241301908,
+      "median": 6,
+      "p95": 12.0,
+      "sample_stdev": 2.5759882485541814,
+      "min": 2,
+      "max": 21,
+      "observed_only": {
+        "total": 5858,
+        "mean": 6.574635241301908,
+        "median": 6,
+        "p95": 12.0,
+        "sample_stdev": 2.5759882485541814,
+        "min": 2,
+        "max": 21
+      }
+    },
+    "tool_calls_executed": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 5859,
+      "mean": 6.575757575757576,
+      "median": 6,
+      "p95": 12.0,
+      "sample_stdev": 2.566341418001261,
+      "min": 2,
+      "max": 21,
+      "observed_only": {
+        "total": 5859,
+        "mean": 6.575757575757576,
+        "median": 6,
+        "p95": 12.0,
+        "sample_stdev": 2.566341418001261,
+        "min": 2,
+        "max": 21
+      }
+    },
+    "tool_calls_recorded": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 5859,
+      "mean": 6.575757575757576,
+      "median": 6,
+      "p95": 12.0,
+      "sample_stdev": 2.566341418001261,
+      "min": 2,
+      "max": 21,
+      "observed_only": {
+        "total": 5859,
+        "mean": 6.575757575757576,
+        "median": 6,
+        "p95": 12.0,
+        "sample_stdev": 2.566341418001261,
+        "min": 2,
+        "max": 21
+      }
+    },
+    "estimated_cost_usd": {
+      "n": 891,
+      "observed_n": 891,
+      "missing_n": 0,
+      "total": 2.08283885,
+      "mean": 0.0023376418069584737,
+      "median": 0.00201778,
+      "p95": 0.004829475,
+      "sample_stdev": 0.0014881738626977088,
+      "min": 0.00026282,
+      "max": 0.019532,
+      "observed_only": {
+        "total": 2.08283885,
+        "mean": 0.0023376418069584737,
+        "median": 0.00201778,
+        "p95": 0.004829475,
+        "sample_stdev": 0.0014881738626977088,
+        "min": 0.00026282,
+        "max": 0.019532
+      }
+    },
+    "reported_cost_usd": {
+      "n": 891,
+      "observed_n": 0,
+      "missing_n": 891,
+      "total": null,
+      "mean": null,
+      "median": null,
+      "p95": null,
+      "sample_stdev": null,
+      "min": null,
+      "max": null,
+      "observed_only": {
+        "total": null,
+        "mean": null,
+        "median": null,
+        "p95": null,
+        "sample_stdev": null,
+        "min": null,
+        "max": null
+      }
+    }
+  },
+  "pricing": {
+    "version": 1,
+    "model": "gpt-6-luna",
+    "currency": "USD",
+    "label": "Official OpenAI standard short-context prices, adopted for Azure by user instruction; usage-based estimate, not verified billing",
+    "per_million_tokens": {
+      "input": 0.1,
+      "cached_input": 0.01,
+      "output": 0.5
+    },
+    "sources": [
+      "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "https://developers.openai.com/api/docs/pricing"
+    ],
+    "frozen_at": "2026-10-16T04:13:52.058805+00:00",
+    "source_checked_local_date": "2026-10-15",
+    "azure_rate_assumption": "User confirmed using official OpenAI prices",
+    "formula": "((prompt-cached_prompt)*input+cached_prompt*cached_input+completion*output)/1000000",
+    "excluded": "Earlier infrastructure-failed attempts; no taxes or other cloud service charges"
+  },
+  "partial_accuracy_evaluated": false,
+  "answer_reference_prediction_values_inspected": false,
+  "answer_reference_prediction_values_printed": false,
+  "scorer_or_analyzer_calls": false,
+  "provider_calls": false,
+  "comparison_or_extrapolation_performed": false,
+  "repo_or_live_files_modified": false,
+  "measurement_projection_method": "Standard JSON parsing followed solely by allowlisted measurement/ID access; answer/reference/correctness values unexamined; tool arguments unexamined.",
+  "limitations": [
+    "891 accepted measurements are a partial progress checkpoint, not final statistics or a comparison.",
+    "Raw first-clean classification is established by the separately reviewed round10 proof; this audit independently matches only selected measurement projections.",
+    "Estimated dollar costs use the frozen official OpenAI rates as an Azure proxy; actual billing is unknown when absent."
+  ],
+  "measurement_file_sha256": "961b39cef4f3f8b566ab6c98c24160e3362e9e5e6574f538b51ce942a205bc3b",
+  "script_sha256": "48aa1253426f2822b522a83528b30c97ef3aa1bc4167a887004ae73569ebe2e6"
+}

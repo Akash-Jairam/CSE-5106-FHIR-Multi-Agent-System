@@ -1,0 +1,24 @@
+{
+  "status": "APPROVED_PREPARATION_ONLY",
+  "at_utc": "2026-10-17T09:06:03.221450+00:00",
+  "original_manifest_sha256": "7a38b5e6e9474c4520e61438a83a808b575ca96e8dc3c4922f9c7625cd222f5f",
+  "original_files_rehashed": 24,
+  "independent_final_review_sha256": "96255728e5ffcd46388141a92a6386d628f890a6681548d37e0297d96565755a",
+  "root_focused_tests": {
+    "passed": 15,
+    "exit_code": 0,
+    "elapsed_seconds": 0.396
+  },
+  "root_actual_live_incomplete_refusals": {
+    "capture_exit_code": 2,
+    "audit_exit_code": 2,
+    "reason": "Full baseline requires exactly 2931 selected outcomes; current cohort is incomplete",
+    "output_directories_created": false
+  },
+  "root_read_only_review": "Reviewed completion gate, stable before/after snapshot binding, final monitor wrapper and selected usage guard; no blocking issue found. Existing matching logic independently reconciled unchanged.",
+  "full_baseline_audit_run": false,
+  "actual_final_monitor_called": false,
+  "no_inference_scoring_provider_calls": true,
+  "permanent_monitor_sha256": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+  "caveat": "Synthetic final verifier is mocked in fixtures. This preparation does not establish full-cohort completion or diagnostic coverage. Historical initial gate and adversarial reproductions are retained in initial_preparation/."
+}

@@ -1,0 +1,231 @@
+{
+  "status": "PASS",
+  "generated_at": "2026-10-16T11:14:47.604963+00:00",
+  "run_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015",
+  "old_classifier": {
+    "path": "/private/tmp/v3_classifier_old_v2.py",
+    "version": "v3-infrastructure-v2",
+    "sha256": "2b9883e1f3a4e8b21714aecd725aec2df2c0cb0ed57e877a1524e586d20c4430",
+    "ast_definitions": [
+      "CLASSIFIER_VERSION",
+      "INTRINSIC",
+      "RUNTIME",
+      "classify_attempt",
+      "diagnostic_errors",
+      "intrinsic_tool_validation"
+    ]
+  },
+  "candidate_classifier": {
+    "path": "/private/tmp/v3-jwt-review-candidate/v3_full_run.py",
+    "version": "v3-infrastructure-v3",
+    "sha256": "370ffcb0738b384bafbe82a194dcaf2a5c1e9da1a025d2ea3abcfca8474dcccd",
+    "ast_definitions": [
+      "CLASSIFIER_VERSION",
+      "INTRINSIC",
+      "PROVIDER_JWT_REJECTION",
+      "RUNTIME",
+      "classify_attempt",
+      "diagnostic_errors",
+      "intrinsic_tool_validation",
+      "provider_jwt_paths"
+    ]
+  },
+  "original_supervisor_started_at": "2026-10-16T04:16:57+00:00",
+  "state_phase": "attention",
+  "sealed_batches": 19,
+  "sealed_rounds": [
+    {
+      "arm": "multi_agent",
+      "round": 1
+    },
+    {
+      "arm": "multi_agent",
+      "round": 2
+    },
+    {
+      "arm": "multi_agent",
+      "round": 3
+    },
+    {
+      "arm": "multi_agent",
+      "round": 4
+    },
+    {
+      "arm": "multi_agent",
+      "round": 5
+    },
+    {
+      "arm": "multi_agent",
+      "round": 6
+    },
+    {
+      "arm": "multi_agent",
+      "round": 7
+    },
+    {
+      "arm": "multi_agent",
+      "round": 8
+    },
+    {
+      "arm": "multi_agent",
+      "round": 9
+    },
+    {
+      "arm": "multi_agent",
+      "round": 10
+    },
+    {
+      "arm": "multi_agent",
+      "round": 11
+    },
+    {
+      "arm": "multi_agent",
+      "round": 12
+    },
+    {
+      "arm": "multi_agent",
+      "round": 13
+    },
+    {
+      "arm": "multi_agent",
+      "round": 14
+    },
+    {
+      "arm": "multi_agent",
+      "round": 15
+    },
+    {
+      "arm": "multi_agent",
+      "round": 16
+    },
+    {
+      "arm": "multi_agent",
+      "round": 17
+    },
+    {
+      "arm": "multi_agent",
+      "round": 18
+    },
+    {
+      "arm": "multi_agent",
+      "round": 19
+    }
+  ],
+  "counts": {
+    "old": {
+      "direct_llm": {
+        "rows": 0,
+        "pending": 0,
+        "attempted": 0,
+        "accepted": 0,
+        "runtime": 0,
+        "attention": 0
+      },
+      "single_agent": {
+        "rows": 0,
+        "pending": 0,
+        "attempted": 0,
+        "accepted": 0,
+        "runtime": 0,
+        "attention": 0
+      },
+      "multi_agent": {
+        "rows": 1900,
+        "pending": 0,
+        "attempted": 1900,
+        "accepted": 1839,
+        "runtime": 60,
+        "attention": 1
+      }
+    },
+    "candidate": {
+      "direct_llm": {
+        "rows": 0,
+        "pending": 0,
+        "attempted": 0,
+        "accepted": 0,
+        "runtime": 0,
+        "attention": 0
+      },
+      "single_agent": {
+        "rows": 0,
+        "pending": 0,
+        "attempted": 0,
+        "accepted": 0,
+        "runtime": 0,
+        "attention": 0
+      },
+      "multi_agent": {
+        "rows": 1900,
+        "pending": 0,
+        "attempted": 1900,
+        "accepted": 1839,
+        "runtime": 61,
+        "attention": 0
+      }
+    }
+  },
+  "changed_attempts": [
+    {
+      "arm": "multi_agent",
+      "round": 19,
+      "question_id": "9a6863fb555783adad183af6",
+      "attempt_file": "attempts/multi_agent/round-0019.json",
+      "attempted": true,
+      "old": {
+        "status": "attention",
+        "reason": "unclassified_terminal_error",
+        "error_sha256": "d066c871a0d664c104179624a4a0713bab8ac97d84c8b0654587cc588bf3770f"
+      },
+      "candidate": {
+        "status": "runtime",
+        "reason": "allowlisted_infrastructure_failure",
+        "diagnostic_paths": [
+          "error",
+          "revision.phases[1].errors"
+        ]
+      }
+    }
+  ],
+  "accepted_selection_comparison": {
+    "direct_llm": {
+      "previously_consolidated": 0,
+      "replay_accepted": 0,
+      "sealed_not_yet_consolidated": 0,
+      "selection_map_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "selected_rows_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    "single_agent": {
+      "previously_consolidated": 0,
+      "replay_accepted": 0,
+      "sealed_not_yet_consolidated": 0,
+      "selection_map_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "selected_rows_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    "multi_agent": {
+      "previously_consolidated": 1743,
+      "replay_accepted": 1839,
+      "sealed_not_yet_consolidated": 96,
+      "selection_map_sha256": "d2841c32531fb9fddb56f9d8ddd8645265cebf8f1678ab7774381df796385893",
+      "selected_rows_sha256": "2a2aa053eb8450949076ba1bad47dd874da47aeaa40dfe09b95d4bea97562cb9"
+    }
+  },
+  "verified_audit_artifacts": 1900,
+  "verified_artifacts": 3752,
+  "dataset_unchanged_sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+  "family_manifest_unchanged_sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab",
+  "manifest_unchanged_sha256": "7cb5d3d64d2131d7ae5cba055810fa8b965732d3b8ce1bf91781493736a7fbe6",
+  "acceptance_unchanged_sha256": "c39aaf0d4fa8b0c1a653fdb2b6b48983967f46820803c1b12b58a7e02d596f40",
+  "guarantees": [
+    "Only AST classifier constants/helpers executed; no runner or provider setup invoked",
+    "Seals, result/shard/identity hashes and original patient/question ownership verified",
+    "Raw and previously accepted audit ownership/content hashes verified",
+    "Every previously accepted selected row, source-attempt and runtime-failure prefix is unchanged",
+    "Gold values and correctness never consulted; dataset and family files unchanged",
+    "No live source, manifest, accepted files, processes, or scheduling state mutated"
+  ],
+  "notes": [
+    "Sealed accepted rows may exceed canonical consolidation when supervisor halts before save_accepted.",
+    "Pending placeholders are reported separately from actual attempts."
+  ]
+}

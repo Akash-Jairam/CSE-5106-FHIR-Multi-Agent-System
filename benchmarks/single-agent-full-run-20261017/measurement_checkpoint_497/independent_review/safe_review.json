@@ -1,0 +1,185 @@
+{
+  "status": "PASS_WITH_PROVENANCE_LIMITATION",
+  "label": "IN_PROGRESS_NOT_FINAL",
+  "captured_checkpoint_directory": "/private/tmp/single-measurement-checkpoint-497",
+  "reviewed_at_utc": "2026-10-17T07:14:25.896590+00:00",
+  "captured_artifact_manifest_sha256": "a6c6c996de8465d0463e04fe7ee85d03b1ca1b27ebcedd654c3a0c627ec1e3fb",
+  "captured_artifacts_hash_and_size_verified": [
+    "audit_measurements.py",
+    "per_question_measurements.jsonl",
+    "safe_evidence.json",
+    "audit.log",
+    "README.txt"
+  ],
+  "evidence_to_measurement_and_script_hash_links_verified": true,
+  "recorded_source_hashes_before_after_equal": true,
+  "recorded_raw_binding_selected_rows_sum": 497,
+  "recorded_raw_binding_rounds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "captured_projection_schema_exact_allowlist": true,
+  "clinical_question_prompt_answer_reference_correctness_content_fields_absent": true,
+  "per_question_rows": 497,
+  "distinct_question_ids": 497,
+  "per_call_rows": 3302,
+  "provider_usage_unknown_rows": 0,
+  "actual_billing_unknown_rows": 497,
+  "per_call_and_question_token_balances_passed": true,
+  "cached_prompt_charged_once_at_cached_rate": true,
+  "decimal_estimated_cost_total_usd": "1.17846411",
+  "decimal_per_call_estimated_cost_total_usd": "1.17846411",
+  "all_basic_statistics_recomputed_and_matched": true,
+  "statistics": {
+    "cached_prompt_tokens": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 30380471.0,
+      "mean": 61127.70824949698,
+      "median": 49836,
+      "p95": 158589.2,
+      "sample_stdev": 41308.51237957499,
+      "min": 0,
+      "max": 177617
+    },
+    "completion_tokens": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 665824.0,
+      "mean": 1339.6861167002012,
+      "median": 1120,
+      "p95": 3081.4,
+      "sample_stdev": 826.0946001369418,
+      "min": 150,
+      "max": 5632
+    },
+    "estimated_cost_usd": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 1.17846411,
+      "mean": 0.0023711551509054325,
+      "median": 0.0020797,
+      "p95": 0.004886756000000001,
+      "sample_stdev": 0.0016292021479110848,
+      "min": 0.00027863,
+      "max": 0.019532
+    },
+    "latency_seconds": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 8772.733,
+      "mean": 17.651374245472837,
+      "median": 15.098,
+      "p95": 36.3194,
+      "sample_stdev": 9.839741369698757,
+      "min": 3.047,
+      "max": 93.144
+    },
+    "llm_calls": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 3302.0,
+      "mean": 6.6438631790744465,
+      "median": 6,
+      "p95": 12.0,
+      "sample_stdev": 2.588733258655302,
+      "min": 2,
+      "max": 17
+    },
+    "prompt_tokens": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 35797945.0,
+      "mean": 72028.0583501006,
+      "median": 61144,
+      "p95": 179691.2,
+      "sample_stdev": 45908.15694092189,
+      "min": 7990,
+      "max": 192885
+    },
+    "repeated_prompt_tokens": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 30177178.0,
+      "mean": 60718.66800804829,
+      "median": 48644,
+      "p95": 160397.6,
+      "sample_stdev": 42386.12247536231,
+      "min": 3982,
+      "max": 176983
+    },
+    "reported_cost_usd": {
+      "observed_n": 0,
+      "missing_n": 497,
+      "total": null,
+      "mean": null,
+      "median": null,
+      "p95": null,
+      "sample_stdev": null,
+      "min": null,
+      "max": null
+    },
+    "tool_calls_executed": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 3305.0,
+      "mean": 6.649899396378269,
+      "median": 6,
+      "p95": 12.0,
+      "sample_stdev": 2.5790261723997725,
+      "min": 2,
+      "max": 17
+    },
+    "tool_calls_recorded": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 3305.0,
+      "mean": 6.649899396378269,
+      "median": 6,
+      "p95": 12.0,
+      "sample_stdev": 2.5790261723997725,
+      "min": 2,
+      "max": 17
+    },
+    "total_tokens": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 36463769.0,
+      "mean": 73367.74446680081,
+      "median": 62159,
+      "p95": 182006.8,
+      "sample_stdev": 46550.17833128559,
+      "min": 8145,
+      "max": 196207
+    },
+    "uncached_prompt_tokens": {
+      "observed_n": 497,
+      "missing_n": 0,
+      "total": 5417474.0,
+      "mean": 10900.350100603622,
+      "median": 9875,
+      "p95": 20000.0,
+      "sample_stdev": 11924.488639462335,
+      "min": 1072,
+      "max": 185175
+    }
+  },
+  "limitations": [
+    "Only the captured directory was read. Original canonical/ledger/pricing bytes, raw attempts, seals and the separately hashed first-clean proof are not included in this capture; their live byte hashes and first-clean/runtime-exclusion claims cannot be independently revalidated from these captured files alone.",
+    "The recorded source hashes are internally consistent, and selected raw binding counts sum to497; this review does not treat those recorded digests as independently re-observed source files.",
+    "These497 accepted measurements are a progress checkpoint, not final cohort statistics. The15 excluded runtime attempts are an attested operational count, not independently reconstructible from the497 retained projections.",
+    "Dollar values are usage estimates under the captured frozen rates; actual billing is unavailable for all497rows."
+  ],
+  "scope_guarantees": {
+    "fixed497_capture_script_executed": false,
+    "live_canonical_or_run_files_read": false,
+    "model_or_provider_calls": false,
+    "scorer_or_analyzer_calls": false,
+    "live_mutations": false,
+    "external_messages": false
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "status": "USER_REQUESTED_REVIEWED_RETRY_TERMINAL_INCOMPLETE_RECONCILED",
+  "recorded_at_utc": "2026-10-17T16:04:03.542098+00:00",
+  "resume_tool_session": 23587,
+  "resume_process_exit_code": 2,
+  "resumed_at_utc": "2026-10-17T15:56:42+00:00",
+  "finished_at_utc": "2026-10-17T15:59:35+00:00",
+  "selected_accepted": 2929,
+  "expected_selected_cohort": 2931,
+  "pending": 2,
+  "provider_rejections_each": 3,
+  "new_tasks": 2,
+  "new_runtime_clean_outcomes": 0,
+  "new_provider_rejection_tasks": 2,
+  "ledger_counts": {
+    "raw_attempts": 2984,
+    "runtime_failures": 55,
+    "intrinsic_errors": 0
+  },
+  "all_prior_single_agent_selections_identical": true,
+  "all_six_canonical_and_identity_files_byte_identical": {
+    "full_single_agent.json": "b4c1cb4b824a7395733854e7013ecacd28e85b0d450d4f863b0b464bdee43969",
+    "full_single_agent.json.run.json": "2cd3caab9676fc2bae7fcc3760757527f44e1683aa87a0477fab2b2176624ef1",
+    "full_multi_agent.json": "1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c",
+    "full_multi_agent.json.run.json": "b281be4700bb65aa585a7cc3d7c75a558a705a9844a883f97e726975d53ce6c1",
+    "full_direct_llm.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "full_direct_llm.json.run.json": "0f3a0dc5f4bab16544c381b4f9d6f90d66e61749584f0af0e4115d6e2bc385a4"
+  },
+  "unselected_ledger_slices_identical": true,
+  "prior_31_rounds_155_sealed_files_rehashed_unchanged": true,
+  "round32_seal_and_both_compressed_uncompressed_audits_rehashed": true,
+  "round32_classifications_independently_rechecked": true,
+  "round32_per_task_usage_flags": [
+    true,
+    false
+  ],
+  "discarded_task_time_tokens_and_known_cost_excluded_from_primary_metrics": true,
+  "rejected_call_usage_and_actual_billing_unknown": true,
+  "guarded_sources_verified": 45,
+  "public_pins_verified": 9,
+  "input_descriptors_verified": 3,
+  "declared_dependency_versions_verified": 21,
+  "root_approval_sha256": "890268a0a4cd92ad14ab89231cf32f3a57f7d7a8eed69009f16efb97c1f6b9c9",
+  "round32_outcome_sha256": "05bf6f25f04e3bd45cab37d219fb48ee558399b4309c6620ee383962045df4c4",
+  "new_provider_packet_manifest_sha256": "d3564d24f6d63cd7b7769c1223f0234f4575aec42eac532e3e1268e5ba9240d8",
+  "round32_diagnostic_journal_hashes_reobserved": true,
+  "terminal_core_sha256": {
+    "run_manifest.json": "a76fcc081d88c7293e69713cf6f95c4b7b721aeaca62704ce10e3fb2ce435f10",
+    "supervisor_state.json": "4275834feb352d27fb8895f781cfec46107d3bcd7d2c3f75da32b36389140f32",
+    "acceptance.json": "75e98ff69cdc1db50dee0f19787d0d4b1bb4f890a9d73da00d94a37415799a4a",
+    "operations.jsonl": "7a15aeb519abfd0a29b3bd9bdb0d480cca5304dd0bccc312a841e5806df9653e",
+    "provider_rejections.json": "52428d58c798de011e6327de0cd46779a4ea0a239671e7629cc0ad5cac0e76cd"
+  },
+  "owned_processes_absent": {
+    "pids": [
+      57961,
+      58084,
+      58085
+    ],
+    "ps_exit_code": 1,
+    "stdout_empty": true,
+    "stderr_empty": true,
+    "basis": "Separate actual PID/stat/comm tool observation after terminal state and launcher exit; no process signals"
+  },
+  "benchmark_complete": false,
+  "selected_scope_complete": false,
+  "full_execution_verifier_success_claimed": false,
+  "accuracy_scoring_or_full_pair_export_or_full_cache_audit_performed": false,
+  "fourth_request_or_provider_setting_change_or_public_push_performed": false,
+  "limitations": [
+    "This combines the reviewed stopped-prefix replay with unchanged historical artifact hashes and the two new sealed runtime outcomes; it is not a successful whole-cohort/final execution verifier.",
+    "New request/question identity is inferred from unique successful P/C prefixes in owned worker journals, not a direct recorded question/request-ID join. Journal observations are not covered by batch seals and logging is best effort.",
+    "Native absence concerns only the three recorded owned PIDs. Declared versions are metadata, not hashes of all installed package bytes.",
+    "No provider safeguards were changed by this task; recorded public profile equality does not establish unchanged remote backend/filter configuration over time.",
+    "Original raw attempts, compressed audits, diagnostics and snapshots remain local; this package is metadata, not a portable raw archive."
+  ]
+}

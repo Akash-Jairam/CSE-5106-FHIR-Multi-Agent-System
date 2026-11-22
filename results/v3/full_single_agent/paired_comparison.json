@@ -1,0 +1,43 @@
+{
+  "left": "single_agent",
+  "right": "multi_agent",
+  "matched_questions": 2929,
+  "left_only": 0,
+  "right_only": 0,
+  "left_wins": 181,
+  "right_wins": 93,
+  "both_correct": 2162,
+  "both_wrong": 493,
+  "accuracy_difference": {
+    "n": 2929,
+    "patients": 94,
+    "estimate": 0.030044383748719698,
+    "ci_low": 0.018420225978676392,
+    "ci_high": 0.04170790962079528
+  },
+  "latency_seconds_difference_observed_pairs": {
+    "n": 2929,
+    "patients": 94,
+    "estimate": -6.127335609423011,
+    "ci_low": -6.942925320673327,
+    "ci_high": -5.303000475028935
+  },
+  "latency_seconds_missing_pairs": 0,
+  "estimated_cost_usd_difference_observed_pairs": {
+    "n": 2929,
+    "patients": 94,
+    "estimate": -0.002741244745646979,
+    "ci_low": -0.0029060100517615756,
+    "ci_high": -0.0025725834533162936
+  },
+  "estimated_cost_usd_missing_pairs": 0,
+  "total_tokens_difference_observed_pairs": {
+    "n": 2929,
+    "patients": 94,
+    "estimate": 19760.859679071356,
+    "ci_low": 16361.589630789938,
+    "ci_high": 23490.72410784803
+  },
+  "total_tokens_missing_pairs": 0,
+  "difference_convention": "left minus right = single_agent minus multi_agent_v3; accuracy is a fraction (multiply by100 for percentage points)"
+}

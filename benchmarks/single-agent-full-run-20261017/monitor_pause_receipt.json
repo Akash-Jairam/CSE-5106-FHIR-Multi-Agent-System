@@ -1,0 +1,20 @@
+{
+  "status": "MONITOR_AUTOMATION_PAUSED_AFTER_INCOMPLETE_INFERENCE_STOP",
+  "recorded_at_utc": "2026-10-17 14:12:13 UTC",
+  "automation_id": "monitor-v3-full-benchmark",
+  "automation_name": "Monitor matched single-agent benchmark",
+  "automation_status": "PAUSED",
+  "automation_file_sha256": "1046446d19ffc176b2dccd9d657fae574551e57c928cfaf84bae5fbb11a905a0",
+  "unchanged_prompt_sha256": "dec9ce045a4a1f6b4c61444df7c9936178fa09f251cbffe6523c74daf121d8d1",
+  "identity_prompt_schedule_notification_preferences_preserved": true,
+  "selected_accepted": 2929,
+  "expected_selected_cohort": 2931,
+  "pending_provider_cases": 2,
+  "inference_finished_at": "2026-10-17T13:52:28+00:00",
+  "reason": "No inference remains running; remaining parked cases require external provider review and a reviewed legitimate recovery amendment.",
+  "goal_marked_complete_or_paused": false,
+  "provider_retry_or_setting_change": false,
+  "public_push": false,
+  "documentation": "https://learn.chatgpt.com/docs/automations?surface=app",
+  "note": "This pauses only the scheduled monitoring heartbeat. It does not complete the benchmark or alter raw records, provider rejection counters, prompts, model settings or completion gates."
+}

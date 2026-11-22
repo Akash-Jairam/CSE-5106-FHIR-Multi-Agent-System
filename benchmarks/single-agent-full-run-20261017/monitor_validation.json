@@ -1,0 +1,118 @@
+{
+  "monitor_path": "/private/tmp/single_agent_monitor.py",
+  "monitor_sha256": "4157dd3044431f9c56fc7475143d6659b007d2692be62ef3fed2bd65da422f6a",
+  "cases": [
+    {
+      "case": "active_selected_scope_with_retry_queue",
+      "result": "PASS"
+    },
+    {
+      "case": "terminal_execution_only_no_analysis_claim",
+      "result": "PASS"
+    },
+    {
+      "case": "unselected_canonical_byte_mutation",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Unselected canonical/identity changed: full_multi_agent.json"
+    },
+    {
+      "case": "direct_identity_mutation",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Unselected canonical/identity changed: full_direct_llm.json.run.json"
+    },
+    {
+      "case": "unselected_ledger_mutation",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Unselected ledger counts changed: direct_llm"
+    },
+    {
+      "case": "unauthorized_scope",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Selected scope is not single_agent only"
+    },
+    {
+      "case": "unauthorized_active_arm",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Unauthorized arm active"
+    },
+    {
+      "case": "accepted_question_in_active_queue",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Active batch repeats accepted question"
+    },
+    {
+      "case": "runtime_retry_missing",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Runtime retry missing from active selected queue"
+    },
+    {
+      "case": "raw_seal_mismatch",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Result seal mismatch"
+    },
+    {
+      "case": "accepted_question_rerun_sealed",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Accepted question scheduled again"
+    },
+    {
+      "case": "authoritative_input_changed",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Authoritative full input changed"
+    },
+    {
+      "case": "terminal_missing_scope_flag",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Selected completion flag missing"
+    },
+    {
+      "case": "terminal_wrong_analysis_claim",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Selected completion must distinguish pending scoped analysis"
+    },
+    {
+      "case": "terminal_false_original_complete",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Must not claim original three-arm benchmark complete"
+    },
+    {
+      "case": "terminal_ledger_claims_original_complete",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Original three-arm acceptance must remain incomplete"
+    },
+    {
+      "case": "terminal_wrong_count",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Selected terminal cohort incomplete"
+    },
+    {
+      "case": "terminal_still_active",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Selected terminal state still has active workers"
+    },
+    {
+      "case": "missing_native_pid",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Owned process missing from native PID/state/comm snapshot"
+    },
+    {
+      "case": "present_falsy_or_nan_answer_with_missing_latency_never_pending",
+      "result": "REFUSED_AS_EXPECTED",
+      "variants": 6
+    },
+    {
+      "case": "true_placeholder_answer_none_latency_none_remains_pending",
+      "result": "PASS"
+    },
+    {
+      "case": "zombie_native_worker_present_but_rejected",
+      "result": "REFUSED_AS_EXPECTED",
+      "reason": "Owned process is a zombie"
+    }
+  ],
+  "case_count": 22,
+  "all_passed": true,
+  "fixtures_directory": "/var/folders/y7/vbk7nwh106l4y1hvyn298nc80000gn/T/single-monitor-fixtures-kn3q0_od",
+  "inference_calls": 0,
+  "live_data_or_source_mutations": 0
+}

@@ -1,0 +1,56 @@
+{
+  "status": "SEALED_ROUND25_METADATA_RECONCILED",
+  "captured_at_utc": "2026-10-17T12:08:06.860723+00:00",
+  "scope": "IMMUTABLE_ROUND25_RUNTIME_AND_ROUND24_RECOVERIES",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 25,
+  "saved_classifications": {
+    "accepted": 100
+  },
+  "runtime_attempts": [],
+  "provider_policy_rejection_count_in_captured_round25": 0,
+  "round24_runtime_recoveries": [],
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf"
+  },
+  "round25_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0025.json",
+    "sha256": "3784e7610caae9f18f0d9528065715c6aebe945c27cd108955bb15f5acb60187",
+    "bytes": 21571706,
+    "sha256_at_review_end": "3784e7610caae9f18f0d9528065715c6aebe945c27cd108955bb15f5acb60187",
+    "live_checkpoint_may_advance_normally": true
+  },
+  "no_clinical_raw_error_answer_reference_or_correctness_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true,
+  "reconciled_at_utc": "2026-10-17T12:09:15.908887+00:00",
+  "natural_seal": {
+    "batch_sha256": "c3ff5f27ff2ffa073a952f073278c52c8c904147c898cd162287cc0f86dcd101",
+    "seal_sha256": "4baee89605a72fe2098b2aeb4201666d089c0da4bc009b4d9e0927665efadc4b",
+    "result_sha256": "3784e7610caae9f18f0d9528065715c6aebe945c27cd108955bb15f5acb60187",
+    "identity_sha256": "82de5016cf81db6ae88c694a0da78e6495b6b2c300ab743618ad50466df897a3",
+    "shard_input_sha256": "279e203151ebf25aea30e6a2a8874ffb36be6b2606efca5ffce577f4101373d8",
+    "frozen_identity_matches": true,
+    "question_count": 100
+  },
+  "final_recoveries": [],
+  "acceptance_ledger_observation": {
+    "at_utc": "2026-10-17T12:09:15.908887+00:00",
+    "accepted_snapshot_sha256": "d00ae5e4ec3a7c9305a55b99273173ab7d18ea6f3a58adfb7053a5253d9864f0",
+    "sealed_clean_count": 100,
+    "clean_adopted_count": 100,
+    "prior_round24_recovery_adopted_count": 0,
+    "ledger_transition_complete": true
+  },
+  "all_sealed_runtime_attempts_excluded_from_ledger": true,
+  "review_code_sha256": "3ea02d52804543bb445864473cb083b9c72fccc038c3b597c19817601fc77ce6",
+  "classification_review_code_sha256": "1d85a82a31089ff5ddd2471d931a5ef28a67a8c35978caadb6086b81cfac063b",
+  "audit_integrity": {
+    "restored_and_hash_verified_count": 100,
+    "inventory_file": "audit_hash_inventory.json",
+    "inventory_sha256": "b8c16917a0d206faa7db942214a627613a56bc5f8c22f691cdeed97a3b0a01d0"
+  },
+  "non_HTTP500_runtime_signatures": []
+}

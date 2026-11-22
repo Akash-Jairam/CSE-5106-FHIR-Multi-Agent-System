@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "archive_name": "query_contract_v3d_300q_completed.zip",
+  "archive_sha256": "d6144775c811e387e9201273db5c2ae4faec45647bfecd020ec7ef49e8db1738",
+  "archive_bytes": 241257127,
+  "parts_in_order": [
+    {
+      "path": "query_contract_v3d_300q_completed.zip.part001",
+      "bytes": 83886080,
+      "sha256": "28bb8f752896aeb5a7ad8eeacf51afd4f01337ab76f9ebefd03a730bd029a484"
+    },
+    {
+      "path": "query_contract_v3d_300q_completed.zip.part002",
+      "bytes": 83886080,
+      "sha256": "f5ab49f1d965273f51df0d697733e97d8cefc83ceae9fd5809d2c6b35ae02efa"
+    },
+    {
+      "path": "query_contract_v3d_300q_completed.zip.part003",
+      "bytes": 73484967,
+      "sha256": "dd195fd2b372afb04dcdebd4ebbce499defb935dc3f2ebd73e3e162047b7c2c3"
+    }
+  ],
+  "part_bytes_limit": 90000000,
+  "split_policy": "Byte-for-byte split of the existing frozen ZIP; no recompression or raw-output rewriting.",
+  "concatenated_parts_sha256_verified": true,
+  "original_archive_relative_path": "output/archives/query_contract_v3d_300q_completed.zip",
+  "original_archive_untouched_stat": {
+    "bytes": 241257127,
+    "mtime_ns": 1792032335885055055
+  },
+  "original_protocol_manifest": "../../../../benchmarks/design-v3d-20261014/raw_archive_manifest.json",
+  "reconstruct_from_this_directory": "cat query_contract_v3d_300q_completed.zip.part001 query_contract_v3d_300q_completed.zip.part002 query_contract_v3d_300q_completed.zip.part003 > /private/tmp/query_contract_v3d_300q_completed.zip",
+  "verify_reconstruction": "shasum -a 256 /private/tmp/query_contract_v3d_300q_completed.zip",
+  "original_archive_contents_scope": "Completed fresh development pair, source/runtime/provenance records and owned audits; original archive manifest governs member scope."
+}

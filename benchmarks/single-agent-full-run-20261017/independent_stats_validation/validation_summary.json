@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "utility_sha256": "d72e57442521970fbbd748d8c5813316b80caee0d22360b9f32c6144d910753e",
+  "core_tests": 14,
+  "full_synthetic_export_checks": [
+    "incomplete acceptance cohort",
+    "frozen inference identity changed",
+    "unapproved manifest fields",
+    "frozen inference identity changed",
+    "Frozen public pinned file changed: provider_profile.json",
+    "independent_full_pair_statistics_reconciliation",
+    "qa_rejects_Complete matched paired receipt required",
+    "qa_rejects_incomplete acceptance cohort",
+    "qa_rejects_numeric mismatch",
+    "qa_rejects_Cached-subset cost formula",
+    "qa_rejects_Paired left-minus-right statistics",
+    "full2931each_positive_export",
+    "no_direct_scores_or_comparisons",
+    "paired2931_accuracy_and_latency_CIs",
+    "runtime_cost_time_token_exclusion",
+    "all_csv_jsonl_parse",
+    "all_live_fixture_artifacts_unchanged"
+  ],
+  "synthetic_questions_per_arm": 2931,
+  "measurement_fields": 17,
+  "aggregate_groups_verified": 14,
+  "artifacts_verified": 11782,
+  "actual_live_data_scored": false,
+  "private_fixture_only": true,
+  "repo_source_edited": false,
+  "no_provider_calls": true,
+  "limits": [
+    "Correctness and empty/no-value flags are reconciled as frozen scorer outputs, not independently rescored.",
+    "Raw first-clean classifier and compressed-audit replay remains the separate exporter gate; this utility checks its immutable receipt, ledger, canonical identities and artifacts.",
+    "The exact RNG family, seed and multinomial draw scheme match the frozen statistics protocol; aggregation and scalar statistics are independently implemented.",
+    "Dollar estimates use authorized OpenAI rates as an Azure proxy; actual billing remains unknown when unavailable."
+  ]
+}

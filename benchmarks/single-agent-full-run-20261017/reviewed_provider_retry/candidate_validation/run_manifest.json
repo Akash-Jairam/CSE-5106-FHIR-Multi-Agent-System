@@ -1,0 +1,240 @@
+{
+  "version": 1,
+  "created_at": "2026-10-16T04:16:57+00:00",
+  "protocol": "v3-first-runtime-clean-terminal",
+  "classifier_version": "v3-infrastructure-v4",
+  "project_root": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System",
+  "arms": {
+    "direct_llm": "direct_llm",
+    "single_agent": "single_agent",
+    "multi_agent": "multi_agent_v3"
+  },
+  "questions_per_arm": 2931,
+  "expected_accepted_questions": 8793,
+  "input": {
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/final_dataset/questions_answers_sql_fhir.csv",
+    "sha256": "e2045692fef7f5f4f77496935160f5fc727e162d213e94feed61401948e512a0",
+    "questions": 2931,
+    "patients": 94,
+    "question_ids_sha256": "fa9bccd07e322026e69c8d4b9264a6fa0c0183ffc5554959cc2197f7c70f32e9"
+  },
+  "families": {
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/manifests/question_families.csv",
+    "sha256": "158177320a895c74969984f49922ba0a66f52ee3720460fa9a386115c386f8ab"
+  },
+  "settings": {
+    "model": "gpt-6-luna",
+    "max_total_tokens": 200000,
+    "max_tool_calls": 30,
+    "num_processes": 2,
+    "heartbeat_seconds": 15,
+    "stall_seconds": 2700,
+    "min_free_gb": 5,
+    "max_runtime_retries": 20,
+    "retry_delay_seconds": 30,
+    "batch_size": 100,
+    "save_interval": 1,
+    "audit_storage": "gzip",
+    "enable_cache": true
+  },
+  "source_sha256": {
+    "agent/__init__.py": "c1cb3fedaccb3c808fbcfb102780b2f2ea1b27b5d6240cad71d37f66c0d518be",
+    "agent/analysis_agent.py": "113a74110c0b925a8cc5f57dc6e2fe6da99f5b258c241d27f3a0b933a3232adc",
+    "agent/base_agent.py": "4a83a407520c67c458b371a2b143231114566cfb4956bd69aaa682a92ead7eca",
+    "agent/controller.py": "8d230c5d01f78652dc6179dc73472f000b32f84723c0827eb57a72edb5626977",
+    "agent/direct_llm_agent.py": "c8164f57a9efa48a6cee0d0733e040e464b2577729ef3a3063b5c10e4a37beee",
+    "agent/ehr_semantics.py": "2c6a12e0c2e5428b028c22b3d017bbabd8bc479b874d32facca98612d7055fe4",
+    "agent/framework.py": "4ab01c58ec6ab1e39db4633033884ea0cbb0f82301f4e4eded9d4d861dcb12c8",
+    "agent/multi_agent.py": "ee799be8aef44605834abc0a9c9692edf360daef905de15e4e1fc2eecd3b36c3",
+    "agent/multi_turn_code_resource_agent.py": "938a57c1664309e9673c5011c7f1d76b22a5e1d63380322ba6ca34e74e0645e6",
+    "agent/multi_turn_code_resource_v2_agent.py": "00e1999c5a1330643f0bc5d8f7512e5bb78d9b672b7a7760db35f3be2b0157dc",
+    "agent/multi_turn_resource_agent.py": "91cd84a7e2cf906e13aceb23975ecf5d98b52d23cba4c667e107e1b8a7caa357",
+    "agent/output_schema.py": "daba54d1a63237f7961bce70c89bc064b03708818f6aaa704a958b02bb7b13a6",
+    "agent/query_contract_agent.py": "98d27d725057498589d22fd22ff279fff45fbec225294970cc5ccaf2159e901a",
+    "agent/retrieval_agent.py": "bd477172c265ec988bbabf78e39da1a3b9336389d2ba4c859bfc975db0f30e0c",
+    "agent/single_agent.py": "0225689488f662b1fb819d755da625b62467d519fac9f7017bf0063c49a55e9e",
+    "agent/single_turn_code_resource_agent.py": "48cc8abea9fbf0c4e07eb08954f95c3ad4e6dcccadfc1b8d305a5eda7a162b8a",
+    "agent/single_turn_request_agent.py": "bc4891e4b4dcbfd484e27429bcc4413f3554a34ea3cd827d2228ca010617fa07",
+    "agent/single_turn_resource_agent.py": "b559844b1eff503098d17d85e77d17cfd4b97a9483012cc3236ed30490b345b9",
+    "agent/verification_agent.py": "d46a60dea90f80ad63455f8d2122ad5ac87938af542e6be6510fa0dbf7ec67fb",
+    "fhir_client.py": "613a584ddc69623a3011363645e262732beb25a760b0f28881ddb8d3547e9886",
+    "requirements.txt": "b69aedf83d649f735190528f0e075cf13fcadd53515a70deb1af77f75d1e84e7",
+    "run_agent.py": "a68b30d8452a636a451ac7a23bb759a893cfa136e7be4f6d8545af65467372c6",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "scripts/full_benchmark.py": "41a329b3607478ae861ac1f53fe0492b8186212927ffe5a0e4fb9bf37a436164",
+    "scripts/launch_v3_full.py": "4c712041d8402ca508c1143eeb4c46523f5dd934d7c5a245be2641ef8e0ede3e",
+    "scripts/v3_full_analysis.py": "24874a5483fe2354d1121c654eec547faead74fba8216371e70fe5f28965b798",
+    "scripts/v3_full_run.py": "b1543ea655e005af6b14c280a0695b877084fc14f19024c569a4f70ebc583f4a",
+    "tools/__init__.py": "20fd87e431de62093c1d56815c02a125be8fa1b819bf4b056a8805ae9a2d3496",
+    "tools/cache.py": "c53aee7aafe497f66674200375d641d7bcc9301b82e2b15db17b08bd380dc8a9",
+    "tools/field_check.py": "53345095c1e489185ff9b280034999c4225748d4c88bc9df939960f3119457c5",
+    "tools/perturbation.py": "4b676901a511247f3b14851ab867b0949e32fb0de17b280a49cb7d24dd54c0b3",
+    "tools/python_executor.py": "87d701913d1505283ce481720bf9f2780e1759d892680d7f8d373fbe039b6c8f",
+    "tools/python_worker.py": "fd1384f568c9af65e5a7411f1a056598c9f0a635b3c4bedb6263ebc69d3a37c3",
+    "tools/registry.py": "0a7fdaf3627517d6e5d3a30ee727ea84eaa5cb43803391434a60a95eb2929dfb",
+    "tools/request_tools.py": "36a4eb8d65f2360f53e5319f817cd2bdc40509824941860073d76feb464256d7",
+    "tools/resource_tools.py": "ed5319a217eeb6c439deb386dbe84e9319082854c5bcfe3e7072d60bd12a568d",
+    "tools/starting_packet.py": "96d6547bc5ce41647d9e38bc360c8e49de76d1df2d5c1c72e2e1efefac997d63",
+    "utils/__init__.py": "3f063771d803b5a83817d462997c729cb84ac9d7e704178eb18cb2bf4c68dc9d",
+    "utils/answer_scorer.py": "ca02e5a8758f5bcef3eee08ab70f69fddf23917d267df6301e83275f337f3964",
+    "utils/core_utils.py": "e0fa62f8d5093b275a9100ce618c94b03722982d1acd6295f666ab5509c126d0",
+    "utils/evidence_scorer.py": "59ec5b2c787054a333fe1a808141af557799883cf805496fa7a4b17db1fc77c7",
+    "utils/fhir_utils.py": "a559915d6033c2eedd69a95f10eccf82956ce83e63e410aac5c3a2f15a1dd92a",
+    "utils/metrics_utils.py": "1388b99ad63f15eb871fd54f6824c692801fd070df4f7119449cf24ab4207063",
+    "utils/model_config.py": "b178e25086e68be738fefe1f0f5cc6f0a449b171aa1e0fd14540a34a6d39846c",
+    "utils/sql_to_fhir_utils.py": "f26d0efe8c32f6420744bcccbadf2cfe2a13dec7327a5fc54f4ebd0b88973498"
+  },
+  "pinned_files_sha256": {
+    "baseline_decision.txt": "a94ede8dba8d32c2c3919a8a51ed34bfdbd4c323325b4e72ffa4a9d7e32d8de6",
+    "preflight.json": "dcc42f85a4307605189e752df8606fbffa5681f578b9b39b0c3eaed1be593c9a",
+    "pricing.json": "2f9858369c0dc0eeeac374bce8a8d29555dad7b21e4bb87675269e7e5244def6",
+    "protocol.txt": "ac4d8add2533654773d1464e315be8bb5aa2313b52b2b079050da782a71b0648",
+    "provider_profile.json": "7cfcb5b96ef17973bcf6c2e1a384898b0d7c2895362b52e162b74e513b5a793b",
+    "runtime/azure.py": "1144197dae1282b7472ddd90dc703ac02d17f87efa9b6327d42adce1921b13c4",
+    "runtime/azure_adapter.py": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+    "runtime/sitecustomize.py": "fb3eea8ce917715e6b553f501cc4abf2fa5408570f198e7aaa6392e72f22e9fe",
+    "split.json": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015"
+  },
+  "split_manifest": {
+    "path": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/manifests/split.json",
+    "sha256": "f28db462ebcfe4e0d87675c86de9a08adef4038e26dbddcf88c50ddf92e94015"
+  },
+  "offline_fhir_dir": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.local-setup/phase2-fhir",
+  "runtime_dependency_versions": {
+    "PyYAML": "6.0.2",
+    "Requests": "2.32.5",
+    "dask": "2024.8.2",
+    "google-auth": "2.40.3",
+    "ijson": "3.4.0",
+    "langchain-core": "1.6.9",
+    "langgraph": "1.2.14",
+    "langgraph-checkpoint": "4.2.0",
+    "langgraph-prebuilt": "1.1.0",
+    "langgraph-sdk": "0.4.6",
+    "langsmith": "0.14.7",
+    "litellm": "1.75.9",
+    "numpy": "2.3.2",
+    "pandas": "2.3.2",
+    "protobuf": "6.32.0",
+    "python_dateutil": "2.9.0.post0",
+    "sqlglot": "26.9.0",
+    "sqlparse": "0.5.3",
+    "streamlit": "1.48.1",
+    "tiktoken": "0.8.0",
+    "tqdm": "4.66.5"
+  },
+  "run_identities": {
+    "direct_llm": {
+      "version": 2,
+      "agent_strategy": "direct_llm",
+      "model": "gpt-6-luna",
+      "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "max_total_tokens": 200000,
+      "max_tool_calls": 30,
+      "add_patient_fhir_id": true,
+      "enable_cache": true,
+      "input_hash": "5d50e502d7c230537a99c8d5958cb6a1b8c6967247f8bd3bd7d222264afe09c6",
+      "code_hash": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+      "split": null,
+      "split_manifest_hash": null,
+      "condition": null,
+      "perturbations_hash": null,
+      "subset_hash": null,
+      "repeat": null,
+      "audit_storage": "gzip",
+      "audit_artifact_schema": 2
+    },
+    "single_agent": {
+      "version": 2,
+      "agent_strategy": "single_agent",
+      "model": "gpt-6-luna",
+      "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "max_total_tokens": 200000,
+      "max_tool_calls": 30,
+      "add_patient_fhir_id": true,
+      "enable_cache": true,
+      "input_hash": "5d50e502d7c230537a99c8d5958cb6a1b8c6967247f8bd3bd7d222264afe09c6",
+      "code_hash": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+      "split": null,
+      "split_manifest_hash": null,
+      "condition": null,
+      "perturbations_hash": null,
+      "subset_hash": null,
+      "repeat": null,
+      "audit_storage": "gzip",
+      "audit_artifact_schema": 2
+    },
+    "multi_agent": {
+      "version": 2,
+      "agent_strategy": "multi_agent_v3",
+      "model": "gpt-6-luna",
+      "base_url_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "max_total_tokens": 200000,
+      "max_tool_calls": 30,
+      "add_patient_fhir_id": true,
+      "enable_cache": true,
+      "input_hash": "5d50e502d7c230537a99c8d5958cb6a1b8c6967247f8bd3bd7d222264afe09c6",
+      "code_hash": "65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409",
+      "split": null,
+      "split_manifest_hash": null,
+      "condition": null,
+      "perturbations_hash": null,
+      "subset_hash": null,
+      "repeat": null,
+      "audit_storage": "gzip",
+      "audit_artifact_schema": 2
+    }
+  },
+  "policy": {
+    "selection": "First infrastructure-clean terminal attempt per scheduled question; no answer-based reruns",
+    "infrastructure_attempts": "Preserved separately, excluded from accuracy and accepted time/cost",
+    "intrinsic_failures": "Retained as final, including budgets, invalid model output, source gates and solver limits",
+    "unknown_failures": "Halt with attention; never impute an incorrect outcome",
+    "partial_processes": "Preserve saved attempts; unsaved work remains pending",
+    "no_scorer_in_scheduling": true,
+    "schedule": "team_then_controls",
+    "circuit_breaker": {
+      "minimum_recent_failures": 8,
+      "recent_window": 10,
+      "minimum_failure_fraction": 0.8
+    }
+  },
+  "analysis_command": [
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/scripts/v3_full_analysis.py",
+    "--run-dir",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015"
+  ],
+  "operational_amendments": [
+    {
+      "version": 1,
+      "record": "amendments/0001-classifier-provenance/applied.json",
+      "previous_manifest_sha256": "83d1778e6d4d806bc720c6f2814679c1f1109dc298ec18f708004497cc35edb6",
+      "sealed_boundary": {
+        "arm": "multi_agent",
+        "round": 2
+      },
+      "reason": "Use only host-owned diagnostics for runtime retries; recognize fixed tool-validation templates; preserve original operational start on resume.",
+      "inference_changed": false
+    }
+  ],
+  "selected_arms": [
+    "single_agent"
+  ],
+  "provider_rejection_policy": {
+    "version": "azure-prompt-rejection-v2-reviewed-retry",
+    "category": "provider_policy_rejection",
+    "max_rejections_per_question": 3,
+    "prior_max_rejections_per_question": 2,
+    "reviewed_question_ids": [
+      "05a8454a6a71435a557db2cc",
+      "0eb69f6e47ab63c055e2df90"
+    ],
+    "first_reviewed_round": 32,
+    "retry_request": "unchanged",
+    "persistent_action": "park_pending_then_attention",
+    "scope": [
+      "single_agent"
+    ]
+  }
+}

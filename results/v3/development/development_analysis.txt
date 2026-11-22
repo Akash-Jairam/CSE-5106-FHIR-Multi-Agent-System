@@ -1,0 +1,59 @@
+V3 DEVELOPMENT RESULTS: COMPLETE MATCHED 300-QUESTION COHORT
+
+This record consolidates the completed fresh Single Agent and V3 team development runs from pinned commit 906327dee1823178e3ac6319061f7d9ee5d2e01f. Each arm contains the same 300 questions from 58 patients. The fixed sample has been reused during architecture development, so these findings are exploratory. The full benchmark includes these questions and is not an independent replication of this development sample.
+
+ACCURACY AND MATCHED COMPARISON
+Single Agent: 238/300 = 79.333%; frozen patient-block 95% interval [74.285%, 83.918%].
+V3 team: 232/300 = 77.333%; frozen patient-block 95% interval [72.013%, 82.081%].
+Team minus Single Agent: -2.000 percentage points; paired 95% interval [-5.159, +1.095] percentage points.
+Paired outcomes: 224 both correct, 54 both incorrect, 8 team-only correct and 14 Single-only correct. The interval includes zero. These data do not establish a team accuracy advantage over the fresh contemporaneous control.
+
+Family                                      Single Agent       V3 team
+Lookup/counting (92 questions)               81/92 = 88.043%     79/92 = 85.870%
+Numerical aggregation (49 questions)         40/49 = 81.633%     37/49 = 75.510%
+Temporal selection (159 questions)           117/159 = 73.585%   116/159 = 72.956%
+Family-specific individual-arm intervals and patient counts are preserved in accuracy_by_family.csv. No separate paired family intervals were supplied by the frozen report.
+
+HISTORICAL COLLECTION AND SCORING METHOD
+The development experiment scored every scheduled first attempt under its original protocol. Its original outcomes have been preserved. The later full benchmark selects the first runtime-clean outcome under a different collection policy. Keep those two estimands separate rather than retroactively rewriting development results or pooling the observations.
+Team per-question correctness and mechanism scores were reused from frozen reports. Fresh Single Agent correctness was recomputed offline with the unchanged frozen typed scorer, then reconciled exactly to 238/300 and every frozen family count. No inference or provider request was made.
+
+LATENCY AND RESOURCE MEASUREMENTS
+Latencies are measured seconds per first-attempt question. Summed question latencies are serial work totals, not a reconstructed end-to-end wall-clock duration. No wall-clock total is inferred from file timestamps. Standard deviations use n-1; quantiles use linear interpolation.
+Metric                       Single Agent                     V3 team
+Latency: total / mean: 5,413.7510 / 18.0458; 5,297.7280 / 17.6591.
+Measured tokens: sum / mean: 21,057,621.00 / 70,192.07; 15,507,699.00 / 51,692.33.
+Model calls: sum / mean: 1,946.0000 / 6.4867; 1,798.0000 / 5.9933.
+Executed tools: sum / mean: 1,951.0000 / 6.5033; 1,545.0000 / 5.1500.
+Single Agent latency: SD 9.0036 s; median 15.8745 s; p95 34.6395 s; range [3.6460, 59.7730] s.
+V3 team latency: SD 11.2832 s; median 15.1395 s; p95 35.5881 s; range [1.7870, 110.8330] s.
+Paired measurement differences are team minus Single Agent. New patient-block intervals use 10,000 resamples, seed 5106, preserve all questions in each sampled patient, and estimate the question-weighted mean. They are descriptive intervals, not calibrated hypothesis-test p-values.
+latency_seconds: paired mean -0.386743 seconds; 95% interval [-1.463094, 0.699071]; n=300, patients=58.
+total_tokens_measured: paired mean -18499.740000 tokens; 95% interval [-22184.186181, -14706.887430]; n=300, patients=58.
+llm_calls: paired mean -0.493333 calls; 95% interval [-0.719858, -0.262803]; n=300, patients=58.
+tool_calls_run: paired mean -1.353333 calls; 95% interval [-1.591058, -1.117837]; n=300, patients=58.
+The team used fewer measured tokens and executed fewer tools. Its mean latency difference was small and its interval includes zero. Measured token counts are known usage only; recorded usage completeness is separately retained, so these sums must not be described as verified billed token totals.
+
+COST PROXY AND MISSINGNESS
+Costs below use the same frozen official OpenAI proxy rates adopted for Azure comparison: USD 0.10 per million input tokens, USD 0.01 per million cached input tokens, and USD 0.50 per million output tokens. Formula: ((prompt-cached)*0.10 + cached*0.01 + completion*0.50)/1,000,000. They are usage-based estimates, not verified Azure invoices. The original development report did not supply observed billing costs.
+Single Agent has complete question-level recorded provider usage for 300/300: total proxy USD 0.67120040; mean USD 0.00223733; median USD 0.00205260.
+V3 has complete question-level recorded provider usage for 298/300: observed complete-case proxy sum USD 0.87379467; mean USD 0.00293220; median USD 0.00195055. The full 300-question cost total is unavailable and remains null. Missing costs were not replaced by zero.
+On the same 298 cost-observed pairs, the mean team-minus-Single proxy difference is USD 0.00068972; patient-block 95% interval [USD 0.00041923, USD 0.00095328]. This comparison uses a matching 298-question denominator and is not a claim about the unobserved whole-cohort bill.
+Single Agent known prompt/cached-prompt/completion token sums: 20,672,080 / 17,653,090 / 385,541; cached share of known prompt tokens 85.396%.
+V3 team known prompt/cached-prompt/completion token sums: 15,131,884 / 9,186,276 / 375,815; cached share of known prompt tokens 60.708%.
+The proxy price depends on cached-input and completion-token mix, not just total tokens. Known-usage cost lower bounds are separate fields and must not be substituted for missing whole-question costs.
+
+SOURCE FEEDBACK, AUDIT AND PHASES
+The team produced 283 source-valid primary releases. Source feedback triggered 19 revisions, with four wrong-to-right draft/primary transitions and no losses at that transition. The static audit inspected 283 valid primaries, proposed no material local repair, and triggered zero targeted revisions or wrong-primary recoveries.
+Five initially correct drafts were not credited at final release; this is a descriptive transition, not evidence that the audit caused those losses. Six null credits lacked a source-valid release. Preserve that distinction when discussing answer accuracy versus evidential support.
+Observed phase records: contract 300, solver 300, audit 283, targeted 0. Recorded phase token sums: contract 432,057, solver 13,817,221, audit 1,258,421. The solver executed 1,545 tools. Per-question phase caps and numeric phase accounting appear in phase_measurements.csv; all frozen mechanism definitions remain available in the original diagnostics.
+
+IMPLEMENTATION AND FINGERPRINT PROVENANCE
+The development code commit is f00804f186768a3672ae6a6075f366a27dc0ca9a. The full-run design freeze is 4c7fbd13c1fd6e0b38abd002b072af8654837f28. Among the 57 declared shared/team runtime files, 56 are byte-identical. The sole change is agent/query_contract_agent.py: LedgerSolver max_iterations increased from 21 to 22 to reserve two host-only final-source-check boundary slots. The actual solver model-call cap remains 20. This small runtime change can affect final-boundary completion, so the implementations must not be called byte-identical.
+Using the same frozen 21 dependency versions and exact 42-file fingerprint recipe independently reproduces full-run fingerprint 65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409 and development fingerprint 208a88f0727213df44b4c74d873037d74a939f710b8787128202d254c5da29a9. The source change fully explains the observed fingerprint difference under that common dependency map.
+The original development 57-file equality claim compared development with its preceding development source; it did not compare development with the earlier full-run freeze. See source_comparison.json. No implementation code was merged into the results branch.
+
+FILES AND REPRODUCIBILITY
+per_question.csv/jsonl contains 600 numeric/identifier records; paired_measurements.csv/jsonl contains 300 matched records; phase_measurements.csv/jsonl contains 883 phase records. JSONL retains explicit nulls. Treat question_id as text when importing CSV. patient_cluster is a local grouping label and does not expose FHIR patient identifiers.
+metric_statistics.csv supplies observed/expected/missing counts, sum of observed values, complete metric sums, mean, sample SD, median, quartiles, p90/p95/p99, minimum and maximum by arm and family. For fields named *_measured, completeness describes coverage of the recorded metric, not completeness of provider billing usage. Accuracy intervals are copied unchanged from the frozen report.
+All 33 historical benchmark files are byte-identical to pinned Git blobs from 906327d. All 138 archived source files passed their manifest SHA256 checks. New numeric exports contain no question text, clinical resources, predictions or reference answers. manifest.json binds all original inputs and reports by SHA256; ARTIFACT_SHA256SUMS.json binds the consolidated outputs.

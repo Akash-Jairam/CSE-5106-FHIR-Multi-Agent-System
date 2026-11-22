@@ -1,0 +1,91 @@
+{
+  "status": "APPROVED_CORE_AND_MONITOR_CANDIDATE_FOR_EXACT_USER_AUTHORIZED_RETRY",
+  "at_utc": "2026-10-17T15:55:41.395800+00:00",
+  "candidate_directory": "/private/tmp/single-reviewed-retry-20261017",
+  "scope": "Read-only independent review of all changed runner and monitor code, exact policy, author metadata tests and root stopped-prefix replay receipt; no live apply or launch performed by this reviewer.",
+  "artifact_sha256": {
+    "v3_full_run.py": "b1543ea655e005af6b14c280a0695b877084fc14f19024c569a4f70ebc583f4a",
+    "monitor_single_agent.py": "1e091082d844fcabafb0e6a558d8b41634a26e2f476790b30b31c61033eba3dc",
+    "reviewed_retry.patch": "80404110d7a56077c880636aeaad37d7d4260cf5f2a741e93100e20be54f8305",
+    "run_manifest.json": "a76fcc081d88c7293e69713cf6f95c4b7b721aeaca62704ce10e3fb2ce435f10",
+    "test_reviewed_retry.py": "0eea1f77dee6e2b3359965ba0668ab2cab8977bd6136525c8a734e7f8bb981a6",
+    "targeted_tests.log": "4b249ac6dfb1b40b6f0334c79e5d65f33f60ff969a766ea078840d4c2eac2a88",
+    "static_transition_proof.json": "8348dc5e15d7f62b92970a407658ed7634cb7f7ab138bf57421ed7029badf42b",
+    "ARTIFACT_SHA256SUMS.json": "a35e09030b34bdb39a6ab2fdd96cdc21f224db5ce73ce7e007ac9390eec01d73",
+    "pre_apply_replay.json": "3f06043ffae88147826a9ffabce5b4a5341e516c7e36e61a6d08430ee008ce4c"
+  },
+  "author_inventory": {
+    "files": 7,
+    "all_hashes_and_sizes_verified": true,
+    "scope": "Seven author source/manifest/test artifacts; does not inventory root replay receipt."
+  },
+  "findings": [],
+  "policy": {
+    "selected_arms": [
+      "single_agent"
+    ],
+    "reviewed_question_ids": [
+      "05a8454a6a71435a557db2cc",
+      "0eb69f6e47ab63c055e2df90"
+    ],
+    "prior_max_rejections_per_question": 2,
+    "max_rejections_per_question": 3,
+    "first_reviewed_round": 32,
+    "retry_request": "unchanged"
+  },
+  "independent_source_checks": {
+    "all_changed_code_and_relevant_surrounding_guards_read": true,
+    "same_shared_per_question_round_limit_used_by_runner_and_monitor": true,
+    "historical_rounds_through_31_keep_cap_2": true,
+    "only_named_questions_can_reach_cap_3_from_round_32": true,
+    "named_third_policy_rejection_parks_again_and_fourth_is_refused": true,
+    "accepted_question_rerun_guards_preserved": true,
+    "generic_runtime_retries_unchanged": true,
+    "classifier_dependency_closure_identical": true,
+    "classifier_definitions_compared": 11,
+    "classifier_ast_sha256": "a73a7c5d91cec8c03720f22bf386ae1b829ac347c5cd0122319c122459453a12",
+    "classifier_note": "The classifier and its dependency closure are unchanged; exact manifest policy validation intentionally uses the new reviewed policy constant.",
+    "pure_helper_scope_checks": 9,
+    "additional_scheduling_comparison_checks": 4,
+    "manifest_changed_top_level_fields": [
+      "provider_rejection_policy",
+      "source_sha256"
+    ],
+    "only_changed_manifest_source_pin": "scripts/v3_full_run.py",
+    "inference_settings_and_inputs_unchanged": true
+  },
+  "validation_evidence": {
+    "author_targeted_metadata_tests": {
+      "passed": 9,
+      "failed": 0,
+      "source_and_log_reviewed": true,
+      "not_independently_reexecuted": true,
+      "limits": "Classifier/audit/identity/native boundaries are stubbed; these are scheduling, parking and monitor guard tests, not provider inference or full historical replay."
+    },
+    "root_stopped_prefix_replay": {
+      "receipt_reviewed": true,
+      "status": "REVIEWED_RETRY_CANDIDATE_PRE_APPLY_PREFIX_REPLAY_PASS",
+      "sealed_rounds": 31,
+      "accepted": 2929,
+      "raw_attempts": 2982,
+      "runtime_failures": 53,
+      "intrinsic_errors": 0,
+      "provider_rejections_each": 2,
+      "historical_choices_identical": true,
+      "canonical_rows_identical_to_selected_raw": true,
+      "unselected_arms_preserved": true,
+      "sources": 45,
+      "public_pins": 9,
+      "inputs": 3,
+      "declared_dependency_versions": 21,
+      "not_independently_reexecuted": true,
+      "limits": "Root-owned receipt reports the existing stopped prefix only; not a successful live/final verifier or completed baseline."
+    }
+  },
+  "limitations": [
+    "This approval covers the frozen runner/monitor candidate and exact user-authorized local retry ceiling only. It does not claim the retry will succeed, the cohort is complete, or a full benchmark score exists.",
+    "No provider/model/inference/scorer/native calls, config or secret reads, clinical answer/reference/correctness inspection, live source/run/settings edits, or actual apply occurred in this review.",
+    "No prompt, safety filter, provider deployment, model setting, scoring rule, pricing or accepted outcome changes are authorized by this review.",
+    "Final exporter and bound metadata helper source-policy lineage require separate review before later use; this review does not approve those pending adaptations."
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "created_at_utc": "2026-10-16T10:31:24.184697+00:00",
+  "scope": "Read-only batch verification helper; frozen inference, runner, analyzer, runtime and scheduling unchanged.",
+  "verifier_sha256": "d6d08e33411bf362525088db5bf65ba410a012adab8afa583bb31a77e2bca856",
+  "native_real_v3_validation": {
+    "version": 1,
+    "at_utc": "2026-10-16T10:31:12.426201+00:00",
+    "status": "IN_PROGRESS_NOT_FINAL",
+    "arm": "multi_agent",
+    "sealed_round": 17,
+    "accepted": 1651,
+    "expected_questions_per_arm": 2931,
+    "counts": {
+      "raw_attempts": 1700,
+      "runtime_failures": 49,
+      "intrinsic_errors": 0
+    },
+    "batch_classifications": {
+      "accepted": 93,
+      "runtime": 7
+    },
+    "batch_seal_result_identity_input_and_audits_verified": 100,
+    "canonical_ledger_ids_match": true,
+    "all_runtime_questions_scheduled": true,
+    "accepted_rerun_overlap": 0,
+    "supervisor_pid": 36808,
+    "active": {
+      "multi_agent": {
+        "pid": 52305,
+        "round": 18,
+        "checkpointed_in_batch": 20,
+        "seconds_since_checkpoint": 0
+      }
+    },
+    "native_live_states": {
+      "36808": "Ss",
+      "52305": "Ss"
+    },
+    "successful_terminal_state_verified": false,
+    "native_liveness_required": true,
+    "supervisor_phase": "running",
+    "analysis_return_code": null,
+    "attention": false,
+    "provider_error_events": [
+      {
+        "http_status": null,
+        "duration_seconds": 60.00825137499487,
+        "exception_types": [
+          "openai.APITimeoutError",
+          "httpx2.ReadTimeout",
+          "httpcore2.ReadTimeout"
+        ]
+      },
+      {
+        "http_status": null,
+        "duration_seconds": 60.00479504201212,
+        "exception_types": [
+          "openai.APITimeoutError",
+          "httpx2.ReadTimeout",
+          "httpcore2.ReadTimeout"
+        ]
+      },
+      {
+        "http_status": null,
+        "duration_seconds": 60.00418649998028,
+        "exception_types": [
+          "openai.APITimeoutError",
+          "httpx2.ReadTimeout",
+          "httpcore2.ReadTimeout"
+        ]
+      },
+      {
+        "http_status": null,
+        "duration_seconds": 60.00396983299288,
+        "exception_types": [
+          "openai.APITimeoutError",
+          "httpx2.ReadTimeout",
+          "httpcore2.ReadTimeout"
+        ]
+      },
+      {
+        "http_status": null,
+        "duration_seconds": 60.0144520419999,
+        "exception_types": [
+          "openai.APITimeoutError",
+          "httpx2.ReadTimeout",
+          "httpcore2.ReadTimeout"
+        ]
+      },
+      {
+        "http_status": null,
+        "duration_seconds": 60.00493333398481,
+        "exception_types": [
+          "openai.APITimeoutError",
+          "httpx2.ReadTimeout",
+          "httpcore2.ReadTimeout"
+        ]
+      },
+      {
+        "http_status": null,
+        "duration_seconds": 60.00577141699614,
+        "exception_types": [
+          "openai.APITimeoutError",
+          "httpx2.ReadTimeout",
+          "httpcore2.ReadTimeout"
+        ]
+      }
+    ],
+    "manifest_sha256": "7cb5d3d64d2131d7ae5cba055810fa8b965732d3b8ce1bf91781493736a7fbe6",
+    "correctness_used_for_scheduling": false,
+    "verifier_sha256": "d6d08e33411bf362525088db5bf65ba410a012adab8afa583bb31a77e2bca856"
+  },
+  "control_fixture_validation": [
+    {
+      "arm": "single_agent",
+      "final_arm": false,
+      "status": "PASSED",
+      "synthetic_rows": 2,
+      "native_process_result_mocked_for_fixture": true,
+      "verifier_sha256": "fbb1fe71b99bd72a7b17952795fb88412fcb431edc7115ab3e10f7781388afbe"
+    },
+    {
+      "arm": "single_agent",
+      "final_arm": true,
+      "status": "PASSED",
+      "synthetic_rows": 1,
+      "native_process_result_mocked_for_fixture": true,
+      "verifier_sha256": "fbb1fe71b99bd72a7b17952795fb88412fcb431edc7115ab3e10f7781388afbe"
+    },
+    {
+      "arm": "direct_llm",
+      "final_arm": false,
+      "status": "PASSED",
+      "synthetic_rows": 2,
+      "native_process_result_mocked_for_fixture": true,
+      "verifier_sha256": "fbb1fe71b99bd72a7b17952795fb88412fcb431edc7115ab3e10f7781388afbe"
+    },
+    {
+      "arm": "direct_llm",
+      "final_arm": true,
+      "status": "PASSED",
+      "synthetic_rows": 1,
+      "native_process_result_mocked_for_fixture": true,
+      "verifier_sha256": "fbb1fe71b99bd72a7b17952795fb88412fcb431edc7115ab3e10f7781388afbe"
+    }
+  ],
+  "terminal_fixture_validation": {
+    "verifier_sha256": "d6d08e33411bf362525088db5bf65ba410a012adab8afa583bb31a77e2bca856",
+    "cases": [
+      {
+        "case": "successful_complete_after_supervisor_exit",
+        "result": "PASS",
+        "ps_calls": 0,
+        "evidence": "/private/tmp/v3-verifier-arm-validation/terminal_success/monitor_validations.jsonl"
+      },
+      {
+        "case": "failed_analysis",
+        "result": "REJECTED_AS_EXPECTED",
+        "reason": "analysis did not succeed"
+      },
+      {
+        "case": "missing_analysis_status",
+        "result": "REJECTED_AS_EXPECTED",
+        "reason": "analysis did not succeed"
+      },
+      {
+        "case": "boolean_not_success_code",
+        "result": "REJECTED_AS_EXPECTED",
+        "reason": "analysis did not succeed"
+      },
+      {
+        "case": "missing_finished_timestamp",
+        "result": "REJECTED_AS_EXPECTED",
+        "reason": "successful terminal timestamp missing"
+      },
+      {
+        "case": "incomplete_other_arm",
+        "result": "REJECTED_AS_EXPECTED",
+        "reason": "terminal arm counts incomplete"
+      },
+      {
+        "case": "terminal_has_active_worker",
+        "result": "REJECTED_AS_EXPECTED",
+        "reason": "terminal state still has active workers"
+      },
+      {
+        "case": "ledger_not_complete",
+        "result": "REJECTED_AS_EXPECTED",
+        "reason": "complete acceptance ledger required"
+      },
+      {
+        "case": "terminal_without_final_flag",
+        "result": "REJECTED_AS_EXPECTED",
+        "reason": "terminal verification requires --final-arm"
+      },
+      {
+        "case": "completed_selected_arm_other_control_active",
+        "result": "PASS",
+        "ps_calls": 1
+      },
+      {
+        "case": "analysis_active_requires_supervisor_and_analysis_alive",
+        "result": "PASS",
+        "ps_calls": 1
+      },
+      {
+        "case": "analysis_child_missing",
+        "result": "REJECTED_AS_EXPECTED",
+        "reason": "inspect missing owned process"
+      }
+    ],
+    "live_output_modified": false,
+    "native_process_results_mocked_for_private_fixtures": true
+  },
+  "fixture_notice": "Synthetic fixture process results are mocked and are not benchmark observations. Earlier control fixture evidence preserves its intermediate verifier hash."
+}

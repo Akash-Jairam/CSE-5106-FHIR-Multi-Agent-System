@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "sealed_post_recovery_batch": {
+    "version": 1,
+    "at_utc": "2026-10-16T11:35:51.400267+00:00",
+    "status": "IN_PROGRESS_NOT_FINAL",
+    "arm": "multi_agent",
+    "sealed_round": 20,
+    "accepted": 1939,
+    "expected_questions_per_arm": 2931,
+    "counts": {
+      "raw_attempts": 2000,
+      "runtime_failures": 61,
+      "intrinsic_errors": 0
+    },
+    "batch_classifications": {
+      "accepted": 100
+    },
+    "batch_seal_result_identity_input_and_audits_verified": 100,
+    "canonical_ledger_ids_match": true,
+    "all_runtime_questions_scheduled": true,
+    "accepted_rerun_overlap": 0,
+    "supervisor_pid": 55406,
+    "active": {
+      "multi_agent": {
+        "pid": 56432,
+        "round": 21,
+        "checkpointed_in_batch": 2,
+        "seconds_since_checkpoint": 0
+      }
+    },
+    "native_live_states": {
+      "55406": "Ss",
+      "56432": "Ss"
+    },
+    "successful_terminal_state_verified": false,
+    "native_liveness_required": true,
+    "supervisor_phase": "running",
+    "analysis_return_code": null,
+    "attention": false,
+    "provider_error_events": [],
+    "manifest_sha256": "0110a8d0b6c16a11558a55e162064d6a67fc4ff3dd07eb74a8b00e9ebad0e37d",
+    "correctness_used_for_scheduling": false,
+    "verifier_sha256": "d6d08e33411bf362525088db5bf65ba410a012adab8afa583bb31a77e2bca856"
+  },
+  "all_four_retries_now_selected_from_sealed_round20": {
+    "95b245de3db0ff301118f6ef": {
+      "attempt_file": "attempts/multi_agent/round-0020.json",
+      "round": 20,
+      "runtime_failures_before": 1,
+      "selection": "runtime_clean_terminal",
+      "runtime_clean": true
+    },
+    "99302cc231fc961e9d68c413": {
+      "attempt_file": "attempts/multi_agent/round-0020.json",
+      "round": 20,
+      "runtime_failures_before": 1,
+      "selection": "runtime_clean_terminal",
+      "runtime_clean": true
+    },
+    "99ec0658e0c4b37ac1798c46": {
+      "attempt_file": "attempts/multi_agent/round-0020.json",
+      "round": 20,
+      "runtime_failures_before": 1,
+      "selection": "runtime_clean_terminal",
+      "runtime_clean": true
+    },
+    "9a6863fb555783adad183af6": {
+      "attempt_file": "attempts/multi_agent/round-0020.json",
+      "round": 20,
+      "runtime_failures_before": 1,
+      "selection": "runtime_clean_terminal",
+      "runtime_clean": true
+    }
+  },
+  "original_start_at": "2026-10-16T04:16:57+00:00",
+  "resumed_at": "2026-10-16T11:17:06+00:00",
+  "acceptance_sha256": "37d4289c99a97b1e19b90b1b0e46630a82acf421e38b21fff0695f45dea7a33e",
+  "interpretation": "1939 runtime-clean outcomes, not a count of correct answers. All 61 infrastructure attempts are separate from primary latency, cost and accuracy. Full cohort and matched controls remain unfinished.",
+  "correctness_used_for_scheduling": false
+}

@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "selected_count_observed": 1183,
+  "checks": {
+    "audit": {
+      "refusal": "Full baseline requires exactly 2931 selected outcomes; current cohort is incomplete",
+      "output_created": false
+    },
+    "capture": {
+      "refusal": "Full baseline requires exactly 2931 selected outcomes; current cohort is incomplete",
+      "output_created": false
+    }
+  },
+  "canonical_file_opens": 0,
+  "monitor_subprocesses": 0,
+  "source_sha256": {
+    "audit_complete_single_cache.py": "068250bfa8540e7722f70a61d589877356003b8c243c81d8f2d507603e15c036",
+    "completed_gate.py": "55a3ce97d1049ad3abf4ddde397c6938c256595fc09ec40ab5da76c5f5907dd3",
+    "bound_completion.py": "5345fe58f5cad0655ffd50db11996096e92ba8aa26b62b7a18f1834e33c909b3",
+    "capture_final_proof.py": "cdafa942e2ccbc821c7ebd63c64c96d585c6323cf7b23d066c37b3e6c5b11b80"
+  },
+  "scorer_or_inference_imported": false,
+  "no_provider_calls": true,
+  "no_live_writes": true
+}

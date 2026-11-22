@@ -1,0 +1,197 @@
+{
+  "status": "PASS",
+  "captured_at_utc": "2026-10-17T09:05:32.755520+00:00",
+  "scope": "IN_PROGRESS_ROUND14_CLASSIFIER_SNAPSHOT",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 14,
+  "saved_classifications": {
+    "accepted": 99,
+    "runtime": 1
+  },
+  "runtime_attempts": [
+    {
+      "question_id": "661a2833119e979de4228585",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    }
+  ],
+  "provider_policy_rejection_count_in_captured_round14": 0,
+  "round13_runtime_recoveries": [
+    {
+      "question_id": "612351f75cf9c16873706c46",
+      "prior_sealed_attempts": [
+        {
+          "round": 13,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round14_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round14": true,
+      "selection_persistence": "Captured checkpoint decision only; canonical/ledger adoption follows the normal sealed boundary."
+    },
+    {
+      "question_id": "617d9b7140ffa467be53e5b8",
+      "prior_sealed_attempts": [
+        {
+          "round": 13,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round14_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round14": true,
+      "selection_persistence": "Captured checkpoint decision only; canonical/ledger adoption follows the normal sealed boundary."
+    },
+    {
+      "question_id": "61f764dd9a145b1cc50e9c25",
+      "prior_sealed_attempts": [
+        {
+          "round": 13,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round14_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round14": true,
+      "selection_persistence": "Captured checkpoint decision only; canonical/ledger adoption follows the normal sealed boundary."
+    },
+    {
+      "question_id": "631830633e3ef0505c85ca98",
+      "prior_sealed_attempts": [
+        {
+          "round": 13,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round14_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round14": true,
+      "selection_persistence": "Captured checkpoint decision only; canonical/ledger adoption follows the normal sealed boundary."
+    },
+    {
+      "question_id": "64d3df17e06aa81f9ecdc580",
+      "prior_sealed_attempts": [
+        {
+          "round": 13,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round14_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round14": true,
+      "selection_persistence": "Captured checkpoint decision only; canonical/ledger adoption follows the normal sealed boundary."
+    },
+    {
+      "question_id": "64dfb6c9030d4565fdcadb6f",
+      "prior_sealed_attempts": [
+        {
+          "round": 13,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round14_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round14": true,
+      "selection_persistence": "Captured checkpoint decision only; canonical/ledger adoption follows the normal sealed boundary."
+    }
+  ],
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "attempts/single_agent/round-0013.json": "51424347e938e5cb1e25d5acbe197816a23ffed70ccdb2dedb3c8edd1d6bb562",
+    "attempts/single_agent/round-0013.batch.json": "c704feff4ed86f660ab2addc6143e0aa318c599466c8482b5f6042ae042f3219",
+    "attempts/single_agent/round-0013.batch.seal.json": "a5681b9ac154ac911357d83be3860603f99bd137f201755a7caa0e42b58ca7bf"
+  },
+  "round14_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0014.json",
+    "sha256": "4f1db3245777df3298e40d101702cc7fbb5d3ab9d527de7a9f135c5a5a48575f",
+    "bytes": 26600587,
+    "sha256_at_review_end": "4f1db3245777df3298e40d101702cc7fbb5d3ab9d527de7a9f135c5a5a48575f",
+    "live_checkpoint_may_advance_normally": true
+  },
+  "referenced_audit_hashes": {
+    "attempts/single_agent/audit/deb7099d414d4c8ecd7382ccb6d134fcd4ba456fe54a93c59ac64a667fafbe3f.json.gz": {
+      "compressed_sha256": "ad4ef856d66456c8b2ead93417b1051e2163bbaeaad795c1cebf82913c0b7ae4",
+      "uncompressed_sha256": "deb7099d414d4c8ecd7382ccb6d134fcd4ba456fe54a93c59ac64a667fafbe3f"
+    },
+    "attempts/single_agent/audit/52369ea25158a589a3ebf1ede6413db7671ada0885fbcf07d416584983241874.json.gz": {
+      "compressed_sha256": "5e8a99104558404756c2842269893824c8e9c62575c1ba165bc511e378ac994e",
+      "uncompressed_sha256": "52369ea25158a589a3ebf1ede6413db7671ada0885fbcf07d416584983241874"
+    },
+    "attempts/single_agent/audit/dab2f5aa8dd39c9da5b5969e7f84fdd115e12f1876a7b196ed35c00b95f56133.json.gz": {
+      "compressed_sha256": "db394bb5c3565228332f3904a3113043452c4f1b86382927561316c04772604c",
+      "uncompressed_sha256": "dab2f5aa8dd39c9da5b5969e7f84fdd115e12f1876a7b196ed35c00b95f56133"
+    },
+    "attempts/single_agent/audit/0186e39fc6d0ea73c57514046a59f3ef635facdcc4b1dd49892ad08677e0ed4e.json.gz": {
+      "compressed_sha256": "8eeb74f9d800633149140394678f6f9309239a777e0b05be1cb4308aff67e2d2",
+      "uncompressed_sha256": "0186e39fc6d0ea73c57514046a59f3ef635facdcc4b1dd49892ad08677e0ed4e"
+    },
+    "attempts/single_agent/audit/2919fedd8c3ec40a6fb6d8a7789a51cec250f86ee87c3ad84d17561e109f505a.json.gz": {
+      "compressed_sha256": "516f438b5d805e0b1af88a809d72d7defd295f13b545f6b10c80ef1cc08f1180",
+      "uncompressed_sha256": "2919fedd8c3ec40a6fb6d8a7789a51cec250f86ee87c3ad84d17561e109f505a"
+    },
+    "attempts/single_agent/audit/d951e73ed674472b7fb42247a2994f108e3eca20500dc1617c06aee889498a81.json.gz": {
+      "compressed_sha256": "da6a072168d1b47532ebef7c09c9defbbd15cebe957b8d7474803f9a8d9abdf7",
+      "uncompressed_sha256": "d951e73ed674472b7fb42247a2994f108e3eca20500dc1617c06aee889498a81"
+    },
+    "attempts/single_agent/audit/6487d8c36dca660f86a3a39002ec5540f5ee6cc78e2ce78380847d013992357c.json.gz": {
+      "compressed_sha256": "d248d9968c674086b18ebdbf48db403029ca2bfcc49312edc00bbc936fd60b01",
+      "uncompressed_sha256": "6487d8c36dca660f86a3a39002ec5540f5ee6cc78e2ce78380847d013992357c"
+    },
+    "attempts/single_agent/audit/adffa7bccd08a4d34146ce6fa8b56cc80111226843c67156c40a9a8b68497a1e.json.gz": {
+      "compressed_sha256": "df1f70aca56d746cd85f097036962fd5b8e60594e4d2790da4a8aa2cdf3b2ed4",
+      "uncompressed_sha256": "adffa7bccd08a4d34146ce6fa8b56cc80111226843c67156c40a9a8b68497a1e"
+    },
+    "attempts/single_agent/audit/dcb8afd5db25b838edee883780a07a459ecf7efb78c02d7ad86111c2addba9d1.json.gz": {
+      "compressed_sha256": "ba57dab390290e5bc00d660743ec7244583b612bcbf0936b7f47f78e7921e3ae",
+      "uncompressed_sha256": "dcb8afd5db25b838edee883780a07a459ecf7efb78c02d7ad86111c2addba9d1"
+    },
+    "attempts/single_agent/audit/37356460b5ac12c4d11a32f254793a4a4a70b5f7c8759ae2a01801ef734d8bb1.json.gz": {
+      "compressed_sha256": "af1ca212fc47c029c0ac572283bc589fd7019eb457a8e833ecdff032fa551c43",
+      "uncompressed_sha256": "37356460b5ac12c4d11a32f254793a4a4a70b5f7c8759ae2a01801ef734d8bb1"
+    },
+    "attempts/single_agent/audit/a7fbb8d03b63c8e182b6857f7685b03408eee9c83787c518b8a59b933d4ee19e.json.gz": {
+      "compressed_sha256": "0ba81b123a57fa5ba0969ec2ca9ec5fe06684ac212e3f9e9277f90a5ec4ec9d9",
+      "uncompressed_sha256": "a7fbb8d03b63c8e182b6857f7685b03408eee9c83787c518b8a59b933d4ee19e"
+    },
+    "attempts/single_agent/audit/dc6de156fae09dbaee3a4e344c374021e21948041af24caff7464a138706c73d.json.gz": {
+      "compressed_sha256": "0e172ba42ebf8f9b4549ddc80bb6b9e6962e4a3ddb81db63df5a292a4b821781",
+      "uncompressed_sha256": "dc6de156fae09dbaee3a4e344c374021e21948041af24caff7464a138706c73d"
+    },
+    "attempts/single_agent/audit/ef79aa8f6082c6a8c568fb8c5d83b4d13845062ceb8974dee71946e9fb81ae9a.json.gz": {
+      "compressed_sha256": "edee01a90915c584fa0fe76ec73770771b2718625d5167a3778cd433be21e975",
+      "uncompressed_sha256": "ef79aa8f6082c6a8c568fb8c5d83b4d13845062ceb8974dee71946e9fb81ae9a"
+    }
+  },
+  "no_clinical_raw_error_answer_reference_or_correctness_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true
+}

@@ -1,0 +1,71 @@
+{
+  "status": "SELECTED_SCOPE_IN_PROGRESS",
+  "selected_arms": [
+    "single_agent"
+  ],
+  "selected_accepted": 10,
+  "questions_per_selected_arm": 2931,
+  "selected_scope_complete": false,
+  "original_three_arm_benchmark_complete": false,
+  "analysis_status": "not_started",
+  "preserved_unselected": {
+    "multi_agent": {
+      "files_byte_identical_sha256": {
+        "full_multi_agent.json": "1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c",
+        "full_multi_agent.json.run.json": "b281be4700bb65aa585a7cc3d7c75a558a705a9844a883f97e726975d53ce6c1"
+      },
+      "ledger_choices_semantic_sha256": "4c14237a91042b1e91da695542331066dce36e9391fa3c09e0b9250a372397da",
+      "ledger_counts_semantic_sha256": "259a4735465e918e70ea67a5c6bff5b569bfc13ae9ee1f4eec063ecca1a816a7",
+      "unchanged": true
+    },
+    "direct_llm": {
+      "files_byte_identical_sha256": {
+        "full_direct_llm.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "full_direct_llm.json.run.json": "0f3a0dc5f4bab16544c381b4f9d6f90d66e61749584f0af0e4115d6e2bc385a4"
+      },
+      "ledger_choices_semantic_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "ledger_counts_semantic_sha256": "de9c1d4c0555abe3f5181b519332722d7bd0ef0f3cfc968976f671cb87a6c5dd",
+      "unchanged": true
+    }
+  },
+  "replayed_counts": {
+    "raw_attempts": 12,
+    "runtime_failures": 2,
+    "intrinsic_errors": 0
+  },
+  "sealed_batches": [
+    {
+      "round": 1,
+      "scheduled": 100,
+      "classifications": {
+        "accepted": 10,
+        "runtime": 2,
+        "pending": 88
+      },
+      "audits_verified": 12,
+      "result_sha256": "7575337dcb963c0e6879c23146d7519286424aa5aa466a697766868c7471b18c",
+      "seal_sha256": "19f245656bfa3ff4fb241ec4ed4047004e451bcef96531ab74f4be6629380694"
+    }
+  ],
+  "canonical_first_clean_verified": true,
+  "accepted_reruns": 0,
+  "current_native": {
+    "required": true,
+    "pid_comm": {
+      "9723": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python",
+      "9725": "/usr/bin/caffeinate",
+      "9726": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/.venv/bin/python"
+    },
+    "pid_states": {
+      "9723": "Ss",
+      "9725": "Ss",
+      "9726": "Ss"
+    },
+    "ps_exit_code": 0
+  },
+  "state_phase": "running",
+  "at_utc": "2026-10-17T05:37:25.738394+00:00",
+  "monitor_sha256": "4157dd3044431f9c56fc7475143d6659b007d2692be62ef3fed2bd65da422f6a",
+  "manifest_sha256": "ed049b68c0d3eb26fdce6021b51ecbeabab38b23586cd6e7c69e4fef695c6fa7",
+  "correctness_used_for_scheduling": false
+}

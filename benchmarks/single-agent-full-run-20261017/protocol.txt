@@ -1,0 +1,180 @@
+MATCHED SINGLE-AGENT FULL BENCHMARK
+
+Authorization: the user requested the complete single-agent baseline on
+17 October 2026, using the same rules as the completed V3 design run.
+Only single_agent inference is authorized by this continuation. Direct LLM
+remains deferred. Approval to publish detailed FHIR-derived records to the
+public GitHub repository remains pending; no automatic push is authorized.
+
+Why this control is required
+The original paper's aggregate results use different models and evaluation.
+They cannot replace a question-matched project control using the frozen model,
+tools, answer contract, budgets and typed scorer. This run uses the project's
+existing single_agent implementation, without tuning it against V3 results.
+It is a matched project control, not a reproduction of every paper setting.
+The prior decision and paper references are recorded in
+benchmarks/v3-full-run-20261015/baseline_decision.txt.
+
+Frozen comparison
+- Same 2,931 released questions and 94 patients as V3.
+- Same input, family/split manifests, original local FHIR resources, provider
+  runtime, model, reasoning setting and completion limit.
+- Same 200,000-token and 30-tool-call per-question ceilings; two workers;
+  cache enabled, save interval 1, compressed audit schema 2 and batches of 100.
+- Same inference source/dependency fingerprint:
+  65d2bbfc7da05f97e646acb22d20f0367d7f7a4e1a2a7c8b9c244fd77ef8d409.
+- Same frozen typed answer scorer. Architecture, prompts and tools differ only
+  as defined by the existing V3 and single_agent implementations.
+
+Recovery and selection
+Retain the first runtime-clean terminal outcome for each question. Completed
+wrong answers, design failures and empty/no-value answers are final outcomes;
+their correctness never determines retry eligibility. Genuine infrastructure
+failures remain pending and are retried under the unchanged bounded policy.
+Unknown failures halt for inspection rather than being marked incorrect.
+Preserve all raw attempts, seals, checkpoints, diagnostics and audit ownership.
+Unsaved interrupted work remains pending. Reuse the ten validated outcomes
+from the earlier partial single-agent batch unchanged; 2,921 questions remain,
+including two infrastructure retries. No accepted question may be rerun.
+
+The single-agent resume has an explicit CLI scope and matching manifest pin.
+Collection, recovery, attention, retry limits, scheduling, persistence and
+completion are restricted to single_agent. The completed V3 and deferred
+Direct LLM canonical files, identities and acceptance/count slices must remain
+unchanged. Archive the original operational source/manifest before applying
+this scheduling change. That initial scheduling amendment leaves inference and
+runtime-classifier semantics fixed. The separately recorded recovery amendment
+below extends only the operational classification of an observed provider rejection.
+
+Provider rejection recovery amendment (17 October 2026)
+The second single-agent batch sealed 98 clean outcomes, one HTTP 500 runtime
+failure and one structured Azure input-policy rejection. Together with the ten
+reused outcomes, 108 clean results were preserved before the supervisor stopped
+for inspection. No accepted outcome is eligible for another attempt.
+
+A reviewed optional classifier extension recognizes only the observed SDK-owned
+HTTP 400 prompt rejection with structured content_filter,
+ResponsibleAIPolicyViolation and detected/filtered metadata, corroborated by an
+unsuccessful call with unavailable usage. It does not infer failures from model
+prose, answer correctness, generic HTTP 400 errors or tool-name echoes.
+
+The rejected question gets at most one additional unchanged attempt. A second
+provider rejection parks it pending, while other questions continue. It is never
+scored incorrect. After all remaining executable questions finish, persistent
+rejections require external provider-policy review; the arm is still incomplete.
+No provider safeguards, prompts, questions, model settings, budgets or inference
+code change. Recorded usage is unavailable for the rejected call; this does not
+establish zero provider computation or zero billing.
+
+Rejection counts and parking are reconstructed from sealed raw attempts across
+resumes. Historical attempts beyond the two-rejection limit must fail validation.
+The separate provider_rejections.json records the distinct category; the existing
+runtime_failures count includes these discarded provider attempts for compatibility.
+They remain excluded from primary latency, tokens and estimated cost.
+
+Archive 0004-provider-rejection-runtime records the pre-change source, manifest,
+canonical results, identities, ledger, public pins and immutable raw inventory.
+Full answer-blind old/new replay must preserve all V3 decisions and every earlier
+clean single-agent selection. Only the observed unresolved provider rejection may
+move from attention to runtime. The paired exporter records this transition
+explicitly; it must not claim classifier semantics stayed unchanged.
+
+17 October 2026 reviewed retry addendum: after the first incomplete stop, the
+user explicitly requested another try and comparison with V3. Answer-blind review
+confirmed that both questions completed in V3 without the same provider error.
+Amendment 0005 supersedes the local two-rejection limit for these two question
+IDs from round32 only, allowing one additional unchanged provider-rejection
+retry. Historical rounds and other questions retain the limit of two. Generic
+infrastructure recovery and all first-clean/classifier/inference/measurement
+rules remain unchanged. The provider's safeguards were not modified. Both third
+tasks were again rejected after a successful call; no clean outcome was produced.
+They remain pending at three rejections each, with no automatic fourth request.
+See reviewed_provider_retry/ for the reviewed sources, receipts and limitations.
+
+Measurements and final analysis
+
+Save per-question predictions/references, patient/question/family/template
+identities, limitations, evidence, source-check and revision diagnostics,
+accepted invocation latency, token and cached-token usage, tool/phase counts,
+and estimated dollar cost. Primary time/cost exclude discarded runtime attempts.
+Keep unknown measurements null, and report missingness rather than zero-fill.
+
+Use the same user-approved official OpenAI rate snapshot as V3: USD 0.10 per
+million uncached input tokens, 0.01 cached input and 0.50 output. Cached input
+is part of prompt input, not an additional charge. These are estimates for the
+Azure deployment, not measured billing. Preserve the original pricing snapshot.
+
+For each complete arm, record totals, means, median, p95, sample standard
+deviation, extrema and missingness. Use the unchanged patient-cluster bootstrap
+with 10,000 replicates, seed 5106 and 95% percentile intervals. At full completion,
+record paired question-level accuracy/latency/token/cost comparisons and subgroup
+statistics using the existing analyzer. Do not score partial baseline data or
+call the original three-arm benchmark complete while Direct LLM is deferred.
+
+The main collections were sequential: V3 completed before the single-agent
+full-run resume. Arm assignment did not follow a randomized or interleaved
+schedule. The single-agent cohort includes ten outcomes retained from an earlier
+partial batch, with their original per-question latency, tokens and cost estimates.
+The patient-cluster bootstrap intervals reflect resampling variation across the
+observed patients, conditional on this collected run and cohort. They do not
+measure variation across repeated model runs or provider dates.
+
+metric_interpretation.txt defines the repeated-prompt heuristic and distinguishes
+normalized cached-input counts from cache-detail availability. Numeric balance
+and persisted-field missingness do not establish diagnostic cache coverage.
+Carry those definitions and any separate cache-metadata audit into the report;
+preserve the frozen analyzer and its recorded values.
+
+The syntactic "abstained" flag also includes correct empty-reference answers.
+Record its correctness cross-tab; do not interpret it as a refusal/failure rate.
+Full-cohort development exposure remains a limitation of both arms. Differences
+include the existing architecture/tool/contract design and are not a pure
+topology-only causal estimate. Cache and provider conditions can affect latency.
+The requested model/deployment, API version and provider settings are pinned.
+The frozen measurement path retains usage and request identifiers but does not
+persist the returned server model revision/system fingerprint. An identical
+underlying server revision across the two run dates has not been independently
+verified; do not describe a matching deployment alias as proof of that revision.
+
+Interim measurement preservation
+measurement_checkpoint_497 preserves 497 accepted per-question measurement
+projections, capture source hashes, the separate first-clean validation and an
+independent numeric review. Timing, token/cache balances and cost estimates are
+complete for this checkpoint; actual billing is unknown. It contains no accuracy
+analysis, comparison or extrapolation. Its fixed-count script must not be rerun
+against a later live checkpoint. Raw attempts remain in the retained run tree;
+the preservation receipt rechecks their hashes without duplicating clinical
+content into this measurement-only package. These are not final cohort statistics.
+measurement_checkpoint_891 repeats the numeric checks on 891 accepted outcomes
+and 5,858 recorded calls, preserving the ten sealed source bindings, first-clean
+proof and independent captured-data arithmetic review. Its interpretation note
+qualifies cache metadata; no partial accuracy or comparison is included.
+cache_provenance_checkpoint_891 separately preserves unique, non-overlapping
+ordered token-count associations for those 5,858 calls in retained diagnostics.
+All matched cache fields are numeric (50 explicit zeros, 5,808 positive, no
+nulls) and agree with recorded counts. Independent reconstruction also passed.
+These are inferred observed associations, with best-effort logging limits;
+they do not establish V3 or future-cohort coverage. Raw journals remain in the
+local run, with their hashes and the code/metadata view preserved here.
+
+The completed V3 cohort has a separate full metadata audit in
+../v3-full-run-20261015/cache_metadata_reconciliation_20261017. All 2,931
+questions and 17,715 accepted calls have unique, non-overlapping observed
+sequence associations; matched cache counts are 6,763 explicit zeros, 10,952
+positive and no nulls, totaling 27,222,449 cached tokens. All 33 rounds reconcile
+their sealed raw call counts to retained events. Independent reconstruction
+passed, and all 26 original completed-V3 delivery files remain unchanged.
+The same inferred-identity and best-effort logging limits apply. This supplies
+V3 coverage only; full baseline coverage still awaits the completed cohort.
+
+Live run directory (relative to the repository)
+output/experiments/gpt-6-luna/v3_full_2931_20261015
+
+Safe resume command, after the operational amendment has been verified
+PYTHONPATH='.local-setup/phase2-dependencies:.' .venv/bin/python \
+  scripts/launch_v3_full.py resume --only-arm single_agent \
+  --run-dir output/experiments/gpt-6-luna/v3_full_2931_20261015
+
+All credential values remain private. Only the normal project launcher/runtime
+may load configuration internally. Do not inspect config.yml or configuration
+backups. Monitoring is answer-blind and must not launch duplicate jobs.

@@ -1,0 +1,541 @@
+{
+  "status": "METADATA_ONLY_OBSERVED_ASSOCIATION_AUDIT_COMPLETE",
+  "label": "IN_PROGRESS_NOT_FINAL",
+  "at_utc": "2026-10-17T08:10:35.809666+00:00",
+  "selected_questions": 891,
+  "selected_calls": 5858,
+  "fixed_capture_hashes": {
+    "safe_evidence.json": "76fee805787376b052773d8d924b0b3ae95a7220b1e32e8148b627e8138f8074",
+    "per_question_measurements.jsonl": "961b39cef4f3f8b566ab6c98c24160e3362e9e5e6574f538b51ce942a205bc3b",
+    "audit_measurements.py": "48aa1253426f2822b522a83528b30c97ef3aa1bc4167a887004ae73569ebe2e6"
+  },
+  "first_clean_proof_sha256": "32cee962f1bbc37af3bda55fa3a7893fed3d3cef81c9d42d18aa55004f94c77c",
+  "current_live_canonical_read": false,
+  "used_immutable_historical_891_capture": true,
+  "rounds": {
+    "1": {
+      "selected_questions": 10,
+      "selected_calls": 68,
+      "start_events": 87,
+      "end_success": 83,
+      "end_error": 2,
+      "successful_event_cache_counts": {
+        "null": 0,
+        "zero": 37,
+        "positive": 46,
+        "invalid": 0
+      },
+      "journals": [
+        {
+          "path": "diagnostics/single_agent/round-0001/azure-diagnostics-68152-b83f35d5fc56431b902fbdbf46079098.jsonl",
+          "sha256": "b057dce65394d232e20e61789b6c03f05f4cfae464929a3a5325ec807aae9aac",
+          "events": 97,
+          "start_events": 49,
+          "end_events": 48,
+          "starts_without_end": [
+            [
+              68152,
+              "b83f35d5fc56431b902fbdbf46079098",
+              49
+            ]
+          ],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 49,
+          "counter_gaps": []
+        },
+        {
+          "path": "diagnostics/single_agent/round-0001/azure-diagnostics-68153-3831cafc991d47f2a7e1b2a47bfa1b42.jsonl",
+          "sha256": "8fbb2265a106538578e109205b6f57b12a27603ab63be725b19ca9f3a2559967",
+          "events": 75,
+          "start_events": 38,
+          "end_events": 37,
+          "starts_without_end": [
+            [
+              68153,
+              "3831cafc991d47f2a7e1b2a47bfa1b42",
+              38
+            ]
+          ],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 38,
+          "counter_gaps": []
+        }
+      ]
+    },
+    "2": {
+      "selected_questions": 98,
+      "selected_calls": 649,
+      "start_events": 653,
+      "end_success": 651,
+      "end_error": 2,
+      "successful_event_cache_counts": {
+        "null": 0,
+        "zero": 2,
+        "positive": 649,
+        "invalid": 0
+      },
+      "journals": [
+        {
+          "path": "diagnostics/single_agent/round-0002/azure-diagnostics-9730-ac60ef8df3d944d0959a97ff5916b077.jsonl",
+          "sha256": "f84bd6dbb8acb7ca7b6557efda9272d5ae545cef63d3747d630a76d601ec4a6b",
+          "events": 674,
+          "start_events": 337,
+          "end_events": 337,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 337,
+          "counter_gaps": []
+        },
+        {
+          "path": "diagnostics/single_agent/round-0002/azure-diagnostics-9731-f9f5027175c74bc883009541d0cf22b3.jsonl",
+          "sha256": "1b2f122c51e1a82ebb5ee98883ab0dc60aa21a68db58ae0865d046df749282cb",
+          "events": 632,
+          "start_events": 316,
+          "end_events": 316,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 316,
+          "counter_gaps": []
+        }
+      ]
+    },
+    "3": {
+      "selected_questions": 94,
+      "selected_calls": 592,
+      "start_events": 610,
+      "end_success": 604,
+      "end_error": 6,
+      "successful_event_cache_counts": {
+        "null": 0,
+        "zero": 5,
+        "positive": 599,
+        "invalid": 0
+      },
+      "journals": [
+        {
+          "path": "diagnostics/single_agent/round-0003/azure-diagnostics-12573-2914e1a794c5439e8b72a767e8ca3c59.jsonl",
+          "sha256": "8d0fdbc0dfb9e9760b2ade8911ef2cd45928b24738b56258f21604ae422de246",
+          "events": 586,
+          "start_events": 293,
+          "end_events": 293,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 293,
+          "counter_gaps": []
+        },
+        {
+          "path": "diagnostics/single_agent/round-0003/azure-diagnostics-12574-aedc459ee3cc41619c9d4beb3c00b119.jsonl",
+          "sha256": "86bc2b1f7d71fb531f9e292a124d57390350fdd3b7a7c23bc7f4c94c49410efd",
+          "events": 634,
+          "start_events": 317,
+          "end_events": 317,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 317,
+          "counter_gaps": []
+        }
+      ]
+    },
+    "4": {
+      "selected_questions": 97,
+      "selected_calls": 643,
+      "start_events": 651,
+      "end_success": 648,
+      "end_error": 3,
+      "successful_event_cache_counts": {
+        "null": 0,
+        "zero": 0,
+        "positive": 648,
+        "invalid": 0
+      },
+      "journals": [
+        {
+          "path": "diagnostics/single_agent/round-0004/azure-diagnostics-13875-2505b66444c241048eb6fb908befed2a.jsonl",
+          "sha256": "0730bdda8e73325ed26fa77c28067da9d5675be4789f35028ca017db4958ac1c",
+          "events": 668,
+          "start_events": 334,
+          "end_events": 334,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 334,
+          "counter_gaps": []
+        },
+        {
+          "path": "diagnostics/single_agent/round-0004/azure-diagnostics-13876-9cfec386003243a8ab23db84196efefe.jsonl",
+          "sha256": "c408e46e05f320aaf86e48356e3b1960333f71dbcdea9294d82bfadb8ee8d4e8",
+          "events": 634,
+          "start_events": 317,
+          "end_events": 317,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 317,
+          "counter_gaps": []
+        }
+      ]
+    },
+    "5": {
+      "selected_questions": 99,
+      "selected_calls": 679,
+      "start_events": 684,
+      "end_success": 683,
+      "end_error": 1,
+      "successful_event_cache_counts": {
+        "null": 0,
+        "zero": 3,
+        "positive": 680,
+        "invalid": 0
+      },
+      "journals": [
+        {
+          "path": "diagnostics/single_agent/round-0005/azure-diagnostics-15451-05b763a66caf4e2b9ff3061b2805966d.jsonl",
+          "sha256": "552fc74f2a828207c2b0d5f0adcf8a460953247ea140273a0d6e4417a6d3ef16",
+          "events": 690,
+          "start_events": 345,
+          "end_events": 345,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 345,
+          "counter_gaps": []
+        },
+        {
+          "path": "diagnostics/single_agent/round-0005/azure-diagnostics-15452-4ab5c63bb5ab42eea99651e6c649801a.jsonl",
+          "sha256": "5d65e58585fbbd4f2aac24610f9b9e58331d113b6bbb902c883a73babd004064",
+          "events": 678,
+          "start_events": 339,
+          "end_events": 339,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 339,
+          "counter_gaps": []
+        }
+      ]
+    },
+    "6": {
+      "selected_questions": 99,
+      "selected_calls": 671,
+      "start_events": 675,
+      "end_success": 674,
+      "end_error": 1,
+      "successful_event_cache_counts": {
+        "null": 0,
+        "zero": 1,
+        "positive": 673,
+        "invalid": 0
+      },
+      "journals": [
+        {
+          "path": "diagnostics/single_agent/round-0006/azure-diagnostics-16736-7d32fbfb3ccd4680bc1240ac9a7b1e19.jsonl",
+          "sha256": "0f207b98b82cd4a00095d036a56aa6bcf4af4c019a3434581d3363eb61db699a",
+          "events": 688,
+          "start_events": 344,
+          "end_events": 344,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 344,
+          "counter_gaps": []
+        },
+        {
+          "path": "diagnostics/single_agent/round-0006/azure-diagnostics-16737-da4f23ada2f249cba5ced276ed473d95.jsonl",
+          "sha256": "cdc10865fc0ca675213e34784117c0db12f227762add324135a8afe4e6af16f5",
+          "events": 662,
+          "start_events": 331,
+          "end_events": 331,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 331,
+          "counter_gaps": []
+        }
+      ]
+    },
+    "7": {
+      "selected_questions": 99,
+      "selected_calls": 651,
+      "start_events": 660,
+      "end_success": 659,
+      "end_error": 1,
+      "successful_event_cache_counts": {
+        "null": 0,
+        "zero": 2,
+        "positive": 657,
+        "invalid": 0
+      },
+      "journals": [
+        {
+          "path": "diagnostics/single_agent/round-0007/azure-diagnostics-17806-26bce38458394cc1889db1531fa82b79.jsonl",
+          "sha256": "17c87a07979fb9aacdce68151b90a7a7ce335253f969439aa926039ed8bfbacb",
+          "events": 656,
+          "start_events": 328,
+          "end_events": 328,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 328,
+          "counter_gaps": []
+        },
+        {
+          "path": "diagnostics/single_agent/round-0007/azure-diagnostics-17807-c7318d40c5614999a74f845d912c47d0.jsonl",
+          "sha256": "03669b5043b0bd6f9bda7a5add6c9c50006cda7ae0563bb2bdc264cc9893a341",
+          "events": 664,
+          "start_events": 332,
+          "end_events": 332,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 332,
+          "counter_gaps": []
+        }
+      ]
+    },
+    "8": {
+      "selected_questions": 98,
+      "selected_calls": 619,
+      "start_events": 629,
+      "end_success": 627,
+      "end_error": 2,
+      "successful_event_cache_counts": {
+        "null": 0,
+        "zero": 2,
+        "positive": 625,
+        "invalid": 0
+      },
+      "journals": [
+        {
+          "path": "diagnostics/single_agent/round-0008/azure-diagnostics-19336-1b35bf82160a46369b791f52af7b4506.jsonl",
+          "sha256": "ce7029c9158c990e28c47af3aa111bec622a10b21d7cda867769e4797983fa78",
+          "events": 610,
+          "start_events": 305,
+          "end_events": 305,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 305,
+          "counter_gaps": []
+        },
+        {
+          "path": "diagnostics/single_agent/round-0008/azure-diagnostics-19337-7e8b3fb9c0e548a18542637adf99b1d4.jsonl",
+          "sha256": "8a8f7d170e12e1b938a14b8abc227c5c66e429d7365d365674e2218672aeb158",
+          "events": 648,
+          "start_events": 324,
+          "end_events": 324,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 324,
+          "counter_gaps": []
+        }
+      ]
+    },
+    "9": {
+      "selected_questions": 97,
+      "selected_calls": 643,
+      "start_events": 652,
+      "end_success": 649,
+      "end_error": 3,
+      "successful_event_cache_counts": {
+        "null": 0,
+        "zero": 1,
+        "positive": 648,
+        "invalid": 0
+      },
+      "journals": [
+        {
+          "path": "diagnostics/single_agent/round-0009/azure-diagnostics-20463-ce42705b12384ae7a3938acf66a8040d.jsonl",
+          "sha256": "ce103abf5a221d94cb4be0c8a3f61edc46fbb34666385aa32a4be5666ddfbc9b",
+          "events": 688,
+          "start_events": 344,
+          "end_events": 344,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 344,
+          "counter_gaps": []
+        },
+        {
+          "path": "diagnostics/single_agent/round-0009/azure-diagnostics-20464-1dd3515dd2924874b190fd6e7c5e1149.jsonl",
+          "sha256": "5a6e17db6bb71ffab9de9f086356c99092584ff1b03dd33031ca638d7514053c",
+          "events": 616,
+          "start_events": 308,
+          "end_events": 308,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 308,
+          "counter_gaps": []
+        }
+      ]
+    },
+    "10": {
+      "selected_questions": 100,
+      "selected_calls": 643,
+      "start_events": 643,
+      "end_success": 643,
+      "end_error": 0,
+      "successful_event_cache_counts": {
+        "null": 0,
+        "zero": 2,
+        "positive": 641,
+        "invalid": 0
+      },
+      "journals": [
+        {
+          "path": "diagnostics/single_agent/round-0010/azure-diagnostics-21612-8cc925e291e44aac9f4be0d23d97a713.jsonl",
+          "sha256": "bfd435670357acbb1bed2ebc45d2e02f87665723d006cb3598d51e77c6978f53",
+          "events": 654,
+          "start_events": 327,
+          "end_events": 327,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 327,
+          "counter_gaps": []
+        },
+        {
+          "path": "diagnostics/single_agent/round-0010/azure-diagnostics-21613-e257af61a0334cc3933c39f045187723.jsonl",
+          "sha256": "1ba2325710dc1166b51386af10011ac5843207a9f950cdd325be3d88e710d96a",
+          "events": 632,
+          "start_events": 316,
+          "end_events": 316,
+          "starts_without_end": [],
+          "ends_without_start": [],
+          "duplicate_start_keys": 0,
+          "duplicate_end_keys": 0,
+          "counter_min": 1,
+          "counter_max": 316,
+          "counter_gaps": []
+        }
+      ]
+    }
+  },
+  "successful_diagnostic_events": 5921,
+  "successful_event_cache_counts": {
+    "null": 0,
+    "zero": 55,
+    "positive": 5866,
+    "invalid": 0
+  },
+  "diagnostic_source_sha256_before": {
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0001/azure-diagnostics-68152-b83f35d5fc56431b902fbdbf46079098.jsonl": "b057dce65394d232e20e61789b6c03f05f4cfae464929a3a5325ec807aae9aac",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0001/azure-diagnostics-68153-3831cafc991d47f2a7e1b2a47bfa1b42.jsonl": "8fbb2265a106538578e109205b6f57b12a27603ab63be725b19ca9f3a2559967",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0002/azure-diagnostics-9730-ac60ef8df3d944d0959a97ff5916b077.jsonl": "f84bd6dbb8acb7ca7b6557efda9272d5ae545cef63d3747d630a76d601ec4a6b",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0002/azure-diagnostics-9731-f9f5027175c74bc883009541d0cf22b3.jsonl": "1b2f122c51e1a82ebb5ee98883ab0dc60aa21a68db58ae0865d046df749282cb",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0003/azure-diagnostics-12573-2914e1a794c5439e8b72a767e8ca3c59.jsonl": "8d0fdbc0dfb9e9760b2ade8911ef2cd45928b24738b56258f21604ae422de246",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0003/azure-diagnostics-12574-aedc459ee3cc41619c9d4beb3c00b119.jsonl": "86bc2b1f7d71fb531f9e292a124d57390350fdd3b7a7c23bc7f4c94c49410efd",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0004/azure-diagnostics-13875-2505b66444c241048eb6fb908befed2a.jsonl": "0730bdda8e73325ed26fa77c28067da9d5675be4789f35028ca017db4958ac1c",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0004/azure-diagnostics-13876-9cfec386003243a8ab23db84196efefe.jsonl": "c408e46e05f320aaf86e48356e3b1960333f71dbcdea9294d82bfadb8ee8d4e8",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0005/azure-diagnostics-15451-05b763a66caf4e2b9ff3061b2805966d.jsonl": "552fc74f2a828207c2b0d5f0adcf8a460953247ea140273a0d6e4417a6d3ef16",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0005/azure-diagnostics-15452-4ab5c63bb5ab42eea99651e6c649801a.jsonl": "5d65e58585fbbd4f2aac24610f9b9e58331d113b6bbb902c883a73babd004064",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0006/azure-diagnostics-16736-7d32fbfb3ccd4680bc1240ac9a7b1e19.jsonl": "0f207b98b82cd4a00095d036a56aa6bcf4af4c019a3434581d3363eb61db699a",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0006/azure-diagnostics-16737-da4f23ada2f249cba5ced276ed473d95.jsonl": "cdc10865fc0ca675213e34784117c0db12f227762add324135a8afe4e6af16f5",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0007/azure-diagnostics-17806-26bce38458394cc1889db1531fa82b79.jsonl": "17c87a07979fb9aacdce68151b90a7a7ce335253f969439aa926039ed8bfbacb",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0007/azure-diagnostics-17807-c7318d40c5614999a74f845d912c47d0.jsonl": "03669b5043b0bd6f9bda7a5add6c9c50006cda7ae0563bb2bdc264cc9893a341",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0008/azure-diagnostics-19336-1b35bf82160a46369b791f52af7b4506.jsonl": "ce7029c9158c990e28c47af3aa111bec622a10b21d7cda867769e4797983fa78",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0008/azure-diagnostics-19337-7e8b3fb9c0e548a18542637adf99b1d4.jsonl": "8a8f7d170e12e1b938a14b8abc227c5c66e429d7365d365674e2218672aeb158",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0009/azure-diagnostics-20463-ce42705b12384ae7a3938acf66a8040d.jsonl": "ce103abf5a221d94cb4be0c8a3f61edc46fbb34666385aa32a4be5666ddfbc9b",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0009/azure-diagnostics-20464-1dd3515dd2924874b190fd6e7c5e1149.jsonl": "5a6e17db6bb71ffab9de9f086356c99092584ff1b03dd33031ca638d7514053c",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0010/azure-diagnostics-21612-8cc925e291e44aac9f4be0d23d97a713.jsonl": "bfd435670357acbb1bed2ebc45d2e02f87665723d006cb3598d51e77c6978f53",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0010/azure-diagnostics-21613-e257af61a0334cc3933c39f045187723.jsonl": "1ba2325710dc1166b51386af10011ac5843207a9f950cdd325be3d88e710d96a"
+  },
+  "diagnostic_source_sha256_after": {
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0001/azure-diagnostics-68152-b83f35d5fc56431b902fbdbf46079098.jsonl": "b057dce65394d232e20e61789b6c03f05f4cfae464929a3a5325ec807aae9aac",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0001/azure-diagnostics-68153-3831cafc991d47f2a7e1b2a47bfa1b42.jsonl": "8fbb2265a106538578e109205b6f57b12a27603ab63be725b19ca9f3a2559967",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0002/azure-diagnostics-9730-ac60ef8df3d944d0959a97ff5916b077.jsonl": "f84bd6dbb8acb7ca7b6557efda9272d5ae545cef63d3747d630a76d601ec4a6b",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0002/azure-diagnostics-9731-f9f5027175c74bc883009541d0cf22b3.jsonl": "1b2f122c51e1a82ebb5ee98883ab0dc60aa21a68db58ae0865d046df749282cb",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0003/azure-diagnostics-12573-2914e1a794c5439e8b72a767e8ca3c59.jsonl": "8d0fdbc0dfb9e9760b2ade8911ef2cd45928b24738b56258f21604ae422de246",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0003/azure-diagnostics-12574-aedc459ee3cc41619c9d4beb3c00b119.jsonl": "86bc2b1f7d71fb531f9e292a124d57390350fdd3b7a7c23bc7f4c94c49410efd",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0004/azure-diagnostics-13875-2505b66444c241048eb6fb908befed2a.jsonl": "0730bdda8e73325ed26fa77c28067da9d5675be4789f35028ca017db4958ac1c",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0004/azure-diagnostics-13876-9cfec386003243a8ab23db84196efefe.jsonl": "c408e46e05f320aaf86e48356e3b1960333f71dbcdea9294d82bfadb8ee8d4e8",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0005/azure-diagnostics-15451-05b763a66caf4e2b9ff3061b2805966d.jsonl": "552fc74f2a828207c2b0d5f0adcf8a460953247ea140273a0d6e4417a6d3ef16",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0005/azure-diagnostics-15452-4ab5c63bb5ab42eea99651e6c649801a.jsonl": "5d65e58585fbbd4f2aac24610f9b9e58331d113b6bbb902c883a73babd004064",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0006/azure-diagnostics-16736-7d32fbfb3ccd4680bc1240ac9a7b1e19.jsonl": "0f207b98b82cd4a00095d036a56aa6bcf4af4c019a3434581d3363eb61db699a",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0006/azure-diagnostics-16737-da4f23ada2f249cba5ced276ed473d95.jsonl": "cdc10865fc0ca675213e34784117c0db12f227762add324135a8afe4e6af16f5",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0007/azure-diagnostics-17806-26bce38458394cc1889db1531fa82b79.jsonl": "17c87a07979fb9aacdce68151b90a7a7ce335253f969439aa926039ed8bfbacb",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0007/azure-diagnostics-17807-c7318d40c5614999a74f845d912c47d0.jsonl": "03669b5043b0bd6f9bda7a5add6c9c50006cda7ae0563bb2bdc264cc9893a341",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0008/azure-diagnostics-19336-1b35bf82160a46369b791f52af7b4506.jsonl": "ce7029c9158c990e28c47af3aa111bec622a10b21d7cda867769e4797983fa78",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0008/azure-diagnostics-19337-7e8b3fb9c0e548a18542637adf99b1d4.jsonl": "8a8f7d170e12e1b938a14b8abc227c5c66e429d7365d365674e2218672aeb158",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0009/azure-diagnostics-20463-ce42705b12384ae7a3938acf66a8040d.jsonl": "ce103abf5a221d94cb4be0c8a3f61edc46fbb34666385aa32a4be5666ddfbc9b",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0009/azure-diagnostics-20464-1dd3515dd2924874b190fd6e7c5e1149.jsonl": "5a6e17db6bb71ffab9de9f086356c99092584ff1b03dd33031ca638d7514053c",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0010/azure-diagnostics-21612-8cc925e291e44aac9f4be0d23d97a713.jsonl": "bfd435670357acbb1bed2ebc45d2e02f87665723d006cb3598d51e77c6978f53",
+    "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015/diagnostics/single_agent/round-0010/azure-diagnostics-21613-e257af61a0334cc3933c39f045187723.jsonl": "1ba2325710dc1166b51386af10011ac5843207a9f950cdd325be3d88e710d96a"
+  },
+  "source_stable": true,
+  "matched_call_records": 5858,
+  "unique_matched_event_keys": 5858,
+  "overlapping_question_event_associations": {},
+  "join_candidate_counts": {
+    "single_call_unique": 5838,
+    "question_unique_sequence": 891,
+    "single_call_ambiguous": 20
+  },
+  "matched_cache_metadata": {
+    "diagnostic_positive": 5808,
+    "normalized_cache_agrees": 5858,
+    "diagnostic_explicit_zero": 50
+  },
+  "successful_events_without_request_id": 0,
+  "duplicate_nonempty_success_request_id_sets": 0,
+  "stored_request_id_qid_join_available": false,
+  "full_direct_identity_join_proven": false,
+  "conclusion": "Observed unique contiguous token-count sequences associate selected calls with journal events. These are metadata associations, not a persisted question/request-ID identity join. Cache presence can be described at observed-event level and for those associations, with the logging/identity limitations retained.",
+  "limitations": [
+    "Canonical cache zero is lossy and does not by itself prove explicit provider zero.",
+    "Diagnostics are best-effort. Contiguous counters and start/end coverage describe recorded events; failed logging before counter increment may leave no observable gap.",
+    "Numeric sequence uniqueness is relative to the retained journals; question IDs and request IDs were not persisted together in canonical per_call.",
+    "Round1 contains interrupted unpersisted work and unmatched start events; observed event totals are not automatically accepted-cohort call totals.",
+    "No correction to frozen metrics or estimates was made; an absent cache detail is never inferred to be zero."
+  ],
+  "no_answers_references_correctness_inspected": true,
+  "no_scoring_or_model_provider_calls": true,
+  "no_repo_live_or_frozen_metrics_edits": true,
+  "script_sha256": "9f9dacd2099bc4aec22136482b40328a5db42bd5f5f605493d3574d01eff9e4c",
+  "association_file_sha256": "9a124be36643e4d8a9a5361daff76ef1d94d6270ee4425859533e41e25f1c6c2"
+}

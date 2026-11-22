@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "generated_at": "2026-10-16T15:53:12.611950+00:00",
+  "questions": 2931,
+  "run_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_full_2931_20261015",
+  "export_directory": "/Users/jeffreychen/Desktop/College/Computer Science/5106 Multi-Agent Systems/project/CSE-5106-FHIR-Multi-Agent-System/output/experiments/gpt-6-luna/v3_complete_2931_20261016",
+  "canonical_sha256": "1c8c974ccff99aae802f698ad043f4d959bb1808b3abee0f9e27c9c3ffa8097c",
+  "v3_ledger_slice_sha256": "bee6059797644eb020664b549e13390bf4e44f5bad187fba0df516b9b016134f",
+  "primary_measurements": {
+    "latency_seconds": {
+      "total": 70504.268,
+      "mean": 24.054680313886045,
+      "missing_n": 0
+    },
+    "estimated_cost_usd": {
+      "total": 14.810823690000001,
+      "mean": 0.005053164002047084,
+      "missing_n": 0
+    },
+    "total_tokens": {
+      "total": 156787021,
+      "mean": 53492.67178437393,
+      "missing_n": 0
+    }
+  },
+  "first_clean_replay_counts": {
+    "raw_attempts": 3012,
+    "runtime_failures": 81,
+    "intrinsic_errors": 0
+  },
+  "aggregate_groups_verified": 186,
+  "csv_rows_parsed": {
+    "arm_summary.csv": 1,
+    "by_analysis_split.csv": 4,
+    "by_answer_type.csv": 6,
+    "by_exposure.csv": 2,
+    "by_family.csv": 4,
+    "by_patient_fhir_id.csv": 94,
+    "by_template_id.csv": 76,
+    "mechanisms.csv": 1,
+    "per_question.csv": 2931,
+    "phase_usage.csv": 3
+  },
+  "delivery_artifacts_verified": 6146,
+  "bootstrap": {
+    "independent_implementation": true,
+    "replicates": 10000,
+    "seed": 5106,
+    "unit": "patient cluster",
+    "level": 0.95
+  },
+  "no_answer_scorer_or_analyzer_called": true,
+  "actual_incomplete_data_scored": false,
+  "benchmark_complete": false,
+  "controls_omitted_from_v3_delivery": true,
+  "checks": [
+    "All 2931 per-question answers/evidence/latency/tokens/cost reconcile to canonical and accepted ledger",
+    "Every sealed V3 attempt replayed; first clean source-attempt choices unchanged",
+    "Totals/means/missingness/median/p95/stdev and patient-cluster bootstrap intervals independently recalculated",
+    "All V3 group aggregates and CSVs verified; global partial and controls-pending labels preserved",
+    "Delivered artifacts hash verified; V3 canonical and ledger slice stable during QA"
+  ],
+  "verifier_sha256": "6b2d27bb745cbfe21a886f90d2b5198df604f4c18e2b1f119ec3bf08c1d05496"
+}

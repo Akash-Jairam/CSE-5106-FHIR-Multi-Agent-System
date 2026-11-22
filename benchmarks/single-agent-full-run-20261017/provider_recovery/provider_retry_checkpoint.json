@@ -1,0 +1,54 @@
+{
+  "status": "IN_PROGRESS_NOT_FINAL",
+  "snapshot_utc": "2026-10-17T05:59:28.949450+00:00",
+  "scope": [
+    "single_agent"
+  ],
+  "source_manifest_sha256": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+  "sealed_clean_outcomes": 108,
+  "provider_rejections_observed": [
+    {
+      "round": 2,
+      "question_id": "05a8454a6a71435a557db2cc",
+      "decision": {
+        "status": "runtime",
+        "reason": "provider_policy_rejection",
+        "category": "provider_policy_rejection",
+        "diagnostic_paths": [
+          "error"
+        ]
+      },
+      "error_sha256": "455bc6f946d024bc51f5efcbdb16f2f80e7d35c2e8213919ba51e196973a60c5",
+      "result_file_sha256_at_snapshot": "154e71819c154c322188829f12b63769bb62e42f603044df6f371b87d45b88a8",
+      "sealed": true,
+      "usage_unavailable": true,
+      "primary_measurements_excluded": true
+    },
+    {
+      "round": 3,
+      "question_id": "05a8454a6a71435a557db2cc",
+      "decision": {
+        "status": "runtime",
+        "reason": "provider_policy_rejection",
+        "category": "provider_policy_rejection",
+        "diagnostic_paths": [
+          "error"
+        ]
+      },
+      "error_sha256": "455bc6f946d024bc51f5efcbdb16f2f80e7d35c2e8213919ba51e196973a60c5",
+      "result_file_sha256_at_snapshot": "4e307ff292463499940f576a72f46c184454e5e8f05642a9357b12eb9fe28300",
+      "sealed": false,
+      "usage_unavailable": true,
+      "primary_measurements_excluded": true
+    }
+  ],
+  "future_action": "After round3 seals, reconstruct count2, park this question pending, continue all fresh questions. Never retry beyond the unchanged-retry limit or score this unresolved question wrong.",
+  "primary_cost_and_latency_rule": "First runtime-clean terminal attempt only; all discarded infrastructure/provider attempts excluded.",
+  "actual_billing_unknown": true,
+  "full_arm_complete": false,
+  "accuracy_scored": false,
+  "v3_preserved": true,
+  "supervisor_phase": "running",
+  "active_round": 3,
+  "supervisor_pid": 12567
+}

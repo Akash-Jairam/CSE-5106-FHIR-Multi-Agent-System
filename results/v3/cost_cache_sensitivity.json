@@ -1,0 +1,26 @@
+{
+  "cohort_n": 2929,
+  "interpretation": "Fixed-usage accounting scenario, not another inference experiment.",
+  "arms": {
+    "single_agent": {
+      "prompt_tokens": 210582685,
+      "cached_prompt_tokens": 181086250,
+      "completion_tokens": 4033144,
+      "cached_prompt_fraction": 0.8599294381681951,
+      "recorded_cache_total_usd": 6.777078,
+      "no_cache_total_usd": 23.0748405,
+      "no_cache_mean_usd": 0.007878060942301127
+    },
+    "multi_agent_v3": {
+      "prompt_tokens": 152782576,
+      "cached_prompt_tokens": 27210236,
+      "completion_tokens": 3953695,
+      "cached_prompt_fraction": 0.1780977694733986,
+      "recorded_cache_total_usd": 14.80618386,
+      "no_cache_total_usd": 17.2551051,
+      "no_cache_mean_usd": 0.005891124991464664
+    }
+  },
+  "v3_to_single_recorded_cache_cost_ratio": 2.1847444960792837,
+  "v3_to_single_no_cache_cost_ratio": 0.7477887051917
+}

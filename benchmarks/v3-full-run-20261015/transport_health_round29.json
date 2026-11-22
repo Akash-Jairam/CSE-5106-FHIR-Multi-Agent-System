@@ -1,0 +1,362 @@
+{
+  "snapshot_utc": "2026-10-16T14:53:46.354479+00:00",
+  "scope": "Safe structured round29 diagnostics only; no requests, configs, raw messages, prompts, answers, scoring, or live changes",
+  "journal_snapshots": [
+    {
+      "name": "azure-diagnostics-65031-02361deee8c44cf5a11954601c805191.jsonl",
+      "sha256": "1c004a994a554cee9014029ccfa0c3340b90f6a5cfab9933e1644888a6222e61",
+      "complete_lines": 491
+    },
+    {
+      "name": "azure-diagnostics-65032-8771c73c66e74885b1700bb75356a6a8.jsonl",
+      "sha256": "ad0e071c93ab61ecb311ad8e709f2f2dc5b0df41977e788e863953d71d93dadc",
+      "complete_lines": 593
+    }
+  ],
+  "partial_lines": 0,
+  "overall": {
+    "completed_calls": 541,
+    "successes": 535,
+    "errors": 6,
+    "error_rate": 0.011090573012939002,
+    "error_classes": {
+      "read_timeout": 5,
+      "http_500": 1
+    },
+    "error_statuses": {
+      "None": 5,
+      "500": 1
+    },
+    "error_duration_seconds": {
+      "http_500": {
+        "n": 1,
+        "min": 1.5235106670006644,
+        "median": 1.5235106670006644,
+        "max": 1.5235106670006644
+      },
+      "read_timeout": {
+        "n": 5,
+        "min": 60.004165999998804,
+        "median": 60.00553862500237,
+        "max": 60.01007241697516
+      }
+    }
+  },
+  "recent10minutes": {
+    "completed_calls": 230,
+    "successes": 226,
+    "errors": 4,
+    "error_rate": 0.017391304347826087,
+    "error_classes": {
+      "read_timeout": 3,
+      "http_500": 1
+    },
+    "error_statuses": {
+      "None": 3,
+      "500": 1
+    },
+    "error_duration_seconds": {
+      "http_500": {
+        "n": 1,
+        "min": 1.5235106670006644,
+        "median": 1.5235106670006644,
+        "max": 1.5235106670006644
+      },
+      "read_timeout": {
+        "n": 3,
+        "min": 60.004165999998804,
+        "median": 60.00450379200629,
+        "max": 60.01007241697516
+      }
+    }
+  },
+  "recent5minutes": {
+    "completed_calls": 105,
+    "successes": 102,
+    "errors": 3,
+    "error_rate": 0.02857142857142857,
+    "error_classes": {
+      "read_timeout": 2,
+      "http_500": 1
+    },
+    "error_statuses": {
+      "None": 2,
+      "500": 1
+    },
+    "error_duration_seconds": {
+      "http_500": {
+        "n": 1,
+        "min": 1.5235106670006644,
+        "median": 1.5235106670006644,
+        "max": 1.5235106670006644
+      },
+      "read_timeout": {
+        "n": 2,
+        "min": 60.004165999998804,
+        "median": 60.00711920848698,
+        "max": 60.01007241697516
+      }
+    }
+  },
+  "last100_completed_calls": {
+    "completed_calls": 100,
+    "successes": 97,
+    "errors": 3,
+    "error_rate": 0.03,
+    "error_classes": {
+      "read_timeout": 2,
+      "http_500": 1
+    },
+    "error_statuses": {
+      "None": 2,
+      "500": 1
+    },
+    "error_duration_seconds": {
+      "http_500": {
+        "n": 1,
+        "min": 1.5235106670006644,
+        "median": 1.5235106670006644,
+        "max": 1.5235106670006644
+      },
+      "read_timeout": {
+        "n": 2,
+        "min": 60.004165999998804,
+        "median": 60.00711920848698,
+        "max": 60.01007241697516
+      }
+    }
+  },
+  "exception_flags": {
+    "connect": 0,
+    "dns": 0,
+    "pool": 0,
+    "read": 10,
+    "resource_fd": 0,
+    "timeout": 15,
+    "tls": 0,
+    "write": 0
+  },
+  "exception_numeric_codes": {},
+  "per_worker": [
+    {
+      "pid": 65031,
+      "completed_calls": 245,
+      "latest_counter": 245,
+      "latest_finished_utc": "2026-10-16T14:53:45.283821+00:00",
+      "seconds_since_latest_end": 1.070658,
+      "latest_outcome": "success",
+      "first_fd_count": 17,
+      "last_fd_count": 18,
+      "fd_min": 17,
+      "fd_max": 18,
+      "unique_client_ids": 1,
+      "closed_observations": 0,
+      "max_consecutive_call_errors": 1,
+      "last50_calls": {
+        "completed_calls": 50,
+        "successes": 47,
+        "errors": 3,
+        "error_rate": 0.06,
+        "error_classes": {
+          "read_timeout": 3
+        },
+        "error_statuses": {
+          "None": 3
+        },
+        "error_duration_seconds": {
+          "read_timeout": {
+            "n": 3,
+            "min": 60.004165999998804,
+            "median": 60.00450379200629,
+            "max": 60.01007241697516
+          }
+        }
+      }
+    },
+    {
+      "pid": 65032,
+      "completed_calls": 296,
+      "latest_counter": 296,
+      "latest_finished_utc": "2026-10-16T14:53:44.664816+00:00",
+      "seconds_since_latest_end": 1.689663,
+      "latest_outcome": "success",
+      "first_fd_count": 17,
+      "last_fd_count": 18,
+      "fd_min": 17,
+      "fd_max": 18,
+      "unique_client_ids": 1,
+      "closed_observations": 0,
+      "max_consecutive_call_errors": 1,
+      "last50_calls": {
+        "completed_calls": 50,
+        "successes": 50,
+        "errors": 0,
+        "error_rate": 0.0,
+        "error_classes": {},
+        "error_statuses": {},
+        "error_duration_seconds": {}
+      }
+    }
+  ],
+  "inflight": [
+    {
+      "pid": 65031,
+      "counter": 246,
+      "started_utc": "2026-10-16T14:53:45.484391+00:00",
+      "age_seconds": 0.870088,
+      "fd_count_at_start": 18,
+      "sdk_closed_at_start": false,
+      "http_closed_at_start": false
+    },
+    {
+      "pid": 65032,
+      "counter": 297,
+      "started_utc": "2026-10-16T14:53:44.699098+00:00",
+      "age_seconds": 1.655381,
+      "fd_count_at_start": 18,
+      "sdk_closed_at_start": false,
+      "http_closed_at_start": false
+    }
+  ],
+  "end_without_start": 0,
+  "all_error_events": [
+    {
+      "pid": 65031,
+      "counter": 72,
+      "started_utc": "2026-10-16T14:36:43.496985+00:00",
+      "finished_utc": "2026-10-16T14:37:43.502541+00:00",
+      "duration_seconds": 60.00586200001999,
+      "category": "read_timeout",
+      "http_status": null,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "fd_count": 17,
+      "sdk_closed": false,
+      "http_closed": false,
+      "subsequent_calls": 173,
+      "later_success": true,
+      "same_client_later_success": true,
+      "calls_until_success": 1,
+      "seconds_until_success": 2.812419
+    },
+    {
+      "pid": 65031,
+      "counter": 196,
+      "started_utc": "2026-10-16T14:47:00.237683+00:00",
+      "finished_utc": "2026-10-16T14:48:00.241850+00:00",
+      "duration_seconds": 60.00450379200629,
+      "category": "read_timeout",
+      "http_status": null,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "fd_count": 17,
+      "sdk_closed": false,
+      "http_closed": false,
+      "subsequent_calls": 49,
+      "later_success": true,
+      "same_client_later_success": true,
+      "calls_until_success": 1,
+      "seconds_until_success": 2.97687
+    },
+    {
+      "pid": 65031,
+      "counter": 209,
+      "started_utc": "2026-10-16T14:48:40.301251+00:00",
+      "finished_utc": "2026-10-16T14:49:40.310994+00:00",
+      "duration_seconds": 60.01007241697516,
+      "category": "read_timeout",
+      "http_status": null,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "fd_count": 17,
+      "sdk_closed": false,
+      "http_closed": false,
+      "subsequent_calls": 36,
+      "later_success": true,
+      "same_client_later_success": true,
+      "calls_until_success": 1,
+      "seconds_until_success": 3.197337
+    },
+    {
+      "pid": 65031,
+      "counter": 218,
+      "started_utc": "2026-10-16T14:50:05.798662+00:00",
+      "finished_utc": "2026-10-16T14:51:05.802483+00:00",
+      "duration_seconds": 60.004165999998804,
+      "category": "read_timeout",
+      "http_status": null,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "fd_count": 17,
+      "sdk_closed": false,
+      "http_closed": false,
+      "subsequent_calls": 27,
+      "later_success": true,
+      "same_client_later_success": true,
+      "calls_until_success": 1,
+      "seconds_until_success": 3.607791
+    },
+    {
+      "pid": 65032,
+      "counter": 29,
+      "started_utc": "2026-10-16T14:32:50.800686+00:00",
+      "finished_utc": "2026-10-16T14:33:50.805901+00:00",
+      "duration_seconds": 60.00553862500237,
+      "category": "read_timeout",
+      "http_status": null,
+      "exception_classes": [
+        "openai.APITimeoutError",
+        "httpx2.ReadTimeout",
+        "httpcore2.ReadTimeout"
+      ],
+      "fd_count": 17,
+      "sdk_closed": false,
+      "http_closed": false,
+      "subsequent_calls": 267,
+      "later_success": true,
+      "same_client_later_success": true,
+      "calls_until_success": 1,
+      "seconds_until_success": 6.538837
+    },
+    {
+      "pid": 65032,
+      "counter": 242,
+      "started_utc": "2026-10-16T14:49:53.937882+00:00",
+      "finished_utc": "2026-10-16T14:49:55.461375+00:00",
+      "duration_seconds": 1.5235106670006644,
+      "category": "http_500",
+      "http_status": 500,
+      "exception_classes": [
+        "openai.InternalServerError"
+      ],
+      "fd_count": 18,
+      "sdk_closed": false,
+      "http_closed": false,
+      "subsequent_calls": 54,
+      "later_success": true,
+      "same_client_later_success": true,
+      "calls_until_success": 1,
+      "seconds_until_success": 3.901241
+    }
+  ],
+  "frozen_adapter_sha256": "5423a46145d070090a58514aad285782c33db3751bcab085771d365946146cc8",
+  "assessment": {
+    "observed_host_or_client_defect_requiring_intervention": false,
+    "summary": "Observed failures are five read timeouts at the configured 60-second boundary and one remote HTTP500. All six were followed by same-client successes; both worker request counters continue advancing. No FD growth, closed client, pool exhaustion, or resource-exhaustion evidence requiring intervention in this snapshot.",
+    "same_client_recovered_failures": 6,
+    "total_failure_events": 6,
+    "cause_limit": "Client-side metadata cannot attribute service vs external network path or rule out every host fault; no such intervention-triggering fault is observed."
+  }
+}

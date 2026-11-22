@@ -1,0 +1,136 @@
+{
+  "status": "PASS",
+  "captured_at_utc": "2026-10-17T07:45:37.105490+00:00",
+  "scope": "IN_PROGRESS_ROUND9_CLASSIFIER_SNAPSHOT",
+  "classifier_version": "v3-infrastructure-v4",
+  "round": 9,
+  "saved_classifications": {
+    "accepted": 84,
+    "runtime": 3,
+    "pending": 13
+  },
+  "runtime_attempts": [
+    {
+      "question_id": "3fceb3f3200f3f095b671be0",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "40e8dd3b84d22a385983c8f7",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    },
+    {
+      "question_id": "40f3aab550a4fd091b0e4468",
+      "classification": "runtime",
+      "category": "infrastructure_runtime",
+      "selection_reason": "allowlisted_infrastructure_failure",
+      "allowlisted_failure_signatures": [
+        "allowlisted_HTTP_status"
+      ],
+      "HTTP_statuses": [
+        500
+      ],
+      "new_provider_policy_rejection": false
+    }
+  ],
+  "provider_policy_rejection_count_in_captured_round9": 0,
+  "round8_runtime_recoveries": [
+    {
+      "question_id": "31cdceeb50d5b9593b6c8055",
+      "prior_sealed_attempts": [
+        {
+          "round": 8,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round9_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round9": true,
+      "selection_persistence": "Captured checkpoint decision only; canonical/ledger adoption follows the normal sealed boundary."
+    },
+    {
+      "question_id": "392945487423b16d5daec3fe",
+      "prior_sealed_attempts": [
+        {
+          "round": 8,
+          "classification": "runtime",
+          "selection_reason": "allowlisted_infrastructure_failure"
+        }
+      ],
+      "round9_captured_decision": {
+        "classification": "accepted",
+        "selection_reason": "runtime_clean_terminal"
+      },
+      "first_runtime_clean_in_round9": true,
+      "selection_persistence": "Captured checkpoint decision only; canonical/ledger adoption follows the normal sealed boundary."
+    }
+  ],
+  "source_sha256": {
+    "run_manifest.json": "4630c7c9a41badad1b1bba9e800aa9b5e5296de34dc96aef10c441769e21543c",
+    "scripts/v3_full_run.py": "d13f52fa060acbdd1aec73b985b8857dba6664c060ad3228dc2283b3295768da",
+    "monitor_single_agent.py": "daa88848d68f0dbd9fbe586ecb4cea3fdd65bb8d574770f0bb42c943a88e9047",
+    "scripts/audit_store.py": "9ca06bd7310ae8f245d80e1274b09e78f4b78153bae599dfaa88a9acfa030caf",
+    "attempts/single_agent/round-0008.json": "7e289c387bb4c23fe463850c6312ee14e03e832ade9302f566d0659ebe7aedba",
+    "attempts/single_agent/round-0008.batch.json": "5a142776dc4dc517abba1b04129b0717712bbb48fa603a136ad3fae272ddb3de",
+    "attempts/single_agent/round-0008.batch.seal.json": "316dc7d77acebc2f56d065c8f219ec48a54c1044d99ad1f4353088f953704ed4"
+  },
+  "round9_result_snapshot": {
+    "relative_path": "attempts/single_agent/round-0009.json",
+    "sha256": "57cbf74f62f006919fd02e302a5e411d31bef60542b68d3b2fa3174c87d8d2d3",
+    "bytes": 27941736,
+    "sha256_at_review_end": "57cbf74f62f006919fd02e302a5e411d31bef60542b68d3b2fa3174c87d8d2d3",
+    "live_checkpoint_may_advance_normally": true
+  },
+  "referenced_audit_hashes": {
+    "attempts/single_agent/audit/3b8d713e74ee939970ad4d031da6f8530bad8ee162969767c5823530b5a1b35c.json.gz": {
+      "compressed_sha256": "3e3dbaa0f8a330343a33e1b9369ab5ee43bcdbac6ae2648476ce3003831a7188",
+      "uncompressed_sha256": "3b8d713e74ee939970ad4d031da6f8530bad8ee162969767c5823530b5a1b35c"
+    },
+    "attempts/single_agent/audit/d12401d74bf63e99176c140067fa9ec79c3829fb4774cc329bfbecba29a7b94a.json.gz": {
+      "compressed_sha256": "ff46fb8354d3e0be650fc99f95d4898474b622f5738e75ef3115e9dfb43ba44a",
+      "uncompressed_sha256": "d12401d74bf63e99176c140067fa9ec79c3829fb4774cc329bfbecba29a7b94a"
+    },
+    "attempts/single_agent/audit/fb6f60911549de5814eee02070abb28eebe48e33f26fd41143ec65c7368487ae.json.gz": {
+      "compressed_sha256": "1878fb7eb516689ced1a61d54d5e1e2ff0d561a05d21e79f89b423ee9dbbeacb",
+      "uncompressed_sha256": "fb6f60911549de5814eee02070abb28eebe48e33f26fd41143ec65c7368487ae"
+    },
+    "attempts/single_agent/audit/4fdf61e46399f0d90e63824b95ada4474fa0d438bda672fcaa8e03b2950bc8fb.json.gz": {
+      "compressed_sha256": "6a7bd1639e0c50a397696f6689b12a3456891bc425409a7006f331a6906c2f27",
+      "uncompressed_sha256": "4fdf61e46399f0d90e63824b95ada4474fa0d438bda672fcaa8e03b2950bc8fb"
+    },
+    "attempts/single_agent/audit/5835cbf7d838daa12a274d2be7b3b3ddc9a58f5531ce9c25952463ed531943bd.json.gz": {
+      "compressed_sha256": "42d2af06c4d27e6989a15776d854200f3b3338db62dd946cc0ee662cca704270",
+      "uncompressed_sha256": "5835cbf7d838daa12a274d2be7b3b3ddc9a58f5531ce9c25952463ed531943bd"
+    },
+    "attempts/single_agent/audit/8bfe63cbd71ef5e38095f2f1820ff48cc0a10a1612fae0e8e3b9aae331589d48.json.gz": {
+      "compressed_sha256": "2a2c92a6f51087c7adec2bce87f8eab344f9126ac9f01fc53762d03261d5687c",
+      "uncompressed_sha256": "8bfe63cbd71ef5e38095f2f1820ff48cc0a10a1612fae0e8e3b9aae331589d48"
+    },
+    "attempts/single_agent/audit/31dda2d853d972e6411fc7e56dc37375e641128841f66e7adab6df653c1ab10a.json.gz": {
+      "compressed_sha256": "700aebb8e43b51b15c6e604784620e24053bd8375c456a84e757943140305adf",
+      "uncompressed_sha256": "31dda2d853d972e6411fc7e56dc37375e641128841f66e7adab6df653c1ab10a"
+    }
+  },
+  "no_clinical_raw_error_answer_reference_or_correctness_output": true,
+  "no_model_scorer_provider_calls_or_live_mutations": true
+}
