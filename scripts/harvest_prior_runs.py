@@ -15,7 +15,7 @@ which runs each set is based on. Answers themselves are not in these records
 and are never printed.
 
 Usage:
-    python scripts/harvest_prior_runs.py [--ref origin/experiments/residual-trajectories-v7]
+    python scripts/harvest_prior_runs.py [--ref origin/experiments/v07-residual-trajectories]
                                          [--output_dir output/diagnosis]
 """
 import argparse
@@ -29,7 +29,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-DEFAULT_REF = "origin/experiments/residual-trajectories-v7"
+DEFAULT_REF = "origin/experiments/v07-residual-trajectories"
 COLUMNS = ["run", "arm", "system", "question_id", "correct", "terminal_error",
            "answer_is_null", "typed_reason", "tokens", "tool_calls"]
 
