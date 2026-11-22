@@ -434,6 +434,8 @@ Findings:
 - **Prefetching the complete records makes no difference here.** Without it, retrieval asks for the records itself and uses more tokens.
 - **Only differences of about 6 points or more are detectable at this size**, so "no difference" means no large one. These results are for generated questions only.
 
+Giving the single agent and direct baseline the analysis role's guidance on the held-out questions is reported in [docs/results/guided-baselines.md](results/guided-baselines.md).
+
 ### Reproducing
 
 On the cluster, from `~/fhir-ma-v2` (vLLM runs use `--base_url http://127.0.0.1:28431/v1`; Ollama runs use `:11434/v1` for qwen3:32b, `:11790/v1` for qwen3:14b, `:11816/v1` for qwen3:8b and `:11636/v1` for qwen3:4b; the URL is part of each saved run's identity):

@@ -1,6 +1,6 @@
 # Experiment index
 
-The October sequence runs from V01 through V10. **November multi-agent v2** is the later Phase 3 redesign. It uses V10's deterministic finishers within a retrieval, analysis, and verification workflow. [November implementation](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/commit/262eca1)
+The October sequence runs from V01 through V10. **Answer Voting** is the November Phase 3 redesign, called multi-agent v2 in the run records. It uses V10's deterministic finishers within a retrieval, analysis, and verification workflow. [November implementation](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/commit/262eca1)
 
 ## October designs and results
 
@@ -31,10 +31,10 @@ Scores are correct answers for the team and its single-agent control on the same
 
 ## November Phase 3
 
-| Branch | Start here |
+| Experiment | Start here |
 | --- | --- |
-| `fix/boolean-closing-verdict` | [PR #78](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/pull/78) and [original architecture results](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/abb074d084760735228d2f61352d4eb992a05cc8/docs/results/phase3-qwen3-32b.md) |
-| `feat/multi-agent-v2` | [PR #79](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/pull/79), [original 300 v2 results](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/fdab335e1261a15c7779dd0dcc21c9f4c848b9bd/docs/results/phase3-qwen3-32b.md#multi-agent-v2), and [follow-up suites and ablations](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/fdab335e1261a15c7779dd0dcc21c9f4c848b9bd/docs/question_generation.md#suite-results-plan-42) |
-| `feat/guided-baselines` | [Instruction-matched baseline results](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/9a0005e39470d39c86d7c529e6957e25a5ac8103/docs/results/guided-baselines.md), including the fresh 300-question comparison |
+| Original Phase 3 architecture | [PR #78](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/pull/78) and [original architecture results](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/abb074d084760735228d2f61352d4eb992a05cc8/docs/results/phase3-qwen3-32b.md) |
+| Answer Voting | [PR #79](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/pull/79), [original 300 v2 results](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/fdab335e1261a15c7779dd0dcc21c9f4c848b9bd/docs/results/phase3-qwen3-32b.md#multi-agent-v2), and [follow-up suites and ablations](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/fdab335e1261a15c7779dd0dcc21c9f4c848b9bd/docs/question_generation.md#suite-results-plan-42) |
+| Instruction-matched baselines | [Instruction-matched baseline results](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/9a0005e39470d39c86d7c529e6957e25a5ac8103/docs/results/guided-baselines.md), including the fresh 300-question comparison |
 
 For a report or slide, cite the exact result record and name the model, cohort, denominator, and comparator. Keep the original 300, the follow-up released-question pools, and the generated suites distinct when describing coverage.
