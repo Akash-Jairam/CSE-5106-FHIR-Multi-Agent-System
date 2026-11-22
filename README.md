@@ -320,5 +320,9 @@ Answer correctness has two metrics:
 If the agent output has an `evidence` field, each citation `{"resource_id": "Observation/<id>", "field_path": "valueQuantity.value", "value": 98.7}` is resolved against the FHIR store (`utils/evidence_scorer.py`). A citation is valid when the resource exists, the path resolves, and the value matches. The evaluation reports the valid-evidence fraction, the reasons citations were invalid (`malformed`, `missing_resource`, `bad_path`, `value_mismatch`), and the precision/recall of the cited resource ids against `true_fhir_ids`. Use `--evidence_source ndjson` to resolve against the local NDJSON files instead of the store.
 
 
+## Experiment history
+
+The [experiment index](docs/experiment-index.md) links the October V01–V10 designs, frozen run inputs, and results. It also points to the November redesign, follow-up benchmarks, and instruction-matched baseline comparisons.
+
 ## Authorship
 FHIR-AgentBench is a joint research effort between Verily Life Sciences, Korea Advanced Institute of Science & Technology (KAIST), and Massachusetts Institute of Technology (MIT).
