@@ -73,8 +73,10 @@ def _sandbox_command(temporary):
                    '(require-not (literal "/dev/null"))))')
         return ["sandbox-exec", "-p", profile, executable, "-I", str(worker)]
     if sys.platform.startswith("linux") and shutil.which("bwrap"):
+        # No --clearenv: bubblewrap < 0.5 (e.g. RHEL 9's 0.4.1) rejects it, and the
+        # caller already passes a minimal explicit environment to subprocess.run
         command = ["bwrap", "--unshare-all", "--die-with-parent", "--new-session",
-                   "--clearenv", "--proc", "/proc", "--dev", "/dev", "--tmpfs", "/tmp",
+                   "--proc", "/proc", "--dev", "/dev", "--tmpfs", "/tmp",
                    "--setenv", "HOME", "/tmp", "--setenv", "TMPDIR", "/tmp"]
         for path in sorted(set(runtime_paths + ["/usr", "/lib", "/lib64"] )):
             if Path(path).exists():

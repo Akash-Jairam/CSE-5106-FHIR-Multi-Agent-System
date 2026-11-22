@@ -37,6 +37,21 @@ class AnswerScoringTests(unittest.TestCase):
         self.assert_correct(True, "[[1]]", template="Has_verb patient")
         self.assert_correct(0, "[[0]]", template="Has_verb patient")
 
+    def test_boolean_reads_a_closing_verdict_and_none_of(self):
+        # qwen3:4b put its verdict last; "have been" used to read as yes
+        answer = ("The MedicationRequests do not contain docusate sodium, glucose gel, or heparin, so "
+                  "**none of the specified medications have been prescribed**.\n\n**Answer:** No.")
+        self.assert_correct(answer, "[[1]]", 0, template="Has_verb patient")
+        self.assert_correct(answer, "[[0]]", template="Has_verb patient")
+        self.assert_correct("Heparin was given on 2157-07-01.\n\nYes", "[[1]]", template="Has_verb patient")
+        self.assert_correct("I could not find a dose, but heparin was ordered.\nFinal answer: yes.", "[[1]]",
+                            template="Has_verb patient")
+        self.assert_correct("None of the three drugs have been prescribed since 2157.", "[[0]]",
+                            template="Has_verb patient")
+        # a trailing "no" inside a sentence is not a verdict
+        self.assert_correct("The patient has been prescribed heparin, with dose no", "[[1]]",
+                            template="Has_verb patient")
+
     def test_count_is_exact_but_platelet_measurement_uses_tolerance(self):
         self.assert_correct(1000000001, "[[1000000000]]", 0, template="Count the number of visits")
         self.assert_correct(2.001, "[[2]]", 0, question="How many hospital admissions occurred?")

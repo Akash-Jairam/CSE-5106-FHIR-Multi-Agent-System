@@ -18,7 +18,7 @@ import streamlit as st
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from demo import backend  # noqa: E402
-from utils import get_default_model, validate_config  # noqa: E402
+from utils import get_default_base_url, get_default_model, validate_config  # noqa: E402
 
 BADGES = {"verified": (st.success, "✓"), "unverified": (st.warning, "⚠"), "unchecked": (st.info, "○"),
           "abstained": (st.info, "–"), "error": (st.error, "✕")}
@@ -35,6 +35,7 @@ def settings_from_argv(argv):
     parser.add_argument("--input", default=os.path.join(backend.ROOT, "final_dataset", "questions_answers_sql_fhir.csv"))
     parser.add_argument("--split_manifest", default=os.path.join(backend.ROOT, "manifests", "split.json"))
     args, _ = parser.parse_known_args(argv)
+    args.base_url = args.base_url or get_default_base_url(args.model)
     for key in ("max_total_tokens", "max_tool_calls"):
         if getattr(args, key) is not None and getattr(args, key) < 0:
             parser.error(f"--{key} must be non-negative")

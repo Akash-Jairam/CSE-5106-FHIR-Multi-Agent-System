@@ -38,7 +38,7 @@ from .core_utils import (
 )
 
 # The one base model shared by every system (CC-28)
-from .model_config import DEFAULT_MODEL, get_default_model
+from .model_config import DEFAULT_MODEL, DEFAULT_OLLAMA_BASE_URL, get_default_base_url, get_default_model
 
 # FHIR utilities
 from . import fhir_utils
@@ -89,6 +89,8 @@ __all__ = [
     
     # Model configuration
     'DEFAULT_MODEL',
+    'DEFAULT_OLLAMA_BASE_URL',
+    'get_default_base_url',
     'get_default_model',
 
     # Modules
