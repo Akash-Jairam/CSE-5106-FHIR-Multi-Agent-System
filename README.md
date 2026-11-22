@@ -324,5 +324,17 @@ Answer correctness has two metrics:
 If the agent output has an `evidence` field, each citation `{"resource_id": "Observation/<id>", "field_path": "valueQuantity.value", "value": 98.7}` is resolved against the FHIR store (`utils/evidence_scorer.py`). A citation is valid when the resource exists, the path resolves, and the value matches. The evaluation reports the valid-evidence fraction, the reasons citations were invalid (`malformed`, `missing_resource`, `bad_path`, `value_mismatch`), and the precision/recall of the cited resource ids against `true_fhir_ids`. Use `--evidence_source ndjson` to resolve against the local NDJSON files instead of the store.
 
 
+## V08 convention-repair experiment
+
+This branch preserves the convention-repair design, `multi_agent_v8`, including its code, Run C, and the GPT-5 mini companion run. The [counterexample-investigator experiment](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/tree/experiments/v08-counterexample-investigator) has its own branch and results.
+
+- [Design and findings](docs/diagnosis_v8/report.md)
+- [Run C and companion outcome](benchmarks/design-v8-20261016/outcome.txt)
+- [Run C ZIP](data/v8_ablation_data.zip) with raw GPT-6 Luna outputs for all three systems, manifests, and analysis tables
+- [Run C code freeze](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/commit/b50c397)
+- [Project experiment index](https://github.com/Akash-Jairam/CSE-5106-FHIR-Multi-Agent-System/blob/main/docs/experiment-index.md)
+
+The ZIP preserves the handoff under its original paths, including `v8_300q` and `design-v8-20261016`. The original design notes refer to the experiment's pre-run plan.
+
 ## Authorship
 FHIR-AgentBench is a joint research effort between Verily Life Sciences, Korea Advanced Institute of Science & Technology (KAIST), and Massachusetts Institute of Technology (MIT).
