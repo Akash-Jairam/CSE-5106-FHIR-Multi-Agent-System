@@ -104,7 +104,7 @@ The unguided arms land where the saved v2 batch had them (gpt-oss:120b: single 7
 
 **Deviations from the design note:** none. The design note planned exact McNemar tests as a supplement and reports them; no multiple-comparison correction was planned and none is applied.
 
-Result files on Compute2: `~/fhir-ma-v2/output/experiments/<model>/guided_held_out/` (one JSON file per arm, plus `analysis/` with `summary.json`, `accuracy.csv`, `comparisons.csv` with every comparison by family, and `latency.csv`). Logs: `logs/guided-gpt-oss-4600217.out`, `logs/guided-qwen3-32b-4600265.out`, `logs/analysis/guided_stage1_*.txt`.
+Result files on Compute2: `~/fhir-ma-v2/output/experiments/<model>/guided_held_out/` (one JSON file per arm, plus `analysis/` with `summary.json`, `accuracy.csv`, `comparisons.csv` with every comparison by family, and `latency.csv`). Logs: `logs/guided-gpt-oss-4600217.out`, `logs/guided-qwen3-32b-4600265.out`, `logs/analysis/guided_stage1_*.txt`. The per-arm files are also in this repository, compressed: [`results/guided-baselines/<model>/guided_held_out/`](../../results/guided-baselines/).
 
 ## Stage 2: the fresh 300
 
@@ -163,7 +163,7 @@ The unguided arms land near the saved suite batch on these questions (gpt-oss:12
 
 **Deviations from the design note:** none. No multiple-comparison correction was planned and none is applied; with two models and two question sets there are four primary comparisons, and the qwen3:32b Stage 2 interval's lower end (+0.6) is close to zero.
 
-Result files on Compute2: `~/fhir-ma-v2/output/experiments/<model>/guided_held_out_v2/` (one JSON file per arm, plus `analysis/`). Logs: `logs/guided-gpt-oss-4606603.out`, `logs/guided-qwen3-32b-4606604.out`, `logs/analysis/guided_stage2_*.txt`.
+Result files on Compute2: `~/fhir-ma-v2/output/experiments/<model>/guided_held_out_v2/` (one JSON file per arm, plus `analysis/`). Logs: `logs/guided-gpt-oss-4606603.out`, `logs/guided-qwen3-32b-4606604.out`, `logs/analysis/guided_stage2_*.txt`. The per-arm files are also in this repository, compressed: [`results/guided-baselines/<model>/guided_held_out_v2/`](../../results/guided-baselines/).
 
 ### Both stages
 
